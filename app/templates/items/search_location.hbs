@@ -1,12 +1,14 @@
 <div class="row fixed_search_header search-box ui items-search">
   <div class="small-3 large-2 columns ">
-    {{#link-to 'items' classNames="back"}}
-      <i class="fa fa-angle-left back_icon" aria-hidden="true"></i>
-      <div class="back_text">
-        <i class="fa fa-tag"></i>
-        {{item.inventoryNumber}}
-      </div>
-    {{/link-to}}
+    {{#if (is-equal backLinkPath 'items.detail')}}
+      {{#link-to 'items.detail' item.id classNames="back"}}
+        {{partial 'items/item_back_link'}}
+      {{/link-to}}
+    {{else}}
+      {{#link-to backLinkPath class="back"}}
+        {{partial 'items/item_back_link'}}
+      {{/link-to}}
+    {{/if}}
   </div>
 
   <div class="small-9 large-10 columns">
