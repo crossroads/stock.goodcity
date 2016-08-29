@@ -14,6 +14,7 @@ export default cloudinaryUrl.extend({
   notes:           attr('string'),
   grade:           attr('string'),
   inventoryNumber: attr('string'),
+  caseNumber:      attr('string'),
   quantity:        attr('number'),
 
   length:          attr('number'),

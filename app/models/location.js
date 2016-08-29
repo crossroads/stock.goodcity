@@ -12,4 +12,10 @@ export default Model.extend({
     var building = this.get("building");
     return area ? `${building}-${area}` : building;
   }),
+
+  displayName: Ember.computed('area', 'building', function() {
+    var area = this.get("area");
+    var building = this.get("building");
+    return area ? `${building}${area}` : building;
+  }),
 });

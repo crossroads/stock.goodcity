@@ -28,6 +28,6 @@ deployment:
     branch: live
     commands:
       - curl -H "Content-Type:application/json" -X POST -d '{"definition":{"id":11},"sourceBranch":"refs/heads/live"}' -u default:$vsts_pat https://goodcity.visualstudio.com/defaultcollection/stock.goodcity/_apis/build/builds?api-version=2
-      # - bundle exec cap production deploy
+      - bundle exec cap production deploy
       - "scp -P 59207 deployer@stock-staging.goodcity.hk:/home/deployer/goodcity.keystore cordova/goodcity.keystore"
       - bundle exec rake production android app:release

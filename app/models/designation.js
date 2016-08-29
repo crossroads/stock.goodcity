@@ -19,6 +19,8 @@ export default Model.extend({
   localOrder:   belongsTo('local_order', { async: false }),
   items:        hasMany('item', { async: false }),
 
+  isLocalOrder: Ember.computed.equal('detailType', 'LocalOrder'),
+
   dispatchedItems: Ember.computed('items.@each.sentOn', function() {
     return this.get("items").rejectBy('sentOn', null);
   }),

@@ -19,7 +19,7 @@
   <div class="row">
     <div class="small-12 columns offer-status">
       <div class="time-details">
-        {{t "order_details.submitted"}} {{model.started_on}}
+        {{t "order_details.submitted"}} {{display-datetime model.createdAt format="DD MMM 'YY"}}
       </div>
       <div class="state">
         {{model.status}}
@@ -52,38 +52,41 @@
         {{/link-to}}
       </div>
 
-      <div class="row">
-        {{#link-to "orders.client" model.id}}
-          <div class="small-4 columns">
-            Client:
-          </div>
+      {{#if model.isLocalOrder}}
+        <div class="row">
+          {{#link-to "orders.client" model.id}}
+            <div class="small-4 columns">
+              Client:
+            </div>
 
-          <div class="small-7 columns">
-            {{model.localOrder.clientName}}
-            {{#if model.localOrder.hkidNumber}}
-              ({{model.localOrder.hkidNumber}})
-            {{/if}}
-          </div>
-          <div class="small-1 columns icons">
-            <i class="fa fa-angle-right arrow-icon" aria-hidden="true"></i>
-          </div>
-        {{/link-to}}
-      </div>
+            <div class="small-7 columns">
+              {{model.localOrder.clientName}}
+              {{#if model.localOrder.hkidNumber}}
+                ({{model.localOrder.hkidNumber}})
+              {{/if}}
+            </div>
+            <div class="small-1 columns icons">
+              <i class="fa fa-angle-right arrow-icon" aria-hidden="true"></i>
+            </div>
+          {{/link-to}}
+        </div>
 
-      <div class="row">
-        {{#link-to "orders.info" model.id}}
-          <div class="small-4 columns">
-            Order Info:
-          </div>
+        <div class="row">
+          {{#link-to "orders.info" model.id}}
+            <div class="small-4 columns">
+              Order Info:
+            </div>
 
-          <div class="small-7 columns ellipsis two-line-ellipsis">
-            {{model.localOrder.purposeOfGoods}}
-          </div>
-          <div class="small-1 columns icons">
-            <i class="fa fa-angle-right arrow-icon" aria-hidden="true"></i>
-          </div>
-        {{/link-to}}
-      </div>
+            <div class="small-7 columns ellipsis two-line-ellipsis">
+              {{model.localOrder.purposeOfGoods}}
+            </div>
+            <div class="small-1 columns icons">
+              <i class="fa fa-angle-right arrow-icon" aria-hidden="true"></i>
+            </div>
+          {{/link-to}}
+        </div>
+      {{/if}}
+
     </div>
   </div>
 

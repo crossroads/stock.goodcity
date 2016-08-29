@@ -11,7 +11,7 @@
     {{/if}}
   </div>
 
-  <div class="small-9 large-10 columns">
+  <div class="{{if isMobileApp 'small-7 large-8' 'small-9'}} columns">
     {{focus-textfield
       name="searchText"
       id="searchText"
@@ -22,6 +22,12 @@
       <i class="fa fa-times-circle" {{action "clearSearch"}}></i>
     {{/if}}
   </div>
+
+  {{#if isMobileApp}}
+    <div class="small-2 large-2 columns scan-icon">
+      {{location-barcode-scanner route="items.search_location"}}
+    </div>
+  {{/if}}
 </div>
 
 <section class="main-section orders_search_result">
