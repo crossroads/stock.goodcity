@@ -4,14 +4,15 @@
   height: initial;
   padding-bottom: inherit;
   min-height: 0rem;
-  position: fixed;
-
+  position: absolute;
+  width: 100%;
   @media #{$small-only} {
     top: 1rem !important;
   }
 
   @media #{$medium-only} {
-    width: 25rem;
+   width: 25rem;
+   width: 70%
   }
   a{
     background-color: $coral-red;
@@ -34,7 +35,7 @@
   top: 112px;
 
   .button {
-    margin-left: 10px;
+    // margin-left: 10px;
     text-decoration: none;
   }
 
