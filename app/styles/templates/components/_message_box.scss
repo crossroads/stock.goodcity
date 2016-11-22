@@ -6,6 +6,7 @@
   min-height: 0rem;
   position: absolute;
   width: 100%;
+
   @media #{$small-only} {
     top: 1rem !important;
   }
@@ -67,9 +68,11 @@
 
   #messageBox {
     top: 20% !important;
-
+    width: 500px;
     @media #{$small-only} {
       padding: 1rem;
+      width: 90%;
+      margin-left: 5%;
     }
 
     p {
