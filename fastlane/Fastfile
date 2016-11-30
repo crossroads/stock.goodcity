@@ -1,0 +1,90 @@
+default_platform :ios
+
+platform :ios do
+
+  before_all do
+    # set up the path to built app
+    ipa_path = ENV["CIRCLE_ARTIFACTS"]
+    ENV["IPA_FILE"] = "#{ipa_path}/Stock.ipa"
+
+    # ensure iTunes connect credentials are set up
+    itc_user = ENV["ITUNESCONNECT_USER"] || ""
+    raise "Must specify a user for iTunes Connect." unless itc_user.length > 0
+
+    itc_password = ENV["ITUNESCONNECT_PASSWORD"] || ""
+    raise "Must specify a password for iTunes Connect." unless itc_password.length > 0
+
+    # add credentials to keychain
+    sh %{ source ~/.circlerc; fastlane-credentials add --username $ITUNESCONNECT_USER --password $ITUNESCONNECT_PASSWORD }
+  end
+
+  desc "Upload to TestFlight"
+  lane :beta do
+    pilot(
+      username: ENV["ITUNESCONNECT_USER"],
+      ipa: ENV["IPA_FILE"],
+      distribute_external: false,
+      email: ENV["INTERNAL_BETA_TESTER"],
+      skip_submission: true,  # do not distribute ipa to testers, only upload to TestFlight
+      wait_processing_interval: 60
+    )
+  end
+
+  desc "Upload to AppStore"
+  lane :upload do
+    version_number = ENV["APP_VERSION"]
+    latest_testflight_build_number( version: "#{version_number}" )
+
+    deliver(
+      username: ENV["ITUNESCONNECT_USER"],
+      ipa: ENV["IPA_FILE"],
+      skip_binary_upload: true,
+      skip_screenshots: true,
+      app_version: "#{version_number}",
+      copyright: "#{Time.now.year} Crossroads Foundation Limited",
+      force: true            # to prevent fastlane from crashing waiting for user confirmation
+    )
+  end
+
+  after_all do
+    # remove credentials from keychain
+    sh %{ source ~/.circlerc; fastlane-credentials remove --username $ITUNESCONNECT_USER }
+  end
+
+  error do |lane, exception|
+   puts "iOS: Fastlane '#{lane}' errored"
+  end
+
+end
+
+
+platform :android do
+
+  before_all do
+    # set up the path to built app
+    apk_path = ENV["CIRCLE_ARTIFACTS"]
+    ENV["APK_FILE"] = "#{apk_path}/android-release.apk"
+
+    # ensure GooglePlay json key file exists
+    json_key_file = ENV["GOOGLE_PLAY_KEY_FILE"] || ""
+    raise "Must specify GooglePlay private key file." unless json_key_file.length > 0
+    raise "GooglePlay private key file not found!" unless File.exist?(json_key_file)
+  end
+
+  desc "Upload to GooglePlay beta track"
+  lane :beta do
+    supply(
+      track: "beta",
+      apk: ENV["APK_FILE"],
+      json_key: File.join(Dir.pwd, ENV["GOOGLE_PLAY_KEY_FILE"]),
+      skip_upload_apk: false,
+      skip_upload_images: true,
+      skip_upload_screenshots: true
+    )
+  end
+
+  error do |lane, exception|
+   puts "Android: Fastlane '#{lane}' errored"
+  end
+
+end

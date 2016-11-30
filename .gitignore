@@ -24,3 +24,13 @@ cordova/.secret_keys
 
 # iOS
 *.xcuserdatad
+
+# code signing
+*.mobileprovision
+*.keystore
+*.p12
+
+# fastlane
+Preview.html
+fastlane/report.xml
+fastlane/*.json

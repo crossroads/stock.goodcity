@@ -1,12 +1,30 @@
 machine:
-  node:
-    version: 4
+  environment:
+    GRADLE_OPTS: '-Dorg.gradle.jvmargs="-Xmx1024m -XX:+HeapDumpOnOutOfMemoryError"'
+    XCODE_SCHEME: stock.goodcity
+    XCODE_WORKSPACE: stock.goodcity
+    GYM_CODE_SIGNING_IDENTITY: "iPhone Distribution: Crossroads Foundation Limited"
 
 dependencies:
   pre:
-    - npm install -g bower
+    - brew update
+    - brew unlink node
+    - brew install homebrew/versions/node4-lts
+    - brew install watchman
+    - brew install android-sdk
+    - echo 'export ANDROID_HOME=/usr/local/opt/android-sdk' >> ~/.circlerc
+    - ( sleep 5 && while [ 1 ]; do sleep 1; echo y; done ) | android update sdk --no-ui --all --filter platform-tools,build-tools-23.0.3,android-23,extra-android-m2repository,extra-google-m2repository
+    - echo 'export PATH=$ANDROID_HOME/build-tools/23.0.3:$PATH' >> ~/.circlerc
+    - npm install bower ember-cli phantomjs-prebuilt cordova
+    - gem update fastlane
   post:
     - bower install
+    - |
+      if [ "${CIRCLE_BRANCH}" = 'live' ] ; then
+        echo 'export PROVISIONING_FILE=stock.goodcity.hk.mobileprovision' >> ~/.circlerc
+      else
+        echo 'export PROVISIONING_FILE=stock-staging.goodcity.hk.mobileprovision' >> ~/.circlerc
+      fi
 
 test:
   pre:
@@ -20,14 +38,30 @@ deployment:
   staging:
     branch: master
     commands:
-      - curl -H "Content-Type:application/json" -X POST -d '{"definition":{"id":10},"sourceBranch":"refs/heads/master"}' -u default:$vsts_pat https://goodcity.visualstudio.com/defaultcollection/stock.goodcity/_apis/build/builds?api-version=2
+      - PATH=$(npm bin):$PATH; azure-filestore download -f stock-staging.goodcity.hk.mobileprovision:
+          pwd: scripts
+      - ./install-provisioning-file.sh:
+          pwd: scripts
       - bundle exec cap staging deploy
+      - PATH=$(npm bin):$PATH; azure-filestore download -f goodcity.keystore:
+          pwd: cordova
       - bundle exec rake staging android app:release
+      - bundle exec rake staging ios app:release
 
   production:
     branch: live
     commands:
-      - curl -H "Content-Type:application/json" -X POST -d '{"definition":{"id":11},"sourceBranch":"refs/heads/live"}' -u default:$vsts_pat https://goodcity.visualstudio.com/defaultcollection/stock.goodcity/_apis/build/builds?api-version=2
+      - PATH=$(npm bin):$PATH; azure-filestore download -f stock.goodcity.hk.mobileprovision:
+          pwd: scripts
+      - ./install-provisioning-file.sh:
+          pwd: scripts
+      - PATH=$(npm bin):$PATH; azure-filestore download -f goodcity.keystore:
+          pwd: cordova
+      - PATH=$(npm bin):$PATH; azure-filestore download -d google-play -f $GOOGLE_PLAY_KEY_FILE:
+          pwd: fastlane
       - bundle exec cap production deploy
-      - "scp -P 59207 deployer@stock-staging.goodcity.hk:/home/deployer/goodcity.keystore cordova/goodcity.keystore"
       - bundle exec rake production android app:release
+      - bundle exec rake production ios app:release
+      - fastlane android beta
+      - fastlane ios upload
+      - fastlane ios beta

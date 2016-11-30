@@ -58,6 +58,7 @@
     "morgan": "^1.7.0"
   },
   "dependencies": {
+    "azure-api": "git://github.com/crossroads/azure-api.git#master",
     "cordova-lib": "https://github.com/crossroads/goodcity-lib.git"
   }
 }

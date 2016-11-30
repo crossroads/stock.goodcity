@@ -37,7 +37,7 @@ export default cloudinaryUrl.extend({
   donorCondition: belongsTo('donor_condition', { async: false }),
   setItem:        belongsTo('set_item', { async: false }),
 
-  images:       hasMany('image', { async: false }),
+  images:       hasMany('image', { async: true }),
 
   isDispatched: Ember.computed.bool('sentOn'),
   isDesignated: Ember.computed.bool('designation'),

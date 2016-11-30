@@ -3,8 +3,8 @@
 #
 # Tasks overview
 #   rake app:build (default)
-#   rake app:deploy (upload to TestFairy)
-#   rake app:release (build and upload to TestFairy)
+#   rake app:deploy (upload to TestFairy; also upload to Azure storage for live builds)
+#   rake app:release (build and upload to TestFairy; also upload to Azure storage for live builds)
 #
 # Defaults:
 #   ENV=staging PLATFORM=<based on host machine: darwin -> ios, linux -> android>
@@ -54,10 +54,10 @@ task default: %w(app:build)
 namespace :app do
   desc "Builds the app"
   task build: %w(ember:install ember:build cordova:install cordova:prepare cordova:build)
-  desc "Uploads the app to TestFairy"
-  task deploy: %w(testfairy:upload)
+  desc "Uploads the app to TestFairy and Azure storage"
+  task deploy: %w(testfairy:upload azure:upload)
   desc "Equivalent to rake app:build app:deploy"
-  task release: %w(app:build testfairy:upload)
+  task release: %w(app:build testfairy:upload azure:upload)
 end
 
 ENVIRONMENTS.each do |env|
@@ -147,11 +147,29 @@ namespace :testfairy do
     raise(BuildError, "#{app_file} does not exist!") unless File.exists?(app_file)
     raise(BuildError, "TESTFAIRY_API_KEY not set.") unless env?("TESTFAIRY_API_KEY")
     if ENV["CI"]
-      sh %{ export PATH="$ANDROID_HOME/build-tools/22.0.1:$PATH"; #{testfairy_upload_script} "#{app_file}" }
+      sh %{ source ~/.circlerc; #{testfairy_upload_script} "#{app_file}" }
     else
       sh %{ #{testfairy_upload_script} "#{app_file}" }
     end
     log("Uploaded app...")
+    build_details.map{|key, value| log("#{key.upcase}: #{value}")}
+  end
+end
+
+namespace :azure do
+  task :upload do
+    if environment != "production"
+      log("Environment: #{environment}. Skipping Azure upload")
+      next
+    end
+    raise(BuildError, "#{app_file} does not exist!") unless File.exists?(app_file)
+    raise(BuildError, "AZURE_HOST not set.") unless env?("AZURE_HOST")
+    raise(BuildError, "AZURE_SHARE not set.") unless env?("AZURE_SHARE")
+    raise(BuildError, "AZURE_SAS_TOKEN not set.") unless env?("AZURE_SAS_TOKEN")
+    if ENV["CI"]
+      sh %{ source ~/.circlerc; PATH=$(npm bin):$PATH; azure-filestore upload -d #{platform} -f "#{app_file}" -t #{azure_file} }
+    end
+    log("Uploaded app to azure...")
     build_details.map{|key, value| log("#{key.upcase}: #{value}")}
   end
 end
@@ -199,6 +217,16 @@ def app_file
   when /windows/
     raise(BuildError, "TODO: Need to get Windows app path")
   end
+end
+
+def azure_file
+  case platform
+  when /ios/
+    extn = "ipa"
+  when /android/
+    extn = "apk"
+  end
+  "#{app_id}-#{app_version}.#{extn}"
 end
 
 def app_name
