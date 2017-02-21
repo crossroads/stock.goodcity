@@ -1,6 +1,7 @@
 .designate-form {
-  text-align: left;
+  text-align: left !important;
 
+  display: absolute;
   .item_block {
     padding: 0 0.7rem 1rem;
 
@@ -13,9 +14,17 @@
     font-weight: bolder;
   }
 
+
   .button {
-    width: 40%;
+    display:inline-block;
+    margin-left: 1%;
+    margin-right: 1%;
+    text-align: center;
+    width: 48%;
+    padding-left: 0;
+    padding-right: 0;
     color: $white !important;
+
   }
 
   .warnings {
@@ -82,4 +91,5 @@
   .red-warning {
     color: $coral-red !important;
   }
+
 }
