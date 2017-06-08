@@ -51,7 +51,7 @@ export default Ember.Controller.extend(InfinityRoute, {
 
       this.infinityModel(this.get("searchModelName"),
         { perPage: 25, startingPage: 1, modelPath: 'filteredResults',stockRequest: true },
-        { searchText: "searchText", itemId: "itemSetId", toDesignateItem: "toDesignateItem"})
+        { searchText: "searchText", itemId: "itemSetId", toDesignateItem: "toDesignateItem",  showQuantityItems: "showQuantityItems"})
         .then(data => {
           data.forEach(record => {
             if(record.constructor.toString() === "stock@model:designation:") {
