@@ -56,7 +56,7 @@ deployment:
       - bundle exec fastlane ios staging
       - bundle exec rake staging android app:build
       - bundle exec fastlane android staging
-      - curl https://api.rollbar.com/api/1/sourcemap/download -F access_token=$ROLLBAR_KEY -F version=$APP_VERSION -F minified_url=https://stock-staging.goodcity.hk/assets/vendor.js
+      - curl https://api.rollbar.com/api/1/sourcemap/download -F access_token=$ROLLBAR_KEY -F version=$APP_VERSION -F minified_url=https://stock-staging.goodcity.hk/assets/stock.js
   production:
     branch: live
     commands:
