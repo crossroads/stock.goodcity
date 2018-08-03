@@ -8,10 +8,14 @@
 /node_modules
 /bower_components
 
+# fastlane
+fastlane/*.json
+
 # misc
 /.sass-cache
 /connect.lock
 /coverage/*
+coverage_*
 /libpeerconnection.log
 npm-debug.log
 testem.log

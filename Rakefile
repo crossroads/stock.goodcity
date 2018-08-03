@@ -16,9 +16,6 @@
 #   Other tasks
 #     > rake clean (removes dist, cordova/www and app files)
 #     > rake clobber (also removes cordova/platforms and cordova/plugins)
-#     > rake ember:install (multitask that does bower and npm in parallel)
-#     > rake ember:build
-#     > rake cordova:install
 #     > rake cordova:prepare
 #     > rake cordova:build
 #
@@ -62,7 +59,7 @@ task default: %w[app:build]
 # Main namespace
 namespace :app do
   desc 'Builds the app'
-  task build: %w[ember:install ember:build cordova:install cordova:prepare cordova:build]
+  task build: %w[cordova:prepare cordova:build]
   desc 'Uploads the app to Azure storage'
   task deploy: %w[azure:upload]
   desc 'Equivalent to rake app:build app:deploy'
@@ -81,46 +78,9 @@ PLATFORMS.each do |platform|
   end
 end
 
-namespace :ember do
-  multitask install_parallel: %w(bower_install yarn_install)
-  desc "Ember install dependencies"
-  task :install do
-    Dir.chdir(ROOT_PATH) do
-      Rake::MultiTask["ember:install_parallel"].invoke
-    end
-  end
-  task :bower_install do
-    sh %{ bower install }
-  end
-  task :yarn_install do
-    sh %{ yarn install }
-  end
-  desc "Ember build with Cordova enabled"
-  task :build do
-    # Before starting Ember build clean up folders
-    Rake::Task["clobber"].invoke
-    Dir.chdir(ROOT_PATH) do
-      system({
-        "EMBER_CLI_CORDOVA" => "1",
-        "APP_SHA" => app_sha,
-        "staging" => is_staging.to_s,
-        "VERSION" => app_version
-        }, "ember build --environment=production")
-    end
-  end
-end
-
 namespace :cordova do
-  desc "Install cordova package globally"
-  task :install do
-    sh %{ npm list --depth 1 --global cordova; if [ $? -ne 0 ]; then npm install -g cordova@6.5.0; fi }
-    sh %{ npm list --depth 1 --global cordova-update-config; if [ $? -ne 0 ]; then npm install -g cordova-update-config; fi }
-  end
-
   desc "Cordova prepare {platform}"
   task :prepare do
-    # Before cordova prepare build ember app that will auto update the dist folder too
-    Rake::Task["ember:build"].invoke
     create_build_json_file
     sh %{ ln -s "#{ROOT_PATH}/dist" "#{CORDOVA_PATH}/www" } unless File.exists?("#{CORDOVA_PATH}/www")
     build_details.map{|key, value| log("#{key.upcase}: #{value}")}
@@ -145,10 +105,6 @@ namespace :cordova do
       build = (environment == "staging" && platform == 'android') ? "debug" : "release"
       extra_params = (platform === "android") ? '' : ios_build_config
       system({"ENVIRONMENT" => environment}, "cordova compile #{platform} --#{build} --device #{extra_params}")
-    end
-    # Copy build artifacts
-    if ENV["CI"]
-      sh %{ if [ -e "#{app_file}" ]; then cp "#{app_file}" "${CIRCLE_ARTIFACTS:-$BUILD_STAGINGDIRECTORY}/"; fi }
     end
   end
 end

@@ -1,4 +1,4 @@
-default_platform :ios
+default_platform :android
 
 platform :ios do
 
@@ -6,6 +6,25 @@ platform :ios do
     ipa_file_path = Dir["#{ENV["CIRCLE_ARTIFACTS"]}/*.ipa"].first
     ENV["PILOT_IPA"] = ENV["TESTFAIRY_IPA_PATH"] = ipa_file_path
     COPYRIGHT = "#{Time.now.year} Crossroads Foundation Limited"
+  end
+
+  lane :prepare_certificates do |options|
+
+    sh("base64 -D -o Certificates.p12 <<< \"#{options[:cert]}\"", log: false)
+    create_keychain(
+        name: "default_keychain",
+        default_keychain: true,
+        unlock: true,
+        password: ENV['KEYCHAIN_PWD']
+    )
+    import_certificate(
+      certificate_path: "fastlane/Certificates.p12",
+      certificate_password: ENV['CERTIFICATE_PASSWORD'],
+      keychain_name: "default_keychain",
+      keychain_password: ENV['KEYCHAIN_PWD']
+    )
+    unlock_keychain(path:"default_keychain", password:ENV['KEYCHAIN_PWD'])
+    sh "security set-keychain-settings -t 3600 -l ~/Library/Keychains/default_keychain-db"
   end
 
   desc "Generate staging build (just upload to TestFairy)"
