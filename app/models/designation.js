@@ -4,6 +4,7 @@ import attr from 'ember-data/attr';
 import { belongsTo, hasMany } from 'ember-data/relationships';
 
 export default Model.extend({
+  i18n: Ember.inject.service(),
   utilityMethods: Ember.inject.service(),
 
   status:               attr('string'),
@@ -61,6 +62,56 @@ export default Model.extend({
   capitalizedState: Ember.computed('state', function() {
     return this.get("state").capitalize();
   }),
+
+  stateIcon: Ember.computed('state', function () {
+    const state = this.get("state");
+    switch (state) {
+      case "awaiting_dispatch":
+      case "scheduled":
+        return "clock-o";
+      case "processing":
+        return "list";
+      case "submitted":
+        return "envelope";
+      case "dispatching":
+        return "paper-plane";
+      case "cancelled":
+        return "thumbs-down";
+      case "closed":
+        return "lock";
+      default:
+        return "";
+    }
+  }),
+
+  transportIcon: Ember.computed("transportKey", function() {
+    const key = this.get("transportKey");
+    switch (key) {
+      case "gogovan_transport":
+        return "truck";
+      case "collection_transport":
+        return "male";
+      default:
+        return "";
+    }
+  }),
+
+  transportLabel: Ember.computed("transportKey", function() {
+    const key = this.get('transportKey');
+    return this.get("i18n").t(`order_transports.${key}`);
+  }),
+
+  transportKey: Ember.computed("orderTransport.transportType", function() {
+    const transportType = this.get('orderTransport.transportType');
+    switch (transportType) {
+      case "ggv":
+        return "gogovan_transport";
+      case "self":
+        return "collection_transport";
+      default:
+        return "unknown_transport";
+    }
+   }),
 
   ordersPackagesCount: Ember.computed('ordersPackages.[]', 'ordersPackages.@each.quantity', 'ordersPackages.@each.state', function() {
     return this.get("ordersPackages").filterBy('quantity').length;

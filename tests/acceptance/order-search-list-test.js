@@ -1,59 +1,153 @@
-// import Ember from 'ember';
-// import { module, test } from 'qunit';
-// import startApp from '../helpers/start-app';
-// import '../factories/orders_package';
-// import '../factories/designation';
-// import '../factories/item';
-// import FactoryGuy from 'ember-data-factory-guy';
-// import { mockFindAll } from 'ember-data-factory-guy';
+import Ember from "ember";
+import { module, test } from "qunit";
+import startApp from "../helpers/start-app";
+import "../factories/orders_package";
+import "../factories/designation";
+import "../factories/item";
+import FactoryGuy, { mockFindAll } from "ember-data-factory-guy";
 
-// var App, designation, item, item1, orders_package, orders_package1;
+var App, designation, item, orders_package, user;
+var mocks;
 
-// module('Acceptance: Order search list', {
-//   beforeEach: function() {
-//     App = startApp({}, 2);
-//     designation = FactoryGuy.make("designation");
-//     item = FactoryGuy.make("item", { state: "submitted" });
-//     item1 = FactoryGuy.make("item", { state: "submitted" });
-//     orders_package = FactoryGuy.make("orders_package", { state: "designated", item: item, designation: designation });
-//     orders_package1 = FactoryGuy.make("orders_package", { state: "dispatched", item: item1, designation: designation });
-//     var data = {"user_profile": [{"id": 2,"first_name": "David", "last_name": "Dara51", "mobile": "61111111", "user_role_ids": [1]}], "users": [{"id": 2,"first_name": "David", "last_name": "Dara51", "mobile": "61111111"}], "roles": [{"id": 4, "name": "Supervisor"}], "user_roles": [{"id": 1, "user_id": 2, "role_id": 4}]};
+module("Acceptance: Order search list", {
+  beforeEach: function() {
+    App = startApp({}, 2);
+    user = FactoryGuy.make("user", { mobile: "123456", email: "abc@xyz", firstName: "John", lastName: "Lennon", id: 5 });
+    designation = FactoryGuy.make("designation", { 
+      detailType: 'GoodCity'
+    });
+    item = FactoryGuy.make("item", { state: "submitted" });
+    orders_package = FactoryGuy.make("orders_package", {
+      state: "designated",
+      item: item,
+      designation: designation,
+    });
 
-//     $.mockjax({url:"/api/v1/auth/current_user_profil*",
-//       responseText: data });
-//     visit("/");
-//   },
-//   afterEach: function() {
-//     Ember.run(App, 'destroy');
-//   }
-// });
+    var userProfile = {
+      user_profile: [{
+        id: 2,
+        first_name: "David",
+        last_name: "Dara51",
+        mobile: "61111111",
+        user_role_ids: [1]
+      }],
+      users: [{ id: 2, first_name: "David", last_name: "Dara51", mobile: "61111111" }, user.toJSON({ includeId: true })],
+      roles: [{ id: 4, name: "Supervisor" }],
+      user_roles: [{ id: 1, user_id: 2, role_id: 4 }]
+    };
 
-// test("Order has designated OrdersPackage", function(assert) {
-//   assert.expect(1);
+    $.mockjaxSettings.matchInRegistrationOrder = false;
 
-//   visit("/orders/");
+    mocks = [];
 
-//   mockFindAll('designation').returns({ json: {designations: [designation.toJSON({includeId: true})], items: [item.toJSON({includeId: true})], orders_packages: [orders_package.toJSON({includeId: true})], meta: {search: designation.get('code').toString()}}});
-//   mockFindAll('orders_package').returns({ json: {orders_packages: [orders_package.toJSON({includeId: true})]}});
+    mocks.push(
+      $.mockjax({
+        url: "/api/v1/auth/current_user_profil*",
+        responseText: userProfile
+      })
+    );
 
-//   fillIn('#searchText', designation.get("code"));
+    mocks.push(
+      $.mockjax({
+        url: "/api/v1/designation*",
+        responseText: {
+          designations: [designation.toJSON({ includeId: true })],
+          items: [item.toJSON({ includeId: true })],
+          orders_packages: [orders_package.toJSON({ includeId: true })],
+          meta: { search: designation.get("code") },
+          designation: designation.toJSON({ includeId: true })
+        }
+      })
+    );
 
-//   andThen(function(){
-//     assert.equal(parseInt(find('ul.list li:first div.small-4.columns').text().trim().replace(/ +/g, ""), 10), 1);
-//   });
-// });
+    mockFindAll('designation').returns({ json: {
+      designations: [designation.toJSON({ includeId: true })],
+      items: [item.toJSON({ includeId: true })],
+      orders_packages: [orders_package.toJSON({ includeId: true })],
+      meta: { search: designation.get("code") }
+    }});
+    
+    mockFindAll('orders_package').returns({ json: {orders_packages: [orders_package.toJSON({includeId: true})]}});
 
-// test("Order has dispatched OrdersPackage", function(assert) {
-//   assert.expect(1);
 
-//   visit("/orders/");
+    visit("/");
 
-//   mockFindAll('designation').returns({ json: {designations: [designation.toJSON({includeId: true})], items: [item1.toJSON({includeId: true})], orders_packages: [orders_package1.toJSON({includeId: true})], meta: {search: designation.get('code').toString()}}});
-//   mockFindAll('orders_package').returns({ json: {orders_packages: [orders_package1.toJSON({includeId: true})]}});
+    andThen(function() {
+      visit("/orders/");
+    });
 
-//   fillIn('#searchText', designation.get("code"));
+  },
+  afterEach: function() {
+    // Clear our ajax mocks
+    $.mockjaxSettings.matchInRegistrationOrder = true;
+    mocks.forEach($.mockjax.clear);
 
-//   andThen(function(){
-//     assert.equal(parseInt(find('ul.list li:first div.small-4.columns').text().trim().replace(/ +/g, "").slice(-1), 10), 1);
-//   });
-// });
+    // Stop the app
+    Ember.run(App, "destroy");
+  }
+});
+
+// ------ Helpers
+
+function searchOrders(assert) {
+
+  visit("/orders/");
+
+  andThen(function () {
+    assert.equal(currentPath(), "orders.index", "Should be on the order listing page");
+    assert.equal(Ember.$('#searchText').length, 1, "Should have an input field");
+    fillIn("#searchText", designation.get("code"));
+  });
+
+  andThen(function () {
+    assert.equal(Ember.$('.loading_screen').length, 0, "Should hide the loading screen");
+    assert.equal(Ember.$('.order_block').length, 1, "Should have one item displayed");
+  });
+}
+
+// ------ Tests
+
+test("Clicking on an order should redirect to the order details page", function (assert) {
+  assert.expect(5);
+
+  searchOrders(assert);
+
+  andThen(() => {
+    click(Ember.$('.order_block')[0]);
+  });
+
+  andThen(() => {
+    assert.equal(currentURL(), `/orders/${designation.get("id")}/active_items`, "Should be on the order details page");
+  });
+
+});
+
+test("Order codes should be displayed on screen", function(assert) {
+  assert.expect(5);
+
+  searchOrders(assert);
+
+  andThen(function() {
+    assert.equal(
+      find(".order_code").text().trim(), 
+      designation.get("code"), 
+      "Should be displaying the order code"
+    );
+  });
+
+});
+
+test("Order's state should be displayed on screen", function(assert) {
+  assert.expect(5);
+
+  searchOrders(assert);
+
+  andThen(function() {
+    assert.equal(
+      find(".order_state_text").text().trim().toLowerCase(), 
+      designation.get("state"), 
+      "Should be displaying the order's state"
+    );
+  });
+});
+

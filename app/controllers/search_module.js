@@ -63,8 +63,8 @@ export default Ember.Controller.extend(InfinityRoute, {
         { searchText: "searchText", itemId: "itemSetId", toDesignateItem: "toDesignateItem", showQuantityItems: "showQuantityItems" })
         .then(data => {
           data.forEach(record => {
-            if(record.constructor.toString() === "stock@model:designation:") {
-              this.store.query("orders_package", { search_by_order_id: record.get("id") });
+            if (this.onItemLoaded) {
+              this.onItemLoaded(record);
             }
           });
           if(this.get("searchText") === data.meta.search) {
