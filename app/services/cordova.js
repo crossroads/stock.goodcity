@@ -22,58 +22,59 @@ export default Ember.Service.extend({
   },
 
   initiatePushNotifications() {
+    if(this.isIOS()) {
+      var _this = this;
 
-    var _this = this;
+      function onDeviceReady() {
+        var push = PushNotification.init({ // jshint ignore:line
+          android: {
+            senderID: config.cordova.GcmSenderId,
+            badge: false,
+            icon: "ic_notify"
+          },
+          ios: {
+            alert: true,
+            sound: true
+          },
+          windows: {}
+        });
 
-    function onDeviceReady() {
-      var push = PushNotification.init({ // jshint ignore:line
-        android: {
-          senderID: config.cordova.GcmSenderId,
-          badge: false,
-          icon: "ic_notify"
-        },
-        ios: {
-          alert: true,
-          sound: true
-        },
-        windows: {}
-      });
+        push.on("registration", function(data){
+            sendToken(data.registrationId, platformCode());
+        });
 
-      push.on("registration", function(data){
-          sendToken(data.registrationId, platformCode());
-      });
+        push.on("notification", function(data){
+          if (!data.additionalData.foreground) {
+            processTappedNotification(data.additionalData);
+          }
+        });
 
-      push.on("notification", function(data){
-        if (!data.additionalData.foreground) {
-          processTappedNotification(data.additionalData);
-        }
-      });
+        push.on('error', function(err){
+          console.log(err);
+        });
+      }
 
-      push.on('error', function(err){
-        console.log(err);
-      });
+      function sendToken(handle, platform) {
+        return new AjaxPromise("/auth/register_device", "POST", _this.get("session.authToken"), { handle: handle, platform: platform });
+      }
+
+      function platformCode() {
+        var platform;
+        if (_this.isAndroid()) { platform = "gcm"; } else if (window.device.platform === "iOS") { platform = "aps"; } else if (window.device.platform === "windows") { platform = "wns"; }
+        return platform;
+      }
+
+      function processTappedNotification(payload){
+        var notifications = Ember.getOwner(_this).lookup("controller:notifications");
+
+        new AjaxPromise(`/designations/${payload.order_id}`, "GET", _this.get('session.authToken'))
+            .then(data => {
+              _this.get("store").pushPayload(data);
+              notifications.redirectToOrderDetail(payload.order_id);
+            });
+      }
+
+      document.addEventListener('deviceready', onDeviceReady, true);
     }
-
-    function sendToken(handle, platform) {
-      return new AjaxPromise("/auth/register_device", "POST", _this.get("session.authToken"), { handle: handle, platform: platform });
-    }
-
-    function platformCode() {
-      var platform;
-      if (_this.isAndroid()) { platform = "gcm"; } else if (window.device.platform === "iOS") { platform = "aps"; } else if (window.device.platform === "windows") { platform = "wns"; }
-      return platform;
-    }
-
-    function processTappedNotification(payload){
-      var notifications = Ember.getOwner(_this).lookup("controller:notifications");
-
-      new AjaxPromise(`/designations/${payload.order_id}`, "GET", _this.get('session.authToken'))
-          .then(data => {
-            _this.get("store").pushPayload(data);
-            notifications.redirectToOrderDetail(payload.order_id);
-          });
-    }
-
-    document.addEventListener('deviceready', onDeviceReady, true);
   }
 });
