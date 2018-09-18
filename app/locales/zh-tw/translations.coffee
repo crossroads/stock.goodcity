@@ -146,8 +146,8 @@ I18nTranslationsEn =
     "registration": "Registration"
 
     "user":
-      "first_name": "First Name"
-      "last_name": "Family Name"
+      "first_name": "名"
+      "last_name": "姓"
       "mobile": "Mobile"
       "email": "Email"
       "position": "Position"
