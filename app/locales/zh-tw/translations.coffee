@@ -3,9 +3,9 @@ I18nTranslationsEn =
   "unexpected_error": "出錯了"
   "okay": "確定"
   "loading": "正在加載..."
-  "back": "Back"
+  "back": "返回"
   "no_search_results": "No Search Results."
-  "search": "Search"
+  "search": "搜尋"
   "QuotaExceededError": "Site may not work in Safari's <b>private mode.</b> Please try</br><ul><li><a href='https://itunes.apple.com/in/app/goodcitystock.hk/id1144806764?mt=8' style='color: black!important; background-color: #dee4eb !important;'>Downloading the iOS App</a></li><li>Using regular (not private) mode in Safari</li><li>Using Chrome's private browsing mode</li></ul>"
   "search_min": "Search (min 3 characters)"
   "cancel": "Cancel"
@@ -40,7 +40,7 @@ I18nTranslationsEn =
     "smscode": "Get 4-digit SMS code"
 
   "logout":
-    "logout": "Logout"
+    "logout": "登出"
 
   "index":
     "home": "Home",
@@ -49,13 +49,13 @@ I18nTranslationsEn =
     "goto": "Goto"
 
   "order_details":
-    "client_name": "Client name:"
-    "hkid": "HKID"
+    "client_name": "服務對象姓名"
+    "hkid": "香港身份證號碼"
     "reference": "Reference #:"
     "items": "Items"
     "submitted": "Submitted:"
     "order": "Order:"
-    "show_more_items": "Show more items"
+    "show_more_items": "顯示更多物資"
     "complete_process_warning": "You need to complete processing the Order first before dispatching."
     "cannot_designate_to_gc_order": "This GoodCity Order is either in cancelled or closed state. You can't designate item to this order."
     "add_item_to_order": "Add an item to this order"
@@ -139,24 +139,24 @@ I18nTranslationsEn =
     "separate_and_dispatch": "Separate item from set & dispatch"
 
   "organisation":
-    "add_user_button": "Add User to Organisation"
-    "add_user": "Add - User"
-    "name": "Name"
+    "add_user_button": "新增機構用戶"
+    "add_user": "新增 - 用戶"
+    "name": "姓名"
     "description": "Description"
     "registration": "Registration"
 
     "user":
       "first_name": "名"
       "last_name": "姓"
-      "mobile": "手提電話"
+      "mobile": "手提電話號碼"
       "email": "電郵"
-      "position": "Position"
-      "phone_number": "Phone Number"
-      "john": "John"
-      "doe": "Doe"
-      "position_in_organisation": "Position within organisation"
+      "position": "職位"
+      "phone_number": "電話號碼"
+      "john": "大文"
+      "doe": "陳"
+      "position_in_organisation": "職位"
       "validation_error":
-        "email": "Email should be valid."
-        "mobile": "Mobile Number should be 8 digits."
+        "email": "請輸入有效電郵地址"
+        "mobile": "手提電話號碼必須為8個數字"
 
 `export default I18nTranslationsEn`
