@@ -30,6 +30,7 @@ dependencies:
     - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-darwin-amd64 > ./cc-test-reporter
     - chmod +x ./cc-test-reporter
     - bundle install
+    - pod setup
     - bower install
     - PATH=$(npm bin):$PATH; azure-filestore download -f goodcity.keystore:
         pwd: cordova
