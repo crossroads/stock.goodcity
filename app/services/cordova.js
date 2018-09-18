@@ -25,7 +25,7 @@ export default Ember.Service.extend({
     if(this.isIOS()) {
       var _this = this;
 
-      function onDeviceReady() {
+      function onDeviceReady() { // jshint ignore:line
         var push = PushNotification.init({ // jshint ignore:line
           android: {
             senderID: config.cordova.GcmSenderId,
@@ -54,17 +54,17 @@ export default Ember.Service.extend({
         });
       }
 
-      function sendToken(handle, platform) {
+      function sendToken(handle, platform) {// jshint ignore:line
         return new AjaxPromise("/auth/register_device", "POST", _this.get("session.authToken"), { handle: handle, platform: platform });
       }
 
-      function platformCode() {
+      function platformCode() {// jshint ignore:line
         var platform;
         if (_this.isAndroid()) { platform = "gcm"; } else if (window.device.platform === "iOS") { platform = "aps"; } else if (window.device.platform === "windows") { platform = "wns"; }
         return platform;
       }
 
-      function processTappedNotification(payload){
+      function processTappedNotification(payload){// jshint ignore:line
         var notifications = Ember.getOwner(_this).lookup("controller:notifications");
 
         new AjaxPromise(`/designations/${payload.order_id}`, "GET", _this.get('session.authToken'))
