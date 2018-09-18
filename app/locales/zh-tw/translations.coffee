@@ -148,8 +148,8 @@ I18nTranslationsEn =
     "user":
       "first_name": "名"
       "last_name": "姓"
-      "mobile": "Mobile"
-      "email": "Email"
+      "mobile": "手提電話"
+      "email": "電郵"
       "position": "Position"
       "phone_number": "Phone Number"
       "john": "John"
