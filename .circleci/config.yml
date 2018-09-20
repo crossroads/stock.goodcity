@@ -282,8 +282,6 @@ jobs:
     macos:
       xcode: "9.2.0"
 
-    working_directory: ~/stock.goodcity
-
     steps:
       - restore-cache: *restore-repo-cache
       - restore-cache: *restore-yarn-cache
@@ -301,49 +299,76 @@ jobs:
             echo 'export BUILD=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo --release; else echo --debug; fi)' >> $BASH_ENV
             echo 'export PROVISIONING_PROFILE=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo $PROVISIONING_PROFILE_PROD; else echo $PROVISIONING_PROFILE_STAGING; fi)' >> $BASH_ENV
 
-      - run:
-          name: Install global cordova
-          command: sudo npm install -g cordova@6.5.0
-          working_directory: ~/stock.goodcity
+      # - run:
+      #     name: Install global cordova
+      #     command: npm install -g cordova@6.5.0
+      #     working_directory: ~/stock.goodcity
 
       - run:
           name: Apply App settings
           command: cordova-update-config --appname ${APP_NAME} --appid ${APP_ID} --appversion ${APP_VERSION}
           working_directory: cordova
 
-      - run:
-          name: Cordova Prepare
-          command: cordova prepare ios
-          working_directory: cordova
+      # - run:
+      #     name: Cordova Prepare
+      #     command: cordova prepare ios
+      #     working_directory: cordova
 
-      - run:
-          name: Cordova Compile
-          command: cordova compile ios --device --codeSignIdentity='iPhone Developer' --developmentTeam=6B8FS8W94M --packageType=development --icloud_container_environment=development --automaticProvisionin=false --provisioningProfile=${PROVISIONING_PROFILE}
-          working_directory: cordova
-
-  # ios_build:
-  #   <<: *defaults
-
-  #   macos:
-  #     xcode: "9.2.0"
+      # - run:
+      #     name: Cordova Compile
+      #     command: cordova compile ios --device --codeSignIdentity='iPhone Developer' --developmentTeam='6B8FS8W94M' --packageType='development' --icloud_container_environment='development' --automaticProvisionin=false --provisioningProfile=${PROVISIONING_PROFILE}
+      #     working_directory: cordova
 
 
-  #   steps:
-  #     - restore-cache: *restore-repo-cache
-  #     - restore-cache: *restore-yarn-cache
-  #     - restore-cache: *restore-bower-cache
+  ios_build:
+
+    macos:
+      xcode: "9.2.0"
+
+    working_directory: ~/stock.goodcity
+
+    steps:
+        - checkout
+  #     # - restore-cache: *restore-repo-cache
+  #     # - restore-cache: *restore-yarn-cache
+  #     # - restore-cache: *restore-bower-cache
   #     - attach_workspace:
   #         at: ~/stock.goodcity
+        - run:
+            name: Print xcode version
+            command:  xcodebuild -version
 
-  #     - run:
-  #         name: Cordova Prepare
-  #         command: cordova prepare ios
-  #         # working_directory: cordova
+        - run:
+            name: Install global cordova
+            command: npm install -g cordova@6.5
+
+        - run:
+            name: Print current repo
+            command: ls
+
+        - run:
+            name: Cordova Prepare
+            command: |
+              ls
+              cordova prepare ios
+            working_directory: cordova
 
   #     - run:
   #         name: Cordova Compile
-  #         command: cordova compile ios --device --codeSignIdentity='iPhone Developer' --developmentTeam=6B8FS8W94M --provisioningProfile=${PROVISIONING_PROFILE}
-  #         # working_directory: cordova
+  #         command: |
+  #           # cd stock.goodcity/cordova
+  #           cordova compile ios --device --codeSignIdentity='iPhone Developer' --developmentTeam='6B8FS8W94M' --packageType='development' --icloud_container_environment='development' --automaticProvisionin=false --provisioningProfile=${PROVISIONING_PROFILE}
+  #         working_directory: ~/stock.goodcity/cordova
+
+      # - run:
+      #     name: Cordova Prepare
+      #     command: cordova prepare ios
+      #     # working_directory: cordova
+
+      # - run:
+      #     name: Cordova Compile
+      #     command: cordova compile ios --device --codeSignIdentity='iPhone Developer' --developmentTeam=6B8FS8W94M --provisioningProfile=${PROVISIONING_PROFILE}
+          # working_directory: cordova
 
 
 workflows:
@@ -376,8 +401,8 @@ workflows:
         - ios_build_setup:
             requires:
               - ember_cordova_build
-        # - ios_build:
-        #     requires:
-        #       - ios_build_setup
+        - ios_build:
+            requires:
+              - ios_build_setup
 
 
