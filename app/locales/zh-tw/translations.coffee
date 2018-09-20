@@ -98,7 +98,7 @@ I18nTranslationsEn =
     "cap_dispatch": "派送物資"
     "undispatch": "取消派送"
     "undesignate": "取消指派"
-    "partial_undesignate": "取消部分物資指派"
+    "partial_undesignate": "取消指派部分物資"
     "separate": "分拆"
     "move": "移動"
     "partial_move": "移動部分物資"
@@ -119,7 +119,7 @@ I18nTranslationsEn =
     "already_designated": "此物資已經被指派至訂單{{code}}."
     "already_partially_designated": "{{qty}} 件已經被指派至{{code}}。請確認你仍需要指派額外 {{partial_qty}}件物資到此訂單。"
     "partial_designate_title": "指派{{partial_qty}}件到訂單{{code}}"
-    "cannot_designate": "部分物資已經被指派至訂單{{code}}/訂單{{code}}狀態為「已取消」。請用「指派部分物資”選項將更多物資指派至此訂單。"
+    "cannot_designate": "部分物資已經被指派至訂單{{code}}/訂單{{code}}狀態為「已取消」。請用「指派部分物資」選項將更多物資指派至此訂單。"
     "redesignate": "請確認你想重新指派這件物資到此訂單。"
 
   "undesignate":
@@ -135,7 +135,7 @@ I18nTranslationsEn =
     "dispatch_quantity": "派送{{quantity}}件物資"
     "separate_set": "派送<b>將會令此物資從套裝中移除!</b>"
     "dispatch_set": "你可以選擇派送整套物資。"
-    "all_items_dispatched": "此訂單中的所有物資已經派送完畢，請在Stockit系統上關閉訂單"
+    "all_items_dispatched": "此訂單中的所有物資已經派送完畢，請在Stockit系統上完成訂單"
     "separate_and_dispatch": "將物資從套裝中移除並派送"
 
   "organisation":
