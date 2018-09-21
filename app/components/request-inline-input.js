@@ -9,19 +9,11 @@ export default numericInlineInput.extend({
     return { quantity: this.get("value") || "" };
   },
 
-  isEmptyValue(val, request) {
-    if(parseInt(val, 10) === 0) {
-      this.set("value",  request._internalModel._data.quantity);
-      Ember.$(this.element).removeClass('numeric-inline-input');
-      return false;
-    }
-    return true;
-  },
-
   isEmptyQty(requestParams) {
-    if(parseInt(requestParams["quantity"], 10) === 0) {
+    let parsedQty = parseInt(requestParams["quantity"], 10);
+    if(parsedQty === 0 || Number.isNaN(parsedQty)) {
       Ember.$(this.element).removeClass('numeric-inline-input');
-      this.set('value','');
+      this.set('value', this.get('previousValue'));
       return false;
     }
     return true;
@@ -31,12 +23,12 @@ export default numericInlineInput.extend({
     var val = this.attrs.value.value;
     var regexPattern = /^\d+$/;
     if(val && val.toString().search(regexPattern) !== 0){
-      this.set('value', val.replace(/\D/g,''));
+      this.set('value', val.replace(/\D/g, this.get("previousValue")));
     }
     var request = this.get("request");
     var url = `/goodcity_requests/${request.get('id')}`;
     var requestParams = this.getRequestParams();
-    if(!this.isEmptyValue(val, request) || !this.isEmptyQty(requestParams)) {
+    if(!this.isEmptyQty(requestParams)) {
       return false;
     }
 
