@@ -317,6 +317,8 @@ jobs:
           working_directory: cordova
 
   ios_build:
+    <<: *defaults
+
      macos:
       xcode: "9.2.0"
      working_directory: ~/stock.goodcity
@@ -336,7 +338,7 @@ jobs:
             command: |
               ls
               cordova prepare ios
-            working_directory: ~/stock.goodcity/cordova
+            working_directory: cordova
 
 
 workflows:
