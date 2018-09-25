@@ -317,6 +317,8 @@ jobs:
           working_directory: cordova
 
   ios_build:
+    docker:
+        - image: circleci/node:boron
     macos:
       xcode: "9.2.0"
 
