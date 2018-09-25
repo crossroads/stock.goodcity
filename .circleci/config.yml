@@ -321,7 +321,7 @@ jobs:
       xcode: "9.2.0"
      working_directory: ~/stock.goodcity
      steps:
-        - checkout_code
+        - checkout
         - run:
             name: Print xcode version
             command:  xcodebuild -version
