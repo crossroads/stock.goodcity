@@ -316,34 +316,21 @@ jobs:
           command: cordova prepare ios
           working_directory: cordova
 
-      - run:
-          name: Cordova Compile
-          command: cordova compile ios --device --codeSignIdentity='iPhone Developer' --developmentTeam=6B8FS8W94M --packageType=development --icloud_container_environment=development --automaticProvisionin=false --provisioningProfile=${PROVISIONING_PROFILE}
-          working_directory: cordova
-
-  # ios_build:
-  #   <<: *defaults
-
-  #   macos:
-  #     xcode: "9.2.0"
-
-
-  #   steps:
-  #     - restore-cache: *restore-repo-cache
-  #     - restore-cache: *restore-yarn-cache
-  #     - restore-cache: *restore-bower-cache
-  #     - attach_workspace:
-  #         at: ~/stock.goodcity
-
-  #     - run:
-  #         name: Cordova Prepare
-  #         command: cordova prepare ios
-  #         # working_directory: cordova
-
-  #     - run:
-  #         name: Cordova Compile
-  #         command: cordova compile ios --device --codeSignIdentity='iPhone Developer' --developmentTeam=6B8FS8W94M --provisioningProfile=${PROVISIONING_PROFILE}
-  #         # working_directory: cordova
+  ios_build:
+     macos:
+      xcode: "9.2.0"
+     working_directory: ~/stock.goodcity
+     steps:
+        - checkout
+        - run:
+            name: Print xcode version
+            command:  xcodebuild -version
+        - run:
+            name: Install global cordova
+            command: npm install -g cordova@6.5
+        - run:
+            name: Print current repo
+            command: ls
 
 
 workflows:
@@ -354,16 +341,16 @@ workflows:
         - package_dependencies:
             requires:
               - checkout_code
-        # - test_cases:
-        #     requires:
-        #       - package_dependencies
-        # - upload-coverage:
-        #     requires:
-        #       - package_dependencies
-        #       - test_cases
+        - test_cases:
+            requires:
+              - package_dependencies
+        - upload-coverage:
+            requires:
+              - package_dependencies
+              - test_cases
         - www_build:
-            # requires:
-            #   - upload-coverage
+            requires:
+              - upload-coverage
         - www-deploy:
             requires:
               - www_build
