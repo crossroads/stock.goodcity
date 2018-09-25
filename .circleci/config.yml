@@ -317,8 +317,6 @@ jobs:
           working_directory: cordova
 
   ios_build:
-    <<: *defaults
-
     macos:
       xcode: "9.2.0"
 
