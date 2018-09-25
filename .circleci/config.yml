@@ -336,7 +336,7 @@ jobs:
             command: |
               ls
               cordova prepare ios
-            working_directory: cordova
+            working_directory: ~/stock.goodcity/cordova
 
 
 workflows:
