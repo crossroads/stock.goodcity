@@ -324,13 +324,13 @@ jobs:
   ios_build:
     macos:
       xcode: "9.2.0"
-    docker:
-      - image: circleci/node:boron
 
     working_directory: ~/stock.goodcity
 
     steps:
       - checkout
+      - restore-cache: *restore-yarn-cache
+      - restore-cache: *restore-bower-cache
       - run:
           name: Print xcode version
           command:  xcodebuild -version
