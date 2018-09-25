@@ -321,9 +321,7 @@ jobs:
       xcode: "9.2.0"
      working_directory: ~/stock.goodcity
      steps:
-        - restore-cache: *restore-repo-cache
-        - restore-cache: *restore-yarn-cache
-        - restore-cache: *restore-bower-cache
+        - checkout_code
         - run:
             name: Print xcode version
             command:  xcodebuild -version
@@ -333,6 +331,12 @@ jobs:
         - run:
             name: Print current repo
             command: ls
+        - run:
+            name: Cordova Prepare
+            command: |
+              ls
+              cordova prepare ios
+            working_directory: cordova
 
 
 workflows:
