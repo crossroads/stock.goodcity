@@ -319,26 +319,28 @@ jobs:
   ios_build:
     <<: *defaults
 
-     macos:
+    macos:
       xcode: "9.2.0"
-     working_directory: ~/stock.goodcity
-     steps:
-        - checkout
-        - run:
-            name: Print xcode version
-            command:  xcodebuild -version
-        - run:
-            name: Install global cordova
-            command: npm install -g cordova@6.5
-        - run:
-            name: Print current repo
-            command: ls
-        - run:
-            name: Cordova Prepare
-            command: |
-              ls
-              cordova prepare ios
-            working_directory: cordova
+
+    working_directory: ~/stock.goodcity
+
+    steps:
+      - checkout
+      - run:
+          name: Print xcode version
+          command:  xcodebuild -version
+      - run:
+          name: Install global cordova
+          command: npm install -g cordova@6.5
+      - run:
+          name: Print current repo
+          command: ls
+      - run:
+          name: Cordova Prepare
+          command: |
+            ls
+            cordova prepare ios
+          working_directory: cordova
 
 
 workflows:
