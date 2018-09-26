@@ -12,14 +12,14 @@ version: 2
 aliases:
   defaults: &defaults
       docker:
-        - image: node
+        - image: circleci/node:6-stretch-browsers-legacy
       working_directory: ~/stock.goodcity
   restore-repo-cache: &restore-repo-cache
-      key: repo-{{ .Environment.CIRCLE_SHA1 }}
+      key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
   restore-yarn-cache: &restore-yarn-cache
-      key: yarn-packages-{{ checksum "yarn.lock" }}
+      key: v1-yarn-packages-{{ checksum "yarn.lock" }}
   save-yarn-cache: &save-yarn-cache
-      key: yarn-packages-{{ checksum "yarn.lock" }}
+      key: v1-yarn-packages-{{ checksum "yarn.lock" }}
       paths:
         - ~/.cache/yarn
         - node_modules
@@ -28,16 +28,16 @@ aliases:
         yarn install --non-interactive --cache-folder ~/.cache/yarn
 
   restore-bower-cache: &restore-bower-cache
-      key: bower-components-{{ checksum "bower.json" }}
+      key: v1-bower-components-{{ checksum "bower.json" }}
   save-bower-cache: &save-bower-cache
-      key: bower-components-{{ checksum "bower.json" }}
+      key: v1-bower-components-{{ checksum "bower.json" }}
       paths:
         - bower_components
 
   restore-bundle-cache: &restore-bundle-cache
-      key: bundle-{{ checksum "Gemfile.lock" }}
+      key: v1-bundle-{{ checksum "Gemfile.lock" }}
   save-bundle-cache: &save-bundle-cache
-      key: bundle-{{ checksum "Gemfile.lock" }}
+      key: v1-bundle-{{ checksum "Gemfile.lock" }}
       paths:
           - vendor/bundle
 
@@ -70,7 +70,7 @@ jobs:
     steps:
       - checkout
       - save_cache:
-          key: repo-{{ .Environment.CIRCLE_SHA1 }}
+          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
           paths:
             - ~/stock.goodcity
 
