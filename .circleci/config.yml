@@ -372,8 +372,8 @@ workflows:
               branches:
                 only: /^(master|live)$/
         - ember_cordova_build:
-            requires:
-              - www-deploy
+            # requires:
+            #   - www-deploy
         # - android_build_and_deploy:
         #     requires:
         #       - ember_cordova_build
