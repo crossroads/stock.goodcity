@@ -73,11 +73,22 @@ I18nTranslationsEn =
     "close_order_popup": "All items in this order are dispatched. Would you like to close the Order? You will not be able to modify the order after closing it."
     "cancel_item_designate_warning": "This will also change state of the Order to processing from cancelled. Are you sure you want to designate?"
 
+  "order_transports":
+    "gogovan_transport": "Send by van"
+    "collection_transport": "Collection"
+    "appointment_transport": "Appointment"
+    "shipment_transport": "Shipment"
+    "unknown_transport": "Other"
+
   "order":
     "submitted": "Submitted"
+    "submitted_by": "Submitted By"
     "start_process": "Start Processing"
     "restart_process": "Restart Processing"
     "finish_process": "Finish Processing"
+    "process_summary": "Process Summary"
+    "due_date": "Due Date"
+    "submitted_for_client": "Submitted for client"
     "start_dispatching": "Start Dispatching"
     "cancel_order": "Cancel Order"
     "awaiting_dispatch": "Awaiting Dispatch"
