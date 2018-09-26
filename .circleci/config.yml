@@ -365,12 +365,12 @@ workflows:
         - www_build:
             requires:
               - upload-coverage
-        - www-deploy:
-            requires:
-              - www_build
-            filters:
-              branches:
-                only: /^(master|live)$/
+        # - www-deploy:
+        #     requires:
+        #       - www_build
+        #     filters:
+        #       branches:
+        #         only: /^(master|live)$/
         - ember_cordova_build:
             # requires:
             #   - www-deploy
