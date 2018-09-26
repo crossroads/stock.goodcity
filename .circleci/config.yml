@@ -173,7 +173,7 @@ jobs:
       - run:
           name: Print Environment Variables
           command: echo STAGE=$STAGE
-      - run: bundle exec cap $STAGE deploy:upload
+      # - run: bundle exec cap $STAGE deploy:upload
 
   ember_cordova_build:
     <<: *defaults
@@ -365,15 +365,15 @@ workflows:
         - www_build:
             requires:
               - upload-coverage
-        # - www-deploy:
-        #     requires:
-        #       - www_build
-        #     filters:
-        #       branches:
-        #         only: /^(master|live)$/
+        - www-deploy:
+            requires:
+              - www_build
+            # filters:
+            #   branches:
+            #     only: /^(master|live)$/
         - ember_cordova_build:
-            # requires:
-            #   - www-deploy
+            requires:
+              - www-deploy
         # - android_build_and_deploy:
         #     requires:
         #       - ember_cordova_build
