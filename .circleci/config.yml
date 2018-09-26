@@ -277,7 +277,6 @@ jobs:
           working_directory: ~/stock.goodcity
 
   ios_build_setup:
-    <<: *defaults
 
     macos:
       xcode: "9.2.0"
