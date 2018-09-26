@@ -12,7 +12,7 @@ version: 2
 aliases:
   defaults: &defaults
       docker:
-        - image: node:6-alpine
+        - image: node
       working_directory: ~/stock.goodcity
   restore-repo-cache: &restore-repo-cache
       key: repo-{{ .Environment.CIRCLE_SHA1 }}
