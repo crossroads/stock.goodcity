@@ -317,7 +317,7 @@ jobs:
 
       - run:
           name: Cordova Compile
-          command: cordova compile ios --device --codeSignIdentity='iPhone Developer' --developmentTeam='6B8FS8W94M' --packageType='development' --icloud_container_environment='development' --automaticProvisionin=false --provisioningProfile=${PROVISIONING_PROFILE}
+          command: cordova compile ios --debug --device --codeSignIdentity="\'iPhone Developer\'" --developmentTeam=$IOS_DEVELOPMENT_TEAM_ID --packageType='development' --icloud_container_environment='Development' --automaticProvisionin=false --provisioningProfile=\'${PROVISIONING_PROFILE}\'
           working_directory: cordova
 
   ios_build:
