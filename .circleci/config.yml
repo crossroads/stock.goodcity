@@ -368,6 +368,9 @@ workflows:
         - www-deploy:
             requires:
               - www_build
+            filters:
+              branches:
+                only: /^(master|live)$/
         - ember_cordova_build:
             requires:
               - www-deploy
