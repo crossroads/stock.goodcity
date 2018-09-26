@@ -284,9 +284,9 @@ jobs:
     working_directory: ~/stock.goodcity
 
     steps:
-      - restore-cache: *restore-repo-cache
-      - restore-cache: *restore-yarn-cache
-      - restore-cache: *restore-bower-cache
+      - checkout
+      - run: *yarn
+      - run: yarn run bower install
       - attach_workspace:
           at: ~/stock.goodcity
       - run:
