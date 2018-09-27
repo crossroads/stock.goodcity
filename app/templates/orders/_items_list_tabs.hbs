@@ -4,7 +4,7 @@
       <dl class="tabs" data-tab>
         {{#link-to 'orders.active_items' model.id tagName="dd" classNames="small-6 medium-6 columns text-center"}}
           {{#link-to 'orders.active_items' model.id}}
-            <div>Active ({{model.ordersPackages.length}})</div>
+            <div>Active ({{ordersPkgLength}})</div>
           {{/link-to}}
         {{/link-to}}
 
