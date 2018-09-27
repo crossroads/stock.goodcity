@@ -277,18 +277,11 @@ jobs:
           working_directory: ~/stock.goodcity
 
   ios_build_setup:
+
     macos:
       xcode: "9.2.0"
 
     working_directory: ~/stock.goodcity
-
-    environment:
-      CODE_SIGN_IDENTITY: \'iPhone Developer\'
-      IOS_SIGNING_STYLE: false
-      ICLOUD_CONTAINER_ENV: 'Development'
-      PACKAGE_TYPE: 'development'
-
-
 
     steps:
       - checkout
@@ -297,25 +290,23 @@ jobs:
       - attach_workspace:
           at: ~/stock.goodcity
       - run:
-          name: Print Environment variables
-          command: echo CODE_SIGN_IDENTITY=$CODE_SIGN_IDENTITY
-      - run:
           name: Setup Environment variables
           command: |
             echo 'export APP_NAME=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo Stock GoodCity; else echo S. Stock GoodCity; fi)' >> $BASH_ENV
             echo 'export APP_ID=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo hk.goodcity.stock; else echo hk.goodcity.stockstaging; fi)' >> $BASH_ENV
             echo 'export APP_VERSION=$(jq -r ".version" package.json)' >> $BASH_ENV
             echo 'export ENVIRONMENT=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo production; else echo staging; fi)' >> $BASH_ENV
-            # echo 'export PACKAGE_TYPE=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo "app-store"; else echo "development"; fi)' >> $BASH_ENV
-            # echo 'export ICLOUD_CONTAINER_ENV=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo "Production"; else echo "Development"; fi)' >> $BASH_ENV
+            echo export CODE_SIGN_IDENTITY=$(if [ '$CIRCLE_BRANCH' == 'live' ]; then echo "\'iPhone Distribution\'"; else echo "\'iPhone Developer\'"; fi) >> $BASH_ENV
+            echo 'export PACKAGE_TYPE=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo "app-store"; else echo "development"; fi)' >> $BASH_ENV
+            echo 'export ICLOUD_CONTAINER_ENV=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo "Production"; else echo "Development"; fi)' >> $BASH_ENV
             echo 'export PATH=$PATH:`yarn bin`' >> $BASH_ENV
             echo 'export IOS_TEAM_ID=$IOS_DEVELOPMENT_TEAM_ID' >> $BASH_ENV
             echo 'export BUILD=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo --release; else echo --debug; fi)' >> $BASH_ENV
-            # echo 'export PROVISIONING_PROFILE=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo $PROVISIONING_PROFILE_PROD; else echo $PROVISIONING_PROFILE_STAGING; fi)' >> $BASH_ENV
+            echo 'export PROVISIONING_PROFILE=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo $PROVISIONING_PROFILE_PROD; else echo $PROVISIONING_PROFILE_STAGING; fi)' >> $BASH_ENV
 
       - run:
           name: Apply App settings
-          command: cordova-update-config --appname ${APP_NAME} --appid ${APP_ID} --appversion ${APP_VERSION}
+          command: cordova-update-config --appname "${APP_NAME}" --appid "${APP_ID}" --appversion "${APP_VERSION}"
           working_directory: cordova
 
       - run:
@@ -325,7 +316,7 @@ jobs:
 
       - run:
           name: Cordova Compile
-          command: cordova compile ios --${BUILD} --device --codeSignIdentity=${CODE_SIGN_IDENTITY} --developmentTeam=${IOS_TEAM_ID} --packageType=${PACKAGE_TYPE} --icloud_container_environment=${ICLOUD_CONTAINER_ENV} --automaticProvisioning=${IOS_SIGNING_STYLE} --provisioningProfile=${PROVISIONING_PROFILE_STAGING}
+          command: cordova compile ios --"${BUILD}" --device --codeSignIdentity="${CODE_SIGN_IDENTITY}" --developmentTeam="${IOS_TEAM_ID}" --packageType="${PACKAGE_TYPE}" --icloud_container_environment="${ICLOUD_CONTAINER_ENV}" --automaticProvisioning=false --provisioningProfile="${PROVISIONING_PROFILE}"
           working_directory: cordova
 
 workflows:
