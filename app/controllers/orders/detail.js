@@ -48,7 +48,7 @@ export default Ember.Controller.extend({
   }),
 
   ordersPkgLength: Ember.computed('model.items', 'displayAllItems', 'model.ordersPackages', 'model.ordersPackages.@each.quantity', 'model.ordersPackages.@each.state', function() {
-    return this.get("model.ordersPackages").rejectBy('state', 'draft').rejectBy('state', null).length;
+    return this.get("model.ordersPackages").rejectBy('state', 'requested').rejectBy('state', null).length;
   }),
 
   genericCustomPopUp(message, button1text, button2text, btn1Callback) {
