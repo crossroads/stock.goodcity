@@ -47,7 +47,7 @@ export default Ember.Controller.extend({
     return this.get("displayAllItems") ? ordersPackages : ordersPackages.slice(0, 3);
   }),
 
-  ordersPkgLength: mber.computed('model.items', 'displayAllItems', 'model.ordersPackages', 'model.ordersPackages.@each.quantity', 'model.ordersPackages.@each.state', function() {
+  ordersPkgLength: Ember.computed('model.items', 'displayAllItems', 'model.ordersPackages', 'model.ordersPackages.@each.quantity', 'model.ordersPackages.@each.state', function() {
     return this.get("model.ordersPackages").rejectBy('state', 'draft').rejectBy('state', null).length;
   }),
 
