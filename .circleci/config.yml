@@ -305,8 +305,8 @@ jobs:
             echo 'export PROVISIONING_PROFILE=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo $PROVISIONING_PROFILE_PROD; else echo $PROVISIONING_PROFILE_STAGING; fi)' >> $BASH_ENV
 
       - run:
-          name: Print variables
-          command: echo CODE_SIGN_IDENTITY=$CODE_SIGN_IDENTITY
+          name: setup pod
+          command: pod setup
 
       - run:
           name: Apply App settings
