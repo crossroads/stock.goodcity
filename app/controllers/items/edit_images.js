@@ -59,11 +59,13 @@ export default Ember.Controller.extend({
 
     //Sort by id ascending except place new images id = 0 at end
     return (this.get("item.images") || Ember.A()).toArray().sort(function(a,b) {
-      a = parseInt(a.get("id"), 10);
-      b = parseInt(b.get("id"), 10);
-      if (a === 0) { return 1; }
-      if (b === 0) { return -1; }
-      return a - b;
+      if(a && b) {
+        a = parseInt(a.get("id"), 10);
+        b = parseInt(b.get("id"), 10);
+        if (a === 0) { return 1; }
+        if (b === 0) { return -1; }
+        return a - b;
+      }
     });
   }),
 

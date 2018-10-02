@@ -38,13 +38,17 @@ export default Ember.Controller.extend({
   }),
 
   itemsList: Ember.computed('model.items', 'displayAllItems', 'model.ordersPackages', 'model.ordersPackages.@each.quantity', 'model.ordersPackages.@each.state', function() {
-    var ordersPackages =  this.get("model.ordersPackages").rejectBy('state', "requested").rejectBy("state", "cancelled");
+    var ordersPackages =  this.get("model.ordersPackages").rejectBy('state', "requested").rejectBy("state", "cancelled").rejectBy('state', null);
     return this.get("displayAllItems") ? ordersPackages : ordersPackages.slice(0, 3);
   }),
 
   canceledItemsList: Ember.computed('model.items', 'displayAllItems', 'model.ordersPackages', 'model.ordersPackages.@each.quantity', 'model.ordersPackages.@each.state', function() {
-    var ordersPackages =  this.get("model.ordersPackages").filterBy('state', "cancelled");
+    var ordersPackages =  this.get("model.ordersPackages").filterBy('state', "cancelled").rejectBy('state', null);
     return this.get("displayAllItems") ? ordersPackages : ordersPackages.slice(0, 3);
+  }),
+
+  ordersPkgLength: Ember.computed('model.items', 'displayAllItems', 'model.ordersPackages', 'model.ordersPackages.@each.quantity', 'model.ordersPackages.@each.state', function() {
+    return this.get("model.ordersPackages").rejectBy('state', 'requested').rejectBy('state', null).length;
   }),
 
   genericCustomPopUp(message, button1text, button2text, btn1Callback) {

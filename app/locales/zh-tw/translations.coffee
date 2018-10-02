@@ -73,6 +73,13 @@ I18nTranslationsEn =
     "close_order_popup": "此訂單中所有物資已經派送完畢。請確認您要完成訂單。請注意，訂單完成後您將不能再修改訂單内容。"
     "cancel_item_designate_warning":" 請確認繼續指派物資到此訂單。請注意，訂單狀態將會由「已取消」重設為「處理中」。"
 
+  "order_transports":
+    "gogovan_transport": "Send by van"
+    "collection_transport": "Collection"
+    "appointment_transport": "Appointment"
+    "shipment_transport": "Shipment"
+    "unknown_transport": "Other"
+
   "order":
     "submitted": "訂單已經提交"
     "start_process": "開始訂單處理"
@@ -88,6 +95,10 @@ I18nTranslationsEn =
     "close_order": "完成訂單"
     "reopen_order": "重開訂單"
     "resubmit": "重新提交訂單"
+    "submitted_by": "Submitted By"
+    "process_summary": "Process Summary"
+    "due_date": "Due Date"
+    "submitted_for_client": "Submitted for client"
 
   "item":
     "edit": "修改"
