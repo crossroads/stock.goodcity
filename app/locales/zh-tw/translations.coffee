@@ -74,11 +74,11 @@ I18nTranslationsEn =
     "cancel_item_designate_warning":" 請確認繼續指派物資到此訂單。請注意，訂單狀態將會由「已取消」重設為「處理中」。"
 
   "order_transports":
-    "gogovan_transport": "Send by van"
-    "collection_transport": "Collection"
-    "appointment_transport": "Appointment"
-    "shipment_transport": "Shipment"
-    "unknown_transport": "Other"
+    "gogovan_transport": "由貨車運送"
+    "collection_transport": "自行提取"
+    "appointment_transport": "預約"
+    "shipment_transport": "運送安排"
+    "unknown_transport": "其他"
 
   "order":
     "submitted": "訂單已經提交"
@@ -95,10 +95,10 @@ I18nTranslationsEn =
     "close_order": "完成訂單"
     "reopen_order": "重開訂單"
     "resubmit": "重新提交訂單"
-    "submitted_by": "Submitted By"
-    "process_summary": "Process Summary"
-    "due_date": "Due Date"
-    "submitted_for_client": "Submitted for client"
+    "submitted_by": "提交自"
+    "process_summary": "概覽"
+    "due_date": "到期日"
+    "submitted_for_client": "為服務使用者提交"
 
   "item":
     "edit": "修改"
