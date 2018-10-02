@@ -81,6 +81,7 @@ I18nTranslationsEn =
     "unknown_transport": "其他"
 
   "order":
+    "processing": "處理中"
     "submitted": "訂單已經提交"
     "start_process": "開始訂單處理"
     "restart_process": "重新開始訂單處理"

@@ -82,6 +82,7 @@ I18nTranslationsEn =
     "unknown_transport": "Other"
 
   "order":
+    "processing": "Processing",
     "submitted": "Submitted"
     "submitted_by": "Submitted By"
     "start_process": "Start Processing"
