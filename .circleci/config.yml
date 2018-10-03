@@ -310,7 +310,9 @@ jobs:
 
       - run:
           name: Apply App settings
-          command: cordova-update-config --appname "${APP_NAME}" --appid "${APP_ID}" --appversion "${APP_VERSION}"
+          command: |
+            npm install -g cordova-update-config
+            cordova-update-config --appname "${APP_NAME}" --appid "${APP_ID}" --appversion "${APP_VERSION}"
           working_directory: cordova
 
       - run:
