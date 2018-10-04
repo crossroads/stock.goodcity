@@ -68,6 +68,18 @@ export default Ember.Controller.extend({
       );
   },
 
+  //Should only be able to close if at least 1 item is dispatched and 0 is designated
+  canCloseOrder(order) {
+    let ordersPackages = order.get("ordersPackages");
+    return (ordersPackages.filterBy('state', "dispatched").length > 0 && !ordersPackages.filterBy('state', 'description').length);
+  },
+
+  //Should only be able to cancel if at least 1 item is designated and 0 is dispatched
+  canCancelOrder(order) {
+    let ordersPackages = order.get("ordersPackages");
+    return (ordersPackages.filterBy('state', 'designated').length > 0 && !ordersPackages.filterBy('state', 'dispatched').length);
+  },
+
   actions: {
     toggleOrderOptions() {
       this.toggleProperty("displayOrderOptions");
@@ -144,12 +156,20 @@ export default Ember.Controller.extend({
 
     promptCancelOrderModel(order, actionName) {
       var _this = this;
-      this.genericCustomPopUp("order_details.cancel_warning", "order.cancel_order", "not_now", function() { _this.send("changeOrderState", order, actionName); });
+      if(this.canCancelOrder(order)) {
+        this.genericCustomPopUp("order_details.cancel_warning", "order.cancel_order", "not_now", function() { _this.send("changeOrderState", order, actionName); });
+      } else {
+        this.genericAlertPopUp("order_details.cancel_order_alert", function() {});
+      }
     },
 
     promptCloseOrderModel(order, actionName) {
       var _this = this;
-      this.genericCustomPopUp("order_details.close_warning", "order.close_order", "not_now", function() { _this.send("changeOrderState", order, actionName); });
+      if(this.canCloseOrder(order)) {
+        this.genericCustomPopUp("order_details.close_warning", "order.close_order", "not_now", function() { _this.send("changeOrderState", order, actionName); });
+      } else {
+        this.genericAlertPopUp("order_details.close_order_dispatch_alert", function() {});
+      }
     },
 
     changeOrderState(order, transition) {

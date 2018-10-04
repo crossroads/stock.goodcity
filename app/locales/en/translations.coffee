@@ -70,9 +70,11 @@ I18nTranslationsEn =
     "restart_warning": "Are you sure you want to process the order again?"
     "cancel_warning": "This will remove all items from the order and cancel the order."
     "close_warning": "You will not be able to modify the order after closing it."
+    "close_order_dispatch_alert": "To close the Order, there should be 0 designated items and at least 1 dispatched item."
     "first_item_dispatch_warning": "You are dispatching first Item in the Order. This will also change state of the Order to dispatching."
     "close_order_popup": "All items in this order are dispatched. Would you like to close the Order? You will not be able to modify the order after closing it."
     "cancel_item_designate_warning": "This will also change state of the Order to processing from cancelled. Are you sure you want to designate?"
+    "cancel_order_alert": "To cancel the Order, there should be 0 dispatched items and at least 1 designated item."
 
   "order_transports":
     "gogovan_transport": "Send by van"
