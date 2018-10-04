@@ -71,7 +71,7 @@ export default Ember.Controller.extend({
   //Should only be able to close if at least 1 item is dispatched and 0 is designated
   canCloseOrder(order) {
     let ordersPackages = order.get("ordersPackages");
-    return (ordersPackages.filterBy('state', "dispatched").length > 0 && !ordersPackages.filterBy('state', 'description').length);
+    return (ordersPackages.filterBy('state', "dispatched").length > 0 && !ordersPackages.filterBy('state', 'designated').length);
   },
 
   //Should only be able to cancel if at least 1 item is designated and 0 is dispatched
