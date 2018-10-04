@@ -33,21 +33,21 @@
           <button {{action 'updateOrder' model 'finish_processing'}} class="button expand">{{t "order.finish_process"}}</button>
         </div>
         <div class="small-6 medium-6 large-6 columns">
-          <button {{action 'updateOrder' model 'cancel'}} disabled={{if model.allDesignatedOrdersPackages false 'disabled'}} class="button expand">{{t "order.cancel_order"}}</button>
+          <button {{action 'updateOrder' model 'cancel'}} disabled={{if model.designatedOrdersPackages.length false 'disabled'}} class="button expand">{{t "order.cancel_order"}}</button>
         </div>
       {{else if (is-equal model.capitalizedState "Awaiting_dispatch")}}
         <div class="small-6 medium-6 large-6 columns">
           <button {{action 'updateOrder' model 'start_dispatching'}} class="button expand">{{t "order.start_dispatching"}}</button>
         </div>
         <div class='small-6 medium-6 large-6 columns'>
-          <button {{action 'updateOrder' model 'cancel'}} disabled={{if model.allDesignatedOrdersPackages false 'disabled'}}  class="button expand">{{t "order.cancel_order"}}</button>
+          <button {{action 'updateOrder' model 'cancel'}} disabled={{if model.designatedOrdersPackages.length false 'disabled'}}  class="button expand">{{t "order.cancel_order"}}</button>
         </div>
       {{else if (is-equal model.capitalizedState "Dispatching")}}
         <div class="small-6 medium-6 large-6 columns">
-          <button {{action 'updateOrder' model 'close'}} disabled={{if model.allDispatchedOrdersPackages false 'disabled'}} class="button expand">{{t "order.close_order"}}</button>
+          <button {{action 'updateOrder' model 'close'}} disabled={{if model.designatedOrdersPackages.length 'disabled' false}} class="button expand">{{t "order.close_order"}}</button>
         </div>
         <div class='small-6 medium-6 large-6 columns'>
-          <button {{action 'updateOrder' model 'cancel'}} disabled={{if model.allDesignatedOrdersPackages false 'disabled'}}  class="button expand">{{t "order.cancel_order"}}</button>
+          <button {{action 'updateOrder' model 'cancel'}} disabled={{if model.designatedOrdersPackages.length false 'disabled'}}  class="button expand">{{t "order.cancel_order"}}</button>
         </div>
       {{/if}}
     </div>
