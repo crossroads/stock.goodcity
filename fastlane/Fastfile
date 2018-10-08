@@ -3,6 +3,13 @@ default_platform :android
 platform :ios do
 
   before_all do
+    setup_circle_ci
+    import_certificate(
+      keychain_name: ENV["MATCH_KEYCHAIN_NAME"],
+      keychain_password: ENV["MATCH_KEYCHAIN_PASSWORD"],
+      certificate_path: 'Certificates.p12',
+      certificate_password: ENV["CERTIFICATE_PASSWORD"]
+    )
     ipa_file_path = Dir["#{ENV["CIRCLE_ARTIFACTS"]}/*.ipa"].first
     ENV["PILOT_IPA"] = ENV["TESTFAIRY_IPA_PATH"] = ipa_file_path
     COPYRIGHT = "#{Time.now.year} Crossroads Foundation Limited"
