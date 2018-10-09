@@ -213,7 +213,7 @@ jobs:
           at: ~/stock.goodcity
       - run:
           name: Setup Environment variables
-          command: echo 'export ENVIRONMENT=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo production; else echo staging; fi)' >> $BASH_ENV'
+          command: echo 'export ENVIRONMENT=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo production; else echo staging; fi)' >> $BASH_ENV
       - run:
           name: setup pod
           command: pod setup
@@ -228,7 +228,6 @@ jobs:
           name: decode Provisioning Profiles
           context: org-global
           command: base64 -D -o ~/Library/MobileDevice/Provisioning\ Profiles/App_Store.mobileprovision <<< "${PROVISIONING_PROFILE}"
-
       - run:
           name: iOS build
           command: bundle exec rake ${ENVIRONMENT} ios app:build
