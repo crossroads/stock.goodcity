@@ -253,6 +253,9 @@ jobs:
           name: install cordova-update-config globally
           command: npm i -g cordova-update-config
       - run:
+          name: install cordova globally
+          command: npm i -g cordova@6.5.0
+      - run:
           name: iOS build
           command: bundle exec rake ${ENVIRONMENT} ios app:build
           working_directory: cordova
