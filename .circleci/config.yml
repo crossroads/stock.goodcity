@@ -263,32 +263,12 @@ jobs:
           at: ~/stock.goodcity
       - run:
           name: Setup Environment variables
-          command: |
-            echo 'export APP_NAME=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo Stock GoodCity; else echo S. Stock GoodCity; fi)' >> $BASH_ENV
-            echo 'export APP_ID=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo hk.goodcity.stock; else echo hk.goodcity.stockstaging; fi)' >> $BASH_ENV
-            echo 'export APP_VERSION=$(jq -r ".version" package.json)' >> $BASH_ENV
-            echo 'export ENVIRONMENT=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo production; else echo staging; fi)' >> $BASH_ENV
-            echo 'export CODE_SIGN_IDENTITY=$(if [ '$CIRCLE_BRANCH' == 'live' ]; then echo \"iPhone Distribution\"; else echo \"iPhone Developer\"; fi)' >> $BASH_ENV
-            echo 'export PACKAGE_TYPE=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo "app-store"; else echo "development"; fi)' >> $BASH_ENV
-            echo 'export ICLOUD_CONTAINER_ENV=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo "Production"; else echo "Development"; fi)' >> $BASH_ENV
-            echo 'export PATH=$PATH:`yarn bin`' >> $BASH_ENV
-            echo 'export IOS_TEAM_ID=$IOS_DEVELOPMENT_TEAM_ID' >> $BASH_ENV
-            echo 'export DEVICE= echo "--device"'
-            echo 'export PROVISIONING_PROFILE=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo $PROVISIONING_PROFILE_PROD; else echo $PROVISIONING_PROFILE_STAGING; fi)' >> $BASH_ENV
+          command: echo 'export ENVIRONMENT=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo production; else echo staging; fi)' >> $BASH_ENV'
 
       - run:
           name: setup pod
           command: pod setup
 
-      - run:
-          name: Apply App settings
-          command: cordova-update-config --appname "${APP_NAME}" --appid "${APP_ID}" --appversion "${APP_VERSION}"
-          working_directory: cordova
-
-      - run:
-          name: Cordova Prepare
-          command: cordova prepare ios
-          working_directory: cordova
       - run:
           name: decode Certificates
           context: org-global
@@ -302,8 +282,8 @@ jobs:
           command: base64 -D -o ~/Library/MobileDevice/Provisioning\ Profiles/App_Store.mobileprovision <<< "${PROVISIONING_PROFILE}"
 
       - run:
-          name: Cordova Compile
-          command: cordova compile ios --device --release --codeSignIdentity="${CODE_SIGN_IDENTITY}" --developmentTeam="${IOS_TEAM_ID}" --packageType="${PACKAGE_TYPE}" --icloud_container_environment="${ICLOUD_CONTAINER_ENV}" --automaticProvisioning=false --provisioningProfile="${PROVISIONING_PROFILE}"
+          name: iOS build
+          command: bundle exec rake ${ENVIRONMENT} ios app:build
           working_directory: cordova
 
 
