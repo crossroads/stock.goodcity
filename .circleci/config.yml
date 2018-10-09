@@ -225,7 +225,10 @@ jobs:
           at: ~/stock.goodcity
       - run:
           name: Setup Environment variables
-          command: echo 'export ENVIRONMENT=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo production; else echo staging; fi)' >> $BASH_ENV
+          command: |
+              echo 'export ENVIRONMENT=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo production; else echo staging; fi)' >> $BASH_ENV
+              echo 'export PATH=$PATH:`yarn bin`' >> $BASH_ENV
+              echo 'export PATH=$PATH:$ANDROID_HOME/tools/gradle/bin' >> $BASH_ENV
       - run: azure-filestore download -f ${KEYSTORE} && mv ${KEYSTORE} cordova/
       - run: azure-filestore download -d google-play -f ${GOOGLE_PLAY_KEY_FILE} && mv ${GOOGLE_PLAY_KEY_FILE} fastlane/
 
@@ -245,8 +248,8 @@ jobs:
           path: cordova/platforms/android/build/outputs/apk/
 
       # - run:
-      #     name: release staging build
-      #     command: bundle exec fastlane android staging
+      #     name: release android build
+      #     command: bundle exec fastlane android ${ENVIRONMENT}
       #     working_directory: ~/stock.goodcity
 
   ios_build_and_deploy:
