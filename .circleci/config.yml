@@ -208,13 +208,13 @@ jobs:
     working_directory: ~/stock.goodcity
 
     steps:
-      - run:
-          name: Set Ruby Version
-          command:  echo "ruby-2.5.1" > ~/.ruby-version
       - checkout
       - run: *yarn
       - run: yarn run bower install
-      - run: sudo bundle install --deployment --jobs=4 --retry=3
+      - run:
+          name: Set Ruby Version
+          command:  echo "ruby-2.5.1" > ~/.ruby-version
+      - run: bundle install --deployment --jobs=4 --retry=3
       - attach_workspace:
           at: ~/stock.goodcity
       - run:
