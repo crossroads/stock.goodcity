@@ -8,7 +8,7 @@ platform :ios do
     COPYRIGHT = "#{Time.now.year} Crossroads Foundation Limited"
   end
 
-  private_lane :prepare_certificates do |options|
+  lane :prepare_certificates do |options|
     setup_circle_ci
     sh("base64 -D -o Certificates.p12 <<< \"#{ENV['Certificates']}\"", log: false)
     create_keychain(
