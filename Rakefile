@@ -16,7 +16,6 @@
 #   Other tasks
 #     > rake clean (removes dist, cordova/www and app files)
 #     > rake clobber (also removes cordova/platforms and cordova/plugins)
-#     > rake ember:build
 #     > rake cordova:prepare
 #     > rake cordova:build
 #
@@ -60,7 +59,7 @@ task default: %w[app:build]
 # Main namespace
 namespace :app do
   desc 'Builds the app'
-  task build: %w[ember:build cordova:prepare cordova:build]
+  task build: %w[cordova:prepare cordova:build]
   desc 'Uploads the app to Azure storage'
   task deploy: %w[azure:upload]
   desc 'Equivalent to rake app:build app:deploy'
@@ -79,27 +78,9 @@ PLATFORMS.each do |platform|
   end
 end
 
-namespace :ember do
-  desc "Ember build with Cordova enabled"
-  task :build do
-    # Before starting Ember build clean up folders
-    Rake::Task["clobber"].invoke
-    Dir.chdir(ROOT_PATH) do
-      system({
-        "EMBER_CLI_CORDOVA" => "1",
-        "APP_SHA" => app_sha,
-        "staging" => is_staging.to_s,
-        "VERSION" => app_version
-        }, "ember build --environment=production")
-    end
-  end
-end
-
 namespace :cordova do
   desc "Cordova prepare {platform}"
   task :prepare do
-    # Before cordova prepare build ember app that will auto update the dist folder too
-    Rake::Task["ember:build"].invoke
     create_build_json_file
     sh %{ ln -s "#{ROOT_PATH}/dist" "#{CORDOVA_PATH}/www" } unless File.exists?("#{CORDOVA_PATH}/www")
     build_details.map{|key, value| log("#{key.upcase}: #{value}")}
