@@ -258,6 +258,10 @@ jobs:
           working_directory: cordova
 
       - run:
+          name: android build
+          command: bundle exec rake ${ENVIRONMENT} android app:build
+
+      - run:
           name: Cordova Prepare
           command: cordova prepare android
           working_directory: cordova
@@ -271,10 +275,10 @@ jobs:
           working_directory: cordova
       - store_artifacts:
           path: cordova/platforms/android/build/outputs/apk/
-      - run:
-          name: release staging build
-          command: bundle exec fastlane android staging
-          working_directory: ~/stock.goodcity
+      # - run:
+      #     name: release staging build
+      #     command: bundle exec fastlane android staging
+      #     working_directory: ~/stock.goodcity
 
   ios_build_setup:
 
@@ -359,9 +363,9 @@ workflows:
         - ember_cordova_build:
             requires:
               - www-deploy
-        # - android_build_and_deploy:
-        #     requires:
-        #       - ember_cordova_build
+        - android_build_and_deploy:
+            requires:
+              - ember_cordova_build
         - ios_build_setup:
             requires:
               - ember_cordova_build
