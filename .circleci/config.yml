@@ -8,7 +8,6 @@
 # cases it should duplicate the execution of your original 1.0 config.
 version: 2
 
-
 aliases:
   defaults: &defaults
       docker:
@@ -26,7 +25,6 @@ aliases:
   yarn: &yarn
       |
         yarn install --non-interactive --cache-folder ~/.cache/yarn
-
   restore-bower-cache: &restore-bower-cache
       key: v1-bower-components-{{ checksum "bower.json" }}
   save-bower-cache: &save-bower-cache
@@ -42,31 +40,8 @@ aliases:
           - vendor/bundle
 
 jobs:
-  # set_env_vars:
-  #   <<: *defaults
-
-  #   # environment:
-  #   #   BASH_ENV: ~/.bashrc
-
-  #   # steps:
-  #   #   - run:
-  #   #       command: |
-  #   #         echo 'export PATH="$PATH:$HOME/$CIRCLE_PROJECT_REPONAME/node_modules/.bin:$HOME/.yarn/bin:$ANDROID_HOME/tools"' >> $BASH_ENV
-
-  #   environment:
-  #     GRADLE_OPTS: '-Dorg.gradle.jvmargs="-Xmx1024m -XX:+HeapDumpOnOutOfMemoryError"'
-  #     XCODE_SCHEME: stock.goodcity
-  #     XCODE_WORKSPACE: stock.goodcity
-  #     GYM_CODE_SIGNING_IDENTITY: "iPhone Distribution: Crossroads Foundation Limited"
-  #     FL_TESTFAIRY_AUTO_UPDATE: "on"
-  #     PILOT_SKIP_SUBMISSION: true
-  #     PILOT_WAIT_PROCESSING_INTERVAL: 60
-  #     ANDROID_HOME: "${HOME}/android-sdk"
-  #     # PATH: "${PATH}:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin:$HOME/.yarn/bin:${ANDROID_HOME}/tools"
-
   checkout_code:
     <<: *defaults
-
     steps:
       - checkout
       - save_cache:
@@ -78,7 +53,6 @@ jobs:
     <<: *defaults
     docker:
       - image: circleci/ruby:2.5.1-node
-
     steps:
       - restore-cache: *restore-repo-cache
       - restore-cache: *restore-yarn-cache
@@ -90,7 +64,6 @@ jobs:
 
   test_cases:
     <<: *defaults
-
     steps:
       - restore-cache: *restore-repo-cache
       - restore-cache: *restore-yarn-cache
@@ -139,12 +112,6 @@ jobs:
             echo 'export APP_SHA=$(echo $CIRCLE_SHA1 | cut -c1-7)' >> $BASH_ENV
             echo 'export staging=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo false; else echo true; fi)' >> $BASH_ENV
       - run:
-          name: Print Environment variables
-          command: |
-            echo APP_SHA=$APP_SHA
-            echo EMBER_CLI_CORDOVA=$EMBER_CLI_CORDOVA
-            echo staginng=$staging
-      - run:
           command: |
             npm rebuild node-sass
             yarn run ember build --environment=production
@@ -156,7 +123,6 @@ jobs:
 
   www-deploy:
     <<: *defaults
-
     docker:
       - image: circleci/ruby:2.5.1-node
     steps:
@@ -170,9 +136,6 @@ jobs:
       - run:
           name: Setup Environment
           command: echo 'export STAGE=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo production; else echo staging; fi)' >> $BASH_ENV
-      - run:
-          name: Print Environment Variables
-          command: echo STAGE=$STAGE
       # - run: bundle exec cap $STAGE deploy:upload
 
   ember_cordova_build:
@@ -189,13 +152,6 @@ jobs:
             echo 'export APP_SHA=$(echo $CIRCLE_SHA1 | cut -c1-7)' >> $BASH_ENV
             echo 'export APP_VERSION=$(jq -r ".version" package.json)' >> $BASH_ENV
       - run:
-          name: Print Environment variables
-          command: |
-              echo EMBER_CLI_CORDOVA=$EMBER_CLI_CORDOVA
-              echo APP_SHA=$APP_SHA
-              echo staging=$staging
-              echo APP_VERSION=$APP_VERSION
-      - run:
           command: |
               npm rebuild node-sass
               yarn run ember build --environment=production
@@ -207,7 +163,6 @@ jobs:
 
   android_build_and_deploy:
     <<: *defaults
-
     docker:
       - image: circleci/android:api-25-node8-alpha
     environment:
@@ -235,15 +190,12 @@ jobs:
             wget -O /tmp/gradle.zip https://downloads.gradle.org/distributions/gradle-3.3-bin.zip
             unzip -d $ANDROID_HOME/tools /tmp/gradle.zip
             mv $ANDROID_HOME/tools/gradle-3.3 $ANDROID_HOME/tools/gradle
-
       - run:
           name: android build
           command: bundle exec rake ${ENVIRONMENT} android app:build
           working_directory: cordova
-
       - store_artifacts:
           path: cordova/platforms/android/build/outputs/apk/
-
       # - run:
       #     name: release android build
       #     command: bundle exec fastlane android ${ENVIRONMENT}
@@ -252,9 +204,7 @@ jobs:
   ios_build_and_deploy:
     macos:
       xcode: "9.2.0"
-
     working_directory: ~/stock.goodcity
-
     steps:
       - checkout
       - run: *yarn
@@ -264,11 +214,9 @@ jobs:
       - run:
           name: Setup Environment variables
           command: echo 'export ENVIRONMENT=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo production; else echo staging; fi)' >> $BASH_ENV'
-
       - run:
           name: setup pod
           command: pod setup
-
       - run:
           name: decode Certificates
           context: org-global
