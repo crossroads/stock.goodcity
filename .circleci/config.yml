@@ -209,7 +209,7 @@ jobs:
       - checkout
       - run: *yarn
       - run: yarn run bower install
-      - run: bundle install --deployment --jobs=4 --retry=3
+      - run: sudo bundle install --deployment --jobs=4 --retry=3
       - attach_workspace:
           at: ~/stock.goodcity
       - run:
