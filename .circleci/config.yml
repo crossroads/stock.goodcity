@@ -203,16 +203,15 @@ jobs:
   ios_build_and_deploy:
     macos:
       xcode: "9.2.0"
+    working_directory: ~/stock.goodcity
     shell: /bin/bash --login -eo pipefail
 
     steps:
-      - run:
-          name: install latest ruby
-          command: rvm use 2.5.1
       - checkout
       - run: *yarn
+      - save-cache: *save-yarn-cache
       - run: yarn run bower install
-      - restore-cache: *restore-bundle-cache
+      - save-cache: *save-bower-cache
       - run: bundle check || bundle install --path vendor/bundle
       - save-cache: *save-bundle-cache
       - attach_workspace:
