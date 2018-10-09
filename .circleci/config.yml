@@ -272,8 +272,8 @@ workflows:
         #       branches:
         #         only: /^(master|live|ci-2-ios-build)$/
         - ember_cordova_build:
-            # requires:
-            #   - www-deploy
+            requires:
+              - package_dependencies
             filters:
               branches:
                 only: /^(master|live|ci-2-ios-build)$/
