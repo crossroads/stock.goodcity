@@ -208,7 +208,7 @@ jobs:
     steps:
       - run:
           name: install latest ruby
-          command: ruby-install ruby
+          command: rvm use 2.5.1
       - checkout
       - run: *yarn
       - run: yarn run bower install
