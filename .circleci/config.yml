@@ -237,13 +237,6 @@ jobs:
       - run: azure-filestore download -d google-play -f ${GOOGLE_PLAY_KEY_FILE} && mv ${GOOGLE_PLAY_KEY_FILE} fastlane/
 
       - run:
-          name: Install Gradle 3.3
-          command: |
-            wget -O /tmp/gradle.zip https://downloads.gradle.org/distributions/gradle-3.3-bin.zip
-            unzip -d $ANDROID_HOME/tools /tmp/gradle.zip
-            mv $ANDROID_HOME/tools/gradle-3.3 $ANDROID_HOME/tools/gradle
-
-      - run:
           name: android build
           command: bundle exec rake ${ENVIRONMENT} android app:build
           working_directory: cordova
