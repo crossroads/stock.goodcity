@@ -219,6 +219,7 @@ jobs:
           command: |
             echo 'export APP_SHA=$(echo $CIRCLE_SHA1 | cut -c1-7)' >> $BASH_ENV
             echo 'export APP_VERSION=$(jq -r ".version" package.json)' >> $BASH_ENV
+            echo 'export ENVIRONMENT=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo production; else echo staging; fi)' >> $BASH_ENV
       - run:
           command: |
               npm rebuild node-sass
@@ -232,9 +233,6 @@ jobs:
       - save-cache: *save-bundle-cache
       - attach_workspace:
           at: ~/stock.goodcity
-      - run:
-          name: Setup Environment variables
-          command: echo 'export ENVIRONMENT=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo production; else echo staging; fi)' >> $BASH_ENV
       - run:
           name: setup pod
           command: pod setup
