@@ -204,7 +204,6 @@ jobs:
     macos:
       xcode: "9.2.0"
     shell: /bin/bash --login -eo pipefail
-    working_directory: ~/stock.goodcity
 
     steps:
       - checkout
