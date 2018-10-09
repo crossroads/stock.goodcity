@@ -208,9 +208,6 @@ jobs:
 
     steps:
       - checkout
-      - run:
-          name: Add ruby version
-          command: chruby ruby-2.5.1
       - run: *yarn
       - run: yarn run bower install
       - restore-cache: *restore-bundle-cache
