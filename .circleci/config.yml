@@ -37,6 +37,21 @@ aliases:
       key: v1-bundle-{{ checksum "Gemfile.lock" }}
       paths:
           - vendor/bundle
+  ember-cordova-build: &ember-cordova-build
+    - run:
+        name: Setup Environment variables
+        command: |
+          echo 'export APP_SHA=$(echo $CIRCLE_SHA1 | cut -c1-7)' >> $BASH_ENV
+          echo 'export APP_VERSION=$(jq -r ".version" package.json)' >> $BASH_ENV
+    - run:
+        command: |
+            npm rebuild node-sass
+            yarn run ember build --environment=production
+    - run: mv dist/ cordova/www
+    - persist_to_workspace:
+        root: .
+        paths:
+          - cordova/www
 
 jobs:
   checkout_code:
@@ -145,6 +160,7 @@ jobs:
       - restore-cache: *restore-repo-cache
       - restore-cache: *restore-yarn-cache
       - restore-cache: *restore-bower-cache
+      - make-ember-cordova-build: *ember-cordova-build
       - run:
           name: Setup Environment variables
           command: |
@@ -214,20 +230,20 @@ jobs:
       - save-cache: *save-yarn-cache
       - run: yarn run bower install
       - save-cache: *save-bower-cache
-      # - run:
-      #     name: Setup Environment variables
-      #     command: |
-      #       echo 'export APP_SHA=$(echo $CIRCLE_SHA1 | cut -c1-7)' >> $BASH_ENV
-      #       echo 'export APP_VERSION=$(jq -r ".version" package.json)' >> $BASH_ENV
-      # - run:
-      #     command: |
-      #         npm rebuild node-sass
-      #         yarn run ember build --environment=production
-      # - run: mv dist/ cordova/www
-      # - persist_to_workspace:
-      #     root: .
-      #     paths:
-      #       - cordova/www
+      - run:
+          name: Setup Environment variables
+          command: |
+            echo 'export APP_SHA=$(echo $CIRCLE_SHA1 | cut -c1-7)' >> $BASH_ENV
+            echo 'export APP_VERSION=$(jq -r ".version" package.json)' >> $BASH_ENV
+      - run:
+          command: |
+              npm rebuild node-sass
+              yarn run ember build --environment=production
+      - run: mv dist/ cordova/www
+      - persist_to_workspace:
+          root: .
+          paths:
+            - cordova/www
       - run: bundle check || bundle install --path vendor/bundle
       - save-cache: *save-bundle-cache
       - attach_workspace:
