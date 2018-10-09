@@ -260,6 +260,7 @@ jobs:
       - run:
           name: android build
           command: bundle exec rake ${ENVIRONMENT} android app:build
+          working_directory: cordova
 
       - run:
           name: Cordova Prepare
