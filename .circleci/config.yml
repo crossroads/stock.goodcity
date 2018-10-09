@@ -250,6 +250,9 @@ jobs:
           context: org-global
           command: base64 -D -o ~/Library/MobileDevice/Provisioning\ Profiles/App_Store.mobileprovision <<< "${PROVISIONING_PROFILE}"
       - run:
+          name: install cordova-update-config globally
+          command: npm i -g cordova-update-config
+      - run:
           name: iOS build
           command: bundle exec rake ${ENVIRONMENT} ios app:build
           working_directory: cordova
