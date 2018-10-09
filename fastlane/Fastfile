@@ -23,7 +23,7 @@ platform :ios do
       keychain_name: "default_keychain",
       keychain_password: ENV['KEYCHAIN_PWD']
     )
-    unlock_keychain(path:"default_keychain", password:"default")
+    unlock_keychain(path:"default_keychain", password:ENV['KEYCHAIN_PWD'])
     sh "security set-keychain-settings -t 3600 -l ~/Library/Keychains/default_keychain-db"
   end
 
