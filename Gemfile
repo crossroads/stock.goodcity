@@ -1,4 +1,4 @@
-source "https://rubygems.org"
+source "http://rubygems.org"
 gem "capistrano", "3.4.0"
 gem "rake"
 gem "fastlane"
