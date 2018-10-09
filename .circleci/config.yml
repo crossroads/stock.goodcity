@@ -249,31 +249,31 @@ workflows:
         - package_dependencies:
             requires:
               - checkout_code
-        - test_cases:
-            requires:
-              - package_dependencies
-        - upload-coverage:
-            requires:
-              - package_dependencies
-              - test_cases
-            filters:
-              branches:
-                only: /^(master|live|ci-2-ios-build)$/
-        - www_build:
-            requires:
-              - upload-coverage
-            filters:
-              branches:
-                only: /^(master|live|ci-2-ios-build)$/
-        - www-deploy:
-            requires:
-              - www_build
-            filters:
-              branches:
-                only: /^(master|live|ci-2-ios-build)$/
+        # - test_cases:
+        #     requires:
+        #       - package_dependencies
+        # - upload-coverage:
+        #     requires:
+        #       - package_dependencies
+        #       - test_cases
+        #     filters:
+        #       branches:
+        #         only: /^(master|live|ci-2-ios-build)$/
+        # - www_build:
+        #     requires:
+        #       - upload-coverage
+        #     filters:
+        #       branches:
+        #         only: /^(master|live|ci-2-ios-build)$/
+        # - www-deploy:
+        #     requires:
+        #       - www_build
+        #     filters:
+        #       branches:
+        #         only: /^(master|live|ci-2-ios-build)$/
         - ember_cordova_build:
-            requires:
-              - www-deploy
+            # requires:
+            #   - www-deploy
             filters:
               branches:
                 only: /^(master|live|ci-2-ios-build)$/
