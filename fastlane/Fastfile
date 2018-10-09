@@ -3,16 +3,28 @@ default_platform :android
 platform :ios do
 
   before_all do
-    setup_circle_ci
-    import_certificate(
-      keychain_name: ENV["MATCH_KEYCHAIN_NAME"],
-      keychain_password: ENV["MATCH_KEYCHAIN_PASSWORD"],
-      certificate_path: 'Certificates.p12',
-      certificate_password: ENV["CERTIFICATE_PASSWORD"]
-    )
     ipa_file_path = Dir["#{ENV["CIRCLE_ARTIFACTS"]}/*.ipa"].first
     ENV["PILOT_IPA"] = ENV["TESTFAIRY_IPA_PATH"] = ipa_file_path
     COPYRIGHT = "#{Time.now.year} Crossroads Foundation Limited"
+  end
+
+  private_lane :prepare_certificates do |options|
+    setup_circle_ci
+    sh("base64 -D -o Certificates.p12 <<< \"#{ENV['Certificates']}\"", log: false)
+    create_keychain(
+        name: "default_keychain",
+        default_keychain: true,
+        unlock: true,
+        password: ENV['KEYCHAIN_PWD']
+    )
+    import_certificate(
+      certificate_path: "fastlane/Certificates.p12",
+      certificate_password: ENV['CERTIFICATE_PASSWORD'],
+      keychain_name: "default_keychain",
+      keychain_password: ENV['KEYCHAIN_PWD']
+    )
+    unlock_keychain(path:"default_keychain", password:"default")
+    sh "security set-keychain-settings -t 3600 -l ~/Library/Keychains/default_keychain-db"
   end
 
   desc "Generate staging build (just upload to TestFairy)"

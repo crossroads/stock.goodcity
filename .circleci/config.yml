@@ -254,6 +254,10 @@ jobs:
           name: install cordova globally
           command: npm i -g cordova@6.5.0
       - run:
+          name: create keychain and import certificates
+          command: bundle exec fastlane ios prepare_certificates circleci:true
+          working_directory: ~/stock.goodcity
+      - run:
           name: iOS build
           command: bundle exec rake ${ENVIRONMENT} ios app:build
           working_directory: cordova
