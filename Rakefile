@@ -106,10 +106,6 @@ namespace :cordova do
       extra_params = (platform === "android") ? '' : ios_build_config
       system({"ENVIRONMENT" => environment}, "cordova compile #{platform} --#{build} --device #{extra_params}")
     end
-    # Copy build artifacts
-    if ENV["CI"]
-      sh %{ if [ -e "#{app_file}" ]; then cp "#{app_file}" "${CIRCLE_ARTIFACTS:-$BUILD_STAGINGDIRECTORY}/"; fi }
-    end
   end
 end
 
