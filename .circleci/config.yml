@@ -207,8 +207,12 @@ jobs:
     working_directory: ~/stock.goodcity
 
     steps:
-      - restore-cache: *restore-repo-cache
-      - restore-cache: *restore-yarn-cache
+      - checkout
+      - run:
+          name: Add ruby version
+          command: chruby ruby-2.5.1
+      - run: *yarn
+      - run: yarn run bower install
       - restore-cache: *restore-bundle-cache
       - run: bundle check || bundle install --path vendor/bundle
       - save-cache: *save-bundle-cache
