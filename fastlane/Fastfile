@@ -10,7 +10,6 @@ platform :ios do
 
   lane :prepare_certificates do |options|
     setup_circle_ci
-    sh("base64 -D -o Certificates.p12 <<< \"#{ENV['P12CERTIFICATES']}\"", log: false)
     create_keychain(
         name: "default_keychain",
         default_keychain: true,
