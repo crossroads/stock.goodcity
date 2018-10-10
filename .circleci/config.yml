@@ -229,10 +229,6 @@ jobs:
           name: setup pod
           command: pod setup
       - run:
-          name: decode Certificates
-          context: org-global
-          command: base64 -D -o Certificates.p12 <<< "${CERTIFICATES}"
-      - run:
           name: make Provisioning Profiles directory
           command: mkdir -pv ~/Library/MobileDevice/Provisioning\ Profiles/
       - run:
