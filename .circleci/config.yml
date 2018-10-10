@@ -197,7 +197,7 @@ jobs:
     shell: /bin/bash --login -eo pipefail
     environment:
         EMBER_CLI_CORDOVA: "1"
-        CIRCLE_ARTIFACTS: /home/circleci/stock.goodcity/cordova/platforms/ios/build/device
+        CIRCLE_ARTIFACTS: /Users/distiller/stock.goodcity/cordova/platforms/ios/build/device
 
     steps:
       - checkout
