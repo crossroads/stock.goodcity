@@ -1,11 +1,3 @@
-# This configuration was automatically generated from a CircleCI 1.0 config.
-# It should include any build commands you had along with commands that CircleCI
-# inferred from your project structure. We strongly recommend you read all the
-# comments in this file to understand the structure of CircleCI 2.0, as the idiom
-# for configuration has changed substantially in 2.0 to allow arbitrary jobs rather
-# than the prescribed lifecycle of 1.0. In general, we recommend using this generated
-# configuration as a reference rather than using it in production, though in most
-# cases it should duplicate the execution of your original 1.0 config.
 version: 2
 
 aliases:
@@ -185,10 +177,10 @@ jobs:
           working_directory: cordova
       - store_artifacts:
           path: cordova/platforms/android/build/outputs/apk/
-      # - run:
-      #     name: release android build
-      #     command: bundle exec fastlane android ${ENVIRONMENT}
-      #     working_directory: ~/stock.goodcity
+      - run:
+          name: release android build
+          command: bundle exec fastlane android ${ENVIRONMENT}
+          working_directory: ~/stock.goodcity
 
   ios_build_and_deploy:
     macos:
@@ -262,46 +254,46 @@ workflows:
         - package_dependencies:
             requires:
               - checkout_code
-        # - test_cases:
-        #     requires:
-        #       - package_dependencies
-        # - upload-coverage:
-        #     requires:
-        #       - package_dependencies
-        #       - test_cases
-        #     filters:
-        #       branches:
-        #         only: /^(master|live|ci-2-ios-build)$/
-        # - www_build:
-        #     requires:
-        #       - upload-coverage
-        #     filters:
-        #       branches:
-        #         only: /^(master|live|ci-2-ios-build)$/
-        # - www-deploy:
-        #     requires:
-        #       - www_build
-        #     filters:
-        #       branches:
-        #         only: /^(master|live|ci-2-ios-build)$/
-        - ember_cordova_build:
+        - test_cases:
             requires:
               - package_dependencies
+        - upload-coverage:
+            requires:
+              - package_dependencies
+              - test_cases
             filters:
               branches:
-                only: /^(master|live|ci-2-ios-build)$/
+                only: /^(master|live)$/
+        - www_build:
+            requires:
+              - upload-coverage
+            filters:
+              branches:
+                only: /^(master|live)$/
+        - www-deploy:
+            requires:
+              - www_build
+            filters:
+              branches:
+                only: /^(master|live)$/
+        - ember_cordova_build:
+            requires:
+              - www-deploy
+            filters:
+              branches:
+                only: /^(master|live)$/
         - android_build_and_deploy:
             requires:
               - ember_cordova_build
             filters:
               branches:
-                only: /^(master|live|ci-2-ios-build)$/
+                only: /^(master|live)$/
         - ios_build_and_deploy:
             requires:
               - ember_cordova_build
             filters:
               branches:
-                only: /^(master|live|ci-2-ios-build)$/
+                only: /^(master|live)$/
 
 
 
