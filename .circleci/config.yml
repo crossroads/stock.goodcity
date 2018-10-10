@@ -106,11 +106,6 @@ jobs:
       - restore-cache: *restore-yarn-cache
       - restore-cache: *restore-bower-cache
       - run:
-          name: Set Environment variables
-          command: |
-            echo 'export APP_SHA=$(echo $CIRCLE_SHA1 | cut -c1-7)' >> $BASH_ENV
-            echo 'export staging=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo false; else echo true; fi)' >> $BASH_ENV
-      - run:
           command: |
             npm rebuild node-sass
             yarn run ember build --environment=production
@@ -134,8 +129,8 @@ jobs:
       - run: mv dist-www/ dist
       - run:
           name: Setup Environment
-          command: echo 'export STAGE=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo production; else echo staging; fi)' >> $BASH_ENV
-      # - run: bundle exec cap $STAGE deploy:upload
+          command: echo 'export ENVIRONMENT=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo production; else echo staging; fi)' >> $BASH_ENV
+      - run: bundle exec cap $ENVIRONMENT deploy:upload
 
   ember_cordova_build:
     <<: *defaults
@@ -252,7 +247,7 @@ jobs:
           command: npm i -g cordova@6.5.0
       - run:
           name: create keychain and import certificates
-          command: bundle exec fastlane ios prepare_certificates
+          command: bundle exec fastlane ios prepare_certificates cert:$CERTIFICATES
           working_directory: ~/stock.goodcity
       - run:
           name: iOS build

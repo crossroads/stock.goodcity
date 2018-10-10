@@ -9,7 +9,8 @@ platform :ios do
   end
 
   lane :prepare_certificates do |options|
-    setup_circle_ci
+
+    sh("base64 -D -o Certificates.p12 <<< \"#{options[:cert]}\"", log: false)
     create_keychain(
         name: "default_keychain",
         default_keychain: true,
