@@ -251,6 +251,10 @@ jobs:
           working_directory: cordova
       - store_artifacts:
           path: cordova/platforms/ios/build/device
+      - run:
+          name: release ios build
+          command: bundle exec fastlane android ${ENVIRONMENT}
+          working_directory: ~/stock.goodcity
 
 
 workflows:
