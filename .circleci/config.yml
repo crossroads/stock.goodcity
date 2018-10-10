@@ -226,9 +226,6 @@ jobs:
       - attach_workspace:
           at: ~/stock.goodcity
       - run:
-          name: setup pod
-          command: pod setup
-      - run:
           name: make Provisioning Profiles directory
           command: mkdir -pv ~/Library/MobileDevice/Provisioning\ Profiles/
       - run:
