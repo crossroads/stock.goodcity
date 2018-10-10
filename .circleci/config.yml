@@ -146,11 +146,6 @@ jobs:
       - restore-cache: *restore-yarn-cache
       - restore-cache: *restore-bower-cache
       - run:
-          name: Setup Environment variables
-          command: |
-            echo 'export APP_SHA=$(echo $CIRCLE_SHA1 | cut -c1-7)' >> $BASH_ENV
-            echo 'export APP_VERSION=$(jq -r ".version" package.json)' >> $BASH_ENV
-      - run:
           command: |
               npm rebuild node-sass
               yarn run ember build --environment=production
@@ -218,10 +213,8 @@ jobs:
           name: Setup Environment variables
           command: |
             echo 'export PATH=$PATH:`yarn bin`' >> $BASH_ENV
-            echo 'export APP_SHA=$(echo $CIRCLE_SHA1 | cut -c1-7)' >> $BASH_ENV
-            echo 'export APP_VERSION=$(jq -r ".version" package.json)' >> $BASH_ENV
             echo 'export ENVIRONMENT=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo production; else echo staging; fi)' >> $BASH_ENV
-            echo 'export PROVISIONING_PROFILE=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo $PROVISIONING_PROFILE_PROD; else echo $ENCODED_STAGING_PROVISIONING_PROFILE; fi)' >> $BASH_ENV
+            echo 'export PROVISIONING_PROFILE=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo $ENCODED_PROD_PROVISIONING_PROFILE; else echo $ENCODED_STAGING_PROVISIONING_PROFILE; fi)' >> $BASH_ENV
       - run:
           command: |
               npm rebuild node-sass
