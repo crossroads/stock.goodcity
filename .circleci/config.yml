@@ -215,6 +215,7 @@ jobs:
             echo 'export PATH=$PATH:`yarn bin`' >> $BASH_ENV
             echo 'export ENVIRONMENT=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo production; else echo staging; fi)' >> $BASH_ENV
             echo 'export PROVISIONING_PROFILE=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo $ENCODED_PROD_PROVISIONING_PROFILE; else echo $ENCODED_STAGING_PROVISIONING_PROFILE; fi)' >> $BASH_ENV
+            echo 'export CERTIFICATES=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo $PROD_CERT; else echo $STAGING_CERT; fi)' >> $BASH_ENV
       - run:
           command: |
               npm rebuild node-sass
@@ -234,7 +235,7 @@ jobs:
       - run:
           name: decode Certificates
           context: org-global
-          command: base64 -D -o Certificates.p12 <<< $P12CERTIFICATES
+          command: base64 -D -o Certificates.p12 <<< "${P12CERTIFICATES}"
       - run:
           name: make Provisioning Profiles directory
           command: mkdir -pv ~/Library/MobileDevice/Provisioning\ Profiles/
