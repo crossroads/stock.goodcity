@@ -24,7 +24,8 @@ FactoryGuy.define('designation', {
     gc_organisation:     FactoryGuy.belongsTo('gc_organisation'),
     submittedBy:         FactoryGuy.belongsTo('user'),
     orders_packages:     FactoryGuy.hasMany('orders_package'),
-    orders_purposes:     FactoryGuy.hasMany('orders_purpose')
+    orders_purposes:     FactoryGuy.hasMany('orders_purpose'),
+    goodcity_requests:   FactoryGuy.hasMany('goodcity_request')
   },
   designation_with_item: {
     item: FactoryGuy.hasMany('item')

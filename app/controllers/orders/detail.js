@@ -38,13 +38,17 @@ export default Ember.Controller.extend({
   }),
 
   itemsList: Ember.computed('model.items', 'displayAllItems', 'model.ordersPackages', 'model.ordersPackages.@each.quantity', 'model.ordersPackages.@each.state', function() {
-    var ordersPackages =  this.get("model.ordersPackages").rejectBy('state', "requested").rejectBy("state", "cancelled");
+    var ordersPackages =  this.get("model.ordersPackages").rejectBy('state', "requested").rejectBy("state", "cancelled").rejectBy('state', null);
     return this.get("displayAllItems") ? ordersPackages : ordersPackages.slice(0, 3);
   }),
 
   canceledItemsList: Ember.computed('model.items', 'displayAllItems', 'model.ordersPackages', 'model.ordersPackages.@each.quantity', 'model.ordersPackages.@each.state', function() {
-    var ordersPackages =  this.get("model.ordersPackages").filterBy('state', "cancelled");
+    var ordersPackages =  this.get("model.ordersPackages").filterBy('state', "cancelled").rejectBy('state', null);
     return this.get("displayAllItems") ? ordersPackages : ordersPackages.slice(0, 3);
+  }),
+
+  ordersPkgLength: Ember.computed('model.items', 'displayAllItems', 'model.ordersPackages', 'model.ordersPackages.@each.quantity', 'model.ordersPackages.@each.state', function() {
+    return this.get("model.ordersPackages").rejectBy('state', 'requested').rejectBy('state', null).length;
   }),
 
   genericCustomPopUp(message, button1text, button2text, btn1Callback) {
@@ -62,6 +66,18 @@ export default Ember.Controller.extend({
     this.get("messageBox").alert(_this.get("i18n").t(message),
       () => { btn1Callback(); }
       );
+  },
+
+  //Should only be able to close if at least 1 item is dispatched and 0 is designated
+  canCloseOrder(order) {
+    let ordersPackages = order.get("ordersPackages");
+    return (ordersPackages.filterBy('state', "dispatched").length > 0 && !ordersPackages.filterBy('state', 'designated').length);
+  },
+
+  //Should only be able to cancel if at least 1 item is designated and 0 is dispatched
+  canCancelOrder(order) {
+    let ordersPackages = order.get("ordersPackages");
+    return (ordersPackages.filterBy('state', 'designated').length > 0 && !ordersPackages.filterBy('state', 'dispatched').length);
   },
 
   actions: {
@@ -131,7 +147,7 @@ export default Ember.Controller.extend({
 
     promptRestartProcessModel(order, actionName) {
       var _this = this;
-      if(!order.get('allDesignatedOrdersPackages')) {
+      if(order.get('dispatchedOrdersPackages').length) {
         this.genericAlertPopUp("order_details.restart_undispatch_warning", function() { _this.send("toggleDisplayOptions"); });
       } else {
         this.genericCustomPopUp("order_details.restart_warning", "order.restart_process", "not_now", function() { _this.set("isOrderProcessRestarted", true); _this.send("changeOrderState", order, actionName); });
@@ -140,12 +156,20 @@ export default Ember.Controller.extend({
 
     promptCancelOrderModel(order, actionName) {
       var _this = this;
-      this.genericCustomPopUp("order_details.cancel_warning", "order.cancel_order", "not_now", function() { _this.send("changeOrderState", order, actionName); });
+      if(this.canCancelOrder(order)) {
+        this.genericCustomPopUp("order_details.cancel_warning", "order.cancel_order", "not_now", function() { _this.send("changeOrderState", order, actionName); });
+      } else {
+        this.genericAlertPopUp("order_details.cancel_order_alert", function() {});
+      }
     },
 
     promptCloseOrderModel(order, actionName) {
       var _this = this;
-      this.genericCustomPopUp("order_details.close_warning", "order.close_order", "not_now", function() { _this.send("changeOrderState", order, actionName); });
+      if(this.canCloseOrder(order)) {
+        this.genericCustomPopUp("order_details.close_warning", "order.close_order", "not_now", function() { _this.send("changeOrderState", order, actionName); });
+      } else {
+        this.genericAlertPopUp("order_details.close_order_dispatch_alert", function() {});
+      }
     },
 
     changeOrderState(order, transition) {

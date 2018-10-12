@@ -1,0 +1,31 @@
+.first-line {
+  margin-top: -0.8rem;
+}
+
+.icon {
+  color: #f34d4f !important;
+  text-align: right;
+}
+
+.req-first-row {
+  margin-top: -0.25rem !important;
+  @media #{$small-only} {
+    font-size: 0.7rem !important;
+  }
+}
+
+.req-second-row {
+  margin-top: -0.75rem !important;
+  .request-value {
+    height: 1rem !important;
+  }
+}
+
+.req-third-row {
+  margin-top: 0.5rem !important;
+}
+
+.after-req-line {
+  margin-top: -1rem !important;
+  margin-bottom: -0.25rem !important;
+}

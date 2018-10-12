@@ -1,11 +1,15 @@
 import Ember from 'ember';
 import { translationMacro as t } from "ember-i18n";
+import AjaxPromise from 'stock/utils/ajax-promise';
+const { getOwner } = Ember;
 
 export default Ember.Controller.extend({
 
-  queryParams: ["backToNewItem"],
+  queryParams: ["backToNewItem", "orderId", "changeCode", "reqId"],
+  reqId: null,
   backToNewItem: false,
-
+  changeCode: false,
+  orderId: null,
   filter: '',
   searchText: '',
   fetchMoreResult: true,
@@ -76,6 +80,24 @@ export default Ember.Controller.extend({
   },
 
   actions: {
+    updateRequestCode(packageType, requestId) {
+      var url = `/goodcity_requests/${requestId}`;
+      var request = this.get("store").peekRecord("goodcity_request", requestId);
+      var designation = request.get("designation");
+      var requestParams = {
+        package_type_id: packageType.id
+      };
+      var loadingView = getOwner(this).lookup('component:loading').append();
+      new AjaxPromise(url, "PUT", this.get('session.authToken'), { goodcity_request: requestParams })
+        .then(data => {
+          this.get("store").pushPayload(data);
+        })
+        .finally(() => {
+          loadingView.destroy();
+          this.transitionToRoute("orders.requested_items", designation.id);
+        });
+    },
+
     clearSearch(isCancelled) {
       this.set('filter', '');
       this.set('searchText', '');

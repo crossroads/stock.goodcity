@@ -1,0 +1,52 @@
+<nav class="tab-bar new-item-nav">
+  <section class="tab-bar-section">
+    <h1 class="title">Add Request - {{parentCodeName}}</h1>
+  </section>
+</nav>
+
+<section class="main-section new-item-section ui">
+
+  {{#validatable-form onSubmit=(action 'saveRequest') as |form|}}
+
+  <div class="row image-box-row">
+    <div class="small-12 columns">
+      <div class="row">
+        <div class="small-3 columns item-label">
+          Quantity*
+        </div>
+        <div class="small-7 large-8 columns left">
+          {{#form-control}}
+            {{numeric-input id='qty' name="qty" value=quantity maxlength="8" required='true' pattern="\d{1,8}"}}
+            <div class='input-error'>Quantity cannot be blank.</div>
+          {{/form-control}}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="small-3 columns item-label">
+      Description
+    </div>
+    <div class="small-9 columns description-block">
+      {{#form-control}}
+        <i class="fa fa-times-circle remove-text" aria-hidden="true" {{action "clearDescription"}}></i>
+        {{auto-resize-textarea data-autoresize=true name="description" value=description pattern=".*\S.*" id="description"}}
+      {{/form-control}}
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="small-6 columns">
+      <a {{action 'cancelRequest'}} class="button secondary expand">Cancel</a>
+    </div>
+
+    <div class="small-6 columns">
+      <a {{action 'submit' target=form}} class="button expand">Save</a>
+    </div>
+  </div>
+
+  {{/validatable-form}}
+</section>
+
+{{partial "loading_image"}}

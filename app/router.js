@@ -35,6 +35,8 @@ Router.map(function() {
   this.route("orders", function() {
     this.route('detail', { path: '/:order_id' });
     this.route('summary', { path: '/:order_id/summary' });
+    this.route("add_request", { path: '/:order_id/add_request' });
+    this.route('search_code', { path: '/:order_id/search_code' });
     this.route('request_items', { path: '/:order_id/request_items' });
     this.route('items_list', { path: '/:order_id/items_list' });
     this.route('active_items', { path: '/:order_id/active_items' });

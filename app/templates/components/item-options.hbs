@@ -13,7 +13,7 @@
   {{else}}
     {{#if (is-and (is-and (is-and item.isSingletonItem order.isGoodCityOrder) (is-not order.isCancelled)) (is-not ordersPackage.isCancelled))}}
       <div>
-        <a href="#" {{action 'dispatchOrdersPackagePopUp' item}} >
+        <a href="#" {{action 'dispatchOrdersPackagePopUp' item ordersPackage.id}} >
           <i class="fa item-menu fa-ship"></i>
           {{t "item.dispatch"}}
       </a>

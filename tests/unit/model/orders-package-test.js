@@ -2,7 +2,7 @@ import { test, moduleForModel } from 'ember-qunit';
 import Ember from 'ember';
 
 moduleForModel('orders_package', 'OrdersPackage Model', {
-  needs: ['model:order-transport', 'model:gc_organisation', 'model:item', 'model:image', 'model:donor_condition', 'model:user', 'model:designation', 'model:code', 'model:location', 'model:contact', 'model:organisation', 'model:local-order', 'service:utilityMethods']
+  needs: ['model:order-transport', 'model:gc_organisation', 'model:item', 'model:image', 'model:donor_condition', 'model:user', 'model:designation', 'model:code', 'model:location', 'model:contact', 'model:organisation', 'model:local-order', 'service:utilityMethods', 'service:i18n']
 });
 
 test('check attributes', function(assert){

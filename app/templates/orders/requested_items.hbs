@@ -9,4 +9,53 @@
   {{partial "orders/order_status_bar"}}
   {{partial "orders/order_tabs"}}
   {{partial "orders/items_list_tabs"}}
+  {{#unless (is-or (is-or model.isInactive model.isCancelled) model.isClosed)}}
+    <div class="row add_item_button">
+      <div class="small-12 columns">
+        {{#link-to "orders.search_code" model.id (query-params orderId=model.id searchInput="" changeCode=false) id="requestbtn" class="button expand"}}{{t "order_details.add_request_to_order"}}{{/link-to}}
+      </div>
+    </div>
+  {{/unless}}
+  <section class="main-section item_details_screen">
+    <div class="row first-line">
+      <hr/>
+    </div>
+    {{#each sortedGcRequests as |req|}}
+      <div class="row detail-section">
+        <div class="columns small-12">
+          <div class="row req-first-row">
+            <div class="columns small-4 request-quantity">Quantity </div>
+            <div class="columns small-6 request-value">
+              {{request-inline-input id=(concat 'qty' req.id) name="quantity" class="numeric-input item-width small-3 columns" value=req.quantity maxlength="5"  request=req}}
+            </div>
+            <div class='small-2 columns icon-center'>
+              <i class='fa fa-times-circle fa-2x icon' {{action "deleteRequest" req.id on="click"}}></i>
+            </div>
+          </div>
+          <div class="row req-second-row">
+            <div class="columns small-4 request-type">Type </div>
+            <div class="columns small-8 request-value">
+              {{#link-to 'orders.search_code' model.id (query-params changeCode=true reqId=req.id)}}
+                {{input value=req.code.name class="item-type" disabled=true}}
+              {{/link-to}}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row detail-section">
+        <div class="columns small-12">
+          <div class="row req-third-row">
+            <div class="columns small-4 request-desc">Description </div>
+            <div class="columns small-8 value request-description">
+              {{request-description-textarea data-autoresize=true name="description" value=req.description pattern=".*\S.*" id=(concat 'desc' req.id) class="description-textarea" request=req}}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="after-req-line row">
+        <hr/>
+      </div>
+    {{/each}}
+  </section>
 </section>

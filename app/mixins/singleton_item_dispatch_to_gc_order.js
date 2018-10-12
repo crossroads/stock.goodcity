@@ -28,7 +28,7 @@ export default Ember.Mixin.create({
   },
 
   actions: {
-    dispatchOrdersPackagePopUp(item) {
+    dispatchOrdersPackagePopUp(item, ordersPkgId) {
       if(!item.get("isSingletonItem")) { return false; }
       var _this = this;
       var designation = item.get("ordersPackages").filterBy("state", "designated").get("firstObject").get("designation");
@@ -42,21 +42,21 @@ export default Ember.Mixin.create({
           });
       } else if(this.canDispatchOrder(designation)) {
         //Change state of order to Dispatching if first item dispatched and order is in awaiting dispatch state
-        this.genericCustomPopUp("order_details.first_item_dispatch_warning", "item.cap_dispatch", "not_now", function() { _this.send("apiRequests", item, designation); });
+        this.genericCustomPopUp("order_details.first_item_dispatch_warning", "item.cap_dispatch", "not_now", function() { _this.send("apiRequests", item, designation, ordersPkgId); });
       } else {
         //If order is in dispatching state and one item is already dispatched then show dispatch confirmation pop-up
-        this.genericCustomPopUp("item.dispatch_message", "item.cap_dispatch", "not_now", function() { _this.send("apiRequests", item, designation); });
+        this.genericCustomPopUp("item.dispatch_message", "item.cap_dispatch", "not_now", function() { _this.send("apiRequests", item, designation, ordersPkgId); });
       }
     },
 
-    apiRequests(item, designation) {
-      this.send("dispatchItem", item, designation);
+    apiRequests(item, designation, ordersPkgId) {
+      this.send("dispatchItem", item, designation, ordersPkgId);
       if(designation.get("isAwaitingDispatch")) {
         this.send("updateOrderState", designation, "start_dispatching");
       }
     },
 
-    dispatchItem(item, designation) {
+    dispatchItem(item, designation, ordersPkgId) {
       var _this = this;
       var pkgLocation = item.get("packagesLocations.firstObject");
       var packagesLocationQty = [];
@@ -66,7 +66,7 @@ export default Ember.Mixin.create({
       packagesLocationQty.push(record);
 
       var  properties = {
-        order_package_id: item.get('ordersPackages.firstObject.id'),
+        order_package_id: ordersPkgId,
         package_id: item.get("id")
       };
 

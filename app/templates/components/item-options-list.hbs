@@ -34,7 +34,7 @@
   <div class="{{unless item.isSingletonItem 'disabled'}} {{unless item.hasOneDesignatedPackage 'disabled'}}">
     {{#if (is-and item.isSingletonItem item.designation.isGoodCityOrder)}}
       <div>
-        <a href="#" {{action 'dispatchOrdersPackagePopUp' item}} >
+        <a href="#" {{action 'dispatchOrdersPackagePopUp' item item.firstDesignatedOrdersPackage.id}} >
           <i class="fa item-menu fa-ship"></i>
           {{t "item.dispatch"}}
         </a>

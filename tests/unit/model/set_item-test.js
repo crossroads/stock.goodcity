@@ -2,7 +2,7 @@ import { test, moduleForModel } from 'ember-qunit';
 import Ember from 'ember';
 
 moduleForModel('set_item', 'SetItem model',{
-  needs: ['model:order-transport', 'model:code', 'model:gc_organisation', 'model:item', 'model:designation', 'model:location', 'model:code', 'model:donor_condition', 'model:packages_location', 'model:orders_package', 'model:image', 'model:contact', 'model:organisation', 'model:local-order', 'service:utilityMethods']
+  needs: ['model:order-transport', 'model:code', 'model:gc_organisation', 'model:item', 'model:designation', 'model:location', 'model:code', 'model:donor_condition', 'model:packages_location', 'model:orders_package', 'model:image', 'model:contact', 'model:organisation', 'model:local-order', 'service:utilityMethods', 'service:i18n']
 });
 
 test('check attributes', function(assert){
@@ -241,6 +241,6 @@ test('designations: returns designated ordersPackages', function(assert){
       designation: designation });
     model.get('designatedSetItemOrderPackages').pushObject([ordersPackage]);
   });
-
+  
   assert.equal(model.get('designations.length'), 1);
 });
