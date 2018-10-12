@@ -36,6 +36,7 @@ export default Ember.Controller.extend(InfinityRoute, {
   minSearchTextLength: 0,
   searchInput: null,
   toDesignateItem: null,
+  excludeAssociations: false,
 
   hasSearchText: Ember.computed("searchText", function() {
     return !!this.get("searchText");
@@ -60,7 +61,7 @@ export default Ember.Controller.extend(InfinityRoute, {
 
       this.infinityModel(this.get("searchModelName"),
         { perPage: 25, startingPage: 1, modelPath: 'filteredResults',stockRequest: true },
-        { searchText: "searchText", itemId: "itemSetId", toDesignateItem: "toDesignateItem", showQuantityItems: "showQuantityItems" })
+        { searchText: "searchText", itemId: "itemSetId", toDesignateItem: "toDesignateItem", showQuantityItems: "showQuantityItems", shallow: "excludeAssociations" })
         .then(data => {
           data.forEach(record => {
             if (this.onItemLoaded) {
