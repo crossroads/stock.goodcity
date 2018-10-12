@@ -74,11 +74,11 @@ module.exports = function(environment) {
   };
 
   if (environment === 'development') {
-    ENV.APP.API_HOST_URL = 'http://localhost:3000';
+    ENV.APP.API_HOST_URL = 'http://localhost:4000';
     ENV.APP.SOCKETIO_WEBSERVICE_URL = 'http://localhost:1337/goodcity';
 
     ENV.contentSecurityPolicy["connect-src"] = [
-      'http://localhost:3000',
+      'http://localhost:4000',
       'https://api.cloudinary.com',
       'http://localhost:4203',
       'http://localhost:1337',
