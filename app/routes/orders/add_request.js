@@ -8,5 +8,10 @@ export default getOrderRoute.extend({
       order: order || this.store.findRecord('designation', params.orderId),
       codes: this.store.query('code', { stock: true })
     });
+  },
+
+  setupController(controller, model){
+    this._super(controller, model);
+    controller.set('quantity', 1);
   }
 });
