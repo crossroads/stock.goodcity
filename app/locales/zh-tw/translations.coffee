@@ -85,6 +85,7 @@ I18nTranslationsEn =
   "order":
     "processing": "處理中"
     "submitted": "訂單已經提交"
+    "draft": "等待提交"
     "start_process": "開始訂單處理"
     "restart_process": "重新開始訂單處理"
     "finish_process": "完成訂單處理"
