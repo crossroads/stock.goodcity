@@ -86,6 +86,7 @@ I18nTranslationsEn =
   "order":
     "processing": "Processing"
     "submitted": "Submitted"
+    "draft": "Draft"
     "submitted_by": "Submitted By"
     "start_process": "Start Processing"
     "restart_process": "Restart Processing"
