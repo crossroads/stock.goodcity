@@ -22,37 +22,37 @@
 # For iOS builds, CFBundleVersion is set to the Circle CI build niumber.
 # There is a one to one mapping to the build number on iTunesConnect
 
-import os
-import sys
-from xml.etree import ElementTree
+# import os
+# import sys
+# from xml.etree import ElementTree
 
-ANDROID_BUILD_VERSION_SEED = 1000
+# ANDROID_BUILD_VERSION_SEED = 1000
 
-def get_circleci_build():
-    build_number = os.getenv('CIRCLE_BUILD_NUM')
-    if not build_number:
-        print "Missing build number, skip updating"
-        sys.exit()
-    return build_number
+# def get_circleci_build():
+#     build_number = os.getenv('CIRCLE_BUILD_NUM')
+#     if not build_number:
+#         print "Missing build number, skip updating"
+#         sys.exit()
+#     return build_number
 
-def get_ios_build_no():
-    return get_circleci_build()
+# def get_ios_build_no():
+#     return get_circleci_build()
 
-def get_android_build_no():
-    return str(ANDROID_BUILD_VERSION_SEED + int(get_circleci_build()))
+# def get_android_build_no():
+#     return str(ANDROID_BUILD_VERSION_SEED + int(get_circleci_build()))
 
-cordova_path = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..'))
-config_xml_path = os.path.join(cordova_path, 'config.xml')
-android_build_no = get_android_build_no()
-ios_build_no = get_ios_build_no()
+# cordova_path = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..'))
+# config_xml_path = os.path.join(cordova_path, 'config.xml')
+# android_build_no = get_android_build_no()
+# ios_build_no = get_ios_build_no()
 
-ElementTree.register_namespace('', 'http://www.w3.org/ns/widgets')
-tree = ElementTree.parse(config_xml_path)
-root = tree.getroot()
+# ElementTree.register_namespace('', 'http://www.w3.org/ns/widgets')
+# tree = ElementTree.parse(config_xml_path)
+# root = tree.getroot()
 
-root.attrib['android-versionCode'] = android_build_no
-root.attrib['ios-CFBundleVersion'] = ios_build_no
+# root.attrib['android-versionCode'] = android_build_no
+# root.attrib['ios-CFBundleVersion'] = ios_build_no
 
-tree.write(config_xml_path)
+# tree.write(config_xml_path)
 
-print "Updated versionCode to {} and CFBundleVersion to {}".format(android_build_no, ios_build_no)
+# print "Updated versionCode to {} and CFBundleVersion to {}".format(android_build_no, ios_build_no)
