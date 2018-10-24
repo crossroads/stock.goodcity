@@ -79,9 +79,14 @@
             <string>Needs photo library access to save photos</string>
         </config-file>
     </platform>
+    <universal-links>
+        <ios-team-id value="6B8FS8W94M" />
+        <host name="abc.com" scheme="https" />
+    </universal-links>
     <engine name="ios" spec="https://github.com/apache/cordova-ios.git#4.5.5" />
     <engine name="android" spec="~6.3.0" />
     <engine name="windows" spec="~4.3.1" />
+    <plugin name="cordova-plugin-deeplinks" spec="https://github.com/e-imaxina/cordova-plugin-deeplinks.git" />
     <plugin name="cordova-plugin-statusbar" spec="~2.1.1" />
     <plugin name="cordova-plugin-actionsheet" spec="https://github.com/EddyVerbruggen/cordova-plugin-actionsheet.git" />
     <plugin name="cordova-plugin-camera" spec="~2.1.1" />
