@@ -56,7 +56,7 @@ deployment:
   staging:
     branch: app-deep-linking
     commands:
-      # - bundle exec cap staging deploy
+      - bundle exec cap staging deploy
       - bundle exec rake staging android app:build
       - bundle exec fastlane android staging
       - bundle exec rake staging ios app:build
