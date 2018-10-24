@@ -82,7 +82,9 @@
     </platform>
     <universal-links>
         <ios-team-id value="6B8FS8W94M" />
-        <host name="stock-staging.goodcity.hk" scheme="https" />
+        <host name="stock-staging.goodcity.hk" scheme="https" event="deeplink">
+            <path url="/*" />
+        </host>
         <host name="stock.goodcity.hk" scheme="https" />
     </universal-links>
     <engine name="ios" spec="https://github.com/apache/cordova-ios.git#4.5.5" />
