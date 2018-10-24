@@ -78,9 +78,6 @@
             <string>Needs photo library access to save photos</string>
         </edit-config>
     </platform>
-    <engine name="ios" spec="https://github.com/apache/cordova-ios.git#4.5.5" />
-    <engine name="android" spec="~5.1.1" />
-    <engine name="windows" spec="~4.3.1" />
     <plugin name="cordova-plugin-statusbar" spec="~2.1.1" />
     <plugin name="cordova-plugin-actionsheet" spec="https://github.com/EddyVerbruggen/cordova-plugin-actionsheet.git" />
     <plugin name="cordova-plugin-camera" spec="~2.1.1" />
@@ -95,6 +92,9 @@
     <plugin name="cordova-plugin-inappbrowser" spec="https://github.com/apache/cordova-plugin-inappbrowser.git" />
     <plugin name="cordova-plugin-dialogs" spec="https://github.com/apache/cordova-plugin-dialogs.git" />
     <plugin name="phonegap-plugin-push" spec="~1.9.2">
-        <variable name="SENDER_ID" value="XXXXXXX"/>
+        <variable name="SENDER_ID" value="XXXXXXX" />
     </plugin>
+    <engine name="ios" spec="https://github.com/apache/cordova-ios.git#4.5.5" />
+    <engine name="android" spec="~5.1.1" />
+    <engine name="windows" spec="~4.3.1" />
 </widget>

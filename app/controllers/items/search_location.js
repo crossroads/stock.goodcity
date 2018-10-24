@@ -168,7 +168,7 @@ export default searchModule.extend({
       })
       .catch((response) => {
         loadingView.destroy();
-        var errorMessage
+        var errorMessage;
         if(response.responseJSON.errors) {
           errorMessage = response.responseJSON.errors[0];
         }
