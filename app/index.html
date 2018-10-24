@@ -20,6 +20,10 @@
         StatusBar.overlaysWebView(false);
         StatusBar.backgroundColorByName("black");
         StatusBar.styleLightContent();
+        universalLinks.subscribe(null, function (eventData) {
+          //Deep linking
+          console.log('Did launch application from the link: ' + eventData.url);
+        });
       }
     </script>
   </head>
