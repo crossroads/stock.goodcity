@@ -67,15 +67,15 @@
         {{/if}}
 
         {{#if (is-or order.designatedOrdersPackages.length order.dispatchedOrdersPackages.length)}}
-            <div class="row order_process_summary">
-              <div class="small-4 columns field">
-                {{ t "order.process_summary" }}
-              </div>
-              <div class="small-8 columns value">
-                <span>{{order.designatedOrdersPackages.length}} <i class="fa fa-shopping-basket"></i></span>
-                <span>{{order.dispatchedOrdersPackages.length}} <i class="fa fa-ship"></i></span>
-              </div>
+          <div class="row order_process_summary">
+            <div class="small-4 columns field">
+              {{ t "order.process_summary" }}
             </div>
+            <div class="small-8 columns value">
+              <span>{{order.designatedOrdersPackages.length}} <i class="fa fa-shopping-basket"></i></span>
+              <span>{{order.dispatchedOrdersPackages.length}} <i class="fa fa-ship"></i></span>
+            </div>
+          </div>
         {{/if}}
 
       </div>
