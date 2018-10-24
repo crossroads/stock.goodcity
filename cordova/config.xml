@@ -13,6 +13,7 @@
     <allow-intent href="https://*/*" launch-external="yes" />
     <platform name="android">
         <resource-file src="google-services.json" target="google-services.json" />
+        <preference name="AndroidLaunchMode" value="singleInstance" />
         <preference name="LoadUrlTimeoutValue" value="120000" />
         <preference name="SplashScreen" value="screen" />
         <preference name="SplashScreenDelay" value="5000" />
