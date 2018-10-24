@@ -54,7 +54,7 @@ test:
 
 deployment:
   staging:
-    branch: deep-linking-for-ios
+    branch: app-deep-linking
     commands:
       # - bundle exec cap staging deploy
       - bundle exec rake staging android app:build
