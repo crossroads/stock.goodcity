@@ -81,7 +81,7 @@
     </platform>
     <universal-links>
         <ios-team-id value="6B8FS8W94M" />
-        <host name="abc.com" scheme="https" />
+        <host name="rqerwrw4rw.com" scheme="https" />
     </universal-links>
     <engine name="ios" spec="https://github.com/apache/cordova-ios.git#4.5.5" />
     <engine name="android" spec="~6.3.0" />
