@@ -1,4 +1,10 @@
 {
+  "webcredentials": {
+    "apps": [
+      "6B8FS8W94M.hk.goodcity.stock-staging",
+      "6B8FS8W94M.hk.goodcity.stock-staging"
+    ]
+  },
   "applinks": {
     "apps": [],
     "details": [
@@ -7,7 +13,7 @@
         "paths": ["*"]
       },
       {
-        "appID": "6B8FS8W94M.hk.goodcity.stock",
+        "appID": "6B8FS8W94M.hk.goodcity.stock-staging",
         "paths": [ "*" ]
       }
     ]
