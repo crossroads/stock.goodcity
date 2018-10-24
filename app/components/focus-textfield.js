@@ -40,7 +40,7 @@ export default Ember.TextField.extend({
     var currentRoute = routes.pop();
     var isIndexRoute = currentRoute.name === "items.index" ? true : false;
     if(this.get('hasRecentDesignations') && isIndexRoute) {
-      var recentlyUsedDesignations = this.get('store').query('designation', { recently_used: true });
+      var recentlyUsedDesignations = this.get('store').query('designation', { shallow: true, recently_used: true });
       recentlyUsedDesignations.forEach(record => {
         if(record.constructor.toString() === "stock@model:designation:") {
           this.store.query("orders_package", { search_by_order_id: record.get("id")
