@@ -9,16 +9,14 @@ platform :ios do
   end
 
   lane :prepare_certificates do |options|
-
-    sh("base64 -D -o Certificates.p12 <<< \"#{options[:cert]}\"", log: false)
     create_keychain(
-        name: "default_keychain",
-        default_keychain: true,
-        unlock: true,
-        password: ENV['KEYCHAIN_PWD']
+      name: "default_keychain",
+      default_keychain: true,
+      unlock: true,
+      password: ENV['KEYCHAIN_PWD']
     )
     import_certificate(
-      certificate_path: "fastlane/Certificates.p12",
+      certificate_path: "fastlane/#{options[:cert]}",
       certificate_password: ENV['CERTIFICATE_PASSWORD'],
       keychain_name: "default_keychain",
       keychain_password: ENV['KEYCHAIN_PWD']

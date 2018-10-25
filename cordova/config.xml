@@ -12,6 +12,7 @@
     <allow-intent href="http://*/*" launch-external="yes" />
     <allow-intent href="https://*/*" launch-external="yes" />
     <platform name="android">
+        <resource-file src="google-services.json" target="google-services.json" />
         <preference name="LoadUrlTimeoutValue" value="120000" />
         <preference name="SplashScreen" value="screen" />
         <preference name="SplashScreenDelay" value="5000" />
@@ -68,15 +69,15 @@
         </feature>
         <preference name="Orientation" value="portrait" />
         <preference name="Fullscreen" value="true" />
-        <edit-config file="*-Info.plist" mode="merge" overwrite="true" target="NSCameraUsageDescription">
+        <config-file file="*-Info.plist" mode="merge" overwrite="true" target="NSCameraUsageDescription">
             <string>To enable you to read inventory barcodes and photograph inventory items.</string>
-        </edit-config>
-        <edit-config file="*-Info.plist" mode="merge" target="NSPhotoLibraryUsageDescription">
+        </config-file>
+        <config-file file="*-Info.plist" mode="merge" target="NSPhotoLibraryUsageDescription">
             <string>Needs photo library access to get photos from there</string>
-        </edit-config>
-        <edit-config file="*-Info.plist" mode="merge" target="NSPhotoLibraryAddUsageDescription">
+        </config-file>
+        <config-file file="*-Info.plist" mode="merge" target="NSPhotoLibraryAddUsageDescription">
             <string>Needs photo library access to save photos</string>
-        </edit-config>
+        </config-file>
     </platform>
     <engine name="ios" spec="https://github.com/apache/cordova-ios.git#4.5.5" />
     <engine name="android" spec="~6.3.0" />
@@ -94,7 +95,5 @@
     <plugin name="cordova-plugin-globalization" spec="https://github.com/apache/cordova-plugin-globalization.git" />
     <plugin name="cordova-plugin-inappbrowser" spec="https://github.com/apache/cordova-plugin-inappbrowser.git" />
     <plugin name="cordova-plugin-dialogs" spec="https://github.com/apache/cordova-plugin-dialogs.git" />
-    <plugin name="phonegap-plugin-push" spec="~1.9.2">
-        <variable name="SENDER_ID" value="XXXXXXX" />
-    </plugin>
+    <plugin name="phonegap-plugin-push" spec="~2.1.2"/>
 </widget>
