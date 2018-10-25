@@ -219,7 +219,7 @@ jobs:
           name: Setup Environment variables
           command: |
             echo 'export PATH=$PATH:`yarn bin`' >> $BASH_ENV
-            echo 'export staging=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo false; else echo true; fi)' >> $BASH_ENV
+            echo 'export STAGING=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo false; else echo true; fi)' >> $BASH_ENV
             echo 'export ENVIRONMENT=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo production; else echo staging; fi)' >> $BASH_ENV
             echo 'export PROVISIONING_PROFILE=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo $ENCODED_PROD_PROVISIONING_PROFILE; else echo $ENCODED_STAGING_PROVISIONING_PROFILE; fi)' >> $BASH_ENV
             echo 'export CERTIFICATES=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo $ENCODED_PROD_CERT; else echo $ENCODED_STAGING_CERT; fi)' >> $BASH_ENV
