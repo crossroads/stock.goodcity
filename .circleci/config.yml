@@ -99,11 +99,12 @@ jobs:
       - restore-cache: *restore-bower-cache
       - run:
           name: Setup Environment variables
-          command: echo 'export ENVIRONMENT=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo production; else echo staging; fi)' >> $BASH_ENV
+          command: echo 'export STAGING=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo false; else echo true; fi)' >> $BASH_ENV
       - run:
           command: |
             npm rebuild node-sass
-            yarn run ember build --environment=$ENVIRONMENT
+            echo "Building for staging (true/false): $STAGING"
+            yarn run ember build --environment=production
       - run: mv dist/ dist-www
       - persist_to_workspace:
           root: .
@@ -136,8 +137,12 @@ jobs:
       - restore-cache: *restore-yarn-cache
       - restore-cache: *restore-bower-cache
       - run:
+          name: Setup Environment variables
+          command: echo 'export STAGING=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo false; else echo true; fi)' >> $BASH_ENV
+      - run:
           command: |
               npm rebuild node-sass
+              echo "Building for staging (true/false): $STAGING"
               yarn run ember build --environment=production
       - run: mv dist/ cordova/www
       - persist_to_workspace:
