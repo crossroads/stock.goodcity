@@ -75,8 +75,6 @@ module.exports = function(environment) {
 
   if (environment === 'development') {
 
-    // ENV.APP.API_HOST_URL = ' http://4e408cc7.ngrok.io';
-    // ENV.APP.SOCKETIO_WEBSERVICE_URL = 'http://terebro.serveo.net/goodcity';
     ENV.APP.API_HOST_URL = 'http://localhost:3000';
     ENV.APP.SOCKETIO_WEBSERVICE_URL = 'http://localhost:1337/goodcity';
 
