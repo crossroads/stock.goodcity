@@ -13,6 +13,10 @@ export default searchModule.extend({
   displayItemOptionsList: true,
   searchModelName: "item",
   minSearchTextLength: 2,
+  requestOptions: {
+    withInventoryNumber: 'true',
+    state: 'received'
+  },
 
   onItemSetIdChange: Ember.observer("itemSetId", function() {
     // wait before applying the filter

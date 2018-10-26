@@ -37,6 +37,7 @@ export default Ember.Controller.extend(InfinityRoute, {
   searchInput: null,
   toDesignateItem: null,
   excludeAssociations: false,
+  requestOptions: {},
 
   hasSearchText: Ember.computed("searchText", function() {
     return !!this.get("searchText");
@@ -52,6 +53,20 @@ export default Ember.Controller.extend(InfinityRoute, {
     }
   }),
 
+  buildQueryParamMap() {
+    let queryParamDefinitions = { 
+      searchText: "searchText", 
+      itemId: "itemSetId", 
+      toDesignateItem: "toDesignateItem", 
+      showQuantityItems: "showQuantityItems", 
+      shallow: "excludeAssociations"
+    };
+    for (var key in this.requestOptions) {
+      queryParamDefinitions[key] = `requestOptions.${key}`;
+    }
+    return queryParamDefinitions;
+  },
+
   applyFilter() {
     var searchText = this.get("searchText");
     if (searchText.length > 0) {
@@ -59,21 +74,22 @@ export default Ember.Controller.extend(InfinityRoute, {
       this.set("hasNoResults", false);
       if(this.get("unloadAll")) { this.get("store").unloadAll(); }
 
+      const paginationOpts = { perPage: 25, startingPage: 1, modelPath: 'filteredResults', stockRequest: true };
       this.infinityModel(this.get("searchModelName"),
-        { perPage: 25, startingPage: 1, modelPath: 'filteredResults',stockRequest: true },
-        { searchText: "searchText", itemId: "itemSetId", toDesignateItem: "toDesignateItem", showQuantityItems: "showQuantityItems", shallow: "excludeAssociations" })
-        .then(data => {
-          data.forEach(record => {
-            if (this.onItemLoaded) {
-              this.onItemLoaded(record);
-            }
-          });
-          if(this.get("searchText") === data.meta.search) {
-            this.set("filteredResults", data);
-            this.set("hasNoResults", data.get("length") === 0);
+        paginationOpts,
+        this.buildQueryParamMap()
+      ).then(data => {
+        data.forEach(record => {
+          if (this.onItemLoaded) {
+            this.onItemLoaded(record);
           }
-        })
-        .finally(() => this.set("isLoading", false));
+        });
+        if(this.get("searchText") === data.meta.search) {
+          this.set("filteredResults", data);
+          this.set("hasNoResults", data.get("length") === 0);
+        }
+      })
+      .finally(() => this.set("isLoading", false));
     }
     this.set("filteredResults", []);
   },
