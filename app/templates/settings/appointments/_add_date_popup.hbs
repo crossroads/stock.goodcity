@@ -1,0 +1,38 @@
+{{#message-box 
+  btn1Text=(t "save") 
+  btn1Callback=(action "createNewSpecialDate")
+  btn2Text=(t "cancel") 
+  btn2Callback=(action "cancelDateCreation") 
+  isVisible=dateCreationPopupVisible 
+  classNames="popupOverlay ui"
+}}
+  <div class="special-day-popup">
+    <div class="row">
+      <div class="input-label">{{t 'settings.appointments.special_day_description_input'}}</div>
+      <div class="small-1 columns">
+        <i class="fa fa-pencil"></i>
+      </div>
+      <div class="small-11 columns">
+        {{input name='name' value=dateDescription placeholder=(t "settings.appointments.special_day_placeholder")}}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="input-label">{{t 'settings.appointments.select_day'}}</div>
+      <div class="small-1 columns">
+        <i class="fa fa-calendar calender_icon"></i>
+      </div>
+      <div class="small-11 columns">
+        {{calendar-input
+          name='selectedDate'
+          id='date-selector'
+          value=''
+          selection=selectedDate
+          placeholder='Pick a date'
+          pattern="[a-zA-Z]{3}\s?[a-zA-Z]{3}\s?[0-9]{1,2}"}}
+      </div>
+    </div>
+
+    <div class="missing-input-message {{if incompleteForm 'show' 'hide'}}">* {{ t 'incomplete_form' }}</div>
+  </div>
+{{/message-box}}

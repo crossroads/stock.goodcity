@@ -22,6 +22,14 @@ I18nTranslationsEn =
   "search_organisation": "搜尋機構"
   "not_now": "稍後"
 
+  "weekday_1": "Monday"
+  "weekday_2": "Tuesday"
+  "weekday_3": "Wednesday"
+  "weekday_4": "Thursday"
+  "weekday_5": "Friday"
+  "weekday_6": "Saturday"
+  "weekday_7": "Sunday"
+
   "authenticate":
     "input_code" : "請輸入驗證碼"
 
@@ -173,5 +181,18 @@ I18nTranslationsEn =
       "validation_error":
         "email": "請輸入有效的電郵地址"
         "mobile": "手提電話號碼必須為8個數字"
+
+  "settings":
+    "appointments":
+      "title": "Appt. Quotas"
+      "quota": "Quota"
+      "default_quotas": "Default Quotas"
+      "special_dates": "Special Dates"
+      "override_quota": "Override default quotas for a given date"
+      "add_date": "Add Date"
+      "note": "Note"
+      "add_timeslot": "Add timeslot"
+      "delete_date": "Delete this date"
+      "no_appointments": "No appointments"
 
 `export default I18nTranslationsEn`

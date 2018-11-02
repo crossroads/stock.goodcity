@@ -49,6 +49,7 @@
     "ember-i18n": "~4.3.2",
     "ember-infinity": "0.2.5",
     "ember-load-initializers": "^0.6.3",
+    "ember-lodash": "4.18.0",
     "ember-offline": "0.1.0",
     "ember-resolver": "^2.1.0",
     "ember-rollbar-client": "0.2.2",

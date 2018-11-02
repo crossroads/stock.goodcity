@@ -24,14 +24,18 @@ export default Ember.Component.extend({
   actions: {
     btn1Click() {
       if (this.btn1Callback) {
-        this.btn1Callback();
+        if (this.btn1Callback() === false) {
+          return;
+        }
       }
       this.close();
     },
 
     btn2Click() {
       if (this.btn2Callback) {
-        this.btn2Callback();
+        if (this.btn2Callback() === false) {
+          return;
+        }
       }
       this.close();
     },

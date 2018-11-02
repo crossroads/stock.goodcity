@@ -22,6 +22,15 @@ I18nTranslationsEn =
   "menu": "Menu"
   "search_organisation": "Search Organisation"
   "not_now": "Not Now"
+  "incomplete_form": "Please fill in the required fields to continue"
+
+  "weekday_1": "Monday"
+  "weekday_2": "Tuesday"
+  "weekday_3": "Wednesday"
+  "weekday_4": "Thursday"
+  "weekday_5": "Friday"
+  "weekday_6": "Saturday"
+  "weekday_7": "Sunday"
 
   "authenticate":
     "input_code" : "Input Code"
@@ -193,5 +202,21 @@ I18nTranslationsEn =
       "validation_error":
         "email": "Email should be valid."
         "mobile": "Mobile Number should be 8 digits."
+
+  "settings":
+    "appointments":
+      "title": "Appt. Quotas"
+      "quota": "Quota"
+      "default_quotas": "Default Quotas"
+      "special_dates": "Special Dates"
+      "override_quota": "Override default quotas for a given date"
+      "add_date": "Add Date"
+      "note": "Note"
+      "add_timeslot": "Add timeslot"
+      "delete_date": "Delete this date"
+      "no_appointments": "No appointments"
+      "special_day_placeholder": "E.g: No available staff this Thursday"
+      "special_day_description_input": "Please explain the reasons for the change"
+      "select_day": "Select a day"
 
 `export default I18nTranslationsEn`
