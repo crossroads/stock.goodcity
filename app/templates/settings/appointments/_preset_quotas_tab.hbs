@@ -15,7 +15,7 @@
         <i class="fa fa-ellipsis-v" {{action 'toggleOptionsMenu' weekDay}}/>
         <div class="options_menu_list {{if weekDay.showOptionsMenu '' 'hidden'}}">
           <div class="option_menu">
-            <a {{action 'newPreset' weekDay.idx}} >
+            <a class='new-preset-btn' {{action 'newPreset' weekDay.idx}} >
               <i class="fa fa-plus-circle" aria-hidden="true"></i>
               {{t 'settings.appointments.add_timeslot'}}
             </a>
@@ -32,7 +32,7 @@
     {{else}}
       {{!-- LIST PRESETS FOR DAY --}}
       {{#each weekDay.items as |item|}}
-        <div class="row bar slot-bar">
+        <div class="row bar slot-bar preset-timeslot">
 
           <div class="columns small-4 title timeslot-container">
             {{select-list
@@ -46,13 +46,13 @@
 
           <div class="columns small-4">
             <div class="columns small-4 text-align-right">
-              <i class="fa fa-minus-circle" {{ action 'decreaseQuotaOf' item.record }}></i>
+              <i class="fa fa-minus-circle decrease-quota" {{ action 'decreaseQuotaOf' item.record }}></i>
             </div>
             <div class="columns small-4">
               {{ item.record.quota }}
             </div>
             <div class="columns small-4 text-align-left">
-              <i class="fa fa-plus-circle" {{ action 'increaseQuotaOf' item.record }}></i>
+              <i class="fa fa-plus-circle increase-quota" {{ action 'increaseQuotaOf' item.record }}></i>
             </div>
           </div>
 

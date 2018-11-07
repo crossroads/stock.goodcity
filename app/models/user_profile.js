@@ -39,10 +39,7 @@ export default Addressable.extend({
 
   canManageAppointments: Ember.computed('roles', function(){
     const roles = this.get('roles');
-    return roles.find((r) => {
-      console.log(r.get('name'), r.get('permissionNames'));
-      return r.get('permissionNames').indexOf('can_manage_settings') >= 0
-    });
+    return roles.find((r) => r.get('permissionNames').indexOf('can_manage_settings') >= 0);
   }),
 
   mobileWithCountryCode: Ember.computed('mobile', function(){

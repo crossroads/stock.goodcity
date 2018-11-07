@@ -1,11 +1,9 @@
 import Ember from 'ember';
 import RSVP from 'rsvp';
 import _ from 'lodash';
+import GoodcityController from './goodcity_controller';
 
-export default Ember.Controller.extend({
-
-  // ---- Services
-  messageBox: Ember.inject.service(),
+export default GoodcityController.extend({
   
   // ---- Tab selection
 
@@ -13,12 +11,12 @@ export default Ember.Controller.extend({
   isSpecialTab: Ember.computed.not('isPresetsTab'),
 
   // ---- Data structure
-
-  /* Options for the select inputs [00:00, 00:30, ... 23:30] */
+ 
+  /* Options for the select inputs [00:00, 00:30, ... 23:30]  */
   timeSlots: Ember.computed(function () {
-    let buildSlot = (h, m) => {
-      let time = this.formatTime(h, m);
-      return Ember.Object.create({ name: time, id: time, time, hours: h, minutes: m });
+    let buildSlot = (hours, minutes) => {
+      let time = this.formatTime(hours, minutes);
+      return Ember.Object.create({ name: time, id: time, time, hours, minutes });
     };
     let slots = _.range(0, 24).map(h => [0, 30].map(m => buildSlot(h, m)));
     return _.flatten(slots);
@@ -28,7 +26,11 @@ export default Ember.Controller.extend({
     return this.makeSelectableList(this.get('appointmentSlotPresets'));
   }),
 
-  /* Aggregate the presets by days */
+  specialSlots: Ember.computed('appointmentSlots.@each', 'timeSlots', function () {
+    return this.makeSelectableList(this.get('appointmentSlots'));
+  }),
+
+  /* Aggregate the presets by days of the week */
   presetsByWeekDay: Ember.computed('presets.@each', function () {
     return _.range(1,8).map(day => {
       const presets = this.get('presets').filter(pre => pre.get('record.day') === day);
@@ -41,32 +43,33 @@ export default Ember.Controller.extend({
     });
   }),
 
-  specialSlots: Ember.computed('appointmentSlots.@each', 'timeSlots', function () {
-    return this.makeSelectableList(this.get('appointmentSlots'));
-  }),
-
+  /* Aggregate the speical days slots by their dates */
   specialSlotsByDate: Ember.computed('specialSlots.@each', function () {
-    let ref = {};
     let slotsByDates = [];
-    this.get('specialSlots').forEach((slot) => {
+    this.get('specialSlots').forEach(slot => {
       const record = slot.record;
       const dateString = this.getDateStringOf(record);
 
-      if (!ref[dateString]) {
-        let aggregate = { 
+      let aggregate = _.find(slotsByDates, ['dateString', dateString]);
+      if (!aggregate) {
+        aggregate = { 
           dateString,
           date: new Date(record.get('timestamp')),
           note: '', 
           items: [],
-          showOptionsMenu: false
+          showOptionsMenu: false,
+          noAppointments: true
         };
-        ref[dateString] = aggregate;
         slotsByDates.push(aggregate);
       }
 
-      let aggregate = ref[dateString];
       aggregate.items.push(slot);
-      if (record.get('quota') === 0 && record.get('note')) {
+      if (record.get('quota') > 0) {
+        aggregate.noAppointments = false;
+      }
+      else if (record.get('note')) {
+        // 0 quota slots are just used as placeholders to lock down the dates.
+        // We display the note but they will not be displayed as editable slots
         aggregate.note = record.get('note');
       }
     });
@@ -136,58 +139,10 @@ export default Ember.Controller.extend({
     });
   },
 
-  addToQuota(record, num) {
-    this.showLoadingSpinner();
-    record.set('quota', record.get('quota') + num);
-    record.save()
-      .catch((response) => {
-        record.rollbackAttributes();
-        this.onError(response);
-      })
-      .finally(() => this.hideLoadingSpinner());
-  },
-
-  createRecord(modelName, payload) {
-    const newRecord = this.get('store').createRecord(modelName, payload);
-    this.showLoadingSpinner();
-    newRecord.save()
-      .catch(r => this.onError(r))
-      .finally(() => this.hideLoadingSpinner()); 
-  },
-
-  deleteRecords(records) {
-    this.showLoadingSpinner();
-    RSVP.all(records.map(r => r.destroyRecord()))
-      .catch(r => this.onError(r))
-      .finally(() => this.hideLoadingSpinner());
-  },
-
   sameDay(d1, d2) {
     return d1.getFullYear() === d2.getFullYear() &&
       d1.getMonth() === d2.getMonth() &&
       d1.getDate() === d2.getDate();
-  },
-
-  showLoadingSpinner() {
-    if (!this.loadingView) {
-      this.loadingView = Ember.getOwner(this).lookup('component:loading').append();
-    }
-  },
-
-  hideLoadingSpinner() {
-    if (this.loadingView) {
-      this.loadingView.destroy();
-      this.loadingView = null;
-    }
-  },
-
-  showError(message, cb) {
-    this.get("messageBox").alert(message, cb);
-  },
-
-  onError(response) {
-    const errors = (response && response.responseJSON && response.responseJSON.errors) || [];
-    this.showError(errors[0]);
   },
 
   // ---- Controller implementation
@@ -209,7 +164,7 @@ export default Ember.Controller.extend({
   actions: {
 
     back() {
-      history.back();
+      this.back();
     },
 
     showSpecial() {
@@ -243,7 +198,14 @@ export default Ember.Controller.extend({
 
       const note = this.get('dateDescription');
       const timestamp = this.get('selectedDate');
-      this.createRecord('appointment_slot', { timestamp, note, quota: 0 });    
+      const clear = this.send.bind(this, 'cancelDateCreation');
+      const dateExists = this.get('appointmentSlots').find(sl => this.sameDay(sl.get('timestamp'), timestamp));
+
+      if (dateExists) {
+        this.showError("Selected date is already scheduled", clear);
+        return;
+      }
+      this.createRecord('appointment_slot', { timestamp, note, quota: 0 }).finally(clear);
     },
 
     newSpecialSlot(date, quota = 1, note = '') {
@@ -262,12 +224,13 @@ export default Ember.Controller.extend({
     },
 
     increaseQuotaOf(record) {
-      this.addToQuota(record, 1);
+      return this.updateRecord(record, { quota: record.get('quota') + 1 });
     },
 
     decreaseQuotaOf(record) {
-      if (record.get('quota') > 1) {
-        this.addToQuota(record, -1);
+      let quota = record.get('quota');
+      if (quota > 1) {
+        return this.updateRecord(record, { quota: quota - 1 });
       }
     },
 
@@ -277,52 +240,29 @@ export default Ember.Controller.extend({
       const updatedTime = new Date(record.get('timestamp'));
       updatedTime.setHours(newTimeSlot.get('hours'));
       updatedTime.setMinutes(newTimeSlot.get('minutes'));
-
-      if (currentTime === updatedTime) { 
-        return; /* There hasn't been any change */
+      if (currentTime !== updatedTime) { 
+        // Has been modified
+        const resetInput = () => slot.set('timeslot', this.getTimeSlotOf(record));
+        const timeString = newTimeSlot.get('time');
+        const timeslotAlreadyInUse = !!day.items.find(it => this.getTimeStringOf(it.get('record')) === timeString);
+        if (timeslotAlreadyInUse) {
+          return this.showError("An appointment slot already exists for this time", resetInput);
+        }
+        this.updateRecord(record, { timestamp: updatedTime }, { onFailure : resetInput });
       }
-
-      const timeString = newTimeSlot.get('time');
-      const resetInput = () => slot.set('timeslot', this.getTimeSlotOf(record));
-      const timeslotAlreadyInUse = !!day.items.find(it => this.getTimeStringOf(it.get('record')) === timeString);
-      if (timeslotAlreadyInUse) {
-        return this.showError("An appointment slot already exists for this time", resetInput);
-      }
-
-      this.showLoadingSpinner();
-      record.set('timestamp', updatedTime);
-      record.save()
-        .catch((response) => {
-          record.rollbackAttributes();
-          resetInput();
-          this.onError(response);
-        })
-        .finally(() => this.hideLoadingSpinner());
     },
 
     updatePresetTime(item, day, { time, hours, minutes }) {
       const record = item.get('record');
-      if (record.get('hours') === hours && record.get('minutes') === minutes) { 
-        return; /* There hasn't been any change */
+      if (record.get('hours') !== hours || record.get('minutes') !== minutes) { 
+        // Has been modified
+        const resetInput = () => item.set('timeslot', this.getTimeSlotOf(record));
+        const timeslotAlreadyInUse = !!day.items.find(it => this.getTimeStringOf(it.get('record')) === time);
+        if (timeslotAlreadyInUse) {
+          return this.showError("An appointment slot preset already exists for this time", resetInput);
+        }
+        this.updateRecord(record, { hours, minutes }, { onFailure : resetInput });
       }
-
-      const resetInput = () => item.set('timeslot', this.getTimeSlotOf(record));
-
-      const timeslotAlreadyInUse = !!day.items.find(it => this.getTimeStringOf(it.get('record')) === time);
-      if (timeslotAlreadyInUse) {
-        return this.showError("An appointment slot preset already exists for this time", resetInput);
-      }
-
-      this.showLoadingSpinner();
-      record.set('hours', hours);
-      record.set('minutes', minutes);
-      record.save()
-        .catch((response) => {
-          record.rollbackAttributes();
-          resetInput();
-          this.onError(response);
-        })
-        .finally(() => this.hideLoadingSpinner());
     },
 
     deleteRecord(record) {

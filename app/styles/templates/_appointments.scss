@@ -15,6 +15,13 @@
     &.slot-bar {
       border-bottom: 1px solid #334f75;
     }
+
+    &.notes {
+      text-align: left;
+      .warning {
+        color: #E25956;
+      }
+    }
   }
 
   .tab-bar {
@@ -51,6 +58,8 @@
       background-color: #384f72;
       .title {
         font-family: $header-font-family;
+        overflow: visible;
+        white-space: nowrap;
       }
 
       .options_menu_list {

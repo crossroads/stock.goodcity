@@ -218,5 +218,6 @@ I18nTranslationsEn =
       "special_day_placeholder": "E.g: No available staff this Thursday"
       "special_day_description_input": "Please explain the reasons for the change"
       "select_day": "Select a day"
+      "no_bookings_allowed": "No bookings will be allowed for this date"
 
 `export default I18nTranslationsEn`
