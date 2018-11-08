@@ -12,6 +12,7 @@
     <allow-intent href="http://*/*" launch-external="yes" />
     <allow-intent href="https://*/*" launch-external="yes" />
     <platform name="android">
+        <resource-file src="google-services.json" target="google-services.json" />
         <preference name="AndroidLaunchMode" value="singleInstance" />
         <preference name="LoadUrlTimeoutValue" value="120000" />
         <preference name="SplashScreen" value="screen" />
@@ -81,10 +82,7 @@
     </platform>
     <universal-links>
         <ios-team-id value="6B8FS8W94M" />
-        <host event="deeplink" name="stock-staging.goodcity.hk" scheme="https">
-            <path url="/*" />
-        </host>
-        <host name="stock.goodcity.hk" scheme="https" />
+        <host event="deeplink" name="stock-staging.goodcity.hk" scheme="https" />
     </universal-links>
     <engine name="ios" spec="https://github.com/apache/cordova-ios.git#4.5.5" />
     <engine name="windows" spec="~4.3.1" />
@@ -103,5 +101,5 @@
     <plugin name="cordova-plugin-inappbrowser" spec="https://github.com/apache/cordova-plugin-inappbrowser.git" />
     <plugin name="cordova-plugin-dialogs" spec="https://github.com/apache/cordova-plugin-dialogs.git" />
     <plugin name="phonegap-plugin-push" spec="~2.1.2" />
-    <engine name="android" spec="~6.1.2" />
+    <engine name="android" spec="~6.3.0" />
 </widget>
