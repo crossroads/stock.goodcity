@@ -10,6 +10,15 @@ export default Ember.Controller.extend({
     this.get('subscription').send('wire');
   }),
 
+  init: Ember.on('init', function() {
+    var self = this;
+    if (typeof cordova !== "undefined") {
+      universalLinks.subscribe("deeplink", function (eventData) { // jshint ignore:line
+        self.transitionToRoute(eventData.path);
+      });
+    }
+  }),
+
   actions: {
     logMeOut() {
       this.session.clear(); // this should be first since it updates isLoggedIn status
