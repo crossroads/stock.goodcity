@@ -58,29 +58,6 @@ export default Ember.TextField.extend({
             date = _this._getValidDate(date);
             this.set('select', new Date(date), { format: 'ddd mmm d' });
           }
-        },
-
-        onOpen: function(){
-        //   var list = _this.get("allHolidays");
-        //   var holidays_array = [1,2];
-        //   var selected = _this.get('selection').toString().length;
-
-        //   if(list) {
-        //     var holidays_count = list.length;
-        //     for (var i = holidays_count - 1; i >= 0; i--) {
-        //       var date = new Date(list[i].get('holiday'));
-
-        //       if(selected === 0 || !_this.isDateEqual(date)) {
-        //         var date_array = [];
-        //         date_array.push(date.getFullYear());
-        //         date_array.push(date.getMonth());
-        //         date_array.push(date.getDate());
-        //         holidays_array.push(date_array);
-        //       }
-        //     }
-        //   }
-
-        //   this.set('disable', holidays_array);
         }
       });
 

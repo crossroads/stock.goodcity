@@ -13,4 +13,3 @@ FactoryGuy.define('appointment_slot',{
   }
 });
 export default { };
-

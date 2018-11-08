@@ -21,6 +21,7 @@ I18nTranslationsEn =
   "menu": "主目錄"
   "search_organisation": "搜尋機構"
   "not_now": "稍後"
+  "incomplete_form": "Please fill in the required fields to continue"
 
   "weekday_1": "Monday"
   "weekday_2": "Tuesday"
