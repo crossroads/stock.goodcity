@@ -15,6 +15,7 @@ export default Ember.Controller.extend({
   // ---- Services
 
   messageBox: Ember.inject.service(),
+  i18n: Ember.inject.service(),
 
   init() {
     this._super();
@@ -42,11 +43,11 @@ export default Ember.Controller.extend({
   },
 
   showError(message, cb) {
-    this.get("messageBox").alert(message, cb);
+    this.get("messageBox").alert(message || this.get("i18n").t("unexpected_error"), cb);
   },
 
-  onError(response) {
-    const errors = (response && response.responseJSON && response.responseJSON.errors) || [];
+  onError(response = {}) {
+    const errors = _.map(response.errors, (err) => _.isString(err) ? err : err.detail);
     this.showError(errors[0]);
   },
 
