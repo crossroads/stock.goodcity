@@ -45,7 +45,7 @@
         width: 4.5rem;
         padding: 0 0.5rem;
         background: #002352 !important;
-        border: 1px solid $tabbar-menu-icon-color !important;
+        border: none !important;
         color: white;
         height: 1.8rem !important;
         margin: 0 auto;
@@ -101,7 +101,7 @@
     .add-slot-btn {
       $btn-height: 2rem;
       border: 1px solid white;
-      width: 70%;
+      max-width: 9rem;
       height: $btn-height;
       line-height: $btn-height;
       margin-top: ($bar-height - $btn-height) / 2
