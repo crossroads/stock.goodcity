@@ -1,4 +1,16 @@
 import Ember from 'ember';
+import _ from 'lodash';
+
+const PICKADATE_CONFIG = {
+  format: 'ddd mmm d',
+  monthsFull: moment.months(),
+  monthsShort: moment.monthsShort(),
+  weekdaysShort: moment.weekdaysShort(),
+  clear: false,
+  today: false,
+  close: false,
+  min: moment().toDate()
+};
 
 export default Ember.TextField.extend({
   tagName: 'input',
@@ -21,54 +33,46 @@ export default Ember.TextField.extend({
     return selected.getTime() === date.getTime();
   },
 
+  onClose(pickadate) {
+    Ember.$(document.activeElement).blur();
+    if (this.setting) { return; }
+    var date = pickadate.get('select') && pickadate.get('select').obj;
+
+    if(date) {
+      this.set("selection", date);
+      this.setting = true;
+      Ember.run.next(() => {
+        pickadate.set('select', new Date(date), { format: 'ddd mmm d' });
+        this.setting = false;
+      });
+    }
+  },
+
+  onStart(pickadate) {
+    var date = this.get('selection');
+    if(date) {
+      date = this._getValidDate(date);
+      pickadate.set('select', new Date(date), { format: 'ddd mmm d' });
+    }
+  },
+
   didInsertElement() {
-    var _this = this;
-    var setting = false;
+    const component = this;
 
     Ember.run.scheduleOnce('afterRender', this, function(){
-      Ember.$('.pickadate').pickadate({
-        format: 'ddd mmm d',
-        monthsFull: moment.months(),
-        monthsShort: moment.monthsShort(),
-        weekdaysShort: moment.weekdaysShort(),
-        disable: _this.get('disableWeekends') === true ? [1,2] : [],
-        clear: false,
-        today: false,
-        close: false,
-        min: moment().toDate(),
-
-        onClose: function() {
-          Ember.$(document.activeElement).blur();
-          if (setting) { return; }
-          var date = this.get('select') && this.get('select').obj;
-
-          if(date) {
-            _this.set("selection", date);
-            setting = true;
-            Ember.run.next(() => {
-              this.set('select', new Date(date), { format: 'ddd mmm d' });
-              setting = false;
-            });
-          }
+      Ember.$('.pickadate').pickadate(_.extend({}, PICKADATE_CONFIG, {
+        disable: component.get('disableWeekends') === true ? [1,2] : [],
+        onClose: function() { 
+          component.onClose(this);
         },
-
-        onStart: function(){
-          var date = _this.get('selection');
-          if(date) {
-            date = _this._getValidDate(date);
-            this.set('select', new Date(date), { format: 'ddd mmm d' });
-          }
+        onStart: function() {
+          component.onStart(this);
         }
-      });
-
-      closeOnClick();
-    });
-
-    function closeOnClick(){
-      Ember.$(".picker__holder").click(function(e){
+      }));
+      Ember.$(".picker__holder").click(function(e) {
         if(e.target !== this) { return; }
         Ember.$("[id$=selectedDate]").trigger("blur");
       });
-    }
+    });
   }
 });

@@ -59,7 +59,6 @@ export default Ember.Controller.extend({
     return newRecord.save()
       .catch(r => {
         this.onError(r);
-        newRecord.unloadRecord();
       })
       .then(() => this.hideLoadingSpinner()); 
   },

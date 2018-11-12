@@ -16,7 +16,7 @@ export default GoodcityController.extend({
   timeSlots: Ember.computed(function () {
     let buildSlot = (hours, minutes) => {
       let time = this.formatTime(hours, minutes);
-      return Ember.Object.create({ name: time, id: time, time, hours, minutes });
+      return { name: time, id: time, time, hours, minutes };
     };
     let slots = _.range(0, 24).map(h => [0, 30].map(m => buildSlot(h, m)));
     return _.flatten(slots);
@@ -124,8 +124,8 @@ export default GoodcityController.extend({
   getOpenPresetTimeslot(dayNumber) {
     return this.get('timeSlots').find(ts => {
       return !this.get('appointmentSlotPresets').find(record => record.get('day') === dayNumber &&
-        record.get('hours') === ts.get('hours') &&
-        record.get('minutes') === ts.get('minutes')
+        record.get('hours') === ts.hours &&
+        record.get('minutes') === ts.minutes
       );
     });
   },
@@ -134,7 +134,7 @@ export default GoodcityController.extend({
     return this.get('timeSlots').find(ts => {
       return !this.get('appointmentSlots').find(record => {
         let recordDate = new Date(record.get('timestamp'));
-        return (this.sameDay(date, recordDate) && record.get('quota') > 0 && this.getTimeStringOf(record) === ts.get('time'));
+        return (this.sameDay(date, recordDate) && record.get('quota') > 0 && this.getTimeStringOf(record) === ts.time);
       });
     });
   },
@@ -238,12 +238,12 @@ export default GoodcityController.extend({
       const record = slot.get('record');
       const currentTime = new Date(record.get('timestamp'));
       const updatedTime = new Date(record.get('timestamp'));
-      updatedTime.setHours(newTimeSlot.get('hours'));
-      updatedTime.setMinutes(newTimeSlot.get('minutes'));
+      updatedTime.setHours(newTimeSlot.hours);
+      updatedTime.setMinutes(newTimeSlot.minutes);
       if (currentTime !== updatedTime) { 
         // Has been modified
         const resetInput = () => slot.set('timeslot', this.getTimeSlotOf(record));
-        const timeString = newTimeSlot.get('time');
+        const timeString = newTimeSlot.time;
         const timeslotAlreadyInUse = !!day.items.find(it => this.getTimeStringOf(it.get('record')) === timeString);
         if (timeslotAlreadyInUse) {
           return this.showError("An appointment slot already exists for this time", resetInput);

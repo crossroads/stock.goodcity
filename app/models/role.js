@@ -8,10 +8,10 @@ export default Model.extend({
   rolePermissions: hasMany('rolePermission', { async: false }),
 
   permissions: Ember.computed('rolePermissions.[]', function(){
-    return this.get('rolePermissions').map(rp => rp.get('permission'));
+    return this.get('rolePermissions').getEach('permission');
   }),
 
   permissionNames: Ember.computed('permissions.[]', function(){
-    return this.get('permissions').map(p => p.get('name'));
+    return this.get('permissions').getEach('name');
   })
 });
