@@ -32,7 +32,7 @@ platform :ios do
   end
 
   desc "Upload to TestFlight"
-  lane :beta do
+  lane :production do
     raise_if_no_env_var(["APP_VERSION", "PILOT_USERNAME", "PILOT_IPA", "PILOT_TESTER_EMAIL", "ITUNESCONNECT_PASSWORD"])
     version_number = ENV["APP_VERSION"]
     sh %{ source ~/.circlerc; bundle exec fastlane fastlane-credentials add --username $PILOT_USERNAME --password $ITUNESCONNECT_PASSWORD }
@@ -76,7 +76,7 @@ platform :android do
   end
 
   desc "Upload to GooglePlay beta track"
-  lane :beta do
+  lane :production do
     raise_if_no_env_var(["SUPPLY_APK", "SUPPLY_JSON_KEY"])
     supply(
       track: "beta",

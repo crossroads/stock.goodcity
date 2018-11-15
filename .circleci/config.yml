@@ -187,8 +187,10 @@ jobs:
           working_directory: ~/code
       - run:
           name: Download Keystore File
-          command: yarn run azure-filestore download -f $KEYSTORE
-          working_directory: cordova
+          command: |
+            yarn run azure-filestore download -f $KEYSTORE
+            mv $KEYSTORE ~/code/cordova
+          working_directory: ~/code
       - run:
           name: Download Google Play Store Key file
           command: |
