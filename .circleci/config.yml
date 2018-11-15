@@ -270,9 +270,6 @@ jobs:
           command: bundle exec fastlane ios prepare_certificates cert:$CERTIFICATE
           working_directory: ~/code
       - run:
-          name: Temporarily downgrade phonegap-push-plugin version from ~2.1.2 to ~1.9.2
-          command: sed -i 's,<plugin name="phonegap-plugin-push" spec="~2.1.2"/>,<plugin name="phonegap-plugin-push" spec="~1.9.2"/>,g' ~/code/cordova/config.xml
-      - run:
           name: iOS build
           command: bundle exec rake ${ENVIRONMENT} ios app:build
           working_directory: cordova
