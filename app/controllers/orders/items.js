@@ -30,7 +30,8 @@ export default searchModule.extend({
         { orderId: "orderId", searchText: "searchText", itemId: "itemSetId" })
         .then(data => {
           data.forEach(item => {
-            if(item && item.get("quantity") === 0) {
+            const itemQty = item.get("quantity");
+            if(item && (itemQty === 0 || itemQty > 1)) {
               data.removeObject(item);
             }
             if(item &&item.get('itemId') && !this.get('dataOnceRequested')) {
