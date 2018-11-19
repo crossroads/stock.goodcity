@@ -49,6 +49,15 @@ I18nTranslationsEn =
     "items": "Items"
     "goto": "Goto"
 
+  "split_quantity":
+    "btn": "Split"
+    "title": "Split Quantity"
+    "header": "Split off how many items?"
+    "info_1": "All items will have Q Inventory Number"
+    "info_2": "This action cannot be undone"
+    "warning": "Quantity to split must be at least 1 and less than {{qty}}"
+
+
   "order_details":
     "client_name": "Client name:"
     "hkid": "HKID"

@@ -3,9 +3,6 @@ import InfinityRoute from "ember-infinity/mixins/route";
 
 export default Ember.Controller.extend(InfinityRoute, {
 
-  queryParams: ["showQuantityItems"],
-  showQuantityItems: false,
-
   getCurrentUser: Ember.computed(function(){
     var store = this.get('store');
     var currentUser = store.peekAll('user_profile').get('firstObject') || null;
@@ -54,11 +51,10 @@ export default Ember.Controller.extend(InfinityRoute, {
   }),
 
   buildQueryParamMap() {
-    let queryParamDefinitions = { 
-      searchText: "searchText", 
-      itemId: "itemSetId", 
-      toDesignateItem: "toDesignateItem", 
-      showQuantityItems: "showQuantityItems", 
+    let queryParamDefinitions = {
+      searchText: "searchText",
+      itemId: "itemSetId",
+      toDesignateItem: "toDesignateItem",
       shallow: "excludeAssociations"
     };
     for (var key in this.requestOptions) {

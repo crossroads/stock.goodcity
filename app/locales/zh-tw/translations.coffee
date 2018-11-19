@@ -48,6 +48,14 @@ I18nTranslationsEn =
     "items": "物資"
     "goto": "前往"
 
+  "split_quantity":
+    "btn": "Split"
+    "title": "Split Quantity"
+    "header": "Split off how many items?"
+    "info_1": "All items will have Q Inventory Number"
+    "info_2": "This action cannot be undone"
+    "warning": "Quantity to split must be at least 1 and less than {{qty}}"
+
   "order_details":
     "client_name": "服務對使用者姓名"
     "hkid": "香港身份證號碼"

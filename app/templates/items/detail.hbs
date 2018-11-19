@@ -18,11 +18,12 @@
                   </span>
                 {{/link-to}}
               {{else}}
-                {{#link-to 'items.partial_designate' model.id (query-params isSet=model.isSet) tagName='span' href=false}}
+                {{!-- Disabling partial quantity designate --}}
+                {{!-- {{#link-to 'items.partial_designate' model.id (query-params isSet=model.isSet) tagName='span' href=false}}
                   <span class="no-avatar" {{action 'partialDesignateForSet'}}>
                     <i class="fa fa-shopping-basket" aria-hidden="true"></i>
                   </span>
-                {{/link-to}}
+                {{/link-to}} --}}
               {{/if}}
             {{/if}}
           {{/if}}
@@ -38,11 +39,12 @@
                   </a>
                 </div>
               {{else}}
-                {{#link-to 'items.partial_dispatch' item.id (query-params orderPackageId=model.firstDesignatedOrdersPackage.id) tagName='div' href=false}}
+                {{!-- Disabling partial quantity dispatch --}}
+                {{!-- {{#link-to 'items.partial_dispatch' item.id (query-params orderPackageId=model.firstDesignatedOrdersPackage.id) tagName='div' href=false}}
                   <span class="no-avatar">
                     <i class="fa fa-ship" aria-hidden="true"></i>
                   </span>
-                {{/link-to}}
+                {{/link-to}} --}}
               {{/if}}
             </div>
           {{/if}}
