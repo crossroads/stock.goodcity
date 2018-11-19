@@ -8,7 +8,7 @@
             {{item.quantity}}
           </div>
           <div class="columns small-5 value">
-            {{#if item.quantity}}
+            {{#if (is-greater item.quantity 1)}}
               {{quantity-chooser item=item}}
             {{/if}}
           </div>
