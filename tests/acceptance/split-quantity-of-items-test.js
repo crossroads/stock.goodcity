@@ -139,7 +139,7 @@ test("Splitting the Quantity of item, entering wrong quantity(higher than the qu
   mocks.push(
     $.mockjax({ url: `/items/${updatedPkg.id}/split_ite*`,
       type: 'PUT', status: 200, responseText: updatedPkg })
-  )
+  );
   assert.expect(1);
   visit("/");
   andThen(function(){
@@ -222,5 +222,5 @@ test("Clicking on not now should not split, and quantity should remain as it is"
   andThen(function(){
     assert.equal(+Ember.$('.item-quantity').text().trim(), 20);
   });
-})
+});
 
