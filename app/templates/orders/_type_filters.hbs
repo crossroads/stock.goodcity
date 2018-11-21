@@ -1,0 +1,35 @@
+<div class="type-filter-block">
+  <div class="row">
+    <div class="type-filter-title small-12 medium-12 large-12 columns">
+      {{t "order_filters.type_filter_title"}}
+    </div>
+  </div>
+  {{#each allOrderTypeFilters as |type|}}
+    {{!-- For nested arrays only --}}
+    {{#if (is-array type)}}
+      {{#each type as |level1NestedArray|}}
+        {{#if (is-array level1NestedArray)}}
+          {{#each level1NestedArray as |level2NestedArray|}}
+            <div class="row">
+              <div class='nested-type checkbox small-12 medium-12 large-12 columns'>
+                {{order-filter-checkbox name=level2NestedArray nestedArrayIcon=true}}
+              </div>
+            </div>
+          {{/each}}
+        {{else}}
+          <div class="row">
+            <div class='checkbox small-12 medium-12 large-12 columns'>
+              {{order-filter-checkbox name=level1NestedArray}}
+            </div>
+          </div>
+        {{/if}}
+      {{/each}}
+    {{else}}
+      <div class='row'>
+        <div class='checkbox small-12 medium-12 large-12 columns'>
+          {{order-filter-checkbox name=type}}
+        </div>
+      </div>
+    {{/if}}
+  {{/each}}
+</div>

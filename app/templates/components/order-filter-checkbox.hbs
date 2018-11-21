@@ -1,0 +1,8 @@
+{{input type="checkbox" name=name id=name}}
+<label class="radio-button-text" for={{name}}>
+  <span class="type">{{t (concat "order_filters." name)}}</span>
+</label>
+<i class="small-1 medium-1 large-1 columns {{type-filter-icon name}} {{state-filter-icon name}} {{if (is-equal name 'showPriority') 'priority-order-icon'}} {{if nestedArrayIcon 'nested-array-icon'}}"></i>
+<label class="radio-button-text type-info" for={{name}}>
+  <span>{{t (concat (concat "order_filters." name) "_info")}}</span>
+</label>

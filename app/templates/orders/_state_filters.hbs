@@ -1,0 +1,28 @@
+<div class="state-filter-block">
+  {{!-- Order Priority Checkbox --}}
+  <div class="row">
+    <div class="type-filter-title small-12 medium-12 large-12 columns">
+      {{t "order_filters.priority"}}
+    </div>
+  </div>
+  <div class="row">
+    <div class='checkbox small-12 medium-12 large-12 columns'>
+      {{order-filter-checkbox name="showPriority"}}
+    </div>
+  </div>
+  <br/>
+
+  {{!-- Order Status Block --}}
+  <div class="row">
+    <div class="type-filter-title small-12 medium-12 large-12 columns">
+      {{t "order_filters.state_filter_title"}}
+    </div>
+  </div>
+  {{#each orderStateFilters as |state|}}
+    <div class="row">
+      <div class='checkbox small-12 medium-12 large-12 columns'>
+        {{order-filter-checkbox name=state}}
+      </div>
+    </div>
+  {{/each}}
+</div>

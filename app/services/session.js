@@ -6,6 +6,8 @@ export default Ember.Service.extend({
   authToken:  Ember.computed.localStorage(),
   otpAuthKey: Ember.computed.localStorage(),
   language:   Ember.computed.localStorage(),
+  orderStateFilters: Ember.computed.localStorage(),
+  orderTypeFilters: Ember.computed.localStorage(),
   isLoggedIn: Ember.computed.notEmpty("authToken"),
   store:      Ember.inject.service(),
 
@@ -17,5 +19,7 @@ export default Ember.Service.extend({
   clear: function() {
     this.set("authToken", null);
     this.set("otpAuthKey", null);
+    this.set("orderStateFilters", null);
+    this.set("orderTypeFilters", null);
   }
 });
