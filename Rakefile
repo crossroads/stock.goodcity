@@ -41,17 +41,6 @@ TESTFAIRY_PLUGIN_URL = 'https://github.com/testfairy/testfairy-cordova-plugin'.f
 TESTFAIRY_PLUGIN_NAME = 'com.testfairy.cordova-plugin'.freeze
 KEYSTORE_FILE = "#{CORDOVA_PATH}/goodcity.keystore".freeze
 BUILD_JSON_FILE = "#{CORDOVA_PATH}/build.json".freeze
-IOS_SIGNING_STYLE = false
-IOS_DEBUGMODE_BUILDCONF = {
-  code_signing: "\'iPhone Developer\'",
-  package_type: 'development',
-  icloud_container_environment: 'Development'
-}.freeze
-IOS_RELEASEMODE_BUILDCONF = {
-  code_signing: "\'iPhone Distribution\'",
-  package_type: 'app-store',
-  icloud_container_environment: 'Production'
-}.freeze
 
 # Default task
 task default: %w[app:build]
@@ -201,27 +190,49 @@ def app_version
   end
 end
 
-def ios_build_config
-  signing_style = IOS_SIGNING_STYLE
-  team_id = ENV['IOS_DEVELOPMENT_TEAM_ID']
+def mobile_provisioning_file
+  prefix = ['~', 'Library', 'MobileDevice', 'Provisioning\ Profiles']
+  file = if production_env?
+      "GoodCity_Stock.mobileprovision"
+    else
+      "GoodCity_Stock_Staging.mobileprovision"
+    end
+  File.join(prefix, file)
+end
 
-  if(environment === 'production')
-    provisioning_profile = ENV['PROVISIONING_PROFILE_PROD']
-    code_signing = IOS_RELEASEMODE_BUILDCONF[:code_signing]
-    package_type = IOS_RELEASEMODE_BUILDCONF[:package_type]
-    icloud_container_environment = IOS_RELEASEMODE_BUILDCONF[:icloud_container_environment]
-  else
-    provisioning_profile = ENV['PROVISIONING_PROFILE_STAGING']
-    code_signing = IOS_DEBUGMODE_BUILDCONF[:code_signing]
-    package_type = IOS_DEBUGMODE_BUILDCONF[:package_type]
-    icloud_container_environment = IOS_DEBUGMODE_BUILDCONF[:icloud_container_environment]
+def mobile_provisioning_plist
+  @mobile_provisioning_plist ||= begin
+    profile = `openssl smime -inform der -verify -noverify -in #{mobile_provisioning_file}`
+    Plist.parse_xml(profile)
   end
+end
 
-  " --codeSignIdentity=#{code_signing} --developmentTeam=#{team_id} --packageType=#{package_type} --provisioningProfile=\'#{provisioning_profile}\' --automaticProvisionin=#{signing_style} --icloud_container_environment=#{icloud_container_environment}"
+def ios_build_config
+  opts = {}
+  opts["developmentTeam"] = mobile_provisioning_plist["TeamIdentifier"].first
+  opts["automaticProvisionin"] = false
+  opts["provisioningProfile"] = mobile_provisioning_plist["UUID"]
+  if production_env?
+    opts["codeSignIdentity"] = "\'iPhone Distribution\'"
+    opts["packageType"] = "app-store"  
+    opts["icloud_container_environment"] = "Production"
+  else
+    opts["codeSignIdentity"] = "\'iPhone Developer\'"
+    opts["packageType"] = 'development'
+    opts["icloud_container_environment"] = "Development"
+  end
+  opts.map do |key, value|
+    "--#{key}=#{value}"
+  end.join(" ")
+  #" --codeSignIdentity=#{code_signing} --developmentTeam=#{team_id} --packageType=#{package_type} --provisioningProfile=\'#{provisioning_profile}\' --automaticProvisionin=#{signing_style} --icloud_container_environment=#{icloud_container_environment}"
 end
 
 def is_staging
   environment == 'staging'
+end
+
+def production_env?
+  environment == 'production'
 end
 
 def build_details
