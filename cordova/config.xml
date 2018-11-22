@@ -81,7 +81,8 @@
         </config-file>
     </platform>
     <universal-links>
-      <host event="redirectToItem" name="stock-staging.goodcity.hk" scheme="https" />
+        <host event="redirectToItem" name="stock-staging.goodcity.hk" scheme="https" />
+        <host event="redirectToItem" name="stock.goodcity.hk" scheme="https" />
     </universal-links>
     <engine name="ios" spec="https://github.com/apache/cordova-ios.git#4.5.5" />
     <engine name="android" spec="~6.3.0" />
@@ -99,6 +100,6 @@
     <plugin name="cordova-plugin-globalization" spec="https://github.com/apache/cordova-plugin-globalization.git" />
     <plugin name="cordova-plugin-inappbrowser" spec="https://github.com/apache/cordova-plugin-inappbrowser.git" />
     <plugin name="cordova-plugin-dialogs" spec="https://github.com/apache/cordova-plugin-dialogs.git" />
-    <plugin name="phonegap-plugin-push" spec="~2.1.2"/>
+    <plugin name="phonegap-plugin-push" spec="~2.1.2" />
     <plugin name="cordova-plugin-deeplinks" spec="https://github.com/e-imaxina/cordova-plugin-deeplinks.git" />
 </widget>
