@@ -29,20 +29,22 @@ export default searchModule.extend({
         { perPage: 25, startingPage: 1, modelPath: 'filteredResults', stockRequest: true },
         { orderId: "orderId", searchText: "searchText", itemId: "itemSetId" })
         .then(data => {
-          data.forEach(item => {
-            const itemQty = item.get("quantity");
-            if(item && (itemQty === 0 || itemQty > 1)) {
-              data.removeObject(item);
-            }
-            if(item &&item.get('itemId') && !this.get('dataOnceRequested')) {
-              this.set('dataOnceRequested', true);
-              this.send('displaySetItems', item);
-            }
-          });
-          if(this.get("searchText").trim() === data.meta.search) {
-            this.set("filteredResults", data);
-            this.set("hasNoResults", data.get("length") === 0);
+          if(this.get("searchText").trim() !== data.meta.search) {
+            return;
           }
+
+          data = data.filter(item => item && item.get("quantity") === 1);
+
+          if (!this.get('dataOnceRequested')) {
+            const itemWithId = data.findBy('itemId');
+            if (itemWithId) {
+              this.set('dataOnceRequested', true);
+              this.send('displaySetItems', itemWithId);
+            }
+          }
+
+          this.set("filteredResults", data);
+          this.set("hasNoResults", data.get("length") === 0);
 
           if(data.get("length") === 1) {
             Ember.run.debounce(this, this.triggerDisplayDesignateOverlay, 100);
