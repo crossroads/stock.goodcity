@@ -13,6 +13,7 @@
     <allow-intent href="https://*/*" launch-external="yes" />
     <platform name="android">
         <resource-file src="google-services.json" target="google-services.json" />
+        <preference name="AndroidLaunchMode" value="singleInstance" />
         <preference name="LoadUrlTimeoutValue" value="120000" />
         <preference name="SplashScreen" value="screen" />
         <preference name="SplashScreenDelay" value="5000" />
@@ -79,6 +80,9 @@
             <string>Needs photo library access to save photos</string>
         </config-file>
     </platform>
+    <universal-links>
+      <host event="redirectToItem" name="stock-staging.goodcity.hk" scheme="https" />
+    </universal-links>
     <engine name="ios" spec="https://github.com/apache/cordova-ios.git#4.5.5" />
     <engine name="android" spec="~6.3.0" />
     <engine name="windows" spec="~4.3.1" />
@@ -96,4 +100,5 @@
     <plugin name="cordova-plugin-inappbrowser" spec="https://github.com/apache/cordova-plugin-inappbrowser.git" />
     <plugin name="cordova-plugin-dialogs" spec="https://github.com/apache/cordova-plugin-dialogs.git" />
     <plugin name="phonegap-plugin-push" spec="~2.1.2"/>
+    <plugin name="cordova-plugin-deeplinks" spec="https://github.com/e-imaxina/cordova-plugin-deeplinks.git" />
 </widget>
