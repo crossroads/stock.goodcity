@@ -29,6 +29,7 @@
 require "json"
 require "fileutils"
 require "rake/clean"
+require 'plist'
 
 ROOT_PATH = File.dirname(__FILE__)
 CORDOVA_PATH = "#{ROOT_PATH}/cordova".freeze
