@@ -12,6 +12,4 @@ export default searchModule.extend({
       this.store.findRecord("gc_organisation", orgId, { reload: false });
     }
   }
-
-
 });
