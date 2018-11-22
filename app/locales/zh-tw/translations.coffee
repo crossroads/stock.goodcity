@@ -21,6 +21,15 @@ I18nTranslationsEn =
   "menu": "主目錄"
   "search_organisation": "搜尋機構"
   "not_now": "稍後"
+  "incomplete_form": "請填寫必需填寫之項目以繼續下一步"
+
+  "weekday_1": "星期一"
+  "weekday_2": "星期二"
+  "weekday_3": "星期三"
+  "weekday_4": "星期四"
+  "weekday_5": "星期五"
+  "weekday_6": "星期六"
+  "weekday_7": "星期日"
 
   "authenticate":
     "input_code" : "請輸入驗證碼"
@@ -181,5 +190,22 @@ I18nTranslationsEn =
       "validation_error":
         "email": "請輸入有效的電郵地址"
         "mobile": "手提電話號碼必須為8個數字"
+
+  "settings":
+    "appointments":
+      "title": "預約配額"
+      "quota": "配額"
+      "default_quotas": "預設配額"
+      "special_dates": "特別日期"
+      "override_quota": "取代預設配額以獲得可選擇之日期"
+      "add_date": "設定日期"
+      "note": "別註"
+      "add_timeslot": "設定時間"
+      "delete_date": "刪除此日期"
+      "no_appointments": "沒有預約"
+      "special_day_placeholder": "例:星期四並沒有當值職員"
+      "special_day_description_input": "請提供作出改動之原因"
+      "select_day": "選擇一個日期"
+      "no_bookings_allowed": "此日期不允許預約"
 
 `export default I18nTranslationsEn`

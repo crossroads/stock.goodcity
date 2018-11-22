@@ -1,0 +1,112 @@
+.appointment-management {
+  $bar-height: 2.8rem;
+
+  .back-link {
+    position: absolute;
+    left: 1rem;
+  }
+
+  .bar {
+    height: $bar-height;
+    line-height: $bar-height;
+    text-align: center;
+    color: white;
+
+    &.slot-bar {
+      border-bottom: 1px solid #334f75;
+    }
+
+    &.notes {
+      text-align: left;
+      .warning {
+        color: #E25956;
+      }
+    }
+  }
+
+  .tab-bar {
+    text-align: center;
+    margin-bottom: 0.1rem;
+    .tab.selected {
+      border-bottom: 2px solid white;
+      font-family: $header-font-family;
+    }
+  }
+
+  .settings-section {
+    display: none;
+
+    &.show {
+      display: block;
+    }
+
+    .timeslot-container {
+      select {
+        width: 4.5rem;
+        padding: 0 0.5rem;
+        background: #002352 !important;
+        border: none !important;
+        color: white;
+        height: 1.8rem !important;
+        margin: 0 auto;
+        margin-top: 0.5rem;
+      }
+    }
+
+    .day-header {
+      font-size: 0.9rem;
+      background-color: #384f72;
+      .title {
+        font-family: $header-font-family;
+        overflow: visible;
+        white-space: nowrap;
+      }
+
+      .options_menu_list {
+        margin-top: 0px;
+      }
+    }
+
+    // Popup
+
+    .special-day-popup {
+      .input-label {
+        margin-top: 0.5rem;
+        margin-bottom: 0.5rem;
+      }
+      .missing-input-message {
+        color: red;
+        text-align: left;
+        margin-top: 1.5rem;
+        margin-bottom: 0.5rem;
+        visibility: hidden;
+        &.show {
+          visibility: visible;
+        }
+      }
+    }
+
+    // Icons
+
+    i.fa {
+      font-size: 1rem;
+    }
+
+    .delete-btn i.fa {
+      color: #E25956;
+    }
+
+    // Buttons 
+
+    .add-slot-btn {
+      $btn-height: 2rem;
+      border: 1px solid white;
+      max-width: 9rem;
+      height: $btn-height;
+      line-height: $btn-height;
+      margin-top: ($bar-height - $btn-height) / 2
+    }
+
+
+  }
+}
