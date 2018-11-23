@@ -328,4 +328,4 @@ workflows:
               - test_cases
             filters:
               branches:
-                only: /^(master|live|GCW-2211-Improve-IOS-Build-Configuration)$/
+                only: /^(master|live)$/
