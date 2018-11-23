@@ -217,7 +217,8 @@ DEPENDENCIES
   cocoapods
   credentials_manager
   fastlane
+  plist
   rake
 
 BUNDLED WITH
-   1.16.4
+   1.16.6

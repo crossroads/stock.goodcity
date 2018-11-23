@@ -4,3 +4,4 @@ gem "rake"
 gem "fastlane"
 gem "credentials_manager"
 gem "cocoapods"
+gem 'plist'
