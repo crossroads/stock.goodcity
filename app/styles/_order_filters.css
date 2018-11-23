@@ -1,18 +1,20 @@
-.filter-button-css, .filter-button-css:hover {
-  border-radius: 10px;
-  background-color: white;
-  color: #8c8c8c;
-  border: none;
-  margin-bottom: 0.7rem !important;
-  @media #{$small-only} {
-    margin-bottom: 0.5rem !important;
+.filter-buttons {
+  line-height: 3rem;
+  .filter-button-css, .filter-button-css:hover {
+    border-radius: 10px;
+    background-color: white;
+    color: #8c8c8c;
+    border: none;
+    margin-bottom: 0.7rem !important;
+    @media #{$small-only} {
+      margin-bottom: 0.5rem !important;
+    }
   }
 }
 
 .filter-button-border, .filter-button-border:hover {
-  border: 2px solid #4286f4 !important;
-  color: white;
-  background-color: #8c8c8c;
+  color: white !important;
+  background-color: #8c8c8c !important;
 }
 
 .order-filters {
@@ -56,29 +58,16 @@
   }
 
   .type-filter-block {
-    i.nested-array-icon {
-      /*padding-top: 0.1rem;*/
-      @media #{$small-only} {
-        margin-right: 7.7rem;
-      }
-      @media #{$medium-only} {
-        margin-right: 20.5rem;
-      }
-      @media #{$large-only} {
-        margin-right: 28.5rem;
-      }
-    }
-
     i {
       /*padding-top: 0.1rem;*/
       color: white;
       font-size: 1.2rem;
       float: right;
       @media #{$small-only} {
-        margin-right: 6.5rem;
+        margin-right: 6rem;
       }
       @media #{$medium-only} {
-        margin-right: 19.2rem;
+        margin-right: 18.2rem;
       }
       @media #{$large-only} {
         margin-right: 27.2rem;
