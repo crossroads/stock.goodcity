@@ -7,12 +7,12 @@ aliases:
         - image: circleci/node:boron
       working_directory: ~/code
   - &restore-repo-cache
-      key: stock-goodcity-{{ .Environment.CIRCLE_SHA1 }}
+      key: v1-stock-goodcity-{{ .Environment.CIRCLE_SHA1 }}
   - &restore-yarn-cache
       keys:
-        - stock-goodcity-packages-{{ checksum "yarn.lock" }}
+        - v1-stock-goodcity-packages-{{ checksum "yarn.lock" }}
   - &save-yarn-cache
-      key: stock-goodcity-packages-{{ checksum "yarn.lock" }}
+      key: v1-stock-goodcity-packages-{{ checksum "yarn.lock" }}
       paths:
         - node_modules
         - ~/.cache/yarn
@@ -20,15 +20,15 @@ aliases:
     |
       yarn install --non-interactive --cache-folder ~/.cache/yarn --frozen-lockfile
   - &restore-bower-cache
-      key: stock-goodcity-bower-{{ checksum "bower.json" }}
+      key: v1-stock-goodcity-bower-{{ checksum "bower.json" }}
   - &save-bower-cache
-      key: stock-goodcity-bower-{{ checksum "bower.json" }}
+      key: v1-stock-goodcity-bower-{{ checksum "bower.json" }}
       paths:
         - bower_components
   - &restore-bundle-cache
-      key: stock-goodcity-bundle-{{ checksum "Gemfile.lock" }}
+      key: v1-stock-goodcity-bundle-{{ checksum "Gemfile.lock" }}
   - &save-bundle-cache
-      key: stock-goodcity-bundle-{{ checksum "Gemfile.lock" }}
+      key: v1-stock-goodcity-bundle-{{ checksum "Gemfile.lock" }}
       paths:
         - vendor/bundle
 
@@ -38,7 +38,7 @@ jobs:
     steps:
       - checkout
       - save_cache:
-          key: stock-goodcity-{{ .Environment.CIRCLE_SHA1 }}
+          key: v1-stock-goodcity-{{ .Environment.CIRCLE_SHA1 }}
           paths:
             - ~/code
 
