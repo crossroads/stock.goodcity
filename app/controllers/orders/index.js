@@ -5,6 +5,7 @@ export default searchModule.extend({
   searchModelName: "designation",
   unloadAll: true,
   minSearchTextLength: 2,
+  queryParams: ['filteredOrders'],
 
   onItemLoaded(record) {
     const orgId = record.get("gcOrganisationId");

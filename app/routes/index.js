@@ -1,4 +1,5 @@
 import SessionRoute from './session';
+import AjaxPromise from 'stock/utils/ajax-promise';
 
 export default SessionRoute.extend({
   model() {
@@ -12,5 +13,6 @@ export default SessionRoute.extend({
       });
     this.get('store').pushPayload(recentlyUsedDesignations);
     this.get('store').pushPayload(recentlyUsedLocations);
+    return new AjaxPromise("/orders/summary", "GET", this.session.get("authToken"))
   }
 });

@@ -70,7 +70,7 @@ export default Ember.Controller.extend(InfinityRoute, {
       this.set("hasNoResults", false);
       if(this.get("unloadAll")) { this.get("store").unloadAll(); }
 
-      const paginationOpts = { perPage: 25, startingPage: 1, modelPath: 'filteredResults', stockRequest: true };
+      const paginationOpts = { perPage: 25, startingPage: 1, modelPath: 'filteredResults', stockRequest: true, type: this.get('params') };
       this.infinityModel(this.get("searchModelName"),
         paginationOpts,
         this.buildQueryParamMap()

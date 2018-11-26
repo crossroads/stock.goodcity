@@ -5,6 +5,29 @@
   }
 }
 
+.order_detail {
+  text-align: center;
+  height: 100px;
+  font-size: 1rem;
+  color:#DFE5EC;
+
+  i {
+    margin-top:25px;
+  }
+}
+
+.priority_details {
+  height: 50px;
+  i {
+    margin-top:10px !important;
+  }
+}
+
+.processing { background-color:#ED4C4E; }
+.awaiting_dispatch { background-color:#6FAB4A; }
+.submitted { background-color:#438BCA; }
+.dispatching { background-color:#021C41; }
+
 .footer {
   background-color: $dark-blue;
   position: fixed;
