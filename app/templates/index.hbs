@@ -11,92 +11,76 @@
       <div class="small-12 columns summary" style="padding-left: 5%;padding-right: 5%;">
         <h2>Orders In Process</h2>
         <div class="row">
-          {{#link-to 'orders' (query-params filteredOrders='submitted')}}
-            <div class="small-3 columns">
-              <div  class="order_detail submitted">
-                Submitted <br>
-                <i class="fa fa-envelope">&nbsp;{{model.submitted}}</i>
-              </div>
+          <div class="small-3 columns" {{action 'gotOrder' 'submitted' }} >
+            <div  class="order_detail submitted">
+              Submitted <br>
+              <i class="fa fa-envelope">&nbsp;{{model.submitted}}</i>
             </div>
-          {{/link-to}}
+          </div>
 
-          {{#link-to 'orders' (query-params filteredOrders='processing')}}
-            <div class="small-3 columns">
-              <div  class="order_detail processing">
-                Processing <br>
-                <i class="fa fa-list">&nbsp;{{model.processing}}</i>
-              </div>
+          <div class="small-3 columns" {{action 'gotOrder' 'processing' }} >
+            <div  class="order_detail processing">
+              Processing <br>
+              <i class="fa fa-list">&nbsp;{{model.processing}}</i>
             </div>
-          {{/link-to}}
+          </div>
 
-          {{#link-to 'orders' (query-params filteredOrders='awaiting_dispatch')}}
-            <div class="small-3 columns">
-              <div  class="order_detail awaiting_dispatch">
-                Scheduled <br>
-                <i class="fa fa-clock-o">&nbsp;{{model.awaiting_dispatch}}</i>
-              </div>
+          <div class="small-3 columns" {{action 'gotOrder' 'scheduled' }} >
+            <div  class="order_detail awaiting_dispatch">
+              Scheduled <br>
+              <i class="fa fa-clock-o">&nbsp;{{model.scheduled}}</i>
             </div>
-          {{/link-to}}
+          </div>
 
-          {{#link-to 'orders' (query-params filteredOrders='dispatching')}}
-            <div class="small-3 columns">
-              <div  class="order_detail dispatching">
-                Dispatching <br>
-                <i class="fa fa-paper-plane">&nbsp;{{model.dispatching}}</i>
-              </div>
+          <div class="small-3 columns" {{action 'gotOrder' 'dispatching' }} >
+            <div  class="order_detail dispatching">
+              Dispatching <br>
+              <i class="fa fa-paper-plane">&nbsp;{{model.dispatching}}</i>
             </div>
-          {{/link-to}}
+          </div>
         </div>
 
         <br>
 
         <div class="row">
           <div class="small-3 columns">
-            {{#link-to 'orders' (query-params filteredOrders='priority_submitted')}}
-              <div class="order_detail priority_details submitted">
-                {{#if model.priority_submitted }}
-                  <i class="fa fa-exclamation-triangle ">&nbsp;&nbsp;{{model.priority_submitted}}</i>
-                {{else}}
-                  <i class="fa fa-check"></i>
-                {{/if}}
-              </div>
-            {{/link-to}}
+            <div class="order_detail priority_details submitted" {{action 'gotOrder' 'submitted' 'showPriority'}}>
+              {{#if model.priority_submitted }}
+                <i class="fa fa-exclamation-triangle ">&nbsp;&nbsp;{{model.priority_submitted}}</i>
+              {{else}}
+                <i class="fa fa-check"></i>
+              {{/if}}
+            </div>
           </div>
 
           <div class="small-3 columns">
-            {{#link-to 'orders' (query-params filteredOrders='priority_processing')}}
-              <div class="order_detail priority_details processing">
-                {{#if model.priority_processing }}
-                  <i class="fa fa-exclamation-triangle ">&nbsp;{{model.priority_processing}}</i>
-                {{else}}
-                  <i class="fa fa-check"></i>
-                {{/if}}
-              </div>
-            {{/link-to}}
+            <div class="order_detail priority_details processing" {{action 'gotOrder' 'processing' 'showPriority'}}>
+              {{#if model.priority_processing }}
+                <i class="fa fa-exclamation-triangle ">&nbsp;{{model.priority_processing}}</i>
+              {{else}}
+                <i class="fa fa-check"></i>
+              {{/if}}
+            </div>
           </div>
 
           <div class="small-3 columns">
-            {{#link-to 'orders' (query-params filteredOrders='priority_awaiting_dispatch')}}
-              <div class="order_detail priority_details awaiting_dispatch">
-                {{#if model.priority_awaiting_dispatch }}
-                  <i class="fa fa-exclamation-triangle ">&nbsp;{{model.priority_awaiting_dispatch}}</i>
-                {{else}}
-                  <i class="fa fa-check"></i>
-                {{/if}}
-              </div>
-            {{/link-to}}
+            <div class="order_detail priority_details awaiting_dispatch" {{action 'gotOrder' 'scheduled' 'showPriority'}}>
+              {{#if model.priority_scheduled }}
+                <i class="fa fa-exclamation-triangle ">&nbsp;{{model.priority_scheduled}}</i>
+              {{else}}
+                <i class="fa fa-check"></i>
+              {{/if}}
+            </div>
           </div>
 
           <div class="small-3 columns">
-            {{#link-to 'orders' (query-params filteredOrders='priority_dispatching')}}
-              <div class="order_detail priority_details dispatching">
-                {{#if model.priority_dispatching }}
-                  <i class="fa fa-exclamation-triangle ">&nbsp;{{model.priority_dispatching}}</i>
-                {{else}}
-                  <i class="fa fa-check"></i>
-                {{/if}}
-              </div>
-            {{/link-to}}
+            <div class="order_detail priority_details dispatching" {{action 'gotOrder' 'dispatching' 'showPriority'}}>
+              {{#if model.priority_dispatching }}
+                <i class="fa fa-exclamation-triangle ">&nbsp;{{model.priority_dispatching}}</i>
+              {{else}}
+                <i class="fa fa-check"></i>
+              {{/if}}
+            </div>
           </div>
         </div>
       </div>

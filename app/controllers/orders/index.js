@@ -8,7 +8,7 @@ export default searchModule.extend({
   queryParams: ['filteredOrders'],
 
   onItemLoaded(record) {
-    const orgId = record.get("gcOrganisationId");
+    const orgId = Ember.get(record, 'gcOrganisationId');
     if (orgId) {
       this.store.findRecord("gc_organisation", orgId, { reload: false });
     }
