@@ -138,6 +138,10 @@ jobs:
           name: Setup Environment
           command: echo 'export ENVIRONMENT=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo production; else echo staging; fi)' >> $BASH_ENV
       - run: bundle exec cap $ENVIRONMENT deploy:upload
+      - run:
+          name: Upload Source Map to Rollbar
+          command: |
+            curl https://api.rollbar.com/api/1/sourcemap/download -F access_token="${ROLLBAR_KEY}" -F version="${APP_VERSION}" -F minified_url=$ASSET_HOST_URL/$SOURCE_MAP
 
   ember_cordova_build:
     <<: *defaults
