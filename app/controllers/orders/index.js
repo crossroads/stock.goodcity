@@ -1,3 +1,4 @@
+import Ember from 'ember';
 import searchModule from "../search_module";
 
 export default searchModule.extend({
@@ -5,7 +6,7 @@ export default searchModule.extend({
   searchModelName: "designation",
   unloadAll: true,
   minSearchTextLength: 2,
-  queryParams: ['filteredOrders'],
+  queryParams: ['isFiltered'],
 
   onItemLoaded(record) {
     const orgId = Ember.get(record, 'gcOrganisationId');

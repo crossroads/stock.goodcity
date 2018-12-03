@@ -1,44 +1,40 @@
 import AuthorizeRoute from './../authorize';
+import Ember from "ember";
 import AjaxPromise from 'stock/utils/ajax-promise';
 
 export default AuthorizeRoute.extend({
+  filterService: Ember.inject.service(),
+
   model(params) {
-    let filter = JSON.parse(window.localStorage.getItem('orderStateFilters'));
-    let newFilterList = [];
-    if (filter.includes('showPriority')) {
-      for(let i=1;i < filter.length; i++){
-        newFilterList.push('showPriority_'+filter[i])
-      }
-    } else {
-      newFilterList = filter;
+    let filter = this.get('filterService').getOrderStateFilters();
+    let isPriority = this.get('filterService').isPriority();
+    if (isPriority) {
+      filter.shift();
     }
+
     if(!this.session.get("currentUser")) {
       new AjaxPromise("/auth/current_user_profile", "GET", this.session.get("authToken"))
         .then(data => {
           this.store.pushPayload(data);
         });
     }
-    if (newFilterList.length) {
-      return new AjaxPromise("/orders/filtered_order?order_type=" + newFilterList[0], "GET", this.session.get("authToken"))
+
+    if (filter.length && params.isFiltered) {
+      return this.store.query('designation', { state: filter.toString(), priority: isPriority });
     }
   },
 
   setupController(controller, model) {
     this._super(controller, model);
-    //controller.set('params', this.get('params'));
     if (model) {
-    this.store.pushPayload(model);
-      model.designations.forEach(record => {
-        controller.onItemLoaded(record);
-      });
-      controller.set("filteredResults", this.store.peekAll("designation"));
+      controller.set("filteredResults", model);
     }
   },
 
   resetController(controller, isExiting, transition) {
-    let UNLOAD_MODELS = ['designation','gc_organisation', 'orders_purpose', 'item','orders_package'];
-    UNLOAD_MODELS.forEach( (model) => {
-      this.store.unloadAll(model);
-    });
+    if (isExiting) {
+      controller.set('isFiltered', undefined);
+      controller.set("filteredResults", "");
+    }
   }
 });

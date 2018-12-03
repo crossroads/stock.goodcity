@@ -2,6 +2,7 @@ import Ember from "ember";
 import InfinityRoute from "ember-infinity/mixins/route";
 
 export default Ember.Controller.extend(InfinityRoute, {
+  filterService: Ember.inject.service(),
 
   getCurrentUser: Ember.computed(function(){
     var store = this.get('store');
@@ -70,7 +71,14 @@ export default Ember.Controller.extend(InfinityRoute, {
       this.set("hasNoResults", false);
       if(this.get("unloadAll")) { this.get("store").unloadAll(); }
 
-      const paginationOpts = { perPage: 25, startingPage: 1, modelPath: 'filteredResults', stockRequest: true, type: this.get('params') };
+      let filter = this.get('filterService').getOrderStateFilters();
+
+      let isPriority = this.get('filterService').isPriority();
+      if (isPriority) {
+        filter.shift();
+      }
+      let typesFilter = this.get('filterService').getOrderTypeFilters();
+      const paginationOpts = { perPage: 25, startingPage: 1, modelPath: 'filteredResults', stockRequest: true, state: this.stringifyArray(filter), type: this.stringifyArray(typesFilter), priority: isPriority };
       this.infinityModel(this.get("searchModelName"),
         paginationOpts,
         this.buildQueryParamMap()
@@ -88,6 +96,10 @@ export default Ember.Controller.extend(InfinityRoute, {
       .finally(() => this.set("isLoading", false));
     }
     this.set("filteredResults", []);
+  },
+
+  stringifyArray(stateAndType) {
+    return stateAndType && stateAndType.length ? stateAndType.toString() : '';
   },
 
   afterInfinityModel(records) {

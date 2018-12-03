@@ -1,3 +1,4 @@
+import Ember from 'ember';
 import SessionRoute from './session';
 import AjaxPromise from 'stock/utils/ajax-promise';
 
@@ -13,6 +14,9 @@ export default SessionRoute.extend({
       });
     this.get('store').pushPayload(recentlyUsedDesignations);
     this.get('store').pushPayload(recentlyUsedLocations);
-    return new AjaxPromise("/orders/summary", "GET", this.session.get("authToken"))
+    return Ember.RSVP.hash({
+      ordersCount: new AjaxPromise("/orders/summary", "GET", this.session.get("authToken")),
+      recentlyUsedDesignations: recentlyUsedDesignations
+    });
   }
 });
