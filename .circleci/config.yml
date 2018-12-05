@@ -343,4 +343,4 @@ workflows:
               - test_cases
             filters:
               branches:
-                only: /^(master|live)$/
+                only: live
