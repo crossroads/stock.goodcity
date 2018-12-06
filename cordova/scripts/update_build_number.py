@@ -26,7 +26,7 @@ import os
 import sys
 from xml.etree import ElementTree
 
-ANDROID_BUILD_VERSION_SEED = 1000
+ANDROID_BUILD_VERSION_SEED = 80000
 
 def get_circleci_build():
     build_number = os.getenv('CIRCLE_BUILD_NUM')
