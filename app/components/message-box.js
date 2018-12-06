@@ -24,20 +24,30 @@ export default Ember.Component.extend({
   actions: {
     btn1Click() {
       if (this.btn1Callback) {
-        this.btn1Callback();
+        if (this.btn1Callback() === false) {
+          return;
+        }
       }
       this.close();
     },
 
     btn2Click() {
       if (this.btn2Callback) {
-        this.btn2Callback();
+        if (this.btn2Callback() === false) {
+          return;
+        }
       }
       this.close();
     },
 
     closeModal() {
       this.close();
+    },
+
+    //Fix: Too deeply nested component(3 levels) failing randomly(Known issue with Ember)
+    //Remove when Ember is upgraded to >= 3.0
+    updateErrorMessage() {
+      return false;
     }
   }
 });

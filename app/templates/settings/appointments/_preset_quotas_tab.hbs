@@ -1,0 +1,69 @@
+{{!--
+
+    LEFT TAB: PRESETS 
+
+--}}
+<div class="settings-section presets {{if isPresetsTab 'show' 'hide'}}">
+  {{#each presetsByWeekDay as |weekDay|}}
+
+    {{!-- PRESET HEADER --}}
+    <div class="bar row day-header">
+      <div class="columns small-4 title">{{t (concat 'weekday_' weekDay.idx)}}</div>
+      <div class="columns small-4">{{t 'settings.appointments.quota'}}</div>
+      <div class="columns small-4">
+        {{!-- OPTIONS POPUP --}}
+        <i class="fa fa-ellipsis-v" {{action 'toggleOptionsMenu' weekDay}}/>
+        <div class="options_menu_list {{if weekDay.showOptionsMenu '' 'hidden'}}">
+          <div class="option_menu">
+            <a class='new-preset-btn' {{action 'newPreset' weekDay.idx}} >
+              <i class="fa fa-plus-circle" aria-hidden="true"></i>
+              {{t 'settings.appointments.add_timeslot'}}
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    {{#if weekDay.empty}}
+      {{!-- EMPTY MESSAGE --}}
+      <div class="row bar slot-bar">
+        <div class="columns small-12">{{ t 'settings.appointments.no_appointments' }}</div>
+      </div>
+    {{else}}
+      {{!-- LIST PRESETS FOR DAY --}}
+      {{#each weekDay.items as |item|}}
+        <div class="row bar slot-bar preset-timeslot">
+
+          <div class="columns small-4 title timeslot-container">
+            {{select-list
+              content=timeSlots
+              on-change=(action 'updatePresetTime' item weekDay)
+              selectedValue=item.timeslot
+              selectArrow=false
+              classNames='timeslots'
+              idNames='timeslot-select' }}
+          </div>
+
+          <div class="columns small-4">
+            <div class="columns small-4 text-align-right">
+              <i class="fa fa-minus-circle decrease-quota" {{ action 'decreaseQuotaOf' item.record }}></i>
+            </div>
+            <div class="columns small-4">
+              {{ item.record.quota }}
+            </div>
+            <div class="columns small-4 text-align-left">
+              <i class="fa fa-plus-circle increase-quota" {{ action 'increaseQuotaOf' item.record }}></i>
+            </div>
+          </div>
+
+          <div class="columns small-4">
+              <div class="delete-btn">
+                <i class="fa fa-times-circle-o" aria-hidden="true" {{action 'deleteRecord' item.record}}></i>
+              </div>
+          </div>
+        </div>
+      {{/each}}
+    {{/if}}
+  {{/each}}
+</div>
+

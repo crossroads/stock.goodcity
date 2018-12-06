@@ -1,0 +1,103 @@
+{{!--
+
+  RIGHT TAB: SPECIAL DATES 
+
+--}}
+<div class="settings-section special-days {{if isSpecialTab 'show' 'hide'}}">
+
+  {{!-- ADD DATE BUTTON --}}
+  <div class="bar row">
+    <div class="columns small-8">{{ t 'settings.appointments.override_quota' }}</div>
+    <div class="columns small-4">
+      <div class="add-slot-btn" {{action 'showDateCreationPopup'}}>
+        <i class="fa fa-calendar-plus-o" aria-hidden="true"></i>
+        {{ t 'settings.appointments.add_date' }}
+      </div>
+      {{partial 'settings/appointments/add_date_popup'}}
+    </div>
+  </div>
+
+
+  {{#each specialSlotsByDate as |dateObj|}}
+    {{!-- SPECIAL DAY HEADER --}}
+    <div class="bar row day-header">
+      <div class="columns small-4 title">{{ dateObj.dateString }}</div>
+      <div class="columns small-4">{{t 'settings.appointments.quota'}}</div>
+      <div class="columns small-4">
+
+        {{!-- OPTIONS POPUP --}}
+        <i class="fa fa-ellipsis-v" {{action 'toggleOptionsMenu' dateObj}}/>
+        <div class="options_menu_list {{if dateObj.showOptionsMenu '' 'hidden'}}">
+          <div class="option_menu">
+            <a class="new-timeslot-btn" {{action 'newSpecialSlot' dateObj.date}} >
+              <i class="fa fa-plus-circle" aria-hidden="true"></i>
+              {{t 'settings.appointments.add_timeslot'}}
+            </a>
+          </div>
+          <div class="option_menu">
+            <a {{action 'deleteAllItems' dateObj.items}} >
+              <i class="fa fa-trash" aria-hidden="true"></i>
+              {{t 'settings.appointments.delete_date'}}
+            </a>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+    {{#if dateObj.note}}
+      {{!-- NOTE --}}
+      <div class="row bar slot-bar notes">
+        <div class="columns small-12">
+          <div>{{ t 'settings.appointments.note' }}: {{ dateObj.note }}</div>
+        </div>
+      </div>
+    {{/if}}
+    {{#if dateObj.noAppointments}}
+      {{!-- WARNING --}}
+      <div class="row bar slot-bar notes">
+        <div class="columns small-12 warning">
+          <div>
+            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+            {{t 'settings.appointments.no_bookings_allowed' }}
+          </div>
+        </div>
+      </div>
+    {{/if}}
+    {{!-- LIST SLOTS FOR SPECIAL DATE --}}
+    {{#each dateObj.items as |slot|}}
+      {{#unless (is-equal slot.record.quota 0)}}
+        <div class="row bar slot-bar special-day-timeslot">
+
+          <div class="columns small-4 title timeslot-container">
+            {{select-list
+              content=timeSlots
+              on-change=(action 'updateSlotTime' slot dateObj)
+              selectedValue=slot.timeslot
+              selectArrow=false
+              classNames='timeslots'
+              idNames='timeslot-select-special' }}
+          </div>
+
+          <div class="columns small-4">
+            <div class="columns small-4 text-align-right">
+              <i class="fa fa-minus-circle decrease-quota" {{ action 'decreaseQuotaOf' slot.record }}></i>
+            </div>
+            <div class="columns small-4">
+              {{ slot.record.quota }}
+            </div>
+            <div class="columns small-4 text-align-left">
+              <i class="fa fa-plus-circle increase-quota" {{ action 'increaseQuotaOf' slot.record }}></i>
+            </div>
+          </div>
+
+          <div class="columns small-4">
+              <div class="delete-btn">
+                <i class="fa fa-times-circle-o delete-btn" aria-hidden="true" {{action 'deleteRecord' slot.record}}></i>
+              </div>
+          </div>
+
+        </div>
+      {{/unless}}
+    {{/each}}
+  {{/each}}
+</div>

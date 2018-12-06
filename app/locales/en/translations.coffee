@@ -22,6 +22,15 @@ I18nTranslationsEn =
   "menu": "Menu"
   "search_organisation": "Search Organisation"
   "not_now": "Not Now"
+  "incomplete_form": "Please fill in the required fields to continue"
+
+  "weekday_1": "Monday"
+  "weekday_2": "Tuesday"
+  "weekday_3": "Wednesday"
+  "weekday_4": "Thursday"
+  "weekday_5": "Friday"
+  "weekday_6": "Saturday"
+  "weekday_7": "Sunday"
 
   "authenticate":
     "input_code" : "Input Code"
@@ -44,10 +53,53 @@ I18nTranslationsEn =
     "logout": "Logout"
 
   "index":
-    "home": "Home",
+    "home": "Home"
     "orders": "Orders"
     "items": "Items"
     "goto": "Goto"
+
+  "order_filters":
+    "priority": "Priority"
+    "apply_filter_button": "Apply Filter"
+    "clear_button": "Clear"
+    "type_filter_title": "Order Types"
+    "state_filter_title": "Order Statuses"
+    "appointments": "Appointments"
+    "appointments_info": "Client comes to select goods from our warehouse with help from our staff"
+    "online_orders": "Online Orders"
+    "online_orders_info": "Client ordered specific goods online"
+    "collection": "Collection"
+    "collection_info": "Client will collect from our warehouse"
+    "dispatch": "Dispatch"
+    "dispatch_info": "We will load into van and send to client"
+    "shipments": "Shipments"
+    "shipments_info": "Overseas organisation will have goods shipped to them from Crossroads' warehouse"
+    "others": "Others"
+    "others_info": "Special designations such as recycling"
+    "showPriority": "Only show priority orders"
+    "showPriority_info": "Priority orders have been in one state longer than they should and they need quick attention"
+    "submitted": "Submitted"
+    "submitted_info": "GoodCity orders that have yet to be reviewed.</br>Also StockIt 'Active' & 'From website."
+    "processing": "Processing"
+    "processing_info": "GoodCity orders being reviewed.</br>Includes all other StockIt states."
+    "scheduled": "Scheduled"
+    "scheduled_info": "GoodCity order with confirmed booking time."
+    "dispatching": "Dispatching"
+    "dispatching_info": "GoodCity order being dispatched now."
+    "closed": "Closed"
+    "closed_info": "Orders that were successfully completed.</br>Includes sent shipments."
+    "cancelled": "Cancelled"
+    "cancelled_info": "Orders that were unsuccessful."
+
+
+  "split_quantity":
+    "btn": "Split"
+    "title": "Split Quantity"
+    "header": "Split off how many items?"
+    "info_1": "All items will have Q Inventory Number"
+    "info_2": "This action cannot be undone"
+    "warning": "Quantity to split must be at least 1 and less than {{qty}}"
+
 
   "order_details":
     "client_name": "Client name:"
@@ -86,6 +138,7 @@ I18nTranslationsEn =
   "order":
     "processing": "Processing"
     "submitted": "Submitted"
+    "draft": "Draft"
     "submitted_by": "Submitted By"
     "start_process": "Start Processing"
     "restart_process": "Restart Processing"
@@ -192,5 +245,22 @@ I18nTranslationsEn =
       "validation_error":
         "email": "Email should be valid."
         "mobile": "Mobile Number should be 8 digits."
+
+  "settings":
+    "appointments":
+      "title": "Appt. Quotas"
+      "quota": "Quota"
+      "default_quotas": "Default Quotas"
+      "special_dates": "Special Dates"
+      "override_quota": "Override default quotas for a given date"
+      "add_date": "Add Date"
+      "note": "Note"
+      "add_timeslot": "Add timeslot"
+      "delete_date": "Delete this date"
+      "no_appointments": "No appointments"
+      "special_day_placeholder": "E.g: No available staff this Thursday"
+      "special_day_description_input": "Please explain the reasons for the change"
+      "select_day": "Select a day"
+      "no_bookings_allowed": "No bookings will be allowed for this date"
 
 `export default I18nTranslationsEn`

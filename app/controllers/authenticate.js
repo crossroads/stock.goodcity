@@ -20,7 +20,7 @@ export default Ember.Controller.extend({
       var pin = this.get('pin');
       var otp_auth_key = this.get('session.otpAuthKey');
       var _this = this;
-
+      var attemptedTransition = this.get('attemptedTransition');
       var loadingView = getOwner(this).lookup('component:loading').append();
       new AjaxPromise("/auth/verify", "POST", null, {pin: pin, otp_auth_key: otp_auth_key})
         .then(function(data) {
@@ -29,7 +29,12 @@ export default Ember.Controller.extend({
           _this.set('session.otpAuthKey', null);
           _this.store.pushPayload(data.user);
           _this.setProperties({pin: null});
-          _this.transitionToRoute(_this.get("attemptedTransition.targetName") || "/");
+          if (attemptedTransition) {
+            attemptedTransition.retry();
+          } else {
+            _this.transitionToRoute("/");
+          }
+          _this.set('attemptedTransition', null);
         })
         .catch(function(jqXHR) {
           Ember.$('#pin').closest('div').addClass('error');

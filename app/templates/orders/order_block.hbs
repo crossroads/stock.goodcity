@@ -19,53 +19,54 @@
 
     </div>
 
-    <div class="row order_body">
+    {{#unless smallOrderBlocks}}
+      <div class="row order_body">
 
-      {{#if (is-and order.orderTransport order.orderTransport.scheduledAt)}}
-        <div class="row">
-          <div class="small-4 columns field">
-            {{ t "order.due_date" }}
+        {{#if (is-and order.orderTransport order.orderTransport.scheduledAt)}}
+          <div class="row">
+            <div class="small-4 columns field">
+              {{ t "order.due_date" }}
+            </div>
+            <div class="small-8 columns value">
+              {{  display-datetime order.orderTransport.scheduledAt format="dddd Do MMMM hh:mm a" }}
+            </div>
           </div>
-          <div class="small-8 columns value">
-            {{  display-datetime order.orderTransport.scheduledAt format="dddd Do MMMM hh:mm a" }}
-          </div>
-        </div>
-      {{/if}}
+        {{/if}}
 
-      {{#if order.submittedBy}}
-        <div class="row">
-          <div class="small-4 columns field">
-            {{ t "order.submitted_by" }}
+        {{#if order.submittedBy}}
+          <div class="row">
+            <div class="small-4 columns field">
+              {{ t "order.submitted_by" }}
+            </div>
+            <div class="small-8 columns value">
+              {{ order.submittedBy.firstName }} {{ order.submittedBy.lastName }}
+            </div>
           </div>
-          <div class="small-8 columns value">
-            {{ order.submittedBy.firstName }} {{ order.submittedBy.lastName }}
+        {{/if}}
+        
+        {{#if (is-or order.gcOrganisationId or order.organisationId)}}
+          <div class="row">
+            <div class="small-4 columns field">
+              {{ t "organisation_title" }}
+            </div>
+            <div class="small-8 columns value">
+              {{ if order.isGoodCityOrder order.gcOrganisation.nameEn order.organisation.name }}
+            </div>
           </div>
-        </div>
-      {{/if}}
-      
-      {{#if (is-or order.gcOrganisationId or order.organisationId)}}
-        <div class="row">
-          <div class="small-4 columns field">
-            {{ t "organisation_title" }}
-          </div>
-          <div class="small-8 columns value">
-            {{ if order.isGoodCityOrder order.gcOrganisation.nameEn order.organisation.name }}
-          </div>
-        </div>
-      {{/if}}
+        {{/if}}
 
-      {{#if order.stockitContact}}
-        <div class="row">
-          <div class="small-4 columns field">
-            {{ t "order.submitted_for_client" }}
+        {{#if order.stockitContact}}
+          <div class="row">
+            <div class="small-4 columns field">
+              {{ t "order.submitted_for_client" }}
+            </div>
+            <div class="small-8 columns value">
+              {{order.stockitContact.fullName}}
+            </div>
           </div>
-          <div class="small-8 columns value">
-            {{order.stockitContact.fullName}}
-          </div>
-        </div>
-      {{/if}}
+        {{/if}}
 
-      {{#if (is-or order.designatedOrdersPackages.length order.dispatchedOrdersPackages.length)}}
+        {{#if (is-or order.designatedOrdersPackages.length order.dispatchedOrdersPackages.length)}}
           <div class="row order_process_summary">
             <div class="small-4 columns field">
               {{ t "order.process_summary" }}
@@ -75,8 +76,9 @@
               <span>{{order.dispatchedOrdersPackages.length}} <i class="fa fa-ship"></i></span>
             </div>
           </div>
-      {{/if}}
+        {{/if}}
 
-    </div>
+      </div>
+    {{/unless}}
 
 </li>

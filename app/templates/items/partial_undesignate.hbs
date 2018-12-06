@@ -50,7 +50,7 @@
         </div>
       </div>
       <div class="columns small-3 item-status-quantity publish-item">
-        {{#if model.quantity}}
+        {{#if (is-and model.quantity model.isSingletonItem)}}
           {{publish-item item=model}}
         {{/if}}
       </div>

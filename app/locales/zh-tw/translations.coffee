@@ -21,6 +21,15 @@ I18nTranslationsEn =
   "menu": "主目錄"
   "search_organisation": "搜尋機構"
   "not_now": "稍後"
+  "incomplete_form": "請填寫必需填寫之項目以繼續下一步"
+
+  "weekday_1": "星期一"
+  "weekday_2": "星期二"
+  "weekday_3": "星期三"
+  "weekday_4": "星期四"
+  "weekday_5": "星期五"
+  "weekday_6": "星期六"
+  "weekday_7": "星期日"
 
   "authenticate":
     "input_code" : "請輸入驗證碼"
@@ -43,10 +52,51 @@ I18nTranslationsEn =
     "logout": "登出"
 
   "index":
-    "home": "主目錄",
+    "home": "主目錄"
     "orders": "訂單"
     "items": "物資"
     "goto": "前往"
+
+  "order_filters":
+    "priority": "Priority"
+    "apply_filter_button": "Apply Filter"
+    "clear_button": "Clear"
+    "type_filter_title": "Order Types"
+    "state_filter_title": "Order Statuses"
+    "appointments": "Appointments"
+    "appointments_info": "Client comes to select goods from our warehouse with help from our staff"
+    "online_orders": "Online Orders"
+    "online_orders_info": "Client ordered specific goods online"
+    "collection": "Collection"
+    "collection_info": "Client will collect from our warehouse"
+    "dispatch": "Dispatch"
+    "dispatch_info": "We will load into van and send to client"
+    "shipments": "Shipments"
+    "shipments_info": "Overseas organisation will have goods shipped to them from Crossroads' warehouse"
+    "others": "Others"
+    "others_info": "Special designations such as recycling"
+    "showPriority": "Only show priority orders"
+    "showPriority_info": "Priority orders have been in one state longer than they should and they need quick attention"
+    "submitted": "Submitted"
+    "submitted_info": "GoodCity orders that have yet to be reviewed.</br>Also StockIt 'Active' & 'From website."
+    "processing": "Processing"
+    "processing_info": "GoodCity orders being reviewed.</br>Includes all other StockIt states."
+    "scheduled": "Scheduled"
+    "scheduled_info": "GoodCity order with confirmed booking time."
+    "dispatching": "Dispatching"
+    "dispatching_info": "GoodCity order being dispatched now."
+    "closed": "Closed"
+    "closed_info": "Orders that were successfully completed.</br>Includes sent shipments."
+    "cancelled": "Cancelled"
+    "cancelled_info": "Orders that were unsuccessful."
+
+  "split_quantity":
+    "btn": "Split"
+    "title": "Split Quantity"
+    "header": "Split off how many items?"
+    "info_1": "All items will have Q Inventory Number"
+    "info_2": "This action cannot be undone"
+    "warning": "Quantity to split must be at least 1 and less than {{qty}}"
 
   "order_details":
     "client_name": "服務對使用者姓名"
@@ -85,6 +135,7 @@ I18nTranslationsEn =
   "order":
     "processing": "處理中"
     "submitted": "訂單已經提交"
+    "draft": "等待提交"
     "start_process": "開始訂單處理"
     "restart_process": "重新開始訂單處理"
     "finish_process": "完成訂單處理"
@@ -172,5 +223,22 @@ I18nTranslationsEn =
       "validation_error":
         "email": "請輸入有效的電郵地址"
         "mobile": "手提電話號碼必須為8個數字"
+
+  "settings":
+    "appointments":
+      "title": "預約配額"
+      "quota": "配額"
+      "default_quotas": "預設配額"
+      "special_dates": "特別日期"
+      "override_quota": "取代預設配額以獲得可選擇之日期"
+      "add_date": "設定日期"
+      "note": "別註"
+      "add_timeslot": "設定時間"
+      "delete_date": "刪除此日期"
+      "no_appointments": "沒有預約"
+      "special_day_placeholder": "例:星期四並沒有當值職員"
+      "special_day_description_input": "請提供作出改動之原因"
+      "select_day": "選擇一個日期"
+      "no_bookings_allowed": "此日期不允許預約"
 
 `export default I18nTranslationsEn`

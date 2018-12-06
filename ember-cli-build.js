@@ -11,11 +11,11 @@ module.exports = function(defaults) {
     },
     minifyJS: {
       options: {
-        exclude: ["**/stock.js"]
+        exclude: ["**/*.js"]
       }
     },
     fingerprint: {
-      extensions: ['css', 'png', 'jpg', 'gif', 'map'],
+      extensions: ['js', 'css', 'png', 'jpg', 'gif', 'map'],
       enabled: webRelease
     },
     gzip: {
@@ -37,6 +37,13 @@ module.exports = function(defaults) {
   app.import("bower_components/font-awesome/fonts/FontAwesome.otf", { destDir: "fonts" });
 
   app.import('bower_components/moment/moment.js');
+  app.import('bower_components/pickadate/lib/picker.js');
+  app.import('bower_components/pickadate/lib/picker.date.js');
+  app.import('bower_components/pickadate/lib/picker.time.js');
+
+  app.import("bower_components/pickadate/lib/themes/default.css");
+  app.import("bower_components/pickadate/lib/themes/default.date.css");
+  app.import("bower_components/pickadate/lib/themes/default.time.css");
 
   app.import('bower_components/slick-carousel/slick/ajax-loader.gif');
   app.import('bower_components/slick-carousel/slick/slick-theme.css');

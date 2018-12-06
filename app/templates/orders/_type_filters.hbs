@@ -1,0 +1,14 @@
+<div class="type-filter-block">
+  <div class="row">
+    <div class="type-filter-title small-12 medium-12 large-12 columns">
+      {{t "order_filters.type_filter_title"}}
+    </div>
+  </div>
+  {{#each allOrderTypeFilters as |type|}}
+    <div class='row'>
+      <div class='checkbox small-12 medium-12 large-12 columns'>
+        {{order-filter-checkbox name=type}}
+      </div>
+    </div>
+  {{/each}}
+</div>

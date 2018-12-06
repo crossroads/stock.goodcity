@@ -74,6 +74,7 @@ module.exports = function(environment) {
   };
 
   if (environment === 'development') {
+
     ENV.APP.API_HOST_URL = 'http://localhost:3000';
     ENV.APP.SOCKETIO_WEBSERVICE_URL = 'http://localhost:1337/goodcity';
 

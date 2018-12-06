@@ -168,8 +168,11 @@ export default searchModule.extend({
       })
       .catch((response) => {
         loadingView.destroy();
-        var errorMessage = response.responseJSON.errors[0];
-        if(errorMessage.toLowerCase().indexOf("error") >= 0) {
+        var errorMessage;
+        if(response.responseJSON.errors) {
+          errorMessage = response.responseJSON.errors[0];
+        }
+        if(errorMessage && errorMessage.toLowerCase().indexOf("error") >= 0) {
           this.get("messageBox").alert(errorMessage);
         }
       }).finally(() => {

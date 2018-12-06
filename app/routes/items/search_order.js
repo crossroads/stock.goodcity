@@ -51,12 +51,12 @@ export default AuthorizeRoute.extend({
         if(record.constructor.toString() === "stock@model:designation:") {
           this.store.query("orders_package", { search_by_order_id: record.get("id")
         });
-        }
-      });
+      }
+    });
 
     return Ember.RSVP.hash({
       item: item || this.store.findRecord('item', params.item_id),
-      designations: recentlyUsedDesignations.get('length') !== 0 ? recentlyUsedDesignations : this.get('store').query('designation', { recently_used: true })
+      designations: recentlyUsedDesignations.get('length') !== 0 ? recentlyUsedDesignations : this.get('store').query('designation', { shallow: true, recently_used: true })
     });
   },
 

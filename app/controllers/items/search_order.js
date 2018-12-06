@@ -22,6 +22,8 @@ export default searchModule.extend({
   showAllSetItems: false,
   selectedDesignation: null,
   toggleOverlay: true,
+  smallOrderBlocks: true,
+  excludeAssociations: true,
 
   actions: {
 

@@ -4,8 +4,13 @@
       <div class="columns small-9">
         <div class="row">
           <div class="columns small-4">Quantity </div>
-          <div class="columns small-8 value">
+          <div class="columns small-3 value item-quantity">
             {{item.quantity}}
+          </div>
+          <div class="columns small-5 value">
+            {{#if (is-greater item.quantity 1)}}
+              {{quantity-chooser item=item}}
+            {{/if}}
           </div>
         </div>
         <div class="row">

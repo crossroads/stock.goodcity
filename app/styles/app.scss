@@ -11,6 +11,7 @@
 @import "placeholder";
 @import "search";
 @import "colors";
+@import "order_filters";
 
 @import "templates/index";
 @import "templates/items/detail";
@@ -35,3 +36,4 @@
 @import "templates/organisations/search_organisations";
 @import "templates/users/new";
 @import "templates/notifications";
+@import "templates/appointments";
