@@ -89,6 +89,7 @@ I18nTranslationsEn =
     "closed_info": "Orders that were successfully completed.</br>Includes sent shipments."
     "cancelled": "Cancelled"
     "cancelled_info": "Orders that were unsuccessful."
+    "recent_orders": "Your recent orders"
 
   "split_quantity":
     "btn": "Split"

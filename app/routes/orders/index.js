@@ -19,7 +19,7 @@ export default AuthorizeRoute.extend({
         });
     }
 
-    if (filter.length && params.isFiltered) {
+    if (filter && filter.length && params.isFiltered) {
       return this.store.query('designation', { state: filter.toString(), priority: isPriority });
     }
   },
@@ -27,6 +27,9 @@ export default AuthorizeRoute.extend({
   setupController(controller, model) {
     this._super(controller, model);
     if (model) {
+      model.forEach(record => {
+        controller.onItemLoaded(record);
+      });
       controller.set("filteredResults", model);
     }
   },

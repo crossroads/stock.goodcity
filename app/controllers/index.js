@@ -9,7 +9,7 @@ export default Ember.Controller.extend({
     return config.cordova.enabled ? config.APP.VERSION : null;
   }),
 
-  isOrderFulfilmentUser: Ember.computed('session.currentUser', function() {
+  isOrderFulfilmentUser: Ember.computed('session.isLoggedIn', function() {
     let user = this.get('session.currentUser');
     return user.get('roleNames').indexOf('Order fulfilment') >= 0;
   }),

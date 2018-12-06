@@ -12,7 +12,9 @@ export default Ember.Service.extend({
   },
 
   isPriority() {
-    return this.getOrderStateFilters().indexOf('showPriority') >= 0;
+    if (this.getOrderStateFilters()) {
+      return this.getOrderStateFilters().indexOf('showPriority') >= 0;
+    }
   },
 
   setStateTypeFilter(states) {
