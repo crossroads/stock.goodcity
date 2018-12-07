@@ -9,16 +9,33 @@
   text-align: center;
   height: 4.5rem;
   font-size: 1.5vw;
-  color:#DFE5EC;
+  color:#DFE0E7;
+  border: 1.5px solid #27436C;
 
   i {
     margin-top:25px;
-    font-size: 1rem;
+    font-size: 1.1rem;
+    color: #FFFFFF;
+  }
+
+  span {
+    font-size: 1.2rem;
+    color: #FFFFFF;
   }
 
   @media #{$small-only} {
     font-size: 3.5vw;
   }
+}
+
+.order_count {
+  margin-top: -10%;
+}
+
+.order_title {
+  margin-left: 5px;
+  padding-top: 5px;
+  font-weight: 600;
 }
 
 .recent_orders {
@@ -85,18 +102,26 @@
       width: 3rem;
 
       .fa {
-        margin-left: 1.5em;
+        margin-left: 1.7em;
       }
+    }
 
+    @media #{$large-only} {
+      .fa {
+        margin-left: 1.2em !important;
+      }
     }
   }
 
 }
 
 .priority_details {
-  height: 2.3rem;
+  height: 3rem;
+  padding: 5%;
+
   i {
     margin-top:10px !important;
+    color: #FFFFFF;
   }
 }
 

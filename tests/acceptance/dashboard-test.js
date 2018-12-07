@@ -43,7 +43,7 @@ test("Order fulfilment user can view dashboard element", function(assert) {
   visit("/");
   andThen(function() {
     assert.equal(currentURL(), "/");
-    assert.equal($('.recent_orders').length, 2);
+    assert.equal($('.recent_orders').length, 1);
   });
 });
 
@@ -90,7 +90,7 @@ test("Clicking order type redirects to order page with order type list populated
     click(Ember.$('.submitted')[0]);
     andThen(function(){
       assert.equal(currentURL(), '/orders?isFiltered=true');
-    })
+    });
   });
 });
 
@@ -103,6 +103,6 @@ test("Clicking order type redirects to order page and selects filter of clicked 
     andThen(function(){
       assert.equal(currentURL(), '/orders?isFiltered=true');
       assert.equal(Ember.$('#order-state-filter').text(), 'Submitted');
-    })
+    });
   });
 });

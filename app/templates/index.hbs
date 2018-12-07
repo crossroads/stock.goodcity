@@ -7,35 +7,43 @@
       {{#link-to 'search_code' (query-params backToNewItem=false)}}Add item to inventory{{/link-to}}
     </div>
 
-    {{#if isOrderFulfilmentUser}}
+    {{#if session.isOrderFulfilmentUser}}
       <div class="small-12 columns summary recent_orders">
         <h2>Orders In Process</h2>
         <div class="row">
           <div class="small-3 columns" {{action 'goToOrder' 'submitted' }} >
             <div  class="order_detail submitted">
-              {{t 'order_filters.submitted'}} <br>
-              <i class="fa fa-envelope">&nbsp;&nbsp;{{model.ordersCount.submitted}}</i>
+              <div class="order_title">{{t 'order_filters.submitted'}}</div>
+              <div class="order_count">
+                <i class="fa fa-envelope"></i>&nbsp;&nbsp;<span>{{model.ordersCount.submitted}}</span>
+              </div>
             </div>
           </div>
 
           <div class="small-3 columns" {{action 'goToOrder' 'processing' }} >
             <div  class="order_detail processing">
-              {{t 'order_filters.processing'}} <br>
-              <i class="fa fa-list">&nbsp;&nbsp;{{model.ordersCount.processing}}</i>
+              <div class="order_title">{{t 'order_filters.processing'}}</div>
+              <div class="order_count">
+                <i class="fa fa-list"></i>&nbsp;&nbsp;<span>{{model.ordersCount.processing}}</span>
+              </div>
             </div>
           </div>
 
           <div class="small-3 columns" {{action 'goToOrder' 'awaiting_dispatch' }} >
             <div  class="order_detail awaiting_dispatch">
-              {{t 'order_filters.awaiting_dispatch'}} <br>
-              <i class="fa fa-clock-o">&nbsp;&nbsp;{{model.ordersCount.awaiting_dispatch}}</i>
+              <div class="order_title">{{t 'order_filters.awaiting_dispatch'}}</div>
+              <div class="order_count">
+                <i class="fa fa-clock-o"></i>&nbsp;&nbsp;<span>{{model.ordersCount.awaiting_dispatch}}</span>
+              </div>
             </div>
           </div>
 
           <div class="small-3 columns" {{action 'goToOrder' 'dispatching' }} >
             <div  class="order_detail dispatching">
-              {{t 'order_filters.dispatching'}} <br>
-              <i class="fa fa-paper-plane">&nbsp;&nbsp;{{model.ordersCount.dispatching}}</i>
+              <div class="order_title">{{t 'order_filters.dispatching'}}</div>
+              <div class="order_count">
+                <i class="fa fa-paper-plane"></i>&nbsp;&nbsp;<span>{{model.ordersCount.dispatching}}</span>
+              </div>
             </div>
           </div>
         </div>
@@ -46,7 +54,8 @@
           <div class="small-3 columns">
             <div class="order_detail priority_details submitted" {{action 'goToOrder' 'submitted' true}}>
               {{#if model.ordersCount.priority_submitted }}
-                <i class="fa fa-exclamation-triangle ">&nbsp;&nbsp;{{model.ordersCount.priority_submitted}}</i>
+                <i class="fa fa-exclamation-triangle "></i>&nbsp;&nbsp;
+                <span>{{model.ordersCount.priority_submitted}}</span>
               {{else}}
                 <i class="fa fa-check"></i>
               {{/if}}
@@ -56,7 +65,8 @@
           <div class="small-3 columns">
             <div class="order_detail priority_details processing" {{action 'goToOrder' 'processing' true}}>
               {{#if model.ordersCount.priority_processing }}
-                <i class="fa fa-exclamation-triangle ">&nbsp;&nbsp;{{model.ordersCount.priority_processing}}</i>
+                <i class="fa fa-exclamation-triangle "></i>&nbsp;&nbsp;
+                <span>{{model.ordersCount.priority_processing}}</span>
               {{else}}
                 <i class="fa fa-check"></i>
               {{/if}}
@@ -66,7 +76,8 @@
           <div class="small-3 columns">
             <div class="order_detail priority_details awaiting_dispatch" {{action 'goToOrder' 'awaiting_dispatch' true}}>
               {{#if model.ordersCount.priority_awaiting_dispatch }}
-                <i class="fa fa-exclamation-triangle ">&nbsp;&nbsp;{{model.ordersCount.priority_awaiting_dispatch}}</i>
+                <i class="fa fa-exclamation-triangle "></i>&nbsp;&nbsp;
+                <span>{{model.ordersCount.priority_awaiting_dispatch}}</span>
               {{else}}
                 <i class="fa fa-check"></i>
               {{/if}}
@@ -76,7 +87,8 @@
           <div class="small-3 columns">
             <div class="order_detail priority_details dispatching" {{action 'goToOrder' 'dispatching' true}}>
               {{#if model.ordersCount.priority_dispatching }}
-                <i class="fa fa-exclamation-triangle ">&nbsp;&nbsp;{{model.ordersCount.priority_dispatching}}</i>
+                <i class="fa fa-exclamation-triangle "></i>&nbsp;&nbsp;
+                <span>{{model.ordersCount.priority_dispatching}}</span>
               {{else}}
                 <i class="fa fa-check"></i>
               {{/if}}
@@ -85,7 +97,7 @@
         </div>
       </div>
 
-      {{!-- <div class="small-12 columns summary recent_orders">
+      {{!-- <div class="small-12 columns summary recent_orders" style="height:100vh;overflow-x:scroll;">
         <h2>{{t 'order_filters.recent_orders'}}</h2>
         {{#each model.recentlyUsedDesignations as |order|}}
           {{#link-to 'orders.items_list' order href=false}}
@@ -103,11 +115,9 @@
                     <i class="fa fa-{{ order.stateIcon }}"></i>
                   </div>
                 </div>
-
               </div>
           {{/link-to}}
         {{/each}}
-
       </div> --}}
     {{/if}}
   </div>

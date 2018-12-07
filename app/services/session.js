@@ -16,6 +16,11 @@ export default Ember.Service.extend({
     return store.peekAll('user_profile').get('firstObject') || null;
   }).volatile(),
 
+  isOrderFulfilmentUser: Ember.computed('isLoggedIn', function() {
+    let user = this.get('currentUser');
+    return user.get('roleNames').indexOf('Order fulfilment') >= 0;
+  }),
+
   clear: function() {
     this.set("authToken", null);
     this.set("otpAuthKey", null);

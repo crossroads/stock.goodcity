@@ -34,7 +34,7 @@ export default AuthorizeRoute.extend({
     }
   },
 
-  resetController(controller, isExiting, transition) {
+  resetController(controller, isExiting) {
     if (isExiting) {
       controller.set('isFiltered', undefined);
       controller.set("filteredResults", "");
