@@ -4,6 +4,7 @@ import AjaxPromise from 'stock/utils/ajax-promise';
 
 export default AuthorizeRoute.extend({
   filterService: Ember.inject.service(),
+  utilityMethods: Ember.inject.service(),
 
   model(params) {
     let filter = this.get('filterService').getOrderStateFilters();
@@ -19,7 +20,7 @@ export default AuthorizeRoute.extend({
         });
     }
 
-    if (filter && filter.length && params.isFiltered) {
+    if (this.get("utilityMethods").arrayExists(filter) && params.isFiltered) {
       return this.store.query('designation', { state: filter.toString(), priority: isPriority });
     }
   },

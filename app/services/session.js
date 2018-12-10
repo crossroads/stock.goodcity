@@ -18,7 +18,9 @@ export default Ember.Service.extend({
 
   isOrderFulfilmentUser: Ember.computed('isLoggedIn', function() {
     let user = this.get('currentUser');
-    return user.get('roleNames').indexOf('Order fulfilment') >= 0;
+    if (user) {
+      return user.get('roleNames').indexOf('Order fulfilment') >= 0;
+    }
   }),
 
   clear: function() {

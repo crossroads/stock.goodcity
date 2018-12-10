@@ -47,21 +47,6 @@ test("Order fulfilment user can view dashboard element", function(assert) {
   });
 });
 
-// test("Other than Order fulfilment user cannot view dashboard element", function(assert) {
-//   assert.expect(2);
-
-//   // $.mockjax({url:"/api/v1/auth/current_user_profile",type: 'GET', status: 200,
-//   //   responseText: userData });
-
-//   visit("/");
-
-//   andThen(function() {
-//     assert.equal(currentURL(), "/");
-//     assert.equal($('.recent_orders').length, 0);
-//   });
-// });
-
-
 test("Showing count of each type of Order type", function(assert) {
   assert.expect(9);
 
@@ -69,16 +54,16 @@ test("Showing count of each type of Order type", function(assert) {
   andThen(function() {
     //Non-priority Orders count
     assert.equal(currentURL(), "/");
-    assert.equal($('.submitted i').eq(0).text().trim(), 1);
-    assert.equal($('.processing i').eq(0).text().trim(), 2);
-    assert.equal($('.awaiting_dispatch i').eq(0).text().trim(), 4);
-    assert.equal($('.dispatching i').eq(0).text().trim(), 4);
+    assert.equal($('.submitted span').eq(0).text().trim(), 1);
+    assert.equal($('.processing span').eq(0).text().trim(), 2);
+    assert.equal($('.awaiting_dispatch span').eq(0).text().trim(), 4);
+    assert.equal($('.dispatching span').eq(0).text().trim(), 4);
 
     //Non-priority Orders count
-    assert.equal($('.submitted i').eq(1).text().trim(), 3);
-    assert.equal($('.processing i').eq(1).text().trim(), 1);
-    assert.equal($('.awaiting_dispatch i').eq(1).text().trim(), 4);
-    assert.equal($('.dispatching i').eq(1).text().trim(), 2);
+    assert.equal($('.submitted span').eq(1).text().trim(), 3);
+    assert.equal($('.processing span').eq(1).text().trim(), 1);
+    assert.equal($('.awaiting_dispatch span').eq(1).text().trim(), 4);
+    assert.equal($('.dispatching span').eq(1).text().trim(), 2);
   });
 });
 
@@ -86,7 +71,7 @@ test("Clicking order type redirects to order page with order type list populated
   visit("/");
   andThen(function() {
     assert.equal(currentURL(), "/");
-    assert.equal($('.submitted i').eq(0).text().trim(), 1);
+    assert.equal($('.order_count span').eq(0).text().trim(), 1);
     click(Ember.$('.submitted')[0]);
     andThen(function(){
       assert.equal(currentURL(), '/orders?isFiltered=true');
@@ -98,7 +83,7 @@ test("Clicking order type redirects to order page and selects filter of clicked 
   visit("/");
   andThen(function() {
     assert.equal(currentURL(), "/");
-    assert.equal($('.submitted i').eq(0).text().trim(), 1);
+    assert.equal($('.order_count span').eq(0).text().trim(), 1);
     click(Ember.$('.submitted')[0]);
     andThen(function(){
       assert.equal(currentURL(), '/orders?isFiltered=true');
