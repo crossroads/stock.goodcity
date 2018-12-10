@@ -1,4 +1,5 @@
 /* jshint node: true */
+const pkgJson = require('../package.json');
 
 module.exports = function(environment) {
   var ENV = {
@@ -46,7 +47,7 @@ module.exports = function(environment) {
 
       NAME: 'stock.goodcity',
       SHA: process.env.APP_SHA || "00000000",
-      VERSION: process.env.VERSION || "1.0.0",
+      VERSION: pkgJson.version || "1.0.0",
       environment: environment,
       APPLE_APP_ID: '1144806764',
       REVIEW_APP_NAME: 'Stock App',
