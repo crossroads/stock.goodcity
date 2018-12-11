@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import _ from "lodash";
 import startApp from '../helpers/start-app';
 import { module, test } from 'qunit';
 import '../factories/designation';
@@ -12,7 +13,8 @@ module('Acceptance: Dashboard', {
   beforeEach: function() {
     App = startApp({}, 2);
     var location = FactoryGuy.make("location");
-    var designation = FactoryGuy.make("designation");
+    var designations = _.range(1,6).map(order => FactoryGuy.make("designation", { id: order, state: 'submitted', detail_type: 'GoodCity' }).toJSON({ includeId: true }));
+
     data = {"user_profile": [{"id": 2,"first_name": "David", "last_name": "Dara51", "mobile": "61111111", "user_role_ids": [1]}], "users": [{"id": 2,"first_name": "David", "last_name": "Dara51", "mobile": "61111111"}], "roles": [{"id": 4, "name": "Order fulfilment"}], "user_roles": [{"id": 1, "user_id": 2, "role_id": 4}]};
 
     userData = {"user_profile": [{"id": 3,"first_name": "David", "last_name": "Dara51", "mobile": "61111112", "user_role_ids": [2]}], "users": [{"id": 3,"first_name": "David", "last_name": "Dara51", "mobile": "61111112"}], "roles": [{"id": 5, "name": "Supervisor"}], "user_roles": [{"id": 2, "user_id": 3, "role_id": 5}]};
@@ -26,7 +28,7 @@ module('Acceptance: Dashboard', {
     });
 
     $.mockjax({url:"/api/v1/designat*",
-      responseText:  {designations: [designation.toJSON({includeId: true})]}
+      responseText:  {designations: designations}
     });
     mockFindAll('location').returns({json: {locations: [location.toJSON({includeId: true})]}});
 
