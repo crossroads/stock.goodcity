@@ -84,12 +84,9 @@
         <host event="redirectToItem" name="stock-staging.goodcity.hk" scheme="https" />
         <host event="redirectToItem" name="stock.goodcity.hk" scheme="https" />
     </universal-links>
-    <engine name="ios" spec="https://github.com/apache/cordova-ios.git#4.5.5" />
-    <engine name="android" spec="~6.3.0" />
-    <engine name="windows" spec="~4.3.1" />
     <plugin name="cordova-plugin-statusbar" spec="~2.1.1" />
     <plugin name="cordova-plugin-actionsheet" spec="https://github.com/EddyVerbruggen/cordova-plugin-actionsheet.git" />
-    <plugin name="cordova-plugin-camera" spec="~2.1.1" />
+    <plugin name="cordova-plugin-camera" spec="^4.0.0" />
     <plugin name="cordova-plugin-network-information" spec="~1.2.0" />
     <plugin name="cordova-plugin-device" spec="~1.1.1" />
     <plugin name="cordova-plugin-whitelist" spec="~1.2.1" />
@@ -102,4 +99,7 @@
     <plugin name="cordova-plugin-dialogs" spec="https://github.com/apache/cordova-plugin-dialogs.git" />
     <plugin name="phonegap-plugin-push" spec="~2.1.2" />
     <plugin name="cordova-plugin-deeplinks" spec="https://github.com/e-imaxina/cordova-plugin-deeplinks.git" />
+    <engine name="ios" spec="https://github.com/apache/cordova-ios.git#4.5.5" />
+    <engine name="android" spec="~6.3.0" />
+    <engine name="windows" spec="~4.3.1" />
 </widget>
