@@ -7,7 +7,7 @@
       {{#link-to 'search_code' (query-params backToNewItem=false)}}Add item to inventory{{/link-to}}
     </div>
 
-    {{#if session.isOrderFulfilmentUser}}
+    {{#if session.currentUser.isOrderFulfilmentUser}}
       <div class="small-12 columns summary recent_orders">
         <h2>Orders In Process</h2>
         <div class="row">
@@ -15,7 +15,7 @@
             <div  class="order_detail submitted">
               <div class="order_title">{{t 'order_filters.submitted'}}</div>
               <div class="order_count">
-                <i class="fa fa-envelope"></i>&nbsp;&nbsp;<span>{{model.ordersCount.submitted}}</span>
+                <i class="fa fa-envelope"></i>&nbsp;&nbsp;<span>{{if model.ordersCount.submitted model.ordersCount.submitted 0}}</span>
               </div>
             </div>
           </div>
@@ -24,7 +24,7 @@
             <div  class="order_detail processing">
               <div class="order_title">{{t 'order_filters.processing'}}</div>
               <div class="order_count">
-                <i class="fa fa-list"></i>&nbsp;&nbsp;<span>{{model.ordersCount.processing}}</span>
+                <i class="fa fa-list"></i>&nbsp;&nbsp;<span>{{if model.ordersCount.processing model.ordersCount.processing 0}}</span>
               </div>
             </div>
           </div>
@@ -33,7 +33,7 @@
             <div  class="order_detail awaiting_dispatch">
               <div class="order_title">{{t 'order_filters.awaiting_dispatch'}}</div>
               <div class="order_count">
-                <i class="fa fa-clock-o"></i>&nbsp;&nbsp;<span>{{model.ordersCount.awaiting_dispatch}}</span>
+                <i class="fa fa-clock-o"></i>&nbsp;&nbsp;<span>{{if model.ordersCount.awaiting_dispatch model.ordersCount.awaiting_dispatch 0}}</span>
               </div>
             </div>
           </div>
@@ -42,7 +42,7 @@
             <div  class="order_detail dispatching">
               <div class="order_title">{{t 'order_filters.dispatching'}}</div>
               <div class="order_count">
-                <i class="fa fa-paper-plane"></i>&nbsp;&nbsp;<span>{{model.ordersCount.dispatching}}</span>
+                <i class="fa fa-paper-plane"></i>&nbsp;&nbsp;<span>{{if model.ordersCount.dispatching model.ordersCount.dispatching 0}}</span>
               </div>
             </div>
           </div>

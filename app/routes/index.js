@@ -4,7 +4,7 @@ import AjaxPromise from 'stock/utils/ajax-promise';
 
 export default SessionRoute.extend({
   model() {
-    let isOrderFulfilmentRole = this.get('session.isOrderFulfilmentUser');
+    let isOrderFulfilmentRole = this.get('session.currentUser.isOrderFulfilmentUser');
 
     var recentlyUsedDesignations = this.get('store').query('designation', { shallow: true, recently_used: true });
     var recentlyUsedLocations = this.get('store').query('location', { recently_used: true });

@@ -21,7 +21,8 @@ export default Ember.Service.extend({
   },
 
   clearFilters() {
-    window.localStorage.setItem('orderStateFilters', []);
+    window.localStorage.removeItem('orderStateFilters');
+    window.localStorage.removeItem('orderTypeFilters');
   }
 
 });

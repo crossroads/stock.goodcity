@@ -11,18 +11,81 @@ var App, data, userData;
 
 module('Acceptance: Dashboard', {
   beforeEach: function() {
+    $.mockjax.clear();
     App = startApp({}, 2);
     var location = FactoryGuy.make("location");
-    var designations = _.range(1,6).map(order => FactoryGuy.make("designation", { id: order, state: 'submitted', detail_type: 'GoodCity' }).toJSON({ includeId: true }));
+    var designations = _.range(1, 6).map(order => FactoryGuy.make("designation", {
+                        id: order,
+                        state: 'submitted',
+                        detail_type: 'GoodCity'
+                      })
+                      .toJSON({
+                        includeId: true
+                      }));
 
-    data = {"user_profile": [{"id": 2,"first_name": "David", "last_name": "Dara51", "mobile": "61111111", "user_role_ids": [1]}], "users": [{"id": 2,"first_name": "David", "last_name": "Dara51", "mobile": "61111111"}], "roles": [{"id": 4, "name": "Order fulfilment"}], "user_roles": [{"id": 1, "user_id": 2, "role_id": 4}]};
+    data = {
+      "user_profile": [{
+        "id": 2,
+        "first_name": "David",
+        "last_name": "Dara51",
+        "mobile": "61111111",
+        "user_role_ids": [1]
+      }],
+      "users": [{
+        "id": 2,
+        "first_name": "David",
+        "last_name": "Dara51",
+        "mobile": "61111111"
+      }],
+      "roles": [{
+        "id": 4,
+        "name": "Order fulfilment"
+      }],
+      "user_roles": [{
+        "id": 1,
+        "user_id": 2,
+        "role_id": 4
+      }]
+    };
 
-    userData = {"user_profile": [{"id": 3,"first_name": "David", "last_name": "Dara51", "mobile": "61111112", "user_role_ids": [2]}], "users": [{"id": 3,"first_name": "David", "last_name": "Dara51", "mobile": "61111112"}], "roles": [{"id": 5, "name": "Supervisor"}], "user_roles": [{"id": 2, "user_id": 3, "role_id": 5}]};
+    userData = {
+      "user_profile": [{
+        "id": 3,
+        "first_name": "David",
+        "last_name": "Dara51",
+        "mobile": "61111112",
+        "user_role_ids": [2]
+      }],
+      "users": [{
+        "id": 3,
+        "first_name": "David",
+        "last_name": "Dara51",
+        "mobile": "61111112"
+      }],
+      "roles": [{
+        "id": 5,
+        "name": "Supervisor"
+      }],
+      "user_roles": [{
+        "id": 2,
+        "user_id": 3,
+        "role_id": 5
+      }]
+    };
 
     $.mockjax({url:"/api/v1/auth/current_user_profil*",
       responseText: data });
 
-    var summary = {"submitted":1,"awaiting_dispatch":4,"dispatching":4,"processing":2,"priority_awaiting_dispatch":4,"priority_dispatching":2,"priority_submitted":3,"priority_processing":1};
+    var summary = {
+      "submitted": 1,
+      "awaiting_dispatch": 4,
+      "dispatching": 4,
+      "processing": 2,
+      "priority_awaiting_dispatch": 4,
+      "priority_dispatching": 2,
+      "priority_submitted": 3,
+      "priority_processing": 1
+    };
     $.mockjax({url:"/api/v1/orders/sum*",
       responseText:  summary
     });
@@ -35,6 +98,7 @@ module('Acceptance: Dashboard', {
     visit("/orders");
   },
   afterEach: function() {
+    $.mockjax.clear();
     Ember.run(App, 'destroy');
   }
 });
@@ -45,7 +109,7 @@ test("Order fulfilment user can view dashboard element", function(assert) {
   visit("/");
   andThen(function() {
     assert.equal(currentURL(), "/");
-    assert.equal($('.recent_orders').length, 1);
+    assert.equal(Ember.$('.recent_orders').length, 1);
   });
 });
 

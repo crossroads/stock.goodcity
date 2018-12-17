@@ -15,12 +15,13 @@ export default Ember.Controller.extend({
     },
 
     goToOrder(states, priority= false) {
+      let filterService = this.get('filterService');
       let stateFilter = [states];
       if (priority) {
         stateFilter.unshift('showPriority');
       }
-      this.get('filterService').clearFilters();
-      this.get('filterService').setStateTypeFilter(stateFilter);
+      filterService.clearFilters();
+      filterService.setStateTypeFilter(stateFilter);
       this.transitionToRoute('orders', { queryParams: { isFiltered: true }});
     }
 

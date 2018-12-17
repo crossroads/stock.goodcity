@@ -17,10 +17,6 @@ export default Addressable.extend({
 
   fullName: Ember.computed('firstName', 'lastName', function(){
     return (this.get('firstName') + " " + this.get('lastName'));
-  }),
-
-  roleNames() {
-    return this.get('userRoles').getEach('role.name');
-  }
+  })
   // image:       belongsTo('image', { async: false }),
 });
