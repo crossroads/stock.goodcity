@@ -69,6 +69,7 @@
             <param name="ios-package" onload="true" value="CDVStatusBar" />
         </feature>
         <preference name="Orientation" value="portrait" />
+        <framework src="GoogleToolboxForMac" type="podspec" spec="~> 2.1.1"/>
         <preference name="Fullscreen" value="true" />
         <config-file file="*-Info.plist" mode="merge" overwrite="true" target="NSCameraUsageDescription">
             <string>To enable you to read inventory barcodes and photograph inventory items.</string>
