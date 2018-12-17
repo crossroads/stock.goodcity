@@ -69,7 +69,6 @@
             <param name="ios-package" onload="true" value="CDVStatusBar" />
         </feature>
         <preference name="Orientation" value="portrait" />
-        <framework src="GoogleToolboxForMac" type="podspec" spec="~> 2.1.1"/>
         <preference name="Fullscreen" value="true" />
         <config-file file="*-Info.plist" mode="merge" overwrite="true" target="NSCameraUsageDescription">
             <string>To enable you to read inventory barcodes and photograph inventory items.</string>
@@ -98,7 +97,6 @@
     <plugin name="cordova-plugin-globalization" spec="https://github.com/apache/cordova-plugin-globalization.git" />
     <plugin name="cordova-plugin-inappbrowser" spec="https://github.com/apache/cordova-plugin-inappbrowser.git" />
     <plugin name="cordova-plugin-dialogs" spec="https://github.com/apache/cordova-plugin-dialogs.git" />
-    <plugin name="phonegap-plugin-push" spec="~2.1.2" />
     <plugin name="cordova-plugin-deeplinks" spec="https://github.com/e-imaxina/cordova-plugin-deeplinks.git" />
     <engine name="ios" spec="https://github.com/apache/cordova-ios.git#4.5.5" />
     <engine name="android" spec="~6.3.0" />
