@@ -371,4 +371,4 @@ workflows:
               - test_cases
             filters:
               branches:
-                only: /^(master|live|inventory-submit-fix-on-image-upload)$/
+                only: /^(master|live)$/
