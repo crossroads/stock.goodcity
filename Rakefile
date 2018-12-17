@@ -92,6 +92,12 @@ namespace :cordova do
   desc "Cordova build {platform}"
   task build: :prepare do
     Dir.chdir(CORDOVA_PATH) do
+      #Temporary fix for phonegap-plugin-push
+      if platform == 'android'
+        sh %{ cordova plugin add phonegap-plugin-push@2.1.2 }
+      else
+        sh %{ cordova plugin add phonegap-plugin-push@1.9.2 --variable SENDER_ID="XXXXXXX" }
+      end
       build = (environment == "staging" && platform == 'android') ? "debug" : "release"
       extra_params = (platform === "android") ? '' : ios_build_config
       system({"ENVIRONMENT" => environment}, "cordova compile #{platform} --#{build} --device #{extra_params}")
@@ -215,7 +221,7 @@ def ios_build_config
   opts["provisioningProfile"] = mobile_provisioning_plist["UUID"]
   if production_env?
     opts["codeSignIdentity"] = "\'iPhone Distribution\'"
-    opts["packageType"] = "app-store"  
+    opts["packageType"] = "app-store"
     opts["icloud_container_environment"] = "Production"
   else
     opts["codeSignIdentity"] = "\'iPhone Developer\'"
