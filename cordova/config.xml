@@ -70,14 +70,17 @@
         </feature>
         <preference name="Orientation" value="portrait" />
         <preference name="Fullscreen" value="true" />
-        <config-file file="*-Info.plist" mode="merge" overwrite="true" target="NSCameraUsageDescription">
-            <string>To enable you to read inventory barcodes and photograph inventory items.</string>
+        <preference name="CAMERA_USAGE_DESCRIPTION" default=" " />
+        <config-file target="*-Info.plist" parent="NSCameraUsageDescription">
+          <string>To enable you to read inventory barcodes and photograph inventory items.</string>
         </config-file>
-        <config-file file="*-Info.plist" mode="merge" target="NSPhotoLibraryUsageDescription">
-            <string>Needs photo library access to get photos from there</string>
+        <preference name="PHOTOLIBRARY_USAGE_DESCRIPTION" default=" " />
+        <config-file target="*-Info.plist" parent="NSPhotoLibraryUsageDescription">
+          <string>Needs photo library access to get photos from there</string>
         </config-file>
-        <config-file file="*-Info.plist" mode="merge" target="NSPhotoLibraryAddUsageDescription">
-            <string>Needs photo library access to save photos</string>
+        <preference name="PHOTOLIBRARY_ADD_USAGE_DESCRIPTION" default=" " />
+        <config-file target="*-Info.plist" parent="NSPhotoLibraryAddUsageDescription">
+          <string>Needs photo library access to save photos</string>
         </config-file>
     </platform>
     <universal-links>
