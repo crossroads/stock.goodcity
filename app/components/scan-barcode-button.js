@@ -7,7 +7,7 @@ export default Ember.Component.extend({
 
   checkPermissionAndScan(route) {
     let _this = this;
-    let permissions = cordova.plugins.permissions;
+    let permissions = window.cordova.plugins.permissions;
     let permissionError = () => {
       let error_message = _this.get("i18n").t("camera_scan.permission_error");
       _this.get("messageBox").alert(error_message);

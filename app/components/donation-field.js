@@ -1,3 +1,4 @@
+import Ember from "ember";
 import barcodeScaner from './barcode-scanner';
 
 export default barcodeScaner.extend({
@@ -6,7 +7,7 @@ export default barcodeScaner.extend({
 
   checkPermissionAndScan() {
     let _this = this;
-    let permissions = cordova.plugins.permissions;
+    let permissions = window.cordova.plugins.permissions;
     let permissionError = () => {
       let error_message = _this.get("i18n").t("camera_scan.permission_error");
       _this.get("messageBox").alert(error_message);
