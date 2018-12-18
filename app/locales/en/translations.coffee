@@ -24,6 +24,9 @@ I18nTranslationsEn =
   "not_now": "Not Now"
   "incomplete_form": "Please fill in the required fields to continue"
 
+  "camera_scan":
+    "permission_error": "Camera permission is not turned on."
+
   "weekday_1": "Monday"
   "weekday_2": "Tuesday"
   "weekday_3": "Wednesday"

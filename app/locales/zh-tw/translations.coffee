@@ -23,6 +23,9 @@ I18nTranslationsEn =
   "not_now": "稍後"
   "incomplete_form": "請填寫必需填寫之項目以繼續下一步"
 
+  "camera_scan":
+    "permission_error": "Camera permission is not turned on."
+
   "weekday_1": "星期一"
   "weekday_2": "星期二"
   "weekday_3": "星期三"
