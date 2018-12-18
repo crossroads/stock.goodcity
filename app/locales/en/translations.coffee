@@ -85,7 +85,7 @@ I18nTranslationsEn =
     "submitted_info": "GoodCity orders that have yet to be reviewed.</br>Also StockIt 'Active' & 'From website."
     "processing": "Processing"
     "processing_info": "GoodCity orders being reviewed.</br>Includes all other StockIt states."
-    "scheduled": "Scheduled"
+    "awaiting_dispatch": "Scheduled"
     "scheduled_info": "GoodCity order with confirmed booking time."
     "dispatching": "Dispatching"
     "dispatching_info": "GoodCity order being dispatched now."
@@ -93,7 +93,7 @@ I18nTranslationsEn =
     "closed_info": "Orders that were successfully completed.</br>Includes sent shipments."
     "cancelled": "Cancelled"
     "cancelled_info": "Orders that were unsuccessful."
-
+    "recent_orders": "Your recent orders"
 
   "split_quantity":
     "btn": "Split"

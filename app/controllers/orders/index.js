@@ -1,3 +1,4 @@
+import Ember from 'ember';
 import searchModule from "../search_module";
 
 export default searchModule.extend({
@@ -5,9 +6,10 @@ export default searchModule.extend({
   searchModelName: "designation",
   unloadAll: true,
   minSearchTextLength: 2,
+  queryParams: ['isFiltered'],
 
   onItemLoaded(record) {
-    const orgId = record.get("gcOrganisationId");
+    const orgId = Ember.get(record, 'gcOrganisationId');
     if (orgId) {
       this.store.findRecord("gc_organisation", orgId, { reload: false });
     }

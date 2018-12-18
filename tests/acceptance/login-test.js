@@ -7,7 +7,7 @@ import '../factories/location';
 import FactoryGuy from 'ember-data-factory-guy';
 import { mockFindAll } from 'ember-data-factory-guy';
 
-var App, hk_user, non_hk_user;
+var App, hk_user, non_hk_user, data;
 
 module('Acceptance: Login', {
   beforeEach: function() {
@@ -17,7 +17,7 @@ module('Acceptance: Login', {
     var designation = FactoryGuy.make("designation");
     mockFindAll('designation').returns({json: {designations: [designation.toJSON({includeId: true})]}});
     mockFindAll('location').returns({json: {locations: [location.toJSON({includeId: true})]}});
-    var data = {"user_profile": [{"id": 2,"first_name": "David", "last_name": "Dara51", "mobile": "61111111", "user_role_ids": [1]}], "users": [{"id": 2,"first_name": "David", "last_name": "Dara51", "mobile": "61111111"}], "roles": [{"id": 4, "name": "Supervisor"}], "user_roles": [{"id": 1, "user_id": 2, "role_id": 4}]};
+    data = {"user_profile": [{"id": 3,"first_name": "David", "last_name": "Dara51", "mobile": "61111112", "user_role_ids": [2]}], "users": [{"id": 3,"first_name": "David", "last_name": "Dara51", "mobile": "61111112"}], "roles": [{"id": 5, "name": "Supervisor"}], "user_roles": [{"id": 2, "user_id": 3, "role_id": 5}]};
 
     $.mockjax({url:"/api/v1/auth/current_user_profil*",
       responseText: data });

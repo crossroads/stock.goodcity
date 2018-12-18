@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   i18n: Ember.inject.service(),
-  allOrderStateFilters: ["showPriority", "submitted", "processing", "scheduled", "dispatching", "closed", "cancelled"],
+  allOrderStateFilters: ["showPriority", "submitted", "processing", "awaiting_dispatch", "dispatching", "closed", "cancelled"],
   allOrderTypeFilters: ["appointments", "collection", "dispatch", "shipments", "others"],
 
   //To separate out "showPriority" filter as it has some different css properties than others

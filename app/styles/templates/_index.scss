@@ -5,6 +5,136 @@
   }
 }
 
+.order_detail {
+  text-align: center;
+  height: 4.5rem;
+  font-size: 1.5vw;
+  color:#DFE0E7;
+  border: 1.5px solid #27436C;
+
+  i {
+    margin-top:25px;
+    font-size: 1.1rem;
+    color: #FFFFFF;
+  }
+
+  span {
+    font-size: 1.2rem;
+    color: #FFFFFF;
+  }
+
+  @media #{$small-only} {
+    font-size: 3.5vw;
+  }
+}
+
+.order_count {
+  margin-top: -10%;
+}
+
+.order_title {
+  margin-left: 5px;
+  padding-top: 5px;
+  font-weight: 600;
+}
+
+.recent_orders {
+  padding-left: 3%;
+  padding-right: 3%;
+  margin-top: 15px !important;
+}
+
+.counts {
+  height:75vh;
+  overflow-x:scroll;
+}
+
+.order_header {
+  margin-bottom: 1rem !important;
+  padding-top: 0;
+  border: 2px solid #27436C;
+  height: 4rem;
+  line-height: 4rem;
+
+  @mixin hide-transport() {
+    .order_transport {
+      display: none;
+    }
+    .order_code  {
+      padding-left: 2rem;
+    }
+  }
+
+  @media screen and (max-width: 325px) {
+    @include hide-transport();
+  }
+  @media #{$medium-only} {
+    @include hide-transport();
+  }
+
+  .order_code  {
+    text-align: right;
+  }
+  .order_transport, .order_code {
+    color: white;
+    white-space: nowrap;
+    font-weight: 700;
+    text-transform: capitalize;
+
+    .fa {
+      margin-right: 0.5em;
+      margin-left: 0.5em;
+    }
+  }
+
+  .order_state {
+    text-transform: capitalize;
+    padding-right: 0;
+    margin-top: -2px;
+    margin-right: -2px;
+
+    div {
+      float: right;
+    }
+
+    .order_state_text {
+      padding-right: 1em;
+    }
+
+    .order_state_icon {
+      color: white;
+      height: 100%;
+      width: 3rem;
+
+      .fa {
+        margin-left: 1.7em;
+      }
+    }
+
+    @media #{$large-only} {
+      .fa {
+        margin-left: 1.2em !important;
+      }
+    }
+  }
+
+}
+
+.priority_details {
+  height: 3rem;
+  padding: 5%;
+
+  i {
+    margin-top:10px !important;
+    color: #FFFFFF;
+  }
+}
+
+.processing { background-color:#ED4C4E; }
+.awaiting_dispatch { background-color:#6FAB4A; }
+.submitted { background-color:#438BCA; }
+.dispatching { background-color:#021C41; }
+
 .footer {
   background-color: $dark-blue;
   position: fixed;

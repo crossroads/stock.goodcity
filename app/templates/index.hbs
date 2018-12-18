@@ -6,6 +6,97 @@
       {{/if}}
       {{#link-to 'search_code' (query-params backToNewItem=false)}}Add item to inventory{{/link-to}}
     </div>
+
+    {{#if session.currentUser.isOrderFulfilmentUser}}
+      <div class="small-12 columns summary recent_orders">
+        <h2>Orders In Process</h2>
+        <div class="row">
+          <div class="small-3 columns" {{action 'goToOrder' 'submitted' }} >
+            <div  class="order_detail submitted">
+              <div class="order_title">{{t 'order_filters.submitted'}}</div>
+              <div class="order_count">
+                <i class="fa fa-envelope"></i>&nbsp;&nbsp;<span>{{if model.ordersCount.submitted model.ordersCount.submitted 0}}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="small-3 columns" {{action 'goToOrder' 'processing' }} >
+            <div  class="order_detail processing">
+              <div class="order_title">{{t 'order_filters.processing'}}</div>
+              <div class="order_count">
+                <i class="fa fa-list"></i>&nbsp;&nbsp;<span>{{if model.ordersCount.processing model.ordersCount.processing 0}}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="small-3 columns" {{action 'goToOrder' 'awaiting_dispatch' }} >
+            <div  class="order_detail awaiting_dispatch">
+              <div class="order_title">{{t 'order_filters.awaiting_dispatch'}}</div>
+              <div class="order_count">
+                <i class="fa fa-clock-o"></i>&nbsp;&nbsp;<span>{{if model.ordersCount.awaiting_dispatch model.ordersCount.awaiting_dispatch 0}}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="small-3 columns" {{action 'goToOrder' 'dispatching' }} >
+            <div  class="order_detail dispatching">
+              <div class="order_title">{{t 'order_filters.dispatching'}}</div>
+              <div class="order_count">
+                <i class="fa fa-paper-plane"></i>&nbsp;&nbsp;<span>{{if model.ordersCount.dispatching model.ordersCount.dispatching 0}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <br>
+
+        <div class="row">
+          <div class="small-3 columns">
+            <div class="order_detail priority_details submitted" {{action 'goToOrder' 'submitted' true}}>
+              {{#if model.ordersCount.priority_submitted }}
+                <i class="fa fa-exclamation-triangle "></i>&nbsp;&nbsp;
+                <span>{{model.ordersCount.priority_submitted}}</span>
+              {{else}}
+                <i class="fa fa-check"></i>
+              {{/if}}
+            </div>
+          </div>
+
+          <div class="small-3 columns">
+            <div class="order_detail priority_details processing" {{action 'goToOrder' 'processing' true}}>
+              {{#if model.ordersCount.priority_processing }}
+                <i class="fa fa-exclamation-triangle "></i>&nbsp;&nbsp;
+                <span>{{model.ordersCount.priority_processing}}</span>
+              {{else}}
+                <i class="fa fa-check"></i>
+              {{/if}}
+            </div>
+          </div>
+
+          <div class="small-3 columns">
+            <div class="order_detail priority_details awaiting_dispatch" {{action 'goToOrder' 'awaiting_dispatch' true}}>
+              {{#if model.ordersCount.priority_awaiting_dispatch }}
+                <i class="fa fa-exclamation-triangle "></i>&nbsp;&nbsp;
+                <span>{{model.ordersCount.priority_awaiting_dispatch}}</span>
+              {{else}}
+                <i class="fa fa-check"></i>
+              {{/if}}
+            </div>
+          </div>
+
+          <div class="small-3 columns">
+            <div class="order_detail priority_details dispatching" {{action 'goToOrder' 'dispatching' true}}>
+              {{#if model.ordersCount.priority_dispatching }}
+                <i class="fa fa-exclamation-triangle "></i>&nbsp;&nbsp;
+                <span>{{model.ordersCount.priority_dispatching}}</span>
+              {{else}}
+                <i class="fa fa-check"></i>
+              {{/if}}
+            </div>
+          </div>
+        </div>
+      </div>
+    {{/if}}
   </div>
 
   {{partial "sticky_footer"}}

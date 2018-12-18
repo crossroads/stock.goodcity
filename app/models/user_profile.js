@@ -37,6 +37,12 @@ export default Addressable.extend({
     }
   }),
 
+  isOrderFulfilmentUser: Ember.computed('roleNames', function(){
+    if(this.get("roleNames") && this.get("roleNames").length) {
+      return (this.get('roleNames').indexOf('Order fulfilment') >= 0);
+    }
+  }),
+
   canManageAppointments: Ember.computed('roles', function(){
     const roles = this.get('roles');
     return roles.find((r) => r.get('permissionNames').indexOf('can_manage_settings') >= 0);

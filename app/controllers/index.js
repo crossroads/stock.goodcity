@@ -3,6 +3,7 @@ import config from '../config/environment';
 
 export default Ember.Controller.extend({
   application: Ember.inject.controller(),
+  filterService: Ember.inject.service(),
 
   stockAppVersion: Ember.computed(function(){
     return config.cordova.enabled ? config.APP.VERSION : null;
@@ -11,6 +12,18 @@ export default Ember.Controller.extend({
   actions: {
     logMeOut() {
       this.get('application').send('logMeOut');
+    },
+
+    goToOrder(states, priority= false) {
+      let filterService = this.get('filterService');
+      let stateFilter = [states];
+      if (priority) {
+        stateFilter.unshift('showPriority');
+      }
+      filterService.clearFilters();
+      filterService.setStateTypeFilter(stateFilter);
+      this.transitionToRoute('orders', { queryParams: { isFiltered: true }});
     }
+
   }
 });
