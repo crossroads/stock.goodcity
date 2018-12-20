@@ -1,0 +1,6 @@
+{{#if applyStateFilter}}
+  {{item-filters applyStateFilter=applyStateFilter}}
+{{else if applyLocationFilter}}
+  {{!-- Item location filters --}}
+  {{partial "items/location_filters"}}
+{{/if}}

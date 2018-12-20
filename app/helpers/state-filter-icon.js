@@ -8,7 +8,7 @@ export default Ember.Helper.helper(function(state) {
       return "fa fa-envelope";
     case "processing":
       return "fa fa-list";
-    case "scheduled":
+    case "awaiting_dispatch":
       return "fa fa-clock-o";
     case "dispatching":
       return "fa fa-paper-plane";

@@ -17,7 +17,7 @@
   background-color: #8c8c8c !important;
 }
 
-.order-filters {
+.order-filters, .item-filters {
   margin-top: 1.5rem;
   .filter-btn, .filter-btn:hover {
     background-color: transparent;
@@ -46,7 +46,7 @@
       font-size: 1.2rem;
       float: right;
       @media #{$small-only} {
-        margin-right: 7.5rem !important;
+        margin-right: 8.5rem !important;
       }
       @media #{$medium-only} {
         margin-right: 22.2rem;
@@ -99,5 +99,61 @@
         font-size: 0.9rem;
       }
     }
+  }
+}
+
+.publish-filter-title, .image-filter-title {
+  font-size: 1rem;
+  color: white;
+  margin-bottom: 0.7rem;
+}
+
+.publish-filter-info, .image-filter-info {
+  font-size: 1rem;
+  @media #{$small-only} {
+    font-size: 0.7rem;
+    margin-top: 0.3rem;
+  }
+  margin-bottom: 0.7rem;
+}
+
+.item-filter-radiobutton {
+  label {
+    @media #{$small-only} {
+      font-size: 0.85rem;
+      margin-top: -0.2rem;
+    }
+  }
+  input[type="radio"] {
+    display: inline;
+  }
+
+  .with_images {
+    @media #{$small-only} {
+      margin-left: -1rem;
+    }
+  }
+
+  .no_images {
+    @media #{$small-only} {
+      margin-left: -1rem;
+    }
+  }
+
+  input[type='radio']:checked {
+    background-color: black;
+  }
+
+  #published {
+    margin-left: -1rem;
+  }
+
+  input[type="radio"]:checked + label {
+    background: none;
+    border: none;
+  }
+
+  .type {
+    margin-left: -0.5rem !important;
   }
 }

@@ -60,6 +60,25 @@ I18nTranslationsEn =
     "items": "物資"
     "goto": "前往"
 
+  "item_filters":
+    "with_and_without_images": "All"
+    "has_images": "Has Image(s)"
+    "no_images": "No Image(s)"
+    "image_filter_title": "Images"
+    "image_filter_title_info": "items with associated images or not"
+    "publish_filter_title": "Publishing status"
+    "publish_filter_title_info": "available for online browsing or not"
+    "published_and_private": "All"
+    "published": "Published"
+    "private": "Private"
+    "state_filter_title": "Item states"
+    "in_stock": "In Stock"
+    "in_stock_info": "At least one is available(i.e not designated)"
+    "designated": "Designated"
+    "designated_info": "All remaining quantity is reserved for order(s)"
+    "dispatched": "Dispatched"
+    "dispatched_info": "Entire quantity was previously sent out"
+
   "order_filters":
     "priority": "Priority"
     "apply_filter_button": "Apply Filter"
