@@ -4,15 +4,15 @@ export default Ember.Helper.helper(function(type) {
   switch (type[0]) {
     case "online_orders":
       return "";
-    case "appointments":
+    case "appointment":
       return "fa fa-handshake-o";
-    case "collection":
+    case "online_orders_pickup":
       return "fa fa-male";
-    case "dispatch":
+    case "online_orders_ggv":
       return "fa fa-truck";
-    case "shipments":
+    case "shipment":
       return "fa fa-ship";
-    case "others":
+    case "other":
       return "fa fa-list-alt";
     default:
       return "";
