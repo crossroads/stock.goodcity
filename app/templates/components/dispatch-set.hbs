@@ -1,6 +1,6 @@
 {{#if item.isSet}}
   <span class="no-avatar" {{action "displayDispatchOverlay"}}>
-    <i class="fa fa-ship" aria-hidden="true"></i>
+    <i aria-hidden="true">{{fa-icon 'ship'}}</i>
   </span>
 
   {{#if item.setItem.hasSameSingleDesignation}}
@@ -15,7 +15,7 @@
       <div class="warnings">
         {{#if item.setItem.multiQuantitySet}}
           <div class="warning_text">
-            <i class="fa fa-exclamation-triangle"></i>
+            <i>{{fa-icon 'exclamation-triangle'}}</i>
             Dispatches entire quantity.
           </div>
         {{/if}}
@@ -28,7 +28,7 @@
     {{#message-box btn1Text="Continue" btn1Callback=(action "assignDesignation") btn2Text=(t "cancel") isVisible=displayUserPrompt classNames="popupOverlay designate-form"}}
 
       <p class="red-warning">
-        <div class="left-icon"><i class="fa fa-exclamation-triangle"></i></div>
+        <div class="left-icon"><i>{{fa-icon 'exclamation-triangle'}}</i></div>
         <div class="right-message">
           Which order do you wish to designate all parts of this set to before you dispatch?
         </div>

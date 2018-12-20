@@ -1,14 +1,14 @@
 {{#if setAction}}
   <div {{action 'displayDispatchOverlay'}}>
     <span class="no-avatar">
-      <i class="fa fa-ship" aria-hidden="true"></i>
+      <i aria-hidden="true">{{fa-icon 'ship'}}</i>
     </span>
   </div>
 {{else if (is-equal package.state "dispatched")}}
   {{undispatch-item item=item package=package closeList=closeList }}
 {{else}}
   <div {{action 'displayDispatchOverlay'}}>
-    <i class="fa item-menu fa-ship"></i>
+    <i class="fa item-menu">{{fa-icon 'ship'}}</i>
     {{t "item.dispatch"}}
   </div>
 {{/if}}
@@ -24,22 +24,22 @@
     <div class="row dispatch_details {{if (is-equal package.state 'dispatched') 'dispatched'}} {{if (is-equal package.state 'designated') 'designated'}} {{if (is-greater package.item.designatedItemCount 1) 'designated'}}">
       <div class="small-3 columns">
         {{#if (is-equal package.state 'dispatched')}}
-            <i class="fa fa-ship"></i> {{package.designation.code}}
+          <i>{{fa-icon 'ship'}}</i> {{package.designation.code}}
         {{else if (is-equal package.state 'designated')}}
-            <i class="fa fa-shopping-basket"></i> {{package.designation.code}}
+          <i>{{fa-icon 'shopping-basket'}}</i> {{package.designation.code}}
         {{else}}
           <div class="stock_status">
-            <i class="fa {{if package.allowWebPublish 'fa-eye' 'fa-eye-slash'}}" aria-hidden="true"></i> In Stock
+            <i aria-hidden="true">{{fa-icon (if item.allowWebPublish 'eye' 'eye-slash')}}</i> In Stock
           </div>
         {{/if}}
       </div>
       <div class="small-6 columns location-name">
         {{#unless (is-equal package.state 'dispatched')}}
-          <i class="fa fa-map-marker"></i> {{package.item.location.name}}
+          <i>{{fa-icon 'map-marker'}}</i> {{package.item.location.name}}
         {{/unless}}
       </div>
       <div class="small-3 columns">
-        <i class="fa {{if package.item.isSet 'fa-tags' 'fa-tag'}}"></i> {{package.item.inventoryNumber}}
+        <i>{{fa-icon (if package.item.isSet 'tags' 'tag')}}</i> {{package.item.inventoryNumber}}
       </div>
     </div>
 
@@ -86,14 +86,14 @@
 
     {{#if (is-greater item.quantity 1)}}
       <div class="warning_text">
-        <i class="fa fa-exclamation-triangle"></i>
+        <i>{{fa-icon 'exclamation-triangle'}}</i>
         {{t "dispatch.dispatch_quantity" quantity=package.quantity}}
       </div>
     {{/if}}
 
     {{#if item.isSet}}
       <div class="warning_text">
-        <div class="left-icon"><i class="fa fa-exclamation-triangle"></i></div>
+        <div class="left-icon"><i>{{fa-icon 'exclamation-triangle'}}</i></div>
         <div class="right-message">
           <div>{{t "dispatch.separate_set"}}</div>
           <div>You could dispatch the {{#link-to 'items.detail' item}}entire set{{/link-to}} instead.</div>
@@ -105,7 +105,7 @@
 
       {{#if displayError}}
         <div class="error-box">
-          <i class="fa fa-exclamation-triangle"></i>
+          <i>{{fa-icon 'exclamation-triangle'}}</i>
           You must tick the confirmation box to proceed.
         </div>
       {{/if}}

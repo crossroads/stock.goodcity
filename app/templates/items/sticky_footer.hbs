@@ -4,13 +4,13 @@
       <div class="small-12 columns">
         <ul class="small-block-grid-3 list">
           {{#link-to 'items.detail' model tagName='li' href=false}}
-            <i class="fa fa-file-text" aria-hidden="true"></i> Details
+            <i aria-hidden="true">{{fa-icon 'file-text'}}</i> Details
           {{/link-to}}
 
           {{#link-to 'items.history' model tagName='li' href=false}}
-            <li><i class="fa fa-clock-o" aria-hidden="true"></i>History</li>
+            <li><i aria-hidden="true">{{fa-icon 'clock-o'}}</i>History</li>
           {{/link-to}}
-          <li><i class="fa fa-comments-o" aria-hidden="true"></i>Staff</li>
+          <li><i aria-hidden="true">{{fa-icon 'comments-o'}}</i>Staff</li>
         </ul>
       </div>
     </div>
