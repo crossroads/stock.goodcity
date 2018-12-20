@@ -2,8 +2,8 @@
 
     <div class="row order_header">
 
-      <div class="small-4 columns order_transport"> 
-        <i class="fa fa-lg fa-{{ order.transportIcon }}"></i> {{ order.transportLabel }}
+      <div class="small-4 columns order_transport">
+        <i>{{fa-icon (order.transportIcon) transform='lg'}}</i> {{ order.transportLabel }}
       </div>
 
       <div class="small-3 columns order_code">
@@ -12,7 +12,7 @@
 
       <div class="small-5 columns order_state">
         <div class="order_state_icon {{ order.state }}">
-          <i class="fa fa-{{ order.stateIcon }}"></i>
+          <i>{{fa-icon (order.stateIcon)}}</i>
         </div>
         <div class="order_state_text"> {{ t (concat "order." order.state) }} </div>
       </div>
@@ -43,7 +43,7 @@
             </div>
           </div>
         {{/if}}
-        
+
         {{#if (is-or order.gcOrganisationId or order.organisationId)}}
           <div class="row">
             <div class="small-4 columns field">
@@ -72,8 +72,8 @@
               {{ t "order.process_summary" }}
             </div>
             <div class="small-8 columns value">
-              <span>{{order.designatedOrdersPackages.length}} <i class="fa fa-shopping-basket"></i></span>
-              <span>{{order.dispatchedOrdersPackages.length}} <i class="fa fa-ship"></i></span>
+              <span>{{order.designatedOrdersPackages.length}} <i>{{fa-icon 'shopping-basket'}}</i></span>
+              <span>{{order.dispatchedOrdersPackages.length}} <i>{{fa-icon 'ship'}}</i></span>
             </div>
           </div>
         {{/if}}

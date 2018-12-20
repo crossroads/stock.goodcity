@@ -4,21 +4,22 @@
       <div class="small-12 columns">
         <ul class="small-block-grid-5 small-block-grid-5 list">
           {{#link-to 'index' tagName='li' href=false}}
-            <i class="fa fa-home"></i>{{t "index.home"}}
+            <i>{{fa-icon 'home'}}</i>
+            {{t "index.home"}}
           {{/link-to}}
 
           {{#link-to 'orders' tagName='li' href=false}}
-            <i class="fa fa-shopping-basket"></i>{{t "index.orders"}}
+            <i>{{fa-icon 'shopping-basket'}}</i>{{t "index.orders"}}
           {{/link-to}}
 
           {{#link-to 'items' tagName='li' href=false}}
-            <i class="fa fa-cube"></i>{{t "index.items"}}
+            <i>{{fa-icon 'cube'}}</i>{{t "index.items"}}
           {{/link-to}}
 
-          <li><i class="fa fa-qrcode"></i>{{t "index.goto"}}</li>
+          <li><i>{{fa-icon 'qrcode'}}</i>{{t "index.goto"}}</li>
 
           {{#link-to 'app_menu_list' tagName='li' href=false}}
-            <i class="fa fa-bars"></i> Menu
+            <i>{{fa-icon 'bars'}}</i> Menu
           {{/link-to}}
         </ul>
       </div>

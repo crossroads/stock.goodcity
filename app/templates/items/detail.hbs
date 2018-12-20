@@ -2,7 +2,7 @@
   <div class="search">
     <div class="row profile_container">
       {{#link-to "items.index" tagName='span' href=false class="no-avatar back_link"}}
-        <i class="fa fa-angle-left" aria-hidden="true"></i>
+        <i aria-hidden="true">{{fa-icon 'angle-left'}}</i>
       {{/link-to}}
       <div id="itemImage">
         {{image-zoom item=model}}
@@ -14,14 +14,14 @@
               {{#if model.isSingletonItem}}
                 {{#link-to 'items.search_order' model.id (query-params isSet=model.isSet partial_qty=1) tagName='span' href=false}}
                   <span class="no-avatar">
-                    <i class="fa fa-shopping-basket" aria-hidden="true"></i>
+                    <i aria-hidden="true">{{fa-icon 'shopping-basket'}}</i>
                   </span>
                 {{/link-to}}
               {{else}}
                 {{!-- Disabling partial quantity designate --}}
                 {{!-- {{#link-to 'items.partial_designate' model.id (query-params isSet=model.isSet) tagName='span' href=false}}
                   <span class="no-avatar" {{action 'partialDesignateForSet'}}>
-                    <i class="fa fa-shopping-basket" aria-hidden="true"></i>
+                    <i aria-hidden="true">{{fa-icon 'shopping-basket'}}</i>
                   </span>
                 {{/link-to}} --}}
               {{/if}}
@@ -35,14 +35,14 @@
               {{#if (is-and model.isSingletonItem model.designation.isGoodCityOrder)}}
                 <div class="no-avatar">
                   <a href="#" {{action 'dispatchOrdersPackagePopUp' model model.firstDesignatedOrdersPackage.id}} >
-                    <i class="fa item-menu fa-ship"></i>
+                    <i class="item-menu">{{fa-icon 'ship'}}</i>
                   </a>
                 </div>
               {{else}}
                 {{!-- Disabling partial quantity dispatch --}}
                 {{!-- {{#link-to 'items.partial_dispatch' item.id (query-params orderPackageId=model.firstDesignatedOrdersPackage.id) tagName='div' href=false}}
                   <span class="no-avatar">
-                    <i class="fa fa-ship" aria-hidden="true"></i>
+                    <i aria-hidden="true">{{fa-icon 'ship'}}</i>
                   </span>
                 {{/link-to}} --}}
               {{/if}}
@@ -53,7 +53,7 @@
         {{#if item.allowLabelPrint}}
           {{#print-label item=item closeList=""}}
             <span class="no-avatar">
-              <i class="fa fa-print" aria-hidden="true"></i>
+              <i aria-hidden="true">{{fa-icon 'print'}}</i>
             </span>
           {{/print-label}}
         {{/if}}

@@ -7,19 +7,19 @@
 
       <div id="main-image-controls">
         <a {{action "deleteImage"}} title={{t "edit_images.delete_tooltip"}}>
-          <i class="fa fa-trash"></i>
+          <i>{{fa-icon 'trash'}}</i>
         </a>
         <a {{action "setFavourite"}} title={{t "edit_images.favourite_tooltip"}}>
-          <i class="fa {{if previewMatchesFavourite 'fa-star' 'fa-star-o'}}"></i>
+          <i>{{fa-icon (if previewMatchesFavourite 'star' 'star-o')}}</i>
         </a>
         <a {{action "rotateImageRight"}} >
-          <i class="fa fa-repeat"></i>
+          <i>{{fa-icon 'repeat'}}</i>
         </a>
         <a {{action "rotateImageLeft"}} >
-          <i class="fa fa-undo"></i>
+          <i>{{fa-icon 'undo'}}</i>
         </a>
         <a {{action "expandImage"}} title={{t "edit_images.fullscreen_tooltip"}}>
-          <i class="fa {{if isExpanded 'fa-compress' 'fa-expand'}}"></i>
+          <i>{{fa-icon (if isExpanded 'compress' 'expand')}}</i>
         </a>
       </div>
 
@@ -36,7 +36,7 @@
     <li>
       <a id="add-photo" {{action "triggerUpload"}} class="center-box {{unless isReady 'disabled'}}" style={{thumbImageCss}}>
         <span class="center-item">
-          <i class="fa fa-camera"></i>
+          <i>{{fa-icon 'camera'}}</i>
           {{addPhotoLabel}}
         </span>
       </a>
@@ -49,7 +49,7 @@
       <li>
         <a {{action "setPreview" image}} class="{{if image.selected 'selected'}}">
           <img src="{{image.thumbImageUrl}}" style={{thumbImageCss}} class="thumb" />
-          <i class="fa fa-star {{if (js-x 'p0 == p1' image.id favouriteImage.id) '' 'hidden'}}"></i>
+          <i class="{{if (js-x 'p0 == p1' image.id favouriteImage.id) '' 'hidden'}}">{{fa-icon 'star'}}</i>
         </a>
       </li>
     {{/each}}

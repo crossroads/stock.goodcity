@@ -5,15 +5,15 @@ export default Ember.Helper.helper(function(type) {
     case "online_orders":
       return "";
     case "appointments":
-      return "fa fa-handshake-o";
+      return "handshake-o";
     case "collection":
-      return "fa fa-male";
+      return "male";
     case "dispatch":
-      return "fa fa-truck";
+      return "truck";
     case "shipments":
-      return "fa fa-ship";
+      return "ship";
     case "others":
-      return "fa fa-list-alt";
+      return "list-alt";
     default:
       return "";
   }

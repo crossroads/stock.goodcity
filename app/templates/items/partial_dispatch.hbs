@@ -2,7 +2,7 @@
   <div class="row">
     <div class='dispatch_location_header'>
       <div class='class= columns small-12 inventory_number_dispatch'>
-        <i class="fa {{if model.isSet 'fa-tags' 'fa-tag'}}"></i> {{model.inventoryNumber}}: Dispatch to {{model.orderCode}}
+        <i>{{fa-icon (if model.isSet 'tags' 'tag')}}</i> {{model.inventoryNumber}}: Dispatch to {{model.orderCode}}
       </div>
 
       <br><hr/>
@@ -20,7 +20,7 @@
       <div class="dispatched-block">
         <div class="columns small-12 medium-12 large-12 designated-list">
           <div class="columns small-5 orders-package-detail">
-            <i class="fa fa-map-marker"></i>
+            <i>{{fa-icon 'map-marker'}}</i>
             {{packagesLocation.location.name}}
           </div>
           <div class="columns small-2 medium-1  text-align-right">
