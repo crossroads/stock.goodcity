@@ -88,7 +88,7 @@ I18nTranslationsEn =
     "processing": "Processing"
     "processing_info": "GoodCity orders being reviewed.</br>Includes all other StockIt states."
     "awaiting_dispatch": "Scheduled"
-    "scheduled_info": "GoodCity order with confirmed booking time."
+    "awaiting_dispatch_info": "GoodCity order with confirmed booking time."
     "dispatching": "Dispatching"
     "dispatching_info": "GoodCity order being dispatched now."
     "closed": "Closed"

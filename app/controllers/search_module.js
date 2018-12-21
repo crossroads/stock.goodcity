@@ -73,13 +73,13 @@ export default Ember.Controller.extend(InfinityRoute, {
       this.set("hasNoResults", false);
       if(this.get("unloadAll")) { this.get("store").unloadAll(); }
 
-      let filter = filterService.getOrderStateFilters();
+      let filter = filterService.get('getOrderStateFilters');
 
       let isPriority = filterService.isPriority();
       if (isPriority) {
         filter.shift();
       }
-      let typesFilter = filterService.getOrderTypeFilters();
+      let typesFilter = filterService.get('getOrderTypeFilters');
       const paginationOpts = {
         perPage: 25,
         startingPage: 1,

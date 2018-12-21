@@ -8,7 +8,8 @@ export default AuthorizeRoute.extend({
   model(params) {
     let filterService = this.get('filterService');
 
-    let filter = filterService.getOrderStateFilters();
+    let filter = filterService.get('getOrderStateFilters');
+    let typeFilter = filterService.get('getOrderTypeFilters');
     let isPriority = filterService.isPriority();
     if (isPriority) {
       filter.shift();
@@ -21,9 +22,17 @@ export default AuthorizeRoute.extend({
         });
     }
 
-    if (Array.isArray(filter) && params.isFiltered) {
-      return this.store.query('designation', { state: filter.toString(), priority: isPriority });
+    if (params.isFiltered) {
+      return this.store.query('designation', { state: this.stringifyArray(filter), type:this.stringifyArray(typeFilter), priority: isPriority });
+    } else {
+      filterService.clearFilters();
+      filterService.notifyPropertyChange("getOrderStateFilters");
+      filterService.notifyPropertyChange("getOrderTypeFilters");
     }
+  },
+
+  stringifyArray(stateOrType) {
+    return Array.isArray(stateOrType) ? stateOrType.toString() : '';
   },
 
   setupController(controller, model) {

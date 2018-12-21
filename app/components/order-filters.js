@@ -2,6 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   i18n: Ember.inject.service(),
+
   allOrderStateFilters: ["showPriority", "submitted", "processing", "awaiting_dispatch", "dispatching", "closed", "cancelled"],
   allOrderTypeFilters: ["appointment", "online_orders_ggv", "online_orders_pickup", "shipment"],
 
@@ -30,7 +31,15 @@ export default Ember.Component.extend({
       }
     });
     window.localStorage.setItem(localStorageName, JSON.stringify(appliedFilters));
-    this.get('router').transitionTo("orders.index");
+    let storageName = "get" + localStorageName.charAt(0).capitalize() + localStorageName.slice(1);
+
+    this.notifyFilterService(storageName);
+
+    if (this.filterService.get(storageName).length) {
+      this.get('router').transitionTo("orders.index", { queryParams: {isFiltered: true}});
+    } else {
+      this.get('router').transitionTo("orders.index");
+    }
   },
 
   //Removes applied filters (Generic for all filters)
@@ -38,12 +47,18 @@ export default Ember.Component.extend({
     filterType.forEach(filter => Ember.$("#" + filter)[0].checked = false); // jshint ignore:line
   },
 
+  notifyFilterService(serviceOrType) {
+    this.filterService.notifyPropertyChange(serviceOrType);
+  },
+
   actions: {
     applyFilters() {
       if(this.get("applyStateFilter")) {
         this.addToLocalStorageAndRedirect(this.get("allOrderStateFilters"), "orderStateFilters");
+        this.notifyFilterService("getOrderStateFilters");
       } else if(this.get("applyTypeFilter")) {
         this.addToLocalStorageAndRedirect(this.get("allOrderTypeFilters"), "orderTypeFilters");
+        this.notifyFilterService("getOrderTypeFilters");
       }
     },
 
