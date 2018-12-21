@@ -3,7 +3,7 @@
     <div class="row order_header">
 
       <div class="small-4 columns order_transport">
-        <i>{{fa-icon (order.transportIcon)}}{{fa-icon 'lg'}}</i> {{ order.transportLabel }}
+        <i>{{fa-icon order.transportIcon}}{{fa-icon 'lg'}}</i> {{ order.transportLabel }}
       </div>
 
       <div class="small-3 columns order_code">
@@ -12,7 +12,7 @@
 
       <div class="small-5 columns order_state">
         <div class="order_state_icon {{ order.state }}">
-          <i>{{fa-icon (order.stateIcon)}}</i>
+          <i>{{fa-icon order.stateIcon}}</i>
         </div>
         <div class="order_state_text"> {{ t (concat "order." order.state) }} </div>
       </div>
