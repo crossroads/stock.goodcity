@@ -13,6 +13,8 @@ FactoryGuy.define('order_transport', {
     gogovanTransportId: '1',
     transportType:      'ggv',
     vehicleType:        'self',
-    scheduledAt:         Date.now()
+    scheduledAt:         Date.now(),
+    bookingTypeId:      '1',
+    designation_id:     '1'
   }
 });

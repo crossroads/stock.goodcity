@@ -9,3 +9,63 @@
   {{partial "orders/order_status_bar"}}
   {{partial "orders/order_tabs"}}
 </section>
+
+<section class="order-booking-tab">
+  <div class="row">
+    <div class="columns small-8 text">
+      <i class="fa fa-clock-o" aria-hidden="true"></i>
+      {{ display-datetime model.orderTransport.scheduledAt format="dddd Do MMMM hh:mm a" }}
+    </div>
+    <div class="columns small-4">
+      <button class="reschedule button light" {{ action 'openSchedulePopup' }}>Reschedule</button>
+    </div>
+  </div>
+
+  {{#message-box
+    btn1Text=(t "save")
+    btn1Callback=(action "saveNewSchedule")
+    btn2Text=(t "cancel")
+    btn2Callback=(action "closeSchedulePopup")
+    isVisible=scheduleChangePopupVisible
+    classNames="popupOverlay ui"
+  }}
+    <div class="reschedule-popup">
+      <div class="row">
+        <div class="input-label">{{t 'settings.appointments.select_timeslot' }}</div>
+        <div class="small-1 columns">
+          <i class="fa fa-pencil"></i>
+        </div>
+        <div class="small-11 columns">
+          <div>
+            {{select-list
+              content=scheduleTimeSlots
+              on-change=(action 'selectTimeslot')
+              selectedValue=selectedTimeslot
+              selectArrow=false
+              classNames='timeslots'
+              idNames='timeslot-select' }}
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="input-label">{{t 'settings.appointments.select_day'}}</div>
+        <div class="small-1 columns">
+          <i class="fa fa-calendar calender_icon"></i>
+        </div>
+        <div class="small-11 columns">
+          {{calendar-input
+            name='selectedDate'
+            id='date-selector'
+            value=''
+            selection=selectedScheduleDate
+            placeholder='Pick a date'
+            pattern="[a-zA-Z]{3}\s?[a-zA-Z]{3}\s?[0-9]{1,2}"}}
+        </div>
+      </div>
+
+      <div class="missing-input-message {{if incompleteForm 'show' 'hide'}}">* {{ t 'incomplete_form' }}</div>
+    </div>
+  {{/message-box}}
+
+</section>

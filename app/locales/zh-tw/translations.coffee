@@ -238,6 +238,7 @@ I18nTranslationsEn =
       "add_date": "設定日期"
       "note": "別註"
       "add_timeslot": "設定時間"
+      "select_timeslot": "Select timeslot"
       "delete_date": "刪除此日期"
       "no_appointments": "沒有預約"
       "special_day_placeholder": "例:星期四並沒有當值職員"
