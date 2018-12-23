@@ -35,7 +35,10 @@ export default Ember.Component.extend({
 
     this.notifyFilterService(storageName);
 
-    if (this.filterService.get('getOrderStateFilters').length || this.filterService.get('getOrderTypeFilters').length) {
+    let orderStateFilters = this.filterService.get('getOrderStateFilters');
+    let orderTypeFilters = this.filterService.get('getOrderTypeFilters');
+
+    if ((Array.isArray(orderStateFilters) && orderStateFilters.length) || (Array.isArray(orderTypeFilters) && orderTypeFilters.length)) {
       this.get('router').transitionTo("orders.index", { queryParams: {isFiltered: true}});
     } else {
       this.get('router').transitionTo("orders.index");

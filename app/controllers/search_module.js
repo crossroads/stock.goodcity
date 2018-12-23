@@ -3,6 +3,7 @@ import InfinityRoute from "ember-infinity/mixins/route";
 
 export default Ember.Controller.extend(InfinityRoute, {
   filterService: Ember.inject.service(),
+  utilityMethods: Ember.inject.service(),
 
   getCurrentUser: Ember.computed(function(){
     var store = this.get('store');
@@ -85,8 +86,8 @@ export default Ember.Controller.extend(InfinityRoute, {
         startingPage: 1,
         modelPath: 'filteredResults',
         stockRequest: true,
-        state: this.stringifyArray(filter),
-        type: this.stringifyArray(typesFilter),
+        state: this.get("utilityMethods").stringifyArray(filter),
+        type: this.get("utilityMethods").stringifyArray(typesFilter),
         priority: isPriority
       };
       this.infinityModel(this.get("searchModelName"),
@@ -106,10 +107,6 @@ export default Ember.Controller.extend(InfinityRoute, {
       .finally(() => this.set("isLoading", false));
     }
     this.set("filteredResults", []);
-  },
-
-  stringifyArray(stateOrType) {
-    return Array.isArray(stateOrType) ? stateOrType.toString() : '';
   },
 
   afterInfinityModel(records) {
