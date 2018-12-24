@@ -18,7 +18,7 @@
     </div>
     <div class="small-6 columns location-name">
       {{#unless (is-equal ordersPackage.state 'dispatched')}}
-        <i>{{fa-icon 'map-marker'}}</i>
+        <i>{{fa-icon 'map-marker-alt'}}</i>
         {{#if ordersPackage.item.hasSingleLocation}}
           {{ordersPackage.item.firstLocationName}}
         {{else if ordersPackage.item.hasMultiLocations}}

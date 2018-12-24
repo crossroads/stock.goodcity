@@ -103,13 +103,13 @@
       height: 100%;
       width: 3rem;
 
-      .fa {
+      i{
         margin-left: 1.7em;
       }
     }
 
     @media #{$large-only} {
-      .fa {
+      i{
         margin-left: 1.2em !important;
       }
     }
