@@ -1,14 +1,14 @@
 {{#if setAction}}
   <div {{action 'displayDispatchOverlay'}}>
     <span class="no-avatar">
-      <i aria-hidden="true">{{fa-icon 'ship'}}</i>
+      <i aria-hidden="true">{{fa-icon 'ship'}}</i><br />
     </span>
   </div>
 {{else if (is-equal package.state "dispatched")}}
   {{undispatch-item item=item package=package closeList=closeList }}
 {{else}}
   <div {{action 'displayDispatchOverlay'}}>
-    <i class="item-menu">{{fa-icon 'ship'}}</i>
+    <i class="item-menu">{{fa-icon 'ship'}}</i><br />
     {{t "item.dispatch"}}
   </div>
 {{/if}}

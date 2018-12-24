@@ -6,12 +6,12 @@
   <div class="{{unless item.isSingletonItem 'disabled'}} {{if item.hasAllPackagesDispatched 'disabled'}}">
     {{#if item.isSingletonItem}}
       {{#link-to 'items.search_location' item.id (query-params isPartialMove=true pkgsLocationId=item.packagesLocations.firstObject.id skipScreenForSingletonItem=true) tagName='div' href=false}}
-        <i class="item-menu">{{fa-icon 'map-marker-alt'}}</i>
+        <i class="item-menu">{{fa-icon 'map-marker-alt' size="2x"}}</i><br />
         {{t "item.move"}}
       {{/link-to}}
     {{else}}
       {{#link-to 'items.partial_move' item.id tagName='div' href=false}}
-        <i class="item-menu">{{fa-icon 'map-marker-alt'}}</i>
+        <i class="item-menu">{{fa-icon 'map-marker-alt' size="2x"}}</i><br />
         {{t "item.move"}}
       {{/link-to}}
     {{/if}}
@@ -20,12 +20,12 @@
   <div class="{{unless item.isSingletonItem 'disabled'}} {{unless item.quantity 'disabled'}}">
     {{#if item.isSingletonItem}}
       {{#link-to 'items.search_order' item.id (query-params isSet=item.isSet partial_qty=1) tagName='div' href=false}}
-        <i class="item-menu">{{fa-icon 'shopping-basket'}}</i>
+        <i class="item-menu">{{fa-icon 'shopping-basket' size="2x"}}</i><br />
         {{t "item.designate"}}
       {{/link-to}}
     {{else}}
       {{#link-to 'items.partial_designate' item.id tagName='div' href=false}}
-        <i class="item-menu" {{action 'partialDesignateForSet'}}>{{fa-icon 'shopping-basket'}}</i>
+        <i class="item-menu" {{action 'partialDesignateForSet'}}>{{fa-icon 'shopping-basket' size="2x"}}</i><br />
         {{t "item.designate"}}
       {{/link-to}}
     {{/if}}
@@ -35,20 +35,20 @@
     {{#if (is-and item.isSingletonItem item.designation.isGoodCityOrder)}}
       <div>
         <a href="#" {{action 'dispatchOrdersPackagePopUp' item item.firstDesignatedOrdersPackage.id}} >
-          <i class="item-menu">{{fa-icon 'ship'}}</i>
+          <i class="item-menu">{{fa-icon 'ship' size="2x"}}</i><br />
           {{t "item.dispatch"}}
         </a>
       </div>
     {{else}}
       {{#link-to 'items.partial_dispatch' item.id (query-params orderPackageId=item.firstDesignatedOrdersPackage.id) tagName='div' href=false}}
-        <i class="item-menu">{{fa-icon 'ship'}}</i>
+        <i class="item-menu">{{fa-icon 'ship' size="2x"}}</i><br />
         {{t "item.dispatch"}}
       {{/link-to}}
     {{/if}}
   </div>
 
   {{#print-label item=item closeList=(action 'toggle' true)}}
-    <i class="item-menu">{{fa-icon 'print'}}</i>
+    <i class="item-menu">{{fa-icon 'print' size="2x"}}</i><br />
     Label
   {{/print-label}}
 
@@ -57,6 +57,6 @@
   {{/if}}
 
   <div class="options-link-close" {{action "toggle" true}}>
-    <i class="item-menu">{{fa-icon 'angle-right'}}</i>
+    <i class="item-menu">{{fa-icon 'angle-right'}}</i><br />
   </div>
 </div>
