@@ -8,5 +8,9 @@ export default Ember.Service.extend({
 
   exists: function(obj) {
     return obj;
-  }
+  },
+
+  stringifyArray(arr) {
+    return Array.isArray(arr) ? arr.toString() : '';
+  },
 });

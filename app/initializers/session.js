@@ -5,5 +5,6 @@ export default {
     application.inject('route', 'session', 'service:session');
     application.inject('component', 'session', 'service:session');
     application.inject('component', 'router', 'router:main');
+    application.inject('component', 'filterService', 'service:filterService');
   }
 };
