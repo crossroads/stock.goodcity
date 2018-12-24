@@ -68,11 +68,13 @@ export default Ember.Controller.extend(InfinityRoute, {
   applyFilter() {
     var searchText = this.get("searchText");
     let filterService = this.get('filterService');
+    let utilities = this.get("utilityMethods");
+    let UNLOAD_MODELS = [ "designation", "item", "location", "code"];
 
     if (searchText.length > 0) {
       this.set("isLoading", true);
       this.set("hasNoResults", false);
-      if(this.get("unloadAll")) { this.get("store").unloadAll(); }
+      if(this.get("unloadAll")) {  UNLOAD_MODELS.forEach((model) => this.store.unloadAll(model)); }
 
       let filter = filterService.get('getOrderStateFilters');
 
@@ -86,8 +88,8 @@ export default Ember.Controller.extend(InfinityRoute, {
         startingPage: 1,
         modelPath: 'filteredResults',
         stockRequest: true,
-        state: this.get("utilityMethods").stringifyArray(filter),
-        type: this.get("utilityMethods").stringifyArray(typesFilter),
+        state: utilities.stringifyArray(filter),
+        type: utilities.stringifyArray(typesFilter),
         priority: isPriority
       };
       this.infinityModel(this.get("searchModelName"),
