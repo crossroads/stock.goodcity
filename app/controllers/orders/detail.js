@@ -17,6 +17,7 @@ export default Ember.Controller.extend({
   appReview: Ember.inject.service(),
   isOrderProcessRestarted: false,
   isActiveGoods: false,
+  filterService: Ember.inject.service(),
 
   displayOrderOptions: Ember.computed({
     get: function() {
