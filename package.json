@@ -21,6 +21,7 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
+    "@fortawesome/free-brands-svg-icons": "^5.6.3",
     "@fortawesome/free-solid-svg-icons": "^5.6.1",
     "active-model-adapter": "2.1.1",
     "broccoli-asset-rev": "^2.4.2",
@@ -62,6 +63,7 @@
   },
   "dependencies": {
     "@fortawesome/ember-fontawesome": "^0.1.9",
+    "@fortawesome/free-regular-svg-icons": "^5.6.3",
     "azure-api": "git://github.com/crossroads/azure-api.git#master",
     "blueimp-file-upload": "^9.17.0",
     "bower": "^1.8.4",

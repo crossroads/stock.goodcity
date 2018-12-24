@@ -6,12 +6,12 @@
   <div class="{{unless item.isSingletonItem 'disabled'}} {{if item.hasAllPackagesDispatched 'disabled'}}">
     {{#if item.isSingletonItem}}
       {{#link-to 'items.search_location' item.id (query-params isPartialMove=true pkgsLocationId=item.packagesLocations.firstObject.id skipScreenForSingletonItem=true) tagName='div' href=false}}
-        <i class="item-menu">{{fa-icon 'map-marker'}}</i>
+        <i class="item-menu">{{fa-icon 'map-marker-alt'}}</i>
         {{t "item.move"}}
       {{/link-to}}
     {{else}}
       {{#link-to 'items.partial_move' item.id tagName='div' href=false}}
-        <i class="item-menu">{{fa-icon 'map-marker'}}</i>
+        <i class="item-menu">{{fa-icon 'map-marker-alt'}}</i>
         {{t "item.move"}}
       {{/link-to}}
     {{/if}}

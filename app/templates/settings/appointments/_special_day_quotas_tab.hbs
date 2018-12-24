@@ -10,7 +10,7 @@
     <div class="columns small-8">{{ t 'settings.appointments.override_quota' }}</div>
     <div class="columns small-4">
       <div class="add-slot-btn" {{action 'showDateCreationPopup'}}>
-        <i aria-hidden="true">{{fa-icon 'calendar-plus-o'}}</i>
+        <i aria-hidden="true">{{fa-icon 'calendar-plus'}}</i>
         {{ t 'settings.appointments.add_date' }}
       </div>
       {{partial 'settings/appointments/add_date_popup'}}
@@ -92,7 +92,7 @@
 
           <div class="columns small-4">
               <div class="delete-btn">
-                <i class="delete-btn" aria-hidden="true" {{action 'deleteRecord' slot.record}}>{{fa-icon 'times-circle-o'}}</i>
+                <i class="delete-btn" aria-hidden="true" {{action 'deleteRecord' slot.record}}>{{fa-icon 'times-circle'}}</i>
               </div>
           </div>
 

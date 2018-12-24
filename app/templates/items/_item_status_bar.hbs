@@ -50,7 +50,7 @@
   {{/link-to}}
   <div class="small-4 columns location-name">
     {{#unless item.hasAllPackagesDispatched}}
-      <i> {{fa-icon 'map-marker'}}</i>
+      <i> {{fa-icon 'map-marker-alt'}}</i>
       {{#if item.hasMultiLocations}}
         {{#link-to 'items.partial_move' item.id tagName='span' href=false}} Multiple {{/link-to}}
       {{else}}

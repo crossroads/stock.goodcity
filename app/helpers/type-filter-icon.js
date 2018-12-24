@@ -5,7 +5,7 @@ export default Ember.Helper.helper(function(type) {
     case "online_orders":
       return "";
     case "appointments":
-      return "handshake-o";
+      return "handshake";
     case "collection":
       return "male";
     case "dispatch":

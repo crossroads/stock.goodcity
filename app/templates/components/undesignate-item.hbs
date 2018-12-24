@@ -1,5 +1,5 @@
 <div class="{{if (is-equal package.state 'dispatched') 'disabled'}}" {{action 'displayDesignateOverlay'}}>
-  <i>{{fa-icon 'times-circle-o'}}</i>
+  <i>{{fa-icon 'times-circle'}}</i>
   {{t "item.undesignate"}}
 </div>
 
@@ -25,7 +25,7 @@
       </div>
       <div class="small-6 columns location-name">
         {{#unless item.sentOn}}
-          <i>{{fa-icon 'map-marker'}}</i> {{item.location.name}}
+          <i>{{fa-icon 'map-marker-alt'}}</i> {{item.location.name}}
         {{/unless}}
       </div>
       <div class="small-3 columns">
