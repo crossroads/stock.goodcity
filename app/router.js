@@ -17,6 +17,7 @@ Router.map(function() {
   this.route('app_menu_list');
   this.route('appointments');
   this.route('order_filters');
+  this.route('item_filters');
 
   this.route("items", function() {
     this.route("new");
