@@ -16,6 +16,7 @@ export default GoodcityController.extend({
   store: Ember.inject.service(),
   messageBox: Ember.inject.service(),
   i18n: Ember.inject.service(),
+  placeHolderDate: null,
   appReview: Ember.inject.service(),
   isOrderProcessRestarted: false,
   isActiveGoods: false,
@@ -106,6 +107,7 @@ export default GoodcityController.extend({
         const currentTimeSlot = _.find(this.get('scheduleTimeSlots'), ['id', timeString]);
         this.set('selectedTimeslot', currentTimeSlot || this.get('scheduleTimeSlots')[0]);
         this.set('selectedScheduleDate', d);
+        this.set("placeHolderDate", moment(d).format('ddd MMM do'));
       } catch (e) {
         this.set('selectedTimeslot', this.get('scheduleTimeSlots')[0]);
         this.set('selectedScheduleDate', null);
