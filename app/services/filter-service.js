@@ -2,17 +2,17 @@ import Ember from "ember";
 
 export default Ember.Service.extend({
 
-  getOrderStateFilters() {
+  getOrderStateFilters: Ember.computed(function() {
     return JSON.parse(window.localStorage.getItem('orderStateFilters'));
-  },
+  }),
 
-  getOrderTypeFilters() {
+  getOrderTypeFilters: Ember.computed(function() {
     return JSON.parse(window.localStorage.getItem('orderTypeFilters'));
-  },
+  }),
 
   isPriority() {
-    if (this.getOrderStateFilters()) {
-      return this.getOrderStateFilters().indexOf('showPriority') >= 0;
+    if (this.get('getOrderStateFilters')) {
+      return this.get('getOrderStateFilters').indexOf('showPriority') >= 0;
     }
   },
 

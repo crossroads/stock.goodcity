@@ -17,6 +17,7 @@ module('Acceptance: Dashboard', {
     var designations = _.range(1, 6).map(order => FactoryGuy.make("designation", {
                         id: order,
                         state: 'submitted',
+                        created_by_id: 3,
                         detail_type: 'GoodCity'
                       })
                       .toJSON({
@@ -109,7 +110,7 @@ test("Order fulfilment user can view dashboard element", function(assert) {
   visit("/");
   andThen(function() {
     assert.equal(currentURL(), "/");
-    assert.equal(Ember.$('.recent_orders').length, 1);
+    assert.equal(Ember.$('.recent_orders').length, 2);
   });
 });
 
@@ -155,5 +156,13 @@ test("Clicking order type redirects to order page and selects filter of clicked 
       assert.equal(currentURL(), '/orders?isFiltered=true');
       assert.equal(Ember.$('#order-state-filter').text(), 'Submitted');
     });
+  });
+});
+
+test("Generates 5 recent orders", function(assert) {
+  visit("/");
+  andThen(function() {
+    assert.equal(currentURL(), "/");
+    assert.equal($('.order_header').length, 5);
   });
 });

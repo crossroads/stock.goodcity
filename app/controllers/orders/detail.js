@@ -20,6 +20,7 @@ export default GoodcityController.extend({
   isOrderProcessRestarted: false,
   isActiveGoods: false,
   scheduleChangePopupVisible: false,
+  filterService: Ember.inject.service(),
 
   scheduleTimeSlots: Ember.computed(function() {
     let buildSlot = (hours, minutes) => {
