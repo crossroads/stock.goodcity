@@ -7,19 +7,23 @@
 
       <div id="main-image-controls">
         <a {{action "deleteImage"}} title={{t "edit_images.delete_tooltip"}}>
-          <i>{{fa-icon 'trash'}}</i>
+          <i class="trash">{{fa-icon 'trash'}}</i>
         </a>
         <a {{action "setFavourite"}} title={{t "edit_images.favourite_tooltip"}}>
-          <i>{{fa-icon (if previewMatchesFavourite 'star' 'star-o')}}</i>
+          {{#if previewMatchesFavourite}}
+            <i class = "favourite">{{fa-icon 'star'}}</i>
+          {{else}}
+            <i class = "favourite">{{fa-icon 'star' prefix="far"}}</i>
+          {{/if}}
         </a>
         <a {{action "rotateImageRight"}} >
-          <i>{{fa-icon 'repeat'}}</i>
+          <i class="redo">{{fa-icon 'redo'}}</i>
         </a>
         <a {{action "rotateImageLeft"}} >
-          <i>{{fa-icon 'undo'}}</i>
+          <i class="undo">{{fa-icon 'undo'}}</i>
         </a>
         <a {{action "expandImage"}} title={{t "edit_images.fullscreen_tooltip"}}>
-          <i>{{fa-icon (if isExpanded 'compress' 'expand')}}</i>
+          <i class = "expand">{{fa-icon (if isExpanded 'compress' 'expand')}}</i>
         </a>
       </div>
 

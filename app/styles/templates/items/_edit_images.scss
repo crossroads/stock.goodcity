@@ -84,14 +84,14 @@
   display: inline-block;
   height: 8% !important;
 
-  .fa-star-o, .fa-star, .fa-trash, .fa-repeat, .fa-undo {
+  .trash, .favourite, .redo, .undo {
+    margin-left: 1rem;
+  }
+  .trash, .favourite, .redo, .undo {
     float: right;
   }
-  .fa-expand, .fa-compress {
+  .expand {
     float: left;
-  }
-  .fa-star-o, .fa-star, .fa-trash, .fa-repeat, {
-    margin-left: 1rem;
   }
 }
 
