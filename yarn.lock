@@ -3639,15 +3639,9 @@ debug@^3.1.0:
     ms "^2.1.1"
 
 debug@~4.1.0:
-<<<<<<< HEAD
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/debug/-/debug-4.1.0.tgz#373687bffa678b38b1cd91f861b63850035ddc87"
-  integrity sha512-heNPJUJIqC+xB6ayLAMHaIrmN9HKa7aQO8MGqKpvCA+uJYVcvR6l5kgdrhRuwPFHU7P5/A1w0BjByPHwpfTDKg==
-=======
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/debug/-/debug-4.1.1.tgz#3b72260255109c6b589cee050f1d516139664791"
   integrity sha512-pYAIzeRo8J6KPEaJ0VWOh5Pzkbw/RetuzehGM7QRRX5he4fPHx2rdKMB256ehJCkX+XRQm16eZLqLNS8RSZXZw==
->>>>>>> fix icons
   dependencies:
     ms "^2.1.1"
 
@@ -5162,11 +5156,7 @@ evp_bytestokey@^1.0.0, evp_bytestokey@^1.0.3:
 
 exec-file-sync@^2.0.0:
   version "2.0.2"
-<<<<<<< HEAD
-  resolved "http://registry.npmjs.org/exec-file-sync/-/exec-file-sync-2.0.2.tgz#58d441db46e40de6d1f30de5be022785bd89e328"
-=======
   resolved "https://registry.yarnpkg.com/exec-file-sync/-/exec-file-sync-2.0.2.tgz#58d441db46e40de6d1f30de5be022785bd89e328"
->>>>>>> fix icons
   integrity sha1-WNRB20bkDebR8w3lvgInhb2J4yg=
   dependencies:
     is-obj "^1.0.0"
@@ -6749,11 +6739,7 @@ inquirer@^1.2.3:
 
 inquirer@^2:
   version "2.0.0"
-<<<<<<< HEAD
-  resolved "http://registry.npmjs.org/inquirer/-/inquirer-2.0.0.tgz#e1351687b90d150ca403ceaa3cefb1e3065bef4b"
-=======
   resolved "https://registry.yarnpkg.com/inquirer/-/inquirer-2.0.0.tgz#e1351687b90d150ca403ceaa3cefb1e3065bef4b"
->>>>>>> fix icons
   integrity sha1-4TUWh7kNFQykA86qPO+x4wZb70s=
   dependencies:
     ansi-escapes "^1.1.0"
@@ -9399,15 +9385,9 @@ p-finally@^1.0.0:
   integrity sha1-P7z7FbiZpEEjs0ttzBi3JDNqLK4=
 
 p-limit@^2.0.0:
-<<<<<<< HEAD
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/p-limit/-/p-limit-2.0.0.tgz#e624ed54ee8c460a778b3c9f3670496ff8a57aec"
-  integrity sha512-fl5s52lI5ahKCernzzIyAP0QAZbGIovtVHGwpcu1Jr/EpzLVDI2myISHwGqK7m8uQFugVWSrbxH7XnhGtvEc+A==
-=======
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/p-limit/-/p-limit-2.1.0.tgz#1d5a0d20fb12707c758a655f6bbc4386b5930d68"
   integrity sha512-NhURkNcrVB+8hNfLuysU8enY5xn2KXphsHBaC2YmRNTZRc7RWusw6apSpdEj3jo4CMb6W9nrF6tTnsJsJeyu6g==
->>>>>>> fix icons
   dependencies:
     p-try "^2.0.0"
 
@@ -11171,17 +11151,6 @@ sort-package-json@^1.15.0, sort-package-json@^1.4.0:
   version "1.17.1"
   resolved "https://registry.yarnpkg.com/sort-package-json/-/sort-package-json-1.17.1.tgz#ab8d7ba8c8e2bbe1805e0650829256f64191c203"
   integrity sha512-IxcHMpJF2ksT2cTtY3scXErmxbpp79bA7nlToENHCn0ZhoX7fMJk97z9sHDyubRoKzbwzq4r6TZz9DHL5V0LXA==
-<<<<<<< HEAD
-  dependencies:
-    detect-indent "^5.0.0"
-    sort-object-keys "^1.1.2"
-
-sort-package-json@^1.4.0:
-  version "1.17.0"
-  resolved "https://registry.yarnpkg.com/sort-package-json/-/sort-package-json-1.17.0.tgz#1dfe40b5632e28919a09e80f3da555090ec30cd7"
-  integrity sha512-pVEdEI3w5dlXVJ1N0W/SwSfdrUFWVeB/zcRruQVf999TlCAZ1fS+Aw+EPZpdoHjoALPx6jNNtU9batTrbeVlYg==
-=======
->>>>>>> fix icons
   dependencies:
     detect-indent "^5.0.0"
     sort-object-keys "^1.1.2"
@@ -12086,11 +12055,7 @@ underscore.string@^3.2.2, underscore.string@~3.3.4:
 
 underscore.string@~2.3.3:
   version "2.3.3"
-<<<<<<< HEAD
-  resolved "http://registry.npmjs.org/underscore.string/-/underscore.string-2.3.3.tgz#71c08bf6b428b1133f37e78fa3a21c82f7329b0d"
-=======
   resolved "https://registry.yarnpkg.com/underscore.string/-/underscore.string-2.3.3.tgz#71c08bf6b428b1133f37e78fa3a21c82f7329b0d"
->>>>>>> fix icons
   integrity sha1-ccCL9rQosRM/N+ePo6Icgvcymw0=
 
 underscore@1.2.1:
@@ -12229,11 +12194,7 @@ user-home@^1.1.1:
 
 user-info@^1.0.0:
   version "1.0.0"
-<<<<<<< HEAD
-  resolved "http://registry.npmjs.org/user-info/-/user-info-1.0.0.tgz#81c82b7ed63e674c2475667653413b3c76fde239"
-=======
   resolved "https://registry.yarnpkg.com/user-info/-/user-info-1.0.0.tgz#81c82b7ed63e674c2475667653413b3c76fde239"
->>>>>>> fix icons
   integrity sha1-gcgrftY+Z0wkdWZ2U0E7PHb94jk=
   dependencies:
     os-homedir "^1.0.1"
