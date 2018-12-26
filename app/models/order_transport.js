@@ -15,6 +15,7 @@ export default Model.extend({
   needEnglish:          attr("boolean"),
   needCart:             attr("boolean"),
   needCarry:            attr("boolean"),
+  bookingType:          belongsTo('booking_type', { async: false }),
 
   scheduledDate: Ember.computed('scheduledAt', function() {
     return moment(this.get('scheduledAt')).format("D MMMM YYYY");
@@ -29,6 +30,10 @@ export default Model.extend({
     } else {
       return "";
     }
-  })
+  }),
 
+  isAppointment: Ember.computed("bookingType", function() {
+    const bookingType = this.get('bookingType');
+    return bookingType && bookingType.get('isAppointment');
+  })
 });

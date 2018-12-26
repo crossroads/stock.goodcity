@@ -46,6 +46,7 @@ export default Model.extend({
     return (this.get('detailType') === 'LocalOrder') || (this.get('detailType') === 'StockitLocalOrder');
   }),
   isGoodCityOrder: Ember.computed.equal('detailType', 'GoodCity'),
+  isAppointment: Ember.computed.alias('orderTransport.isAppointment'),
 
   isDraft: Ember.computed.equal("state", "draft"),
   isSubmitted: Ember.computed.equal("state", "submitted"),

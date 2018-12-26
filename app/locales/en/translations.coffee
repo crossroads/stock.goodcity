@@ -261,6 +261,7 @@ I18nTranslationsEn =
       "add_date": "Add Date"
       "note": "Note"
       "add_timeslot": "Add timeslot"
+      "select_timeslot": "Select timeslot"
       "delete_date": "Delete this date"
       "no_appointments": "No appointments"
       "special_day_placeholder": "E.g: No available staff this Thursday"

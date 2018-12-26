@@ -1,9 +1,11 @@
 import Ember from "ember";
 import config from '../../config/environment';
 import AjaxPromise from 'stock/utils/ajax-promise';
+import GoodcityController from '../goodcity_controller';
+import _ from 'lodash';
 const { getOwner } = Ember;
 
-export default Ember.Controller.extend({
+export default GoodcityController.extend({
 
   backLinkPath: "",
   displayAllItems: false,
@@ -17,7 +19,17 @@ export default Ember.Controller.extend({
   appReview: Ember.inject.service(),
   isOrderProcessRestarted: false,
   isActiveGoods: false,
+  scheduleChangePopupVisible: false,
   filterService: Ember.inject.service(),
+
+  scheduleTimeSlots: Ember.computed(function() {
+    let buildSlot = (hours, minutes) => {
+      const key = this.formatTimeSlot(hours, minutes);
+      return { name: key, id: key, hours, minutes };
+    };
+    let slots = _.range(0, 23).map(h => [0, 30].map(m => buildSlot(h, m)));
+    return _.flatten(slots);
+  }),
 
   displayOrderOptions: Ember.computed({
     get: function() {
@@ -52,6 +64,10 @@ export default Ember.Controller.extend({
     return this.get("model.ordersPackages").rejectBy('state', 'requested').rejectBy('state', null).length;
   }),
 
+  formatTimeSlot(hours, minutes) {
+    return moment().set('hour', hours).set('minute', minutes).format('hh:mmA');
+  },
+
   genericCustomPopUp(message, button1text, button2text, btn1Callback) {
     var _this = this;
     _this.get("messageBox").custom(
@@ -82,6 +98,44 @@ export default Ember.Controller.extend({
   },
 
   actions: {
+    openSchedulePopup() {
+      const scheduledAt = this.get('model.orderTransport.scheduledAt');
+      try {
+        const d = new Date(scheduledAt);
+        const timeString = this.formatTimeSlot(d.getHours(), d.getMinutes());
+        const currentTimeSlot = _.find(this.get('scheduleTimeSlots'), ['id', timeString]);
+        this.set('selectedTimeslot', currentTimeSlot || this.get('scheduleTimeSlots')[0]);
+        this.set('selectedScheduleDate', d);
+      } catch (e) {
+        this.set('selectedTimeslot', this.get('scheduleTimeSlots')[0]);
+        this.set('selectedScheduleDate', null);
+      }
+      this.set('scheduleChangePopupVisible', true);
+    },
+
+    closeSchedulePopup() {
+      this.set('scheduleChangePopupVisible', false);
+    },
+
+    saveNewSchedule() {
+      let ts = this.get('selectedTimeslot');
+      let date = this.get('selectedScheduleDate');
+      if (!date || !ts) {
+        return this.showError('Please select a valid date and timeslot');
+      }
+
+      date.setHours(ts.hours);
+      date.setMinutes(ts.minutes);
+      this.updateRecord(this.get('model.orderTransport'), {
+        timeslot: ts.id,
+        scheduledAt: date
+      });
+    },
+
+    selectTimeslot(ts) {
+      this.set('selectedTimeslot', ts);
+    },
+
     toggleOrderOptions() {
       this.toggleProperty("displayOrderOptions");
     },

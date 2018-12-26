@@ -41,6 +41,29 @@
   }
 }
 
+.order-booking-tab {
+  padding: 0 1em;
+  .row {
+    color: white;
+
+    .text {
+      line-height: 2.5em;
+    }
+
+    .button.light {
+      width: 100%;
+      padding: 0.325rem 0.05rem 0.3875rem 0.05rem;
+      background-color: transparent;
+      border: 1px solid white;
+    }
+  }
+
+  .reschedule-popup .row {
+    color: black;
+    margin-bottom: 1em;
+  }
+}
+
 .order_item_list_tabs{
   margin: -0.5rem 0 1rem 0;
   .tabs-content {
