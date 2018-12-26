@@ -4,7 +4,7 @@
   {{#if model.isClosed}}
     <div class="option_menu">
       <a {{action "updateOrder" model "reopen"}}>
-        <i>{{fa-icon 'repeat'}}</i>
+        <i>{{fa-icon 'redo'}}</i>
         {{t "order.reopen_order"}}
       </a>
     </div>
@@ -13,7 +13,7 @@
   {{#if model.isAwaitingDispatch}}
     <div class="option_menu">
       <a {{action "updateOrder" model "restart_process"}}>
-        <i class="order_menu">{{fa-icon 'repeat'}}</i>
+        <i class="order_menu">{{fa-icon 'redo'}}</i>
         {{t "order.restart_process"}}
       </a>
     </div>
@@ -22,7 +22,7 @@
   {{#if model.isDispatching}}
     <div class="option_menu">
       <a {{action "updateOrder" model "dispatch_later"}}>
-        <i class="order_menu">{{fa-icon 'repeat'}}</i>
+        <i class="order_menu">{{fa-icon 'redo'}}</i>
         {{t "order.dispatch_later"}}
       </a>
     </div>
@@ -31,7 +31,7 @@
   {{#if model.isCancelled}}
     <div class="option_menu">
       <a {{action "updateOrder" model "resubmit"}}>
-        <i class="order_menu">{{fa-icon 'repeat'}}</i>
+        <i class="order_menu">{{fa-icon 'redo'}}</i>
         {{t "order.resubmit"}}
       </a>
     </div>
