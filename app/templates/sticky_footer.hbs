@@ -7,9 +7,15 @@
             <i class="fa fa-home"></i>{{t "index.home"}}
           {{/link-to}}
 
-          {{#link-to 'orders' tagName='li' href=false}}
-            <i class="fa fa-shopping-basket"></i>{{t "index.orders"}}
-          {{/link-to}}
+          {{#if (is-and filterService.getOrderState.length filterService.getOrderType.length)}}
+            {{#link-to 'orders' (query-params isFiltered=true) tagName='li' href=false}}
+              <i class="fa fa-shopping-basket"></i>{{t "index.orders"}}
+            {{/link-to}}
+          {{else}}
+            {{#link-to 'orders' tagName='li' href=false}}
+              <i class="fa fa-shopping-basket"></i>{{t "index.orders"}}
+            {{/link-to}}
+          {{/if}}
 
           {{#link-to 'items' tagName='li' href=false}}
             <i class="fa fa-cube"></i>{{t "index.items"}}

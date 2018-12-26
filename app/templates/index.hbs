@@ -6,6 +6,120 @@
       {{/if}}
       {{#link-to 'search_code' (query-params backToNewItem=false)}}Add item to inventory{{/link-to}}
     </div>
+
+    {{#if session.currentUser.isOrderFulfilmentUser}}
+      <div class="small-12 columns summary recent_orders">
+        <h2>Orders In Process</h2>
+        <div class="row">
+          <div class="small-3 columns" {{action 'goToOrder' 'submitted' }} >
+            <div  class="order_detail submitted">
+              <div class="order_title">{{t 'order_filters.submitted'}}</div>
+              <div class="order_count">
+                <i class="fa fa-envelope"></i>&nbsp;&nbsp;<span>{{if model.ordersCount.submitted model.ordersCount.submitted 0}}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="small-3 columns" {{action 'goToOrder' 'processing' }} >
+            <div  class="order_detail processing">
+              <div class="order_title">{{t 'order_filters.processing'}}</div>
+              <div class="order_count">
+                <i class="fa fa-list"></i>&nbsp;&nbsp;<span>{{if model.ordersCount.processing model.ordersCount.processing 0}}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="small-3 columns" {{action 'goToOrder' 'awaiting_dispatch' }} >
+            <div  class="order_detail awaiting_dispatch">
+              <div class="order_title">{{t 'order_filters.awaiting_dispatch'}}</div>
+              <div class="order_count">
+                <i class="fa fa-clock-o"></i>&nbsp;&nbsp;<span>{{if model.ordersCount.awaiting_dispatch model.ordersCount.awaiting_dispatch 0}}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="small-3 columns" {{action 'goToOrder' 'dispatching' }} >
+            <div  class="order_detail dispatching">
+              <div class="order_title">{{t 'order_filters.dispatching'}}</div>
+              <div class="order_count">
+                <i class="fa fa-paper-plane"></i>&nbsp;&nbsp;<span>{{if model.ordersCount.dispatching model.ordersCount.dispatching 0}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <br>
+
+        <div class="row">
+          <div class="small-3 columns">
+            <div class="order_detail priority_details submitted" {{action 'goToOrder' 'submitted' true}}>
+              {{#if model.ordersCount.priority_submitted }}
+                <i class="fa fa-exclamation-triangle "></i>&nbsp;&nbsp;
+                <span>{{model.ordersCount.priority_submitted}}</span>
+              {{else}}
+                <i class="fa fa-check"></i>
+              {{/if}}
+            </div>
+          </div>
+
+          <div class="small-3 columns">
+            <div class="order_detail priority_details processing" {{action 'goToOrder' 'processing' true}}>
+              {{#if model.ordersCount.priority_processing }}
+                <i class="fa fa-exclamation-triangle "></i>&nbsp;&nbsp;
+                <span>{{model.ordersCount.priority_processing}}</span>
+              {{else}}
+                <i class="fa fa-check"></i>
+              {{/if}}
+            </div>
+          </div>
+
+          <div class="small-3 columns">
+            <div class="order_detail priority_details awaiting_dispatch" {{action 'goToOrder' 'awaiting_dispatch' true}}>
+              {{#if model.ordersCount.priority_awaiting_dispatch }}
+                <i class="fa fa-exclamation-triangle "></i>&nbsp;&nbsp;
+                <span>{{model.ordersCount.priority_awaiting_dispatch}}</span>
+              {{else}}
+                <i class="fa fa-check"></i>
+              {{/if}}
+            </div>
+          </div>
+
+          <div class="small-3 columns">
+            <div class="order_detail priority_details dispatching" {{action 'goToOrder' 'dispatching' true}}>
+              {{#if model.ordersCount.priority_dispatching }}
+                <i class="fa fa-exclamation-triangle "></i>&nbsp;&nbsp;
+                <span>{{model.ordersCount.priority_dispatching}}</span>
+              {{else}}
+                <i class="fa fa-check"></i>
+              {{/if}}
+            </div>
+          </div>
+        </div>
+
+        <div class="small-12 columns summary recent_orders counts" >
+        <h2>{{t 'order_filters.recent_orders'}}</h2>
+        {{#each model.recentlyUsedDesignations as |order|}}
+          {{#link-to 'orders.items_list' order href=false}}
+              <div class="row order_header">
+                <div class="small-4 medium-4 large-4 columns order_transport">
+                  <i class="fa fa-lg fa-{{ order.transportIcon }}"></i> {{ order.code }}
+                </div>
+
+                {{!-- <div class="small-3 medium-3 large-3 columns order_code">
+                  {{order.submittedBy.fullName}}
+                </div> --}}
+
+                <div class="small-5 medium-5 large-5 columns order_state">
+                  <div class="order_state_icon {{ order.state }}">
+                    <i class="fa fa-{{ order.stateIcon }}"></i>
+                  </div>
+                </div>
+              </div>
+          {{/link-to}}
+        {{/each}}
+      </div>
+      </div>
+    {{/if}}
   </div>
 
   {{partial "sticky_footer"}}

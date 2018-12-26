@@ -1,13 +1,51 @@
 import AuthorizeRoute from './../authorize';
+import Ember from "ember";
 import AjaxPromise from 'stock/utils/ajax-promise';
 
 export default AuthorizeRoute.extend({
-  model() {
+  filterService: Ember.inject.service(),
+  utilityMethods: Ember.inject.service(),
+
+  model(params) {
+    let filterService = this.get('filterService');
+
+    let filter = filterService.get('getOrderStateFilters');
+    let typeFilter = filterService.get('getOrderTypeFilters');
+    let isPriority = filterService.isPriority();
+    if (isPriority) {
+      filter.shift();
+    }
+
     if(!this.session.get("currentUser")) {
-      return new AjaxPromise("/auth/current_user_profile", "GET", this.session.get("authToken"))
+      new AjaxPromise("/auth/current_user_profile", "GET", this.session.get("authToken"))
         .then(data => {
           this.store.pushPayload(data);
         });
+    }
+
+    if (params.isFiltered) {
+      return this.store.query('designation', { state: this.get("utilityMethods").stringifyArray(filter), type:this.get("utilityMethods").stringifyArray(typeFilter), priority: isPriority });
+    } else {
+      filterService.clearFilters();
+      filterService.notifyPropertyChange("getOrderStateFilters");
+      filterService.notifyPropertyChange("getOrderTypeFilters");
+    }
+  },
+
+  setupController(controller, model) {
+    this._super(controller, model);
+    if (model) {
+      model.forEach(record => {
+        controller.onItemLoaded(record);
+      });
+      controller.set("filteredResults", model);
+    }
+  },
+
+  resetController(controller, isExiting) {
+    if (isExiting) {
+      controller.set('isFiltered', undefined);
+      controller.set("filteredResults", "");
     }
   }
 });
