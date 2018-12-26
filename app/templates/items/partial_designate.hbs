@@ -6,29 +6,29 @@
           <div class="small-3 columns">
             {{#if item.hasAllPackagesDesignated}}
               {{#if item.hasOneDesignatedPackage}}
-                  <i class="fa fa-shopping-basket"></i> {{item.designation.code}}
+                  <i>{{fa-icon 'shopping-basket'}}</i> {{item.designation.code}}
               {{else}}
-                  <i class="fa fa-shopping-basket"></i> {{t "item.multiple_designation"}}
+                  <i>{{fa-icon 'shopping-basket'}}</i> {{t "item.multiple_designation"}}
               {{/if}}
             {{else if item.hasAllPackagesDispatched}}
               {{#if item.hasOneDispatchedPackage}}
-                  <i class="fa fa-ship"></i> {{item.hasOneDispatchedPackage.designation.code}}
+                  <i>{{fa-icon 'ship'}}</i> {{item.hasOneDispatchedPackage.designation.code}}
               {{else}}
-                <i class="fa fa-ship"></i> {{t "item.all_dispatched"}}
+                <i>{{fa-icon 'ship'}}</i> {{t "item.all_dispatched"}}
               {{/if}}
             {{else if (is-not item.quantity)}}
               {{#if item.hasOneDesignatedPackage}}
-                  <i class="fa fa-shopping-basket"></i> {{item.designation.code}}
+                  <i>{{fa-icon 'shopping-basket'}}</i> {{item.designation.code}}
               {{else if item.designatedOrdersPackages.length}}
-                  <i class="fa fa-shopping-basket"></i> {{t "item.multiple_designation"}}
+                  <i>{{fa-icon 'shopping-basket'}}</i> {{t "item.multiple_designation"}}
               {{else if item.hasOneDispatchedPackage}}
-                  <i class="fa fa-ship"></i> {{item.hasOneDispatchedPackage.designation.code}}
+                  <i>{{fa-icon 'ship'}}</i> {{item.hasOneDispatchedPackage.designation.code}}
               {{else if item.dispatchedOrdersPackages.length}}
-                <i class="fa fa-ship"></i> {{t "item.all_dispatched"}}
+                <i>{{fa-icon 'ship'}}</i> {{t "item.all_dispatched"}}
               {{/if}}
             {{else}}
               <div class="stock_status">
-                <i class="fa {{if item.allowWebPublish 'fa-eye' 'fa-eye-slash'}}" aria-hidden="true"></i> In Stock
+                <i aria-hidden="true">{{fa-icon (if item.allowWebPublish 'eye' 'eye-slash')}}</i> In Stock
               </div>
             {{/if}}
           </div>
@@ -42,7 +42,7 @@
             {{/unless}}
           </div>
           <div class="small-3 columns">
-            <i class="fa {{if item.isSet 'fa-tags' 'fa-tag'}}"></i> {{item.inventoryNumber}}
+            <i>{{fa-icon (if item.isSet 'tags' 'tag')}}</i> {{item.inventoryNumber}}
           </div>
         </div>
 
@@ -85,35 +85,35 @@
       <div class="small-3 columns">
         {{#if item.hasAllPackagesDesignated}}
           {{#if item.hasOneDesignatedPackage}}
-              <i class="fa fa-shopping-basket"></i> {{item.designation.code}}
+              <i>{{fa-icon 'shopping-basket'}}</i> {{item.designation.code}}
           {{else}}
-              <i class="fa fa-shopping-basket"></i> {{t "item.multiple_designation"}}
+              <i>{{fa-icon 'shopping-basket'}}</i> {{t "item.multiple_designation"}}
           {{/if}}
         {{else if item.hasAllPackagesDispatched}}
           {{#if item.hasOneDispatchedPackage}}
-              <i class="fa fa-ship"></i> {{item.hasOneDispatchedPackage.designation.code}}
+              <i>{{fa-icon 'ship'}}</i> {{item.hasOneDispatchedPackage.designation.code}}
           {{else}}
-            <i class="fa fa-ship"></i> {{t "item.all_dispatched"}}
+            <i>{{fa-icon 'ship'}}</i> {{t "item.all_dispatched"}}
           {{/if}}
         {{else if (is-not item.quantity)}}
           {{#if item.hasOneDesignatedPackage}}
-              <i class="fa fa-shopping-basket"></i> {{item.designation.code}}
+              <i>{{fa-icon 'shopping-basket'}}</i> {{item.designation.code}}
           {{else if item.designatedOrdersPackages.length}}
-              <i class="fa fa-shopping-basket"></i> {{t "item.multiple_designation"}}
+              <i>{{fa-icon 'shopping-basket'}}</i> {{t "item.multiple_designation"}}
           {{else if item.hasOneDispatchedPackage}}
-              <i class="fa fa-ship"></i> {{item.hasOneDispatchedPackage.designation.code}}
+              <i>{{fa-icon 'ship'}}</i> {{item.hasOneDispatchedPackage.designation.code}}
           {{else if item.dispatchedOrdersPackages.length}}
-            <i class="fa fa-ship"></i> {{t "item.all_dispatched"}}
+            <i>{{fa-icon 'ship'}}</i> {{t "item.all_dispatched"}}
           {{/if}}
         {{else}}
           <div class="stock_status">
-            <i class="fa {{if item.allowWebPublish 'fa-eye' 'fa-eye-slash'}}" aria-hidden="true"></i> In Stock
+            <i aria-hidden="true">{{fa-icon (if item.allowWebPublish 'eye' 'eye-slash')}}</i> In Stock
           </div>
         {{/if}}
       </div>
       <div class="small-6 columns location-name">
         {{#unless model.hasAllPackagesDispatched}}
-          <i class="fa fa-map-marker"></i>
+          <i>{{fa-icon 'map-marker-alt'}}</i>
           {{#if model.hasSingleLocation}}
             {{model.firstLocationName}}
           {{else if model.hasMultiLocations}}
@@ -122,7 +122,7 @@
         {{/unless}}
       </div>
       <div class="small-3 columns">
-        <i class="fa {{if model.isSet 'fa-tags' 'fa-tag'}}"></i> {{model.inventoryNumber}}
+        <i>{{fa-icon (if model.isSet 'tags' 'tag')}}</i> {{model.inventoryNumber}}
       </div>
     </div>
 
@@ -162,14 +162,14 @@
   <div class="warnings">
     {{#if model.isSet}}
       <div class="warning_text">
-        <div class="left-icon"><i class="fa fa-exclamation-triangle"></i></div>
+        <div class="left-icon"><i>{{fa-icon 'exclamation-triangle'}}</i></div>
         <div class="right-message">
           <div class="move-message">Designates only part of set.</div>
         </div>
       </div><br/>
     {{/if}}
     <div class="warning_text">
-      <div class="left-icon"><i class="fa fa-exclamation-triangle"></i></div>
+      <div class="left-icon"><i>{{fa-icon 'exclamation-triangle'}}</i></div>
       <div class="right-message">
         {{#if model.isSet}}
           <div class="move-message">You can only designate maximum {{minSetQty}} items.</div>

@@ -1,6 +1,6 @@
 {{!--
 
-  RIGHT TAB: SPECIAL DATES 
+  RIGHT TAB: SPECIAL DATES
 
 --}}
 <div class="settings-section special-days {{if isSpecialTab 'show' 'hide'}}">
@@ -10,7 +10,7 @@
     <div class="columns small-8">{{ t 'settings.appointments.override_quota' }}</div>
     <div class="columns small-4">
       <div class="add-slot-btn" {{action 'showDateCreationPopup'}}>
-        <i class="fa fa-calendar-plus-o" aria-hidden="true"></i>
+        <i aria-hidden="true">{{fa-icon 'calendar-plus'}}</i>
         {{ t 'settings.appointments.add_date' }}
       </div>
       {{partial 'settings/appointments/add_date_popup'}}
@@ -30,18 +30,18 @@
         <div class="options_menu_list {{if dateObj.showOptionsMenu '' 'hidden'}}">
           <div class="option_menu">
             <a class="new-timeslot-btn" {{action 'newSpecialSlot' dateObj.date}} >
-              <i class="fa fa-plus-circle" aria-hidden="true"></i>
+              <i aria-hidden="true">{{fa-icon 'plus-circle'}}</i>
               {{t 'settings.appointments.add_timeslot'}}
             </a>
           </div>
           <div class="option_menu">
             <a {{action 'deleteAllItems' dateObj.items}} >
-              <i class="fa fa-trash" aria-hidden="true"></i>
+              <i aria-hidden="true">{{fa-icon 'trash'}}</i>
               {{t 'settings.appointments.delete_date'}}
             </a>
           </div>
         </div>
-        
+
       </div>
     </div>
     {{#if dateObj.note}}
@@ -57,7 +57,7 @@
       <div class="row bar slot-bar notes">
         <div class="columns small-12 warning">
           <div>
-            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+            <i aria-hidden="true">{{fa-icon 'exclamation-triangle'}}</i>
             {{t 'settings.appointments.no_bookings_allowed' }}
           </div>
         </div>
@@ -80,19 +80,19 @@
 
           <div class="columns small-4">
             <div class="columns small-4 text-align-right">
-              <i class="fa fa-minus-circle decrease-quota" {{ action 'decreaseQuotaOf' slot.record }}></i>
+              <i class="decrease-quota" {{ action 'decreaseQuotaOf' slot.record }}>{{fa-icon 'minus-circle'}}</i>
             </div>
             <div class="columns small-4">
               {{ slot.record.quota }}
             </div>
             <div class="columns small-4 text-align-left">
-              <i class="fa fa-plus-circle increase-quota" {{ action 'increaseQuotaOf' slot.record }}></i>
+              <i class="increase-quota" {{ action 'increaseQuotaOf' slot.record }}>{{fa-icon 'plus-circle'}}</i>
             </div>
           </div>
 
           <div class="columns small-4">
               <div class="delete-btn">
-                <i class="fa fa-times-circle-o delete-btn" aria-hidden="true" {{action 'deleteRecord' slot.record}}></i>
+                <i class="delete-btn" aria-hidden="true" {{action 'deleteRecord' slot.record}}>{{fa-icon 'times-circle'}}</i>
               </div>
           </div>
 

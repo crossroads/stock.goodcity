@@ -175,7 +175,7 @@ test("Special tab is selected by clicking on it", function(assert) {
   assert.expect(4);
   assert.notOk(Ember.$('.special-tab').hasClass('selected'));
   assert.notOk(Ember.$('.settings-section.special-days').hasClass('show'));
-  
+
   click(Ember.$('.special-tab a'));
 
   andThen(() => {
@@ -252,28 +252,28 @@ test('Special timeslots can be deleted by clicking on the cross button', functio
 
 _.each({
   'Preset quotas can be increased': {
-    btnSelector: '.settings-section.presets .fa-plus-circle.increase-quota',
+    btnSelector: '.settings-section.presets i.increase-quota',
     rowSelector: '.slot-bar.preset-timeslot',
     quotaDiff: 1,
     modelName: 'appointment_slot_preset',
     getRecords: () => presets
   },
   'Preset quotas can be decreased': {
-    btnSelector: '.settings-section.presets .fa-minus-circle.decrease-quota',
+    btnSelector: '.settings-section.presets i.decrease-quota',
     rowSelector: '.slot-bar.preset-timeslot',
     quotaDiff: -1,
     modelName: 'appointment_slot_preset',
     getRecords: () => presets
   },
   'Special timeslot quotas can be increased': {
-    btnSelector: '.settings-section.special-days .fa-plus-circle.increase-quota',
+    btnSelector: '.settings-section.special-days i.increase-quota',
     rowSelector: '.slot-bar.special-day-timeslot',
     quotaDiff: 1,
     modelName: 'appointment_slot',
     getRecords: () => slots
   },
   'Special timeslot quotas can be decreased': {
-    btnSelector: '.settings-section.special-days .fa-minus-circle.decrease-quota',
+    btnSelector: '.settings-section.special-days i.decrease-quota',
     rowSelector: '.slot-bar.special-day-timeslot',
     quotaDiff: -1,
     modelName: 'appointment_slot',

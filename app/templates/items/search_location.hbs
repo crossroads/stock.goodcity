@@ -11,7 +11,7 @@
       value=searchText }}
 
     {{#if hasSearchText}}
-      <i class="fa fa-times-circle" {{action "clearSearch"}}></i>
+      <i {{action "clearSearch"}}>{{fa-icon 'times-circle'}}</i>
     {{/if}}
   </div>
 
@@ -90,7 +90,7 @@
     <div class="warnings">
       {{#if item.setItem.multiQuantitySet}}
           <div class="warning_text">
-            <i class="fa fa-exclamation-triangle"></i>
+            <i>{{fa-icon 'exclamation-triangle'}}</i>
             Moves entire quantity.
           </div>
         {{/if}}
@@ -109,14 +109,14 @@
 
       {{#if (is-greater item.quantity 1)}}
         <div class="warning_text">
-          <i class="fa fa-exclamation-triangle"></i>
+          <i>{{fa-icon 'exclamation-triangle'}}</i>
           Moves quantity of {{item.quantity}}
         </div>
       {{/if}}
 
       {{#if item.isSet}}
         <div class="warning_text">
-          <div class="left-icon"><i class="fa fa-exclamation-triangle"></i></div>
+          <div class="left-icon"><i>{{fa-icon 'exclamation-triangle'}}</i></div>
           <div class="right-message">
             <div class="move-message">Moves only part of set. You could move the {{#link-to 'items.detail' item}} entire set {{/link-to}} instead.</div>
           </div>

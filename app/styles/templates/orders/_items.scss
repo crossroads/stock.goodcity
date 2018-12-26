@@ -35,13 +35,13 @@
   .back_icon {
     position: static;
     color: #a3aab6;
-    font-size: 2rem;
+    font-size: 1rem;
     vertical-align: bottom;
     padding: 0;
     padding-right: 0.2rem;
 
     @media #{$small-only} {
-      font-size: 1.3rem;
+      font-size: 1rem;
     }
   }
 

@@ -1,7 +1,7 @@
 <div class="row fixed_search_header search-box ui items-search">
   <div class="small-2 columns ">
     {{#link-to 'items.new' classNames="back"}}
-      <i class="fa fa-angle-left back_icon" aria-hidden="true"></i>
+      <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-left'}}</i>
       <div class="back_text">
         Back
       </div>
@@ -16,7 +16,7 @@
       value=searchText }}
 
     {{#if hasSearchText}}
-      <i class="fa fa-times-circle" {{action "clearSearch"}}></i>
+      <i {{action "clearSearch"}}>{{fa-icon 'times-circle'}}</i>
     {{/if}}
   </div>
 </div>

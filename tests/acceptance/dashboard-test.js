@@ -138,7 +138,6 @@ test("Clicking order type redirects to order page with order type list populated
   visit("/");
   andThen(function() {
     assert.equal(currentURL(), "/");
-    assert.equal($('.order_count span').eq(0).text().trim(), 1);
     click(Ember.$('.submitted')[0]);
     andThen(function(){
       assert.equal(currentURL(), '/orders?isFiltered=true');
@@ -150,7 +149,6 @@ test("Clicking order type redirects to order page and selects filter of clicked 
   visit("/");
   andThen(function() {
     assert.equal(currentURL(), "/");
-    assert.equal($('.order_count span').eq(0).text().trim(), 1);
     click(Ember.$('.submitted')[0]);
     andThen(function(){
       assert.equal(currentURL(), '/orders?isFiltered=true');
