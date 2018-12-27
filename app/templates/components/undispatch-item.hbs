@@ -1,10 +1,10 @@
 <div {{action 'undispatchItem'}}>
   {{#if isUndispatchFromPartialUndesignate}}
-    <i class="fa fa-reply" aria-hidden="true"></i>
+    <i aria-hidden="true">{{fa-icon 'reply'}}</i><br />
     <br>
     <span class="undispatch-text">{{t "item.partial_undispatch"}}</span>
   {{else}}
-    <i class="fa item-menu fa-exclamation-triangle"></i>
+    <i class="item-menu">{{fa-icon 'exclamation-triangle'}}</i><br />
     {{t "item.undispatch"}}
   {{/if}}
 </div>

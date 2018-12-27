@@ -1,22 +1,22 @@
 <section class="left-small">
   {{#if (is-equal backLinkPath "items.history")}}
     {{#link-to "items.history" itemIdforHistoryRoute classNames="back" }}
-      <i class="fa fa-angle-left back_icon" aria-hidden="true"></i>
+      <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-left'}}</i>
       <div>{{t "back"}}</div>
     {{/link-to}}
   {{else if (is-equal backLinkPath "items.partial_undesignate")}}
     {{#link-to "items.partial_undesignate" itemIdforHistoryRoute classNames="back" }}
-      <i class="fa fa-angle-left back_icon" aria-hidden="true"></i>
+      <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-left'}}</i>
       <div>{{t "back"}}</div>
     {{/link-to}}
   {{else if (is-equal backLinkPath "organisations.orders")}}
     {{#link-to "organisations.orders" organisationIdforHistoryRoute classNames="back" }}
-      <i class="fa fa-angle-left back_icon" aria-hidden="true"></i>
+      <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-left'}}</i>
       <div>{{t "back"}}</div>
     {{/link-to}}
   {{else if (is-equal backLinkPath "items.partial_dispatch")}}
     {{#link-to "orders.index" classNames="back" }}
-      <i class="fa fa-angle-left back_icon" aria-hidden="true"></i>
+      <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-left'}}</i>
       <div>{{t "back"}}</div>
     {{/link-to}}
   {{else if (is-or filterService.getOrderStateFilters.length filterService.getOrderTypeFilters.length)}}
@@ -26,7 +26,7 @@
       {{/link-to}}
   {{else}}
     {{#link-to "orders.index" classNames="back" }}
-      <i class="fa fa-angle-left back_icon" aria-hidden="true"></i>
+      <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-left'}}</i>
       <div>{{t "back"}}</div>
     {{/link-to}}
   {{/if}}

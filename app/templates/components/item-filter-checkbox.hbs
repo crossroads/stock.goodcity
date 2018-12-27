@@ -2,7 +2,7 @@
 <label class="radio-button-text" for={{name}}>
   <span class="type">{{t (concat "item_filters." name)}}</span>
 </label>
-<i class="small-1 medium-1 large-1 columns {{type-filter-icon name}}"></i>
+<i class="small-1 medium-1 large-1 columns">{{fa-icon (type-filter-icon name)}}</i>
 <label class="radio-button-text type-info" for={{name}}>
   <span>{{t (concat (concat "item_filters." name) "_info")}}</span>
 </label>

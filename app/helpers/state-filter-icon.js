@@ -3,19 +3,19 @@ import Ember from "ember";
 export default Ember.Helper.helper(function(state) {
   switch (state[0]) {
     case "showPriority":
-      return "fa fa-exclamation-triangle";
+      return "exclamation-triangle";
     case "submitted":
-      return "fa fa-envelope";
+      return "envelope";
     case "processing":
-      return "fa fa-list";
+      return "list";
     case "awaiting_dispatch":
-      return "fa fa-clock-o";
+      return "clock";
     case "dispatching":
-      return "fa fa-paper-plane";
+      return "paper-plane";
     case "closed":
-      return "fa fa-thumbs-up";
+      return "thumbs-up";
     case "cancelled":
-      return "fa fa-thumbs-down";
+      return "thumbs-down";
     default:
       return "";
   }

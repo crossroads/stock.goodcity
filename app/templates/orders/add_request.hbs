@@ -30,7 +30,7 @@
     </div>
     <div class="small-9 columns description-block">
       {{#form-control}}
-        <i class="fa fa-times-circle remove-text" aria-hidden="true" {{action "clearDescription"}}></i>
+        <i class="remove-text" aria-hidden="true" {{action "clearDescription"}}>{{fa-icon 'times-circle'}}</i>
         {{auto-resize-textarea data-autoresize=true name="description" value=description pattern=".*\S.*" id="description"}}
       {{/form-control}}
     </div>

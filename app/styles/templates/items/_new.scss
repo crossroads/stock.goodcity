@@ -108,7 +108,7 @@
   .remove-text{
     position: absolute;
     right: 3%;
-    font-size: 1rem;
+    font-size: 0.9rem;
     padding: 0.4rem 0.3rem;
     cursor: pointer;
   }
@@ -189,7 +189,7 @@
 .location-icon {
   position: absolute;
   right: 1rem;
-  top: 0.45rem;
+  top: 0.30rem;
   color: #a3aab6;
   @media #{$small-only} {
     top: 0.5rem;

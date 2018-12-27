@@ -1,16 +1,16 @@
-{{#message-box 
-  btn1Text=(t "save") 
+{{#message-box
+  btn1Text=(t "save")
   btn1Callback=(action "createNewSpecialDate")
-  btn2Text=(t "cancel") 
-  btn2Callback=(action "cancelDateCreation") 
-  isVisible=dateCreationPopupVisible 
+  btn2Text=(t "cancel")
+  btn2Callback=(action "cancelDateCreation")
+  isVisible=dateCreationPopupVisible
   classNames="popupOverlay ui"
 }}
   <div class="special-day-popup">
     <div class="row">
       <div class="input-label">{{t 'settings.appointments.special_day_description_input'}}</div>
       <div class="small-1 columns">
-        <i class="fa fa-pencil"></i>
+        <i>{{fa-icon 'pencil'}}</i>
       </div>
       <div class="small-11 columns">
         {{input name='name' value=dateDescription placeholder=(t "settings.appointments.special_day_placeholder")}}
@@ -20,7 +20,7 @@
     <div class="row">
       <div class="input-label">{{t 'settings.appointments.select_day'}}</div>
       <div class="small-1 columns">
-        <i class="fa fa-calendar calender_icon"></i>
+        <i class="calender_icon">{{fa-icon 'calendar'}}</i>
       </div>
       <div class="small-11 columns">
         {{calendar-input

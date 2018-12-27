@@ -35,7 +35,7 @@
     {{#each designatedSetOrdersPackages as |ordersPackage|}}
       <div class="warnings">
         <div class="warning_text">
-          <div class="left-icon"><i class="fa fa-exclamation-triangle"></i></div>
+          <div class="left-icon"><i>{{fa-icon 'exclamation-triangle'}}</i></div>
           <div class="right-message">
             <div>Increases {{ordersPackage.state}} quantity to {{js-add ordersPackage.quantity partial_quantity}} for {{ordersPackage.designation.code}}! ({{ordersPackage.quantity}} previously {{ordersPackage.state}} - item {{ordersPackage.item.inventoryNumber}})</div>
           </div>
@@ -46,7 +46,7 @@
     {{partial 'orders/item_block_without_link'}}
     <div class="warnings">
       <div class="warning_text">
-        <div class="left-icon"><i class="fa fa-exclamation-triangle"></i></div>
+        <div class="left-icon"><i>{{fa-icon 'exclamation-triangle'}}</i></div>
         <div class="right-message">
           <div>Increases {{designatedRecord.state}} quantity to {{js-add totalPartialDesignatedItems partial_quantity}} for {{order.code}}! ({{totalPartialDesignatedItems}} previously {{designatedRecord.state}})</div>
         </div>
@@ -66,7 +66,7 @@
     <div class="warnings">
       {{#if item.setItem.multiQuantitySet}}
         <div class="warning_text">
-          <i class="fa fa-exclamation-triangle"></i>
+          <i>{{fa-icon 'exclamation-triangle'}}</i>
           Designates entire quantity.
         </div>
       {{/if}}
@@ -77,14 +77,14 @@
     <div class="warnings">
       {{#if (is-greater item.quantity 1)}}
         <div class="warning_text">
-          <i class="fa fa-exclamation-triangle"></i>
+          <i>{{fa-icon 'exclamation-triangle'}}</i>
           {{t "designate.quantity" quantity=item.quantity}}
         </div>
       {{/if}}
 
       {{#if item.isSet}}
         <div class="warning_text">
-          <div class="left-icon"><i class="fa fa-exclamation-triangle"></i></div>
+          <div class="left-icon"><i>{{fa-icon 'exclamation-triangle'}}</i></div>
           <div class="right-message">
             <div class= "designate-message">Designates only part of set.</div>
           </div>

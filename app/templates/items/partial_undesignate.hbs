@@ -4,14 +4,14 @@
       <div class="columns small-3 medium-3 large-3 back-link">
         {{#if (is-equal partialUndesignateBackLinkpath 'items.detail')}}
           {{#link-to 'items.detail' model.id classNames="back"}}
-            <i class="fa fa-angle-left" aria-hidden="true"></i>
+            <i aria-hidden="true">{{fa-icon 'angle-left'}}</i>
             <div class="back-text">
               Back
             </div>
           {{/link-to}}
         {{else}}
           {{#link-to "items.index" class="back"}}
-            <i class="fa fa-angle-left" aria-hidden="true"></i>
+            <i aria-hidden="true">{{fa-icon 'angle-left'}}</i>
             <div class="back-text">
               Back
             </div>
@@ -19,7 +19,7 @@
         {{/if}}
       </div>
       <div class="columns small-9 medium-9 large-9 inventory-status">
-        <i class="fa {{if model.isSet 'fa-tags' 'fa-tag'}}"></i> {{model.inventoryNumber}}: Status
+        <i>{{fa-icon (if model.isSet 'tags' 'tag')}}</i> {{model.inventoryNumber}}: Status
       </div>
       <br><hr/>
     </div>
@@ -29,9 +29,9 @@
     <div class="item-status-header first">
       <div class="columns small-4 item-status-block">
       {{#unless model.allowWebPublish}}
-        <i class="fa fa-eye-slash" aria-hidden="true"></i>
+        <i aria-hidden="true">{{fa-icon 'eye-slash'}}</i>
       {{else}}
-        <i class="fa fa-eye" aria-hidden="true"></i>
+        <i aria-hidden="true">{{fa-icon 'eye'}}</i>
       {{/unless}}
         <span class="item-status-text">Available </span>
         {{#unless model.allowWebPublish}}
@@ -61,7 +61,7 @@
     <div class="row">
       <div class="item-status-header">
         <div class="columns small-4 item-status-block">
-          <i class="fa fa-shopping-basket"></i>
+          <i>{{fa-icon 'shopping-basket'}}</i>
           <span class="item-status-text">Designated</span>
         </div>
         <div class="columns small-5 item-status-quantity">
@@ -107,7 +107,7 @@
           {{/link-to}}
           <div class="columns small-1 medium-1 large-1 modify-packages allign-modify-package" style="cursor: pointer;">
             {{#link-to "items.modify_designation" model.id (query-params ordersPackageId=ordersPackage.id) tagName='span' href=false}}
-              <i class="fa fa-pencil-square" aria-hidden="true"></i>
+              <i aria-hidden="true">{{fa-icon 'pencil-square'}}</i>
             {{/link-to}}
               <br>
             {{#link-to "items.modify_designation" model.id (query-params ordersPackageId=ordersPackage.id) tagName='span' href=false}}
@@ -115,7 +115,7 @@
             {{/link-to}}
           </div>
           <div class="columns small-1 medium-1 large-1 dispatch-packages" {{action 'dispatch' model ordersPackage}} style="cursor: pointer;">
-            <i class="fa fa-ship" aria-hidden="true"></i>
+            <i aria-hidden="true">{{fa-icon 'ship'}}</i>
             <br>
             <span class="dispatch-text">Dispatch</span>
           </div>
@@ -128,7 +128,7 @@
     <div class="row">
       <div class="item-status-header">
         <div class="columns small-4 item-status-block">
-          <i class="fa fa-ship"></i>
+          <i>{{fa-icon 'ship'}}</i>
           <span class="item-status-text">Dispatched</span>
         </div>
         <div class="columns small-5 item-status-quantity">
