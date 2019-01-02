@@ -17,6 +17,10 @@ export default Addressable.extend({
 
   fullName: Ember.computed('firstName', 'lastName', function(){
     return (this.get('firstName') + " " + this.get('lastName'));
-  })
+  }),
+
+  organisations: hasMany('organisation', {async: false}),
+  organisationsUsers: hasMany('organisationsUsers', {async: false}),
+
   // image:       belongsTo('image', { async: false }),
 });

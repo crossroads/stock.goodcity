@@ -54,6 +54,12 @@ Router.map(function() {
     this.route("info", { path: "/:order_id/info" });
   });
 
+  this.route('order', function() {
+    this.route('search_users', { path: '/:order_id/search_users' });
+    this.route('request_purpose', { path: '/:order_id/request_purpose' });
+    this.route('goods_details', { path: '/:order_id/goods_details' });
+  });
+
   this.route("organisations", function(){
     this.route("detail", { path: "/:organisation_id" });
     this.route("users", { path: "/:organisation_id/users"});

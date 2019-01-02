@@ -23,6 +23,9 @@ I18nTranslationsEn =
   "search_organisation": "Search Organisation"
   "not_now": "Not Now"
   "incomplete_form": "Please fill in the required fields to continue"
+  "continue": "Continue"
+  "save_changes": "Save changes"
+  "discard_changes": "Discard changes"
 
   "camera_scan":
     "permission_error": "Camera permission is not turned on."
@@ -180,6 +183,20 @@ I18nTranslationsEn =
     "close_order": "Close Order"
     "reopen_order": "Reopen Order"
     "resubmit": "Resubmit Order"
+    "request_purpose": {
+      "title": "Request Purpose",
+      "purpose": "Purpose of Goods",
+      "for_organisation": "For organisation's own programs",
+      "for_client": "For a client/benificiary",
+      "people_count_info": "How many people will benefit from these items?",
+      "district_label": "Where in Hong Kong will these goods be primarily used?",
+      "district-label-info": "This assists us with our reporting.",
+      "select_placeholder": "Select District",
+      "people_count_warning": "You must input a number here",
+      "need_description": "Description of need",
+      "need_description_info": "Please briefly describe why goods are needed.",
+      "description_warning": "Description cannot be blank."
+    },
 
   "item":
     "edit": "edit"
