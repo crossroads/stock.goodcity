@@ -6,8 +6,7 @@ export default AuthorizeRoute.extend({
 
   queryParams: {
     itemSetId: "",
-    searchInput: "",
-    isFiltered: ''
+    searchInput: ""
   },
   designateFullSet: Ember.computed.localStorage(),
 

@@ -2,6 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   i18n: Ember.inject.service(),
+  filterService: Ember.inject.service(),
   stateFilters: ["in_stock", "designated", "dispatched"],
   publishFilters: ["published_and_private", "published", "private"],
   imageFilters: ["with_and_without_images", "has_images", "no_images"],
@@ -24,7 +25,7 @@ export default Ember.Component.extend({
       }
     });
     window.localStorage.setItem(localStorageName, JSON.stringify(appliedFilters));
-    this.get('router').transitionTo("items.index", { queryParams: {isFiltered: true}});
+    this.get('router').transitionTo("items.index");
   },
 
   //Removes applied filters (Generic for all filters)
@@ -37,6 +38,7 @@ export default Ember.Component.extend({
       if(JSON.parse(this.get("applyStateFilter"))) {
         let allStatesFilters = this.get("stateFilters").concat(this.get("publishFilters")).concat(this.get("imageFilters"));
         this.addToLocalStorageAndRedirect(allStatesFilters, "itemStateFilters");
+        this.get('filterService').notifyPropertyChange("getItemStateFilters");
       }
     },
 

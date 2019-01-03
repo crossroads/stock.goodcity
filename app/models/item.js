@@ -22,15 +22,15 @@ export default cloudinaryUrl.extend({
   itemId:            attr('number'),
   allowWebPublish:   attr('boolean'),
 
-  designation: belongsTo('designation', { async: false }),
+  designation: belongsTo('designation', { async: true }),
   location:    belongsTo('location', { async: false }),
   code:        belongsTo('code', { async: false }),
   donorCondition: belongsTo('donor_condition', { async: false }),
   setItem:        belongsTo('set_item', { async: false }),
   packagesLocations: hasMany('packages_location', { async: true }),
 
-  ordersPackages:    hasMany('ordersPackages', { async: false }),
-  images:       hasMany('image', { async: false }),
+  ordersPackages:    hasMany('ordersPackages', { async: true }),
+  images:       hasMany('image', { async: true }),
 
   isDispatched: Ember.computed.bool('sentOn'),
   isDesignated: Ember.computed.bool('designation'),
