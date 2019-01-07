@@ -144,7 +144,7 @@ I18nTranslationsEn =
     "reopen_warning": "Reopening this order will set order state to dispatching. Are you sure you want to reopen the order?"
     "restart_undispatch_warning": "You can only restart processing an order after un-dispatching all dispatched items."
     "restart_warning": "Are you sure you want to process the order again?"
-    "cancel_warning": "This will remove all items from the order and cancel the order."
+    "cancel_warning": "This will remove any items from the order and cancel the order."
     "close_warning": "You will not be able to modify the order after closing it."
     "close_order_dispatch_alert": "To close the Order, there should be 0 designated items and at least 1 dispatched item."
     "first_item_dispatch_warning": "You are dispatching first Item in the Order. This will also change state of the Order to dispatching."
