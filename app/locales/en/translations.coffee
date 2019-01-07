@@ -196,7 +196,77 @@ I18nTranslationsEn =
       "need_description": "Description of need",
       "need_description_info": "Please briefly describe why goods are needed.",
       "description_warning": "Description cannot be blank."
+    }
+    "goods_details":{
+      "title": "Goods Details",
+      "info_1": "Please indicate type and quantity of each item needed.",
+      "info_2": "We regularly update the categories available based on the items we normally have in our stock. For unusual requirements not listed here please email",
+      "info_3": "and we will help if we can.",
+      "request_more": "Request more goods",
+      "type_label": "Goods type",
+      "quantity_label": "Quantity",
+      "description_details_label": "Specifics of item (Optional)",
+      "no_goods_error": "At least one Item is required.",
+      "no_time_slot_selected_error": "Please select appointment time."
+    }
+    "request": {
+      "remove_req": "Remove this request from order",
+      "remove": "Remove"
     },
+    "appointment": {
+      "title": "Appointment Details",
+      "transport": "Transport",
+      "self_vehicle": "Client will bring private vehicle",
+      "hire_vehicle": "Client needs information about hiring vehicle",
+      "confirm_labor": "Confirm understanding of labor requirements",
+      "labor_info": "If the request is too large for the client to carry alone, please advise them to bring their own labor to load at our end and unload at their end. Crossroads does not provide labor, and hired truck drivers do not provide loading services without charge.",
+      "labor_confirmation": "I confirm understanding of labor requirements.",
+      "date": "Appointment Date",
+      "time": "Appointment Time"
+    },
+    "booking_success": {
+      "success": "Success!",
+      "reference_number": "Reference Number",
+      "status": "Status",
+      "what_happen_after_booking": "What happens now?" ,
+      "after_booking_info_1": "Our staff will soon start checking the details and may contact you and/or beneficiery to clarify. If everything is okay then the order will be marked confirmed.",
+      "after_booking_info_2": "To see or modify your orders / appointments / preferences etc. visit your dashboard.",
+      "visit_dashboard": "Go to your dashboard"
+    },
+    "confirm_booking": {
+      "title": "Confirmation",
+      "your_details": {
+        "title": "Your Details",
+        "phone": "Phone",
+        "organisation": "Organisation",
+        "position": "Position",
+        "email": "Email",
+      },
+      "request_purpose_detail": {
+        "title": "Request Purpose",
+        "purpose_of_goods": "Purpose of goods",
+        "number_benefiting": "Number benefiting",
+        "description_of_need": "Description of need",
+      },
+      "client_info_detail": {
+        "title": "Client Information",
+        "id_type": "Type of ID held",
+        "id_number": "ID Number",
+        "client_name": "Client's Name",
+        "client_phone": "Client's Phone",
+      },
+      "goods_detail": {
+        "title": "Goods Details",
+        "no_description": "No description provided",
+      },
+      "appointment_detail": {
+        "title": "Appointment Details",
+        "transport": "Transport",
+        "labour": "Labour",
+        "labour_info": "Client understands labour requirements and can supply labour if needed.",
+        "appointment": "Appointment",
+      }
+    }
 
   "item":
     "edit": "edit"

@@ -44,7 +44,7 @@ export default searchModule.extend({
       let orderId = this.get('model.id');
       let orderParams = { created_by_id: userId };
       new AjaxPromise('/orders/'+orderId, 'PUT', this.get('session.authToken'), { order: orderParams })
-        .then(data => {
+        .then(() => {
           this.transitionToRoute('order.request_purpose', orderId, { queryParams: { userId: userId }});
         });
     }
