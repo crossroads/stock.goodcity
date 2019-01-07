@@ -17,27 +17,30 @@ export default searchModule.extend({
     withInventoryNumber: 'true'
   },
 
-  applyFilter() {
-    var searchText = this.get("searchText");
+  createFilterParams(){
     let filterService = this.get('filterService');
     let utilities = this.get("utilityMethods");
+    let itemStateFilters = filterService.get('getItemStateFilters');
+    let itemlocationFilter = filterService.get('getItemLocationFilters');
+    return {
+      perPage: 25,
+      startingPage: 1,
+      modelPath: 'filteredResults',
+      stockRequest: true,
+      state: utilities.stringifyArray(itemStateFilters) || "received",
+      location: itemlocationFilter
+    };
+  },
+
+  applyFilter() {
+    var searchText = this.get("searchText");
     let UNLOAD_MODELS = [ "designation", "item", "location", "code"];
 
-    if (searchText.length > 0) {
+    if (searchText.length) {
       this.set("isLoading", true);
       this.set("hasNoResults", false);
       if(this.get("unloadAll")) {  UNLOAD_MODELS.forEach((model) => this.store.unloadAll(model)); }
-
-      let itemStateFilters = filterService.get('getItemStateFilters');
-      let locationFilter = filterService.get('getItemLocationFilters');
-      const paginationOpts = {
-        perPage: 25,
-        startingPage: 1,
-        modelPath: 'filteredResults',
-        stockRequest: true,
-        state: utilities.stringifyArray(itemStateFilters) || "received",
-        location: locationFilter
-      };
+      const paginationOpts = this.createFilterParams();
       this.infinityModel(this.get("searchModelName"),
         paginationOpts,
         this.buildQueryParamMap()
