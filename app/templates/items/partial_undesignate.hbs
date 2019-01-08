@@ -4,7 +4,7 @@
       <div class="columns small-3 medium-3 large-3 back-link">
         {{#if (is-equal partialUndesignateBackLinkpath 'items.detail')}}
           {{#link-to 'items.detail' model.id classNames="back"}}
-            <i aria-hidden="true">{{fa-icon 'angle-left'}}</i>
+            <i aria-hidden="true">{{fa-icon 'angle-left' size='1x'}}</i>
             <div class="back-text">
               Back
             </div>
@@ -107,7 +107,7 @@
           {{/link-to}}
           <div class="columns small-1 medium-1 large-1 modify-packages allign-modify-package" style="cursor: pointer;">
             {{#link-to "items.modify_designation" model.id (query-params ordersPackageId=ordersPackage.id) tagName='span' href=false}}
-              <i aria-hidden="true">{{fa-icon 'pencil-square'}}</i>
+              <i aria-hidden="true">{{fa-icon 'pen-square'}}</i>
             {{/link-to}}
               <br>
             {{#link-to "items.modify_designation" model.id (query-params ordersPackageId=ordersPackage.id) tagName='span' href=false}}

@@ -33,6 +33,7 @@
         height: 2rem;
         line-height: 1.2rem;
         left: 0.65rem;
+        bottom: -4%;
       }
       position: absolute;
       font-weight: bolder;
@@ -42,6 +43,12 @@
       font-size: 2rem;
       line-height: 1.7rem;
       left: 0.1rem;
+      @media #{$large-only} {
+        bottom: 33%;
+      }
+      @media #{$medium-only} {
+        bottom: 33%;
+      }
     }
     @media #{$medium-only} {
       // left: 0.5rem;

@@ -21,7 +21,7 @@
     {{/link-to}}
   {{else if (is-or filterService.getOrderStateFilters.length filterService.getOrderTypeFilters.length)}}
       {{#link-to "orders.index" (query-params isFiltered=true) classNames="back" }}
-        <i class="fa fa-angle-left back_icon" aria-hidden="true"></i>
+        <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-left'}}</i>
         <div>{{t "back"}}</div>
       {{/link-to}}
   {{else}}
