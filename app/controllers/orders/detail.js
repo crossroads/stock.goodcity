@@ -178,7 +178,7 @@ export default GoodcityController.extend({
 
     dispatchLaterModel(order, actionName) {
       var _this = this;
-      if(!order.get('allDesignatedOrdersPackages')) {
+      if(order.get('dispatchedOrdersPackages').length) {
         this.genericAlertPopUp("order_details.dispatch_later_undispatch_warning", function() { _this.send("toggleDisplayOptions"); });
       } else {
         this.genericCustomPopUp("order_details.dispatch_later_warning", "order.dispatch_later", "not_now", function() { _this.send("changeOrderState", order, actionName); });
