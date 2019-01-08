@@ -46,6 +46,7 @@ export default Ember.Component.extend({
       if(JSON.parse(this.get("applyStateFilter"))) {
         let allStatesFilters = this.get("stateFilters").concat(this.get("publishFilters")).concat(this.get("imageFilters"));
         this.clearFiltersFromLocalStorage(allStatesFilters);
+        window.localStorage.removeItem('itemLocationFilters', ""); // temporary location filter removal on state filter clear
       }
     }
   }
