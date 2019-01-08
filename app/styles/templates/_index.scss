@@ -53,22 +53,6 @@
   height: 4rem;
   line-height: 4rem;
 
-  @mixin hide-transport() {
-    .order_transport {
-      display: none;
-    }
-    .order_code  {
-      padding-left: 2rem;
-    }
-  }
-
-  @media screen and (max-width: 325px) {
-    @include hide-transport();
-  }
-  @media #{$medium-only} {
-    @include hide-transport();
-  }
-
   .order_code  {
     text-align: right;
   }
@@ -110,7 +94,13 @@
 
     @media #{$large-only} {
       i{
-        margin-left: 1.2em !important;
+        margin-left: 1.1em !important;
+      }
+    }
+
+    @media #{$medium-only} {
+      i{
+        margin-left: 1.1em !important;
       }
     }
   }

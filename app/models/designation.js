@@ -69,7 +69,7 @@ export default Model.extend({
     switch (state) {
       case "awaiting_dispatch":
       case "scheduled":
-        return "clock-o";
+        return "clock";
       case "processing":
         return "list";
       case "submitted":
