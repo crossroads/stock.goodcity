@@ -92,10 +92,9 @@ export default GoodcityController.extend({
     return (ordersPackages.filterBy('state', "dispatched").length > 0 && !ordersPackages.filterBy('state', 'designated').length);
   },
 
-  //Should only be able to cancel if at least 1 item is designated and 0 is dispatched
+  //Should only be able to cancel if 0 items are dispatched
   canCancelOrder(order) {
-    let ordersPackages = order.get("ordersPackages");
-    return (ordersPackages.filterBy('state', 'designated').length > 0 && !ordersPackages.filterBy('state', 'dispatched').length);
+    return !order.get("ordersPackages").filterBy('state', 'dispatched').length;
   },
 
   actions: {

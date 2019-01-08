@@ -15,7 +15,7 @@ switch (type[0]) {
     case "online_orders_ggv":
       return "truck";
     case "dispatched":
-    case "shipments":
+    case "shipment":
       return "ship";
     case "other":
       return "list-alt";
