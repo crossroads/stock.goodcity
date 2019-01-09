@@ -11,7 +11,7 @@ export default Ember.Service.extend({
   }),
 
   getItemStateFilters: Ember.computed(function(){
-    return JSON.parse(window.localStorage.getItem('itemStateFilters'));
+    return JSON.parse(window.localStorage.getItem('itemStateFilters')) || [];
   }),
 
   getItemLocationFilters: Ember.computed(function(){

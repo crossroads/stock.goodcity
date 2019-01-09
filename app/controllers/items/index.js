@@ -4,7 +4,7 @@ import searchModule from "../search_module";
 
 export default searchModule.extend({
 
-  queryParams: ['searchInput', "itemSetId"],
+  queryParams: ['searchInput', "itemSetId", 'preload'],
   searchInput: "",
   itemSetId: null,
 
@@ -15,6 +15,13 @@ export default searchModule.extend({
   minSearchTextLength: 2,
   requestOptions: {
     withInventoryNumber: 'true'
+  },
+
+  onFilterChange() {
+    if (this.get("searchText").length > this.get("minSearchTextLength")) {
+      this.set("itemSetId", null);
+      Ember.run.debounce(this, this.applyFilter, 500);
+    }
   },
 
   createFilterParams(){
