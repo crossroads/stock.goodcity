@@ -1,53 +1,61 @@
 import Ember from 'ember';
 
+// --- Helpers
+
+function setFilter(filter, val) {
+  Ember.$(`#${filter}`)[0].checked = val;
+}
+
+function checkFilter(filter) {
+  setFilter(filter, true);
+}
+
+function uncheckFilter(filter) {
+  setFilter(filter, false);
+}
+
+function isChecked(filter) {
+  return Ember.$(`#${filter}`)[0].checked;
+}
+
+// --- Component
+
 export default Ember.Component.extend({
   i18n: Ember.inject.service(),
+  filterService: Ember.inject.service(),
 
   allOrderStateFilters: ["showPriority", "submitted", "processing", "awaiting_dispatch", "dispatching", "closed", "cancelled"],
   allOrderTypeFilters: ["appointment", "online_orders_ggv", "online_orders_pickup", "shipment"],
 
-  //To separate out "showPriority" filter as it has some different css properties than others
+  // To separate out "showPriority" filter as it has some different css properties than others
   orderStateFilters: Ember.computed('allOrderStateFilters.[]', function() {
     return this.get("allOrderStateFilters").slice(1);
   }),
 
-  //Marks filters as selected depending on pre-selected set of filters
+  // Marks filters as selected depending on pre-selected set of filters
   didInsertElement() {
-    var checkedStateFilters = JSON.parse(window.localStorage.getItem('orderStateFilters'));
-    var checkedTypeFilters = JSON.parse(window.localStorage.getItem('orderTypeFilters'));
-    if(this.get("applyStateFilter") && checkedStateFilters && checkedStateFilters.length) {
-      checkedStateFilters.forEach(checkedFilter => Ember.$("#" + checkedFilter)[0].checked = true); // jshint ignore:line
-    } else if(this.get("applyTypeFilter") && checkedTypeFilters && checkedTypeFilters.length) {
-      checkedTypeFilters.forEach(checkedFilter => Ember.$("#" + checkedFilter)[0].checked = true); // jshint ignore:line
+    if (this.get("applyStateFilter")) {
+      this.filterService.get('getOrderStateFilters').forEach(checkFilter); // jshint ignore:line
+    } else if(this.get("applyTypeFilter")) {
+      this.filterService.get('getOrderTypeFilters').forEach(checkFilter); // jshint ignore:line
     }
   },
 
-  //Adds applied filters to localStorage as an array and redirects (Generic for all filters)
-  addToLocalStorageAndRedirect(filterType, localStorageName) {
-    let appliedFilters = [];
-    filterType.forEach(state => {
-      if(Ember.$(`#${state}`)[0].checked) {
-        appliedFilters.push(state); // jshint ignore:line
-      }
-    });
-    window.localStorage.setItem(localStorageName, JSON.stringify(appliedFilters));
+  // Adds applied filters to localStorage as an array and redirects (Generic for all filters)
+  addToLocalStorageAndRedirect(filterTypes, localStorageName) {
+    let appliedFilters = filterTypes.filter(isChecked);
     let storageName = "get" + localStorageName.charAt(0).capitalize() + localStorageName.slice(1);
+
+    window.localStorage.setItem(localStorageName, JSON.stringify(appliedFilters));
 
     this.notifyFilterService(storageName);
 
-    let orderStateFilters = this.filterService.get('getOrderStateFilters');
-    let orderTypeFilters = this.filterService.get('getOrderTypeFilters');
-
-    if ((Array.isArray(orderStateFilters) && orderStateFilters.length) || (Array.isArray(orderTypeFilters) && orderTypeFilters.length)) {
-      this.get('router').transitionTo("orders.index", { queryParams: {isFiltered: true}});
-    } else {
-      this.get('router').transitionTo("orders.index");
-    }
+    this.get('router').transitionTo("orders.index");
   },
 
-  //Removes applied filters (Generic for all filters)
+  // Removes applied filters (Generic for all filters)
   clearFiltersFromLocalStorage(filterType) {
-    filterType.forEach(filter => Ember.$("#" + filter)[0].checked = false); // jshint ignore:line
+    filterType.forEach(uncheckFilter); // jshint ignore:line
   },
 
   notifyFilterService(serviceOrType) {
@@ -56,19 +64,19 @@ export default Ember.Component.extend({
 
   actions: {
     applyFilters() {
-      if(this.get("applyStateFilter")) {
+      if (this.get("applyStateFilter")) {
         this.addToLocalStorageAndRedirect(this.get("allOrderStateFilters"), "orderStateFilters");
         this.notifyFilterService("getOrderStateFilters");
-      } else if(this.get("applyTypeFilter")) {
+      } else if (this.get("applyTypeFilter")) {
         this.addToLocalStorageAndRedirect(this.get("allOrderTypeFilters"), "orderTypeFilters");
         this.notifyFilterService("getOrderTypeFilters");
       }
     },
 
     clearFilters() {
-      if(this.get("applyStateFilter")) {
+      if (this.get("applyStateFilter")) {
         this.clearFiltersFromLocalStorage(this.get("allOrderStateFilters"));
-      } else if(this.get("applyTypeFilter")) {
+      } else if (this.get("applyTypeFilter")) {
         this.clearFiltersFromLocalStorage(this.get("allOrderTypeFilters"));
       }
     }

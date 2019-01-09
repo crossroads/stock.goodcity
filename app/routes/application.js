@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import config from '../config/environment';
 import preloadDataMixin from '../mixins/preload_data';
 const { getOwner } = Ember;
 
@@ -147,9 +148,11 @@ export default Ember.Route.extend(preloadDataMixin, {
 
   actions: {
     loading() {
-      Ember.$(".loading-indicator").remove();
-      var view = getOwner(this).lookup('component:loading').append();
-      this.router.one('didTransition', view, 'destroy');
+      if (config.environment !== "test") {
+        Ember.$(".loading-indicator").remove();
+        var view = getOwner(this).lookup('component:loading').append();
+        this.router.one('didTransition', view, 'destroy');
+      }
     },
 
     error(reason) {

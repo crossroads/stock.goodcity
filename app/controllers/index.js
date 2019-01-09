@@ -24,7 +24,7 @@ export default Ember.Controller.extend({
       filterService.setStateTypeFilter(stateFilter);
       filterService.notifyPropertyChange("getOrderStateFilters");
       filterService.notifyPropertyChange("getOrderTypeFilters");
-      this.transitionToRoute('orders', { queryParams: { isFiltered: true }});
+      this.transitionToRoute('orders', { queryParams: { preload: true }});
     }
 
   }

@@ -3,11 +3,11 @@ import Ember from "ember";
 export default Ember.Service.extend({
 
   getOrderStateFilters: Ember.computed(function() {
-    return JSON.parse(window.localStorage.getItem('orderStateFilters'));
+    return JSON.parse(window.localStorage.getItem('orderStateFilters')) || [];
   }),
 
   getOrderTypeFilters: Ember.computed(function() {
-    return JSON.parse(window.localStorage.getItem('orderTypeFilters'));
+    return JSON.parse(window.localStorage.getItem('orderTypeFilters')) || [];
   }),
 
   getItemStateFilters: Ember.computed(function(){
