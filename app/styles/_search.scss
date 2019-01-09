@@ -68,7 +68,12 @@
   .list.list-activity {
     margin-left: 0rem;
     margin-right: 0rem;
-    margin-top: 3rem;
+    margin-top: 2rem;
+    cursor: pointer;
+  }
+
+  .list.list-activity.menu-list {
+    margin-top: unset;
     cursor: pointer;
   }
 

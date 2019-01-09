@@ -8,7 +8,7 @@
 
 <div class="row search">
   <div class="small-12 columns">
-    <ul class="list list-activity">
+    <ul class="list list-activity menu-list">
       {{#if (is-or session.currentUser.isSupervisor getCurrentUser.isSupervisor)}}
         <li>{{#link-to 'search_organisation'}}Manage charity users{{/link-to}}</li>
       {{/if}}
