@@ -13,10 +13,6 @@ function uncheckFilter(filter) {
   setFilter(filter, false);
 }
 
-function isChecked(filter) {
-  return Ember.$(`#${filter}`)[0].checked;
-}
-
 // ---Component
 
 export default Ember.Component.extend({
