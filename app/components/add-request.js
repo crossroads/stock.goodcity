@@ -9,7 +9,7 @@ export default Ember.Component.extend({
   order: null,
 
   packageTypeName: Ember.computed('request.packageType.name', function(){
-    return this.get('request.packageType.name');
+    return this.get('request.code.name');
   }),
 
   actions: {

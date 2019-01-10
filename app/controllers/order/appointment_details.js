@@ -5,7 +5,6 @@ const { getOwner } = Ember;
 export default Ember.Controller.extend({
   order: Ember.computed.alias("model.order"),
   orderTransport: Ember.computed.alias('model.orderTransport'),
-  //myOrders: Ember.inject.controller(),
   selectedId: null,
   selectedTimeId: null,
   selectedDate: null,
@@ -56,19 +55,14 @@ export default Ember.Controller.extend({
     },
 
     saveOrUpdateOrderTransport(url, actionType){
-      // var loadingView = getOwner(this).lookup('component:loading').append();
+      var loadingView = getOwner(this).lookup('component:loading').append();
 
-      // new AjaxPromise(url, actionType, this.get('session.authToken'), { order_transport: this.orderTransportParams() })
-      // .then(data => {
-      //   this.get("store").pushPayload(data);
-      //   loadingView.destroy();
-      //   if(this.get("previousRouteName") === "my_orders") {
-      //     this.get("myOrders").set("selectedOrder", this.get("order"));
-      //     this.transitionToRoute('my_orders');
-      //   } else {
-      //     this.transitionToRoute("order.confirm_booking", this.get("order.id"));
-      //   }
-      // });
+      new AjaxPromise(url, actionType, this.get('session.authToken'), { order_transport: this.orderTransportParams() })
+      .then(data => {
+        this.get("store").pushPayload(data);
+        loadingView.destroy();
+        this.transitionToRoute("order.confirm_booking", this.get("order.id"));
+      });
     }
   }
 });

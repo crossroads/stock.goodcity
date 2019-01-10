@@ -9,6 +9,7 @@ export default Addressable.extend({
   mobile:      attr('string'),
   createdAt:   attr('date'),
   email:       attr('string'),
+  organisations_users_ids: attr(),
 
   // permission:  belongsTo('permission', { async: false }),
 

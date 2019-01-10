@@ -24,6 +24,12 @@ export default searchModule.extend({
         { startingPage: 1, perPage: 25, modelPath: 'filteredResults', role_name: 'Charity' },
         { searchText: "searchText"}).then(data => {
           if(this.get("searchText") === data.meta.search) {
+            data.forEach( (user) => {
+               user.get('organisations_users_ids').forEach( (org_user_id) => {
+                this.findOrganisationsUser(org_user_id);
+               });
+            });
+
             this.set("filteredResults", data);
             this.get("store").pushPayload(data);
             this.set("hasNoResults", data.get("length") === 0);
@@ -31,6 +37,10 @@ export default searchModule.extend({
         }).finally(() => this.set("isLoading", false));
     }
     this.set("filteredResults", []);
+  },
+
+  findOrganisationsUser(org_user_id) {
+    this.store.findRecord("organisations_user", org_user_id, { reload: false })
   },
 
   actions: {

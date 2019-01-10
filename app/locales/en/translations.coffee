@@ -183,6 +183,38 @@ I18nTranslationsEn =
     "close_order": "Close Order"
     "reopen_order": "Reopen Order"
     "resubmit": "Resubmit Order"
+    "for_our_charity": "For our charity (facilities / programs etc.)"
+    "for_client": "For client / beneficiary (personal use)"
+    "for_charity_sale": "For charity sale, bartering (any form of trade)"
+    "title": "Title"
+    "client_information": {
+      "title": "Client Information",
+      "id_type_held_by_client": "Type of ID held by client",
+      "verify": "We will use this ID to verify client on arrival.",
+      "data_confidentiality": "All client data is kept strictly confidential.",
+      "hk_id": "Hong Kong Identity Card",
+      "asrf_id": "Asylum Seeker Recognizance Form",
+      "first_name": "Client's First Name",
+      "family_name": "Client's Family Name",
+      "name_instruction": "As shown on identity document",
+      "name_warning": "You must enter your name here.",
+      "phone_number": "Clients contact phone number",
+      "phone_number_instruction": "We will use this number to confirm schedule and details.",
+      "hk_id_instruction": {
+        "title": "Input the last 4 digits of the client's HKID",
+        "sub_title": "You do not need to include number in brackets"
+      },
+      "rbcl": {
+        "title": "Input recognizance form ID (numbers only)",
+        "sub_title": 'Numbers appear after four letters e.g "RBCL"'
+      }
+    }
+    "user_title": {
+      "mr": "Mr",
+      "mrs": "Mrs",
+      "miss": "Miss",
+      "ms": "Ms"
+    }
     "request_purpose": {
       "title": "Request Purpose",
       "purpose": "Purpose of Goods",
@@ -266,6 +298,42 @@ I18nTranslationsEn =
         "labour_info": "Client understands labour requirements and can supply labour if needed.",
         "appointment": "Appointment",
       }
+    }
+    "confirm_booking": {
+      "title": "Confirmation",
+      "your_details": {
+        "title": "Your Details",
+        "phone": "Phone",
+        "organisation": "Organisation",
+        "position": "Position",
+        "email": "Email",
+      },
+      "request_purpose_detail": {
+        "title": "Request Purpose",
+        "purpose_of_goods": "Purpose of goods",
+        "number_benefiting": "Number benefiting",
+        "description_of_need": "Description of need",
+      },
+      "client_info_detail": {
+        "title": "Client Information",
+        "id_type": "Type of ID held",
+        "id_number": "ID Number",
+        "client_name": "Client's Name",
+        "client_phone": "Client's Phone",
+      },
+      "goods_detail": {
+        "title": "Goods Details",
+        "no_description": "No description provided",
+      },
+      "appointment_detail": {
+        "title": "Appointment Details",
+        "transport": "Transport",
+        "labour": "Labour",
+        "labour_info": "Client understands labour requirements and can supply labour if needed.",
+        "appointment": "Appointment",
+      },
+      "submit_order": "Submit order",
+      "info": "Please review the information below and then submit.</br>If you need to change something, click 'back'.",
     }
 
   "item":

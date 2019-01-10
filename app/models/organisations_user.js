@@ -7,5 +7,6 @@ export default Model.extend({
   organisationId: attr('number'),
 
   gcOrganisation: belongsTo('gcOrganisation', { async: false }),
+  organisation: belongsTo('organisation', { async: false }),
   user: belongsTo('user', { async: false })
 });

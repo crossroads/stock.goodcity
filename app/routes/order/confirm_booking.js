@@ -1,19 +1,17 @@
-import Ember from 'ember';
 import AuthorizeRoute from './../authorize';
 
 export default AuthorizeRoute.extend({
-
   model(params) {
     var orderId = params.order_id;
     return this.store.peekRecord('designation', orderId) || this.store.findRecord('designation', orderId);
   },
 
-  setupController(controller, model){
-    this._super(controller, model);
+  setupController() {
+    this._super(...arguments);
+    this.controllerFor('application').set('showSidebar', false);
   },
 
-  renderTemplate: function(controller) {
-    this.render('search_code', {controller: controller});
+  deactivate(){
+    this.controllerFor('application').set('showSidebar', true);
   }
-
 });

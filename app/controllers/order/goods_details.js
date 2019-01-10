@@ -10,11 +10,11 @@ export default Ember.Controller.extend({
   qty: null,
   otherDetails: "",
   sortProperties: ["id"],
-  sortedGcRequests: Ember.computed.sort("gcRequests.goodcity_request", "sortProperties"),
+  sortedGcRequests: Ember.computed.sort("order.goodcityRequests", "sortProperties"),
 
-  gcRequests: Ember.computed(function() {
-    return this.store.peekAll('goodcity_request');
-  }),
+  // gcRequests: Ember.computed('model.goodcityRequests', function() {
+  //   return this.store.peekAll('goodcity_request').filterBy('orderId', this.get('model.id'));
+  // }),
 
   hasNoGcRequests: Ember.computed("model.goodcityRequests", function() {
     return (!this.get('model.goodcityRequests').length);

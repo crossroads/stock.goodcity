@@ -17,11 +17,11 @@ export default Ember.Controller.extend({
     },
 
     createOrder() {
-      let orderParams = { created_by_id: this.get('getCurrentUser.id'), state: 'draft', detail_type: "GoodCity" };
+      let orderParams = { authorised_by_id: this.get('getCurrentUser.id'), state: 'draft', detail_type: "GoodCity" };
       let loadingView = getOwner(this).lookup('component:loading').append();
 
       new AjaxPromise("/orders", 'POST', this.get('session.authToken'), { order: orderParams }).then((data)=> {
-        let orderId = data.order.id;
+        let orderId = data.designation.id;
         this.store.pushPayload(data);
         this.transitionToRoute("order.search_users", orderId);
       })

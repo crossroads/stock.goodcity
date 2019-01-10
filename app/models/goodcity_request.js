@@ -6,8 +6,7 @@ export default Model.extend({
   quantity: attr('string'),
   description: attr('string'),
   itemSpecifics: attr('string'),
-  packageType: belongsTo('package_type', { async: true }),
+  designationId: attr('string'),
   code:        belongsTo('code', { async: false }),
-  designation:        belongsTo('designation', { async: false }),
-  order:        belongsTo('order', { async: false })
+  designation:        belongsTo('designation', { async: false })
 });
