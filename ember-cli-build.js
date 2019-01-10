@@ -25,6 +25,9 @@ module.exports = function(defaults) {
     },
     sassOptions: {
       extension: 'scss'
+    },
+    'ember-cli-babel': {
+      includePolyfill: true
     }
   });
 
