@@ -4,16 +4,11 @@ import AjaxPromise from 'stock/utils/ajax-promise'; //jshint ignore:line
 import _ from 'lodash';
 
 export default AuthorizeRoute.extend({
-
-  filterService: Ember.inject.service(),
-  utilityMethods: Ember.inject.service(),
   queryParams: {
     itemSetId: "",
-    searchInput: "",
-    preload: true
+    searchInput: ""
   },
   designateFullSet: Ember.computed.localStorage(),
-
   partial_qnty: Ember.computed.localStorage(),
 
   previousPage(transition) {
@@ -27,19 +22,6 @@ export default AuthorizeRoute.extend({
 
   hasModifiedFilters(transition) {
     return this.previousPage(transition) === "item_filters";
-  },
-
-  preloadData() {
-    const utils = this.get("utilityMethods");
-    const filterService = this.get('filterService');
-
-    let statefilter = filterService.get('getItemStateFilters');
-    let locationfilter = filterService.get('getItemLocationFilters');
-
-    return this.store.query('package', {
-      state: utils.stringifyArray(statefilter),
-      location: locationfilter
-    });
   },
 
    /* jshint ignore:start */
@@ -56,8 +38,7 @@ export default AuthorizeRoute.extend({
     }
 
     return Ember.RSVP.hash({
-      hasModifiedFilters: this.hasModifiedFilters(transition),
-      preloaded: params.preload ? this.preloadData() : null
+      hasModifiedFilters: this.hasModifiedFilters(transition)
     });
   },
 
@@ -65,31 +46,14 @@ export default AuthorizeRoute.extend({
     this._super(controller, model);
     this.set('designateFullSet', false);
     this.set('partial_qnty', 0);
-    this._super(controller, model);
-    const { preloaded, hasModifiedFilters } = model;
-    if (preloaded) {
-      preloaded.forEach(record => controller.onItemLoaded(record));
-      controller.set("searchText", "");
-      controller.set("filteredResults", preloaded);
-    } else if (hasModifiedFilters) {
+
+    const { hasModifiedFilters } = model;
+    if (hasModifiedFilters) {
       controller.onFilterChange();
     }
     controller.set('itemSetId', this.paramsFor('items.index').itemSetId);
   },
   /* jshint ignore:end */
-
-  resetController(controller, isExiting) {
-    if (isExiting) {
-      controller.set('preload', undefined);
-    }
-  },
-
-  model() {
-    return new AjaxPromise("/auth/current_user_profile", "GET", this.session.get("authToken"))
-      .then(data => {
-        this.store.pushPayload(data);
-      });
-  },
 
   afterModel() {
     this.set('partial_qnty', 0);
