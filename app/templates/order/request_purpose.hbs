@@ -12,9 +12,7 @@
                 <section class="middle tab-bar-section">
                   <h1 class="title"> {{t 'order.request_purpose.title'}} </h1>
                 </section>
-                <section {{action 'deleteOrder' }} class="right-small" style="font-size: 1.1rem;margin-right: 5%;color: #707F96;">
-                  Cancel
-                </section>
+                {{cancel-order order=model.order}}
               </nav>
             </section>
             <div class="row inner-section">
