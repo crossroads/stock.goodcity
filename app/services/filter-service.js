@@ -10,6 +10,14 @@ export default Ember.Service.extend({
     return JSON.parse(window.localStorage.getItem('orderTypeFilters'));
   }),
 
+  getItemStateFilters: Ember.computed(function(){
+    return JSON.parse(window.localStorage.getItem('itemStateFilters'));
+  }),
+
+  getItemLocationFilters: Ember.computed(function(){
+    return window.localStorage.getItem('itemLocationFilters');
+  }),
+
   isPriority() {
     if (this.get('getOrderStateFilters')) {
       return this.get('getOrderStateFilters').indexOf('showPriority') >= 0;

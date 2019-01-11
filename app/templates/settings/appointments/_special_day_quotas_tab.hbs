@@ -26,7 +26,7 @@
       <div class="columns small-4">
 
         {{!-- OPTIONS POPUP --}}
-        <i class="fa fa-ellipsis-v" {{action 'toggleOptionsMenu' dateObj}}/>
+        <i {{action 'toggleOptionsMenu' dateObj}}>{{fa-icon 'ellipsis-v'}}</i>
         <div class="options_menu_list {{if dateObj.showOptionsMenu '' 'hidden'}}">
           <div class="option_menu">
             <a class="new-timeslot-btn" {{action 'newSpecialSlot' dateObj.date}} >

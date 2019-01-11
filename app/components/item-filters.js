@@ -2,6 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   i18n: Ember.inject.service(),
+  filterService: Ember.inject.service(),
   stateFilters: ["in_stock", "designated", "dispatched"],
   publishFilters: ["published_and_private", "published", "private"],
   imageFilters: ["with_and_without_images", "has_images", "no_images"],
@@ -37,6 +38,7 @@ export default Ember.Component.extend({
       if(JSON.parse(this.get("applyStateFilter"))) {
         let allStatesFilters = this.get("stateFilters").concat(this.get("publishFilters")).concat(this.get("imageFilters"));
         this.addToLocalStorageAndRedirect(allStatesFilters, "itemStateFilters");
+        this.get('filterService').notifyPropertyChange("getItemStateFilters");
       }
     },
 
@@ -44,6 +46,9 @@ export default Ember.Component.extend({
       if(JSON.parse(this.get("applyStateFilter"))) {
         let allStatesFilters = this.get("stateFilters").concat(this.get("publishFilters")).concat(this.get("imageFilters"));
         this.clearFiltersFromLocalStorage(allStatesFilters);
+        // temporary location filter removal on state filter clear
+        window.localStorage.removeItem('itemLocationFilters');
+        this.get('filterService').notifyPropertyChange("getItemLocationFilters");
       }
     }
   }

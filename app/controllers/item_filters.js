@@ -10,7 +10,7 @@ export default searchModule.extend({
   sortProperties: ["building", "area"],
   sortedLocations: Ember.computed.sort("model", "sortProperties"),
   recentlyUsedLocations: Ember.computed.sort("model", "sortProperties"),
-
+  filterService: Ember.inject.service(),
   paginationOpts() {
     return {
       perPage: 25,
@@ -48,6 +48,7 @@ export default searchModule.extend({
     setLocation(location) {
       window.localStorage.removeItem("itemLocationFilters");
       window.localStorage.setItem("itemLocationFilters", location.get("name"));
+      this.get('filterService').notifyPropertyChange('getItemLocationFilters');
       this.transitionToRoute("items.index");
     }
   }
