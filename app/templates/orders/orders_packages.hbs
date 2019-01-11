@@ -4,21 +4,21 @@
     <div class="small-3 columns">
       {{#if (is-equal ordersPackage.state 'dispatched')}}
         {{#link-to 'orders.detail' ordersPackage.item.designation.id tagName='span' href=false}}
-          <i class="fa fa-ship"></i> {{capitalize-string ordersPackage.state}}
+          <i>{{fa-icon 'ship'}}</i> {{capitalize-string ordersPackage.state}}
         {{/link-to}}
       {{else if (is-equal ordersPackage.state 'designated')}}
         {{#link-to 'orders.detail' ordersPackage.item.designation.id tagName='span' href=false}}
-          <i class="fa fa-shopping-basket"></i> {{capitalize-string ordersPackage.state}}
+          <i>{{fa-icon 'shopping-basket'}}</i> {{capitalize-string ordersPackage.state}}
         {{/link-to}}
       {{else}}
         <div class="stock_status">
-          <i class="fa {{if ordersPackage.item.allowWebPublish 'fa-eye' 'fa-eye-slash'}}" aria-hidden="true"></i> {{capitalize-string ordersPackage.state}}
+          <i aria-hidden="true">{{fa-icon (if ordersPackage.item.allowWebPublish 'eye' 'eye-slash')}}</i> {{capitalize-string ordersPackage.state}}
         </div>
       {{/if}}
     </div>
     <div class="small-6 columns location-name">
       {{#unless (is-equal ordersPackage.state 'dispatched')}}
-        <i class="fa fa-map-marker"></i>
+        <i>{{fa-icon 'map-marker-alt'}}</i>
         {{#if ordersPackage.item.hasSingleLocation}}
           {{ordersPackage.item.firstLocationName}}
         {{else if ordersPackage.item.hasMultiLocations}}
@@ -27,7 +27,7 @@
       {{/unless}}
     </div>
     <div class="small-3 columns">
-      <i class="fa {{if ordersPackage.item.isSet 'fa-tags' 'fa-tag'}}"></i> {{ordersPackage.item.inventoryNumber}}
+      <i>{{fa-icon (if ordersPackage.item.isSet 'tags' 'tag')}}</i> {{ordersPackage.item.inventoryNumber}}
     </div>
   </div>
 

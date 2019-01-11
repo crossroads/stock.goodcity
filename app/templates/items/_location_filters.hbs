@@ -1,6 +1,6 @@
 <div class="row fixed_search_header search-box ui items-search">
   <div class="small-2 columns ">
-    {{#link-to 'items.new' classNames="back"}}
+    {{#link-to 'items.index' classNames="back"}}
       <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-left'}}</i>
       <div class="back_text">
         Back
@@ -16,7 +16,7 @@
       value=searchText }}
 
     {{#if hasSearchText}}
-      <i {{action "clearSearch"}}>{{fa-icon 'times-circle'}}</i>
+      <i class="fa fa-times-circle" {{action "clearSearch"}}></i>
     {{/if}}
   </div>
 </div>
@@ -30,9 +30,9 @@
         </div>
       {{else}}
 
-        {{#if filteredResults}}
+        {{#if sortedLocations}}
           <ul class="list list-activity list-offer-items">
-            {{#each filteredResults as |location|}}
+            {{#each sortedLocations as |location|}}
               <li {{action 'setLocation' location}}>
                 <div class="row">
                   <div class="small-6 columns building_name">
@@ -69,7 +69,6 @@
               </li>
             {{/each}}
           </ul>
-
         {{/if}}
       {{/if}}
     </div>

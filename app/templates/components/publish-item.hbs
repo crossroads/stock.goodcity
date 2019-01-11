@@ -5,7 +5,7 @@
   {{else}}
     Publish
   {{/if}}
-  <i class="fa {{if published 'fa-eye' 'fa-eye-slash'}}" style="    text-decoration: underline;" aria-hidden="true"></i></u>
+  <i style="text-decoration: underline;" aria-hidden="true">{{fa-icon (if published 'eye' 'eye-slash')}}</i></u>
 </div>
 
 {{#message-box btn1Text=(if published "Unpublish" "Publish") btn1Callback=(action "setPublishStatus") btn2Text=(t "cancel") isVisible=displayUserPrompt classNames="popupOverlay designate-form publish-form"}}

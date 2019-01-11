@@ -32,7 +32,7 @@
             {{/if}}
           </div>
           <div class="small-1 columns icons">
-            <i class="fa fa-angle-right arrow-icon" aria-hidden="true"></i>
+            <i class="arrow-icon" aria-hidden="true">{{fa-icon 'angle-right'}}</i>
           </div>
         {{/link-to}}
       </div>
@@ -46,11 +46,10 @@
             {{model.orderTransport.type}}
           </div>
           <div class="small-1 columns icons">
-            <i class="fa fa-angle-right arrow-icon" aria-hidden="true"></i>
+            <i class="arrow-icon" aria-hidden="true">{{fa-icon 'angle-right'}}</i>
           </div>
         {{/link-to}}
       </div>
-
       <div class="row">
         {{#link-to "orders.purposes" model}}
           <div class="small-4 columns">
@@ -62,11 +61,10 @@
             {{/each}}
           </div>
           <div class="small-1 columns icons">
-            <i class="fa fa-angle-right arrow-icon" aria-hidden="true"></i>
+            <i class="arrow-icon" aria-hidden="true">{{fa-icon 'angle-right'}}</i>
           </div>
         {{/link-to}}
       </div>
-
       {{#if model.isLocalOrder}}
         <div class="row">
           {{#link-to "orders.client" model.id}}
@@ -81,7 +79,7 @@
               {{/if}}
             </div>
             <div class="small-1 columns icons">
-              <i class="fa fa-angle-right arrow-icon" aria-hidden="true"></i>
+              <i class="arrow-icon" aria-hidden="true">{{fa-icon 'angle-right'}}</i>
             </div>
           {{/link-to}}
         </div>
@@ -96,7 +94,7 @@
               {{model.localOrder.purposeOfGoods}}
             </div>
             <div class="small-1 columns icons">
-              <i class="fa fa-angle-right arrow-icon" aria-hidden="true"></i>
+              <i class="arrow-icon" aria-hidden="true">{{fa-icon 'angle-right'}}</i>
             </div>
           {{/link-to}}
         </div>

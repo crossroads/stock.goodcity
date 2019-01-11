@@ -7,10 +7,10 @@
       value=searchText }}
 
     {{#if hasSearchText}}
-      <i class="fa fa-times-circle" {{action "clearSearch"}}></i>
+      <i {{action "clearSearch"}}>{{fa-icon 'times-circle'}}</i>
     {{/if}}
   </div>
-  {{filter-buttons}}
+  {{order-filter-buttons}}
 </div>
 
 <section class="main-section orders_search_result">

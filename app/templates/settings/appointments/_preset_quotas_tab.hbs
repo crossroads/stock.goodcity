@@ -1,6 +1,6 @@
 {{!--
 
-    LEFT TAB: PRESETS 
+    LEFT TAB: PRESETS
 
 --}}
 <div class="settings-section presets {{if isPresetsTab 'show' 'hide'}}">
@@ -12,18 +12,18 @@
       <div class="columns small-4">{{t 'settings.appointments.quota'}}</div>
       <div class="columns small-4">
         {{!-- OPTIONS POPUP --}}
-        <i class="fa fa-ellipsis-v" {{action 'toggleOptionsMenu' weekDay}}/>
+        <i {{action 'toggleOptionsMenu' weekDay}}>{{fa-icon 'ellipsis-v'}}</i>
         <div class="options_menu_list {{if weekDay.showOptionsMenu '' 'hidden'}}">
           <div class="option_menu">
             <a class='new-preset-btn' {{action 'newPreset' weekDay.idx}} >
-              <i class="fa fa-plus-circle" aria-hidden="true"></i>
+              <i aria-hidden="true">{{fa-icon 'plus-circle'}}</i>
               {{t 'settings.appointments.add_timeslot'}}
             </a>
           </div>
         </div>
       </div>
     </div>
-    
+
     {{#if weekDay.empty}}
       {{!-- EMPTY MESSAGE --}}
       <div class="row bar slot-bar">
@@ -46,19 +46,19 @@
 
           <div class="columns small-4">
             <div class="columns small-4 text-align-right">
-              <i class="fa fa-minus-circle decrease-quota" {{ action 'decreaseQuotaOf' item.record }}></i>
+              <i class="decrease-quota" {{ action 'decreaseQuotaOf' item.record }}>{{fa-icon 'minus-circle'}}</i>
             </div>
             <div class="columns small-4">
               {{ item.record.quota }}
             </div>
             <div class="columns small-4 text-align-left">
-              <i class="fa fa-plus-circle increase-quota" {{ action 'increaseQuotaOf' item.record }}></i>
+              <i class="increase-quota" {{ action 'increaseQuotaOf' item.record }}>{{fa-icon 'plus-circle'}}</i>
             </div>
           </div>
 
           <div class="columns small-4">
               <div class="delete-btn">
-                <i class="fa fa-times-circle-o" aria-hidden="true" {{action 'deleteRecord' item.record}}></i>
+                <i aria-hidden="true" {{action 'deleteRecord' item.record}}>{{fa-icon 'times-circle'}}</i>
               </div>
           </div>
         </div>

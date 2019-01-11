@@ -61,6 +61,25 @@ I18nTranslationsEn =
     "items": "Items"
     "goto": "Goto"
 
+  "item_filters":
+    "with_and_without_images": "All"
+    "has_images": "Has Image(s)"
+    "no_images": "No Image(s)"
+    "image_filter_title": "Images"
+    "image_filter_title_info": "items with associated images or not"
+    "publish_filter_title": "Publishing status"
+    "publish_filter_title_info": "available for online browsing or not"
+    "published_and_private": "All"
+    "published": "Published"
+    "private": "Private"
+    "state_filter_title": "Item states"
+    "in_stock": "In Stock"
+    "in_stock_info": "At least one is available(i.e not designated)"
+    "designated": "Designated"
+    "designated_info": "All remaining quantity is reserved for order(s)"
+    "dispatched": "Dispatched"
+    "dispatched_info": "Entire quantity was previously sent out"
+
   "order_filters":
     "priority": "Priority"
     "apply_filter_button": "Apply Filter"
@@ -125,13 +144,13 @@ I18nTranslationsEn =
     "reopen_warning": "Reopening this order will set order state to dispatching. Are you sure you want to reopen the order?"
     "restart_undispatch_warning": "You can only restart processing an order after un-dispatching all dispatched items."
     "restart_warning": "Are you sure you want to process the order again?"
-    "cancel_warning": "This will remove all items from the order and cancel the order."
+    "cancel_warning": "This will remove any items from the order and cancel the order."
     "close_warning": "You will not be able to modify the order after closing it."
     "close_order_dispatch_alert": "To close the Order, there should be 0 designated items and at least 1 dispatched item."
     "first_item_dispatch_warning": "You are dispatching first Item in the Order. This will also change state of the Order to dispatching."
     "close_order_popup": "All items in this order are dispatched. Would you like to close the Order? You will not be able to modify the order after closing it."
     "cancel_item_designate_warning": "This will also change state of the Order to processing from cancelled. Are you sure you want to designate?"
-    "cancel_order_alert": "To cancel the Order, there should be 0 dispatched items and at least 1 designated item."
+    "cancel_order_alert": "To cancel the Order, there should be 0 dispatched items."
 
   "order_transports":
     "gogovan_transport": "Send by van"
