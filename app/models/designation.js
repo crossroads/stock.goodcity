@@ -41,12 +41,17 @@ export default Model.extend({
   orderTransport:     belongsTo('orderTransport', { async: false }),
   ordersPurposes:     hasMany('ordersPurpose', { async: false }),
   submittedBy:        belongsTo('user', { async: false }),
+  bookingType:        belongsTo('booking_type', { async: false }),
 
   isLocalOrder: Ember.computed('detailType', function(){
     return (this.get('detailType') === 'LocalOrder') || (this.get('detailType') === 'StockitLocalOrder');
   }),
   isGoodCityOrder: Ember.computed.equal('detailType', 'GoodCity'),
-  isAppointment: Ember.computed.alias('orderTransport.isAppointment'),
+
+  isAppointment: Ember.computed("bookingType", function () {
+    const bookingType = this.get('bookingType');
+    return bookingType && bookingType.get('isAppointment');
+  }),
 
   isDraft: Ember.computed.equal("state", "draft"),
   isSubmitted: Ember.computed.equal("state", "submitted"),
