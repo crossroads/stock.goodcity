@@ -43,6 +43,10 @@ export default Addressable.extend({
     }
   }),
 
+  canViewDashboard: Ember.computed('isOrderFulfilmentUser', 'isSupervisor', function () {
+    return this.get('isOrderFulfilmentUser') || this.get('isSupervisor');
+  }),
+
   canManageAppointments: Ember.computed('roles', function(){
     const roles = this.get('roles');
     return roles.find((r) => r.get('permissionNames').indexOf('can_manage_settings') >= 0);

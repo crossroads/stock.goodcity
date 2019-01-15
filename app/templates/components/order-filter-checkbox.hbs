@@ -2,7 +2,7 @@
 <label class="radio-button-text" for={{name}}>
   <span class="type">{{t (concat "order_filters." name)}}</span>
 </label>
-<i class="small-1 medium-1 large-1 columns {{if (is-equal name 'showPriority') 'priority-order-icon'}}">{{fa-icon (type-filter-icon name)}}{{fa-icon (state-filter-icon name)}}</i>
+<i class="{{if (is-equal name 'showPriority') 'priority-order-icon'}}">{{fa-icon (type-filter-icon name)}}{{fa-icon (state-filter-icon name)}}</i>
 <label class="radio-button-text type-info" for={{name}}>
   <span>{{t (concat (concat "order_filters." name) "_info")}}</span>
 </label>

@@ -6,7 +6,7 @@ export default searchModule.extend({
   searchModelName: "designation",
   unloadAll: true,
   minSearchTextLength: 2,
-  queryParams: ['isFiltered'],
+  queryParams: ['preload'],
 
   onItemLoaded(record) {
     const orgId = Ember.get(record, 'gcOrganisationId');

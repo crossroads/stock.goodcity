@@ -9,7 +9,7 @@
           {{/link-to}}
 
           {{#if (is-and filterService.getOrderState.length filterService.getOrderType.length)}}
-            {{#link-to 'orders' (query-params isFiltered=true) tagName='li' href=false}}
+            {{#link-to 'orders' (query-params preload=true) tagName='li' href=false}}
               <i>{{fa-icon 'shopping-basket'}}</i>{{t "index.orders"}}
             {{/link-to}}
           {{else}}

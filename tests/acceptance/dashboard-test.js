@@ -96,7 +96,11 @@ module('Acceptance: Dashboard', {
     });
     mockFindAll('location').returns({json: {locations: [location.toJSON({includeId: true})]}});
 
-    visit("/orders");
+    visit("/");
+
+    andThen(() => {
+      visit("/orders");
+    });
   },
   afterEach: function() {
     $.mockjax.clear();
@@ -140,7 +144,7 @@ test("Clicking order type redirects to order page with order type list populated
     assert.equal(currentURL(), "/");
     click(Ember.$('.submitted')[0]);
     andThen(function(){
-      assert.equal(currentURL(), '/orders?isFiltered=true');
+      assert.equal(currentURL(), '/orders?preload=true');
     });
   });
 });
@@ -151,7 +155,7 @@ test("Clicking order type redirects to order page and selects filter of clicked 
     assert.equal(currentURL(), "/");
     click(Ember.$('.submitted')[0]);
     andThen(function(){
-      assert.equal(currentURL(), '/orders?isFiltered=true');
+      assert.equal(currentURL(), '/orders?preload=true');
       assert.equal(Ember.$('#order-state-filter').text(), 'Submitted');
     });
   });
