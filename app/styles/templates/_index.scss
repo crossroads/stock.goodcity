@@ -65,7 +65,7 @@
     white-space: nowrap;
     font-weight: 700;
     text-transform: capitalize;
-    margin-left: 0.5em;
+    padding-left: 0.5em;
   }
 
   .order_state {
@@ -87,18 +87,6 @@
       height: 100%;
       width: 3rem;
       text-align: center;
-    }
-
-    @media #{$large-only} {
-      i{
-        margin-left: 1.1em !important;
-      }
-    }
-
-    @media #{$medium-only} {
-      i{
-        margin-left: 1.1em !important;
-      }
     }
   }
 

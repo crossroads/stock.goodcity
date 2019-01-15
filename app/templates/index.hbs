@@ -7,7 +7,7 @@
       {{#link-to 'search_code' (query-params backToNewItem=false)}}Add item to inventory{{/link-to}}
     </div>
 
-    {{#if session.currentUser.isOrderFulfilmentUser}}
+    {{#if session.currentUser.canViewDashboard}}
       <div class="small-12 columns summary recent_orders">
         <h2>Orders In Process</h2>
         <div class="row">
