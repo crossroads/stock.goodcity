@@ -10,7 +10,7 @@
       {{t "order.confirm_booking.your_details.phone"}}
     </div>
     <div class="small-8 detail columns">
-      {{order.createdBy.fullName}}
+      {{model.order.createdBy.fullName}}
     </div>
   </div>
 
@@ -20,7 +20,7 @@
     </div>
 
     <div class="small-8 detail columns">
-      {{order.createdBy.organisationsUser.firstObject.organisation.nameEn}}
+      {{model.organisation.nameEn}}
     </div>
   </div>
 
@@ -30,7 +30,7 @@
     </div>
 
     <div class="small-8 detail columns">
-      {{session.currentUser.positionInOrganisation}}
+      {{model.organisationsUser.position}}
     </div>
   </div>
 
@@ -40,7 +40,7 @@
     </div>
 
     <div class="small-8 detail columns">
-      {{session.currentUser.email}}
+      {{model.user.email}}
     </div>
   </div>
 

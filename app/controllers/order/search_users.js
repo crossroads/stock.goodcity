@@ -4,6 +4,7 @@ import AjaxPromise from 'stock/utils/ajax-promise';
 
 export default searchModule.extend({
   minSearchTextLength: 3,
+  filteredResults: '',
 
   onSearchTextChange: Ember.observer("searchText", function(){
     if(this.get('searchText').length){
@@ -40,7 +41,7 @@ export default searchModule.extend({
   },
 
   findOrganisationsUser(org_user_id) {
-    this.store.findRecord("organisations_user", org_user_id, { reload: false })
+    return this.store.findRecord("organisations_user", org_user_id, { reload: false })
   },
 
   actions: {
@@ -51,10 +52,11 @@ export default searchModule.extend({
     },
 
     goToRequestPurpose(userId) {
-      let orderId = this.get('model.id');
+      let orderId = this.get('model.order.id');
       let orderParams = { created_by_id: userId };
       new AjaxPromise('/orders/'+orderId, 'PUT', this.get('session.authToken'), { order: orderParams })
-        .then(() => {
+        .then((data) => {
+          this.store.pushPayload(data);
           this.transitionToRoute('order.request_purpose', orderId, { queryParams: { userId: userId }});
         });
     }

@@ -13,6 +13,7 @@ export default Model.extend({
   recentlyUsedAt:       attr('date'),
   submittedAt:          attr('date'),
   submittedById:        attr('number'),
+  createdById:        attr('number'),
   processedAt:          attr('date'),
   processedById:        attr('number'),
   cancelledAt:          attr('date'),

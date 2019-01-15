@@ -3,7 +3,7 @@ import AjaxPromise from 'stock/utils/ajax-promise';
 const { getOwner } = Ember;
 
 export default Ember.Controller.extend({
-  order: Ember.computed.alias("model"),
+  order: Ember.computed.alias("model.order"),
 
   actions: {
     confirmBooking(){

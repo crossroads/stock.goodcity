@@ -3,7 +3,7 @@ import AjaxPromise from 'stock/utils/ajax-promise';
 const { getOwner } = Ember;
 
 export default Ember.Controller.extend({
-  order: Ember.computed.alias("model.order"),
+  order: Ember.computed.alias("model.orderUserOrganisation.order"),
   orderTransport: Ember.computed.alias('model.orderTransport'),
   selectedId: null,
   selectedTimeId: null,

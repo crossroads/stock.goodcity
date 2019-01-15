@@ -24,8 +24,11 @@ export default AuthorizeRoute.extend({
   },
 
   setupController(controller, model) {
-    model = this.store.peekRecord("designation", this.get("orderId"));
-    controller.set("model", model);
+    let order = this.store.peekRecord("designation", this.get("orderId"));
+    let user = order.get('createdBy');
+    let organisation = user.get('organisationsUsers.firstObject.organisation');
+    let orderUserOrganisation = {orderUserOrganisation: { user, organisation, order }}
+    controller.set("model", orderUserOrganisation);
   },
 
   deactivate() {

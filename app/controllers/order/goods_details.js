@@ -4,7 +4,7 @@ import AjaxPromise from 'stock/utils/ajax-promise';
 
 export default Ember.Controller.extend({
   queryParams: ["typeId", "fromClientInformation"],
-  order: Ember.computed.alias("model"),
+  order: Ember.computed.alias("model.orderUserOrganisation.order"),
   typeId: null,
   fromClientInformation: false,
   qty: null,
@@ -12,8 +12,8 @@ export default Ember.Controller.extend({
   sortProperties: ["id"],
   sortedGcRequests: Ember.computed.sort("order.goodcityRequests", "sortProperties"),
 
-  hasNoGcRequests: Ember.computed("model.goodcityRequests", function() {
-    return (!this.get('model.goodcityRequests').length);
+  hasNoGcRequests: Ember.computed("order.goodcityRequests", function() {
+    return (!this.get('order.goodcityRequests').length);
   }),
 
   actions: {

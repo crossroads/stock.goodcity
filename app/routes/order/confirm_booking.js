@@ -1,9 +1,15 @@
-import AuthorizeRoute from './../authorize';
+import Ember from 'ember';
+import orderUserOrganisation from './order_user_organisation';
 
-export default AuthorizeRoute.extend({
-  model(params) {
-    var orderId = params.order_id;
-    return this.store.peekRecord('designation', orderId) || this.store.findRecord('designation', orderId);
+export default orderUserOrganisation.extend({
+  async model() {
+    let { order, organisation, user, organisationsUser } = await this._super(...arguments);
+    return Ember.RSVP.hash({
+      order,
+      organisation,
+      user,
+      organisationsUser
+    });
   },
 
   setupController() {

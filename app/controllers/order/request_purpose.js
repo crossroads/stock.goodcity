@@ -61,7 +61,7 @@ export default Ember.Controller.extend({
         district_id: this.get('selectedDistrict.id')
       };
 
-      const orderId = this.get("model.order.id");
+      const orderId = this.get("model.orderUserOrganisation.order.id");
       let url = "/orders/" + orderId;
 
       var loadingView = getOwner(this).lookup('component:loading').append();

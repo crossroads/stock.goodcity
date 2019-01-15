@@ -1,15 +1,16 @@
 import Ember from 'ember';
-import AuthorizeRoute from './../authorize';
 import AjaxPromise from 'stock/utils/ajax-promise';
+import orderUserOrganisation from './order_user_organisation';
 
-export default AuthorizeRoute.extend({
-  model(params) {
-    var orderId = params.order_id;
+export default orderUserOrganisation.extend({
+  async model() {
     let orderTransport = this.store.peekAll("orderTransport");
+    let orderUserOrganisation = await this._super(...arguments);
+    let orderId = orderUserOrganisation.order.id;
 
     return Ember.RSVP.hash({
+      orderUserOrganisation,
       availableDatesAndtime: new AjaxPromise("/appointment_slots/calendar", "GET", this.get('session.authToken'), {to: moment().add(120, 'days').format('YYYY-MM-DD')}),
-      order: this.store.peekRecord('designation', orderId) || this.store.findRecord('designation', orderId),
       orderTransport: orderTransport && orderTransport.filterBy("order.id", orderId).get("firstObject")
     });
   },

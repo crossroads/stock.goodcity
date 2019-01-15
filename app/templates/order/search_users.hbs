@@ -24,6 +24,9 @@
 <section class="main-section organisation_search_result">
   <div class="row search">
     <div class="small-12 columns">
+      <div class="new-user">
+        Which user is this request being made for ? {{#link-to 'index'}}New User{{/link-to}}
+      </div>
       {{#if isLoading}}
         <div class="loading_screen">
           {{partial 'loading'}}
@@ -32,11 +35,16 @@
         {{#if filteredResults}}
           <ul class="list list-activity">
             {{#each filteredResults as |user|}}
-              <li>
+              <li class="list-bottom">
                 <div class="row" {{action 'goToRequestPurpose' user.id}}>
-                  <div class="small-12 columns">
+                  <div class="small-10 columns user_name">
                     {{user.fullName}}
                   </div>
+                  <span class="small-2 columns user-mobile">
+                    {{user.mobile}}
+                  </span>
+                </div>
+                <div class="row org_name">
                   {{user.organisationsUsers.firstObject.organisation.nameEn}}
                 </div>
               </li>
