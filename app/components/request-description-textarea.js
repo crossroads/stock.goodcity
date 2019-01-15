@@ -14,7 +14,7 @@ export default itemDescriptionTextarea.extend({
     var key = this.get('name');
     var value = this.attrs.value.value || '';
     var requestParams = {};
-    requestParams[key] = this.get('value').trim() || '';
+    requestParams[key] = (this.get('value') || '').trim();
 
     if (requestParams[key].toString() !== this.get('previousValue').toString().trim()){
       var loadingView = getOwner(this).lookup('component:loading').append();
