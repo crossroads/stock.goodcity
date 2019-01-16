@@ -17,7 +17,7 @@ export default Ember.Service.extend({
   }),
 
   getItemLocationFilters: Ember.computed(function(){
-    return this.get('localStorage').read('itemLocationFilters');
+    return this.get('localStorage').readString('itemLocationFilters');
   }),
 
   isPriority() {

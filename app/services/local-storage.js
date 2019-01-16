@@ -5,8 +5,17 @@ export default Ember.Service.extend({
     return JSON.parse(window.localStorage.getItem(key)) || defaultValue;
   },
 
+  readString(key, defaultValue) {
+    return window.localStorage.getItem(key) || defaultValue;
+  },
+
   write(key, val) {
-    window.localStorage.setItem(key, JSON.stringify(val));
+    this.writeString(key, JSON.stringify(val));
+    return val;
+  },
+
+  writeString(key, val) {
+    window.localStorage.setItem(key, val);
     return val;
   },
 
