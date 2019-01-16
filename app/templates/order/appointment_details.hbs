@@ -6,16 +6,12 @@
           <nav class="tab-bar">
             <section class="left-large">
               {{fa-icon "angle-left"}}
-              {{#if (is-equal previousRouteName "my_orders")}}
-                {{#link-to 'my_orders' classNames="back"}}{{t "back"}}{{/link-to}}
-              {{else}}
-                {{#link-to 'order.goods_details' order.id classNames="back_text"}}{{t "back"}}{{/link-to}}
-              {{/if}}
+              {{#link-to 'order.goods_details' order.id classNames="back_text"}}{{t "back"}}{{/link-to}}
             </section>
              <section class="middle tab-bar-section">
               <h1 class="title"> {{t 'order.appointment.title'}} </h1>
             </section>
-            {{cancel-order order=model.order}}
+            {{cancel-order order=order}}
           </nav>
         </section>
 
@@ -86,7 +82,8 @@
                     selection=selectedDate
                     placeholder="Date"
                     pattern="[a-zA-Z]{3}\s?[a-zA-Z]{3}\s?[0-9]{1,2}"}}
-                  <i class="fa fa-calendar calender_icon"></i>
+                  <i class="fa fa-calendar calender_icon">{{fa-icon "calendar"}}</i>
+
                 </div>
               </div>
 
@@ -126,15 +123,9 @@
                     </a>
                   </div>
                   <div class="small-6 medium-6 large-6 columns">
-                    {{#if (is-equal previousRouteName "my_orders")}}
-                      {{#link-to 'my_orders' classNames="button expand appointment"}}
-                        {{t 'discard_changes'}}
-                      {{/link-to}}
-                    {{else}}
-                      {{#link-to 'order.goods_details' order.id classNames="button expand appointment"}}
-                        {{t 'discard_changes'}}
-                      {{/link-to}}
-                    {{/if}}
+                    {{#link-to 'order.goods_details' order.id classNames="button expand appointment"}}
+                      {{t 'discard_changes'}}
+                    {{/link-to}}
                   </div>
                 {{else}}
                   <div class="small-12 columns">

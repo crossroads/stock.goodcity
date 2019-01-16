@@ -10,6 +10,7 @@ export default Model.extend({
   transportType:        attr('string'),
   vehicleType:          attr('string'),
   scheduledAt:          attr('string'),
+  orderId:              attr('string'),
   contact:              belongsTo('contact', { async: false }),
   designation:          belongsTo('designation', { async: false }),
   needEnglish:          attr("boolean"),

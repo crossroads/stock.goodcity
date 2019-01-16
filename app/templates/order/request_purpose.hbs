@@ -7,12 +7,12 @@
               <nav class="tab-bar">
                 <a class="back">
                   <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-left'}}</i>
-                  {{#link-to 'order.search_users' model.orderUserOrganisation.order.id classNames="back_text"}}{{t "back"}}{{/link-to}}
+                  {{#link-to 'order.search_users' order.id classNames="back_text"}}{{t "back"}}{{/link-to}}
                 </a>
                 <section class="middle tab-bar-section">
                   <h1 class="title"> {{t 'order.request_purpose.title'}} </h1>
                 </section>
-                {{cancel-order order=model.orderUserOrganisation.order}}
+                {{cancel-order order=order}}
               </nav>
             </section>
             <div class="row inner-section">
@@ -102,9 +102,20 @@
                     {{/form-control}}
                   </div>
                   <div class="row">
-                    <div class="small-12 columns">
-                      <a  {{action 'submit' target=form}} class="button expand" id="request-submit"> {{t 'continue'}} </a>
-                    </div>
+                    {{#if isEditing}}
+                      <div class="small-6 medium-6 large-6 columns">
+                        <a {{action 'submit' target=form}} class="button expand" id="request-submit"> {{t 'save_changes'}} </a>
+                      </div>
+                      <div class="small-6 medium-6 large-6 columns">
+                          {{#link-to 'order.search_users' order.id classNames="button expand request"}}
+                            {{t 'discard_changes'}}
+                          {{/link-to}}
+                      </div>
+                    {{else}}
+                      <div class="small-12 columns">
+                        <a  {{action 'submit' target=form}} class="button expand" id="request-submit"> {{t 'continue'}} </a>
+                      </div>
+                    {{/if}}
                   </div>
                 {{/validatable-form}}
             </section>

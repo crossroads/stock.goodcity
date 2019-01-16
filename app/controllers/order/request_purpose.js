@@ -6,13 +6,17 @@ export default Ember.Controller.extend({
   queryParams: ['userId'],
   messageBox: Ember.inject.service(),
   orderId: null,
-  isEditing: false,
   peopleCount: null,
   description: "",
   user: Ember.computed.alias('model.orderUserOrganisation.user'),
   order: Ember.computed.alias('model.orderUserOrganisation.order'),
   selectedId: Ember.computed.alias('order.purposeId'),
   districts: Ember.computed.alias('model.districts'),
+
+  isEditing: Ember.computed('order', function() {
+    let order = this.get('order');
+    return order.get('purposeDescription') && order.get('districtId');
+  }),
 
   selectedDistrict: Ember.computed('order.districtId', function() {
     let districtId = this.get('order.districtId');

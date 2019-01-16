@@ -28,9 +28,7 @@ export default Ember.Component.extend({
         this.get('router').transitionTo("app_menu_list");
         this.get("store").unloadRecord(designation);
       })
-      .finally(() => {
-        loadingView.destroy();
-      });
+      .finally(() => loadingView.destroy());
     }
   }
 });

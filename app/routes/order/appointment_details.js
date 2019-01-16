@@ -11,7 +11,7 @@ export default orderUserOrganisation.extend({
     return Ember.RSVP.hash({
       orderUserOrganisation,
       availableDatesAndtime: new AjaxPromise("/appointment_slots/calendar", "GET", this.get('session.authToken'), {to: moment().add(120, 'days').format('YYYY-MM-DD')}),
-      orderTransport: orderTransport && orderTransport.filterBy("order.id", orderId).get("firstObject")
+      orderTransport: orderTransport && orderTransport.filterBy("orderId", orderId).get("firstObject")
     });
   },
 
@@ -27,9 +27,9 @@ export default orderUserOrganisation.extend({
     if (orderTransport){
       selectedId = orderTransport.get('transportType');
       selectedTime = orderTransport.get('timeslot');
-      selectedDate = orderTransport.get("scheduledAt");
+      selectedDate = moment.tz(orderTransport.get("scheduledAt"), 'Asia/Hong_Kong');
       if(selectedDate) {
-        slots = availableDatesAndTime.appointment_calendar_dates.filter( date => date.date === moment(selectedDate).format('YYYY-MM-DD'))[0].slots;
+        slots = availableDatesAndTime.appointment_calendar_dates.filter( date => date.date === selectedDate.format('YYYY-MM-DD'))[0].slots;
         selectedSlot = slots.filter(slot => slot.timestamp.indexOf(orderTransport.get("timeslot")) >= 0)[0];
       }
       controller.set('isEditing', true);
