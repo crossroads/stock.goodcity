@@ -5,10 +5,10 @@
           <div class="row">
             <section class="main-section new-user-section ui login_page book_appointment_headers">
               <nav class="tab-bar">
-                <section class="left-medium">
-                  {{fa-icon "angle-left"}}
-                  {{#link-to 'order.search_users' model.orderUserOrganisation.order.id classNames="back"}}{{t "back"}}{{/link-to}}
-                </section>
+                <a class="back">
+                  <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-left'}}</i>
+                  {{#link-to 'order.search_users' model.orderUserOrganisation.order.id classNames="back_text"}}{{t "back"}}{{/link-to}}
+                </a>
                 <section class="middle tab-bar-section">
                   <h1 class="title"> {{t 'order.request_purpose.title'}} </h1>
                 </section>
@@ -94,7 +94,9 @@
                       {{t 'order.request_purpose.need_description_info'}}
                     </div>
                     {{#form-control}}
-                      <i class="fa fa-times-circle remove-text" aria-hidden="true" {{action "clearDescription"}}></i>
+                      <span class="remove-text" {{action "clearDescription"}}>
+                        {{fa-icon 'times-circle'}}
+                      </span>
                       {{auto-resize-textarea data-autoresize=true name="description" value=description required="required" pattern=".*\S.*" id="description"}}
                       <div class='input-error'> {{t 'order.request_purpose.description_warning'}} </div>
                     {{/form-control}}

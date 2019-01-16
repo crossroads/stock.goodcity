@@ -1,11 +1,6 @@
 <div class="row fixed_search_header search-box ui organisations_search">
   <div class="small-2 medium-2 columns ">
-    <a {{action "cancelSearch"}} class="back">
-      <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-left'}}</i>
-      <div class="back_text">
-        Cancel
-      </div>
-    </a>
+    {{cancel-order order=model.order isCancel=false}}
   </div>
 
   <div class="small-10 medium-10 columns">

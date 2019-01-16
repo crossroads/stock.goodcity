@@ -183,6 +183,8 @@ I18nTranslationsEn =
     "close_order": "Close Order"
     "reopen_order": "Reopen Order"
     "resubmit": "Resubmit Order"
+    "numbers_warning": "Please enter 4 digit number.",
+    "mobile_warning": "Please provide a valid Hong Kong mobile number"
     "for_our_charity": "For our charity (facilities / programs etc.)"
     "for_client": "For client / beneficiary (personal use)"
     "for_charity_sale": "For charity sale, bartering (any form of trade)"

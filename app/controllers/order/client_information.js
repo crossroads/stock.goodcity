@@ -11,7 +11,7 @@ export default Ember.Controller.extend({
   isEditing: false,
   selectedId: null,
   identityNumber: null,
-  order: Ember.computed.alias("model.order"),
+  order: Ember.computed.alias("model.orderUserOrganisation.order"),
   beneficiary: Ember.computed.alias("model.beneficiary"),
 
   isHkIdSelected: Ember.computed.equal("selectedId", "hkId"),

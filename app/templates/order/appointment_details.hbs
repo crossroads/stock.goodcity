@@ -9,7 +9,7 @@
               {{#if (is-equal previousRouteName "my_orders")}}
                 {{#link-to 'my_orders' classNames="back"}}{{t "back"}}{{/link-to}}
               {{else}}
-                {{#link-to 'order.goods_details' order.id classNames="back"}}{{t "back"}}{{/link-to}}
+                {{#link-to 'order.goods_details' order.id classNames="back_text"}}{{t "back"}}{{/link-to}}
               {{/if}}
             </section>
              <section class="middle tab-bar-section">
@@ -19,10 +19,10 @@
           </nav>
         </section>
 
-        {{partial "order/user_information"}}
         {{#validate-appointment}}
           {{#validatable-form onSubmit=(action 'saveTransportDetails') as |form|}}
             <section class="main-section client-information large-10 large-offset-1 medium-10 medium-offset-1 columns appointment-date small-10 small-offset-1">
+              {{partial "order/user_information"}}
               <div class="small-12 columns type-of-id-text">
                 {{t 'order.appointment.transport'}}
               </div>

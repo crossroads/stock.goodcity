@@ -8,11 +8,12 @@
           </div>
           <div class="small-3 columns">
             <label> {{t 'order.goods_details.quantity_label'}} </label>
-            {{numeric-input id=(concat 'quantity' request.id) name="qty" value=request.quantity maxlength="8" required='true' pattern="\d{1,8}" classNames="add-quantity"}}
+            {{input type="number" id=(concat 'quantity' request.id) name="qty" value=request.quantity maxlength="8" required='true' pattern="\d{1,8}" classNames="add-quantity"}}
           </div>
           <div class='small-2 columns icon-center remove-request remove-request-click'>
-            <div {{action "removeRequest" request.id on="click"}}>Remove</div>
-            <i class='fa fa-times-circle fa-2x icon' {{action "removeRequest" request.id on="click"}}></i>
+            <span class="cancel-icon" {{action "removeRequest" request.id on="click"}}>
+              {{fa-icon 'times-circle' size="lg"}}
+            </span>
           </div>
         </div>
         {{!-- <div class="small-12 columns"> --}}

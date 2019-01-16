@@ -1,3 +1,12 @@
-<section {{action 'deleteOrder' }} class="right-small cancel-order">
-  Cancel
-</section>
+{{#if isCancel}}
+  <div {{action 'deleteOrder' }} class="right-small cancel-order">
+    Cancel
+  </div>
+{{else}}
+  <div {{action "deleteOrder"}} class="back" style="margin-top:12px;">
+    <i class="back_icon" aria-hidden="true" style="margin-left: -10px;">{{fa-icon 'angle-left'}}</i>
+    <span class="back_text">
+      Cancel
+    </span>
+  </div>
+{{/if}}

@@ -1,16 +1,13 @@
 import Ember from 'ember';
-import AuthorizeRoute from './../authorize';
+import orderUserOrganisation from './order_user_organisation';
 
-export default AuthorizeRoute.extend({
-  previousRouteName: null,
-
-  model(params) {
-    var orderId = params.order_id;
-    var order = this.store.peekRecord('designation', orderId) || this.store.findRecord('designation', orderId);
+export default orderUserOrganisation.extend({
+  async model() {
+    let orderUserOrganisation = await this._super(...arguments);
 
     return Ember.RSVP.hash({
-      order: order,
-      beneficiary: order.get('beneficiary')
+      orderUserOrganisation,
+      beneficiary: orderUserOrganisation.order.get('beneficiary')
     });
   },
 
@@ -33,12 +30,6 @@ export default AuthorizeRoute.extend({
   setupController(controller, model) {
     this._super(...arguments);
     this.setUpFormData(model, controller);
-    // controller.set("previousRouteName", this.get("previousRouteName"));
-    // if(this.get("previousRouteName") === "my_orders") {
-    //   this.controllerFor('my_orders').set("selectedOrder", model.order);
-    // } else {
-    //   this.controllerFor('my_orders').set("selectedOrder", null);
-    // }
     this.controllerFor('application').set('showSidebar', false);
   },
 

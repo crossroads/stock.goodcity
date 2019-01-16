@@ -3,7 +3,8 @@ import AjaxPromise from 'stock/utils/ajax-promise';
 const { getOwner } = Ember;
 
 export default Ember.Component.extend({
-  tagName: 'section',
+  tagName: 'a',
+  isCancel: true,
   messageBox: Ember.inject.service(),
   store: Ember.inject.service(),
   order: null,
