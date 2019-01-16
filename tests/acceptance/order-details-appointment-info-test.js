@@ -27,7 +27,7 @@ const userProfile = {
 
 let App, mocks, designationAppointment, designationOnlineOrder;
 
-const BOOKING_TYPES = { 
+const BOOKING_TYPES = {
   appointment: { id: 1, identifier: 'appointment' },
   onlineOrder: { id: 2, identifier: 'online-order' }
 };
@@ -35,24 +35,25 @@ const BOOKING_TYPES = {
 module("Acceptance: Order details, appointment info", {
   beforeEach: function() {
     App = startApp({}, 2);
-    
+
     mocks = [];
 
     const designations = [];
     const orderTransports = [];
 
     const makeDesignation = (bookingType = BOOKING_TYPES.onlineOrder) => {
-      const record = FactoryGuy.make("designation", { 
-        state: "submitted", 
-        detailType: "GoodCity", 
-        id: 1103 + designations.length 
+      const record = FactoryGuy.make("designation", {
+        state: "submitted",
+        detailType: "GoodCity",
+        id: 1103 + designations.length
       }).toJSON({includeId: true});
 
-      orderTransports.push({ 
-        id: _.uniqueId(), 
-        designation_id: record.id, 
-        order_id: record.id, 
-        booking_type_id: bookingType.id,
+      record.booking_type_id = bookingType.id;
+
+      orderTransports.push({
+        id: _.uniqueId(),
+        designation_id: record.id,
+        order_id: record.id,
         transport_type: 'self'
       });
       designations.push(record);
@@ -75,7 +76,7 @@ module("Acceptance: Order details, appointment info", {
 
     mockResource('auth/current_user_profil*', userProfile);
     mockResource('booking_type*', { booking_types: _.values(BOOKING_TYPES) });
-    mockResource('designation*', { 
+    mockResource('designation*', {
       designations: designations,
       order_transports: orderTransports,
       booking_types: _.values(BOOKING_TYPES)
