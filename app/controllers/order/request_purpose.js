@@ -9,15 +9,15 @@ export default Ember.Controller.extend({
   isEditing: false,
   peopleCount: null,
   description: "",
-  selectedId: null,
-  user: Ember.computed.alias('model.user'),
+  user: Ember.computed.alias('model.orderUserOrganisation.user'),
+  order: Ember.computed.alias('model.orderUserOrganisation.order'),
+  selectedId: Ember.computed.alias('order.purposeId'),
+  districts: Ember.computed.alias('model.districts'),
 
-  selectedDistrict: null,
-
-  districts: Ember.computed(function(){
-    return this.store.peekAll('district');
+  selectedDistrict: Ember.computed('order.districtId', function() {
+    let districtId = this.get('order.districtId');
+    return districtId ? this.store.peekRecord('district', districtId) : null;
   }),
-
 
   actions: {
     clearDescription() {
@@ -42,9 +42,9 @@ export default Ember.Controller.extend({
     createOrderWithRequestPuropose(){
       let user = this.get('user');
       let purposeIds = [];
-      if(this.get('selectedId') === 'organisation'){
+      if(this.get('selectedId') === 'Organisation'){
         purposeIds.push(1);
-      } else if(this.get('selectedId') === 'client'){
+      } else if(this.get('selectedId') === 'Client'){
         purposeIds.push(2);
       }
 
@@ -55,13 +55,13 @@ export default Ember.Controller.extend({
 
       let orderParams = {
         organisation_id: user_organisation_id,
-        purpose_description: this.get('description'),
+        purpose_description: this.get('order.purposeDescription'),
         purpose_ids: purposeIds,
-        people_helped: this.get('peopleCount'),
+        people_helped: this.get('order.peopleHelped'),
         district_id: this.get('selectedDistrict.id')
       };
 
-      const orderId = this.get("model.orderUserOrganisation.order.id");
+      const orderId = this.get("order.id");
       let url = "/orders/" + orderId;
 
       var loadingView = getOwner(this).lookup('component:loading').append();

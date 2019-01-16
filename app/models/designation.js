@@ -44,6 +44,8 @@ export default Model.extend({
   submittedBy:        belongsTo('user', { async: false }),
   bookingType:        belongsTo('booking_type', { async: false }),
   createdBy:        belongsTo('user', { async: false }),
+  peopleHelped: attr('number'),
+  districtId:       attr('number'),
 
   isLocalOrder: Ember.computed('detailType', function(){
     return (this.get('detailType') === 'LocalOrder') || (this.get('detailType') === 'StockitLocalOrder');
@@ -73,6 +75,10 @@ export default Model.extend({
 
   purposeName: Ember.computed("ordersPurposes.[]", function() {
     return this.get("ordersPurposes.firstObject.purpose.description");
+  }),
+
+  purposeId: Ember.computed("ordersPurposes.[]", function() {
+    return this.get("ordersPurposes.firstObject.purpose.nameEn");
   }),
 
   stateIcon: Ember.computed('state', function () {
