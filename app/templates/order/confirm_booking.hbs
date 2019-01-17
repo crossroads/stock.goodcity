@@ -6,13 +6,14 @@
           <nav class="tab-bar">
             <a class="back">
               <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-left'}}</i>
-              {{#link-to "order.appointment_details" model.order.id classNames="back_text"}}{{t "back"}}{{/link-to}}
+              {{#link-to "order.appointment_details" order.id classNames="back_text"}}{{t "back"}}{{/link-to}}
             </a>
 
             <section class="middle tab-bar-section">
               <h1 class="title"> {{t "order.confirm_booking.title"}} </h1>
             </section>
-            {{cancel-order order=model}}
+            {{log order}}
+            {{cancel-order order=order}}
           </nav>
         </section>
       </div>

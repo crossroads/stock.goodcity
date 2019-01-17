@@ -32,6 +32,9 @@
   }
   .purpose {
     .custom_radio_buttons {
+      display: inline-block;
+      position: relative;
+
       @media #{$small-only}{
         width: 100% !important;
         margin-left: -10px;
@@ -39,14 +42,34 @@
       border: 1px solid;
       padding: .4rem;
       margin-top: 1rem;
-      height: 2.7rem;
+      height: 3.2rem;
       // border: 1px solid white !important;
       input[type=radio] {
         margin: 0 0 0 0px;
+        display: inline-block;
+        margin-left: 10px;
+        margin-top: 3% !important;
+        position: absolute;
       }
       label {
         font-size: 0.8rem !important;
         margin-top: 0.4rem !important;
+        margin-left: 3rem;
+      }
+      input[type="radio"]:checked + label {
+        background: #f34d4f;
+        border-color: #f34d4f;
+        color: white;
+        width: 106%;
+        text-align: center;
+        margin-left: -3%;
+        height: 150%;
+        margin-top: -3% !important;
+
+        div {
+          margin-top: 4%;
+          margin-left: 2%;
+        }
       }
     }
     @media #{$small-only} {

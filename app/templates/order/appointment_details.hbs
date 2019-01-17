@@ -17,13 +17,13 @@
 
         {{#validate-appointment}}
           {{#validatable-form onSubmit=(action 'saveTransportDetails') as |form|}}
-            <section class="main-section client-information large-10 large-offset-1 medium-10 medium-offset-1 columns appointment-date small-10 small-offset-1">
+            <section class="main-section client-information request-purpose large-10 large-offset-1 medium-10 medium-offset-1 columns appointment-date small-10 small-offset-1">
               {{partial "order/user_information"}}
               <div class="small-12 columns type-of-id-text">
                 {{t 'order.appointment.transport'}}
               </div>
-              <div class="row time_inputs id-type-radio-input" >
-                <div class=" custom_radio_buttons small-12 columns purpose col-width-appointment" for="For HKID">
+              <div class="row time_inputs purpose" >
+                <div class=" custom_radio_buttons small-12 columns purpose">
                   {{radio-button
                   name="selectReason"
                   id="self"
@@ -31,7 +31,7 @@
                   selection=selectedId
                   required='true'}}
                   <label class="radio-button-text align-text self_vehicle" for="self">
-                    {{t 'order.appointment.self_vehicle'}}
+                    <div>{{t 'order.appointment.self_vehicle'}}</div>
                   </label>
                 </div>
 
@@ -43,7 +43,7 @@
                   selection=selectedId
                   required='true'}}
                   <label class="radio-button-text align-text hire_vehicle" for="ggv">
-                    {{t 'order.appointment.hire_vehicle'}}
+                    <div>{{t 'order.appointment.hire_vehicle'}}</div>
                   </label>
                 </div>
               </div>
@@ -95,7 +95,7 @@
                 <div class="row time_inputs id-type-radio-input time-slots" >
                   {{#each timeSlots as |time|}}
                     {{#unless time.isClosed}}
-                        <div class="custom_radio_buttons small-4 large-4 medium-4 columns end">
+                        <div class="time_slots_radio_buttons small-4 large-4 medium-4 columns end">
                           {{radio-button
                           name="selectTime"
                           id=time.timestamp
@@ -103,7 +103,7 @@
                           selection=selectedTimeId
                           required='true'}}
                           <label class="radio-button-text align-text time_slots" for={{time.timestamp}}>
-                            {{display-time time.timestamp "HH:mm"}}
+                            <div>{{display-time time.timestamp "HH:mm"}}</div>
                           </label>
                         </div>
                     {{/unless}}
