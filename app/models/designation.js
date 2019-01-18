@@ -39,6 +39,7 @@ export default Model.extend({
   items:              hasMany('item', { async: true }),
   goodcityRequests:   hasMany('goodcity_request', { async: false }),
   ordersPackages:     hasMany('ordersPackages', { async: false }),
+  messages:           hasMany('message', { async: true }),
   orderTransport:     belongsTo('orderTransport', { async: false }),
   ordersPurposes:     hasMany('ordersPurpose', { async: false }),
   submittedBy:        belongsTo('user', { async: false }),
