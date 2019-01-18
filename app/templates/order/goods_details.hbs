@@ -1,0 +1,55 @@
+<div class="row">
+  <div class="large-8 columns large-offset-2 medium-offset-1 medium-10 small-12">
+    <div class="row checkout_pages">
+      <div class="small-12 columns">
+        <section class="main-section new-user-section ui login_page">
+          <nav class="tab-bar">
+            <a class="back">
+              <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-left'}}</i>
+              {{#link-to 'order.request_purpose' order.id classNames="back_text"}}{{t "back"}}{{/link-to}}
+            </a>
+            <section class="middle tab-bar-section">
+              <h1 class="title"> {{t "order.goods_details.title"}} </h1>
+            </section>
+            {{cancel-order order=order}}
+          </nav>
+        </section>
+        <section class="main-section client-information large-10 large-offset-1 medium-10 medium-offset-1 columns">
+          {{partial "order/user_information"}}
+          <div class="small-12 columns id-confidential-text goods_details">
+            {{t "order.goods_details.info_1"}} <br> {{t "order.goods_details.info_2"}} <a class="crossroads_email" href="mailto: local@crossroads.org.hk"> local@crossroads.org.hk </a> {{t "order.goods_details.info_3"}}
+          </div>
+        </section>
+        <br>
+        <section class="main-section client-information request-add-remove-section medium-10 medium-offset-1 large-10 large-offset-1 columns">
+          {{#validatable-form onSubmit=(action 'saveGoodsDetails') as |form|}}
+            {{#each sortedGcRequests as |req index|}}
+              {{add-request id=index order=order request=req num=index}}
+            {{/each}}
+            <div class='row req-more-goods'>
+              <div class='large-4 columns small-7 small-offset-2 request-more link-blue add_package_link add_more_request' {{action "addRequest" on="click"}}>
+                {{t "order.goods_details.request_more"}}
+              </div>
+              <div class='small-2 columns icon-center add_more_request'>
+                {{!-- <div >+ Add more</div>
+                <i class='fa fa-plus-circle fa-2x icon' {{action "addRequest" on="click"}}></i> --}}
+                <span class="remove-text cancel-icon" {{action "addRequest" on="click"}}>
+                  {{fa-icon 'plus-circle' size="lg"}}
+                </span>
+              </div>
+              <div class='small-2 columns'>&nbsp;</div>
+            </div>
+            <br>
+            <div class="row">
+              <div class="small-11 columns">
+                {{#if hasNoGcRequests}}<p align="center" class="no-gc-req-error">{{t "order.goods_details.no_goods_error"}}</p>{{/if}}
+                <button {{action 'submit' target=form}} id="goods-details-submit" disabled={{hasNoGcRequests}} class="button expand expand_button">{{t "continue"}}</button>
+              </div>
+              <div class='small-1 columns'>&nbsp;</div>
+            </div>
+          {{/validatable-form}}
+        </section>
+      </div>
+    </div>
+  </div>
+</div>

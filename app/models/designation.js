@@ -13,6 +13,7 @@ export default Model.extend({
   recentlyUsedAt:       attr('date'),
   submittedAt:          attr('date'),
   submittedById:        attr('number'),
+  createdById:        attr('number'),
   processedAt:          attr('date'),
   processedById:        attr('number'),
   cancelledAt:          attr('date'),
@@ -42,6 +43,9 @@ export default Model.extend({
   ordersPurposes:     hasMany('ordersPurpose', { async: false }),
   submittedBy:        belongsTo('user', { async: false }),
   bookingType:        belongsTo('booking_type', { async: false }),
+  createdBy:        belongsTo('user', { async: false }),
+  peopleHelped: attr('number'),
+  districtId:       attr('number'),
 
   isLocalOrder: Ember.computed('detailType', function(){
     return (this.get('detailType') === 'LocalOrder') || (this.get('detailType') === 'StockitLocalOrder');
@@ -69,6 +73,14 @@ export default Model.extend({
     return this.get("state").capitalize();
   }),
 
+  purposeName: Ember.computed("ordersPurposes.[]", function() {
+    return this.get("ordersPurposes.firstObject.purpose.description");
+  }),
+
+  purposeId: Ember.computed("ordersPurposes.[]", function() {
+    return this.get("ordersPurposes.firstObject.purpose.nameEn");
+  }),
+
   stateIcon: Ember.computed('state', function () {
     const state = this.get("state");
     switch (state) {
@@ -87,6 +99,21 @@ export default Model.extend({
         return "lock";
       default:
         return "";
+    }
+  }),
+
+  appointmentTransport: Ember.computed("orderTransport", function() {
+    let i18n = this.get("i18n");
+    return this.get("orderTransport.transportType") === "self" ?
+      i18n.t("order.appointment.self_vehicle") : i18n.t("order.appointment.hire_vehicle");
+  }),
+
+  appointmentTime: Ember.computed("orderTransport", function() {
+    let orderTransport = this.get("orderTransport");
+    if(orderTransport) {
+      return `${moment(orderTransport.get("scheduledAt")).format('dddd MMMM Do')}, ${orderTransport.get("timeslot")}`;
+    } else {
+      return "";
     }
   }),
 

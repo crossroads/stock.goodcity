@@ -14,6 +14,7 @@
       {{/if}}
       {{#if (is-or session.currentUser.canManageAppointments getCurrentUser.canManageAppointments)}}
         <li>{{#link-to 'appointments' class='appointments-link'}}Manage Appointment Quotas{{/link-to}}</li>
+        <li><a href="#" {{action 'createOrder'}}>Create New Order</a></li>
       {{/if}}
       <li><a href="#" {{action 'logMeOut'}}>{{t "logout.logout"}}</a></li>
     </ul>

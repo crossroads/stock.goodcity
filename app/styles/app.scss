@@ -12,6 +12,10 @@
 @import "search";
 @import "colors";
 @import "filters";
+@import "request_purpose";
+@import "client_information";
+@import "goods_details";
+@import "appointment_details";
 
 @import "templates/index";
 @import "templates/items/detail";
@@ -32,6 +36,7 @@
 @import "templates/components/designate_form";
 @import "templates/components/item_options";
 @import "templates/components/item_options_list";
+@import "templates/components/add_request";
 @import "templates/organisations/organisation_tabs";
 @import "templates/organisations/search_organisations";
 @import "templates/users/new";

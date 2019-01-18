@@ -70,6 +70,27 @@
     padding: 0;
   }
 
+  .user_name {
+    text-transform: capitalize;
+    color: #FFFFFF;
+    font-weight: bolder;
+    font-size: 0.7rem;
+    margin-left: 0.8rem;
+  }
+
+  .user-mobile {
+    margin-top: -4vw;
+    color: #FFFFFF;
+    margin-right: 2vw;
+  }
+
+  .org_name {
+    margin-left: 1vw;
+    text-transform: capitalize;
+    color: #8D9CB1;
+    font-size: 0.9rem;
+  }
+
   .list.list-activity {
     margin-left: 0rem;
     margin-right: 0rem;
@@ -80,6 +101,17 @@
   .list.list-activity.menu-list {
     margin-top: unset;
     cursor: pointer;
+  }
+
+  .list-bottom {
+    border-bottom: 0.1px solid #FFFFFF !important;
+  }
+
+  .new-user {
+    text-align: center;
+    color: #FFFFFF;
+    font-weight: 600;
+    border-bottom: 0.1px solid #FFFFFF !important;
   }
 
   li {
