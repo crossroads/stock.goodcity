@@ -1,10 +1,10 @@
-import Ember from 'ember';
+import Ember from 'ember'; // jshint ignore:line
 import AuthorizeRoute from './../authorize';
 
 export default AuthorizeRoute.extend({
-
+  /* jshint ignore:start */
   async model(params) {
-    var orderId = params.order_id;
+    let orderId = params.order_id;
     let order = this.store.peekRecord('designation', orderId) || await this.store.findRecord('designation', parseInt(orderId));
     let user = order.get('createdBy');
     let organisationsUser = user.get('organisationsUsers.firstObject');
@@ -17,5 +17,5 @@ export default AuthorizeRoute.extend({
       organisationsUser
     });
   }
-
+  /* jshint ignore:end */
 });

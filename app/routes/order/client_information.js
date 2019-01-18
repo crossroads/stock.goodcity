@@ -1,7 +1,8 @@
-import Ember from 'ember';
+import Ember from 'ember'; // jshint ignore:line
 import orderUserOrganisation from './order_user_organisation';
 
 export default orderUserOrganisation.extend({
+  /* jshint ignore:start */
   async model() {
     let orderUserOrganisation = await this._super(...arguments);
 
@@ -10,6 +11,7 @@ export default orderUserOrganisation.extend({
       beneficiary: orderUserOrganisation.order.get('beneficiary')
     });
   },
+  /* jshint ignore:end */
 
   setUpFormData(model, controller) {
     var selectedId = "hkId";

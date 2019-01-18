@@ -41,7 +41,7 @@ export default searchModule.extend({
   },
 
   findOrganisationsUser(org_user_id) {
-    return this.store.findRecord("organisations_user", org_user_id, { reload: false })
+    return this.store.findRecord("organisations_user", org_user_id, { reload: false });
   },
 
   actions: {

@@ -1,8 +1,9 @@
-import Ember from 'ember';
-import AjaxPromise from 'stock/utils/ajax-promise';
+import Ember from 'ember'; // jshint ignore:line
+import AjaxPromise from 'stock/utils/ajax-promise'; // jshint ignore:line
 import orderUserOrganisation from './order_user_organisation';
 
 export default orderUserOrganisation.extend({
+  /* jshint ignore:start */
   async model() {
     let orderTransport = this.store.peekAll("orderTransport");
     let orderUserOrganisation = await this._super(...arguments);
@@ -14,6 +15,7 @@ export default orderUserOrganisation.extend({
       orderTransport: orderTransport && orderTransport.filterBy("orderId", orderId).get("firstObject")
     });
   },
+  /* jshint ignore:end */
 
   setUpFormData(model, controller) {
     var selectedId = "self";

@@ -1,3 +1,4 @@
+import Ember from "ember";
 import AuthorizeRoute from './../authorize';
 import AjaxPromise from 'stock/utils/ajax-promise';
 
@@ -20,7 +21,7 @@ export default AuthorizeRoute.extend({
       let userObject = this.store.peekRecord('user', user.id);
       user.organisations_users_ids.forEach( (org_user_id) => {
         let organisationsUser = controller.findOrganisationsUser(org_user_id);
-        this.store.pushPayload(organisationsUser)
+        this.store.pushPayload(organisationsUser);
       });
       users.push(userObject);
     });
