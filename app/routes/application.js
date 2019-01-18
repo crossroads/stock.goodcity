@@ -73,12 +73,12 @@ export default Ember.Route.extend(preloadDataMixin, {
   showMustLogin() {
     if (this.session.get('isLoggedIn') && !this.get('isLoginPopUpAlreadyShown')) {
       this.set('isLoginPopUpAlreadyShown', true);
-      this.get('messageBox').alert(this.get("i18n").t('must_login'), () =>
-        this.set('isLoginPopUpAlreadyShown', false),
-        this.session.clear(),
-        this.store.unloadAll(),
-        this.transitionTo('login')
-      );
+      this.get('messageBox').alert(this.get("i18n").t('must_login'), () => {
+        this.set('isLoginPopUpAlreadyShown', false);
+        this.session.clear();
+        this.store.unloadAll();
+        this.transitionTo('login');
+      });
     }
   },
 

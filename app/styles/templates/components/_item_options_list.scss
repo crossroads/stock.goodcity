@@ -11,7 +11,7 @@
     display: table-cell;
     width: 27%;
     text-align: center;
-    padding: 0.7rem 0;
+    padding: 1rem 0;
     cursor: pointer;
     padding-right: 3px;
   }
@@ -30,9 +30,12 @@
   position: absolute;
 }
 .options-link-open, .options-link-close {
-  color: $light-blue;
+  color: white;
   cursor: pointer;
   font-size: 1.7rem;
+  width: 4rem;
+  text-align: right;
+  padding: 0;
 }
 .options-link-close {
   display: table-cell;
@@ -44,11 +47,11 @@
   right: 0;
   padding: 0 0.7rem;
   height: inherit;
-  line-height: 4rem;
+  line-height: 5rem;
 }
 
 .receive-item-options, .options-link-open, .options-link-close {
-  height: 80px;
+  height: 5rem;
 }
 
 .set-options {
