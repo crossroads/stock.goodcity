@@ -17,9 +17,7 @@ export default DS.Model.extend({
   sender: belongsTo('user', {
     async: false
   }),
-  order: belongsTo('designation', {
-    async: false
-  }),
+  designation: belongsTo('designation', { async: false }),
 
   myMessage: Ember.computed(function () {
     var session = getOwner(this).lookup("service:session");
