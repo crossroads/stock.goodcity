@@ -1,4 +1,4 @@
-<nav class="tab-bar">
+<nav class="tab-bar white_border_bottom">
   <section class="middle tab-bar-section">
     <h1 class="title">
       {{t 'menu'}}
@@ -6,17 +6,33 @@
   </section>
 </nav>
 
-<div class="row search">
+<div class="row search" style="margin-top: -5%;">
   <div class="small-12 columns">
     <ul class="list list-activity menu-list">
+      <li class="menu-list">
+        <a href="#" class="menu-list-anchor" {{action 'logMeOut'}}>
+          {{fa-icon 'sign-out-alt' size="lg"}}&nbsp;&nbsp;{{t "logout.logout"}}
+        </a>
+      </li>
       {{#if (is-or session.currentUser.isSupervisor getCurrentUser.isSupervisor)}}
-        <li>{{#link-to 'search_organisation'}}Manage charity users{{/link-to}}</li>
+        <li class="menu-list">
+          {{#link-to 'search_organisation' class="menu-list-anchor"}}
+            {{fa-icon 'user-cog' size="lg"}}&nbsp;&nbsp;Manage charity users
+          {{/link-to}}
+        </li>
       {{/if}}
       {{#if (is-or session.currentUser.canManageAppointments getCurrentUser.canManageAppointments)}}
-        <li>{{#link-to 'appointments' class='appointments-link'}}Manage Appointment Quotas{{/link-to}}</li>
-        <li><a href="#" {{action 'createOrder'}}>Create New Order</a></li>
+        <li class="menu-list">
+          {{#link-to 'appointments' class='appointments-link menu-list-anchor'}}
+            {{fa-icon 'calendar-alt' size="lg"}}&nbsp;&nbsp;Manage Appointment Quotas
+          {{/link-to}}
+        </li>
+        <li class="menu-list">
+          <a href="#" class="menu-list-anchor" {{action 'createOrder'}}>
+            {{fa-icon 'shopping-basket' size="lg"}}&nbsp;&nbsp;Create New Order
+          </a>
+        </li>
       {{/if}}
-      <li><a href="#" {{action 'logMeOut'}}>{{t "logout.logout"}}</a></li>
     </ul>
   </div>
 </div>
