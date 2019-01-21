@@ -75,26 +75,24 @@
     color: #FFFFFF;
     font-weight: bolder;
     font-size: 0.7rem;
-    margin-left: 0.8rem;
+    padding-left: 3%;
   }
 
   .user-mobile {
-    margin-top: -4vw;
+    margin-left: -35%;
     color: #FFFFFF;
-    margin-right: 2vw;
   }
 
   .org_name {
     margin-left: 1vw;
     text-transform: capitalize;
     color: #8D9CB1;
-    font-size: 0.9rem;
+    font-size: 0.7rem;
   }
 
   .list.list-activity {
     margin-left: 0rem;
     margin-right: 0rem;
-    margin-top: 2rem;
     cursor: pointer;
   }
 
@@ -112,6 +110,9 @@
     color: #FFFFFF;
     font-weight: 600;
     border-bottom: 0.1px solid #FFFFFF !important;
+    padding-bottom: 3%;
+    font-size: 0.6rem;
+    padding-top: 0%;
   }
 
   li {
