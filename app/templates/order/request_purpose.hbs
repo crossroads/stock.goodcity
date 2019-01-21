@@ -20,7 +20,7 @@
                 {{partial "order/user_information"}}
 
                 {{validate-inputs
-                  elementCssIdentifiersArrayJson='["#people-count", "#description", ".district-selector select"]'
+                  elementCssIdentifiersArrayJson='["#people-count", "#description", ".district-selector"]'
                   errorClass='form__control--error'
                   buttonId='#request-submit'
                 }}
@@ -100,7 +100,7 @@
                         {{fa-icon 'times-circle'}}
                       </span>
                       {{auto-resize-textarea data-autoresize=true name="description" value=order.purposeDescription required="required" pattern=".*\S.*" id="description"}}
-                      <div class='input-error'> {{t 'order.request_purpose.description_warning'}} </div>
+                      <div class='input-error error-margin'> {{t 'order.request_purpose.description_warning'}} </div>
                     {{/form-control}}
                   </div>
                   <div class="row">
