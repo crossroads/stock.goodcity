@@ -16,6 +16,7 @@ export default Ember.Controller.extend({
     orderParams.booking_type_id = this.store.peekAll('bookingType').filterBy('identifier', 'appointment').get('firstObject.id');
     orderParams.authorised_by_id = this.get('getCurrentUser.id');
     orderParams.state = 'draft';
+    orderParams.detail_type = 'GoodCity';
     return orderParams;
   },
 
