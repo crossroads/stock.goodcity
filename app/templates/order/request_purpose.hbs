@@ -25,10 +25,12 @@
                   buttonId='#request-submit'
                 }}
                 {{#validatable-form onSubmit=(action 'createOrderWithRequestPuropose') as |form|}}
-                  <div class="small-12 columns">
-                    {{t 'order.request_purpose.purpose'}}
-                  </div>
+                  <br>
                   <div class="row time_inputs purpose" >
+                    <div class="small-12 columns">
+                      {{t 'order.request_purpose.purpose'}}
+                    </div>
+
                     <div class=" custom_radio_buttons small-12 columns purpose">
                       {{radio-button
                       name="selectReason"
@@ -36,7 +38,7 @@
                       value="Organisation"
                       selection=selectedId
                       required='true'}}
-                      <label class="radio-button-text for-organisation align-text" for="1">
+                      <label class="radio-button-text for-client align-text" for="1">
                         <div>{{t 'order.request_purpose.for_organisation'}}</div>
                       </label>
                     </div>

@@ -10,8 +10,10 @@ export default Ember.Controller.extend({
   description: "",
   user: Ember.computed.alias('model.orderUserOrganisation.user'),
   order: Ember.computed.alias('model.orderUserOrganisation.order'),
-  selectedId: Ember.computed.alias('order.purposeId'),
   districts: Ember.computed.alias('model.districts'),
+  selectedId: Ember.computed('order',  function() {
+    return this.get('order.purposeId') || "Organisation";
+  }),
 
   isEditing: Ember.computed('order', function() {
     let order = this.get('order');

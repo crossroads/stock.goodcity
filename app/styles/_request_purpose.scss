@@ -39,17 +39,21 @@
         width: 100% !important;
         margin-left: -10px;
       }
+      display: inline-block;
+      position: relative;
       border: 1px solid;
       padding: .4rem;
       margin-top: 1rem;
       height: 3.2rem;
-      // border: 1px solid white !important;
+      margin-left: -1% !important;
       input[type=radio] {
         margin: 0 0 0 0px;
         display: inline-block;
         margin-left: 10px;
         margin-top: 3% !important;
         position: absolute;
+        width: 2em;
+        height: 2em;
       }
       label {
         font-size: 0.8rem !important;
@@ -153,6 +157,8 @@
         color: white;
         height: 2.7rem !important;
         margin-bottom: 0;
+        margin-left: 1%;
+        width: 99%;
         @media #{$small-only}{
           width: 97%;
         }
@@ -228,10 +234,10 @@
       margin-left: -5px;
     }
     border: 1px solid #8091a9;
-    width: 100%;
+    width: 99% !important;
     background: bottom;
     color: #a3aab6;
-    max-width: unset;
+    margin-left: 0% !important;
   }
   .district-label {
     margin-bottom: 0.2rem;
@@ -240,5 +246,41 @@
     font-size: 0.8rem;
     margin-bottom: 0.5rem;
   }
+}
+
+.user-block {
+  background-color: #26446C;
+  height: 5rem;
+}
+
+.user-information-block {
+  margin-top: 4%;
+  font-weight: bolder;
+  color: #FFFFFF;
+  text-transform: capitalize;
+  font-size: 0.8rem !important;
+  padding-left: 6%;
+  font-family: Museo700;
+  font-style: normal;
+  line-height: 1.4;
+  text-rendering: optimizeLegibility;
+
+
+  span {
+    float: right;
+    padding-right: 2%;
+  }
+}
+
+.organisation-details {
+  padding-left: 6%;
+  padding-top: 3%;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.radio-button {
+  width: 2em;
+  height: 2em;
 }
 
