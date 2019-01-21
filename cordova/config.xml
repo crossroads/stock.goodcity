@@ -104,7 +104,7 @@
     <plugin name="phonegap-plugin-barcodescanner" spec="^6.0.8">
         <variable name="CAMERA_USAGE_DESCRIPTION" value=" " />
     </plugin>
-    <engine name="android" spec="~5.1.1" />
+    <engine name="android" spec="~6.3.0" />
     <engine name="windows" spec="~4.3.1" />
     <engine name="ios" spec="^4.5.5" />
 </widget>
