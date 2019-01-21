@@ -70,17 +70,17 @@
         </feature>
         <preference name="Orientation" value="portrait" />
         <preference name="Fullscreen" value="true" />
-        <preference name="CAMERA_USAGE_DESCRIPTION" default=" " />
-        <config-file target="*-Info.plist" parent="NSCameraUsageDescription">
-          <string>To enable you to read inventory barcodes and photograph inventory items.</string>
+        <preference default=" " name="CAMERA_USAGE_DESCRIPTION" />
+        <config-file parent="NSCameraUsageDescription" target="*-Info.plist">
+            <string>To enable you to read inventory barcodes and photograph inventory items.</string>
         </config-file>
-        <preference name="PHOTOLIBRARY_USAGE_DESCRIPTION" default=" " />
-        <config-file target="*-Info.plist" parent="NSPhotoLibraryUsageDescription">
-          <string>Needs photo library access to get photos from there</string>
+        <preference default=" " name="PHOTOLIBRARY_USAGE_DESCRIPTION" />
+        <config-file parent="NSPhotoLibraryUsageDescription" target="*-Info.plist">
+            <string>Needs photo library access to get photos from there</string>
         </config-file>
-        <preference name="PHOTOLIBRARY_ADD_USAGE_DESCRIPTION" default=" " />
-        <config-file target="*-Info.plist" parent="NSPhotoLibraryAddUsageDescription">
-          <string>Needs photo library access to save photos</string>
+        <preference default=" " name="PHOTOLIBRARY_ADD_USAGE_DESCRIPTION" />
+        <config-file parent="NSPhotoLibraryAddUsageDescription" target="*-Info.plist">
+            <string>Needs photo library access to save photos</string>
         </config-file>
     </platform>
     <universal-links>
@@ -95,14 +95,16 @@
     <plugin name="cordova-plugin-device" spec="~1.1.1" />
     <plugin name="cordova-plugin-whitelist" spec="~1.2.1" />
     <plugin name="cordova-plugin-splashscreen" spec="^4.1.0" />
-    <plugin name="phonegap-plugin-barcodescanner" spec="https://github.com/wildabeast/BarcodeScanner.git" />
     <plugin name="com-sarriaroman-PhotoViewer" spec="https://github.com/sarriaroman/photoviewer.git#1.1.10" />
     <plugin name="cordova-plugin-apprate" spec="https://github.com/pushandplay/cordova-plugin-apprate.git" />
     <plugin name="cordova-plugin-globalization" spec="https://github.com/apache/cordova-plugin-globalization.git" />
     <plugin name="cordova-plugin-inappbrowser" spec="https://github.com/apache/cordova-plugin-inappbrowser.git" />
     <plugin name="cordova-plugin-dialogs" spec="https://github.com/apache/cordova-plugin-dialogs.git" />
     <plugin name="cordova-plugin-deeplinks" spec="https://github.com/e-imaxina/cordova-plugin-deeplinks.git" />
-    <engine name="ios" spec="https://github.com/apache/cordova-ios.git#4.5.5" />
-    <engine name="android" spec="~6.3.0" />
+    <plugin name="phonegap-plugin-barcodescanner" spec="^6.0.8">
+        <variable name="CAMERA_USAGE_DESCRIPTION" value=" " />
+    </plugin>
+    <engine name="android" spec="~5.1.1" />
     <engine name="windows" spec="~4.3.1" />
+    <engine name="ios" spec="^4.5.5" />
 </widget>
