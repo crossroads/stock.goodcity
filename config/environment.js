@@ -59,7 +59,9 @@ module.exports = function(environment) {
       IMAGE_PATH: 'http://res.cloudinary.com/ddoadcjjl/image/upload/',
 
       NAMESPACE: 'api/v1',
-      HK_COUNTRY_CODE: '+852'
+      HK_COUNTRY_CODE: '+852',
+
+      PRELOAD_TYPES: ['booking_type']
     },
 
     i18n: {
