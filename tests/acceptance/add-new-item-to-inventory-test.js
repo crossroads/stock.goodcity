@@ -13,9 +13,19 @@ var App, location1, location2, designation, code;
 module('Acceptance: Add item to inventory', {
   beforeEach: function() {
     App = startApp({}, 2);
-    visit("/");
+
     var data = {"user_profile": [{"id": 2,"first_name": "David", "last_name": "Dara51", "mobile": "61111111", "user_role_ids": [1]}], "users": [{"id": 2,"first_name": "David", "last_name": "Dara51", "mobile": "61111111"}], "roles": [{"id": 4, "name": "Supervisor"}], "user_roles": [{"id": 1, "user_id": 2, "role_id": 4}]};
 
+    $.mockjax({url:"/api/v1/orders/summar*", responseText: {
+      "submitted":14,
+      "awaiting_dispatch":1,
+      "dispatching":1,
+      "processing":2,
+      "priority_submitted":14,
+      "priority_dispatching":1,
+      "priority_processing":2,
+      "priority_awaiting_dispatch":1
+    }});
     $.mockjax({url:"/api/v1/auth/current_user_profil*",
       responseText: data });
     location1 = FactoryGuy.make("location");
@@ -24,6 +34,7 @@ module('Acceptance: Add item to inventory', {
     mockFindAll('designation').returns({json: {designations: [designation.toJSON({includeId: true})]}});
     mockFindAll('location').returns({json: {locations: [location2.toJSON({includeId: true})], meta: {search: location2.get('building').toString()}}});
     code = FactoryGuy.make("code", {location: location1});
+    visit("/");
   },
   afterEach: function() {
     Ember.run(App, 'destroy');
@@ -124,13 +135,22 @@ test("Check validation for 'Add item to inventory ' page''", function(assert) {
 
 
 test("Redirect to /search_code after clicking Add item to inventory and save redirects to items details page", function(assert) {
-  assert.expect(13);
+  assert.expect(15);
 
   $.mockjax({url: '/api/v1/package_type*', type: 'GET', status: 200,responseText: {
       codes: [code.toJSON({includeId: true})]
     }
   });
-  click($('.center-text a'));
+
+  andThen(function() {
+    visit("/");
+  });
+
+  andThen(function () {
+    assert.equal(currentPath(), "index");
+    assert.equal($('.center-text a').length, 1);
+    click($('.center-text a'));
+  });
   andThen(function() {
     assert.equal(currentPath(), "search_code");
     //fill search box with package_type name i.e code.name
