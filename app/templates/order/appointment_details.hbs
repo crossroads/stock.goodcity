@@ -66,7 +66,7 @@
                 <div class='checkbox custom_radio_buttons small-12 columns purpose col-width-appointment confirmation-checkbox'>
                   {{input type="checkbox" name="labor" checked=false id='4' required=true}}
                   <label class="radio-button-text  align-text" for='4'>
-                  <span class="labor_confirmation"> {{t 'order.appointment.labor_confirmation'}} </span>
+                  <div class="labor_confirmation"> {{t 'order.appointment.labor_confirmation'}} </div>
                   </label>
                 </div>
               </div>
@@ -109,7 +109,7 @@
                           selection=selectedTimeId
                           required='true'}}
                           <label class="radio-button-text align-text time_slots" for={{time.timestamp}}>
-                            <div>{{display-time time.timestamp "HH:mm"}}</div>
+                            <div class=" selected-radio radio-label">{{display-time time.timestamp "HH:mm"}}</div>
                           </label>
                         </div>
                     {{/unless}}

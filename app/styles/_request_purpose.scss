@@ -85,6 +85,11 @@
         .ggv-label {
           margin-right: -8%;
         }
+
+        .request-purpose-radio {
+          margin-top: 5%;
+          margin-left: -20%;
+        }
       }
     }
     @media #{$small-only} {
@@ -235,8 +240,9 @@
 
 .labor_confirmation{
   @media #{$small-only}{
-    font-size: 0.9em;
+    font-size: 1em;
   }
+  width: 110%;
 }
 
 .district-select {

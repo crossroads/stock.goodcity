@@ -39,6 +39,11 @@
         height: 1.2rem;
         width: 1.2rem;
       }
+
+      .radio-label {
+        margin-top: -5%;
+      }
+
       label {
         font-size: 0.8rem !important;
         margin-top: 0.4rem !important;
@@ -54,9 +59,9 @@
         height: 153%;
         margin-top: -7% !important;
 
-        div {
-          margin-top: 12%;
-          margin-left: 2%;
+        .selected-radio {
+          margin-left: 30%;
+          margin-top: 10%;
         }
       }
     }
