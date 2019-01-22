@@ -32,13 +32,13 @@
 
         {{#if sortedLocations}}
           <ul class="list list-activity list-offer-items">
-            <li>
+            <li {{action 'clearLocationAndRedirect'}}>
               <div class="row">
                 <div class="small-6 columns building_name">
                   ALL LOCATIONS
                 </div>
                 <div class="small-6 columns">
-                  <span {{action 'clearLocation'}}>(Clear Location Filter)</span>
+                  <span>(Clear Location Filter)</span>
                 </div>
               </div>
             </li>
