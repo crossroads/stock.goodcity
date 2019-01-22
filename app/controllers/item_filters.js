@@ -54,6 +54,7 @@ export default searchModule.extend({
     clearLocation() {
       window.localStorage.removeItem("itemLocationFilters");
       this.get('filterService').notifyPropertyChange("getItemLocationFilters");
+      this.transitionToRoute("items.index");
     }
   }
 });
