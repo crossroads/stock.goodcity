@@ -20,7 +20,7 @@ module('Acceptance: Order summary', {
     var location = FactoryGuy.make("location");
     gc_organisation = FactoryGuy.make("gc_organisation");
     organisation_user = FactoryGuy.make("organisationsUser", { gcOrganisation: gc_organisation, user: user });
-    designation = FactoryGuy.make("designation", { state: "submitted", detailType: "GoodCity", gcOrganisation: gc_organisation, submittedBy: user });
+    designation = FactoryGuy.make("designation", { state: "submitted", detailType: "GoodCity", gcOrganisation: gc_organisation, createdBy: user });
     item1 = FactoryGuy.make("item", { state: "submitted", quantity: 0 , designation: designation});
     orders_package1 = FactoryGuy.make("orders_package", { state: "dispatched", quantity: 1, item: item1, designation: designation });
     var data = {"user_profile": [{"id": 2,"first_name": "David", "last_name": "Dara51", "mobile": "61111111", "user_role_ids": [1]}], "users": [{"id": 2,"first_name": "David", "last_name": "Dara51", "mobile": "61111111"}], "roles": [{"id": 4, "name": "Supervisor"}], "user_roles": [{"id": 1, "user_id": 2, "role_id": 4}]};
