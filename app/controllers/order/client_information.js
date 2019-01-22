@@ -8,7 +8,6 @@ export default Ember.Controller.extend({
   firstName: null,
   lastName: null,
   mobilePhone: null,
-  isEditing: false,
   selectedId: null,
   identityNumber: null,
   order: Ember.computed.alias("model.orderUserOrganisation.order"),

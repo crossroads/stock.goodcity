@@ -49,20 +49,20 @@
         margin-top: 0.4rem !important;
         margin-left: 3rem;
       }
-      input[type="radio"]:checked + label {
-        background: #f34d4f;
-        border-color: #f34d4f;
-        color: white;
-        width: 115%;
-        text-align: center;
-        margin-left: -7%;
-        height: 153%;
-        margin-top: -7% !important;
+      // input[type="radio"]:checked + label {
+      //   background: #f34d4f;
+      //   border-color: #f34d4f;
+      //   color: white;
+      //   width: 115%;
+      //   text-align: center;
+      //   margin-left: -7%;
+      //   height: 155%;
+      //   margin-top: -6% !important;
 
-        .selected-radio {
-          margin-left: 30%;
-          margin-top: 10%;
-        }
-      }
+      //   .selected-radio {
+      //     margin-left: 30%;
+      //     margin-top: 10%;
+      //   }
+      // }
     }
 }

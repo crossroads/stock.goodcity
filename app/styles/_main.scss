@@ -94,7 +94,8 @@ hr {
 .cancel-order {
   font-size: 1rem;
   margin-right: 5%;
-  color: #707F96;
+  color: #FFFFFF;
+  text-decoration: underline;
 }
 
 .right-small {
@@ -471,11 +472,6 @@ label input {
 
 input[type="radio"] {
   display: none;
-}
-
-input[type="radio"]:checked + label  {
-  background: $coral-red;
-  border: 1px solid $coral-red;
 }
 
 .styled-select {

@@ -1,4 +1,4 @@
-.client-information{
+.client-information {
   .type-of-id-text{
     margin-bottom: .2rem;
     margin-top: 1rem;
@@ -9,6 +9,7 @@
       font-size: 0.9rem;
     }
   }
+
   .id-type-radio-input{
     .custom_radio_buttons {
       border: 1px solid;
@@ -17,12 +18,21 @@
       height: 2.7rem;
       input[type=radio] {
         margin: 0 0 0 0px;
+        display: inline-block;
+        margin-left: 10px;
+        margin-top: 1.2% !important;
+        position: absolute;
+        width: 2em;
+        height: 2em;
       }
       label {
         @media #{$small-only} {
           font-size: 0.6rem;
-          margin-top: 0.4rem;
+          margin-top: 0 !important;
         }
+        font-size: 0.8rem !important;
+        margin-top: 0.4rem !important;
+        margin-left: 3rem;
       }
     }
   }
