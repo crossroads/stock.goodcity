@@ -25,6 +25,7 @@ export default searchModule.extend({
     if (searchText.length > 0) {
       this.set("isLoading", true);
       this.set("hasNoResults", false);
+      this.store.unloadAll("location");
 
       this.infinityModel(this.get("searchModelName"),
         this.paginationOpts(),
