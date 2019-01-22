@@ -33,13 +33,13 @@
           </div>
         {{/if}}
 
-        {{#if order.submittedBy}}
+        {{#if order.createdBy}}
           <div class="row">
             <div class="small-4 columns field">
               {{ t "order.submitted_by" }}
             </div>
             <div class="small-8 columns value">
-              {{ order.submittedBy.firstName }} {{ order.submittedBy.lastName }}
+              {{ order.createdBy.firstName }} {{ order.createdBy.lastName }}
             </div>
           </div>
         {{/if}}
