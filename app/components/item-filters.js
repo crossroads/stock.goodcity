@@ -38,7 +38,7 @@ export default Ember.Component.extend({
       }
     });
     window.localStorage.setItem(localStorageName, JSON.stringify(appliedFilters));
-    this.get('router').transitionTo("items.index", { queryParams: { preRouteLocationFilter: null } });
+    this.get('router').transitionTo("items.index", { queryParams: { locationFilterChanged: null } });
   },
 
   //Removes applied filters (Generic for all filters)

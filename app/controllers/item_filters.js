@@ -50,12 +50,12 @@ export default searchModule.extend({
       window.localStorage.removeItem("itemLocationFilters");
       window.localStorage.setItem("itemLocationFilters", location.get("name"));
       this.get('filterService').notifyPropertyChange('getItemLocationFilters');
-      this.transitionToRoute("items.index", { queryParams: { preRouteLocationFilter: true } });
+      this.transitionToRoute("items.index", { queryParams: { locationFilterChanged: true } });
     },
     clearLocationAndRedirect() {
       window.localStorage.removeItem("itemLocationFilters");
       this.get('filterService').notifyPropertyChange("getItemLocationFilters");
-      this.transitionToRoute("items.index");
+      this.transitionToRoute("items.index", { queryParams: { locationFilterChanged: true } });
     }
   }
 });

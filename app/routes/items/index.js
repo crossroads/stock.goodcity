@@ -7,7 +7,7 @@ export default AuthorizeRoute.extend({
   queryParams: {
     itemSetId: "",
     searchInput: "",
-    preRouteLocationFilter: false
+    locationFilterChanged: false
   },
   designateFullSet: Ember.computed.localStorage(),
   partial_qnty: Ember.computed.localStorage(),
@@ -22,7 +22,7 @@ export default AuthorizeRoute.extend({
   },
 
   hasModifiedFilters(transition) {
-    return this.previousPage(transition) === "item_filters" || transition.queryParams.preRouteLocationFilter === "true";
+    return this.previousPage(transition) === "item_filters" || transition.queryParams.locationFilterChanged === "true";
   },
 
   /* jshint ignore:start */

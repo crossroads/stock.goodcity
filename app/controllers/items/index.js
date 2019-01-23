@@ -4,10 +4,10 @@ import searchModule from "../search_module";
 
 export default searchModule.extend({
 
-  queryParams: ['searchInput', "itemSetId", "preRouteLocationFilter"],
+  queryParams: ['searchInput', "itemSetId", "locationFilterChanged"],
   searchInput: "",
   itemSetId: null,
-  preRouteLocationFilter: null,
+  locationFilterChanged: null,
   isMobileApp: config.cordova.enabled,
   displayItemOptions: false,
   displayItemOptionsList: true,
