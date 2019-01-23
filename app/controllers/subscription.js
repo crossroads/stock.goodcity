@@ -175,7 +175,7 @@ export default Ember.Controller.extend({
         this.store.query("orders_package", { search_by_package_id: item.id });
       }
       //Deleting ids in case of null
-      if(!item.orders_package_ids.length) {
+      if(item.orders_package_ids && !item.orders_package_ids.length) {
         delete item.orders_package_ids;
       }
       if(!item.designation_id) {
