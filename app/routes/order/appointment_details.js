@@ -25,7 +25,6 @@ export default orderUserOrganisation.extend({
     let orderTransport = model.orderTransport;
     let availableDatesAndTime = model.availableDatesAndtime;
     let slots = null;
-    controller.set('isEditing', false);
     if (orderTransport){
       selectedId = orderTransport.get('transportType');
       selectedTime = orderTransport.get('timeslot');
@@ -34,7 +33,6 @@ export default orderUserOrganisation.extend({
         slots = availableDatesAndTime.appointment_calendar_dates.filter( date => date.date === selectedDate.format('YYYY-MM-DD'))[0].slots;
         selectedSlot = slots.filter(slot => slot.timestamp.indexOf(orderTransport.get("timeslot")) >= 0)[0];
       }
-      controller.set('isEditing', true);
     }
     controller.set('selectedId', selectedId);
     controller.set('selectedTimeId', selectedTime);

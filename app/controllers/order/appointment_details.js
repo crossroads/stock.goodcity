@@ -9,8 +9,6 @@ export default Ember.Controller.extend({
   selectedTimeId: null,
   selectedDate: null,
   timeSlotNotSelected: false,
-  isEditing: false,
-  previousRouteName: null,
 
   timeSlots: Ember.computed('selectedDate', function(){
     var selectedDate = this.get('selectedDate');

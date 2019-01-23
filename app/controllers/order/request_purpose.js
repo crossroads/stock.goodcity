@@ -10,12 +10,13 @@ export default Ember.Controller.extend({
   description: "",
   user: Ember.computed.alias('model.orderUserOrganisation.user'),
   order: Ember.computed.alias('model.orderUserOrganisation.order'),
-  selectedId: Ember.computed.alias('order.purposeId'),
   districts: Ember.computed.alias('model.districts'),
+  selectedId: Ember.computed('order',  function() {
+    return this.get('order.purposeId') || "Organisation";
+  }),
 
-  isEditing: Ember.computed('order', function() {
-    let order = this.get('order');
-    return order.get('purposeDescription') && order.get('districtId');
+  peopleHelped: Ember.computed('order', function() {
+    return this.get('order.peopleHelped') || undefined;
   }),
 
   selectedDistrict: Ember.computed('order.districtId', function() {
@@ -25,7 +26,7 @@ export default Ember.Controller.extend({
 
   actions: {
     clearDescription() {
-      this.set("description", "");
+      this.set('order.purposeDescription', "");
     },
 
     deleteOrder() {
@@ -61,7 +62,7 @@ export default Ember.Controller.extend({
         organisation_id: user_organisation_id,
         purpose_description: this.get('order.purposeDescription'),
         purpose_ids: purposeIds,
-        people_helped: this.get('order.peopleHelped'),
+        people_helped: this.get('peopleHelped'),
         district_id: this.get('selectedDistrict.id')
       };
 

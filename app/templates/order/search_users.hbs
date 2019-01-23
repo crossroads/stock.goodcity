@@ -30,14 +30,14 @@
         {{#if filteredResults}}
           <ul class="list list-activity">
             {{#each filteredResults as |user|}}
-              <li class="list-bottom">
-                <div class="row" {{action 'goToRequestPurpose' user.id}}>
+              <li class="list-bottom" {{action 'goToRequestPurpose' user.id}}>
+                <div class="row">
                   <div class="small-10 columns user_name">
                     {{user.fullName}}
                   </div>
-                  <span class="small-2 columns user-mobile">
-                    {{user.mobile}}
-                  </span>
+                  <div class="small-2 columns">
+                    <span class="user-mobile">{{user.mobile}}</span>
+                  </div>
                 </div>
                 <div class="row org_name">
                   {{user.organisationsUsers.firstObject.organisation.nameEn}}

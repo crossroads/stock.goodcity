@@ -34,28 +34,35 @@
         margin: 0 0 0 0px;
         display: inline-block;
         margin-left: 10px;
-        margin-top: 10% !important;
+        margin-top: 4% !important;
         position: absolute;
+        height: 1.2rem;
+        width: 1.2rem;
       }
+
+      .radio-label {
+        margin-top: -5%;
+      }
+
       label {
         font-size: 0.8rem !important;
         margin-top: 0.4rem !important;
         margin-left: 3rem;
       }
-      input[type="radio"]:checked + label {
-        background: #f34d4f;
-        border-color: #f34d4f;
-        color: white;
-        width: 115%;
-        text-align: center;
-        margin-left: -7%;
-        height: 153%;
-        margin-top: -8% !important;
+      // input[type="radio"]:checked + label {
+      //   background: #f34d4f;
+      //   border-color: #f34d4f;
+      //   color: white;
+      //   width: 115%;
+      //   text-align: center;
+      //   margin-left: -7%;
+      //   height: 155%;
+      //   margin-top: -6% !important;
 
-        div {
-          margin-top: 12%;
-          margin-left: 2%;
-        }
-      }
+      //   .selected-radio {
+      //     margin-left: 30%;
+      //     margin-top: 10%;
+      //   }
+      // }
     }
 }
