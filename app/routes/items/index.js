@@ -6,7 +6,8 @@ import _ from 'lodash';
 export default AuthorizeRoute.extend({
   queryParams: {
     itemSetId: "",
-    searchInput: ""
+    searchInput: "",
+    preRouteLocationFilter: false
   },
   designateFullSet: Ember.computed.localStorage(),
   partial_qnty: Ember.computed.localStorage(),
@@ -21,10 +22,10 @@ export default AuthorizeRoute.extend({
   },
 
   hasModifiedFilters(transition) {
-    return this.previousPage(transition) === "item_filters";
+    return this.previousPage(transition) === "item_filters" || transition.queryParams.preRouteLocationFilter === "true";
   },
 
-   /* jshint ignore:start */
+  /* jshint ignore:start */
   async model(params, transition) {
 
     if (this.isBackNavigation(transition)) {
