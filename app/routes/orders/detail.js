@@ -53,6 +53,7 @@ export default getOrderRoute.extend({
     return this.loadIfAbsent("designation", params.order_id);
  },
 
+  /* jshint ignore:start */
   async afterModel(model) {
     if (!model) {
       return;
@@ -70,6 +71,7 @@ export default getOrderRoute.extend({
     const results = await Ember.RSVP.all(tasks);
     results.forEach(data => this.store.pushPayload(data));
   },
+  /* jshint ignore:end */
 
   setupController(controller, model){
     if(model) {
