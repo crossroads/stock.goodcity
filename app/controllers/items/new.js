@@ -31,6 +31,10 @@ export default Ember.Controller.extend({
 
   i18n: Ember.inject.service(),
 
+  showPublishItemCheckBox: Ember.computed("quantity", function() {
+    return +this.get("quantity") === 1;
+  }),
+
   locale: function(str){
     return this.get("i18n").t(str);
   },
@@ -160,9 +164,10 @@ export default Ember.Controller.extend({
     return donorCondition[conditionId];
   },
 
-  getItemProperties(quantity, locationId, _this) {
+  getItemProperties(publishItem, quantity, locationId, _this) {
     return {
       quantity: quantity,
+      allow_web_publish: publishItem,
       length: _this.get("length"),
       width: _this.get("width"),
       height: _this.get("height"),
@@ -402,7 +407,9 @@ export default Ember.Controller.extend({
         loadingView = getOwner(this).lookup('component:loading').append();
         var locationId = this.get("location.id");
         var quantity = this.get("quantity");
-        var properties = this.getItemProperties(quantity, locationId, _this);
+        let isItemAllowedToPublish = Ember.$('#publishItem')[0] && Ember.$('#publishItem')[0].checked;
+        let publishItem = quantity === 1 ? isItemAllowedToPublish : false;
+        var properties = this.getItemProperties(publishItem, quantity, locationId, _this);
 
         new AjaxPromise("/packages", "POST", this.get('session.authToken'), { package: properties })
           .then(data => {
