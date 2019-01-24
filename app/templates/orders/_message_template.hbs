@@ -6,7 +6,7 @@
       <div class="ellipsis">
         <div class='message_details'>
           <div class="message_section">
-            {{#each messages as |message|}}
+            {{#each sortedMessages as |message|}}
               {{#if message.isMessage}}
                 <div class="ellipsis {{message.state}} {{if message.myMessage 'my_message' 'received_message'}}" id={{message.id}}>
                   <div class="message_details">

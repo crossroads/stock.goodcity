@@ -9,11 +9,10 @@ export default Ember.Controller.extend({
   itemIdforHistoryRoute: null,
   organisationIdforHistoryRoute: null,
   i18n: Ember.inject.service(),
+  sortProperties: ["id"],
   model: null,
 
-  messages: Ember.computed("model", function () {
-    return this.get('model.messages');
-  }),
+  sortedMessages: Ember.computed.sort("model.messages", "sortProperties"),
 
   createMessage(values) {
     var message = this.store.createRecord("message", values);
