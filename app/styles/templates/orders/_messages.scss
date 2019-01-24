@@ -27,3 +27,28 @@
   position: relative;
   -webkit-border-radius: 10px;
 }
+
+.message-form{
+  padding-top: .1rem;
+  padding-right: .2rem;
+  z-index: 10;
+}
+
+.message-form .ui {
+  padding-bottom: .1rem;
+}
+
+.message-base{
+  background-color: #dee4eb;
+  .button{
+    padding: .53rem;
+    border-radius: .2rem;
+    line-height: 1.2rem;
+    width: 5rem;
+    margin: 0;
+    display: inline-block;
+    margin-top: -1px;
+  }
+}
+
+
