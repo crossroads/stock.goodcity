@@ -1,11 +1,17 @@
-import detail from "./detail";
 import Ember from "ember";
+import config from '../../config/environment';
 
-export default detail.extend({
+export default Ember.Controller.extend({
   body: '',
   isPrivate: false,
+  backLinkPath: "",
+  isMobileApp: config.cordova.enabled,
+  itemIdforHistoryRoute: null,
+  organisationIdforHistoryRoute: null,
+  i18n: Ember.inject.service(),
+  model: null,
 
-  messages: Ember.computed("model", function(){
+  messages: Ember.computed("model", function () {
     return this.get('model.messages');
   }),
 
@@ -21,15 +27,11 @@ export default detail.extend({
     });
   },
 
-  ordersPackagesLengthMoreThenThree: Ember.observer('model', function () {
-    console.log('Okay okay');
-  }),
-
   actions: {
     sendMessage(){
       Ember.$("textarea").trigger('blur');
       var values = this.getProperties("body");
-      values.designation = this.get('model.designation');
+      values.designation = this.get('model');
       values.createdAt = new Date();
       values.isPrivate = this.get('isPrivate');
       values.sender = this.store.peekRecord("user", this.get("session.currentUser.id"));
@@ -37,5 +39,3 @@ export default detail.extend({
     }
   }
 });
-
-
