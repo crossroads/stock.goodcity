@@ -26,6 +26,7 @@ I18nTranslationsEn =
   "continue": "Continue"
   "save_changes": "Save changes"
   "discard_changes": "Discard changes"
+  "full_name" : "{{firstName}} {{lastName}}"
 
   "camera_scan":
     "permission_error": "Camera permission is not turned on."

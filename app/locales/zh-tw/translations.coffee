@@ -22,6 +22,7 @@ I18nTranslationsEn =
   "search_organisation": "搜尋機構"
   "not_now": "稍後"
   "incomplete_form": "請填寫必需填寫之項目以繼續下一步"
+  "full_name" : "{{firstName}} {{lastName}}"
 
   "camera_scan":
     "permission_error": "Camera permission is not turned on."
@@ -142,7 +143,7 @@ I18nTranslationsEn =
     "reopen_warning": "請確認你想重開訂單。請注意，重開訂單將會令訂單狀態重設至「派送中」。"
     "restart_undispatch_warning": "您必須先取消所有派送才可以中心開始訂單處理程序。"
     "restart_warning": "請確認您想重新開始訂單處理程序。"
-    "cancel_warning": "此動作將會移除訂單中的任何物品並取消訂單。" 
+    "cancel_warning": "此動作將會移除訂單中的任何物品並取消訂單。"
     "close_warning": "完成訂單後，您將不能再修改訂單内容。"
     "close_order_dispatch_alert": "To close the Order, there should be 0 designated items and at least 1 dispatched item."
     "first_item_dispatch_warning": "您正派送訂單中的第一件物資。訂單狀態將會設置為「派送中」。"

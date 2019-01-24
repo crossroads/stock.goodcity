@@ -5,10 +5,24 @@
       </div>
       <div class="ellipsis">
         <div class='message_details'>
-
-          {{#each messages as |message|}}
-            <p>{{message.body}}</p>
-          {{/each}}
+          <div class="message_section">
+            {{#each messages as |message|}}
+              {{#if message.isMessage}}
+                <div class="ellipsis {{message.state}} {{if message.myMessage 'my_message' 'received_message'}}" id={{message.id}}>
+                  <div class="message_details">
+                    {{#if message.myMessage}}
+                      You
+                    {{else}}
+                      {{t "full_name" firstName=message.sender.firstName lastName=message.sender.lastName}}
+                    {{/if}}
+                    →
+                    {{display-datetime message.createdAt format="HH:mm"}}
+                  </div>
+                  {{message.body}}
+                </div>
+              {{/if}}
+            {{/each}}
+          </div>
         </div>
     </div>
   </div>
