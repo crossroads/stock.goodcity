@@ -24,6 +24,10 @@ export default DS.Model.extend({
     return this.get("sender.id") === session.get("currentUser.id");
   }),
 
+  senderName: Ember.computed(function () {
+    return this.get('sender.firstName')
+  }),
+
   isMessage: Ember.computed('this', function () {
     return true;
   }),

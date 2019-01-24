@@ -32,6 +32,7 @@ I18nTranslationsEn =
   "add_inventory_item": "Add Item to Inventory"
   "manage_inventory": "Manage Appointment Quotas"
   "new_order": "Create New Order"
+  "full_name" : "{{firstName}} {{lastName}}"
 
   "camera_scan":
     "permission_error": "Camera permission is not turned on."
