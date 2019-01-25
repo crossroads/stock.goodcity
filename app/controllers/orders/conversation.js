@@ -1,7 +1,8 @@
 import Ember from "ember";
 import config from '../../config/environment';
+import detail from './detail'
 
-export default Ember.Controller.extend({
+export default detail.extend({
   body: '',
   isPrivate: false,
   backLinkPath: "",

@@ -13,7 +13,9 @@
                   {{#if message.myMessage}}
                     You
                   {{else}}
+                    <i class="user_icon">{{fa-icon 'user-circle' size="2x"}}</i>
                     {{t "full_name" firstName=message.sender.firstName lastName=message.sender.lastName}}
+                    {{message.sender.roleInitials}}
                   {{/if}}
                   →
                   {{display-datetime message.createdAt format="HH:mm"}}
