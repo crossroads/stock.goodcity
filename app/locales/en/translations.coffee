@@ -28,6 +28,11 @@ I18nTranslationsEn =
   "discard_changes": "Discard changes"
   "full_name" : "{{firstName}} {{lastName}}"
 
+  "day":
+    "today": "Today"
+    "morning": "Morning"
+    "afternoon": "Afternoon"
+
   "camera_scan":
     "permission_error": "Camera permission is not turned on."
 
