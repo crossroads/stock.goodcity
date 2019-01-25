@@ -1,8 +1,10 @@
 import Ember from "ember";
 const { getOwner } = Ember;
+import config from '../../config/environment';
 import AjaxPromise from 'stock/utils/ajax-promise';
 
 export default Ember.Controller.extend({
+  isMobileApp: config.cordova.enabled,
   queryParams: ["typeId", "fromClientInformation"],
   order: Ember.computed.alias("model.orderUserOrganisation.order"),
   typeId: null,

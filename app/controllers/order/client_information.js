@@ -4,6 +4,7 @@ import config from '../../config/environment';
 const { getOwner } = Ember;
 
 export default Ember.Controller.extend({
+  isMobileApp: config.cordova.enabled,
   i18n: Ember.inject.service(),
   firstName: null,
   lastName: null,
