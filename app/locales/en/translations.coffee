@@ -34,6 +34,11 @@ I18nTranslationsEn =
   "new_order": "Create New Order"
   "full_name" : "{{firstName}} {{lastName}}"
 
+  "day":
+    "today": "Today"
+    "morning": "Morning"
+    "afternoon": "Afternoon"
+
   "camera_scan":
     "permission_error": "Camera permission is not turned on."
 

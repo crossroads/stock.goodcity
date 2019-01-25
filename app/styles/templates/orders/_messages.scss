@@ -1,9 +1,9 @@
 .message_details{
   font-size: .7rem;
   margin-bottom: .5rem;
-  .user_icon{
-    color: dimgrey;
-  }
+}
+.user_icon {
+  color: dimgrey;
 }
 .my_message {
   background-color: #ffdcac;
@@ -17,7 +17,18 @@
   position: relative;
   -webkit-border-radius: 10px;
 }
-
+.day_seperator{
+  text-align: center;
+  border-bottom: 1px solid #334f75;
+  width: 100%;
+  line-height: .1em;
+  margin: 10px 0 20px;
+  span{
+    padding: 0 10px;
+    color: #a3aab6;
+    background: #002352;
+  }
+}
 .received_message {
   background-color: #fff;
   color: #000;
@@ -30,17 +41,14 @@
   position: relative;
   -webkit-border-radius: 10px;
 }
-
 .message-form{
   padding-top: .1rem;
   padding-right: .2rem;
   z-index: 10;
 }
-
 .message-form .ui {
   padding-bottom: .1rem;
 }
-
 .message-base{
   background-color: #dee4eb;
   .button{
