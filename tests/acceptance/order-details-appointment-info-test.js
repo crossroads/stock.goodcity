@@ -97,23 +97,23 @@ module("Acceptance: Order details, appointment info", {
 
 // ------ Tests
 
-test("Tab's label should be 'appointment' if the order is a warehouse visit", function(assert) {
+test("Tab's label should be 'Logistics' if the order is a warehouse visit", function(assert) {
   assert.expect(1);
 
   visit(`/orders/${designationAppointment.id}/order_types/`);
 
   andThen(function () {
-    assert.equal($('.tab_row dd.small-3:nth-child(3)').text().trim().toLowerCase(), 'appointment');
+    assert.equal($('.tab_row dd.small-3:nth-child(3)').text().trim().toLowerCase(), 'Logistics');
   });
 });
 
-test("Tab's label should be 'Collection' if the order is an online order", function(assert) {
+test("Tab's label should be 'Logistics' if the order is an online order", function(assert) {
   assert.expect(1);
 
   visit(`/orders/${designationOnlineOrder.id}/order_types/`);
 
   andThen(function () {
-    assert.equal($('.tab_row dd.small-3:nth-child(3)').text().trim().toLowerCase(), 'collection');
+    assert.equal($('.tab_row dd.small-3:nth-child(3)').text().trim().toLowerCase(), 'Logistics');
   });
 });
 
