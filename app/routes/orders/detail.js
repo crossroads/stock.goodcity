@@ -8,6 +8,13 @@ export default getOrderRoute.extend({
   organisationIdforHistoryRoute: null,
   currentRouteName: null,
 
+  loadIfAbsent(model, id) {
+    // note: using findRecord with reload:false will make a request regardless of whether the data is
+    // present or not. If it is present, it will return immediatly but still proceed to making the request
+    // which can result in weird race conditions later on. We use peek explicitely here to avoid this.
+    return (this.store.peekRecord(model, id) || this.store.findRecord(model, id, { reload: true }));
+  },
+
   setHistoryRoute(routeName, previousRoute) {
     if(routeName === "items.history" || routeName === "items.partial_undesignate") {
       this.set("itemIdforHistoryRoute", previousRoute.params.item_id);
@@ -43,21 +50,28 @@ export default getOrderRoute.extend({
   },
 
   model(params) {
-    return (this.store.peekRecord("designation", params.order_id, { reload: true }) || this.store.findRecord("designation", params.order_id, { reload: true }));
-  },
+    return this.loadIfAbsent("designation", params.order_id);
+ },
 
-  afterModel(model) {
-    var organisation;
-    if(model) {
-      var organisationId = model.get('gcOrganisationId');
-      var ordersPackages = this.store.query("orders_package", {   search_by_order_id: model.get("id") });
-      if(organisationId) {
-        organisation = this.store.findRecord('gcOrganisation', organisationId);
-        this.store.pushPayload(organisation);
-      }
-      this.store.pushPayload(ordersPackages);
+  /* jshint ignore:start */
+  async afterModel(model) {
+    if (!model) {
+      return;
     }
+
+    const tasks = [
+      this.store.query("orders_package", { search_by_order_id: model.get("id") })
+    ];
+
+    let organisationId = model.get('gcOrganisationId');
+    if(organisationId) {
+      tasks.push(this.loadIfAbsent("gcOrganisation", organisationId));
+    }
+
+    const results = await Ember.RSVP.all(tasks);
+    results.forEach(data => this.store.pushPayload(data));
   },
+  /* jshint ignore:end */
 
   setupController(controller, model){
     if(model) {
