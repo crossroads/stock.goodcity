@@ -103,7 +103,7 @@ test("Tab's label should be 'Logistics' if the order is a warehouse visit", func
   visit(`/orders/${designationAppointment.id}/order_types/`);
 
   andThen(function () {
-    assert.equal($('.tab_row dd.small-3:nth-child(3)').text().trim().toLowerCase(), 'Logistics');
+    assert.equal($('.tab_row dd.small-3:nth-child(3)').text().trim(), 'Logistics');
   });
 });
 
@@ -113,7 +113,7 @@ test("Tab's label should be 'Logistics' if the order is an online order", functi
   visit(`/orders/${designationOnlineOrder.id}/order_types/`);
 
   andThen(function () {
-    assert.equal($('.tab_row dd.small-3:nth-child(3)').text().trim().toLowerCase(), 'Logistics');
+    assert.equal($('.tab_row dd.small-3:nth-child(3)').text().trim(), 'Logistics');
   });
 });
 
