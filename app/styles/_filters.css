@@ -64,7 +64,7 @@
       font-size: 1.2rem;
       float: right;
       @media #{$small-only} {
-        margin-right: 6rem;
+        margin-right: 5rem;
       }
       @media #{$medium-only} {
         margin-right: 18.2rem;
