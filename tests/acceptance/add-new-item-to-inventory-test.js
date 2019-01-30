@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import { module, test } from 'qunit';
+import _ from "lodash";
 import startApp from '../helpers/start-app';
 import '../factories/item';
 import '../factories/location';
@@ -9,6 +10,11 @@ import FactoryGuy from 'ember-data-factory-guy';
 import { mockFindAll } from 'ember-data-factory-guy';
 
 var App, location1, location2, designation, code, bookingType;
+
+const BOOKING_TYPES = {
+  appointment: { id: 1, identifier: 'appointment' },
+  onlineOrder: { id: 2, identifier: 'online-order' }
+};
 
 module('Acceptance: Add item to inventory', {
   beforeEach: function() {
@@ -28,6 +34,13 @@ module('Acceptance: Add item to inventory', {
     }});
     $.mockjax({url:"/api/v1/auth/current_user_profil*",
       responseText: data });
+    $.mockjax({url:"/api/v1/booking_typ*",
+      responseText:  {booking_types: _.values(BOOKING_TYPES) }
+    });
+    $.mockjax({url:"/api/v1/user*",
+      responseText:  {users: []}
+    });
+
     location1 = FactoryGuy.make("location");
     location2 = FactoryGuy.make("location");
     designation = FactoryGuy.make("designation");
