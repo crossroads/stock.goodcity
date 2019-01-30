@@ -106,7 +106,9 @@
                   <i class="order_transport">{{fa-icon order.transportIcon}}</i>
                   <span class="order_code">{{ order.code }}</span>
                 </div>
-
+                <div class="small-2 medium-2 large-2 columns order_code">
+                  {{order.createdBy.fullName}}
+                </div>
                 <div class="small-5 columns order_state">
                   <div class="order_state_icon {{ order.state }}">
                     <i>{{fa-icon order.stateIcon}}</i>
