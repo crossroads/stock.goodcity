@@ -1,6 +1,6 @@
 import Ember from "ember";
 import config from '../../config/environment';
-import detail from './detail'
+import detail from './detail';
 
 export default detail.extend({
   body: '',
