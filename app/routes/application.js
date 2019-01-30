@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import config from '../config/environment';
 import preloadDataMixin from '../mixins/preload_data';
 const { getOwner } = Ember;
 
@@ -72,12 +73,12 @@ export default Ember.Route.extend(preloadDataMixin, {
   showMustLogin() {
     if (this.session.get('isLoggedIn') && !this.get('isLoginPopUpAlreadyShown')) {
       this.set('isLoginPopUpAlreadyShown', true);
-      this.get('messageBox').alert(this.get("i18n").t('must_login'), () =>
-        this.set('isLoginPopUpAlreadyShown', false),
-        this.session.clear(),
-        this.store.unloadAll(),
-        this.transitionTo('login')
-      );
+      this.get('messageBox').alert(this.get("i18n").t('must_login'), () => {
+        this.set('isLoginPopUpAlreadyShown', false);
+        this.session.clear();
+        this.store.unloadAll();
+        this.transitionTo('login');
+      });
     }
   },
 
@@ -147,9 +148,11 @@ export default Ember.Route.extend(preloadDataMixin, {
 
   actions: {
     loading() {
-      Ember.$(".loading-indicator").remove();
-      var view = getOwner(this).lookup('component:loading').append();
-      this.router.one('didTransition', view, 'destroy');
+      if (config.environment !== "test") {
+        Ember.$(".loading-indicator").remove();
+        var view = getOwner(this).lookup('component:loading').append();
+        this.router.one('didTransition', view, 'destroy');
+      }
     },
 
     error(reason) {

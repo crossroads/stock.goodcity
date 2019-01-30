@@ -1,6 +1,6 @@
 {
   "name": "stock",
-  "version": "0.15.5",
+  "version": "0.15.6",
   "private": true,
   "directories": {
     "doc": "doc",
@@ -23,14 +23,15 @@
   "license": "MIT",
   "devDependencies": {
     "@fortawesome/ember-fontawesome": "^0.1.9",
-    "@fortawesome/free-solid-svg-icons": "^5.6.1",
-    "@fortawesome/free-regular-svg-icons": "^5.6.3",
     "@fortawesome/free-brands-svg-icons": "^5.6.3",
+    "@fortawesome/free-regular-svg-icons": "^5.6.3",
+    "@fortawesome/free-solid-svg-icons": "^5.6.1",
     "active-model-adapter": "2.1.1",
     "broccoli-asset-rev": "^2.4.2",
     "ember-ajax": "^2.5.1",
     "ember-cli": "2.11.0",
     "ember-cli-app-version": "^2.0.1",
+    "ember-cli-babel": "5.2.8",
     "ember-cli-code-coverage": "^0.4.2",
     "ember-cli-coffeescript": "^1.15.0",
     "ember-cli-content-security-policy": "^0.5.0",
@@ -45,6 +46,7 @@
     "ember-cli-qunit": "^2.1.3",
     "ember-cli-release": "^0.2.9",
     "ember-cli-sass": "5.5.2",
+    "ember-form-validator": "1.0.5",
     "ember-cli-slick-carousel": "0.0.0",
     "ember-cli-sri": "^2.1.1",
     "ember-cli-uglify": "^1.2.0",

@@ -2,12 +2,22 @@ import Ember from "ember";
 
 export default Ember.Service.extend({
 
+  localStorage: Ember.inject.service(),
+
   getOrderStateFilters: Ember.computed(function() {
-    return JSON.parse(window.localStorage.getItem('orderStateFilters'));
+    return this.get('localStorage').read('orderStateFilters', []);
   }),
 
   getOrderTypeFilters: Ember.computed(function() {
-    return JSON.parse(window.localStorage.getItem('orderTypeFilters'));
+    return this.get('localStorage').read('orderTypeFilters', []);
+  }),
+
+  getItemStateFilters: Ember.computed(function(){
+    return this.get('localStorage').read('itemStateFilters', []);
+  }),
+
+  getItemLocationFilters: Ember.computed(function(){
+    return this.get('localStorage').readString('itemLocationFilters');
   }),
 
   isPriority() {
@@ -17,12 +27,12 @@ export default Ember.Service.extend({
   },
 
   setStateTypeFilter(states) {
-    window.localStorage.setItem('orderStateFilters', JSON.stringify(states));
+    this.get('localStorage').write('orderStateFilters', states);
   },
 
   clearFilters() {
-    window.localStorage.removeItem('orderStateFilters');
-    window.localStorage.removeItem('orderTypeFilters');
+    this.get('localStorage').remove('orderStateFilters');
+    this.get('localStorage').remove('orderTypeFilters');
   }
 
 });

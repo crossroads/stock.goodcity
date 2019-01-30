@@ -1,7 +1,7 @@
 import { test, moduleForModel } from 'ember-qunit';
 
 moduleForModel('organisation', 'Organisation Model', {
-  needs: []
+  needs: ['model:organisations-user']
 });
 
 test('check attributes', function(assert){

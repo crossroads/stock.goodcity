@@ -25,10 +25,14 @@ module.exports = function(defaults) {
     },
     sassOptions: {
       extension: 'scss'
+    },
+    'ember-cli-babel': {
+      includePolyfill: true
     }
   });
 
   app.import('bower_components/moment/moment.js');
+  app.import('bower_components/moment-timezone/builds/moment-timezone-with-data.js');
   app.import('bower_components/pickadate/lib/picker.js');
   app.import('bower_components/pickadate/lib/picker.date.js');
   app.import('bower_components/pickadate/lib/picker.time.js');

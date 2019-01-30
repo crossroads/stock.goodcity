@@ -176,6 +176,17 @@
     </div>
   </div>
 
+  {{#if showPublishItemCheckBox}}
+    <div class="row">
+      <div class="small-10 columns item-label">
+        <label for="publishItem">Immediately publish this item for online browsing</label>
+      </div>
+      <div class="small-2 columns">
+        {{input type="checkbox" name="publishItem" id="publishItem"}}
+      </div>
+    </div>
+  {{/if}}
+
   <div class="row">
     <div class="small-6 columns">
       <a {{action 'cancelForm'}} class="button secondary expand">Cancel</a>

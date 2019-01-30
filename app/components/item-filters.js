@@ -1,17 +1,31 @@
 import Ember from 'ember';
 
+// --HELPERS
+function setFilter(filter, val) {
+  Ember.$(`#${filter}`)[0].checked = val;
+}
+
+function checkFilter(filter) {
+  setFilter(filter, true);
+}
+
+function uncheckFilter(filter) {
+  setFilter(filter, false);
+}
+
+// ---Component
+
 export default Ember.Component.extend({
   i18n: Ember.inject.service(),
+  filterService: Ember.inject.service(),
   stateFilters: ["in_stock", "designated", "dispatched"],
   publishFilters: ["published_and_private", "published", "private"],
   imageFilters: ["with_and_without_images", "has_images", "no_images"],
 
-
   //Marks filters as selected depending on pre-selected set of filters
   didInsertElement() {
-    var checkedStateFilters = JSON.parse(window.localStorage.getItem('itemStateFilters')) || [];
-    if(this.get("applyStateFilter") && checkedStateFilters && checkedStateFilters.length) {
-      checkedStateFilters.forEach(checkedFilter => Ember.$("#" + checkedFilter)[0].checked = true); // jshint ignore:line
+    if(this.get("applyStateFilter")) {
+      this.filterService.get('getItemStateFilters').forEach(checkFilter);
     }
   },
 
@@ -24,12 +38,12 @@ export default Ember.Component.extend({
       }
     });
     window.localStorage.setItem(localStorageName, JSON.stringify(appliedFilters));
-    this.get('router').transitionTo("items.index");
+    this.get('router').transitionTo("items.index", { queryParams: { locationFilterChanged: null } });
   },
 
   //Removes applied filters (Generic for all filters)
   clearFiltersFromLocalStorage(filters) {
-    filters.forEach(filter => Ember.$("#" + filter)[0].checked = false); // jshint ignore:line
+    filters.forEach(uncheckFilter); // jshint ignore:line
   },
 
   actions: {
@@ -37,6 +51,7 @@ export default Ember.Component.extend({
       if(JSON.parse(this.get("applyStateFilter"))) {
         let allStatesFilters = this.get("stateFilters").concat(this.get("publishFilters")).concat(this.get("imageFilters"));
         this.addToLocalStorageAndRedirect(allStatesFilters, "itemStateFilters");
+        this.get('filterService').notifyPropertyChange("getItemStateFilters");
       }
     },
 

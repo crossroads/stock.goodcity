@@ -1,9 +1,11 @@
 import Ember from 'ember';
+import config from '../config/environment'; 
 import AjaxPromise from '../utils/ajax-promise';
 
 export default Ember.Mixin.create({
   preloadData: function() {
     var promises = [];
+    var retrieve = types => types.map(type => this.store.findAll(type));
 
     if (this.get("session.authToken")) {
       promises.push(
@@ -15,6 +17,9 @@ export default Ember.Mixin.create({
           })
       );
     }
+
+    promises = promises.concat(retrieve(config.APP.PRELOAD_TYPES));
+
     return Ember.RSVP.all(promises);
   }
 });

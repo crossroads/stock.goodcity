@@ -65,6 +65,13 @@ export default Ember.Controller.extend(InfinityRoute, {
     return queryParamDefinitions;
   },
 
+  onFilterChange() {
+    if (this.get("searchText").length > this.get("minSearchTextLength")) {
+      this.set("itemSetId", null);
+      Ember.run.debounce(this, this.applyFilter, 500);
+    }
+  },
+
   applyFilter() {
     var searchText = this.get("searchText");
     let filterService = this.get('filterService');

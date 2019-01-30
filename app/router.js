@@ -54,6 +54,17 @@ Router.map(function() {
     this.route("info", { path: "/:order_id/info" });
   });
 
+  this.route('order', function() {
+    this.route('search_users', { path: '/:order_id/search_users' });
+    this.route('request_purpose', { path: '/:order_id/request_purpose' });
+    this.route('client_information', { path: '/:order_id/client_information' });
+    this.route('goods_details', { path: '/:order_id/goods_details' });
+    this.route('search_code', { path: '/:order_id/search_code' });
+    this.route('appointment_details', { path: '/:order_id/appointment_details' });
+    this.route('confirm_booking', { path: '/:order_id/confirm_booking' });
+    this.route('booking_success', { path: '/:order_id/booking_success' });
+  });
+
   this.route("organisations", function(){
     this.route("detail", { path: "/:organisation_id" });
     this.route("users", { path: "/:organisation_id/users"});

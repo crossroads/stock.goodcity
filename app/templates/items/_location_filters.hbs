@@ -16,7 +16,7 @@
       value=searchText }}
 
     {{#if hasSearchText}}
-      <i class="fa fa-times-circle" {{action "clearSearch"}}></i>
+      <i {{action "clearSearch"}}>{{fa-icon 'times-circle'}}</i>
     {{/if}}
   </div>
 </div>
@@ -32,6 +32,16 @@
 
         {{#if sortedLocations}}
           <ul class="list list-activity list-offer-items">
+            <li {{action 'clearLocationAndRedirect'}}>
+              <div class="row">
+                <div class="small-6 columns building_name">
+                  ALL LOCATIONS
+                </div>
+                <div class="small-6 columns">
+                  <span>(Clear Location Filter)</span>
+                </div>
+              </div>
+            </li>
             {{#each sortedLocations as |location|}}
               <li {{action 'setLocation' location}}>
                 <div class="row">

@@ -40,6 +40,12 @@
 
       {{else if hasNoResults}}
         <div class='no_result'>{{t "no_search_results"}}</div>
+        <div class="add_item_text small-12 columns center-text">
+          {{#if stockAppVersion}}
+            <h1> {{t 'version'}}{{stockAppVersion}} </h1>
+          {{/if}}
+          {{#link-to 'search_code' (query-params backToNewItem=false)}}Add item to inventory{{/link-to}}
+        </div>
       {{/if}}
     </div>
   </div>

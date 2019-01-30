@@ -10,7 +10,7 @@ export default searchModule.extend({
   sortProperties: ["building", "area"],
   sortedLocations: Ember.computed.sort("model", "sortProperties"),
   recentlyUsedLocations: Ember.computed.sort("model", "sortProperties"),
-
+  filterService: Ember.inject.service(),
   paginationOpts() {
     return {
       perPage: 25,
@@ -25,6 +25,7 @@ export default searchModule.extend({
     if (searchText.length > 0) {
       this.set("isLoading", true);
       this.set("hasNoResults", false);
+      this.store.unloadAll("location");
 
       this.infinityModel(this.get("searchModelName"),
         this.paginationOpts(),
@@ -48,7 +49,13 @@ export default searchModule.extend({
     setLocation(location) {
       window.localStorage.removeItem("itemLocationFilters");
       window.localStorage.setItem("itemLocationFilters", location.get("name"));
-      this.transitionToRoute("items.index");
+      this.get('filterService').notifyPropertyChange('getItemLocationFilters');
+      this.transitionToRoute("items.index", { queryParams: { locationFilterChanged: true } });
+    },
+    clearLocationAndRedirect() {
+      window.localStorage.removeItem("itemLocationFilters");
+      this.get('filterService').notifyPropertyChange("getItemLocationFilters");
+      this.transitionToRoute("items.index", { queryParams: { locationFilterChanged: true } });
     }
   }
 });

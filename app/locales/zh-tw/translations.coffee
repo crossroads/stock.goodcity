@@ -142,13 +142,13 @@ I18nTranslationsEn =
     "reopen_warning": "請確認你想重開訂單。請注意，重開訂單將會令訂單狀態重設至「派送中」。"
     "restart_undispatch_warning": "您必須先取消所有派送才可以中心開始訂單處理程序。"
     "restart_warning": "請確認您想重新開始訂單處理程序。"
-    "cancel_warning": "取消訂單將會令所有物資從此訂單中移除。"
+    "cancel_warning": "此動作將會移除訂單中的任何物品並取消訂單。" 
     "close_warning": "完成訂單後，您將不能再修改訂單内容。"
     "close_order_dispatch_alert": "To close the Order, there should be 0 designated items and at least 1 dispatched item."
     "first_item_dispatch_warning": "您正派送訂單中的第一件物資。訂單狀態將會設置為「派送中」。"
     "close_order_popup": "此訂單中所有物資已經派送完畢。請確認您要完成訂單。請注意，訂單完成後您將不能再修改訂單内容。"
     "cancel_item_designate_warning":" 請確認繼續指派物資到此訂單。請注意，訂單狀態將會由「已取消」重設為「處理中」。"
-    "cancel_order_alert": "To cancel the Order, there should be 0 dispatched items and at least 1 designated item."
+    "cancel_order_alert": "如需取消訂單，訂單中只能存有0 件已派送物品。"
 
   "order_transports":
     "gogovan_transport": "由貨車運送"

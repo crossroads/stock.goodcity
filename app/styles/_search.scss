@@ -50,10 +50,15 @@
   text-align: center;
   font-weight: bold;
   color: white;
-  margin-top: 2rem;
+  margin-top: 3rem;
   @media #{$small-only} {
     font-size: 0.9rem;
   }
+}
+
+.add_item_text {
+  text-align: center;
+  margin-top: 1rem;
 }
 
 .search {
@@ -65,11 +70,50 @@
     padding: 0;
   }
 
+  .user_name {
+    text-transform: capitalize;
+    color: #FFFFFF;
+    font-weight: bolder;
+    font-size: 0.7rem;
+    padding-left: 3%;
+  }
+
+  .user-mobile {
+    margin-left: -35%;
+    color: #FFFFFF;
+  }
+
+  .org_name {
+    margin-left: 1vw;
+    text-transform: capitalize;
+    color: #8D9CB1;
+    font-size: 0.7rem;
+  }
+
   .list.list-activity {
     margin-left: 0rem;
     margin-right: 0rem;
-    margin-top: 1rem;
+    margin-top: 2.5rem;
     cursor: pointer;
+  }
+
+  .list.list-activity.menu-list {
+    margin-top: unset;
+    cursor: pointer;
+  }
+
+  .list-bottom {
+    border-bottom: 0.1px solid #FFFFFF !important;
+  }
+
+  .new-user {
+    text-align: center;
+    color: #FFFFFF;
+    font-weight: 600;
+    border-bottom: 0.1px solid #FFFFFF !important;
+    padding-bottom: 3%;
+    font-size: 0.6rem;
+    padding-top: 0%;
   }
 
   li {

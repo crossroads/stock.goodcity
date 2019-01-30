@@ -1,0 +1,288 @@
+.request-purpose, .client-information {
+  .button{
+    margin-top: 1rem;
+  }
+  .input-error {
+    background: #ED4C4E !important;
+    color: white;
+    padding: 0.2rem;
+    display: none;
+    padding-bottom: 0.25rem !important;
+    @media #{$small-only} {
+      font-size: 0.65rem;
+      width: 97%;
+      float: left !important;
+    }
+
+    @media #{$medium-only} {
+      float: left !important;
+      width: 100%;
+      margin-left: 0rem !important;
+    }
+  }
+
+  .form__control.form__control--error .input-error {
+    display: block !important;
+  }
+
+  .form__control.form__control--error .input-error {
+    .input-error{
+      display: block !important;
+    }
+  }
+  .purpose {
+    .custom_radio_buttons {
+      display: inline-block;
+      position: relative;
+
+      @media #{$small-only}{
+        width: 100% !important;
+        margin-left: -10px;
+      }
+      display: inline-block;
+      position: relative;
+      border: 1px solid;
+      padding: .4rem;
+      margin-top: 1rem;
+      height: 3.2rem;
+      margin-left: -1% !important;
+
+      .label-position {
+        width: 100% !important;
+        margin-top: -10% !important;
+        margin-right: 3%;
+      }
+
+      input[type=radio] {
+        margin: 0 0 0 0px;
+        display: inline-block;
+        margin-left: 10px;
+        margin-top: 1.2% !important;
+        position: absolute;
+        width: 2em;
+        height: 2em;
+      }
+      label {
+        font-size: 0.8rem !important;
+        margin-top: 0.4rem !important;
+        margin-left: 3rem;
+      }
+    }
+    @media #{$small-only} {
+      font-size: 0.65rem;
+      margin-left: 0.3rem;
+      float: left !important;
+    }
+
+    @media #{$medium-only} {
+      float: left !important;
+      width: 100%;
+      margin-left: 0rem;
+    }
+  }
+
+  .booking-success {
+    .custom_radio_buttons {
+      border: 1px solid;
+      padding: .4rem;
+      margin-top: 1rem;
+      height: 2.7rem;
+      // border: 1px solid white !important;
+      input[type=radio] {
+        margin: 0 0 0 0px;
+      }
+      label {
+        font-size: 0.8rem !important;
+        margin-top: 0.4rem !important;
+      }
+    }
+    @media #{$small-only} {
+      font-size: 0.65rem;
+      width: 98%;
+      float: left !important;
+    }
+
+    @media #{$medium-only} {
+      float: left !important;
+      width: 100%;
+    }
+  }
+
+  .time-slots{
+    .custom_radio_buttons {
+      border: 1px solid;
+      padding: .4rem;
+      margin-top: 1rem;
+      height: 2.7rem;
+      // border: 1px solid white !important;
+      input[type=radio] {
+        margin: 0 0 0 0px;
+      }
+      label {
+        @media #{$large-only}{
+          font-size: 0.8rem !important;
+          margin-top: 0.4rem !important;
+        }
+        @media #{$small-only}{
+          margin-left: 0 !important;
+          margin-right: 0 !important;
+          font-size: 0.6rem !important;
+          margin-top: 0.4rem !important;
+        }
+      }
+    }
+  }
+
+  .people-count{
+    padding-left: 0rem !important;
+
+    .people-count-label{
+      margin-top: 1rem !important;
+      margin-bottom: 0.5rem;
+    }
+    .people-count-input{
+      input {
+        height: 2.7rem;
+        padding: 0 0.5rem;
+        background: #002352;
+        border: 1px solid $tabbar-menu-icon-color;
+        color: white;
+        height: 2.7rem !important;
+        margin-bottom: 0;
+        margin-left: 1%;
+        width: 99%;
+        @media #{$small-only}{
+          width: 97%;
+        }
+      }
+    }
+  }
+
+  .description-of-need {
+    .description {
+      margin-bottom: 0.2rem;
+    }
+    .reason-of-need{
+      font-size: 0.8rem;
+      margin-bottom: 0.5rem;
+    }
+    textarea {
+      @media #{$small-only}{
+        max-width: 97%;
+      }
+      padding: 0.3rem 0.5rem;
+      background: #002352;
+      border: 1px solid $tabbar-menu-icon-color;
+      color: white;
+      padding-right: 1.5rem;
+      margin-bottom: 0;
+      height: 5rem !important;
+    }
+    .remove-text{
+      position: absolute;
+      right: 1%;
+      //top: 62%;
+      @media #{$small-only}{
+        right: 3%;
+        top: 64%;
+      }
+      font-size: 1rem;
+      padding: 4.4rem 0.3rem;
+      cursor: pointer;
+    }
+  }
+}
+.col-width-appointment{
+  @media #{$small-only}{
+    width: 98%;
+    margin-left: 0px;
+  }
+}
+.success-submit{
+  background: cornflowerblue !important;
+  color: white !important;
+  text-transform: capitalize !important;
+}
+
+.no-gc-req-error, .no-time-slot-selected-error{
+  color: #ee4f4b;
+}
+
+.book_appointment_headers{
+  @media #{$small-only}{
+    width: 96%
+  }
+}
+
+.labor_confirmation{
+  @media #{$small-only}{
+    font-size: 1em;
+  }
+  width: 110%;
+}
+
+.checkbox-left {
+  margin-left: 0 !important;
+}
+
+
+.district-select {
+  #district-select-dropdown{
+    @media #{$small-only}{
+      margin-left: -5px;
+    }
+    border: 1px solid #8091a9;
+    width: 99% !important;
+    background: bottom;
+    color: #a3aab6;
+    margin-left: 0% !important;
+  }
+  .district-label {
+    margin-bottom: 0.2rem;
+  }
+  .district-label-info{
+    font-size: 0.8rem;
+    margin-bottom: 0.5rem;
+  }
+}
+
+.user-block {
+  background-color: #26446C;
+  height: 5rem;
+}
+
+.user-information-block {
+  margin-top: 4%;
+  font-weight: bolder;
+  color: #FFFFFF;
+  text-transform: capitalize;
+  font-size: 0.8rem !important;
+  padding-left: 6%;
+  font-family: Museo700;
+  font-style: normal;
+  line-height: 1.4;
+  text-rendering: optimizeLegibility;
+
+
+  span {
+    float: right;
+    padding-right: 2%;
+  }
+}
+
+.organisation-details {
+  padding-left: 6%;
+  padding-top: 3%;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.radio-button {
+  width: 2em;
+  height: 2em;
+}
+
+.error-margin {
+  margin-top: -2%;
+}
+
