@@ -57,6 +57,11 @@ export default Model.extend({
     return bookingType && bookingType.get('isAppointment');
   }),
 
+  isOnlineOrder: Ember.computed("bookingType", function () {
+    const bookingType = this.get('bookingType');
+    return bookingType && bookingType.get('isOnlineOrder');
+  }),
+
   isDraft: Ember.computed.equal("state", "draft"),
   isSubmitted: Ember.computed.equal("state", "submitted"),
   isAwaitingDispatch: Ember.computed.equal("state", "awaiting_dispatch"),
@@ -108,6 +113,14 @@ export default Model.extend({
       i18n.t("order.appointment.self_vehicle") : i18n.t("order.appointment.hire_vehicle");
   }),
 
+  stateText: Ember.computed("orderTransport", function() {
+    if(this.get("isAppointment")) {
+      return "appointment";
+    } else if(this.get("isOnlineOrder")) {
+      return "online_order";
+    }
+  }),
+
   appointmentTime: Ember.computed("orderTransport", function() {
     let orderTransport = this.get("orderTransport");
     if(orderTransport) {
@@ -117,20 +130,18 @@ export default Model.extend({
     }
   }),
 
-  transportIcon: Ember.computed("transportKey", function() {
-    const key = this.get("transportKey");
-    switch (key) {
-      case "gogovan_transport":
-        return "truck";
-      case "collection_transport":
-        return "male";
-      default:
-        return "";
+  transportIcon: Ember.computed("orderTransport", function() {
+    if(this.get("isAppointment")) {
+      return "warehouse";
+    } else if(this.get("isOnlineOrder")) {
+      return "desktop";
+    } else {
+      return "question";
     }
   }),
 
-  transportLabel: Ember.computed("transportKey", function() {
-    const key = this.get('transportKey');
+  transportLabel: Ember.computed("stateText", 'orderTransport', function() {
+    const key = this.get('stateText') || "unknown_transport";
     return this.get("i18n").t(`order_transports.${key}`);
   }),
 

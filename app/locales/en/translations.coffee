@@ -93,12 +93,10 @@ I18nTranslationsEn =
     "appointment_info": "Client comes to select goods from our warehouse with help from our staff"
     "online_orders": "Online Orders"
     "online_orders_info": "Client ordered specific goods online"
-    "online_orders_pickup": "Collections"
-    "online_orders_pickup_info": "Client ordered specific goods online and will come to our warehouse to collect them"
     "dispatch": "Dispatch"
     "dispatch_info": "We will load into van and send to client"
-    "online_orders_ggv": "Deliveries"
-    "online_orders_ggv_info": "Client ordered specfic goods online which we will send to them via hired vehicle"
+    "online_orders": "Online Orders"
+    "online_orders_info": "Client ordered specfic goods online"
     "shipment": "Shipments"
     "shipment_info": "Overseas organisation will have goods shipped to them from Crossroads' warehouse"
     "other": "Others"
@@ -156,13 +154,13 @@ I18nTranslationsEn =
     "cancel_order_alert": "To cancel the Order, there should be 0 dispatched items."
 
   "order_transports":
-    "gogovan_transport": "Send by van"
-    "collection_transport": "Collection"
-    "appointment_transport": "Appointment"
-    "shipment_transport": "Shipment"
+    "online_order": "Online Order"
+    "appointment": "Appointment"
     "unknown_transport": "Other"
 
   "order":
+    "appointment": "Appointment"
+    "online_order": "Online order"
     "processing": "Processing"
     "submitted": "Submitted"
     "draft": "Draft"

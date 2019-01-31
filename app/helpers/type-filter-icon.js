@@ -7,13 +7,11 @@ switch (type[0]) {
     case "designated":
       return "shopping-basket";
     case "online_orders":
-      return "";
+      return "desktop";
     case "appointment":
-      return "handshake";
-    case "online_orders_pickup":
-      return "male";
-    case "online_orders_ggv":
-      return "truck";
+      return "warehouse";
+    case "online_orders":
+      return "desktop";
     case "dispatched":
     case "shipment":
       return "ship";
