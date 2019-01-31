@@ -10,6 +10,7 @@ export default Ember.Service.extend({
   orderTypeFilters: Ember.computed.localStorage(),
   isLoggedIn: Ember.computed.notEmpty("authToken"),
   store:      Ember.inject.service(),
+  language: Ember.computed.localStorage(),
 
   currentUser: Ember.computed(function(){
     var store = this.get('store');
