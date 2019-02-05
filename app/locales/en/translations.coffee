@@ -29,6 +29,9 @@ I18nTranslationsEn =
   "continue": "Continue"
   "save_changes": "Save changes"
   "discard_changes": "Discard changes"
+  "add_inventory_item": "Add Item to Inventory"
+  "manage_inventory": "Manage Appointment Quotas"
+  "new_order": "Create New Order"
 
   "camera_scan":
     "permission_error": "Camera permission is not turned on."

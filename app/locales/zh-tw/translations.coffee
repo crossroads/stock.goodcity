@@ -25,6 +25,12 @@ I18nTranslationsEn =
   "search_organisation": "搜尋機構"
   "not_now": "稍後"
   "incomplete_form": "請填寫必需填寫之項目以繼續下一步"
+  "continue": "Continue"
+  "save_changes": "Save changes"
+  "discard_changes": "Discard changes"
+  "add_inventory_item": "Add Item to Inventory"
+  "manage_inventory": "Manage Appointment Quotas"
+  "new_order": "Create New Order"
 
   "camera_scan":
     "permission_error": "Camera permission is not turned on."

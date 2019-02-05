@@ -1,12 +1,5 @@
 <section class="main-section start_page">
   <div class="row">
-    <div class="small-12 columns center-text">
-      {{#if stockAppVersion}}
-        <h1> {{t 'version'}}{{stockAppVersion}} </h1>
-      {{/if}}
-      {{#link-to 'search_code' (query-params backToNewItem=false)}}Add item to inventory{{/link-to}}
-    </div>
-
     {{#if session.currentUser.canViewDashboard}}
       <div class="small-12 columns summary recent_orders">
         <h2>Orders In Process</h2>
