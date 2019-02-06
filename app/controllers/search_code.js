@@ -16,7 +16,6 @@ export default Ember.Controller.extend({
   searchPlaceholder: t("search.placeholder"),
   i18n: Ember.inject.service(),
   isSearchCodePreviousRoute: Ember.computed.localStorage(),
-  previousPath: null,
 
   allPackageTypes: Ember.computed("fetchMoreResult", function(){
     return this.store.peekAll('code').filterBy('visibleInSelects', true);
@@ -107,15 +106,12 @@ export default Ember.Controller.extend({
     },
 
     cancelSearch() {
-      let previousPath = this.get('previousPath');
       Ember.$("#searchText").blur();
       this.send("clearSearch", true);
       if(this.get("backToNewItem")) {
         this.transitionToRoute("items.new");
-      } else if (previousPath) {
-        this.transitionToRoute(previousPath);
       } else {
-        window.history.back();   //On app refresh previousPath gets clear, using this as default case.
+        window.history.back();
       }
     },
 
