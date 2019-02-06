@@ -18,6 +18,7 @@ module('Acceptance: Order State closed', {
     order3 = FactoryGuy.make("designation", { state: "dispatching", detailType: "GoodCity", code: "GC-00001" });
     order4 = FactoryGuy.make("designation", { state: "closed", detailType: "GoodCity", code: "GC-00001" });
     var location = FactoryGuy.make("location");
+    var bookingType = FactoryGuy.make("booking_type");
     item = FactoryGuy.make("item", { state: "submitted" , quantity: 1, designation: order3});
     item1 = FactoryGuy.make("item", { state: "submitted", quantity: 1 , designation: order3});
     item2 = FactoryGuy.make("item", { state: "submitted" , quantity: 1, designation: order4});
@@ -31,6 +32,17 @@ module('Acceptance: Order State closed', {
     $.mockjax({url:"/api/v1/auth/current_user_profil*",
       responseText: data });
 
+    $.mockjax({url:"/api/v1/orders/summar*", responseText: {
+      "submitted":14,
+      "awaiting_dispatch":1,
+      "dispatching":1,
+      "processing":2,
+      "priority_submitted":14,
+      "priority_dispatching":1,
+      "priority_processing":2,
+      "priority_awaiting_dispatch":1
+    }});
+
     visit("/");
 
     andThen(function() {
@@ -42,6 +54,8 @@ module('Acceptance: Order State closed', {
       items: [item.toJSON({includeId: true}), item1.toJSON({includeId: true}), item2.toJSON({includeId: true}), item3.toJSON({includeId: true})],
       orders_packages: [orders_package.toJSON({includeId: true}), orders_package1.toJSON({includeId: true}), orders_package2.toJSON({includeId: true}), orders_package3.toJSON({includeId: true})], meta: {search: order3.get('code').toString()}}});
     mockFindAll('orders_package').returns({ json: {orders_packages: [orders_package.toJSON({includeId: true}), orders_package1.toJSON({includeId: true}), orders_package2.toJSON({includeId: true}), orders_package3.toJSON({includeId: true})]}});
+    mockFindAll('booking_type').returns({ json: {booking_types: [bookingType.toJSON({includeId: true})]}});
+
   },
   afterEach: function() {
     Ember.run(App, 'destroy');

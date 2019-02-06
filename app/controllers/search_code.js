@@ -115,7 +115,7 @@ export default Ember.Controller.extend({
       } else if (previousPath) {
         this.transitionToRoute(previousPath);
       } else {
-        window.history.back();
+        window.history.back();   //On app refresh previousPath gets clear, using this as default case.
       }
     },
 

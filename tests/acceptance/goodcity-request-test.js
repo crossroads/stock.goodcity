@@ -17,11 +17,23 @@ module('Acceptance: Goodcity Request test', {
     App = startApp({}, 2);
     designation1 = FactoryGuy.make("designation", { state: "processing", detailType: "GoodCity", code: "GC-00001" });
     var location = FactoryGuy.make("location");
+    var bookingType = FactoryGuy.make("booking_type");
     code = FactoryGuy.make("code", { location: location });
     var data = {"user_profile": [{"id": 2,"first_name": "David", "last_name": "Dara51", "mobile": "61111111", "user_role_ids": [1]}], "users": [{"id": 2,"first_name": "David", "last_name": "Dara51", "mobile": "61111111"}], "roles": [{"id": 4, "name": "Supervisor"}], "user_roles": [{"id": 1, "user_id": 2, "role_id": 4}]};
     request = FactoryGuy.make("goodcity_request", { quantity: 1, designation: designation1, code: code });
     $.mockjax({url:"/api/v1/auth/current_user_profil*",
       responseText: data });
+
+    $.mockjax({url:"/api/v1/orders/summar*", responseText: {
+      "submitted":14,
+      "awaiting_dispatch":1,
+      "dispatching":1,
+      "processing":2,
+      "priority_submitted":14,
+      "priority_dispatching":1,
+      "priority_processing":2,
+      "priority_awaiting_dispatch":1
+    }});
 
     visit("/");
 
@@ -38,6 +50,7 @@ module('Acceptance: Goodcity Request test', {
       items: [],
       orders_packages: [], meta: {search: designation1.get('code').toString()}}});
     mockFindAll('orders_package').returns({ json: {orders_packages: []}});
+    mockFindAll("booking_type").returns({json: {booking_types: [bookingType.toJSON({includeId: true})]}});
     $.mockjax({url: '/api/v1/package_type*', type: 'GET', status: 200,responseText: {
         codes: [code.toJSON({includeId: true})]
       }

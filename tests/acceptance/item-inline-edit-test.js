@@ -15,6 +15,7 @@ module('Acceptance: Item inline edit', {
     App = startApp({}, 2);
     var location = FactoryGuy.make("location");
     var designation = FactoryGuy.make("designation");
+    var bookingType = FactoryGuy.make("booking_type");
     pkg = FactoryGuy.make("item", { id: 50, state: "submitted" , quantity: 1, height: 10, width: 15, length: 20, notes: "Inline edit test" });
     mockFindAll('designation').returns({json: {designations: [designation.toJSON({includeId: true})]}});
     mockFindAll('location').returns({json: {locations: [location.toJSON({includeId: true})]}});
@@ -24,9 +25,22 @@ module('Acceptance: Item inline edit', {
     });
     var data = {"user_profile": [{"id": 2,"first_name": "David", "last_name": "Dara51", "mobile": "61111111", "user_role_ids": [1]}], "users": [{"id": 2,"first_name": "David", "last_name": "Dara51", "mobile": "61111111"}], "roles": [{"id": 4, "name": "Supervisor"}], "user_roles": [{"id": 1, "user_id": 2, "role_id": 4}]};
 
+    $.mockjax({url:"/api/v1/orders/summar*", responseText: {
+      "submitted":14,
+      "awaiting_dispatch":1,
+      "dispatching":1,
+      "processing":2,
+      "priority_submitted":14,
+      "priority_dispatching":1,
+      "priority_processing":2,
+      "priority_awaiting_dispatch":1
+    }});
+
     $.mockjax({url:"/api/v1/auth/current_user_profil*",
       responseText: data });
     mockFindAll('item').returns({ json: {items: [pkg.toJSON({includeId: true})]}});
+    mockFindAll("booking_type").returns({json: {booking_types: [bookingType.toJSON({includeId: true})]}});
+
     visit("/");
     andThen(function() {
       visit("/items");

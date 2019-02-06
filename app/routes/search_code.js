@@ -11,7 +11,7 @@ export default AuthorizeRoute.extend({
     return this.store.query('code', { stock: true });
   },
 
-  beforeModel(transition) {
+  beforeModel() {
     this._super(...arguments);
     let previousRoutes = this.router.router.currentHandlerInfos;
     let previousRoute = previousRoutes && previousRoutes.pop();
