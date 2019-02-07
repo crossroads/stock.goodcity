@@ -9,11 +9,6 @@ import { mockFindAll } from 'ember-data-factory-guy';
 
 var App, data, userData, bookingType;
 
-const BOOKING_TYPES = {
-  appointment: { id: 1, identifier: 'appointment' },
-  onlineOrder: { id: 2, identifier: 'online-order' }
-};
-
 module('Acceptance: Dashboard', {
   beforeEach: function() {
     $.mockjax.clear();
@@ -95,18 +90,6 @@ module('Acceptance: Dashboard', {
     };
     $.mockjax({url:"/api/v1/orders/sum*",
       responseText:  summary
-    });
-
-    $.mockjax({url:"/api/v1/booking_typ*",
-      responseText:  {booking_types: _.values(BOOKING_TYPES) }
-    });
-
-    $.mockjax({url:"/api/v1/orders_pack*",
-      responseText:  { orders_packages: [] }
-    });
-
-    $.mockjax({url:"/api/v1/user*",
-      responseText:  {users: []}
     });
 
     $.mockjax({url:"/api/v1/designat*",
