@@ -7,13 +7,14 @@ import '../factories/location';
 import FactoryGuy from 'ember-data-factory-guy';
 import { mockFindAll } from 'ember-data-factory-guy';
 
-var App, data, userData;
+var App, data, userData, bookingType;
 
 module('Acceptance: Dashboard', {
   beforeEach: function() {
     $.mockjax.clear();
     App = startApp({}, 2);
     var location = FactoryGuy.make("location");
+    bookingType = FactoryGuy.make("booking_type");
     var designations = _.range(1, 6).map(order => FactoryGuy.make("designation", {
                         id: order,
                         state: 'submitted',
@@ -95,6 +96,7 @@ module('Acceptance: Dashboard', {
       responseText:  {designations: designations}
     });
     mockFindAll('location').returns({json: {locations: [location.toJSON({includeId: true})]}});
+    mockFindAll("booking_type").returns({json: {booking_types: [bookingType.toJSON({includeId: true})]}});
 
     visit("/");
 

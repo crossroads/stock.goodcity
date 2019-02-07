@@ -6,17 +6,19 @@ import "../factories/designation";
 import "../factories/item";
 import FactoryGuy, { mockFindAll } from "ember-data-factory-guy";
 
-var App, designation, item, orders_package, user;
+var App, designation, item, orders_package, user, bookingType;
 var mocks;
 
 module("Acceptance: Order search list", {
   beforeEach: function() {
     App = startApp({}, 2);
     user = FactoryGuy.make("user", { mobile: "123456", email: "abc@xyz", firstName: "John", lastName: "Lennon", id: 5 });
-    designation = FactoryGuy.make("designation", { 
+    designation = FactoryGuy.make("designation", {
       detailType: 'GoodCity'
     });
     item = FactoryGuy.make("item", { state: "submitted" });
+    var location = FactoryGuy.make("location");
+    bookingType = FactoryGuy.make("booking_type");
     orders_package = FactoryGuy.make("orders_package", {
       state: "designated",
       item: item,
@@ -57,7 +59,17 @@ module("Acceptance: Order search list", {
           meta: { search: designation.get("code") },
           designation: designation.toJSON({ includeId: true })
         }
-      })
+      }),
+      $.mockjax({url:"/api/v1/orders/summar*", responseText: {
+        "submitted":14,
+        "awaiting_dispatch":1,
+        "dispatching":1,
+        "processing":2,
+        "priority_submitted":14,
+        "priority_dispatching":1,
+        "priority_processing":2,
+        "priority_awaiting_dispatch":1
+      }})
     );
 
     mockFindAll('designation').returns({ json: {
@@ -66,8 +78,10 @@ module("Acceptance: Order search list", {
       orders_packages: [orders_package.toJSON({ includeId: true })],
       meta: { search: designation.get("code") }
     }});
-    
+
     mockFindAll('orders_package').returns({ json: {orders_packages: [orders_package.toJSON({includeId: true})]}});
+    mockFindAll('location').returns({json: {locations: [location.toJSON({includeId: true})]}});
+    mockFindAll("booking_type").returns({json: {booking_types: [bookingType.toJSON({includeId: true})]}});
 
 
     visit("/");
@@ -129,8 +143,8 @@ test("Order codes should be displayed on screen", function(assert) {
 
   andThen(function() {
     assert.equal(
-      find(".order_code").text().trim(), 
-      designation.get("code"), 
+      find(".order_code").text().trim(),
+      designation.get("code"),
       "Should be displaying the order code"
     );
   });
@@ -144,8 +158,8 @@ test("Order's state should be displayed on screen", function(assert) {
 
   andThen(function() {
     assert.equal(
-      find(".order_state_text").text().trim().toLowerCase(), 
-      designation.get("state"), 
+      find(".order_state_text").text().trim().toLowerCase(),
+      designation.get("state"),
       "Should be displaying the order's state"
     );
   });

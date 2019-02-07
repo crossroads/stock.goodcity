@@ -25,7 +25,7 @@ const userProfile = {
 };
 
 
-let App, mocks, presets, slots;
+let App, mocks, presets, slots, bookingType;
 module("Acceptance: Appointment Quotas", {
   beforeEach: function() {
     App = startApp({}, 2);
@@ -52,14 +52,25 @@ module("Acceptance: Appointment Quotas", {
 
     presets = _.range(1,8).map(day => FactoryGuy.make("appointment_slot_preset", { id: day, day }).toJSON({ includeId: true }));
     slots = _.range(1,4).map(n => FactoryGuy.make('appointment_slot', { id: n, timestamp: makeTimestamp(n), quota: 2 }).toJSON({ includeId: true }));
-
+    bookingType = FactoryGuy.make("booking_type");
     $.mockjaxSettings.matchInRegistrationOrder = false;
+    $.mockjax({url:"/api/v1/orders/summar*", responseText: {
+      "submitted":14,
+      "awaiting_dispatch":1,
+      "dispatching":1,
+      "processing":2,
+      "priority_submitted":14,
+      "priority_dispatching":1,
+      "priority_processing":2,
+      "priority_awaiting_dispatch":1
+    }});
 
     mockResource('auth/current_user_profil*', userProfile);
     mockResource('designation*', { designations: [] });
     mockResource('location*', { locations: [] });
     mockResource('appointment_slot_preset*', { appointment_slots: presets });
     mockResource('appointment_slot*', { appointment_slots: slots });
+    mockResource('booking_typ*', { booking_types: [bookingType.toJSON({includeId: true})] });
 
     visit("/");
 

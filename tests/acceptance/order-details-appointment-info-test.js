@@ -73,6 +73,16 @@ module("Acceptance: Order details, appointment info", {
     };
 
     $.mockjaxSettings.matchInRegistrationOrder = false;
+    $.mockjax({url:"/api/v1/orders/summar*", responseText: {
+      "submitted":14,
+      "awaiting_dispatch":1,
+      "dispatching":1,
+      "processing":2,
+      "priority_submitted":14,
+      "priority_dispatching":1,
+      "priority_processing":2,
+      "priority_awaiting_dispatch":1
+    }});
 
     mockResource('auth/current_user_profil*', userProfile);
     mockResource('booking_type*', { booking_types: _.values(BOOKING_TYPES) });

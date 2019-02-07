@@ -8,7 +8,7 @@ import '../factories/code';
 import FactoryGuy from 'ember-data-factory-guy';
 import { mockFindAll } from 'ember-data-factory-guy';
 
-var App, location1, location2, designation, code;
+var App, location1, location2, designation, code, bookingType;
 
 module('Acceptance: Add item to inventory', {
   beforeEach: function() {
@@ -31,8 +31,10 @@ module('Acceptance: Add item to inventory', {
     location1 = FactoryGuy.make("location");
     location2 = FactoryGuy.make("location");
     designation = FactoryGuy.make("designation");
+    bookingType = FactoryGuy.make("booking_type");
     mockFindAll('designation').returns({json: {designations: [designation.toJSON({includeId: true})]}});
     mockFindAll('location').returns({json: {locations: [location2.toJSON({includeId: true})], meta: {search: location2.get('building').toString()}}});
+    mockFindAll("booking_type").returns({json: {booking_types: [bookingType.toJSON({includeId: true})]}});
     code = FactoryGuy.make("code", {location: location1});
     visit("/");
   },
@@ -86,7 +88,21 @@ test("Select custom location on create item screen instead of default location o
 });
 
 test("Check validation for 'Add item to inventory ' page''", function(assert) {
-  assert.expect(4);
+  assert.expect(6);
+  andThen(function() {
+    visit("/");
+  });
+
+  andThen(function () {
+    assert.equal(currentPath(), "index");
+    click($('.small-block-grid-5 li:last'));
+  });
+
+  andThen(function () {
+    assert.equal(currentPath(), "app_menu_list");
+    click($('.inventory'));
+  });
+
   andThen(function() {
     visit("/search_code");
   });
@@ -132,8 +148,6 @@ test("Check validation for 'Add item to inventory ' page''", function(assert) {
   });
 });
 
-
-
 test("Redirect to /search_code after clicking Add item to inventory and save redirects to items details page", function(assert) {
   assert.expect(15);
 
@@ -148,8 +162,12 @@ test("Redirect to /search_code after clicking Add item to inventory and save red
 
   andThen(function () {
     assert.equal(currentPath(), "index");
-    assert.equal($('.center-text a').length, 1);
-    click($('.center-text a'));
+    click($('.small-block-grid-5 li:last'));
+  });
+
+  andThen(function () {
+    assert.equal(currentPath(), "app_menu_list");
+    click($('.inventory'));
   });
   andThen(function() {
     assert.equal(currentPath(), "search_code");

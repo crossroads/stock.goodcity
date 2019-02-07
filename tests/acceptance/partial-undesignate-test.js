@@ -14,12 +14,19 @@ module('Acceptance: Partial undesignate/modify', {
   beforeEach: function() {
     App = startApp({}, 2);
     var location = FactoryGuy.make("location");
+    var bookingType = FactoryGuy.make("booking_type");
     mockFindAll('location').returns({json: {locations: [location.toJSON({includeId: true})]}});
+    mockFindAll('booking_type').returns({json: {booking_types: [bookingType.toJSON({includeId: true})]}});
     order1 = FactoryGuy.make("designation", { id: 100, state: "submitted" });
     pkg1 = FactoryGuy.make("item", { id: 51, state: "submitted" , designation: order1, quantity: 0});
     pkg2 = FactoryGuy.make("item", { id: 52, state: "submitted", quantity: 1, receivedQuantity: 1 });
     orders_pkg1 = FactoryGuy.make("orders_package", { id: 500, state: "designated", quantity: 1, item: pkg1, designationId: order1.id, designation: order1 });
     orders_pkg2 = FactoryGuy.make("orders_package", { id: 501, state: "dispatched", quantity: 1, item: pkg1, designationId: order1.id, designation: order1, sent_on: Date.now() });
+
+    var data = {"user_profile": [{"id": 2,"first_name": "David", "last_name": "Dara51", "mobile": "61111111", "user_role_ids": [1]}], "users": [{"id": 2,"first_name": "David", "last_name": "Dara51", "mobile": "61111111"}], "roles": [{"id": 4, "name": "Supervisor"}], "user_roles": [{"id": 1, "user_id": 2, "role_id": 4}]};
+
+    $.mockjax({url:"/api/v1/auth/current_user_profil*",
+      responseText: data });
   },
   afterEach: function() {
     Ember.run(App, 'destroy');

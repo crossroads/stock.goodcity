@@ -1,8 +1,12 @@
 <nav class="tab-bar white_border_bottom">
   <section class="middle tab-bar-section">
-    <h1 class="title">
-      {{t 'menu'}}
-    </h1>
+    {{#if stockAppVersion}}
+      <h1> {{t 'version'}}{{stockAppVersion}}</h1>
+    {{else}}
+      <h1 class="title">
+        {{t 'menu'}}
+      </h1>
+    {{/if}}
   </section>
 </nav>
 
@@ -24,15 +28,20 @@
           {{/link-to}}
         </li>
       {{/if}}
+      <li class="menu-list">
+        {{#link-to 'search_code' (query-params backToNewItem=false) class='menu-list-anchor inventory'}}
+          {{fa-icon 'plus-circle' size="lg"}}&nbsp;&nbsp;{{t "add_inventory_item"}}
+        {{/link-to}}
+      </li>
       {{#if (is-or session.currentUser.canManageAppointments getCurrentUser.canManageAppointments)}}
         <li class="menu-list">
           {{#link-to 'appointments' class='appointments-link menu-list-anchor'}}
-            {{fa-icon 'calendar-alt' size="lg"}}&nbsp;&nbsp;Manage Appointment Quotas
+            {{fa-icon 'calendar-alt' size="lg"}}&nbsp;&nbsp;{{t 'manage_inventory'}}
           {{/link-to}}
         </li>
         <li class="menu-list">
           <a href="#" class="menu-list-anchor" {{action 'createOrder'}}>
-            {{fa-icon 'shopping-basket' size="lg"}}&nbsp;&nbsp;Create New Order
+            {{fa-icon 'shopping-basket' size="lg"}}&nbsp;&nbsp;{{t 'new_order'}}
           </a>
         </li>
       {{/if}}
