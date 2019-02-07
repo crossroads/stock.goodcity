@@ -13,17 +13,29 @@ export default Ember.Controller.extend({
   lastOnline: Date.now(),
   deviceTtl: 0,
   deviceId: Math.random().toString().substring(2),
-  modelDataTypes: ["offer", "Offer", "item", "Item", "Schedule", "schedule", "delivery", "Delivery", "message", "Message", "gogovan_order", "GogovanOrder", "contact", "Contact", "address", "Address", "order", "Order"],
+  i18n: Ember.inject.service(),
+  modelDataTypes: ["offer", "Offer", "item", "Item", "Schedule", "schedule", "delivery", "Delivery", "gogovan_order", "GogovanOrder", "contact", "Contact", "address", "Address", "order", "Order"],
   // logger: Ember.inject.service(),
+  messagesUtil: Ember.inject.service("messages"),
+  appName: config.APP.NAME,
   status: {
-    online: false
+    online: false,
+    hidden: true,
+    text: ""
   },
 
   updateStatus: Ember.observer('socket', function () {
     var socket = this.get("socket");
     var online = navigator.connection ? navigator.connection.type !== "none" : navigator.onLine;
     online = socket && socket.connected && online;
-    this.set("status", {"online": online});
+    var hidden = !this.session.get("isLoggedIn") || (online && config.environment === "production" && config.staging !== true);
+    var text = !online ? this.get("i18n").t("socket_offline_error") :
+      "Online - " + this.session.get("currentUser.fullName") + " (" + socket.io.engine.transport.name + ")";
+    this.set("status", {
+      "online": online,
+      "hidden": hidden,
+      "text": text
+    });
   }),
 
   // resync if offline longer than deviceTtl
@@ -38,6 +50,7 @@ export default Ember.Controller.extend({
   }),
 
   initController: Ember.on('init', function() {
+    this.set("status.text", this.get("i18n").t("offline_error"));
     var updateStatus = Ember.run.bind(this, this.updateStatus);
     window.addEventListener("online", updateStatus);
     window.addEventListener("offline", updateStatus);
@@ -213,5 +226,38 @@ export default Ember.Controller.extend({
       this.store.unloadRecord(existingItem);
     }
     run(success);
+
+    // mark message as read if message will appear in current view
+    if (type === "message") {
+      console.log('type = message now');
+      // var router = this.get("target");
+      // var currentUrl = window.location.href.split("#").get("lastObject");
+
+      // var messageRoute = this.get("messagesUtil").getRoute(data.item[type]);
+      // var messageUrl = router.generate.apply(router, messageRoute);
+      // messageUrl = messageUrl.split("#").get("lastObject");
+
+      // if (currentUrl.indexOf(messageUrl) >= 0) {
+      //   var message = this.store.peekRecord("message", item.id);
+      //   if (message && !message.get("isRead")) {
+      //     this.get("messagesUtil").markRead(message);
+
+      //     var scrollOffset;
+      //     if (Ember.$(".message-textbar").length > 0) {
+      //       scrollOffset = Ember.$(document).height();
+      //     }
+
+      //     var screenHeight = document.documentElement.clientHeight;
+      //     var pageHeight = document.documentElement.scrollHeight;
+
+      //     if (scrollOffset && pageHeight > screenHeight) {
+      //       Ember.run.later(this, function () {
+      //         window.scrollTo(0, scrollOffset);
+      //       });
+      //     }
+
+      //   }
+      // }
+    }
   }
 });

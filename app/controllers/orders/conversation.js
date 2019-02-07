@@ -61,6 +61,11 @@ export default detail.extend({
       values.isPrivate = this.get('isPrivate');
       values.sender = this.store.peekRecord("user", this.get("session.currentUser.id"));
       this.createMessage(values);
+
+      // Animate and scroll to bottom
+      Ember.$("body").animate({
+        scrollTop: Ember.$(document).height()
+      }, 1000);
     }
   }
 });

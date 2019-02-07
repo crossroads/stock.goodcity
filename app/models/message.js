@@ -15,7 +15,7 @@ export default DS.Model.extend({
     defaultValue: 'read'
   }),
   sender: belongsTo('user', {
-    async: false
+    async: true
   }),
   designation: belongsTo('designation', { async: false }),
 
