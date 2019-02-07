@@ -6,7 +6,7 @@ export default SessionRoute.extend({
   model() {
     let canViewDashboard = this.get('session.currentUser.canViewDashboard');
 
-    var recentlyUsedDesignations = this.get('store').query('designation', { shallow: true, recently_used: true });
+    var recentlyUsedDesignations = this.get('store').query('designation', { recently_used: true });
     var recentlyUsedLocations = this.get('store').query('location', { recently_used: true });
     recentlyUsedDesignations.forEach(record => {
         if(record.constructor.toString() === "stock@model:designation:") {
