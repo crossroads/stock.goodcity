@@ -6,6 +6,12 @@
   }
 }
 
+.login-language-switcher {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 [data-ember-action] {
   cursor: pointer;
 }
