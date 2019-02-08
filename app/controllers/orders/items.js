@@ -27,7 +27,8 @@ export default searchModule.extend({
             return;
           }
 
-          data = data.filter(item => item && item.get("quantity") === 1);
+          data = data.filter(item => item && item.get("quantity") === 1)
+            .filter(item => item.get("inventoryNumber"));
 
           this.set("filteredResults", data);
           this.set("hasNoResults", data.get("length") === 0);
