@@ -208,7 +208,9 @@ export default Ember.Controller.extend({
       return false;
     }
 
-    this.setFavImage(item, data, type);
+    if(type.toLowerCase() !== "message"){
+      this.setFavImage(item, data, type);
+    }
 
     var existingItem = this.store.peekRecord(type, item.id);
     var hasNewItemSaving = this.store.peekAll(type).any(function(o) { return o.id === null && o.get("isSaving"); });
@@ -218,7 +220,7 @@ export default Ember.Controller.extend({
       return;
     }
 
-    if (["create","update"].contains(data.operation)) {
+    if (["create","update"].includes(data.operation)) {
         var payload = {};
         payload[type] = item;
         this.store.pushPayload(payload);
@@ -229,35 +231,7 @@ export default Ember.Controller.extend({
 
     // mark message as read if message will appear in current view
     if (type === "message") {
-      console.log('type = message now');
-      // var router = this.get("target");
-      // var currentUrl = window.location.href.split("#").get("lastObject");
-
-      // var messageRoute = this.get("messagesUtil").getRoute(data.item[type]);
-      // var messageUrl = router.generate.apply(router, messageRoute);
-      // messageUrl = messageUrl.split("#").get("lastObject");
-
-      // if (currentUrl.indexOf(messageUrl) >= 0) {
-      //   var message = this.store.peekRecord("message", item.id);
-      //   if (message && !message.get("isRead")) {
-      //     this.get("messagesUtil").markRead(message);
-
-      //     var scrollOffset;
-      //     if (Ember.$(".message-textbar").length > 0) {
-      //       scrollOffset = Ember.$(document).height();
-      //     }
-
-      //     var screenHeight = document.documentElement.clientHeight;
-      //     var pageHeight = document.documentElement.scrollHeight;
-
-      //     if (scrollOffset && pageHeight > screenHeight) {
-      //       Ember.run.later(this, function () {
-      //         window.scrollTo(0, scrollOffset);
-      //       });
-      //     }
-
-      //   }
-      // }
+      console.log('mark messages read here');
     }
   }
 });
