@@ -2,21 +2,12 @@
   <div class="row">
     <div class="undesignate-header">
       <div class="columns small-3 medium-3 large-3 back-link">
-        {{#if (is-equal partialUndesignateBackLinkpath 'items.detail')}}
-          {{#link-to 'items.detail' model.id classNames="back"}}
-            <i aria-hidden="true">{{fa-icon 'angle-left' size='1x'}}</i>
-            <div class="back-text">
-              Back
-            </div>
-          {{/link-to}}
-        {{else}}
-          {{#link-to "items.index" class="back"}}
-            <i aria-hidden="true">{{fa-icon 'angle-left'}}</i>
-            <div class="back-text">
-              Back
-            </div>
-          {{/link-to}}
-        {{/if}}
+        <a href="#" {{action 'back'}} classNames="back">
+          <i aria-hidden="true">{{fa-icon 'angle-left' size='1x'}}</i>
+          <div class="back-text">
+            Back
+          </div>
+        </a>
       </div>
       <div class="columns small-9 medium-9 large-9 inventory-status">
         <i>{{fa-icon (if model.isSet 'tags' 'tag')}}</i> {{model.inventoryNumber}}: Status

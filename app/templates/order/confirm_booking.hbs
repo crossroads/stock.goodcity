@@ -6,7 +6,7 @@
           <nav class="tab-bar">
             <a class="back">
               <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-left'}}</i>
-              {{#link-to "order.appointment_details" order.id classNames="back_text"}}{{t "back"}}{{/link-to}}
+              <a href="#" {{action 'back'}} classNames="back"> {{t "back"}} </a>
             </a>
 
             <section class="middle tab-bar-section">

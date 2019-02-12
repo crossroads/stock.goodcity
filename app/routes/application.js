@@ -170,6 +170,10 @@ export default Ember.Route.extend(preloadDataMixin, {
       this.session.clear();
       this.store.unloadAll();
       this.transitionTo('login');
+    },
+
+    back(){
+      history.back();
     }
   }
 });

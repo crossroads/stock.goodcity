@@ -57,7 +57,12 @@
           <button id="partial_dispatch" type="submit" class="button expand" disabled={{unless orderPackage.isSingleQuantity true}} {{action 'dispatchQty' model}}>Dispatch</button>
         </div>
         <div class="columns small-5 medium-5">
-          {{#if (is-equal partialDispatchBackLinkpath 'items.detail')}}
+          {{!-- {{#link-to 'items.detail' model.id }} --}}
+            <a href="#" {{action 'back'}} classNames="back">
+              <button id="not-now" class="button expand">Not now</button>
+            </a>
+            {{!-- {{/link-to}} --}}
+          {{!-- {{#if (is-equal partialDispatchBackLinkpath 'items.detail')}}
             {{#link-to 'items.detail' model.id }}
               <button id="not-now" class="button expand">Not now</button>
             {{/link-to}}
@@ -73,7 +78,7 @@
             {{#link-to "items.index" }}
               <button id="not-now" class="button expand">Not now</button>
             {{/link-to}}
-          {{/if}}
+          {{/if}} --}}
         </div>
       </div>
     </div>

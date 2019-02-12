@@ -1,9 +1,9 @@
 <div class="history">
   <div class="row">
     <div class="columns small-1 medium-1 large-1 history-back-link">
-      {{#link-to 'items.detail' model.id classNames="back"}}
+      <a href="#" {{action 'back'}} classNames="back">
         <i class="back_icon" aria-hidden="true" style="color: white;">{{fa-icon 'angle-left'}}</i>
-      {{/link-to}}
+      </a>
     </div>
     <div class="columns small-11 medium-11 large-11 history-title">
       History

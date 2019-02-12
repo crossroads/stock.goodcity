@@ -1,9 +1,9 @@
 <nav class="tab-bar order_fixed_header">
   <section class="left-small">
-    {{#link-to 'orders.detail' model.id classNames="back"}}
+    <a href="#" {{action 'back'}} classNames="back"> 
       <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-left'}}</i>
       <div>{{t "back"}}</div>
-    {{/link-to}}
+    </a>
   </section>
 
   <section class="middle tab-bar-section">
