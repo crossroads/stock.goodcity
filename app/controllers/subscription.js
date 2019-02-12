@@ -13,29 +13,17 @@ export default Ember.Controller.extend({
   lastOnline: Date.now(),
   deviceTtl: 0,
   deviceId: Math.random().toString().substring(2),
-  i18n: Ember.inject.service(),
   modelDataTypes: ["offer", "Offer", "item", "Item", "Schedule", "schedule", "delivery", "Delivery", "gogovan_order", "GogovanOrder", "contact", "Contact", "address", "Address", "order", "Order"],
   // logger: Ember.inject.service(),
-  messagesUtil: Ember.inject.service("messages"),
-  appName: config.APP.NAME,
   status: {
-    online: false,
-    hidden: true,
-    text: ""
+    online: false
   },
 
   updateStatus: Ember.observer('socket', function () {
     var socket = this.get("socket");
     var online = navigator.connection ? navigator.connection.type !== "none" : navigator.onLine;
     online = socket && socket.connected && online;
-    var hidden = !this.session.get("isLoggedIn") || (online && config.environment === "production" && config.staging !== true);
-    var text = !online ? this.get("i18n").t("socket_offline_error") :
-      "Online - " + this.session.get("currentUser.fullName") + " (" + socket.io.engine.transport.name + ")";
-    this.set("status", {
-      "online": online,
-      "hidden": hidden,
-      "text": text
-    });
+    this.set("status", {"online": online});
   }),
 
   // resync if offline longer than deviceTtl
@@ -50,7 +38,6 @@ export default Ember.Controller.extend({
   }),
 
   initController: Ember.on('init', function() {
-    this.set("status.text", this.get("i18n").t("offline_error"));
     var updateStatus = Ember.run.bind(this, this.updateStatus);
     window.addEventListener("online", updateStatus);
     window.addEventListener("offline", updateStatus);
