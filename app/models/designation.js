@@ -13,7 +13,7 @@ export default Model.extend({
   recentlyUsedAt:       attr('date'),
   submittedAt:          attr('date'),
   submittedById:        attr('number'),
-  createdById:        attr('number'),
+  createdById:          attr('number'),
   processedAt:          attr('date'),
   processedById:        attr('number'),
   cancelledAt:          attr('date'),
@@ -31,7 +31,10 @@ export default Model.extend({
   detailId:             attr('number'),
   purposeDescription:   attr('string'),
   gcOrganisationId:     attr('number'),
+  beneficiaryId:        attr('number'),
+  bookingTypeId:        attr('number'),
 
+  beneficiary:        belongsTo('beneficiary', { async: false }),
   stockitContact:     belongsTo('stockit_contact', { async: false }),
   organisation:       belongsTo('organisation', { async: false }),
   gcOrganisation:     belongsTo('gcOrganisation', { async: false }),
@@ -47,6 +50,11 @@ export default Model.extend({
   peopleHelped:       attr('number'),
   districtId:         attr('number'),
   district:           belongsTo('district', { async: false }),
+
+
+  isEditAllowed: Ember.computed('state', function() {
+    return !(this.get('isCancelled') || this.get("isClosed"));
+  }),
 
   isLocalOrder: Ember.computed('detailType', function(){
     return (this.get('detailType') === 'LocalOrder') || (this.get('detailType') === 'StockitLocalOrder');

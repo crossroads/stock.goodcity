@@ -1,0 +1,128 @@
+<nav class="tab-bar order_fixed_header">
+  {{partial "orders/orders_back_link_path"}}
+  <section class="right-small">
+    {{partial "orders/review_order_options"}}
+  </section>
+</nav>
+
+<section class="main-section order_page">
+  {{partial "orders/order_status_bar"}}
+  {{partial "orders/order_tabs"}}
+  {{partial "orders/summary_tabs"}}
+  <div class="row">
+    <div class="small-12 columns main_details">
+      {{#if model.beneficiary}}
+        {{#if model.isEditAllowed}}
+          <div class="row">
+            <div class="small-5 columns">
+              {{t "order_client_summary.remove_client_title"}}
+            </div>
+            <div {{action 'removeBeneficiaryModal'}}  class="small-7 columns underline">
+              {{t "order_client_summary.remove_client_info"}}
+            </div>
+          </div>
+          <br/>
+        {{/if}}
+
+        <div class="row">
+          <div class="small-5 columns">
+            {{t "order_client_summary.client_name"}}
+          </div>
+          <div id="client_name" class="small-7 columns">
+            {{model.beneficiary.fullName}}
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="small-5 columns">
+            {{t "order_client_summary.client_phone"}}
+          </div>
+          <div id="phone_number" class="small-7 columns">
+            {{model.beneficiary.phoneNumber}}
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="small-5 columns">
+            {{t "order_client_summary.id_title"}}
+          </div>
+          <div class="small-7 columns">
+            {{model.beneficiary.identityType.name}}
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="small-5 columns">
+            {{t "order_client_summary.id_number"}}
+          </div>
+          <div id="id_number" class="small-7 columns">
+            {{model.beneficiary.identityNumber}}
+          </div>
+          <br/>
+          <hr/>
+        </div>
+      {{else}}
+        {{#if model.isEditAllowed}}
+          <div class="row">
+            <div class="small-5 columns">
+              {{t "order_client_summary.no_client"}}
+            </div>
+            <div class="small-7 columns underline">
+              {{#link-to 'order.client_information' model.id (query-params prevPath="client_summary") tagName='div' href=false}}
+                {{t "order_client_summary.add_beneficiary"}}
+              {{/link-to}}
+            </div>
+            <br/>
+            <hr/>
+          </div>
+        {{/if}}
+      {{/if}}
+      {{#if model.goodcityRequests}}
+        <div class="row">
+          <div class="small-12 columns active">
+            {{t "order_client_summary.request_purpose"}}
+          </div>
+          <br/>
+        </div>
+
+        <div class="row">
+          <div class="small-5 columns">
+            {{t "order_client_summary.number_benefiting"}}
+          </div>
+          <div class="small-7 columns">
+            {{model.peopleHelped}}
+          </div>
+        </div>
+
+        {{#if model.district}}
+          <div class="row">
+            <div class="small-5 columns">
+              {{t "order_client_summary.primary_location"}}
+            </div>
+            <div class="small-7 columns">
+              {{model.district.territory.name}}, {{model.district.name}}
+            </div>
+          </div>
+        {{/if}}
+
+        <div class="row">
+          <div class="small-5 columns">
+            {{t "order_client_summary.description_of_need"}}
+          </div>
+          <div class="small-7 columns">
+            {{model.purposeDescription}}
+          </div>
+        </div>
+      {{/if}}
+    </div>
+  </div>
+</section>
+
+
+{{#message-box btn1Text=(t "not_now") btn2Text="Delete" btn2Callback=(action "deleteBeneficiary") isVisible=showBeneficiaryModal classNames="popupOverlay"}}
+
+  <p class="bold">{{t 'beneficiary_warning.delete_title'}}</p>
+  <div>{{t 'beneficiary_warning.delete_info'}}</div>
+  <p class="bold">{{t 'beneficiary_warning.warning'}}</p>
+
+{{/message-box}}

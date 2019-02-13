@@ -124,9 +124,20 @@
               </div>
 
               <div class="row">
-                <div class="small-12 columns">
-                  <a {{action 'submit' target=form}} id="client-info-submit" class="button expand"> {{t 'continue'}} </a>
-                </div>
+                {{#if (is-equal prevPath "client_summary")}}
+                  <div class="small-6 columns">
+                    {{#link-to "orders.client_summary" order.id tagName='div' href=false}}
+                      <button class="button expand">{{t "discard"}}</button>
+                    {{/link-to}}
+                  </div>
+                  <div class="small-6 columns">
+                    <a {{action 'submit' target=form}} id="client-info-submit" class="button expand"> {{t 'continue'}} </a>
+                  </div>
+                {{else}}
+                  <div class="small-12 columns">
+                    <a {{action 'submit' target=form}} id="client-info-submit" class="button expand"> {{t 'continue'}} </a>
+                  </div>
+                {{/if}}
               </div>
             </div>
           {{/validatable-form}}
