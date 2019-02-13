@@ -7,17 +7,11 @@ export default searchModule.extend({
   queryParams: ['searchInput'],
   searchInput: "",
   hideDetailsLink: true,
-  dataOnceRequested: false,
 
   orderId: Ember.computed.alias("model.id"),
   isMobileApp: config.cordova.enabled,
   autoDisplayOverlay: false,
   minSearchTextLength: 2,
-
-  onSearchTextChange: Ember.observer("searchText", function() {
-    this.set('dataOnceRequested', false);
-    this._super(...arguments);
-  }),
 
   applyFilter() {
     this.set("autoDisplayOverlay", false);
@@ -27,21 +21,14 @@ export default searchModule.extend({
       this.set("hasNoResults", false);
       this.infinityModel("item",
         { perPage: 25, startingPage: 1, modelPath: 'filteredResults', stockRequest: true },
-        { orderId: "orderId", searchText: "searchText", itemId: "itemSetId" })
+        { orderId: "orderId", searchText: "searchText" })
         .then(data => {
           if(this.get("searchText").trim() !== data.meta.search) {
             return;
           }
 
-          data = data.filter(item => item && item.get("quantity") === 1);
-
-          if (!this.get('dataOnceRequested')) {
-            const itemWithId = data.findBy('itemId');
-            if (itemWithId) {
-              this.set('dataOnceRequested', true);
-              this.send('displaySetItems', itemWithId);
-            }
-          }
+          data = data.filter(item => item && item.get("quantity") === 1)
+            .filter(item => item.get("inventoryNumber"));
 
           this.set("filteredResults", data);
           this.set("hasNoResults", data.get("length") === 0);

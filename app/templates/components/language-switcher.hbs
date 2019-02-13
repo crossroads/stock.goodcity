@@ -1,0 +1,9 @@
+{{#if isEnglish}}
+  <a href="" {{action "setLanguage" 'zh-tw'}} class="selected menu-list-anchor">
+    {{fa-icon 'language' size="lg"}}&nbsp;&nbsp;{{t "switch_language"}}&nbsp;&nbsp;{{t "language.zh"}}
+  </a>
+{{else}}
+  <a href="" {{action "setLanguage" 'en'}} class="selected menu-list-anchor">
+    {{fa-icon 'language' size="lg"}}&nbsp;&nbsp;{{t "switch_language"}}&nbsp;&nbsp;{{t "language.en"}}
+  </a>
+{{/if}}

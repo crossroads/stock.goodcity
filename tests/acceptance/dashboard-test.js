@@ -7,17 +7,18 @@ import '../factories/location';
 import FactoryGuy from 'ember-data-factory-guy';
 import { mockFindAll } from 'ember-data-factory-guy';
 
-var App, data, userData;
+var App, data, userData, bookingType, designations, users;
 
 module('Acceptance: Dashboard', {
   beforeEach: function() {
     $.mockjax.clear();
     App = startApp({}, 2);
     var location = FactoryGuy.make("location");
-    var designations = _.range(1, 6).map(order => FactoryGuy.make("designation", {
-                        id: order,
+    bookingType = FactoryGuy.make("booking_type");
+    users = _.range(1, 6).map(() => FactoryGuy.make("user"));
+    designations = _.range(1, 6).map((order, index) => FactoryGuy.make("designation", {
                         state: 'submitted',
-                        created_by_id: 3,
+                        createdBy: users[index],
                         detail_type: 'GoodCity'
                       })
                       .toJSON({
@@ -95,6 +96,7 @@ module('Acceptance: Dashboard', {
       responseText:  {designations: designations}
     });
     mockFindAll('location').returns({json: {locations: [location.toJSON({includeId: true})]}});
+    mockFindAll("booking_type").returns({json: {booking_types: [bookingType.toJSON({includeId: true})]}});
 
     visit("/");
 
@@ -166,5 +168,21 @@ test("Generates 5 recent orders", function(assert) {
   andThen(function() {
     assert.equal(currentURL(), "/");
     assert.equal($('.order_header').length, 5);
+  });
+});
+
+test("Recent Orders displays orders code", function(assert) {
+  visit("/");
+  andThen(function() {
+    assert.equal(currentURL(), "/");
+    assert.equal($('.order_code:first').text().trim(), designations[0].code);
+  });
+});
+
+test("Recent Orders displays created by user name", function(assert) {
+  visit("/");
+  andThen(function() {
+    assert.equal(currentURL(), "/");
+    assert.equal($('.order_user_name:first').text().trim(), users[0].get('fullName'));
   });
 });

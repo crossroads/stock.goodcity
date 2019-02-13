@@ -111,7 +111,7 @@ export default Ember.Controller.extend({
       if(this.get("backToNewItem")) {
         this.transitionToRoute("items.new");
       } else {
-        this.transitionToRoute("index");
+        window.history.back();
       }
     },
 

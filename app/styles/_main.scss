@@ -6,6 +6,12 @@
   }
 }
 
+.login-language-switcher {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 [data-ember-action] {
   cursor: pointer;
 }
@@ -246,6 +252,10 @@ ul.off-canvas-list li a:hover  {
     padding-top: 5%;
     padding-bottom: 5%;
     border-bottom: 1px solid #FFFFFF !important;
+  }
+
+  .display-inline-flex {
+    display: inline-flex;
   }
 
   .menu-list-anchor {

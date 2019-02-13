@@ -1,9 +1,13 @@
 import Ember from 'ember';
+import config from '../config/environment';
 const { getOwner } = Ember;
 import AjaxPromise from 'stock/utils/ajax-promise';
 
 export default Ember.Controller.extend({
   application: Ember.inject.controller(),
+  stockAppVersion: Ember.computed(function(){
+    return config.cordova.enabled ? config.APP.VERSION : null;
+  }),
 
   getCurrentUser: Ember.computed(function(){
     var store = this.get('store');
@@ -12,9 +16,9 @@ export default Ember.Controller.extend({
   }).volatile(),
 
   orderParams(){
-    let orderParams = {}; 
+    let orderParams = {};
     orderParams.booking_type_id = this.store.peekAll('bookingType').filterBy('identifier', 'appointment').get('firstObject.id');
-    orderParams.authorised_by_id = this.get('getCurrentUser.id');
+    orderParams.submitted_by_id = this.get('getCurrentUser.id');
     orderParams.state = 'draft';
     orderParams.detail_type = 'GoodCity';
     return orderParams;

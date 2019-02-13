@@ -38,7 +38,6 @@ export default Ember.Mixin.create({
           _this.get("i18n").t("order_details.complete_process_warning"),
           () => {
             this.set("hidden", true);
-            return false;
           });
       } else if(this.canDispatchOrder(designation)) {
         //Change state of order to Dispatching if first item dispatched and order is in awaiting dispatch state
