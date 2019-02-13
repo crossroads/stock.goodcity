@@ -35,6 +35,14 @@
 <div class="message-footer">
   <div class="btm message-form">
     <div class="row message-textbar">
+      {{#if displayChatNote}}
+        <div class="row">
+          <div class="small-12 columns chat_note">
+            <i class="info-icon">{{fa-icon 'info-circle'}}</i>
+            Chat about this order with the user
+          </div>
+        </div>
+      {{/if}}
       <div class="row message-base">
         <div class="small-12 columns">
           {{#validatable-form class="form-horizontal" onSubmit=(action 'sendMessage') as |form|}}

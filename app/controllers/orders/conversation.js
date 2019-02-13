@@ -14,6 +14,11 @@ export default detail.extend({
     "createdAt: asc"
   ],
   model: null,
+  noMessage: Ember.computed.empty("model.messages"),
+
+  displayChatNote: Ember.computed('noMessage', 'disabled', function () {
+    return this.get("noMessage") && !this.get("disabled");
+  }),
 
   sortedMessages: Ember.computed.sort("model.messages", "sortProperties"),
 
