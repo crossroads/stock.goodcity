@@ -32,6 +32,14 @@ I18nTranslationsEn =
   "manage_inventory": "Manage Appointment Quotas"
   "new_order": "Create New Order"
   "full_name" : "{{firstName}} {{lastName}}"
+  "messages":
+    "you": "You"
+    "chat_note": "Chat about this order with the user"
+    "send": "Send"
+    "day":
+      "today": "Today"
+      "morning": "Morning"
+      "afternoon": "Afternoon"
 
   "camera_scan":
     "permission_error": "Camera permission is not turned on."
