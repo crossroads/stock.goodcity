@@ -5,6 +5,7 @@ import AjaxPromise from 'stock/utils/ajax-promise';
 
 export default Ember.Controller.extend({
   application: Ember.inject.controller(),
+  isMobileApp: config.cordova.enabled,
   stockAppVersion: Ember.computed(function(){
     return config.cordova.enabled ? config.APP.VERSION : null;
   }),
