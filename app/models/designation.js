@@ -43,9 +43,10 @@ export default Model.extend({
   ordersPurposes:     hasMany('ordersPurpose', { async: false }),
   submittedBy:        belongsTo('user', { async: false }),
   bookingType:        belongsTo('booking_type', { async: false }),
-  createdBy:        belongsTo('user', { async: false }),
-  peopleHelped: attr('number'),
-  districtId:       attr('number'),
+  createdBy:          belongsTo('user', { async: false }),
+  peopleHelped:       attr('number'),
+  districtId:         attr('number'),
+  district:           belongsTo('district', { async: false }),
 
   isLocalOrder: Ember.computed('detailType', function(){
     return (this.get('detailType') === 'LocalOrder') || (this.get('detailType') === 'StockitLocalOrder');
@@ -60,6 +61,10 @@ export default Model.extend({
   isOnlineOrder: Ember.computed("bookingType", function () {
     const bookingType = this.get('bookingType');
     return bookingType && bookingType.get('isOnlineOrder');
+  }),
+
+  bookingTypeLabel: Ember.computed('isAppointment', function () {
+    return  this.get('i18n').t(`order_transports.${this.get('isAppointment') ? 'appointment' : 'online_order'}`);
   }),
 
   isDraft: Ember.computed.equal("state", "draft"),

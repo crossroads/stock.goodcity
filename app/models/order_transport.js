@@ -16,6 +16,7 @@ export default Model.extend({
   needEnglish:          attr("boolean"),
   needCart:             attr("boolean"),
   needCarry:            attr("boolean"),
+  gogovanTransport:     belongsTo('gogovan_transport', { async: false }),
 
   scheduledDate: Ember.computed('scheduledAt', function() {
     return moment(this.get('scheduledAt')).format("D MMMM YYYY");

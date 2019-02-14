@@ -156,6 +156,19 @@ I18nTranslationsEn =
     "close_order_popup": "此訂單中所有物資已經派送完畢。請確認您要完成訂單。請注意，訂單完成後您將不能再修改訂單内容。"
     "cancel_item_designate_warning":" 請確認繼續指派物資到此訂單。請注意，訂單狀態將會由「已取消」重設為「處理中」。"
     "cancel_order_alert": "如需取消訂單，訂單中只能存有0 件已派送物品。"
+    "logistics": {
+      "scheduled": "Scheduled"
+      "type": "Type"
+      "transport_type": "Transport Type"
+      "destination": "Destination"
+      "vehicle_type": "Vehicle Type"
+      "base_estimate": "Base est."
+      "add_note": "Tap to add/edit sticky note"
+      "vehicle": {
+        "self": 'Private vehicle'
+        "van": 'Needs hired vehicle'
+      }
+    }
 
   "order_transports":
     "online_order": "Online Order"

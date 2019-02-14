@@ -158,6 +158,19 @@ I18nTranslationsEn =
     "close_order_popup": "All items in this order are dispatched. Would you like to close the Order? You will not be able to modify the order after closing it."
     "cancel_item_designate_warning": "This will also change state of the Order to processing from cancelled. Are you sure you want to designate?"
     "cancel_order_alert": "To cancel the Order, there should be 0 dispatched items."
+    "logistics": {
+      "scheduled": "Scheduled"
+      "type": "Type"
+      "transport_type": "Transport Type"
+      "destination": "Destination"
+      "vehicle_type": "Vehicle Type"
+      "base_estimate": "Base est."
+      "add_note": "Tap to add/edit sticky note"
+      "vehicle": {
+        "self": 'Private vehicle'
+        "van": 'Needs hired vehicle'
+      }
+    }
 
   "order_transports":
     "online_order": "Online Order"
