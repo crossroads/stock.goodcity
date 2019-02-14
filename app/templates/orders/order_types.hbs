@@ -11,15 +11,6 @@
 </section>
 
 <section class="order-booking-tab">
-  {{!-- <div class="row">
-    <div class="columns small-4 text-prefix">
-      {{ t 'order_details.logistics.scheduled' }}
-    </div>
-    <div class="columns small-8 text" {{ action 'openSchedulePopup' }}>
-      <i aria-hidden="true">{{fa-icon 'clock'}}</i>
-      {{ display-datetime model.orderTransport.scheduledAt format="dddd Do MMMM hh:mm a" }}
-    </div>
-  </div> --}}
   {{#each logisticDataRows as |dataRow|}}
     <div class="row">
       <div class="columns small-4 text-prefix">
