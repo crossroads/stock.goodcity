@@ -8,6 +8,7 @@ export default Ember.Controller.extend({
   messageBox: Ember.inject.service(),
   attemptedTransition: null,
   pin: "",
+  isMobileApp: config.cordova.enabled,
 
   mobile: Ember.computed('mobilePhone', function(){
     return config.APP.HK_COUNTRY_CODE + this.get('mobilePhone');

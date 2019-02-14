@@ -90,11 +90,14 @@ export default Ember.Route.extend(preloadDataMixin, {
     }
     localStorage.removeItem('test');
 
-    let language = this.get('session.language') || config.i18n.defaultLocale;
+    var language;
     if (transition.queryParams.ln) {
       language = transition.queryParams.ln === "zh-tw" ? "zh-tw" : "en";
+      this.set('session.language', language);
     }
-    this.set('session.language', language);
+
+    language = this.session.get("language") || "en";
+    moment.locale(language);
     this.set("i18n.locale", language);
 
     Ember.onerror = window.onerror = error => {
