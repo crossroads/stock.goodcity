@@ -16,9 +16,8 @@ export default Ember.Mixin.create({
             this.notifyPropertyChange("session.currentUser");
           })
       );
+      promises = promises.concat(retrieve(config.APP.PRELOAD_TYPES));
     }
-
-    promises = promises.concat(retrieve(config.APP.PRELOAD_TYPES));
 
     return Ember.RSVP.all(promises);
   }
