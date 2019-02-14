@@ -44,7 +44,6 @@ module("Acceptance: Order details, appointment info", {
 
     const makeDesignation = (bookingType = BOOKING_TYPES.onlineOrder) => {
       const record = {
-        id: _.uniqueId(),
         state: "submitted",
         detail_type: "GoodCity",
         id: 1103 + designations.length,
