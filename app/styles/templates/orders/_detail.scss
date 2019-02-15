@@ -55,11 +55,29 @@
 
 .order-booking-tab {
   padding: 0 1em;
+
+  select {
+    padding: 0 0.5rem;
+    padding-left: 0;
+    background: #002352;
+    color: white;
+    height: 1.8rem;
+    border: none;
+    margin: 0;
+    &:active {
+      border: 1px solid $tabbar-menu-icon-color !important;
+    }
+    font-size: inherit;
+    @media #{$small-only} {
+      font-size: 0.7rem;
+    }
+  }
+
   .row {
     color: white;
 
     .text {
-      line-height: 2.5em;
+      line-height: 2em;
     }
 
     .button.light {
@@ -70,6 +88,7 @@
     }
 
     .text-prefix {
+      line-height: 2rem;
       color: $gainsboro;
     }
   }
@@ -77,6 +96,10 @@
   .reschedule-popup .row {
     color: black;
     margin-bottom: 1em;
+    select {
+      background-color: white;
+      color: rgba(0, 0, 0, 0.75);
+    }
   }
 }
 

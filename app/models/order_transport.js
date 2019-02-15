@@ -4,6 +4,7 @@ import Ember from 'ember';
 import { belongsTo } from 'ember-data/relationships';
 
 export default Model.extend({
+  i18n: Ember.inject.service(),
   gogovanOrderId:       attr('number'),
   gogovanTransportId:   attr('number'),
   timeslot:             attr('string'),
@@ -31,5 +32,5 @@ export default Model.extend({
     } else {
       return "";
     }
-  }),
+  })
 });
