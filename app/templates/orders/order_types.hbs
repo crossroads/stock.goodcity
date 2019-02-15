@@ -11,15 +11,17 @@
 </section>
 
 <section class="order-booking-tab">
-  <div class="row">
-    <div class="columns small-8 text">
-      <i aria-hidden="true">{{fa-icon 'clock'}}</i>
-      {{ display-datetime model.orderTransport.scheduledAt format="dddd Do MMMM hh:mm a" }}
+  {{#each logisticDataRows as |dataRow|}}
+    <div class="row">
+      <div class="columns small-4 text-prefix">
+        {{ dataRow.label }}
+      </div>
+      <div class="columns small-8 text {{dataRow.name}}" {{ action dataRow.action }}>
+        {{ dataRow.text }}
+        <i aria-hidden="true">{{fa-icon dataRow.icon }}</i>
+      </div>
     </div>
-    <div class="columns small-4">
-      <button class="reschedule button light" {{ action 'openSchedulePopup' }}>Reschedule</button>
-    </div>
-  </div>
+  {{/each}}
 
   {{#message-box
     btn1Text=(t "save")
