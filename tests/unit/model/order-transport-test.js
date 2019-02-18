@@ -1,7 +1,7 @@
 import { test, moduleForModel } from 'ember-qunit';
 
 moduleForModel('order_transport', 'Ordertransport Model', {
-  needs: ['model:contact', 'model:designation']
+  needs: ['model:contact', 'model:designation', 'model:gogovan_transport', 'service:i18n']
 });
 
 test('check attributes', function(assert){
