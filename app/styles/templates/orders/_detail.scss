@@ -75,9 +75,20 @@
 
   .row {
     color: white;
-
+    margin-bottom: 0.5rem;
+    
     .text {
-      line-height: 2em;
+      line-height: 2rem;
+
+      &.input {
+        display: flex;
+        i {
+          margin-left: 0.3em;
+          @media #{$small-only} {
+            line-height: 2.5em;
+          }
+        }
+      }
     }
 
     .button.light {
