@@ -38,6 +38,8 @@ Router.map(function() {
   this.route("orders", function() {
     this.route('detail', { path: '/:order_id' });
     this.route('summary', { path: '/:order_id/summary' });
+    this.route('contact_summary', { path: '/:order_id/contact_summary' });
+    this.route('client_summary', { path: '/:order_id/client_summary' });
     this.route("add_request", { path: '/:order_id/add_request' });
     this.route('search_code', { path: '/:order_id/search_code' });
     this.route('request_items', { path: '/:order_id/request_items' });
@@ -48,10 +50,6 @@ Router.map(function() {
     this.route('order_types', { path: '/:order_id/order_types' });
     this.route("items", { path: "/:order_id/items" });
     this.route("contact", { path: "/:order_id/contact" });
-    this.route("order_transport", { path: "/:order_id/transport" });
-    this.route("purposes", { path: "/:order_id/purposes" });
-    this.route("client", { path: "/:order_id/client" });
-    this.route("info", { path: "/:order_id/info" });
   });
 
   this.route('order', function() {

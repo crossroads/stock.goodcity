@@ -4,6 +4,8 @@ import config from '../../config/environment';
 const { getOwner } = Ember;
 
 export default Ember.Controller.extend({
+  queryParams: ["prevPath"],
+  prevPath: null,
   i18n: Ember.inject.service(),
   firstName: null,
   lastName: null,
@@ -67,14 +69,23 @@ export default Ember.Controller.extend({
         actionType = "POST";
       }
 
+      let order = this.get("store").peekRecord('designation', orderId);
+
       var loadingView = getOwner(this).lookup('component:loading').append();
 
       new AjaxPromise(url, actionType, this.get('session.authToken'), { beneficiary: this.beneficiaryParams(), order_id: orderId })
         .then(data => {
           this.get("store").pushPayload(data);
-          loadingView.destroy();
-          this.transitionToRoute('order.goods_details', orderId, { queryParams: { fromClientInformation: true }});
-        });
+          if(this.get("prevPath") === "client_summary") {
+            if(order) {
+              this.get("store").unloadRecord(order);
+            }
+            this.transitionToRoute('orders.client_summary', orderId);
+          } else {
+            this.transitionToRoute('order.goods_details', orderId, { queryParams: { fromClientInformation: true }});
+          }
+        })
+        .finally(() => loadingView.destroy());
     }
   }
 });

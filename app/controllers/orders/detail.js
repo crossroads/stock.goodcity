@@ -20,6 +20,7 @@ export default GoodcityController.extend({
   appReview: Ember.inject.service(),
   isOrderProcessRestarted: false,
   isActiveGoods: false,
+  isActiveSummary: false,
   scheduleChangePopupVisible: false,
   filterService: Ember.inject.service(),
 

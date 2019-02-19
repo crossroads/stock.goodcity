@@ -27,6 +27,7 @@ I18nTranslationsEn =
   "incomplete_form": "請填寫必需填寫之項目以繼續下一步"
   "continue": "Continue"
   "save_changes": "Save changes"
+  "discard": "Discard"
   "discard_changes": "Discard changes"
   "add_inventory_item": "Add Item to Inventory"
   "manage_inventory": "Manage Appointment Quotas"
@@ -42,6 +43,45 @@ I18nTranslationsEn =
   "weekday_5": "星期五"
   "weekday_6": "星期六"
   "weekday_7": "星期日"
+
+  "online_status": 
+    "online": "Online"
+    "not_connected": "Not Connected"
+
+  "order_client_summary":
+    "remove_client_title": "Remove Client"
+    "remove_client_info": "Remove client/beneficiary"
+    "client_name": "Client's Name"
+    "client_phone": "Client's Phone"
+    "id_title": "Type of id held"
+    "id_number": "ID Number"
+    "no_client": "No client"
+    "add_beneficiary": "Add client/beneficiary"
+    "request_purpose": "Request Purpose"
+    "number_benefiting": "Number benefiting"
+    "primary_location": "Primary location"
+    "description_of_need": "Description of need"
+
+  "order_contact_summary": 
+    "change_contact": "Change Contact"
+    "choose_different_contact": "Choose different contact"
+    "organisation_title": "Organisation"
+    "contact_name": "Name"
+    "contact_phone": "Phone"
+    "contact_position": "Position"
+    "contact_email": "Email"
+    "contact_last_seen": "Last seen"
+    "contact_registered": "Registered"
+  
+  "order_tabs":
+    "summary": "Summary"
+    "goods": "Goods"
+    "logistics": "Logistics"
+    "chat": "Chat"
+
+  "order_summary_tabs":
+    "contact": "Contact"
+    "client": "Purpose/Client"
 
   "authenticate":
     "input_code" : "請輸入驗證碼"
@@ -68,6 +108,11 @@ I18nTranslationsEn =
     "orders": "訂單"
     "items": "物資"
     "goto": "前往"
+  
+  "beneficiary_warning":
+    "delete_title": "Remove Client?"
+    "delete_info": "If this request will no longer be for a client/beneficiary you can delete the beneficiary details."
+    "warning": 'This cannot be undone!'
 
   "item_filters":
     "with_and_without_images": "All"

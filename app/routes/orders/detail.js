@@ -51,7 +51,7 @@ export default getOrderRoute.extend({
 
   model(params) {
     return this.loadIfAbsent("designation", params.order_id);
- },
+  },
 
   /* jshint ignore:start */
   async afterModel(model) {

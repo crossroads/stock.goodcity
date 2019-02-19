@@ -1,0 +1,110 @@
+<nav class="tab-bar order_fixed_header">
+  {{partial "orders/orders_back_link_path"}}
+  <section class="right-small">
+    {{partial "orders/review_order_options"}}
+  </section>
+</nav>
+
+<section class="main-section order_page">
+  {{partial "orders/order_status_bar"}}
+  {{partial "orders/order_tabs"}}
+  {{partial "orders/summary_tabs"}}
+  <div class="row">
+    <div class="small-12 columns main_details">
+      {{#if model.isEditAllowed}}
+        <div class="row">
+          <div class="small-4 columns">
+            {{t "order_contact_summary.change_contact"}}
+          </div>
+          <div class="small-8 columns underline">
+            {{#link-to "order.search_users" model.id (query-params prevPath="contact_summary") tagName='div' href=false}}
+              {{t "order_contact_summary.choose_different_contact"}}
+            {{/link-to}}
+          </div>
+        </div>
+      {{/if}}
+
+      <br/>
+      <div class="row">
+        <div class="small-4 columns">
+          {{t "order_contact_summary.organisation_title"}}
+        </div>
+        <div class="small-8 columns organisation_name">
+          {{apply-line-break (if model.isGoodCityOrder model.gcOrganisation.nameEn model.organisation.name)}}
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="small-4 columns">
+          {{t "order_contact_summary.contact_name"}}
+        </div>
+        <div id="contact_name" class="small-8 columns">
+          {{#if model.isGoodCityOrder}}
+            {{model.createdBy.fullName}}
+          {{else}}
+            {{model.stockitContact.fullName}}
+          {{/if}}
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="small-4 columns">
+          {{t "order_contact_summary.contact_phone"}}
+        </div>
+        <div id="contact_mobile" class="small-8 columns">
+          {{model.createdBy.mobile}}
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="small-4 columns">
+          {{t "order_contact_summary.contact_position"}}
+        </div>
+        <div id="contact_position" class="small-8 columns mobile">
+          {{model.createdBy.position}}
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="small-4 columns">
+          {{t "order_contact_summary.contact_email"}}
+        </div>
+        <div id="contact_email" class="small-8 columns email">
+          {{model.createdBy.email}}
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="small-4 columns">
+          {{t "order_contact_summary.contact_last_seen"}}
+        </div>
+        <div id="contact_last_seen" class="small-8 columns email">
+          {{#if model.createdBy.onlineStatusLabel}}
+            {{model.createdBy.onlineStatusLabel}}
+          {{else}}
+            {{time-ago timeValue=model.createdBy.lastDisconnected smallPrefix=false}}
+          {{/if}}
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="small-4 columns">
+          {{t "order_contact_summary.contact_registered"}}
+        </div>
+        <div id="contact_registered" class="small-8 columns email">
+          {{display-timeago model.createdBy.createdAt}}
+        </div>
+      </div>
+
+      {{!-- <div class="row">
+        <div class="small-4 columns">
+          Total requests 
+        </div>
+        <div class="small-8 columns email">
+          {{display-timeago model.createdBy.createdAt}}
+        </div>
+      </div> --}}
+    </div>
+  </div>
+
+</section>

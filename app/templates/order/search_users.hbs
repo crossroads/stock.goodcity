@@ -19,9 +19,11 @@
 <section class="main-section organisation_search_result">
   <div class="row search">
     <div class="small-12 columns">
-      <div class="new-user">
-        Which user is this request being made for ?
-      </div>
+      {{#unless (is-equal prevPath "contact_summary")}}
+        <div class="new-user">
+          Which user is this request being made for ?
+        </div>
+      {{/unless}}
       {{#if isLoading}}
         <div class="loading_screen">
           {{partial 'loading'}}
