@@ -10,7 +10,7 @@
     padding-bottom: 0.25rem !important;
     @media #{$small-only} {
       font-size: 0.65rem;
-      width: 97%;
+      width: 100%;
       float: left !important;
     }
 
@@ -31,13 +31,12 @@
     }
   }
   .purpose {
-    .custom_radio_buttons {
-      display: inline-block;
-      position: relative;
+    margin-left: 0;
+    margin-right: 0;
 
+    .custom_radio_buttons {
       @media #{$small-only}{
         width: 100% !important;
-        margin-left: -10px;
       }
       display: inline-block;
       position: relative;
@@ -45,7 +44,6 @@
       padding: .4rem;
       margin-top: 1rem;
       height: 3.2rem;
-      margin-left: -1% !important;
 
       .label-position {
         width: 100% !important;
@@ -70,8 +68,6 @@
     }
     @media #{$small-only} {
       font-size: 0.65rem;
-      margin-left: 0.3rem;
-      float: left !important;
     }
 
     @media #{$medium-only} {
@@ -135,30 +131,27 @@
 
   .people-count{
     padding-left: 0rem !important;
+    margin-left: 0;
+    margin-right: 0;
 
     .people-count-label{
       margin-top: 1rem !important;
       margin-bottom: 0.5rem;
     }
-    .people-count-input{
-      input {
-        height: 2.7rem;
-        padding: 0 0.5rem;
-        background: #002352;
-        border: 1px solid $tabbar-menu-icon-color;
-        color: white;
-        height: 2.7rem !important;
-        margin-bottom: 0;
-        margin-left: 1%;
-        width: 99%;
-        @media #{$small-only}{
-          width: 97%;
-        }
-      }
+    input {
+      height: 2.7rem;
+      padding: 0 0.5rem;
+      background: #002352;
+      border: 1px solid $tabbar-menu-icon-color;
+      color: white;
+      margin-bottom: 0;
     }
   }
 
   .description-of-need {
+    margin-left: 0;
+    margin-right: 0;
+
     .description {
       margin-bottom: 0.2rem;
     }
@@ -168,7 +161,7 @@
     }
     textarea {
       @media #{$small-only}{
-        max-width: 97%;
+        max-width: 100%;
       }
       padding: 0.3rem 0.5rem;
       background: #002352;
@@ -181,15 +174,18 @@
     .remove-text{
       position: absolute;
       right: 1%;
-      //top: 62%;
       @media #{$small-only}{
         right: 3%;
-        top: 64%;
+        top: 0%;
       }
       font-size: 1rem;
-      padding: 4.4rem 0.3rem;
       cursor: pointer;
     }
+  }
+
+  .continue {
+    margin-left: 0;
+    margin-right: 0;
   }
 }
 .col-width-appointment{
@@ -227,12 +223,22 @@
 
 
 .district-select {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+
+  label.select:after {
+    content: none !important;
+  }
+
   #district-select-dropdown{
+    label.select {
+      -webkit-appearance: menulist-button;
+    }
+
     @media #{$small-only}{
       margin-left: -5px;
     }
     border: 1px solid #8091a9;
-    width: 99% !important;
     background: bottom;
     color: #a3aab6;
     margin-left: 0% !important;
@@ -248,16 +254,18 @@
 
 .user-block {
   background-color: #26446C;
-  height: 5rem;
+  min-height: 5rem;
+  overflow: hidden;
+  padding-bottom: 10px;
 }
 
 .user-information-block {
-  margin-top: 4%;
+  margin-top: 2%;
   font-weight: bolder;
   color: #FFFFFF;
   text-transform: capitalize;
   font-size: 0.8rem !important;
-  padding-left: 6%;
+  padding-left: 3%;
   font-family: Museo700;
   font-style: normal;
   line-height: 1.4;
@@ -271,10 +279,14 @@
 }
 
 .organisation-details {
-  padding-left: 6%;
+  padding-left: 3%;
   padding-top: 3%;
   font-size: 0.9rem;
   font-weight: 700;
+
+  @media #{$small-only}{
+    font-size: 0.7rem;
+  }
 }
 
 .radio-button {
