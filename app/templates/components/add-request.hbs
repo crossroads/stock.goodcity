@@ -1,5 +1,5 @@
 <section class="new-user-section request-section">
-  <div class="request-block">
+  <div class="row request-block">
     {{#form-control}}
         <div class="small-12 columns add-request" >
           <div class="small-7 columns" {{action "searchPackageType" request.id order.id}}>
@@ -15,13 +15,11 @@
               {{fa-icon 'times-circle' size="lg"}}
             </span>
           </div>
-        </div>
-        {{!-- <div class="small-12 columns"> --}}
-          <div class="small-10 columns input-error warning_empty request-error">
-            <div class='input-error'> Enter valid details. </div>
+          <div class="small-10 columns input-error warning_empty">
+            <div class='input-error'>{{fa-icon "exclamation-triangle"}}&nbsp;&nbsp; Enter valid details. </div>
           </div>
           <div class='small-2 columns'>&nbsp;</div>
-        {{!-- </div> --}}
+        </div>
     {{/form-control}}
   </div>
   <div class="row">

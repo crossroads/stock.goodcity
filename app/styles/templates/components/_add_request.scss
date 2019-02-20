@@ -22,10 +22,17 @@
   }
   div .warning_empty{
     @media #{$small-only} {
-      width: 80%;
+      width: 81%;
+      margin-left: 1%;
     }
     @media #{$large-only} {
       width: 82%;
+      margin-left: 0.7%;
+    }
+
+    @media #{$medium-only} {
+      width: 82% !important;
+      margin-left: 0.8% !important;
     }
     margin-top: -1rem;
   }
