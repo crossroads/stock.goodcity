@@ -29,5 +29,25 @@ export default Ember.TextArea.extend({
         .css({'height':'auto','overflow-y':'auto'})
         .height(105);
     }
+  },
+
+  callAction(action, data = null) {
+    if (typeof action === 'function') {
+      return action(data);
+    } else if (typeof action === 'string') {
+      this.sendAction(action, data);
+    }
+  },
+
+  input() {
+    this.callAction(this.get("changeAction"));
+  },
+
+  click() {
+    this.callAction(this.get("clickAction"));
+  },
+  
+  focusOut() {
+    this.callAction(this.get("focusOutAction"));
   }
 });

@@ -24,5 +24,11 @@ export default detail.extend({
   async afterModel() {
     await this._super(...arguments);
     await this.loadDependencies();
+  },
+
+  setupController(controller, model){
+    this._super(controller, model);
+    controller.set('stickyNote.showCallToAction', true);
+    controller.set('stickyNote.showSaveButton', false);
   }
 });

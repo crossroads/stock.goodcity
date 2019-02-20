@@ -56,88 +56,143 @@
 .order-booking-tab {
   padding: 0 1em;
 
-  select {
-    padding: 0 0.5rem;
-    padding-left: 0;
-    background: #002352;
-    color: white;
-    height: 1.8rem;
-    border: none;
-    margin: 0;
-    &:active {
-      border: 1px solid $tabbar-menu-icon-color !important;
+  .sticky-note {
+    width: 100%;
+    min-height: 6rem;
+    max-width: 600px;
+    background-color: rgba(white, 0.1);
+    margin: 1rem auto;
+    position: relative;
+
+    .call-to-action {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      line-height: 6rem;
+      z-index: 100;
+      pointer-events: none;
     }
-    font-size: inherit;
-    @media #{$small-only} {
-      font-size: 0.7rem;
+
+    .save-button {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      padding-right: 0.7rem;
+      height: 2rem;
+      line-height: 2rem;
+      text-align: center;
+    }
+
+    .fade-out {
+      @-webkit-keyframes fadeOut {
+        0%   {opacity: 0;}
+        15%  {opacity: 1;}
+        50%  {opacity: 1;}
+        100% {opacity: 0;}
+      }
+      animation: fadeOut 3s ease;
+      opacity: 0;
+    }
+
+    textarea {
+      margin: 0;
+      max-width: 100%;
+      padding: 1rem 0.5rem;
+      background: transparent;
+      border: none;
+      color: white;
+      padding-right: 1.5rem;
+      height: 100%;
     }
   }
 
-  .row {
-    color: white;
-    margin-bottom: 0.5rem;
-    
-    .text {
-      line-height: 2rem;
-
-      &.input {
-        display: flex;
-        i {
-          margin-left: 0.3em;
-          @media #{$small-only} {
-            line-height: 2.5em;
-          }
-        }
+  .data-rows {
+    select {
+      padding: 0 0.5rem;
+      padding-left: 0;
+      background: #002352;
+      color: white;
+      height: 1.8rem;
+      border: none;
+      margin: 0;
+      &:active {
+        border: 1px solid $tabbar-menu-icon-color !important;
+      }
+      font-size: inherit;
+      @media #{$small-only} {
+        font-size: 0.7rem;
       }
     }
 
-    .button.light {
-      width: 100%;
-      padding: 0.325rem 0.05rem 0.3875rem 0.05rem;
-      background-color: transparent;
-      border: 1px solid white;
-    }
+    .row {
+      color: white;
+      margin-bottom: 0.5rem;
+      
+      .text {
+        line-height: 2rem;
 
-    .text-prefix {
-      line-height: 2rem;
-      color: $gainsboro;
-    }
-  }
-
-  .reschedule-popup .row {
-    color: black;
-    margin-bottom: 1em;
-    select {
-      background-color: white;
-      color: rgba(0, 0, 0, 0.75);
-    }
-  }
-}
-
-.order_item_list_tabs{
-  margin: -0.5rem 0 1rem 0;
-  .tabs-content {
-    background-color: inherit;
-    color: inherit;
-  }
-  .row{
-    .tab_row {
-      .tabs {
-        margin-left: -0.7rem !important;
-        margin-right: -0.7rem !important;
-        border-bottom: 1px solid #334f75 !important;
-        @media #{$small-only} {
-          div {
-            font-size: 0.9rem !important;
+        &.input {
+          display: flex;
+          i {
+            margin-left: 0.3em;
+            @media #{$small-only} {
+              line-height: 2.5em;
+            }
           }
         }
-        div {
-          font-size: 1.1rem;
-        }
-        dd.active {
-          border-bottom: 3px solid #334f75 ;
-          a:after {
-            border-width: 0px !important;
+      }
+
+      .button.light {
+        width: 100%;
+        padding: 0.325rem 0.05rem 0.3875rem 0.05rem;
+        background-color: transparent;
+        border: 1px solid white;
+      }
+
+      .text-prefix {
+        line-height: 2rem;
+        color: $gainsboro;
+      }
+    }
+
+    .reschedule-popup .row {
+      color: black;
+      margin-bottom: 1em;
+      select {
+        background-color: white;
+        color: rgba(0, 0, 0, 0.75);
+      }
+    }
+  }
+
+  .order_item_list_tabs{
+    margin: -0.5rem 0 1rem 0;
+    .tabs-content {
+      background-color: inherit;
+      color: inherit;
+    }
+    .row{
+      .tab_row {
+        .tabs {
+          margin-left: -0.7rem !important;
+          margin-right: -0.7rem !important;
+          border-bottom: 1px solid #334f75 !important;
+          @media #{$small-only} {
+            div {
+              font-size: 0.9rem !important;
+            }
+          }
+          div {
+            font-size: 1.1rem;
+          }
+          dd.active {
+            border-bottom: 3px solid #334f75 ;
+            a:after {
+              border-width: 0px !important;
+            }
           }
         }
       }

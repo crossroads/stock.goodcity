@@ -31,8 +31,12 @@ export default Model.extend({
   detailId:             attr('number'),
   purposeDescription:   attr('string'),
   gcOrganisationId:     attr('number'),
+<<<<<<< HEAD
   beneficiaryId:        attr('number'),
   bookingTypeId:        attr('number'),
+=======
+  staffNote:            attr('string'),
+>>>>>>> Add sticky note to the logistics tab
 
   beneficiary:        belongsTo('beneficiary', { async: false }),
   stockitContact:     belongsTo('stockit_contact', { async: false }),
@@ -70,10 +74,6 @@ export default Model.extend({
   isOnlineOrder: Ember.computed("bookingType", function () {
     const bookingType = this.get('bookingType');
     return bookingType && bookingType.get('isOnlineOrder');
-  }),
-
-  bookingTypeLabel: Ember.computed('isAppointment', function () {
-    return  this.get('i18n').t(`order_transports.${this.get('isAppointment') ? 'appointment' : 'online_order'}`);
   }),
 
   isDraft: Ember.computed.equal("state", "draft"),
