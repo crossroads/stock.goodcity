@@ -188,19 +188,14 @@
     margin-right: 0;
   }
 }
-.col-width-appointment{
-  @media #{$small-only}{
-    width: 98%;
-    margin-left: 0px;
-  }
-}
+
 .success-submit{
   background: cornflowerblue !important;
   color: white !important;
   text-transform: capitalize !important;
 }
 
-.no-gc-req-error, .no-time-slot-selected-error{
+.no-gc-req-error, .no-time-slot-selected-error {
   color: #ee4f4b;
 }
 

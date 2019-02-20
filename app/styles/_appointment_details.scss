@@ -18,11 +18,6 @@
   .time_slots_radio_buttons {
       display: inline-block;
       position: relative;
-
-      // @media #{$small-only}{
-      //   width: 100% !important;
-      //   margin-left: -10px;
-      // }
       border: 1px solid;
       padding: .4rem;
       margin-top: 1rem;
@@ -48,21 +43,10 @@
         font-size: 0.8rem !important;
         margin-top: 0.4rem !important;
         margin-left: 3rem;
-      }
-      // input[type="radio"]:checked + label {
-      //   background: #f34d4f;
-      //   border-color: #f34d4f;
-      //   color: white;
-      //   width: 115%;
-      //   text-align: center;
-      //   margin-left: -7%;
-      //   height: 155%;
-      //   margin-top: -6% !important;
 
-      //   .selected-radio {
-      //     margin-left: 30%;
-      //     margin-top: 10%;
-      //   }
-      // }
+        @media #{$small-only} {
+          margin-left: 2rem;
+        }
+      }
     }
 }
