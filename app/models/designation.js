@@ -46,6 +46,7 @@ export default Model.extend({
   ordersPurposes:     hasMany('ordersPurpose', { async: false }),
   submittedBy:        belongsTo('user', { async: false }),
   bookingType:        belongsTo('booking_type', { async: false }),
+  bookingTypeId:      attr('number'),
   createdBy:          belongsTo('user', { async: false }),
   peopleHelped:       attr('number'),
   districtId:         attr('number'),

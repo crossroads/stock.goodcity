@@ -211,7 +211,7 @@ I18nTranslationsEn =
       "add_note": "Tap to add/edit sticky note"
       "vehicle": {
         "self": 'Private vehicle'
-        "van": 'Needs hired vehicle'
+        "ggv": 'Needs hired vehicle'
       }
     }
 

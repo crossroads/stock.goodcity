@@ -90,6 +90,8 @@ module("Acceptance: Order details, appointment info", {
 
     mockResource('auth/current_user_profil*', userProfile);
     mockResource('booking_type*', { booking_types: _.values(BOOKING_TYPES) });
+    mockResource('district*', { districts });
+    mockResource('gogovan_transport*', { gogovan_transports: ggvTransports });
     mockResource('designation*', {
       designations: designations,
       order_transports: orderTransports,
@@ -119,7 +121,7 @@ test("Should display the vehicle type", function(assert) {
   visit(`/orders/${designationOnlineOrder.id}/order_types/`);
 
   andThen(function () {
-    assert.equal($('.order-booking-tab .vehicle').text().trim(), 'Van');
+    assert.equal($('.order-booking-tab .vehicle option:selected').text().trim(), 'Van');
   });
 });
 
@@ -129,7 +131,7 @@ test("Should display the district", function(assert) {
   visit(`/orders/${designationOnlineOrder.id}/order_types/`);
 
   andThen(function () {
-    assert.equal($('.order-booking-tab .district').text().trim(), 'The peak');
+    assert.equal($('.order-booking-tab .district option:selected').text().trim(), 'The peak');
   });
 });
 
@@ -149,7 +151,7 @@ test("Should display the type for an online order", function(assert) {
   visit(`/orders/${designationOnlineOrder.id}/order_types/`);
 
   andThen(function () {
-    assert.equal($('.order-booking-tab .type').text().trim(), 'Online Order');
+    assert.equal($('.order-booking-tab .type option:selected').text().trim(), 'Online Order');
   });
 });
 
@@ -159,7 +161,7 @@ test("Should display the type for an appointment", function(assert) {
   visit(`/orders/${designationAppointment.id}/order_types/`);
 
   andThen(function () {
-    assert.equal($('.order-booking-tab .type').text().trim(), 'Appointment');
+    assert.equal($('.order-booking-tab .type option:selected').text().trim(), 'Appointment');
   });
 });
 

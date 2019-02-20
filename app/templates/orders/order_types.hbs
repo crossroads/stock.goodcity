@@ -16,10 +16,23 @@
       <div class="columns small-4 text-prefix">
         {{ dataRow.label }}
       </div>
-      <div class="columns small-8 text {{dataRow.name}}" {{ action dataRow.action }}>
-        {{ dataRow.text }}
-        <i aria-hidden="true">{{fa-icon dataRow.icon }}</i>
-      </div>
+      {{#unless dataRow.selectable}}
+        <div class="columns small-8 text {{dataRow.name}}" {{ action dataRow.action }}>
+          {{ dataRow.text }}
+          <i aria-hidden="true">{{fa-icon dataRow.icon }}</i>
+        </div>
+      {{else}}
+        <div class="columns small-8 text input {{dataRow.name}}">
+          {{select-list
+            content=dataRow.options
+            on-change=(action dataRow.action)
+            selectedValue=dataRow.value
+            value=dataRow.value
+            selectArrow=false
+          }}
+          <i aria-hidden="true">{{fa-icon dataRow.icon }}</i>
+        </div>
+      {{/unless}}
     </div>
   {{/each}}
 

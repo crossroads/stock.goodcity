@@ -1,3 +1,28 @@
-import detail from './detail';
+// jshint ignore: start
 
-export default detail.extend();
+import detail from './detail';
+import Cache from '../../utils/cache'
+import Ember from 'ember';
+
+export default detail.extend({
+
+  loadDependencies: Cache.once(function () {
+    const load = (modelName) => {
+      return this.store
+        .findAll(modelName)
+        .then((data) => this.store.pushPayload(data));
+    };
+
+    // Load dependent lookup tables
+    return Ember.RSVP.all([
+      'district',
+      'gogovan_transport',
+      'booking_type'
+    ].map(load));
+  }),
+
+  async afterModel() {
+    await this._super(...arguments);
+    await this.loadDependencies();
+  }
+});
