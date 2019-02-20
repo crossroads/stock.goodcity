@@ -5,6 +5,16 @@ export default Ember.TextArea.extend({
   attributeBindings: ["disabled"],
   disabled: false,
 
+  didDestroyElement: function (){
+    Ember.$('body').css({'overflow-x':'hidden'});
+  },
+
+  didInsertElement: function(){
+    Ember.$('body').css({'overflow-x':'unset'});
+    // scrolling down to bottom of page
+    window.scrollTo(0, document.body.scrollHeight);
+  },
+
   valueChanged: Ember.observer('value', function () {
     var _this = this;
     var textarea = _this.element;
@@ -19,11 +29,13 @@ export default Ember.TextArea.extend({
               'overflow-y': 'hidden'
             })
             .height(textarea.scrollHeight - 15);
-          // scrolling down to bottom of page
-          if (_this.get("value") !== "") {
-            window.scrollTo(0, document.body.scrollHeight);
-          }
-        } else {
+
+            // scroll to bottom if message typed
+            if (_this.get('value') !== "") {
+              window.scrollTo(0, document.body.scrollHeight);
+            }
+        } else
+        {
           Ember.$(textarea)
             .css({
               'height': 'auto',
