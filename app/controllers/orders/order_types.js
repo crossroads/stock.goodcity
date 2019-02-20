@@ -15,7 +15,8 @@ export default detail.extend({
   },
 
   showCallToAction: Ember.computed('model', 'stickyNote.showCallToAction', function() {
-    return this.get('model.staffNote').length === 0 && this.get('stickyNote.showCallToAction');
+    const note = this.get('model.staffNote');
+    return !note && this.get('stickyNote.showCallToAction');
   }),
 
   /**
