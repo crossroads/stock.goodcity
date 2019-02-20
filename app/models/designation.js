@@ -31,12 +31,9 @@ export default Model.extend({
   detailId:             attr('number'),
   purposeDescription:   attr('string'),
   gcOrganisationId:     attr('number'),
-<<<<<<< HEAD
   beneficiaryId:        attr('number'),
   bookingTypeId:        attr('number'),
-=======
   staffNote:            attr('string'),
->>>>>>> Add sticky note to the logistics tab
 
   beneficiary:        belongsTo('beneficiary', { async: false }),
   stockitContact:     belongsTo('stockit_contact', { async: false }),
