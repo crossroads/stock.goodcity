@@ -31,7 +31,7 @@ export default detail.extend({
     var object, value;
 
     content.forEach(function (item) {
-      value = item.get ? item.get(key) : item[key];
+      value = item.get(key);
       object = result.findBy('value', value);
       if (!object) {
         object = {

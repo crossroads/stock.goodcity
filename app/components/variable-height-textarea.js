@@ -28,8 +28,7 @@ export default Ember.TextArea.extend({
             .css({
               'height': 'auto',
               'overflow-y': 'auto'
-            })
-            .height(105);
+            });
         }
       });
     }

@@ -207,7 +207,7 @@ export default Ember.Controller.extend({
       return;
     }
 
-    if (["create","update"].includes(data.operation)) {
+    if (["create","update"].indexOf(data.operation) >= 0) {
         var payload = {};
         payload[type] = item;
         this.store.pushPayload(payload);
@@ -215,10 +215,5 @@ export default Ember.Controller.extend({
       this.store.unloadRecord(existingItem);
     }
     run(success);
-
-    // mark message as read if message will appear in current view
-    if (type === "message") {
-      console.log('mark messages read here');
-    }
   }
 });

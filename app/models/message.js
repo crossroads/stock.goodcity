@@ -1,12 +1,10 @@
 import Ember from 'ember';
 import DS from 'ember-data';
-const { getOwner } = Ember;
-
 var attr = DS.attr,
 belongsTo = DS.belongsTo;
 
 export default DS.Model.extend({
-
+  session: Ember.inject.service(),
   body: attr('string'),
   isPrivate: attr('boolean'),
   createdAt: attr('date'),
@@ -20,8 +18,7 @@ export default DS.Model.extend({
   designation: belongsTo('designation', { async: false }),
 
   myMessage: Ember.computed(function () {
-    var session = getOwner(this).lookup("service:session");
-    return this.get("sender.id") === session.get("currentUser.id");
+    return this.get("sender.id") === this.get('session.currentUser.id');
   }),
 
   isMessage: Ember.computed('this', function () {
@@ -32,7 +29,6 @@ export default DS.Model.extend({
     return new Date(this.get("createdAt")).toDateString();
   }),
 
-  itemImageUrl: Ember.computed.alias("item.displayImageUrl"),
   isRead: Ember.computed.equal('state', 'read'),
   isUnread: Ember.computed.equal('state', 'unread')
 });

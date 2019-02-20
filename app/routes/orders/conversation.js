@@ -3,10 +3,9 @@ import Ember from 'ember';
 
 export default detail.extend({
   model(params){
-    var designation = this.store.peekRecord("designation", params.order_id, {
-      reload: true }) || this.store.findRecord('designation', params.order_id);
     return Ember.RSVP.hash({
-      designation: designation,
+      designation: (this.store.peekRecord("designation", params.order_id, {
+        reload: true}) || this.store.findRecord('designation', params.order_id)),
       messages: this.store.query('message', { order_id: params.order_id })
     });
   },
