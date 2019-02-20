@@ -32,7 +32,6 @@ export default Model.extend({
   purposeDescription:   attr('string'),
   gcOrganisationId:     attr('number'),
   beneficiaryId:        attr('number'),
-  bookingTypeId:        attr('number'),
   staffNote:            attr('string'),
 
   beneficiary:        belongsTo('beneficiary', { async: false }),
