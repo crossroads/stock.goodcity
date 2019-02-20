@@ -14,5 +14,14 @@ export default Model.extend({
 
   fullName: Ember.computed('firstName', 'lastName', function(){
     return (this.get("title") + " " + this.get('firstName') + " " + this.get('lastName'));
-  })
+  }),
+
+  mobileWithoutCountryCode: Ember.computed('mobile', function(){
+    var phoneNumber = this.get('phoneNumber');
+    return phoneNumber ? ((phoneNumber.indexOf("+852") >= 0) ? phoneNumber.substring('4') : phoneNumber) : '';
+  }),
+
+  fullNameWithoutTitle: Ember.computed('firstName', 'lastName', function(){
+    return this.get('firstName') + " " + this.get('lastName');
+  }),
 });

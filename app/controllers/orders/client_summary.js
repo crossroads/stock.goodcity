@@ -6,6 +6,22 @@ const { getOwner } = Ember;
 export default detail.extend({
   showBeneficiaryModal: false,
 
+  titles: Ember.computed(function(){
+    return [
+      { name: "Mr", id: "Mr" },
+      { name: "Mrs", id: "Mrs" },
+      { name: "Miss", id: "Miss" },
+      { name: "Ms", id: "Ms" }
+    ];
+  }),
+
+  identityTypes: Ember.computed(function() {
+    return [
+      { name: 'Hong Kong Identity Card', id: 1 },
+      { name: 'Asylum Seeker Recognizance Form', id: 2}
+    ];
+  }),
+
   actions: {
     removeBeneficiaryModal() {
       this.toggleProperty('showBeneficiaryModal');
