@@ -10,6 +10,15 @@ const EMPTY_OPTION = {
 
 export default detail.extend({
 
+  stickyNote: {
+    showCallToAction: true
+  },
+
+  showCallToAction: Ember.computed('model', 'stickyNote.showCallToAction', function() {
+    const note = this.get('model.staffNote');
+    return !note && this.get('stickyNote.showCallToAction');
+  }),
+
   /**
    * Creates an action that modifies the property of the record passed as argument
    */
@@ -39,7 +48,7 @@ export default detail.extend({
 
     return res;
   },
-  
+
   /**
    * SCHEDULE ROW
    */
@@ -135,5 +144,29 @@ export default detail.extend({
       this.makeDistrictRow(),
       this.makeVehicleRow()
     ];
-  })
+  }),
+
+  actions: {
+    hideNoteCallToAction() {
+      this.set('stickyNote.showCallToAction', false);
+    },
+    showNoteCallToAction() {
+      this.set('stickyNote.showCallToAction', true);
+    },
+    onStickyNoteChanged() {
+      this.set('stickyNote.showSaveButton', true);
+    },
+    saveStickyNote() {
+      const order = this.get('model');
+      this.updateRecord(order, {}, { 
+        noRollback: true,
+        onSuccess: () => {
+          this.set('stickyNote.showSaveButton', false);
+          if (!order.get('staffNote')) {
+            this.send('showNoteCallToAction');
+          }
+        }
+      });
+    }
+  }
 });
