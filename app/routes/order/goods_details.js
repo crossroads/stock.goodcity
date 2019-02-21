@@ -1,7 +1,7 @@
-import AuthorizeRoute from './../authorize';
 import AjaxPromise from 'stock/utils/ajax-promise';
+import orderUserOrganisation from './order_user_organisation';
 
-export default AuthorizeRoute.extend({
+export default orderUserOrganisation.extend({
   model(params) {
     let store = this.store;
     let orderId = params.order_id;
