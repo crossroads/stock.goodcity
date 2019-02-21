@@ -46,8 +46,9 @@ test("Purpose name and description", function(assert) {
 
   andThen(function() {
     assert.equal(currentPath(), "orders.client_summary");
-    assert.equal($('#client_name').text().trim(), beneficiary.get("fullName"));
-    assert.equal($('#phone_number').text().trim(), beneficiary.get("phoneNumber"));
-    assert.equal($('#id_number').text().trim(), beneficiary.get("identityNumber"));
+    assert.equal($('#beneficiary-title-select select').val().trim() + " " + $('#beneficiary-numeric-input').val() // jshint ignore:line
+      , beneficiary.get("fullName")); // jshint ignore:line
+    assert.equal($('#beneficiary-phone-input').val().trim(), beneficiary.get("phoneNumber"));
+    assert.equal($('#id_number input').val().trim(), beneficiary.get("identityNumber"));
   });
 });

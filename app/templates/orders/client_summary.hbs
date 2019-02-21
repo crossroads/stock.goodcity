@@ -29,7 +29,29 @@
             {{t "order_client_summary.client_name"}}
           </div>
           <div id="client_name" class="small-7 columns">
-            {{model.beneficiary.fullName}}
+            <div class="columns small-3 value quality">
+              <div class="select-quality">
+                {{beneficiary-inline-select-list
+                  content=titles
+                  disabled=(if model.isEditAllowed "" true)
+                  selectedValue=model.beneficiary.title
+                  on-change=(action (mut selectedReason))
+                  name="title"
+                  id="beneficiary-title-select"
+                  class="beneficiary-inline-select"
+                  beneficiary=model.beneficiary}}
+              </div>
+            </div>
+            <div class="columns small-9">
+              {{beneficiary-inline-input 
+                name="fullName" 
+                disabled=(if model.isEditAllowed "" true)
+                maxlength=50
+                id="beneficiary-numeric-input"
+                class="numeric-input beneficiary-inline-input beneficiary-title" 
+                value=model.beneficiary.fullNameWithoutTitle  
+                  beneficiary=model.beneficiary}}
+            </div>
           </div>
         </div>
 
@@ -38,16 +60,35 @@
             {{t "order_client_summary.client_phone"}}
           </div>
           <div id="phone_number" class="small-7 columns">
-            {{model.beneficiary.phoneNumber}}
+            +852 {{beneficiary-inline-number-input 
+              name="phone_number" 
+              maxlength=8
+              id="beneficiary-phone-input"
+              disabled=(if model.isEditAllowed "" true)
+              class="numeric-input beneficiary-inline-input" 
+              value=model.beneficiary.mobileWithoutCountryCode  
+              beneficiary=model.beneficiary}}
           </div>
         </div>
 
         <div class="row">
-          <div class="small-5 columns">
+          <div class="small-5 columns beneficiary-id-title">
             {{t "order_client_summary.id_title"}}
           </div>
           <div class="small-7 columns">
-            {{model.beneficiary.identityType.name}}
+            <div class="value quality">
+              <div class="select-quality">
+                {{beneficiary-inline-select-list
+                  content=identityTypes
+                  disabled=(if model.isEditAllowed "" true)
+                  selectedValue=model.beneficiary.identityType.name
+                  on-change=(action (mut selectedReason))
+                  name="identity_type_id"
+                  id="beneficiary-identity-select"
+                  class="beneficiary-identity-select"
+                  beneficiary=model.beneficiary}}
+              </div> 
+            </div> 
           </div>
         </div>
 
@@ -56,7 +97,13 @@
             {{t "order_client_summary.id_number"}}
           </div>
           <div id="id_number" class="small-7 columns">
-            {{model.beneficiary.identityNumber}}
+            {{beneficiary-inline-number-input 
+              name="identity_number" 
+              maxlength=4
+              disabled=(if model.isEditAllowed "" true)
+              class="numeric-input beneficiary-inline-input" 
+              value=model.beneficiary.identityNumber  
+              beneficiary=model.beneficiary}}
           </div>
           <br/>
           <hr/>
@@ -90,7 +137,13 @@
             {{t "order_client_summary.number_benefiting"}}
           </div>
           <div class="small-7 columns">
-            {{model.peopleHelped}}
+            {{order-inline-number-input 
+              name="people_helped" 
+              maxlength=3
+              disabled=(if model.isEditAllowed "" true)
+              class="numeric-input beneficiary-inline-input" 
+              value=model.peopleHelped  
+              order=model}}
           </div>
         </div>
 
@@ -110,7 +163,15 @@
             {{t "order_client_summary.description_of_need"}}
           </div>
           <div class="small-7 columns">
-            {{model.purposeDescription}}
+            {{order-inline-textarea-input 
+              data-autoresize=true name="purpose_description" 
+              value=model.purposeDescription 
+              disabled=(if model.isEditAllowed "" true)
+              required="required" 
+              pattern=".*\S.*" 
+              id=(concat 'desc' item.id) 
+              class="description-textarea order-description-textarea" 
+              order=model}}
           </div>
         </div>
       {{/if}}

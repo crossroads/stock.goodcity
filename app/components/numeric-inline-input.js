@@ -7,7 +7,7 @@ export default Ember.TextField.extend({
   previousValue: '',
   tagName: "input",
   type: "text",
-  attributeBindings: [ "name", "type", "value", "maxlength", "id", "autoFocus" , "placeholder", "required", "pattern"],
+  attributeBindings: [ "name", "type", "disabled", "value", "maxlength", "id", "autoFocus" , "placeholder", "required", "pattern"],
   classNameBindings: ["class"],
 
   didInsertElement() {
