@@ -42,10 +42,9 @@ export default Ember.Controller.extend({
 
       var loadingView = getOwner(this).lookup('component:loading').append();
 
-      Ember.RSVP.all(promises).then(function(){
-        loadingView.destroy();
-      }).finally(() =>{
+      Ember.RSVP.all(promises).finally(() => {
         this.transitionToRoute('order.appointment_details', this.get("order.id"));
+        loadingView.destroy();
       });
     }
   }

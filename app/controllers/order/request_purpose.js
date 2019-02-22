@@ -15,13 +15,25 @@ export default Ember.Controller.extend({
     return this.get('order.purposeId') || "Organisation";
   }),
 
-  peopleHelped: Ember.computed('order', function() {
-    return this.get('order.peopleHelped') || undefined;
+  peopleHelped: Ember.computed('order', {
+    get() {
+      return this.get('order.peopleHelped') || '';
+    },
+    set(key, value) {
+      this.set('order.peopleHelped', value);
+      return value;
+    }
   }),
 
-  selectedDistrict: Ember.computed('order.districtId', function() {
-    let districtId = this.get('order.districtId');
-    return districtId ? this.store.peekRecord('district', districtId) : null;
+  selectedDistrict: Ember.computed('order.districtId', {
+    get() {
+      let districtId = this.get('order.districtId');
+      return districtId ? this.store.peekRecord('district', districtId) : null;
+    },
+    set(key, value) {
+      let districtId = value.id;
+      return districtId ? this.store.peekRecord('district', districtId) : null;
+    }
   }),
 
   actions: {
@@ -79,13 +91,12 @@ export default Ember.Controller.extend({
           var orderId = data.designation.id;
           var purpose_ids = data.orders_purposes.filterBy("order_id", orderId).getEach("purpose_id");
           isOrganisationPuropose = purpose_ids.get('length') === 1 && purpose_ids.indexOf(1) >= 0;
-          loadingView.destroy();
           if(isOrganisationPuropose) {
             this.transitionToRoute('order.goods_details', orderId);
           } else {
             this.transitionToRoute("order.client_information", orderId);
           }
-        });
+        }).finally( () => loadingView.destroy());
     }
   }
 });

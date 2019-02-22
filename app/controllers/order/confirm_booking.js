@@ -16,9 +16,8 @@ export default Ember.Controller.extend({
       new AjaxPromise(`/orders/${order.get('id')}`, "PUT", this.get('session.authToken'), { order: orderParams })
       .then(data => {
         this.get("store").pushPayload(data);
-        loadingView.destroy();
         this.transitionToRoute('order.booking_success', this.get("order.id"));
-      });
+      }).finally( () => loadingView.destroy());
     }
   }
 });
