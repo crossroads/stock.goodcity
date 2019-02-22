@@ -6,9 +6,8 @@ body{
 
 html, body{
   user-select: none;
-  display: inline-block;
-  width: 100%;
-  // overflow-x: hidden;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 h2{
