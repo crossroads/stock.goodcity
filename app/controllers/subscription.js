@@ -13,7 +13,7 @@ export default Ember.Controller.extend({
   lastOnline: Date.now(),
   deviceTtl: 0,
   deviceId: Math.random().toString().substring(2),
-  modelDataTypes: ["offer", "Offer", "item", "Item", "Schedule", "schedule", "delivery", "Delivery", "message", "Message", "gogovan_order", "GogovanOrder", "contact", "Contact", "address", "Address", "order", "Order"],
+  modelDataTypes: ["offer", "Offer", "item", "Item", "Schedule", "schedule", "delivery", "Delivery", "gogovan_order", "GogovanOrder", "contact", "Contact", "address", "Address", "order", "Order"],
   // logger: Ember.inject.service(),
   status: {
     online: false
@@ -195,7 +195,9 @@ export default Ember.Controller.extend({
       return false;
     }
 
-    this.setFavImage(item, data, type);
+    if(type.toLowerCase() !== "message"){
+      this.setFavImage(item, data, type);
+    }
 
     var existingItem = this.store.peekRecord(type, item.id);
     var hasNewItemSaving = this.store.peekAll(type).any(function(o) { return o.id === null && o.get("isSaving"); });
@@ -205,7 +207,7 @@ export default Ember.Controller.extend({
       return;
     }
 
-    if (["create","update"].contains(data.operation)) {
+    if (["create","update"].indexOf(data.operation) >= 0) {
         var payload = {};
         payload[type] = item;
         this.store.pushPayload(payload);
