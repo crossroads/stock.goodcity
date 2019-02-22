@@ -30,6 +30,14 @@
       display: block !important;
     }
   }
+
+  .request_purpose_title {
+    color: white;
+    font-size: 0.9rem;
+    font-weight: 600;
+    font-weight: 600;
+  }
+
   .purpose {
     margin-left: 0;
     margin-right: 0;
@@ -136,6 +144,10 @@
 
     .people-count-label{
       margin-top: 1rem !important;
+      color: white;
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-top: 1rem;
       margin-bottom: 0.5rem;
     }
     input {
@@ -153,6 +165,10 @@
     margin-right: 0;
 
     .description {
+      color: white;
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-top: 1rem;
       margin-bottom: 0.2rem;
     }
     .reason-of-need{
@@ -239,6 +255,9 @@
     margin-left: 0% !important;
   }
   .district-label {
+    color: white;
+    font-size: 0.9rem;
+    margin-top: 1rem;
     margin-bottom: 0.2rem;
   }
   .district-label-info{
@@ -276,6 +295,7 @@
 .organisation-details {
   padding-left: 3%;
   padding-top: 3%;
+  color: white;
   font-size: 0.9rem;
   font-weight: 700;
 
