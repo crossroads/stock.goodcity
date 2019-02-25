@@ -1,9 +1,12 @@
 import Ember from "ember";
 import AjaxPromise from 'stock/utils/ajax-promise';
+import config from '../../config/environment';
+
 const { getOwner } = Ember;
 
 export default Ember.Controller.extend({
   order: Ember.computed.alias("model.order"),
+  isMobileApp: config.cordova.enabled,
 
   actions: {
     confirmBooking(){

@@ -1,6 +1,7 @@
 import Ember from "ember";
 const { getOwner } = Ember;
 import AjaxPromise from 'stock/utils/ajax-promise';
+import config from '../../config/environment';
 
 export default Ember.Controller.extend({
   queryParams: ["typeId", "fromClientInformation"],
@@ -11,9 +12,14 @@ export default Ember.Controller.extend({
   otherDetails: "",
   sortProperties: ["id"],
   sortedGcRequests: Ember.computed.sort("order.goodcityRequests", "sortProperties"),
+  isMobileApp: config.cordova.enabled,
 
   hasNoGcRequests: Ember.computed("order.goodcityRequests", function() {
     return (!this.get('order.goodcityRequests').length);
+  }),
+
+  sortedGcRequestsLength: Ember.computed("order.goodcityRequests", function() {
+    return (this.get('order.goodcityRequests').length > 1);
   }),
 
   actions: {

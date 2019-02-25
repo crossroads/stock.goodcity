@@ -6,6 +6,7 @@ const { getOwner } = Ember;
 export default Ember.Controller.extend({
   queryParams: ["prevPath"],
   prevPath: null,
+  isMobileApp: config.cordova.enabled,
   i18n: Ember.inject.service(),
   firstName: null,
   lastName: null,
@@ -21,7 +22,7 @@ export default Ember.Controller.extend({
     return (orderPurpose && orderPurpose.get('purpose.identifier')) || 'organisation';
   }),
 
-  isOrganisationSelected: Ember.computed.equal("selectedPurposeId", "organisation"),
+  isClientSelected: Ember.computed.equal("selectedPurposeId", "client"),
   isHkIdSelected: Ember.computed.equal("selectedId", "hkId"),
 
   mobile: Ember.computed('mobilePhone', function(){
@@ -106,11 +107,11 @@ export default Ember.Controller.extend({
       let loadingView = getOwner(this).lookup('component:loading').append();
 
       let beneficiaryParams = (["PUT", "POST"].indexOf(actionType) > -1) ?  { beneficiary: this.beneficiaryParams(), order_id: orderId } : {};
-      new AjaxPromise('/orders/' + orderId, 'PUT', this.get('session.authToken'), { order: orderParams })
+      return new AjaxPromise('/orders/' + orderId, 'PUT', this.get('session.authToken'), { order: orderParams })
         .then(data => {
           store.pushPayload(data);
           if (actionType) {
-            new AjaxPromise(url, actionType, this.get('session.authToken'), beneficiaryParams)
+            return new AjaxPromise(url, actionType, this.get('session.authToken'), beneficiaryParams)
               .then((beneficiaryData) => {
                 if(beneficiary && actionType === "DELETE") {
                   store.unloadRecord(beneficiary);

@@ -1,3 +1,6 @@
+{{#if (is-and isMobileApp isClientSelected)}}
+  {{scroll-to-bottom }}
+{{/if}}
 <div class="row">
   <div class="large-12 columns medium-12 small-12">
     <section class="main-section new-user-section ui login_page book_appointment_headers">
@@ -43,7 +46,7 @@
         </div>
       </div>
       {{#validatable-form onSubmit=(action 'saveClientDetails') as |form|}}
-        {{#unless isOrganisationSelected}}
+        {{#if isClientSelected}}
           <div class="small-12 columns type-of-id-text">
             {{t 'order.client_information.id_type_held_by_client'}}
           </div>
@@ -158,7 +161,7 @@
               {{/form-control}}
             </div>
           </div>
-        {{/unless}}
+        {{/if}}
         <div class="row client-submit-button">
           <div class="small-12 columns">
             <a {{action 'submit' target=form}} id="client-info-submit" class="button expand"> {{t 'continue'}} </a>
