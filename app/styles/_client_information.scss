@@ -25,6 +25,9 @@
   }
 
   .id-type-radio-input{
+    margin-left: 0;
+    margin-right: 0;
+
     .custom_radio_buttons {
       border: 1px solid;
       padding: .4rem;
@@ -58,6 +61,9 @@
     }
   }
   .client-name-inputs{
+    margin-left: 0;
+    margin-right: 0;
+
     padding-right: 0.8rem;
 
     .input-error {
@@ -78,6 +84,9 @@
   }
 }
 div .hk-id{
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+
   #hk-id-number, #hk-id-firstName, #hk-id-lastName {
     height: 2.7rem;
     padding: 0 0.5rem;
@@ -102,6 +111,11 @@ div .hk-id{
   .x-with-brackets{
     font-size: 1.7rem;
   }
+}
+
+.client-submit-button {
+  margin-left: 0;
+  margin-right: 0;
 }
 
 #title input{

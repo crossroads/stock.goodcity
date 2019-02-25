@@ -4,7 +4,7 @@
       <nav class="tab-bar">
         <a class="back">
           <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-left'}}</i>
-          {{#link-to 'order.request_purpose' order.id classNames="back_text"}}{{t "back"}}{{/link-to}}
+          {{#link-to 'order.client_information' order.id classNames="back_text"}}{{t "back"}}{{/link-to}}
         </a>
         <section class="middle tab-bar-section">
           <h1 class="title"> {{t "order.goods_details.title"}} </h1>
@@ -33,7 +33,7 @@
               {{fa-icon 'plus-circle' size="lg"}}
             </span>
           </div>
-          <div class='small-2 columns'>&nbsp;</div>
+          <div class='small-2 columns'></div>
         </div>
         <br>
         <div class="row">
@@ -41,7 +41,7 @@
             {{#if hasNoGcRequests}}<p align="center" class="no-gc-req-error">{{t "order.goods_details.no_goods_error"}}</p>{{/if}}
             <button {{action 'submit' target=form}} id="goods-details-submit" disabled={{hasNoGcRequests}} class="button expand expand_button">{{t "continue"}}</button>
           </div>
-          <div class='small-1 columns'>&nbsp;</div>
+          <div class='small-1 columns'></div>
         </div>
       {{/validatable-form}}
     </section>

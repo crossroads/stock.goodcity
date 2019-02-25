@@ -17,7 +17,12 @@
         (X)
       </div>
       <div class="large-11 small-12 columns">
-        <div class='input-error'>{{fa-icon "exclamation-triangle"}}&nbsp;&nbsp;{{t "order.numbers_warning"}} </div>
+        <div class='input-error'>
+          {{fa-icon "exclamation-triangle"}}
+          <span class="error-reason-margin">
+            {{t "order.numbers_warning"}}
+          </span>
+        </div>
       </div>
       <div class="large-1 columns"></div>
     {{/form-control}}

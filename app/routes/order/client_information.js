@@ -8,7 +8,8 @@ export default orderUserOrganisation.extend({
 
     return Ember.RSVP.hash({
       orderUserOrganisation,
-      beneficiary: orderUserOrganisation.order.get('beneficiary')
+      beneficiary: orderUserOrganisation.order.get('beneficiary'),
+      purposes: this.store.peekAll('purpose')
     });
   },
   /* jshint ignore:end */

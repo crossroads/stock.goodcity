@@ -14,117 +14,154 @@
     </section>
     <section class="main-section client-information large-12 small-12 medium-12 columns">
       {{partial "order/user_information"}}
+      <div class="row time_inputs purpose" >
+        <div class="small-12 columns">
+          <div class="request_purpose_title">{{t 'order.request_purpose.purpose'}}</div>
+          <div class=" custom_radio_buttons small-12 columns purpose">
+            {{radio-button
+            name="selectReason"
+            id="1"
+            value="organisation"
+            selection=selectedPurposeId
+            required='true'}}
+            <label class="radio-button-text for-client align-text" for="1">
+              <div class="request-purpose-radio">{{t 'order.request_purpose.for_organisation'}}</div>
+            </label>
+          </div>
+
+          <div class=" custom_radio_buttons small-12 columns purpose">
+            {{radio-button
+            name="selectReason"
+            id="2"
+            value="client"
+            selection=selectedPurposeId
+            required='true'}}
+            <label class="radio-button-text for-client align-text" for="2">
+              <div class="request-purpose-radio">{{t 'order.request_purpose.for_client'}}</div>
+            </label>
+          </div>
+        </div>
+      </div>
       {{#validatable-form onSubmit=(action 'saveClientDetails') as |form|}}
-        <div class="small-12 columns type-of-id-text">
-          {{t 'order.client_information.id_type_held_by_client'}}
-        </div>
-        <div class="small-12 columns id-confidential-text">
-          {{t 'order.client_information.verify'}}
-        </div>
-        <div class="small-12 columns id-confidential-text">
-          {{t 'order.client_information.data_confidentiality'}}
-        </div>
-        <div class="row time_inputs id-type-radio-input" >
-          <div class="small-12 columns">
-            <div class=" custom_radio_buttons small-12 columns purpose" for="For HKID">
-                {{radio-button
-                name="selectReason"
-                id="hkId"
-                value="hkId"
-                selection=selectedId
-                required='true'}}
-              <label class="radio-button-text align-text hkId" for="hkId">
-                {{t 'order.client_information.hk_id'}}
-              </label>
-            </div>
+        {{#unless isOrganisationSelected}}
+          <div class="small-12 columns type-of-id-text">
+            {{t 'order.client_information.id_type_held_by_client'}}
+          </div>
+          <div class="small-12 columns id-confidential-text">
+            {{t 'order.client_information.verify'}}
+          </div>
+          <div class="small-12 columns id-confidential-text">
+            {{t 'order.client_information.data_confidentiality'}}
+          </div>
+          <div class="row time_inputs id-type-radio-input" >
+            <div class="small-12 columns">
+              <div class=" custom_radio_buttons small-12 columns purpose" for="For HKID">
+                  {{radio-button
+                  name="selectReason"
+                  id="hkId"
+                  value="hkId"
+                  selection=selectedId
+                  required='true'}}
+                <label class="radio-button-text align-text hkId" for="hkId">
+                  {{t 'order.client_information.hk_id'}}
+                </label>
+              </div>
 
-            <div class=" custom_radio_buttons small-12 columns purpose end" for="For asyLum">
-                {{radio-button
-                name="selectReason"
-                id="abcl"
-                value="abcl"
-                selection=selectedId
-                required='true'}}
-              <label class="radio-button-text align-text abcl" for="abcl">
-                {{t 'order.client_information.asrf_id'}}
-              </label>
+              <div class=" custom_radio_buttons small-12 columns purpose end" for="For asyLum">
+                  {{radio-button
+                  name="selectReason"
+                  id="abcl"
+                  value="abcl"
+                  selection=selectedId
+                  required='true'}}
+                <label class="radio-button-text align-text abcl" for="abcl">
+                  {{t 'order.client_information.asrf_id'}}
+                </label>
+              </div>
             </div>
-          </div>
-        </div>
-        <br>
-        {{#if isHkIdSelected}}
-          {{partial 'order/request/hk_identity_type_details'}}
-        {{else}}
-          {{partial 'order/request/rbcl_identity_type_details'}}
-        {{/if}}
-
-        <div class="row">
-          <div class="small-2 columns client_title">
-            <label class="form-label">{{t "order.title"}}</label>
-          </div>
-          <div class="small-5 columns client_first_name">
-            <label class="form-label"> {{t 'order.client_information.first_name'}} </label>
-          </div>
-          <div class="small-5 columns client_last_name">
-            <label class="form-label"> {{t 'order.client_information.family_name'}} </label>
           </div>
           <br>
-          <div class="small-12 columns id-confidential-text">
-            {{t 'order.client_information.name_instruction'}} <br> <br>
-          </div>
-          {{#form-control}}
-            <div class="row hk-id add-request">
-              <div class="small-2 columns client_title">
-                {{select-list
-                  content=titles
-                  on-change=(action (mut selectedTitle))
-                  selectedValue=selectedTitle
-                  value= selectedTitle
-                  selectArrow=true
-                  classNames='condition'
-                  idNames='title' }}
-              </div>
+          {{#if isHkIdSelected}}
+            {{partial 'order/request/hk_identity_type_details'}}
+          {{else}}
+            {{partial 'order/request/rbcl_identity_type_details'}}
+          {{/if}}
 
-              <div class="small-5 columns client_first_name">
-                {{input type="text" value=firstName id="hk-id-firstName" classNames="select-goods" required='true'}}
-              </div>
-              <div class="small-5 columns client_last_name">
-                {{input type="text" value=lastName id="hk-id-lastName" classNames="select-goods" required='true'}}
-              </div>
-              <div class="small-12 columns">
-                <div class='input-error'> {{fa-icon "exclamation-triangle"}}&nbsp;&nbsp;{{t 'order.client_information.name_warning'}} </div>
-              </div>
-            </div>
-          {{/form-control}}
-        </div>
-
-        <div class="row client-name-inputs">
-          <div class="small-12 columns type-of-id-text">
-            {{t 'order.client_information.phone_number'}} <br>
-          </div>
-          <div class="small-12 columns id-confidential-text">
-            {{t 'order.client_information.phone_number_instruction'}} <br><br>
-          </div>
           <div class="row">
+            <div class="small-2 columns client_title">
+              <label class="form-label">{{t "order.title"}}</label>
+            </div>
+            <div class="small-5 columns client_first_name">
+              <label class="form-label"> {{t 'order.client_information.first_name'}} </label>
+            </div>
+            <div class="small-5 columns client_last_name">
+              <label class="form-label"> {{t 'order.client_information.family_name'}} </label>
+            </div>
+            <br>
+            <div class="small-12 columns id-confidential-text">
+              {{t 'order.client_information.name_instruction'}} <br> <br>
+            </div>
             {{#form-control}}
-              <div class="small-2 columns">
-                <span class="prefix">+852</span>
-              </div>
-              <div class="small-10 columns add-request" style="margin-top: 0px;">
-                {{numeric-input value=mobilePhone name="mobilePhone" id="mobile" maxlength="8" required=true pattern=".{8,}" classNames="select-goods"}}
-              </div>
-              <div class="small-12 columns">
-                <div class='input-error'>
-                  {{fa-icon "exclamation-triangle"}}&nbsp;&nbsp; {{t 'order.mobile_warning'}}
+              <div class="row hk-id add-request">
+                <div class="small-2 columns client_title">
+                  {{select-list
+                    content=titles
+                    on-change=(action (mut selectedTitle))
+                    selectedValue=selectedTitle
+                    value= selectedTitle
+                    selectArrow=true
+                    classNames='condition'
+                    idNames='title' }}
+                </div>
+
+                <div class="small-5 columns client_first_name">
+                  {{input type="text" value=firstName id="hk-id-firstName" classNames="select-goods" required='true'}}
+                </div>
+                <div class="small-5 columns client_last_name">
+                  {{input type="text" value=lastName id="hk-id-lastName" classNames="select-goods" required='true'}}
+                </div>
+                <div class="small-12 columns">
+                  <div class='input-error'>
+                    {{fa-icon "exclamation-triangle"}}
+                    <span class="error-reason-margin">
+                      {{t 'order.client_information.name_warning'}}
+                    </span>
+                  </div>
                 </div>
               </div>
             {{/form-control}}
           </div>
 
-          <div class="row">
-            <div class="small-12 columns">
-              <a {{action 'submit' target=form}} id="client-info-submit" class="button expand"> {{t 'continue'}} </a>
+          <div class="row client-name-inputs">
+            <div class="small-12 columns type-of-id-text">
+              {{t 'order.client_information.phone_number'}} <br>
             </div>
+            <div class="small-12 columns id-confidential-text">
+              {{t 'order.client_information.phone_number_instruction'}} <br><br>
+            </div>
+            <div class="row">
+              {{#form-control}}
+                <div class="small-2 columns">
+                  <span class="prefix">+852</span>
+                </div>
+                <div class="small-10 columns add-request" style="margin-top: 0px;">
+                  {{numeric-input value=mobilePhone name="mobilePhone" id="mobile" maxlength="8" required=true pattern=".{8,}" classNames="select-goods"}}
+                </div>
+                <div class="small-12 columns">
+                  <div class='input-error'>
+                    {{fa-icon "exclamation-triangle"}}
+                    <span class="error-reason-margin">
+                      {{t 'order.mobile_warning'}}
+                    </span>
+                  </div>
+                </div>
+              {{/form-control}}
+            </div>
+          </div>
+        {{/unless}}
+        <div class="row client-submit-button">
+          <div class="small-12 columns">
+            <a {{action 'submit' target=form}} id="client-info-submit" class="button expand"> {{t 'continue'}} </a>
           </div>
         </div>
       {{/validatable-form}}

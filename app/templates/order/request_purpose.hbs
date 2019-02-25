@@ -23,42 +23,16 @@
         }}
         {{#validatable-form onSubmit=(action 'createOrderWithRequestPuropose') as |form|}}
           <br>
-          <div class="row time_inputs purpose" >
-            <div class="small-12 columns">
-              <div class="request_purpose_title">{{t 'order.request_purpose.purpose'}}</div>
-              <div class=" custom_radio_buttons small-12 columns purpose">
-                {{radio-button
-                name="selectReason"
-                id="1"
-                value="Organisation"
-                selection=selectedId
-                required='true'}}
-                <label class="radio-button-text for-client align-text" for="1">
-                  <div class="request-purpose-radio">{{t 'order.request_purpose.for_organisation'}}</div>
-                </label>
-              </div>
-
-              <div class=" custom_radio_buttons small-12 columns purpose">
-                {{radio-button
-                name="selectReason"
-                id="2"
-                value="Client"
-                selection=selectedId
-                required='true'}}
-                <label class="radio-button-text for-client align-text" for="2">
-                  <div class="request-purpose-radio">{{t 'order.request_purpose.for_client'}}</div>
-                </label>
-              </div>
-            </div>
-          </div>
           <div class="row people-count">
             <div class="small-12 columns people-count-label">
               {{t 'order.request_purpose.people_count_info'}}
               {{#form-control}}
                 {{input type='number' value=peopleHelped required='true' id="people-count"}}
                 <div class='input-error'>
-                  {{fa-icon "exclamation-triangle"}}&nbsp;&nbsp;
-                  {{t 'order.request_purpose.people_count_warning'}}
+                  {{fa-icon "exclamation-triangle"}}
+                  <span class="error-reason-margin">
+                    {{t 'order.request_purpose.people_count_warning'}}
+                  </span>
                 </div>
               {{/form-control}}
             </div>
@@ -98,8 +72,10 @@
                 </span>
                 {{auto-resize-textarea data-autoresize=true name="description" value=order.purposeDescription required="required" pattern=".*\S.*" id="description"}}
                 <div class='input-error error-margin'>
-                  {{fa-icon "exclamation-triangle"}}&nbsp;&nbsp;
-                  {{t 'order.request_purpose.description_warning'}}
+                  {{fa-icon "exclamation-triangle"}}
+                  <span class="error-reason-margin">
+                    {{t 'order.request_purpose.description_warning'}}
+                  </span>
                 </div>
               {{/form-control}}
             </div>

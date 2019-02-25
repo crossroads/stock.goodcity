@@ -11,9 +11,6 @@ export default Ember.Controller.extend({
   user: Ember.computed.alias('model.orderUserOrganisation.user'),
   order: Ember.computed.alias('model.orderUserOrganisation.order'),
   districts: Ember.computed.alias('model.districts'),
-  selectedId: Ember.computed('order',  function() {
-    return this.get('order.purposeId') || "Organisation";
-  }),
 
   peopleHelped: Ember.computed('order', {
     get() {
@@ -58,12 +55,6 @@ export default Ember.Controller.extend({
 
     createOrderWithRequestPuropose(){
       let user = this.get('user');
-      let purposeIds = [];
-      if(this.get('selectedId') === 'Organisation'){
-        purposeIds.push(1);
-      } else if(this.get('selectedId') === 'Client'){
-        purposeIds.push(2);
-      }
 
       let user_organisation_id;
       if(user && user.get('organisationsUsers').length){
@@ -73,7 +64,6 @@ export default Ember.Controller.extend({
       let orderParams = {
         organisation_id: user_organisation_id,
         purpose_description: this.get('order.purposeDescription'),
-        purpose_ids: purposeIds,
         people_helped: this.get('peopleHelped'),
         district_id: this.get('selectedDistrict.id')
       };
