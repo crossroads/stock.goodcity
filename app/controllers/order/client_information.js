@@ -14,8 +14,7 @@ export default Ember.Controller.extend({
 
   firstName: Ember.computed("beneficiary", {
     get() {
-      let beneficiary = this.get('beneficiary');
-      return beneficiary && beneficiary.get('firstName');
+      return this.returnBeneficaryType('firstName');
     },
     set(key, value) {
       return value;
@@ -24,8 +23,7 @@ export default Ember.Controller.extend({
 
   lastName: Ember.computed("beneficiary", {
     get() {
-      let beneficiary = this.get('beneficiary');
-      return beneficiary && beneficiary.get('lastName');
+      return this.returnBeneficaryType('lastName');
     },
     set(key, value) {
       return value;
@@ -34,13 +32,17 @@ export default Ember.Controller.extend({
 
   identityNumber: Ember.computed("beneficiary", {
     get() {
-      let beneficiary = this.get('beneficiary');
-      return beneficiary && beneficiary.get('identityNumber');
+      return this.returnBeneficaryType('identityNumber');
     },
     set(key, value) {
       return value;
     }
   }),
+
+  returnBeneficaryType(type) {
+    let beneficiary = this.get('beneficiary');
+    return beneficiary && beneficiary.get(type);
+  },
 
   mobilePhone: Ember.computed("beneficiary", {
     get() {
@@ -146,19 +148,15 @@ export default Ember.Controller.extend({
     },
 
     editOrder(orderParams, isOrganisation) {
-      let order = this.get('order');
-      let orderId = order.id;
+      let orderId = this.get('order.id');
       let beneficiaryId = this.get('beneficiary.id');
       let store = this.store;
-
       let url = beneficiaryId ? "/beneficiaries/" + beneficiaryId : "/beneficiaries";
-
       let actionType = this.actionType(isOrganisation, beneficiaryId);
-
       let beneficiary = beneficiaryId && store.peekRecord('beneficiary', beneficiaryId);
       let loadingView = getOwner(this).lookup('component:loading').append();
-
       let beneficiaryParams = (["PUT", "POST"].indexOf(actionType) > -1) ?  { beneficiary: this.beneficiaryParams(), order_id: orderId } : {};
+
       return new AjaxPromise('/orders/' + orderId, 'PUT', this.get('session.authToken'), { order: orderParams })
         .then(data => {
           store.pushPayload(data);
