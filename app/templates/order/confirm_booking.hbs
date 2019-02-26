@@ -1,26 +1,26 @@
+{{#if isMobileApp}}
+  {{scroll-to-bottom }}
+{{/if}}
+
 <div class="row">
-  <div class="large-10 columns large-offset-1 medium-offset-1 medium-10 small-12 book">
-    <div class="row checkout_pages">
-      <div class="small-12 columns">
-        <section class="main-section new-user-section ui login_page large-10 large-offset-1 medium-10 medium-offset-1">
-          <nav class="tab-bar">
-            <a class="back">
-              <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-left'}}</i>
-              {{#link-to "order.appointment_details" order.id classNames="back_text"}}{{t "back"}}{{/link-to}}
-            </a>
+  <div class="book large-12 columns medium-12 small-12">
+    <section class="main-section new-user-section ui login_page large-12 medium-12 small-12">
+      <nav class="tab-bar">
+        <a class="back">
+          <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-left'}}</i>
+          {{#link-to "order.appointment_details" order.id classNames="back_text"}}{{t "back"}}{{/link-to}}
+        </a>
 
-            <section class="middle tab-bar-section">
-              <h1 class="title"> {{t "order.confirm_booking.title"}} </h1>
-            </section>
-            {{log order}}
-            {{cancel-order order=order}}
-          </nav>
+        <section class="middle tab-bar-section">
+          <h1 class="title"> {{t "order.confirm_booking.title"}} </h1>
         </section>
-      </div>
-    </div>
+        {{log order}}
+        {{cancel-order order=order}}
+      </nav>
+    </section>
 
-    <section class="main-section client-information large-10 large-offset-1 medium-10 small-12 medium-offset-1">
-      <div class="small-12 columns type-of-id-text">
+    <section class="main-section client-information large-12 medium-12 small-12">
+      <div class="small-12 columns confirm-page-title">
         {{t "order.confirm_booking.info"}}
       </div>
       <br>
@@ -51,14 +51,14 @@
     {{!-- Appointment details section --}}
     {{partial "order/appointment_detail"}}
 
-    <section class="main-section client-information large-10 large-offset-1 medium-10 medium-offset-1 small-12">
-      <div class="row">
+    <section class="main-section client-information large-12 medium-12 small-12">
+      {{!-- <div class="row"> --}}
         <div class="small-10 small-offset-1 columns">
           <button id="confirm_booking_button" class="button expand drop_off" {{action 'confirmBooking' order}}>
             {{t "order.confirm_booking.submit_order"}}
           </button>
         </div>
-      </div>
+      {{!-- </div> --}}
     </section>
   </div>
 </div>

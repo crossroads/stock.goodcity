@@ -5,21 +5,27 @@
   {{t "order.client_information.rbcl.sub_title"}} <br> <br>
 </div>
 <div class="row hk-id">
-  {{#form-control}}
-    <div class="small-12 columns">
-      <div class="small-3 medium-3 large-2 columns p12">
+  <div class="large-6 medium-8 small-12 columns">
+    {{#form-control}}
+      <div class="small-2 medium-2 large-3 columns p12">
         <label id="id-initials"> RBCL </label>
       </div>
-      <div class="columns small-3 medium-2 large-2 add-request" style="margin-top: 0px;">
-          {{numeric-input name="hk_id" id="hk-id-number" value=identityNumber minlength="4" maxlength="4" placeholder="XXXX" required='true' classNames="select-goods"}}
+      <div class="columns small-6 medium-6 large-6 add-request detail_type" style="margin-top: 0px;">
+          {{numeric-input name="hk_id" id="hk-id-number" value=identityNumber minlength="4" maxlength="4" placeholder="XXXX" required='true' classNames="select-goods rbcl_type"}}
       </div>
-      <div class="columns small-6 medium-6 large-8 x-with-brackets">
+      <div class="columns small-4 medium-2 large-3 x-with-brackets">
         / XX
       </div>
-      <div class="small-12 columns input-error warning_empty">
-        <div class='input-error'> {{t "order.numbers_warning"}} </div>
+      <div class="large-12 small-12 columns">
+        <div class='input-error'>
+          {{fa-icon "exclamation-triangle"}}
+          <span class="error-reason-margin">
+            {{t "order.numbers_warning"}}
+          </span>
+        </div>
       </div>
-    </div>
-  {{/form-control}}
+    {{/form-control}}
+  </div>
+  <div class="large-6 medium-4 columns"></div>
 </div>
 <br>

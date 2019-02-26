@@ -53,6 +53,21 @@ export default Model.extend({
   districtId:         attr('number'),
   district:           belongsTo('district', { async: false }),
 
+  clientIdType: Ember.computed("beneficiary", "beneficiary.identityType", function() {
+    return this.get("beneficiary.identityType.name");
+  }),
+
+  clientIdNumber: Ember.computed("beneficiary", function() {
+    return this.get("beneficiary.identityNumber");
+  }),
+
+  clientName: Ember.computed("beneficiary", function() {
+    return this.get("beneficiary.fullName");
+  }),
+
+  clientPhone: Ember.computed("beneficiary", function() {
+    return this.get("beneficiary.phoneNumber");
+  }),
 
   isEditAllowed: Ember.computed('state', function() {
     return !(this.get('isCancelled') || this.get("isClosed"));

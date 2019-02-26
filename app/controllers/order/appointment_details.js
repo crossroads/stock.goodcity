@@ -1,5 +1,6 @@
 import Ember from "ember";
 import AjaxPromise from 'stock/utils/ajax-promise';
+import config from '../../config/environment';
 const { getOwner } = Ember;
 
 export default Ember.Controller.extend({
@@ -9,6 +10,7 @@ export default Ember.Controller.extend({
   selectedTimeId: null,
   selectedDate: null,
   timeSlotNotSelected: false,
+  isMobileApp: config.cordova.enabled,
 
   timeSlots: Ember.computed('selectedDate', function(){
     var selectedDate = this.get('selectedDate');
