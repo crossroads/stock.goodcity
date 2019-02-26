@@ -27,7 +27,7 @@ export default detail.extend({
     return this.groupBy(this.get("sortedMessages"), "createdDate");
   }),
 
-  autoScroll: function () {
+  autoScroll() {
     // scroll the messages screen to bottom
     window.scrollTo(0, document.body.scrollHeight);
   },
