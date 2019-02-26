@@ -23,8 +23,14 @@ export default detail.extend({
   sortedMessages: Ember.computed.sort("model.messages", "sortProperties"),
 
   groupedMessages: Ember.computed("sortedMessages", function () {
+    this.autoScroll();
     return this.groupBy(this.get("sortedMessages"), "createdDate");
   }),
+
+  autoScroll() {
+    // scroll the messages screen to bottom
+    window.scrollTo(0, document.body.scrollHeight);
+  },
 
   groupBy: function (content, key) {
     var result = [];
@@ -68,9 +74,7 @@ export default detail.extend({
       this.createMessage(values);
 
       // Animate and scroll to bottom
-      Ember.$("body").animate({
-        scrollTop: Ember.$(document).height()
-      }, 1000);
+      this.autoScroll();
     }
   }
 });

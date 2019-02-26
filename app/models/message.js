@@ -13,7 +13,7 @@ export default DS.Model.extend({
     defaultValue: 'read'
   }),
   sender: belongsTo('sender', {
-    async: true
+    async: false
   }),
   designation: belongsTo('designation', { async: false }),
 
