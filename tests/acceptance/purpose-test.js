@@ -34,6 +34,7 @@ module('Acceptance: Order Client summary', {
     $.mockjax({url: '/api/v1/designation*', type: 'GET', status: 200,responseText: designationData});
     $.mockjax({url: '/api/v1/booking_ty*', type: 'GET', status: 200,responseText: { booking_types: [bookingType.toJSON({includeId: true})] }});
     mockFindAll('orders_package').returns({ json: {orders_packages: [orders_package.toJSON({includeId: true})]}});
+    mockFindAll('purpose').returns({json: {purposes: [purpose.toJSON({includeId: true})]}});
     visit("/orders/" + designation.id + '/client_summary');
   },
   afterEach: function() {
