@@ -8,18 +8,70 @@ export default Ember.Controller.extend({
   prevPath: null,
   isMobileApp: config.cordova.enabled,
   i18n: Ember.inject.service(),
-  firstName: null,
-  lastName: null,
-  mobilePhone: null,
-  selectedId: null,
-  identityNumber: null,
   order: Ember.computed.alias("model.orderUserOrganisation.order"),
   beneficiary: Ember.computed.alias("model.beneficiary"),
   purposes: Ember.computed.alias("model.purposes"),
 
-  selectedPurposeId: Ember.computed('order',  function() {
-    let orderPurpose = this.get('order.ordersPurposes').get('firstObject');
-    return (orderPurpose && orderPurpose.get('purpose.identifier')) || 'organisation';
+  firstName: Ember.computed("beneficiary", {
+    get() {
+      let beneficiary = this.get('beneficiary');
+      return beneficiary && beneficiary.get('firstName');
+    },
+    set(key, value) {
+      return value;
+    }
+  }),
+
+  lastName: Ember.computed("beneficiary", {
+    get() {
+      let beneficiary = this.get('beneficiary');
+      return beneficiary && beneficiary.get('lastName');
+    },
+    set(key, value) {
+      return value;
+    }
+  }),
+
+  identityNumber: Ember.computed("beneficiary", {
+    get() {
+      let beneficiary = this.get('beneficiary');
+      return beneficiary && beneficiary.get('identityNumber');
+    },
+    set(key, value) {
+      return value;
+    }
+  }),
+
+  mobilePhone: Ember.computed("beneficiary", {
+    get() {
+      let beneficiary = this.get('beneficiary');
+      let phoneNumber = beneficiary && beneficiary.get('phoneNumber').slice(4);
+      return phoneNumber;
+    },
+    set(key, value) {
+      return value;
+    }
+  }),
+
+  selectedId: Ember.computed('beneficiary.identityTypeId', {
+    get() {
+      let beneficiary = this.get('beneficiary');
+      let selectedId = beneficiary && beneficiary.get('identityTypeId') === 2 ? "abcl" : "hkId";
+      return selectedId;
+    },
+    set(key, value) {
+      return value;
+    }
+  }),
+
+  selectedPurposeId: Ember.computed('order', {
+    get() {
+      let orderPurpose = this.get('order.ordersPurposes').get('firstObject');
+      return (orderPurpose && orderPurpose.get('purpose.identifier')) || 'organisation';
+    },
+    set(key, value) {
+      return value;
+    }
   }),
 
   isClientSelected: Ember.computed.equal("selectedPurposeId", "client"),

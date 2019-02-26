@@ -11,12 +11,12 @@
         <label id="id-initials"> RBCL </label>
       </div>
       <div class="columns small-6 medium-6 large-6 add-request detail_type" style="margin-top: 0px;">
-          {{numeric-input name="hk_id" id="hk-id-number" value=identityNumber minlength="4" maxlength="4" placeholder="XXXX" required='true' classNames="select-goods"}}
+          {{numeric-input name="hk_id" id="hk-id-number" value=identityNumber minlength="4" maxlength="4" placeholder="XXXX" required='true' classNames="select-goods rbcl_type"}}
       </div>
       <div class="columns small-4 medium-2 large-3 x-with-brackets">
         / XX
       </div>
-      <div class="large-11 small-12 columns">
+      <div class="large-12 small-12 columns">
         <div class='input-error'>
           {{fa-icon "exclamation-triangle"}}
           <span class="error-reason-margin">
@@ -24,7 +24,6 @@
           </span>
         </div>
       </div>
-      <div class="large-1 columns"></div>
     {{/form-control}}
   </div>
   <div class="large-6 medium-4 columns"></div>

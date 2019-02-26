@@ -22,9 +22,10 @@
           buttonId='#request-submit'
         }}
         {{#validatable-form onSubmit=(action 'createOrderWithRequestPuropose') as |form|}}
-          <br>
           <div class="row people-count">
             <div class="small-12 columns people-count-label">
+              <div class="request_purpose_title">{{t 'order.request_purpose.purpose'}}</div>
+              <br>
               {{t 'order.request_purpose.people_count_info'}}
               {{#form-control}}
                 {{input type='number' value=peopleHelped required='true' id="people-count"}}

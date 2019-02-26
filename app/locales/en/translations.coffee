@@ -54,7 +54,7 @@ I18nTranslationsEn =
   "weekday_6": "Saturday"
   "weekday_7": "Sunday"
 
-  "online_status": 
+  "online_status":
     "online": "Online"
     "not_connected": "Not Connected"
 
@@ -72,7 +72,7 @@ I18nTranslationsEn =
     "primary_location": "Primary location"
     "description_of_need": "Description of need"
 
-  "order_contact_summary": 
+  "order_contact_summary":
     "change_contact": "Change Contact"
     "choose_different_contact": "Choose different contact"
     "organisation_title": "Organisation"
@@ -118,7 +118,7 @@ I18nTranslationsEn =
     "orders": "Orders"
     "items": "Items"
     "goto": "Goto"
-  
+
   "beneficiary_warning":
     "delete_title": "Remove Client?"
     "delete_info": "If this request will no longer be for a client/beneficiary you can delete the beneficiary details."
@@ -263,6 +263,7 @@ I18nTranslationsEn =
     "title": "Title"
     "client_information": {
       "title": "Client Information",
+      "is_order_client": "Is this order being placed on behalf of a client?"
       "id_type_held_by_client": "Type of ID held by client",
       "verify": "We will use this ID to verify client on arrival.",
       "data_confidentiality": "All client data is kept strictly confidential.",
@@ -292,8 +293,8 @@ I18nTranslationsEn =
     "request_purpose": {
       "title": "Request Purpose",
       "purpose": "Purpose of Goods",
-      "for_organisation": "For organisation's own programs",
-      "for_client": "For a client/benificiary",
+      "for_organisation": "No - order for organisation's own programs",
+      "for_client": "Yes - order is for a client/benificiary",
       "people_count_info": "How many people will benefit from these items?",
       "district_label": "Where in Hong Kong will these goods be primarily used?",
       "district-label-info": "This assists us with our reporting.",
