@@ -39,7 +39,7 @@
       </div>
       <div class="{{if isMobileApp 'small-7 large-8' 'small-9'}} columns">
         {{#form-control}}
-          {{numeric-input value=mobilePhone name="mobilePhone" id="mobile" maxlength="8" placeholder=phoneNumberPlaceholder required='true' pattern=".{8,}" required='true'}}
+          {{numeric-input value=mobilePhone name="mobilePhone" id="mobile" maxlength="8" placeholder=phoneNumberPlaceholder pattern=".{8,}"}}
           <div class='input-error'>{{t 'organisation.user.validation_error.mobile'}}</div>
         {{/form-control}}
       </div>
