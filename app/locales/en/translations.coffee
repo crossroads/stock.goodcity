@@ -223,6 +223,7 @@ I18nTranslationsEn =
       "tap_to_save": "tap to save"
       "processing_checklist": "Processing checklist"
       "checklist_incomplete": "Processing checklist is incomplete"
+      "pick_date": "Pick a date"
       "vehicle": {
         "self": 'Private vehicle'
         "ggv": 'Needs hired vehicle'

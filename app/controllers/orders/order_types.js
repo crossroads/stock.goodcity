@@ -33,7 +33,7 @@ export default detail.extend({
   scheduledAtStringPlaceholder: Ember.computed('selectedScheduleDate', function() {
     let date = this.get('selectedScheduleDate');
     if (!date) {
-      return 'Pick a date';
+      return this.get('i18n').t('order_details.logistics.pick_date'),
     }
     return date.toDateString().replace(/\d{4}$/, '');
   }),
