@@ -34,6 +34,7 @@ export default Model.extend({
   beneficiaryId:        attr('number'),
   staffNote:            attr('string'),
 
+<<<<<<< HEAD
   beneficiary:        belongsTo('beneficiary', { async: false }),
   stockitContact:     belongsTo('stockit_contact', { async: false }),
   organisation:       belongsTo('organisation', { async: false }),
@@ -52,6 +53,8 @@ export default Model.extend({
   peopleHelped:       attr('number'),
   districtId:         attr('number'),
   district:           belongsTo('district', { async: false }),
+  ordersProcessChecklists:    hasMany('ordersProcessChecklists', { async: false }),
+  ordersProcessChecklistIds:  attr(),
 
   clientIdType: Ember.computed("beneficiary", "beneficiary.identityType", function() {
     return this.get("beneficiary.identityType.name");

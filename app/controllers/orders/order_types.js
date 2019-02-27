@@ -19,6 +19,25 @@ export default detail.extend({
     return !note && this.get('stickyNote.showCallToAction');
   }),
 
+  checklist: Ember.computed('model.bookingTypeId', 'model.ordersProcessChecklistIds', function () {
+    let checklistService = this.get('processingChecklist');
+    let order = this.get('model');
+
+    return checklistService.getChecklistForOrder(order)
+      .map(item => ({
+        isChecked: checklistService.itemChecked(order, item),
+        item: item
+      }));
+  }),
+
+  scheduledAtStringPlaceholder: Ember.computed('selectedScheduleDate', function() {
+    let date = this.get('selectedScheduleDate');
+    if (!date) {
+      return 'Pick a date';
+    }
+    return date.toDateString().replace(/\d{4}$/, '');
+  }),
+
   /**
    * Creates an action that modifies the property of the record passed as argument
    */
@@ -147,6 +166,20 @@ export default detail.extend({
   }),
 
   actions: {
+    toggleCheckbox(processChecklistRecord) {
+      let checklistService = this.get('processingChecklist');
+      let order = this.get('model');
+      let loadingView = Ember.getOwner(this).lookup('component:loading').append();
+
+      let task;
+      if (checklistService.itemChecked(order, processChecklistRecord)) {
+        task = checklistService.uncheckItem(order, processChecklistRecord);
+      } else {
+        task = checklistService.checkItem(order, processChecklistRecord);
+      }
+
+      task.finally(() => loadingView.destroy());
+    },
     hideNoteCallToAction() {
       this.set('stickyNote.showCallToAction', false);
     },

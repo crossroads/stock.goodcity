@@ -221,6 +221,8 @@ I18nTranslationsEn =
       "base_estimate": "Base est."
       "add_note": "Tap to add/edit sticky note"
       "tap_to_save": "tap to save"
+      "processing_checklist": "Processing checklist"
+      "checklist_incomplete": "Processing checklist is incomplete"
       "vehicle": {
         "self": 'Private vehicle'
         "ggv": 'Needs hired vehicle'

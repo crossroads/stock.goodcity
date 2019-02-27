@@ -23,6 +23,7 @@ export default GoodcityController.extend({
   isActiveSummary: false,
   scheduleChangePopupVisible: false,
   filterService: Ember.inject.service(),
+  processingChecklist: Ember.inject.service(),
 
   scheduleTimeSlots: Ember.computed(function() {
     let buildSlot = (hours, minutes) => {
@@ -80,7 +81,7 @@ export default GoodcityController.extend({
       () => { this.send("toggleDisplayOptions"); });
   },
 
-  genericAlertPopUp(message, btn1Callback) {
+  genericAlertPopUp(message, btn1Callback = _.noop) {
     var _this = this;
     this.get("messageBox").alert(_this.get("i18n").t(message),
       () => { btn1Callback(); }
@@ -171,6 +172,13 @@ export default GoodcityController.extend({
           break;
         case "close":
           this.send("promptCloseOrderModel", order, actionName);
+          break;
+        case "finish_processing":
+          if (this.get('processingChecklist').checklistCompleted(order)) {
+            this.send("changeOrderState", order, actionName);
+          } else {
+            this.genericAlertPopUp('order_details.logistics.checklist_incomplete');
+          }
           break;
         default:
           this.send("changeOrderState", order, actionName);
