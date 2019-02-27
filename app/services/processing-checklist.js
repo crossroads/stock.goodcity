@@ -51,33 +51,28 @@ export default Ember.Service.extend({
       return Ember.RSVP.resolve(true);
     }
 
-    let url = `/orders/${order.get('id')}`;
-    let payload = {
+    return this.putPayload(order, {
       orders_process_checklists_attributes: [
         { order_id: order.get('id'), process_checklist_id: item.get('id') }
       ]
-    };
-
-    return new AjaxPromise(url, "PUT", this.get('session.authToken'), { order: payload })
-      .then(data => {
-        this.get("store").pushPayload(data);
-      });
+    });
   },
 
   uncheckItem(order, item) {
-    let url = `/orders/${order.get('id')}`;
     let joinRecord = this.getJoinRecordForItem(order, item);
-
     if (!joinRecord) {
       return;
     }
 
-    let payload = {
+    return this.putPayload(order, {
       orders_process_checklists_attributes: [
         { id: joinRecord.get('id'), _destroy: true }
       ]
-    };
+    });
+  },
 
+  putPayload(order, payload) {
+    let url = `/orders/${order.get('id')}`;
     return new AjaxPromise(url, "PUT", this.get('session.authToken'), { order: payload })
       .then(data => {
         this.get("store").pushPayload(data);
