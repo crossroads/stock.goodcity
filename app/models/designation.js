@@ -34,7 +34,6 @@ export default Model.extend({
   beneficiaryId:        attr('number'),
   staffNote:            attr('string'),
 
-<<<<<<< HEAD
   beneficiary:        belongsTo('beneficiary', { async: false }),
   stockitContact:     belongsTo('stockit_contact', { async: false }),
   organisation:       belongsTo('organisation', { async: false }),
