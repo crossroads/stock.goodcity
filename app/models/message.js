@@ -9,6 +9,7 @@ export default DS.Model.extend({
   isPrivate: attr('boolean'),
   createdAt: attr('date'),
   updatedAt: attr('date'),
+  senderId: attr('number'),
   state: attr('string', {
     defaultValue: 'read'
   }),
