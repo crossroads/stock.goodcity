@@ -2969,9 +2969,9 @@ cordova-lib@7.1.0:
     valid-identifier "0.0.1"
     xcode "^0.9.0"
 
-"cordova-lib@https://github.com/crossroads/goodcity-lib.git":
+"cordova-lib@https://github.com/crossroads/goodcity-lib.git#master":
   version "0.0.0"
-  resolved "https://github.com/crossroads/goodcity-lib.git#2c58317a843ef68fd7df137d9b077431dd4a2260"
+  resolved "https://github.com/crossroads/goodcity-lib.git#39eaf8bef3108d51bae54e7acbb4f88096ec9e8a"
   dependencies:
     bower "^1.8.0"
     codeclimate-test-reporter "^0.5.0"
