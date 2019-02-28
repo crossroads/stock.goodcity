@@ -11,6 +11,7 @@ export default Ember.Controller.extend({
   lNamePlaceholder: t("organisation.user.doe"),
   emailPlaceholder: t("organisation.user.email"),
   positionPlaceholder: t("organisation.user.position_in_organisation"),
+  mobilePhone: '',
 
   organisationId: Ember.computed.alias("model.id"),
   messageBox: Ember.inject.service(),
@@ -23,10 +24,19 @@ export default Ember.Controller.extend({
     this.set("position", "");
   },
 
+  formatMobileNumber(){
+    var mobile = this.get('mobilePhone');
+    if(mobile.length){
+      return config.APP.HK_COUNTRY_CODE + this.get('mobilePhone');
+    } else {
+      return mobile;
+    }
+  },
+
   actions: {
     saveUser() {
       var loadingView = getOwner(this).lookup('component:loading').append();
-      var mobilePhone = config.APP.HK_COUNTRY_CODE + this.get('mobilePhone');
+      var mobilePhone = this.formatMobileNumber();
       var firstName = this.get('firstName');
       var lastName = this.get('lastName');
       var organisationId = this.get('organisationId');
