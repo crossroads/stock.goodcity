@@ -182,7 +182,17 @@ export default Ember.Controller.extend({
 
     redirectToGoodsDetails() {
       let orderId = this.get("order.id");
-      this.transitionToRoute('order.goods_details', orderId, { queryParams: { fromClientInformation: true }});
+      const prevPath = this.get("prevPath");
+      if(prevPath && prevPath === "client_summary") {
+        this.send("redirectToClientSummary");
+      } else {
+        this.transitionToRoute('order.goods_details', orderId, { queryParams: { fromClientInformation: true }});
+      }
+    },
+
+    redirectToClientSummary() {
+      let orderId = this.get("order.id");
+      this.transitionToRoute('orders.client_summary', orderId);
     }
   }
 });
