@@ -11,10 +11,15 @@ export default Ember.Component.extend({
 
   actions: {
     deleteOrder() {
-      this.get("messageBox").custom(
-      "Cancel this Request?",
-      "Not Now", null,
-      "Cancel Request", () => this.send("removeOrder"));
+      const previousPath = this.get("prevPath");
+      if(previousPath && previousPath === "contact_summary") {
+        this.get('router').transitionTo("orders.contact_summary", this.get('order.id'));
+      } else {
+        this.get("messageBox").custom(
+          "Cancel this Request?",
+          "Not Now", null,
+          "Cancel Request", () => this.send("removeOrder"));
+      }
     },
 
     removeOrder() {

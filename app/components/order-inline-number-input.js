@@ -18,7 +18,7 @@ export default BeneficiaryInlineInput.extend({
     var key = this.get('name');
     var orderParams = {};
 
-    if(value.length === 0 || value.length < this.get("maxlength")){
+    if(value.length === 0) {
       this.set('value', this.get('previousValue'));
       Ember.$(this.element).removeClass('inline-text-input');
       return false;

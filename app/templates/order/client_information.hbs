@@ -7,7 +7,11 @@
       <nav class="tab-bar">
         <a class="back">
           <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-left'}}</i>
-          {{#link-to "order.request_purpose" order.id classNames="back_text"}}{{t "back"}}{{/link-to}}
+          {{#if (is-equal prevPath "client_summary")}}
+            {{#link-to "orders.client_summary" order.id classNames="back_text"}}{{t "back"}}{{/link-to}}
+          {{else}}
+            {{#link-to "order.request_purpose" order.id classNames="back_text"}}{{t "back"}}{{/link-to}}
+          {{/if}}
         </a>
         <section class="middle tab-bar-section">
           <h1 class="title">{{t 'order.client_information.title'}}</h1>
@@ -164,9 +168,18 @@
           </div>
         {{/if}}
         <div class="row client-submit-button">
-          <div class="small-12 columns">
-            <a {{action 'submit' target=form}} id="client-info-submit" class="button expand"> {{t 'continue'}} </a>
-          </div>
+          {{#if (is-equal prevPath "client_summary")}}
+            <div class="small-6 columns">
+              <a {{action 'redirectToClientSummary'}} class="button expand"> {{t 'discard'}} </a>
+            </div>
+            <div class="small-6 columns">
+              <a {{action 'submit' target=form}} id="client-info-submit" class="button expand"> {{t 'save'}} </a>
+            </div>
+          {{else}}
+            <div class="small-12 columns">
+              <a {{action 'submit' target=form}} id="client-info-submit" class="button expand"> {{t 'continue'}} </a>
+            </div>
+          {{/if}}
         </div>
       {{/validatable-form}}
     </section>
