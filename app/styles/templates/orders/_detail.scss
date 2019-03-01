@@ -108,6 +108,9 @@
   .data-section {
 
     border-bottom: 1px solid white;
+    max-width: 720px;
+    margin: 0 auto;
+    padding-bottom: 1rem;
 
     .sticky-note {
       width: 100%;
@@ -258,8 +261,11 @@
 
   .checklist-section {
 
+    max-width: 720px;
+    margin: 0 auto;
+
     .title {
-      margin: 1rem 0;
+      margin: 2rem 0;
     }
 
     .checklist-rows {
