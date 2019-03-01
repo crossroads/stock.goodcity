@@ -52,6 +52,8 @@ export default Model.extend({
   peopleHelped:       attr('number'),
   districtId:         attr('number'),
   district:           belongsTo('district', { async: false }),
+  ordersProcessChecklists:    hasMany('ordersProcessChecklists', { async: false }),
+  ordersProcessChecklistIds:  attr(),
 
   clientIdType: Ember.computed("beneficiary", "beneficiary.identityType", function() {
     return this.get("beneficiary.identityType.name");
