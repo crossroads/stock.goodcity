@@ -3,6 +3,7 @@ import config from '../../config/environment';
 import detail from './detail';
 
 export default detail.extend({
+  messagesUtil: Ember.inject.service("messages"),
   body: '',
   isPrivate: false,
   backLinkPath: "",
@@ -75,6 +76,11 @@ export default detail.extend({
 
       // Animate and scroll to bottom
       this.autoScroll();
+    },
+    markRead(){
+      this.get("sortedMessages")
+        .filterBy('state', 'unread')
+        .forEach(m => this.get("messagesUtil").markRead(m));
     }
   }
 });
