@@ -80,7 +80,7 @@ export default detail.extend({
     markRead(){
       this.get("sortedMessages")
         .filterBy('state', 'unread')
-        .forEach(m => this.get("messagesUtil").markRead(m));
+        .forEach(message => this.get("messagesUtil").markRead(message));
     }
   }
 });

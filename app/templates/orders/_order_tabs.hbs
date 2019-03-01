@@ -43,6 +43,7 @@
 
         {{#link-to 'orders.conversation' model.id tagName="dd" classNames="small-3 medium-3 columns text-center"}}
           {{#link-to 'orders.conversation' model.id}}
+            {{partial 'orders/unread_message_bubble'}}
             <i>{{fa-icon 'comments'}}</i>
             <div>{{t "order_tabs.chat"}}</div>
           {{/link-to}}

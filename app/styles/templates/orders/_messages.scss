@@ -75,3 +75,16 @@
 .has-error .message-bar {
   margin-bottom: 0 !important;
 }
+
+.unread_message {
+  min-height: 1rem;
+  min-width: 1rem;
+  text-align: center;
+  position: absolute;
+  background-color: #e61414;
+  border-radius: 50%;
+  display: inline-block;
+  color: white !important;
+  margin-left: 1.5em;
+  margin-top: -0.5em;
+}
