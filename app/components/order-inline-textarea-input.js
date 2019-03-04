@@ -7,12 +7,17 @@ export default AutoResizableTextarea.extend({
   previousValue: '',
   store: Ember.inject.service(),
   order: null,
+  orderCopy: Ember.computed.readOnly('order'),
 
   keyDown() {
     var value = this.element.value;
     if( value.charCodeAt(value.length - 1) === 10 && event.which === 13) {
       return false;
     }
+  },
+
+  didInsertElement() {
+    Ember.$('.description-textarea').val(this.get('orderCopy.data.purposeDescription'));
   },
 
   focusOut() {
@@ -50,7 +55,6 @@ export default AutoResizableTextarea.extend({
 
   addCssStyle() {
     Ember.$(this.element).addClass('item-description-textarea');
-    this.set('previousValue', this.get('value') || '');
   },
 
   click() {
