@@ -43,13 +43,13 @@
               </div>
             </div>
             <div class="columns small-9">
-              {{beneficiary-inline-input 
-                name="fullName" 
+              {{beneficiary-inline-input
+                name="fullName"
                 disabled=(if model.isEditAllowed "" true)
                 maxlength=50
                 id="beneficiary-numeric-input"
-                class="numeric-input beneficiary-inline-input beneficiary-title" 
-                value=model.beneficiary.fullNameWithoutTitle  
+                class="numeric-input beneficiary-inline-input beneficiary-title"
+                value=model.beneficiary.fullNameWithoutTitle
                   beneficiary=model.beneficiary}}
             </div>
           </div>
@@ -60,13 +60,13 @@
             {{t "order_client_summary.client_phone"}}
           </div>
           <div id="phone_number" class="small-7 columns">
-            +852 {{beneficiary-inline-number-input 
-              name="phone_number" 
+            +852 {{beneficiary-inline-number-input
+              name="phone_number"
               maxlength=8
               id="beneficiary-phone-input"
               disabled=(if model.isEditAllowed "" true)
-              class="numeric-input beneficiary-inline-input" 
-              value=model.beneficiary.mobileWithoutCountryCode  
+              class="numeric-input beneficiary-inline-input"
+              value=model.beneficiary.mobileWithoutCountryCode
               beneficiary=model.beneficiary}}
           </div>
         </div>
@@ -87,8 +87,8 @@
                   id="beneficiary-identity-select"
                   class="beneficiary-identity-select"
                   beneficiary=model.beneficiary}}
-              </div> 
-            </div> 
+              </div>
+            </div>
           </div>
         </div>
 
@@ -97,12 +97,12 @@
             {{t "order_client_summary.id_number"}}
           </div>
           <div id="id_number" class="small-7 columns">
-            {{beneficiary-inline-number-input 
-              name="identity_number" 
+            {{beneficiary-inline-number-input
+              name="identity_number"
               maxlength=4
               disabled=(if model.isEditAllowed "" true)
-              class="numeric-input beneficiary-inline-input" 
-              value=model.beneficiary.identityNumber  
+              class="numeric-input beneficiary-inline-input"
+              value=model.beneficiary.identityNumber
               beneficiary=model.beneficiary}}
           </div>
           <br/>
@@ -137,12 +137,12 @@
             {{t "order_client_summary.number_benefiting"}}
           </div>
           <div class="small-7 columns">
-            {{order-inline-number-input 
-              name="people_helped" 
+            {{order-inline-number-input
+              name="people_helped"
               maxlength=3
               disabled=(if model.isEditAllowed "" true)
-              class="numeric-input beneficiary-inline-input" 
-              value=model.peopleHelped  
+              class="numeric-input beneficiary-inline-input"
+              value=model.peopleHelped
               order=model}}
           </div>
         </div>
@@ -152,15 +152,20 @@
             {{t "order_client_summary.description_of_need"}}
           </div>
           <div class="small-7 columns">
-            {{order-inline-textarea-input 
-              data-autoresize=true name="purpose_description" 
-              value=model.purposeDescription 
+            {{order-inline-textarea-input
+              data-autoresize=true name="purpose_description"
+              value=model.purposeDescription
               disabled=(if model.isEditAllowed "" true)
-              required="required" 
-              pattern=".*\S.*" 
-              id=(concat 'desc' item.id) 
-              class="description-textarea order-description-textarea" 
+              pattern=".*\S.*"
+              id=(concat 'desc' item.id)
+              class="description-textarea order-description-textarea"
               order=model}}
+              <div class='client_summary_description_error'>
+                {{fa-icon "exclamation-triangle"}}
+                <span class="error-reason-margin">
+                  {{t "order_client_summary.description_error"}}
+                </span>
+              </div>
           </div>
         </div>
       {{/if}}

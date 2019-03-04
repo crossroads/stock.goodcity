@@ -69,7 +69,9 @@ export default Ember.Controller.extend({
   selectedPurposeId: Ember.computed('order', {
     get() {
       let orderPurpose = this.get('order.ordersPurposes').get('firstObject');
-      return (orderPurpose && orderPurpose.get('purpose.identifier')) || 'organisation';
+      let prevPath = this.get('prevPath');
+      let previousPathPurpose = prevPath === "client_summary" ? "client" : "organisation";
+      return (orderPurpose && orderPurpose.get('purpose.identifier')) || previousPathPurpose ;
     },
     set(key, value) {
       return value;

@@ -22,12 +22,14 @@ export default AutoResizableTextarea.extend({
     var value = this.attrs.value.value || '';
     var orderParams = {};
     orderParams[key] = this.get('value').trim() || '';
+    var element = this.element;
 
     if (orderParams[key].toString() !== this.get('previousValue').toString().trim() && value !== ''){
       var loadingView = getOwner(this).lookup('component:loading').append();
       new AjaxPromise(url, "PUT", this.get('session.authToken'), { order: orderParams })
         .then(data => {
           this.get("store").pushPayload(data);
+          Ember.$(element).siblings().hide();
         })
         .finally(() => {
           loadingView.destroy();
@@ -36,6 +38,7 @@ export default AutoResizableTextarea.extend({
     this.element.value = value.trim();
     if(this.element.value === '') {
       this.$().focus();
+      Ember.$(this.element).siblings().show();
       return false;
     }
     Ember.$(this.element).removeClass('item-description-textarea');
