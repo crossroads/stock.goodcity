@@ -71,6 +71,7 @@ I18nTranslationsEn =
     "primary_location": "Primary location"
     "description_of_need": "Description of need"
     "description_error": "Description is required"
+    "people_helped_error": "Number is required"
 
   "order_contact_summary":
     "change_contact": "Change Contact"

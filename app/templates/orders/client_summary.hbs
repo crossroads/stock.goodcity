@@ -144,6 +144,12 @@
               class="numeric-input beneficiary-inline-input"
               value=model.peopleHelped
               order=model}}
+            <div class='client_people_helped_error people_helped_error'>
+              {{fa-icon "exclamation-triangle"}}
+              <span class="error-reason-margin">
+                Enter number here
+              </span>
+            </div>
           </div>
         </div>
 
@@ -157,10 +163,12 @@
               value=model.purposeDescription
               disabled=(if model.isEditAllowed "" true)
               pattern=".*\S.*"
+              cols="15"
               id=(concat 'desc' item.id)
               class="description-textarea order-description-textarea"
               order=model}}
-              <div class='client_summary_description_error'>
+
+              <div class='client_summary_description_error description_error'>
                 {{fa-icon "exclamation-triangle"}}
                 <span class="error-reason-margin">
                   {{t "order_client_summary.description_error"}}
