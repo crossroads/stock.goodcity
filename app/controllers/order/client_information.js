@@ -144,9 +144,10 @@ export default Ember.Controller.extend({
     let beneficiary = beneficiaryId && store.peekRecord('beneficiary', beneficiaryId);
     let loadingView = getOwner(this).lookup('component:loading').append();
     let beneficiaryParams = (["PUT", "POST"].indexOf(actionType) > -1) ?  { beneficiary: this.beneficiaryParams(), order_id: orderId } : {};
+    var beneficiaryResponse;
 
     if (actionType) {
-      var beneficiaryResponse = yield new AjaxPromise(url, actionType, this.get('session.authToken'), beneficiaryParams);
+      beneficiaryResponse = yield new AjaxPromise(url, actionType, this.get('session.authToken'), beneficiaryParams);
       orderParams['beneficiary_id'] = beneficiaryResponse.beneficiary ? beneficiaryResponse.beneficiary.id : null;
     }
 
