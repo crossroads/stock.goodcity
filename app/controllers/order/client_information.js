@@ -1,6 +1,8 @@
 import Ember from "ember";
 import AjaxPromise from 'stock/utils/ajax-promise';
 import config from '../../config/environment';
+import { task } from 'ember-concurrency';
+
 const { getOwner } = Ember;
 
 export default Ember.Controller.extend({
@@ -69,7 +71,10 @@ export default Ember.Controller.extend({
   selectedPurposeId: Ember.computed('order', {
     get() {
       let orderPurpose = this.get('order.ordersPurposes').get('firstObject');
-      return (orderPurpose && orderPurpose.get('purpose.identifier')) || 'organisation';
+      let prevPath = this.get('prevPath');
+      return (prevPath === "client_summary") ?
+        "client" :
+        (orderPurpose && orderPurpose.get('purpose.identifier')) || 'organisation';
     },
     set(key, value) {
       return value;
@@ -130,6 +135,35 @@ export default Ember.Controller.extend({
     return actionType;
   },
 
+  editOrder: task(function * (orderParams, isOrganisation) {
+    let orderId = this.get('order.id');
+    let beneficiaryId = this.get('beneficiary.id');
+    let store = this.store;
+    let url = beneficiaryId ? "/beneficiaries/" + beneficiaryId : "/beneficiaries";
+    let actionType = this.actionType(isOrganisation, beneficiaryId);
+    let beneficiary = beneficiaryId && store.peekRecord('beneficiary', beneficiaryId);
+    let loadingView = getOwner(this).lookup('component:loading').append();
+    let beneficiaryParams = (["PUT", "POST"].indexOf(actionType) > -1) ?  { beneficiary: this.beneficiaryParams(), order_id: orderId } : {};
+    var beneficiaryResponse;
+
+    if (actionType) {
+      beneficiaryResponse = yield new AjaxPromise(url, actionType, this.get('session.authToken'), beneficiaryParams);
+      orderParams['beneficiary_id'] = beneficiaryResponse.beneficiary ? beneficiaryResponse.beneficiary.id : null;
+    }
+
+    let orderResponse = yield new AjaxPromise('/orders/' + orderId, 'PUT', this.get('session.authToken'), { order: orderParams });
+    store.pushPayload(orderResponse);
+
+    if(beneficiary && actionType === "DELETE") {
+      store.unloadRecord(beneficiary);
+      this.send('redirectToGoodsDetails');
+    } else {
+      store.pushPayload(beneficiaryResponse);
+      this.send('redirectToGoodsDetails');
+    }
+    loadingView.destroy();
+  }),
+
   actions: {
     saveClientDetails(){
       let orderParams;
@@ -143,41 +177,7 @@ export default Ember.Controller.extend({
         } : {
           'purpose_ids': [purposeId]
         };
-
-      this.send('editOrder', orderParams, isForOrganisation);
-    },
-
-    editOrder(orderParams, isOrganisation) {
-      let orderId = this.get('order.id');
-      let beneficiaryId = this.get('beneficiary.id');
-      let store = this.store;
-      let url = beneficiaryId ? "/beneficiaries/" + beneficiaryId : "/beneficiaries";
-      let actionType = this.actionType(isOrganisation, beneficiaryId);
-      let beneficiary = beneficiaryId && store.peekRecord('beneficiary', beneficiaryId);
-      let loadingView = getOwner(this).lookup('component:loading').append();
-      let beneficiaryParams = (["PUT", "POST"].indexOf(actionType) > -1) ?  { beneficiary: this.beneficiaryParams(), order_id: orderId } : {};
-
-      return new AjaxPromise('/orders/' + orderId, 'PUT', this.get('session.authToken'), { order: orderParams })
-        .then(data => {
-          store.pushPayload(data);
-          if (actionType) {
-            return new AjaxPromise(url, actionType, this.get('session.authToken'), beneficiaryParams)
-              .then((beneficiaryData) => {
-                if(beneficiary && actionType === "DELETE") {
-                  store.unloadRecord(beneficiary);
-                  this.send('redirectToGoodsDetails');
-                } else {
-                  store.pushPayload(beneficiaryData);
-                  this.send('redirectToGoodsDetails');
-                }
-              });
-          } else {
-            this.send('redirectToGoodsDetails');
-          }
-        })
-        .finally(() => {
-          loadingView.destroy();
-        });
+      this.get('editOrder').perform(orderParams, isForOrganisation);
     },
 
     redirectToGoodsDetails() {
