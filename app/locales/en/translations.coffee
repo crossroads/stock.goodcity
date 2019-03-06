@@ -276,7 +276,7 @@ I18nTranslationsEn =
       "first_name": "Client's First Name",
       "family_name": "Client's Family Name",
       "name_instruction": "As shown on identity document",
-      "name_warning": "You must enter your name here.",
+      "name_warning": "You must enter client’s name here.",
       "phone_number": "Clients contact phone number",
       "phone_number_instruction": "We will use this number to confirm schedule and details.",
       "hk_id_instruction": {
