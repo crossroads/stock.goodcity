@@ -13,7 +13,7 @@ export default Model.extend({
   recentlyUsedAt:       attr('date'),
   submittedAt:          attr('date'),
   submittedById:        attr('number'),
-  createdById:        attr('number'),
+  createdById:          attr('number'),
   processedAt:          attr('date'),
   processedById:        attr('number'),
   cancelledAt:          attr('date'),
@@ -31,7 +31,10 @@ export default Model.extend({
   detailId:             attr('number'),
   purposeDescription:   attr('string'),
   gcOrganisationId:     attr('number'),
+  beneficiaryId:        attr('number'),
+  staffNote:            attr('string'),
 
+  beneficiary:        belongsTo('beneficiary', { async: false }),
   stockitContact:     belongsTo('stockit_contact', { async: false }),
   organisation:       belongsTo('organisation', { async: false }),
   gcOrganisation:     belongsTo('gcOrganisation', { async: false }),
@@ -39,13 +42,38 @@ export default Model.extend({
   items:              hasMany('item', { async: true }),
   goodcityRequests:   hasMany('goodcity_request', { async: false }),
   ordersPackages:     hasMany('ordersPackages', { async: false }),
+  messages:           hasMany('message', { async: false }),
   orderTransport:     belongsTo('orderTransport', { async: false }),
   ordersPurposes:     hasMany('ordersPurpose', { async: false }),
   submittedBy:        belongsTo('user', { async: false }),
   bookingType:        belongsTo('booking_type', { async: false }),
-  createdBy:        belongsTo('user', { async: false }),
-  peopleHelped: attr('number'),
-  districtId:       attr('number'),
+  bookingTypeId:      attr('number'),
+  createdBy:          belongsTo('user', { async: false }),
+  peopleHelped:       attr('number'),
+  districtId:         attr('number'),
+  district:           belongsTo('district', { async: false }),
+  ordersProcessChecklists:    hasMany('ordersProcessChecklists', { async: false }),
+  ordersProcessChecklistIds:  attr(),
+
+  clientIdType: Ember.computed("beneficiary", "beneficiary.identityType", function() {
+    return this.get("beneficiary.identityType.name");
+  }),
+
+  clientIdNumber: Ember.computed("beneficiary.identityNumber", function() {
+    return this.get("beneficiary.identityNumber");
+  }),
+
+  clientName: Ember.computed("beneficiary.fullName", function() {
+    return this.get("beneficiary.fullName");
+  }),
+
+  clientPhone: Ember.computed("beneficiary.phoneNumber", function() {
+    return this.get("beneficiary.phoneNumber");
+  }),
+
+  isEditAllowed: Ember.computed('state', function() {
+    return !(this.get('isCancelled') || this.get("isClosed"));
+  }),
 
   isLocalOrder: Ember.computed('detailType', function(){
     return (this.get('detailType') === 'LocalOrder') || (this.get('detailType') === 'StockitLocalOrder');

@@ -2,7 +2,7 @@ import { test, moduleForModel } from 'ember-qunit';
 import Ember from 'ember';
 
 moduleForModel('user', 'User Model', {
-  needs: ['model:permission', 'model:user', 'model:address', 'model:user-role', 'model:role']
+  needs: ['service:i18n', 'model:permission', 'model:user', 'model:address', 'model:user-role', 'model:role']
 });
 
 test('check attributes', function(assert){

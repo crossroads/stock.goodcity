@@ -1,3 +1,4 @@
+@import "scroll-to-bottom";
 @import "settings";
 @import "bower_components/foundation/scss/foundation";
 @import "fonts";
@@ -31,6 +32,7 @@
 @import "templates/orders/detail";
 @import "templates/orders/index";
 @import "templates/orders/items";
+@import "templates/orders/messages";
 @import "templates/orders/request";
 @import "templates/components/message_box";
 @import "templates/components/designate_form";

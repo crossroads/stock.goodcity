@@ -19,13 +19,14 @@ module('Acceptance: Supervisor footer', {
     var bookingType = FactoryGuy.make("booking_type");
     mockFindAll('location').returns({json: {locations: [location.toJSON({includeId: true})]}});
     designation = FactoryGuy.make("designation", { detailType: "GoodCity", code:"GC-00001" });
-    purpose = FactoryGuy.make("purpose", { nameEn: "Organisation" });
+    purpose = FactoryGuy.make("purpose", { nameEn: "organisation" });
     orders_purpose = FactoryGuy.make("orders_purpose", { designationId: designation.id, purposeId: purpose.id, designation: designation, purpose: purpose });
     item = FactoryGuy.make("item", { state: "submitted" , designation: designation});
     orders_package = FactoryGuy.make("orders_package", { state: "designated", quantity: 6, item: item, designation: designation });
     var data = {"user_profile": [{"id": 2,"first_name": "David", "last_name": "Dara51", "mobile": "61111111", "user_role_ids": [1]}], "users": [{"id": 2,"first_name": "David", "last_name": "Dara51", "mobile": "61111111"}], "roles": [{"id": 4, "name": "Supervisor"}], "user_roles": [{"id": 1, "user_id": 2, "role_id": 4}]};
     var designationData ={designations: [designation.toJSON({includeId: true})], items: [item.toJSON({includeId: true})], orders_purposes: [orders_purpose.toJSON({includeId:true})], purposes: [purpose.toJSON({includeId:true})]};
     mockFindAll('booking_type').returns({json: {booking_types: [bookingType.toJSON({includeId: true})]}});
+    mockFindAll('purpose').returns({json: {purposes: [purpose.toJSON({includeId: true})]}});
 
     $.mockjax({url:"/api/v1/auth/current_user_profil*",
       responseText: data });

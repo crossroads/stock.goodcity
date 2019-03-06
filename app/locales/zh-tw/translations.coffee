@@ -27,10 +27,20 @@ I18nTranslationsEn =
   "incomplete_form": "請填寫必需填寫之項目以繼續下一步"
   "continue": "Continue"
   "save_changes": "Save changes"
+  "discard": "Discard"
   "discard_changes": "Discard changes"
   "add_inventory_item": "Add Item to Inventory"
   "manage_inventory": "Manage Appointment Quotas"
   "new_order": "Create New Order"
+  "full_name" : "{{firstName}} {{lastName}}"
+  "messages":
+    "you": "You"
+    "chat_note": "Chat about this order with the user"
+    "send": "Send"
+    "day":
+      "today": "Today"
+      "morning": "Morning"
+      "afternoon": "Afternoon"
 
   "camera_scan":
     "permission_error": "Camera permission is not turned on."
@@ -42,6 +52,46 @@ I18nTranslationsEn =
   "weekday_5": "星期五"
   "weekday_6": "星期六"
   "weekday_7": "星期日"
+
+  "online_status":
+    "online": "Online"
+    "not_connected": "Not Connected"
+
+  "order_client_summary":
+    "remove_client_title": "Remove Client"
+    "remove_client_info": "Remove client/beneficiary"
+    "client_name": "Client's Name"
+    "client_phone": "Client's Phone"
+    "id_title": "Type of id held"
+    "id_number": "ID Number"
+    "no_client": "No client"
+    "add_beneficiary": "Add client/beneficiary"
+    "request_purpose": "Request Purpose"
+    "number_benefiting": "Number benefiting"
+    "primary_location": "Primary location"
+    "description_of_need": "Description of need"
+    "description_error": "Description is required"
+
+  "order_contact_summary":
+    "change_contact": "Change Contact"
+    "choose_different_contact": "Choose different contact"
+    "organisation_title": "Organisation"
+    "contact_name": "Name"
+    "contact_phone": "Phone"
+    "contact_position": "Position"
+    "contact_email": "Email"
+    "contact_last_seen": "Last seen"
+    "contact_registered": "Registered"
+
+  "order_tabs":
+    "summary": "Summary"
+    "goods": "Goods"
+    "logistics": "Logistics"
+    "chat": "Chat"
+
+  "order_summary_tabs":
+    "contact": "Contact"
+    "client": "Purpose/Client"
 
   "authenticate":
     "input_code" : "請輸入驗證碼"
@@ -68,6 +118,11 @@ I18nTranslationsEn =
     "orders": "訂單"
     "items": "物資"
     "goto": "前往"
+
+  "beneficiary_warning":
+    "delete_title": "Remove Client?"
+    "delete_info": "If this request will no longer be for a client/beneficiary you can delete the beneficiary details."
+    "warning": 'This cannot be undone!'
 
   "item_filters":
     "with_and_without_images": "All"
@@ -156,6 +211,23 @@ I18nTranslationsEn =
     "close_order_popup": "此訂單中所有物資已經派送完畢。請確認您要完成訂單。請注意，訂單完成後您將不能再修改訂單内容。"
     "cancel_item_designate_warning":" 請確認繼續指派物資到此訂單。請注意，訂單狀態將會由「已取消」重設為「處理中」。"
     "cancel_order_alert": "如需取消訂單，訂單中只能存有0 件已派送物品。"
+    "logistics": {
+      "scheduled": "Scheduled"
+      "type": "Type"
+      "transport_type": "Transport Type"
+      "destination": "Destination"
+      "vehicle_type": "Vehicle Type"
+      "base_estimate": "Base est."
+      "add_note": "Tap to add/edit sticky note"
+      "tap_to_save": "tap to save"
+      "processing_checklist": "Processing checklist"
+      "checklist_incomplete": "Processing checklist is incomplete"
+      "pick_date": "Pick a date"
+      "vehicle": {
+        "self": 'Private vehicle'
+        "ggv": 'Needs hired vehicle'
+      }
+    }
 
   "order_transports":
     "online_order": "Online Order"
@@ -185,6 +257,155 @@ I18nTranslationsEn =
     "process_summary": "概覽"
     "due_date": "到期日"
     "submitted_for_client": "為服務使用者提交"
+    "client_information": {
+      "title": "Client Information",
+      "is_order_client": "Is this order being placed on behalf of a client?"
+      "id_type_held_by_client": "Type of ID held by client",
+      "verify": "We will use this ID to verify client on arrival.",
+      "data_confidentiality": "All client data is kept strictly confidential.",
+      "hk_id": "Hong Kong Identity Card",
+      "asrf_id": "Asylum Seeker Recognizance Form",
+      "first_name": "Client's First Name",
+      "family_name": "Client's Family Name",
+      "name_instruction": "As shown on identity document",
+      "name_warning": "You must enter client’s name here.",
+      "phone_number": "Clients contact phone number",
+      "phone_number_instruction": "We will use this number to confirm schedule and details.",
+      "hk_id_instruction": {
+        "title": "Input the last 4 digits of the client's HKID",
+        "sub_title": "You do not need to include number in brackets"
+      },
+      "rbcl": {
+        "title": "Input recognizance form ID (numbers only)",
+        "sub_title": 'Numbers appear after four letters e.g "RBCL"'
+      }
+    }
+    "user_title": {
+      "mr": "Mr",
+      "mrs": "Mrs",
+      "miss": "Miss",
+      "ms": "Ms"
+    }
+    "request_purpose": {
+      "title": "Request Purpose",
+      "purpose": "Purpose of Goods",
+      "for_organisation": "No - order for organisation's own programs",
+      "for_client": "Yes - order is for a client/benificiary",
+      "people_count_info": "How many people will benefit from these items?",
+      "district_label": "Where in Hong Kong will these goods be primarily used?",
+      "district-label-info": "This assists us with our reporting.",
+      "select_placeholder": "Select District",
+      "people_count_warning": "You must input a number here",
+      "need_description": "Description of need",
+      "need_description_info": "Please briefly describe why goods are needed.",
+      "description_warning": "Description cannot be blank."
+    }
+    "goods_details":{
+      "title": "Goods Details",
+      "info_1": "Please indicate type and quantity of each item needed.",
+      "info_2": "We regularly update the categories available based on the items we normally have in our stock. For unusual requirements not listed here please email",
+      "info_3": "and we will help if we can.",
+      "request_more": "Request more goods",
+      "type_label": "Goods type",
+      "quantity_label": "Quantity",
+      "description_details_label": "Specifics of item (Optional)",
+      "no_goods_error": "At least one Item is required.",
+      "no_time_slot_selected_error": "Please select appointment time."
+    }
+    "request": {
+      "remove_req": "Remove this request from order",
+      "remove": "Remove"
+    },
+    "appointment": {
+      "title": "Appointment Details",
+      "transport": "Transport",
+      "self_vehicle": "Client will bring private vehicle",
+      "hire_vehicle": "Client needs information about hiring vehicle",
+      "confirm_labor": "Confirm understanding of labor requirements",
+      "labor_info": "If the request is too large for the client to carry alone, please advise them to bring their own labor to load at our end and unload at their end. Crossroads does not provide labor, and hired truck drivers do not provide loading services without charge.",
+      "labor_confirmation": "I confirm understanding of labor requirements.",
+      "date": "Appointment Date",
+      "time": "Appointment Time"
+    },
+    "booking_success": {
+      "success": "Success!",
+      "reference_number": "Reference Number",
+      "status": "Status",
+      "what_happen_after_booking": "What happens now?" ,
+      "after_booking_info_1": "Our staff will soon start checking the details and may contact you and/or beneficiery to clarify. If everything is okay then the order will be marked confirmed.",
+      "after_booking_info_2": "To see or modify your orders / appointments / preferences etc. visit your dashboard.",
+      "visit_dashboard": "Go to your dashboard"
+    },
+    "confirm_booking": {
+      "title": "Confirmation",
+      "your_details": {
+        "title": "Your Details",
+        "phone": "Phone",
+        "organisation": "Organisation",
+        "position": "Position",
+        "email": "Email",
+      },
+      "request_purpose_detail": {
+        "title": "Request Purpose",
+        "purpose_of_goods": "Purpose of goods",
+        "number_benefiting": "Number benefiting",
+        "description_of_need": "Description of need",
+      },
+      "client_info_detail": {
+        "title": "Client Information",
+        "id_type": "Type of ID held",
+        "id_number": "ID Number",
+        "client_name": "Client's Name",
+        "client_phone": "Client's Phone",
+      },
+      "goods_detail": {
+        "title": "Goods Details",
+        "no_description": "No description provided",
+      },
+      "appointment_detail": {
+        "title": "Appointment Details",
+        "transport": "Transport",
+        "labour": "Labour",
+        "labour_info": "Client understands labour requirements and can supply labour if needed.",
+        "appointment": "Appointment",
+      }
+    }
+    "confirm_booking": {
+      "title": "Confirmation",
+      "your_details": {
+        "title": "Your Details",
+        "phone": "Phone",
+        "organisation": "Organisation",
+        "position": "Position",
+        "email": "Email",
+      },
+      "request_purpose_detail": {
+        "title": "Request Purpose",
+        "purpose_of_goods": "Purpose of goods",
+        "number_benefiting": "Number benefiting",
+        "description_of_need": "Description of need",
+      },
+      "client_info_detail": {
+        "title": "Client Information",
+        "id_type": "Type of ID held",
+        "id_number": "ID Number",
+        "client_name": "Client's Name",
+        "client_phone": "Client's Phone",
+      },
+      "goods_detail": {
+        "title": "Goods Details",
+        "no_description": "No description provided",
+      },
+      "appointment_detail": {
+        "title": "Appointment Details",
+        "transport": "Transport",
+        "labour": "Labour",
+        "labour_info": "Client understands labour requirements and can supply labour if needed.",
+        "appointment": "Appointment",
+      },
+      "submit_order": "Submit order",
+      "info": "Please review the information below and then submit.</br>If you need to change something, click 'back'.",
+    }
 
   "item":
     "edit": "修改"

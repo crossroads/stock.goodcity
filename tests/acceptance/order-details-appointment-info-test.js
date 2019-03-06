@@ -1,7 +1,6 @@
 import Ember from "ember";
 import _ from "lodash";
 import { module, test } from "qunit";
-import FactoryGuy from "ember-data-factory-guy";
 import startApp from "../helpers/start-app";
 import "../factories/appointment_slot";
 import "../factories/appointment_slot_preset";
@@ -32,7 +31,14 @@ const BOOKING_TYPES = {
   onlineOrder: { id: 2, identifier: 'online-order' }
 };
 
-module("Acceptance: Order details, appointment info", {
+const PROCESS_CHECKLIST = [
+  { id: 1, text: 'task1', booking_type_id: 1 },
+  { id: 2, text: 'task2', booking_type_id: 1 },
+  { id: 3, text: 'task1', booking_type_id: 2 },
+  { id: 4, text: 'task2', booking_type_id: 2 }
+];
+
+module("Acceptance: Order details, logistics info", {
   beforeEach: function() {
     App = startApp({}, 2);
 
@@ -40,13 +46,16 @@ module("Acceptance: Order details, appointment info", {
 
     const designations = [];
     const orderTransports = [];
+    const ggvTransports = [{ id: 1, name: 'Van' }];
+    const districts = [{ id: 1, name: 'The peak', territory_id: 1}];
 
     const makeDesignation = (bookingType = BOOKING_TYPES.onlineOrder) => {
-      const record = FactoryGuy.make("designation", {
+      const record = {
         state: "submitted",
-        detailType: "GoodCity",
-        id: 1103 + designations.length
-      }).toJSON({includeId: true});
+        detail_type: "GoodCity",
+        id: 1103 + designations.length,
+        district_id: 1
+      };
 
       record.booking_type_id = bookingType.id;
 
@@ -54,7 +63,9 @@ module("Acceptance: Order details, appointment info", {
         id: _.uniqueId(),
         designation_id: record.id,
         order_id: record.id,
-        transport_type: 'self'
+        transport_type: 'self',
+        gogovan_transport_id: 1,
+        scheduled_at: "2019-02-14T11:00:00+08:00"
       });
       designations.push(record);
       return record;
@@ -86,10 +97,16 @@ module("Acceptance: Order details, appointment info", {
 
     mockResource('auth/current_user_profil*', userProfile);
     mockResource('booking_type*', { booking_types: _.values(BOOKING_TYPES) });
+    mockResource('district*', { districts });
+    mockResource('purpose*', { purposes: [] });
+    mockResource('process_checklist*', { process_checklists: PROCESS_CHECKLIST });
+    mockResource('gogovan_transport*', { gogovan_transports: ggvTransports });
     mockResource('designation*', {
       designations: designations,
       order_transports: orderTransports,
-      booking_types: _.values(BOOKING_TYPES)
+      booking_types: _.values(BOOKING_TYPES),
+      gogovan_transports: ggvTransports,
+      districts: districts
     });
     mockResource('orders_package*', { orders_packages: [] });
     mockResource('location*', { locations: [] });
@@ -107,27 +124,57 @@ module("Acceptance: Order details, appointment info", {
 
 // ------ Tests
 
-test("Tab's label should be 'Logistics' if the order is a warehouse visit", function(assert) {
-  assert.expect(1);
-
-  visit(`/orders/${designationAppointment.id}/order_types/`);
-
-  andThen(function () {
-    assert.equal($('.tab_row dd.small-3:nth-child(3)').text().trim(), 'Logistics');
-  });
-});
-
-test("Tab's label should be 'Logistics' if the order is an online order", function(assert) {
+test("Should display the vehicle type", function(assert) {
   assert.expect(1);
 
   visit(`/orders/${designationOnlineOrder.id}/order_types/`);
 
   andThen(function () {
-    assert.equal($('.tab_row dd.small-3:nth-child(3)').text().trim(), 'Logistics');
+    assert.equal($('.order-booking-tab .vehicle option:selected').text().trim(), 'Van');
   });
 });
 
-test("An order's schedule can be updated", function (assert) {
+test("Should display the district", function(assert) {
+  assert.expect(1);
+
+  visit(`/orders/${designationOnlineOrder.id}/order_types/`);
+
+  andThen(function () {
+    assert.equal($('.order-booking-tab .district option:selected').text().trim(), 'The peak');
+  });
+});
+
+test("Should display the schedule", function(assert) {
+  assert.expect(1);
+
+  visit(`/orders/${designationOnlineOrder.id}/order_types/`);
+
+  andThen(function () {
+    assert.equal($('.order-booking-tab .reschedule').text().trim(), 'Thursday 14th February 11:00 am');
+  });
+});
+
+test("Should display the type for an online order", function(assert) {
+  assert.expect(1);
+
+  visit(`/orders/${designationOnlineOrder.id}/order_types/`);
+
+  andThen(function () {
+    assert.equal($('.order-booking-tab .type option:selected').text().trim(), 'Online Order');
+  });
+});
+
+test("Should display the type for an appointment", function(assert) {
+  assert.expect(1);
+
+  visit(`/orders/${designationAppointment.id}/order_types/`);
+
+  andThen(function () {
+    assert.equal($('.order-booking-tab .type option:selected').text().trim(), 'Appointment');
+  });
+});
+
+test("An order's schedule can be updated by clicking on the schedule line", function (assert) {
   assert.expect(3);
 
   let putRequestSent = false;
@@ -148,7 +195,7 @@ test("An order's schedule can be updated", function (assert) {
   visit(`/orders/${designationAppointment.id}/order_types/`);
 
   andThen(() => {
-    const rescheduleBtn = Ember.$('.order-booking-tab .reschedule.button');
+    const rescheduleBtn = Ember.$('.order-booking-tab .reschedule');
     assert.equal(rescheduleBtn.length, 1);
     click(rescheduleBtn);
   });
@@ -161,5 +208,50 @@ test("An order's schedule can be updated", function (assert) {
 
   andThen(() => {
     assert.ok(putRequestSent);
+  });
+});
+
+test("Should display the process checklist items associated to that booking type", function(assert) {
+  assert.expect(3);
+
+  visit(`/orders/${designationOnlineOrder.id}/order_types/`);
+
+  andThen(function () {
+    assert.equal($('.order-booking-tab .checklist-section .row').length, 2);
+    assert.equal($('.order-booking-tab .checklist-section .row:first-child .text').text().trim(), 'task1');
+    assert.equal($('.order-booking-tab .checklist-section .row:nth-child(2) .text').text().trim(), 'task2');
+  });
+});
+
+test("Clicking on a checkbox should update the order", function(assert) {
+  assert.expect(5);
+
+  let putRequestSent = false;
+  mocks.push(
+    $.mockjax({
+      url: "/api/v1/order*",
+      type: 'PUT',
+      status: 200,
+      onAfterComplete: () => {
+        putRequestSent = true;
+      },
+      response: function (req) {
+        let payload = req.data['order'];
+        assert.ok(payload);
+        assert.ok(payload['orders_process_checklists_attributes']);
+        assert.equal(payload['orders_process_checklists_attributes'].length, 1);
+        assert.equal(payload['orders_process_checklists_attributes'][0]['order_id'], designationOnlineOrder.id);
+        this.responseText = JSON.stringify({ designation: designationOnlineOrder });
+      }
+    })
+  );
+
+  visit(`/orders/${designationOnlineOrder.id}/order_types/`);
+
+  andThen(function () {
+    click($('.order-booking-tab .checklist-section .row:first-child .checkbox'));
+  });
+  andThen(function () {
+    assert.equal(putRequestSent, true);
   });
 });

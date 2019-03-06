@@ -16,6 +16,74 @@
   }
 }
 
+.beneficiary-inline-input {
+  margin-bottom: 0 !important;
+  color: #a3aab6 !important;
+  width: 80% !important;
+  display: inline-block !important;
+  font-size: 0.8rem !important;
+}
+
+.beneficiary-title {
+  width: 90% !important;
+  margin-left: -4rem !important;
+  @media #{$small-only} {
+    margin-left: -1rem !important;
+  }
+}
+
+.beneficiary-id-title {
+  padding-top: 0.2rem;
+}
+
+.beneficiary-inline-select, .beneficiary-identity-select {
+  select {
+    margin: 0 !important;
+    color: #a3aab6 !important;
+    font-size: 0.8rem !important;
+  }
+}
+
+.beneficiary-inline-select {
+  select {
+    padding-top: 0.2rem;
+  }
+}
+
+.order-description-textarea {
+  color: #a3aab6 !important;
+  font-size: 0.8rem !important;
+}
+
+.order-description-textarea:disabled {
+  background-color: transparent;
+}
+
+.beneficiary-identity-select {
+  select {
+    padding-top: 0rem;
+  }
+}
+
+.data-rows {
+  select {
+    padding: 0 0.5rem;
+    padding-left: 0;
+    background: #002352;
+    color: #a3aab6;
+    height: inherit;
+    border: none;
+    margin: 0;
+    &:active {
+      border: 1px solid $tabbar-menu-icon-color !important;
+    }
+    font-size: 0.8rem;
+    @media #{$small-only} {
+      font-size: 0.7rem;
+    }
+  }
+}
+
 .order_tabs{
   margin: -0.5rem 0 1rem 0;
   .tabs-content {
@@ -52,56 +120,190 @@
     }
   }
 }
-
 .order-booking-tab {
   padding: 0 1em;
-  .row {
-    color: white;
 
-    .text {
-      line-height: 2.5em;
-    }
+  .data-section {
 
-    .button.light {
+    border-bottom: 1px solid white;
+    max-width: 720px;
+    margin: 0 auto;
+    padding-bottom: 1rem;
+
+    .sticky-note {
       width: 100%;
-      padding: 0.325rem 0.05rem 0.3875rem 0.05rem;
-      background-color: transparent;
-      border: 1px solid white;
+      min-height: 6rem;
+      max-width: 600px;
+      background-color: rgba(white, 0.1);
+      margin: 1rem auto;
+      position: relative;
+
+      .call-to-action {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        line-height: 6rem;
+        z-index: 100;
+        pointer-events: none;
+      }
+
+      .save-button {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        padding-right: 0.7rem;
+        height: 2.5rem;
+        line-height: 2.5rem;
+        text-align: center;
+        i {
+          font-size: 1.3rem;
+        }
+      }
+
+      .fade-out {
+        @-webkit-keyframes fadeOut {
+          0%   {opacity: 0;}
+          15%  {opacity: 1;}
+          50%  {opacity: 1;}
+          100% {opacity: 0;}
+        }
+        animation: fadeOut 3s ease;
+        opacity: 0;
+      }
+
+      textarea {
+        margin: 0;
+        max-width: 100%;
+        padding: 1rem 0.5rem;
+        background: transparent;
+        border: none;
+        color: white;
+        padding-right: 1.5rem;
+        height: 100%;
+      }
+    }
+
+    .data-rows {
+      select {
+        padding: 0 0.5rem;
+        padding-left: 0;
+        background: #002352;
+        color: white;
+        height: 1.8rem;
+        border: none;
+        margin: 0;
+        &:active {
+          border: 1px solid $tabbar-menu-icon-color !important;
+        }
+        font-size: inherit;
+        @media #{$small-only} {
+          font-size: 0.7rem;
+        }
+      }
+
+      .row {
+        color: white;
+        margin-bottom: 0.5rem;
+
+        .text {
+          line-height: 2rem;
+
+          &.input {
+            display: flex;
+            i {
+              margin-left: 0.3em;
+              @media #{$small-only} {
+                line-height: 2.5em;
+              }
+            }
+          }
+        }
+
+        .button.light {
+          width: 100%;
+          padding: 0.325rem 0.05rem 0.3875rem 0.05rem;
+          background-color: transparent;
+          border: 1px solid white;
+        }
+
+        .text-prefix {
+          line-height: 2rem;
+          color: $gainsboro;
+        }
+      }
+
+      .reschedule-popup .row {
+        color: black;
+        margin-bottom: 1em;
+        select {
+          background-color: white;
+          color: rgba(0, 0, 0, 0.75);
+        }
+      }
+    }
+
+    .order_item_list_tabs{
+      margin: -0.5rem 0 1rem 0;
+      .tabs-content {
+        background-color: inherit;
+        color: inherit;
+      }
+      .row{
+        .tab_row {
+          .tabs {
+            margin-left: -0.7rem !important;
+            margin-right: -0.7rem !important;
+            border-bottom: 1px solid #334f75 !important;
+            @media #{$small-only} {
+              div {
+                font-size: 0.9rem !important;
+              }
+            }
+            div {
+              font-size: 1.1rem;
+            }
+            dd.active {
+              border-bottom: 3px solid #334f75 ;
+              a:after {
+                border-width: 0px !important;
+              }
+            }
+          }
+        }
+      }
     }
   }
 
-  .reschedule-popup .row {
-    color: black;
-    margin-bottom: 1em;
-  }
-}
+  .checklist-section {
 
-.order_item_list_tabs{
-  margin: -0.5rem 0 1rem 0;
-  .tabs-content {
-    background-color: inherit;
-    color: inherit;
-  }
-  .row{
-    .tab_row {
-      .tabs {
-        margin-left: -0.7rem !important;
-        margin-right: -0.7rem !important;
-        border-bottom: 1px solid #334f75 !important;
-        @media #{$small-only} {
-          div {
-            font-size: 0.9rem !important;
+    max-width: 720px;
+    margin: 0 auto;
+
+    .title {
+      margin: 2rem 0;
+    }
+
+    .checklist-rows {
+      .row {
+        margin: 1rem 0;
+
+        .checkbox {
+          width: 1.7rem;
+          height: 1.7rem;
+          background-color: white;
+          margin: 0 auto;
+          text-align: center;
+          i {
+            color: black;
+            line-height: 1.7rem;
           }
         }
-        div {
-          font-size: 1.1rem;
-        }
-        dd.active {
-          border-bottom: 3px solid #334f75 ;
-          a:after {
-            border-width: 0px !important;
-          }
-        }
+      }
+      .text {
+        color: white;
       }
     }
   }
@@ -507,4 +709,26 @@
   display: inline-block;
   float: right;
   margin-left: 5px;
+}
+
+.client_summary_description_error {
+  background-color: red;
+  display: none;
+  padding: 2px;
+  width: 100%;
+
+  @media #{$small-only} {
+    margin-left: -3%;
+    margin-top: -3%;
+  }
+
+  @media #{$medium-only} {
+    margin-left: -1.4%;
+    margin-top: -1.2%;
+  }
+
+  @media #{$large-only} {
+    margin-top: -1%;
+    margin-left: -1.6%;
+  }
 }

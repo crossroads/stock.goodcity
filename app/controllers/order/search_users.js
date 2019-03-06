@@ -5,6 +5,8 @@ import AjaxPromise from 'stock/utils/ajax-promise';
 export default searchModule.extend({
   minSearchTextLength: 3,
   filteredResults: '',
+  queryParams: ['prevPath'],
+  prevPath: null,
 
   onSearchTextChange: Ember.observer("searchText", function(){
     if(this.get('searchText').length){
@@ -57,7 +59,11 @@ export default searchModule.extend({
       new AjaxPromise('/orders/'+orderId, 'PUT', this.get('session.authToken'), { order: orderParams })
         .then((data) => {
           this.store.pushPayload(data);
-          this.transitionToRoute('order.request_purpose', orderId, { queryParams: { userId: userId }});
+          if(this.get("prevPath") === "contact_summary") {
+            this.transitionToRoute('orders.contact_summary', orderId);
+          } else {
+            this.transitionToRoute('order.request_purpose', orderId, { queryParams: { userId: userId }});
+          }
         });
     }
   }

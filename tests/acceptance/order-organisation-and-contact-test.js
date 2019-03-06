@@ -4,6 +4,8 @@ import startApp from '../helpers/start-app';
 import '../factories/orders_package';
 import '../factories/designation';
 import '../factories/item';
+import '../factories/beneficiary';
+import '../factories/identity_type';
 import '../factories/gc_organisation';
 import '../factories/user';
 import '../factories/location';
@@ -11,7 +13,7 @@ import '../factories/organisations_user';
 import FactoryGuy from 'ember-data-factory-guy';
 import { mockFindAll } from 'ember-data-factory-guy';
 
-var App, designation, item1, orders_package1, gc_organisation, user, organisation_user, bookingType, data;
+var App, designation, item1, orders_package1, gc_organisation, beneficiary, identity_type, user, organisation_user, bookingType, data;
 
 module('Acceptance: Order summary', {
   beforeEach: function() {
@@ -20,8 +22,10 @@ module('Acceptance: Order summary', {
     var location = FactoryGuy.make("location");
     gc_organisation = FactoryGuy.make("gc_organisation");
     bookingType = FactoryGuy.make("booking_type");
+    identity_type = FactoryGuy.make('identity_type');
+    beneficiary = FactoryGuy.make('beneficiary', { identity_type: identity_type });
     organisation_user = FactoryGuy.make("organisationsUser", { gcOrganisation: gc_organisation, user: user });
-    designation = FactoryGuy.make("designation", { state: "submitted", detailType: "GoodCity", gcOrganisation: gc_organisation, createdBy: user });
+    designation = FactoryGuy.make("designation", { state: "submitted", detailType: "GoodCity", beneficiary: beneficiary, gcOrganisation: gc_organisation, createdBy: user });
     item1 = FactoryGuy.make("item", { state: "submitted", quantity: 0 , designation: designation});
     orders_package1 = FactoryGuy.make("orders_package", { state: "dispatched", quantity: 1, item: item1, designation: designation });
     data = {"user_profile": [{"id": 2,"first_name": "David", "last_name": "Dara51", "mobile": "61111111", "user_role_ids": [1]}], "users": [{"id": 2,"first_name": "David", "last_name": "Dara51", "mobile": "61111111"}], "roles": [{"id": 4, "name": "Supervisor"}], "user_roles": [{"id": 1, "user_id": 2, "role_id": 4}]};
@@ -50,7 +54,7 @@ module('Acceptance: Order summary', {
     });
 
     andThen(function(){
-      visit("/orders/" + designation.id + "/summary");
+      visit("/orders/" + designation.id + "/contact_summary");
     });
 
     mockFindAll('location').returns({json: {locations: [location.toJSON({includeId: true})]}});
@@ -64,24 +68,12 @@ module('Acceptance: Order summary', {
   }
 });
 
-test("Organisation Detail for Order summary page", function(assert) {
-  assert.expect(2);
-  assert.equal(currentPath(), "orders.summary");
-  assert.equal($('.organisation_name').text().trim(), gc_organisation.get("nameEn"));
-});
-
-test("Contact Details for Order detail page", function(assert) {
+test("Order summary detail", function(assert) {
   assert.expect(6);
-
-  assert.equal(currentPath(), "orders.summary");
-  assert.equal($(".main_details div:eq(5)").text().trim(), user.get("fullName"));
-  click($('.icons:eq(0)'));
-
-  andThen(function() {
-    assert.equal(currentPath(), "orders.contact");
-    assert.equal($('.name').text().trim(), user.get("fullName"));
-    assert.equal($('.mobile').text().trim(), user.get("mobile"));
-    assert.equal($('.email').text().trim(), user.get("email"));
-  });
+  assert.equal(currentPath(), "orders.contact_summary");
+  assert.equal($('.organisation_name').text().trim(), gc_organisation.get("nameEn"));
+  assert.equal($('#contact_name').text().trim(), designation.get("createdBy.fullName"));
+  assert.equal($('#contact_mobile').text().trim(), designation.get("createdBy.mobile"));
+  assert.equal($('#contact_position').text().trim(), designation.get("createdBy.position"));
+  assert.equal($('#contact_email').text().trim(), designation.get("createdBy.email"));
 });
-

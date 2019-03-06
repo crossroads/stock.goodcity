@@ -63,12 +63,17 @@ export default Ember.Controller.extend({
       .then(() => this.hideLoadingSpinner()); 
   },
 
-  updateRecord(record, updates, opts = {}) {
+  updateRecord(record, updates = {}, opts = {}) {
     _.each(updates, (v, k) => record.set(k, v));
     this.showLoadingSpinner();
     return record.save()
+      .then(() => {
+        _.get(opts, 'onSuccess', _.noop)();
+      })
       .catch(e => {
-        record.rollbackAttributes();
+        if (!opts.noRollback) {
+          record.rollbackAttributes();
+        }
         _.get(opts, 'onFailure', _.noop)(e);
         this.onError(e);
       })
@@ -77,7 +82,7 @@ export default Ember.Controller.extend({
 
   deleteRecords(records) {
     this.showLoadingSpinner();
-    RSVP.all(records.map(r => r.destroyRecord()))
+    return RSVP.all(records.map(r => r.destroyRecord()))
       .catch(r => this.onError(r))
       .finally(() => this.hideLoadingSpinner());
   },

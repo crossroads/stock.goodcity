@@ -61,7 +61,7 @@ module.exports = function(environment) {
       NAMESPACE: 'api/v1',
       HK_COUNTRY_CODE: '+852',
 
-      PRELOAD_TYPES: ['booking_type']
+      PRELOAD_TYPES: ['booking_type', 'purpose', 'process_checklist']
     },
 
     i18n: {

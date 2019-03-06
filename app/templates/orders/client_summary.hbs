@@ -1,0 +1,183 @@
+<nav class="tab-bar order_fixed_header">
+  {{partial "orders/orders_back_link_path"}}
+  <section class="right-small">
+    {{partial "orders/review_order_options"}}
+  </section>
+</nav>
+
+<section class="main-section order_page">
+  {{partial "orders/order_status_bar"}}
+  {{partial "orders/order_tabs"}}
+  {{partial "orders/summary_tabs"}}
+  <div class="row">
+    <div class="small-12 columns main_details">
+      {{#if model.beneficiary}}
+        {{#if model.isEditAllowed}}
+          <div class="row">
+            <div class="small-5 columns">
+              {{t "order_client_summary.remove_client_title"}}
+            </div>
+            <div {{action 'removeBeneficiaryModal'}}  class="small-7 columns underline">
+              {{t "order_client_summary.remove_client_info"}}
+            </div>
+          </div>
+          <br/>
+        {{/if}}
+
+        <div class="row">
+          <div class="small-5 columns">
+            {{t "order_client_summary.client_name"}}
+          </div>
+          <div id="client_name" class="small-7 columns">
+            <div class="columns small-3 value quality">
+              <div class="select-quality">
+                {{beneficiary-inline-select-list
+                  content=titles
+                  disabled=(if model.isEditAllowed "" true)
+                  selectedValue=model.beneficiary.title
+                  on-change=(action (mut selectedReason))
+                  name="title"
+                  id="beneficiary-title-select"
+                  class="beneficiary-inline-select"
+                  beneficiary=model.beneficiary}}
+              </div>
+            </div>
+            <div class="columns small-9">
+              {{beneficiary-inline-input
+                name="fullName"
+                disabled=(if model.isEditAllowed "" true)
+                maxlength=50
+                id="beneficiary-numeric-input"
+                class="numeric-input beneficiary-inline-input beneficiary-title"
+                value=model.beneficiary.fullNameWithoutTitle
+                  beneficiary=model.beneficiary}}
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="small-5 columns">
+            {{t "order_client_summary.client_phone"}}
+          </div>
+          <div id="phone_number" class="small-7 columns">
+            +852 {{beneficiary-inline-number-input
+              name="phone_number"
+              maxlength=8
+              id="beneficiary-phone-input"
+              disabled=(if model.isEditAllowed "" true)
+              class="numeric-input beneficiary-inline-input"
+              value=model.beneficiary.mobileWithoutCountryCode
+              beneficiary=model.beneficiary}}
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="small-5 columns beneficiary-id-title">
+            {{t "order_client_summary.id_title"}}
+          </div>
+          <div class="small-7 columns">
+            <div class="value quality">
+              <div class="select-quality">
+                {{beneficiary-inline-select-list
+                  content=identityTypes
+                  disabled=(if model.isEditAllowed "" true)
+                  selectedValue=model.beneficiary.identityType.name
+                  on-change=(action (mut selectedReason))
+                  name="identity_type_id"
+                  id="beneficiary-identity-select"
+                  class="beneficiary-identity-select"
+                  beneficiary=model.beneficiary}}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="small-5 columns">
+            {{t "order_client_summary.id_number"}}
+          </div>
+          <div id="id_number" class="small-7 columns">
+            {{beneficiary-inline-number-input
+              name="identity_number"
+              maxlength=4
+              disabled=(if model.isEditAllowed "" true)
+              class="numeric-input beneficiary-inline-input"
+              value=model.beneficiary.identityNumber
+              beneficiary=model.beneficiary}}
+          </div>
+          <br/>
+          <hr/>
+        </div>
+      {{else}}
+        {{#if model.isEditAllowed}}
+          <div class="row">
+            <div class="small-5 columns">
+              {{t "order_client_summary.no_client"}}
+            </div>
+            <div class="small-7 columns underline">
+              {{#link-to 'order.client_information' model.id (query-params prevPath="client_summary") tagName='div' href=false}}
+                {{t "order_client_summary.add_beneficiary"}}
+              {{/link-to}}
+            </div>
+            <br/>
+            <hr/>
+          </div>
+        {{/if}}
+      {{/if}}
+      {{#if model.goodcityRequests}}
+        <div class="row">
+          <div class="small-12 columns active">
+            {{t "order_client_summary.request_purpose"}}
+          </div>
+          <br/>
+        </div>
+
+        <div class="row">
+          <div class="small-5 columns">
+            {{t "order_client_summary.number_benefiting"}}
+          </div>
+          <div class="small-7 columns">
+            {{order-inline-number-input
+              name="people_helped"
+              maxlength=3
+              disabled=(if model.isEditAllowed "" true)
+              class="numeric-input beneficiary-inline-input"
+              value=model.peopleHelped
+              order=model}}
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="small-5 columns">
+            {{t "order_client_summary.description_of_need"}}
+          </div>
+          <div class="small-7 columns">
+            {{order-inline-textarea-input
+              data-autoresize=true name="purpose_description"
+              value=model.purposeDescription
+              disabled=(if model.isEditAllowed "" true)
+              pattern=".*\S.*"
+              id=(concat 'desc' item.id)
+              class="description-textarea order-description-textarea"
+              order=model}}
+              <div class='client_summary_description_error'>
+                {{fa-icon "exclamation-triangle"}}
+                <span class="error-reason-margin">
+                  {{t "order_client_summary.description_error"}}
+                </span>
+              </div>
+          </div>
+        </div>
+      {{/if}}
+    </div>
+  </div>
+</section>
+
+
+{{#message-box btn1Text=(t "not_now") btn2Text="Delete" btn2Callback=(action "deleteBeneficiary") isVisible=showBeneficiaryModal classNames="popupOverlay"}}
+
+  <p class="bold">{{t 'beneficiary_warning.delete_title'}}</p>
+  <div>{{t 'beneficiary_warning.delete_info'}}</div>
+  <p class="bold">{{t 'beneficiary_warning.warning'}}</p>
+
+{{/message-box}}

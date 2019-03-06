@@ -144,6 +144,18 @@ input[type=number]::-webkit-outer-spin-button {
   }
 }
 
+.active {
+  color: $white;
+}
+
+.underline {
+  text-decoration: underline;
+}
+
+.bold {
+  font-weight: bolder;
+}
+
 .tabs dd, .tabs .tab-title {
   position: relative;
   margin-bottom: 0 !important;

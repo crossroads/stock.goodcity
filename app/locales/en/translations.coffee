@@ -28,10 +28,20 @@ I18nTranslationsEn =
   "incomplete_form": "Please fill in the required fields to continue"
   "continue": "Continue"
   "save_changes": "Save changes"
+  "discard": "Discard"
   "discard_changes": "Discard changes"
   "add_inventory_item": "Add Item to Inventory"
   "manage_inventory": "Manage Appointment Quotas"
   "new_order": "Create New Order"
+  "full_name" : "{{firstName}} {{lastName}}"
+  "messages":
+    "you": "You"
+    "chat_note": "Chat about this order with the user"
+    "send": "Send"
+    "day":
+      "today": "Today"
+      "morning": "Morning"
+      "afternoon": "Afternoon"
 
   "camera_scan":
     "permission_error": "Camera permission is not turned on."
@@ -43,6 +53,46 @@ I18nTranslationsEn =
   "weekday_5": "Friday"
   "weekday_6": "Saturday"
   "weekday_7": "Sunday"
+
+  "online_status":
+    "online": "Online"
+    "not_connected": "Not Connected"
+
+  "order_client_summary":
+    "remove_client_title": "Remove Client"
+    "remove_client_info": "Remove client/beneficiary"
+    "client_name": "Client's Name"
+    "client_phone": "Client's Phone"
+    "id_title": "Type of id held"
+    "id_number": "ID Number"
+    "no_client": "No client"
+    "add_beneficiary": "Add client/beneficiary"
+    "request_purpose": "Request Purpose"
+    "number_benefiting": "Number benefiting"
+    "primary_location": "Primary location"
+    "description_of_need": "Description of need"
+    "description_error": "Description is required"
+
+  "order_contact_summary":
+    "change_contact": "Change Contact"
+    "choose_different_contact": "Choose different contact"
+    "organisation_title": "Organisation"
+    "contact_name": "Name"
+    "contact_phone": "Phone"
+    "contact_position": "Position"
+    "contact_email": "Email"
+    "contact_last_seen": "Last seen"
+    "contact_registered": "Registered"
+
+  "order_tabs":
+    "summary": "Summary"
+    "goods": "Goods"
+    "logistics": "Logistics"
+    "chat": "Chat"
+
+  "order_summary_tabs":
+    "contact": "Contact"
+    "client": "Purpose/Client"
 
   "authenticate":
     "input_code" : "Input Code"
@@ -69,6 +119,11 @@ I18nTranslationsEn =
     "orders": "Orders"
     "items": "Items"
     "goto": "Goto"
+
+  "beneficiary_warning":
+    "delete_title": "Remove Client?"
+    "delete_info": "If this request will no longer be for a client/beneficiary you can delete the beneficiary details."
+    "warning": 'This cannot be undone!'
 
   "item_filters":
     "with_and_without_images": "All"
@@ -158,6 +213,23 @@ I18nTranslationsEn =
     "close_order_popup": "All items in this order are dispatched. Would you like to close the Order? You will not be able to modify the order after closing it."
     "cancel_item_designate_warning": "This will also change state of the Order to processing from cancelled. Are you sure you want to designate?"
     "cancel_order_alert": "To cancel the Order, there should be 0 dispatched items."
+    "logistics": {
+      "scheduled": "Scheduled"
+      "type": "Type"
+      "transport_type": "Transport Type"
+      "destination": "Destination"
+      "vehicle_type": "Vehicle Type"
+      "base_estimate": "Base est."
+      "add_note": "Tap to add/edit sticky note"
+      "tap_to_save": "tap to save"
+      "processing_checklist": "Processing checklist"
+      "checklist_incomplete": "Processing checklist is incomplete"
+      "pick_date": "Pick a date"
+      "vehicle": {
+        "self": 'Private vehicle'
+        "ggv": 'Needs hired vehicle'
+      }
+    }
 
   "order_transports":
     "online_order": "Online Order"
@@ -195,6 +267,7 @@ I18nTranslationsEn =
     "title": "Title"
     "client_information": {
       "title": "Client Information",
+      "is_order_client": "Is this order being placed on behalf of a client?"
       "id_type_held_by_client": "Type of ID held by client",
       "verify": "We will use this ID to verify client on arrival.",
       "data_confidentiality": "All client data is kept strictly confidential.",
@@ -203,7 +276,7 @@ I18nTranslationsEn =
       "first_name": "Client's First Name",
       "family_name": "Client's Family Name",
       "name_instruction": "As shown on identity document",
-      "name_warning": "You must enter your name here.",
+      "name_warning": "You must enter client’s name here.",
       "phone_number": "Clients contact phone number",
       "phone_number_instruction": "We will use this number to confirm schedule and details.",
       "hk_id_instruction": {
@@ -224,8 +297,8 @@ I18nTranslationsEn =
     "request_purpose": {
       "title": "Request Purpose",
       "purpose": "Purpose of Goods",
-      "for_organisation": "For organisation's own programs",
-      "for_client": "For a client/benificiary",
+      "for_organisation": "No - order for organisation's own programs",
+      "for_client": "Yes - order is for a client/benificiary",
       "people_count_info": "How many people will benefit from these items?",
       "district_label": "Where in Hong Kong will these goods be primarily used?",
       "district-label-info": "This assists us with our reporting.",

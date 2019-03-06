@@ -11,17 +11,26 @@ export default Ember.Controller.extend({
   user: Ember.computed.alias('model.orderUserOrganisation.user'),
   order: Ember.computed.alias('model.orderUserOrganisation.order'),
   districts: Ember.computed.alias('model.districts'),
-  selectedId: Ember.computed('order',  function() {
-    return this.get('order.purposeId') || "Organisation";
+
+  peopleHelped: Ember.computed('order', {
+    get() {
+      return this.get('order.peopleHelped') || '';
+    },
+    set(key, value) {
+      this.set('order.peopleHelped', value);
+      return value;
+    }
   }),
 
-  peopleHelped: Ember.computed('order', function() {
-    return this.get('order.peopleHelped') || undefined;
-  }),
-
-  selectedDistrict: Ember.computed('order.districtId', function() {
-    let districtId = this.get('order.districtId');
-    return districtId ? this.store.peekRecord('district', districtId) : null;
+  selectedDistrict: Ember.computed('order.districtId', {
+    get() {
+      let districtId = this.get('order.districtId');
+      return districtId ? this.store.peekRecord('district', districtId) : null;
+    },
+    set(key, value) {
+      let districtId = value.id;
+      return districtId ? this.store.peekRecord('district', districtId) : null;
+    }
   }),
 
   actions: {
@@ -46,12 +55,6 @@ export default Ember.Controller.extend({
 
     createOrderWithRequestPuropose(){
       let user = this.get('user');
-      let purposeIds = [];
-      if(this.get('selectedId') === 'Organisation'){
-        purposeIds.push(1);
-      } else if(this.get('selectedId') === 'Client'){
-        purposeIds.push(2);
-      }
 
       let user_organisation_id;
       if(user && user.get('organisationsUsers').length){
@@ -61,7 +64,6 @@ export default Ember.Controller.extend({
       let orderParams = {
         organisation_id: user_organisation_id,
         purpose_description: this.get('order.purposeDescription'),
-        purpose_ids: purposeIds,
         people_helped: this.get('peopleHelped'),
         district_id: this.get('selectedDistrict.id')
       };
@@ -79,13 +81,12 @@ export default Ember.Controller.extend({
           var orderId = data.designation.id;
           var purpose_ids = data.orders_purposes.filterBy("order_id", orderId).getEach("purpose_id");
           isOrganisationPuropose = purpose_ids.get('length') === 1 && purpose_ids.indexOf(1) >= 0;
-          loadingView.destroy();
           if(isOrganisationPuropose) {
             this.transitionToRoute('order.goods_details', orderId);
           } else {
             this.transitionToRoute("order.client_information", orderId);
           }
-        });
+        }).finally( () => loadingView.destroy());
     }
   }
 });
