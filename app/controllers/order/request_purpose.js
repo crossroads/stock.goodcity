@@ -10,7 +10,9 @@ export default Ember.Controller.extend({
   description: "",
   user: Ember.computed.alias('model.orderUserOrganisation.user'),
   order: Ember.computed.alias('model.orderUserOrganisation.order'),
-  districts: Ember.computed.alias('model.districts'),
+  districts: Ember.computed(function(){
+    return this.get("model.districts").sortBy("name");
+  }),
 
   peopleHelped: Ember.computed('order', {
     get() {
