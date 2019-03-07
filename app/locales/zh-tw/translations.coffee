@@ -7,6 +7,7 @@ I18nTranslationsEn =
   "language.zh": "中文"
   "back": "返回"
   "switch_language": "Switch language"
+  "manage_charity": "Manage charity users"
   "no_search_results": "沒有搜尋結果"
   "search": "搜尋"
   "QuotaExceededError": "網頁部分功能於Safari 瀏覽器的 <b>「私密瀏覽」模式</b>並不適用。 請嘗試</br><ul><li><a href='https://itunes.apple.com/in/app/goodcitystock.hk/id1144806764?mt=8' style='color: black!important; background-color: #dee4eb !important;'>下載 iOS 手機應用程式</a></li><li>使用 Safari 瀏覽器正常模式 </li><li> 使用Chrome瀏覽器的「無痕模式」</li></ul>"
@@ -33,6 +34,14 @@ I18nTranslationsEn =
   "manage_inventory": "Manage Appointment Quotas"
   "new_order": "Create New Order"
   "full_name" : "{{firstName}} {{lastName}}"
+  "print_label": "Sent to Printer.."
+  "publish": "Publish"
+  "unpublish": "Unpublish"
+  "publish_warning": "You are about to publish this package for clients to view and request online.<br/> Please ensure descriptions and images are high quality before proceeding."
+  "unpublish_warning": "You are about to unpublish this package. Clients will no longer be able to view or request it online."
+  "remove_item_from_set_warning": "Are you sure, you want to separate this item from its set? This cannot be undone."
+  "home":
+    "orders_in_process": "Orders In Process"
   "messages":
     "you": "You"
     "chat_note": "Chat about this order with the user"
@@ -178,6 +187,11 @@ I18nTranslationsEn =
     "cancelled_info": "Orders that were unsuccessful."
     "recent_orders": "Your recent orders"
 
+  "location_filters": 
+    "all_locations": "ALL LOCATIONS"
+    "clear": "(Clear Location Filter)"
+    "recently_used": "Recently used locations"
+
   "split_quantity":
     "btn": "Split"
     "title": "Split Quantity"
@@ -187,6 +201,8 @@ I18nTranslationsEn =
     "warning": "Quantity to split must be at least 1 and less than {{qty}}"
 
   "order_details":
+    "active": "Active"
+    "requests": "Requests"
     "client_name": "服務對使用者姓名"
     "hkid": "香港身份證號碼"
     "reference": "參考編號:"
@@ -428,6 +444,9 @@ I18nTranslationsEn =
     "already_dispatched": "所有被指派的物資已經被派送"
     "multiple": "多項"
     "dispatch_message": "請確認你要派送此物資"
+    "auto_id": "Auto Id"
+    "input_id": "Input Id"
+    "scan_id": "Scan Id"
 
   "designate":
     "modify_designation": "取消指派至訂單 {{code}}"
@@ -440,6 +459,10 @@ I18nTranslationsEn =
     "partial_designate_title": "指派{{partial_qty}}件到訂單{{code}}"
     "cannot_designate": "部分物資已經被指派至訂單{{code}}/訂單{{code}}狀態為「已取消」。請用「指派部分物資」選項將更多物資指派至此訂單。"
     "redesignate": "請確認你想重新指派這件物資到此訂單。"
+    "entire_quantity": "Designates entire quantity."
+    "part_of_set": "Designates only part of set."
+    "set_of_item_to_order": "esignate this set of items to {{code}} ?"
+
 
   "undesignate":
     "form_title": "從訂單{{code}}中移除這件物資"
@@ -456,6 +479,10 @@ I18nTranslationsEn =
     "dispatch_set": "你可以選擇派送整套物資。"
     "all_items_dispatched": "此訂單中的所有物資已經派送完畢，請在Stockit系統上完成訂單"
     "separate_and_dispatch": "將物資從套裝中移除並派送"
+    "confirmation": "You must tick the confirmation box to proceed."
+    "dispatch_entire_quantity_warning": "Dispatches entire quantity."
+    "dispatch_set_to_order": "Dispatch multi-part set to {{code}}"
+
 
   "organisation":
     "add_user_button": "新增機構用戶"

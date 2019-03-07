@@ -1,9 +1,9 @@
 <div class="" onclick={{if item.isSingletonItem (action 'displayPublishOverlay')}} style={{if item.isSingletonItem "cursor: pointer;"}}>
   <u>
   {{#if published}}
-    Unpublish
+    {{t 'unpublish'}}
   {{else}}
-    Publish
+    {{t 'publish'}}
   {{/if}}
   <i style="text-decoration: underline;" aria-hidden="true">{{fa-icon (if published 'eye' 'eye-slash')}}</i></u>
 </div>
@@ -12,10 +12,9 @@
 
   <p class="publish_message">
     {{#if published}}
-      You are about to unpublish this package. Clients will no longer be able to view or request it online.
+      {{t 'unpublish_warning'}}
     {{else}}
-      You are about to publish this package for clients to view and request online.<br/>
-      Please ensure descriptions and images are high quality before proceeding.
+      {{t 'publish_warning'}}
     {{/if}}
   </p>
 

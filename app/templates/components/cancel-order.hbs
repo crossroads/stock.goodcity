@@ -1,12 +1,12 @@
 {{#if isCancel}}
   <div {{action 'deleteOrder' }} class="right-small cancel-order">
-    Cancel
+    {{t 'canncel'}}
   </div>
 {{else}}
   <div {{action "deleteOrder"}} class="back" class="cancel-button-outer">
     <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-left'}}</i>
     <span class="back_text">
-      Cancel
+      {{t 'canncel'}}
     </span>
   </div>
 {{/if}}

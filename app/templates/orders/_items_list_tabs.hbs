@@ -4,13 +4,13 @@
       <dl class="tabs" data-tab>
         {{#link-to 'orders.active_items' model.id tagName="dd" classNames="small-6 medium-6 columns text-center"}}
           {{#link-to 'orders.active_items' model.id}}
-            <div>Active ({{ordersPkgLength}})</div>
+            <div>{{t "order_details.active"}} ({{ordersPkgLength}})</div>
           {{/link-to}}
         {{/link-to}}
 
         {{#link-to 'orders.requested_items' model.id tagName="dd" classNames="small-6 medium-6 columns text-center"}}
           {{#link-to 'orders.requested_items' model.id}}
-            <div>Requests ({{model.goodcityRequests.length}})</div>
+            <div>{{t "order_details.requests"}} ({{model.goodcityRequests.length}})</div>
           {{/link-to}}
         {{/link-to}}
       </dl>
