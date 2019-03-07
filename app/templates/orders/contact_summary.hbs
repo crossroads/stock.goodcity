@@ -96,14 +96,26 @@
         </div>
       </div>
 
-      {{!-- <div class="row">
+      <div class="row">
         <div class="small-4 columns">
-          Total requests 
+          Total requests
         </div>
         <div class="small-8 columns email">
-          {{display-timeago model.createdBy.createdAt}}
+          {{#if model.userSubmittedCount}}
+            <i>{{fa-icon 'envelope'}}</i>
+            <span class="state-count">{{model.userSubmittedCount}}</span>
+          {{/if}}
+          {{#if model.userAwaitingDispatchCount}}
+            <i>{{fa-icon 'clock'}}</i>
+            <span class="state-count">{{model.userAwaitingDispatchCount}}</span>
+          {{/if}}
+          {{!-- <i>{{fa-icon 'thumbs-up'}}</i> <span class="state-count">4</span> --}}
+          {{#if model.userCancelledCount}}
+            <i>{{fa-icon 'thumbs-down'}}</i>
+            <span class="state-count">{{model.userCancelledCount}}</span>
+          {{/if}}
         </div>
-      </div> --}}
+      </div>
     </div>
   </div>
 

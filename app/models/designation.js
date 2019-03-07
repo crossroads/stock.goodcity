@@ -33,6 +33,10 @@ export default Model.extend({
   gcOrganisationId: attr("number"),
   beneficiaryId: attr("number"),
   staffNote: attr("string"),
+  userCancelledOrderCount:   attr("number"),
+  userClosedOrderCount:      attr("number"),
+  userSubmittedOrderCount:   attr("number"),
+  userAwaitingDispatchOrderCount: attr("number"),
 
   beneficiary: belongsTo("beneficiary", { async: false }),
   stockitContact: belongsTo("stockit_contact", { async: false }),
