@@ -5,6 +5,7 @@ I18nTranslationsEn =
   "language.en": "English"
   "language.zh": "中文"
   "switch_language": "Switch language"
+  "manage_charity": "Manage charity users"
   "loading": "Loading..."
   "back": "Back"
   "search": "Search"
@@ -34,6 +35,14 @@ I18nTranslationsEn =
   "manage_inventory": "Manage Appointment Quotas"
   "new_order": "Create New Order"
   "full_name" : "{{firstName}} {{lastName}}"
+  "print_label": "Sent to Printer.."
+  "publish": "Publish"
+  "unpublish": "Unpublish"
+  "publish_warning": "You are about to publish this package for clients to view and request online.<br/> Please ensure descriptions and images are high quality before proceeding."
+  "unpublish_warning": "You are about to unpublish this package. Clients will no longer be able to view or request it online."
+  "remove_item_from_set_warning": "Are you sure, you want to separate this item from its set? This cannot be undone."  
+  "home":
+    "orders_in_process": "Orders In Process"
   "messages":
     "you": "You"
     "chat_note": "Chat about this order with the user"
@@ -177,6 +186,11 @@ I18nTranslationsEn =
     "cancelled": "Cancelled"
     "cancelled_info": "Orders that were unsuccessful."
     "recent_orders": "Your recent orders"
+  
+  "location_filters": 
+    "all_locations": "ALL LOCATIONS"
+    "clear": "(Clear Location Filter)"
+    "recently_used": "Recently used locations"
 
   "split_quantity":
     "btn": "Split"
@@ -188,6 +202,8 @@ I18nTranslationsEn =
 
 
   "order_details":
+    "active": "Active"
+    "requests": "Requests"
     "client_name": "Client name:"
     "hkid": "HKID"
     "reference": "Reference #:"
@@ -197,7 +213,7 @@ I18nTranslationsEn =
     "show_more_items": "Show more items"
     "complete_process_warning": "You need to complete processing the Order first before dispatching."
     "cannot_designate_to_gc_order": "This GoodCity Order is either in cancelled or closed state. You can't designate item to this order."
-    "add_item_to_order": "Add an item to this order"
+    "add_item_to_ order ": "Add an item to this order"
     "add_request_to_order": "Add request to order"
     "resubmit_order_warning": "Resubmitting an Order will set order state to submitted. Are you sure you want to resubmit the order?"
     "reopen_undispatch_warning": "You can only reopen an order after un-dispatching all dispatched items."
@@ -436,6 +452,9 @@ I18nTranslationsEn =
     "already_dispatched": "All designated Items are already dispatched"
     "multiple": "Multiple"
     "dispatch_message": "Are you sure you want to dispatch this Item?"
+    "auto_id": "Auto Id"
+    "input_id": "Input Id"
+    "scan_id": "Scan Id"
 
   "designate":
     "modify_designation": "Cancels the designation to order {{code}}"
@@ -448,6 +467,9 @@ I18nTranslationsEn =
     "partial_designate_title": "Designates {{partial_qty}} quantity to order {{code}}"
     "cannot_designate": "There are partial items already designated to order {{code}} or order {{code}} is in cancelled state. Use Partial Designate feature to designate more."
     "redesignate": "Are you sure you want to re-designate this Item to this Order?"
+    "entire_quantity": "Designates entire quantity."
+    "part_of_set": "Designates only part of set."
+    "set_of_item_to_order": "esignate this set of items to {{code}} ?"
 
   "undesignate":
     "form_title": "Remove this item from order {{code}}"
@@ -464,6 +486,9 @@ I18nTranslationsEn =
     "dispatch_set": "You could dispatch the entire set instead."
     "all_items_dispatched": "All items from this order have been dispatched. Please close this order in StockIt."
     "separate_and_dispatch": "Separate item from set & dispatch"
+    "confirmation": "You must tick the confirmation box to proceed."
+    "dispatch_entire_quantity_warning": "Dispatches entire quantity."
+    "dispatch_set_to_order": "Dispatch multi-part set to {{code}}"
 
   "edit_images":
     "upload": "Choose Image"

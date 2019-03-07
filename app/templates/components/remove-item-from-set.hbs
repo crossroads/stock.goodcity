@@ -5,6 +5,6 @@
 
 {{#message-box btn1Text="Separate" btn1Callback=(action "removeItemFromSet") btn2Text=(t "cancel") btn2Callback=(action "closeItemOptions") isVisible=displayUserPrompt classNames="popupOverlay designate-form"}}
 
-  <p>Are you sure, you want to separate this item from its set? This cannot be undone.</p>
+  <p>{{t 'remove_item_from_set_warning'}}</p>
 
 {{/message-box}}

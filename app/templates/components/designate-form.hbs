@@ -58,7 +58,7 @@
 {{#message-box btn1Text=(t "okay") btn1Callback=(action "designateItem") btn2Text=(t "cancel") isVisible=displayUserPrompt classNames="popupOverlay designate-form"}}
 
   {{#if isSet}}
-    <p>Designate this set of items to {{order.code}} ?</p>
+    <p>{{t 'designate.set_of_item_to_order' code=order.code}}</p>
     {{#each item.setItem.items as |item|}}
       {{partial 'items/set_item_block'}}
     {{/each}}
@@ -67,7 +67,7 @@
       {{#if item.setItem.multiQuantitySet}}
         <div class="warning_text">
           <i>{{fa-icon 'exclamation-triangle'}}</i>
-          Designates entire quantity.
+          {{t 'designate.entire_quantity'}}
         </div>
       {{/if}}
     </div>
@@ -86,7 +86,7 @@
         <div class="warning_text">
           <div class="left-icon"><i>{{fa-icon 'exclamation-triangle'}}</i></div>
           <div class="right-message">
-            <div class= "designate-message">Designates only part of set.</div>
+            <div class= "designate-message"> {{t 'designate.part_of_set'}} </div>
           </div>
         </div>
       {{/if}}
