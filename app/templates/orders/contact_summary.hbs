@@ -103,16 +103,22 @@
         <div class="small-8 columns email">
           {{#if model.userSubmittedCount}}
             <i>{{fa-icon 'envelope'}}</i>
-            <span class="state-count">{{model.userSubmittedCount}}</span>
+            <span class="state-count" id="submitted_count">
+              {{model.userSubmittedCount}}
+            </span>
           {{/if}}
           {{#if model.userAwaitingDispatchCount}}
             <i>{{fa-icon 'clock'}}</i>
-            <span class="state-count">{{model.userAwaitingDispatchCount}}</span>
+            <span class="state-count" id="scheduled_count">
+              {{model.userAwaitingDispatchCount}}
+            </span>
           {{/if}}
           {{!-- <i>{{fa-icon 'thumbs-up'}}</i> <span class="state-count">4</span> --}}
           {{#if model.userCancelledCount}}
             <i>{{fa-icon 'thumbs-down'}}</i>
-            <span class="state-count">{{model.userCancelledCount}}</span>
+            <span class="state-count" id="cancelled_count">
+              {{model.userCancelledCount}}
+            </span>
           {{/if}}
         </div>
       </div>

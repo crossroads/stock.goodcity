@@ -17,7 +17,7 @@
             <div class="small-5 columns">
               {{t "order_client_summary.remove_client_title"}}
             </div>
-            <div {{action 'removeBeneficiaryModal'}}  class="small-7 columns underline">
+            <div {{action 'removeBeneficiaryModal'}}  id='delete-beneficiary' class="small-7 columns underline">
               {{t "order_client_summary.remove_client_info"}}
             </div>
           </div>
@@ -65,7 +65,7 @@
               maxlength=8
               id="beneficiary-phone-input"
               disabled=(if model.isEditAllowed "" true)
-              class="numeric-input beneficiary-inline-input"
+              class="numeric-input beneficiary-inline-input beneficiary-phone"
               value=model.beneficiary.mobileWithoutCountryCode
               beneficiary=model.beneficiary}}
           </div>
@@ -85,7 +85,7 @@
                   on-change=(action (mut selectedReason))
                   name="identity_type_id"
                   id="beneficiary-identity-select"
-                  class="beneficiary-identity-select"
+                  class="beneficiary-identity-select identity-type"
                   beneficiary=model.beneficiary}}
               </div>
             </div>
@@ -101,7 +101,7 @@
               name="identity_number"
               maxlength=4
               disabled=(if model.isEditAllowed "" true)
-              class="numeric-input beneficiary-inline-input"
+              class="numeric-input beneficiary-inline-input identity-number"
               value=model.beneficiary.identityNumber
               beneficiary=model.beneficiary}}
           </div>
@@ -115,7 +115,7 @@
               {{t "order_client_summary.no_client"}}
             </div>
             <div class="small-7 columns underline">
-              {{#link-to 'order.client_information' model.id (query-params prevPath="client_summary") tagName='div' href=false}}
+              {{#link-to 'order.client_information' model.id (query-params prevPath="client_summary") tagName='div' href=false id="add-beneficiary"}}
                 {{t "order_client_summary.add_beneficiary"}}
               {{/link-to}}
             </div>
