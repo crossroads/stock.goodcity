@@ -42,7 +42,7 @@ export default Model.extend({
   items:              hasMany('item', { async: true }),
   goodcityRequests:   hasMany('goodcity_request', { async: false }),
   ordersPackages:     hasMany('ordersPackages', { async: false }),
-  messages:           hasMany('message', { async: false }),
+  messages:           hasMany('message', { async: true }),
   orderTransport:     belongsTo('orderTransport', { async: false }),
   ordersPurposes:     hasMany('ordersPurpose', { async: false }),
   submittedBy:        belongsTo('user', { async: false }),
@@ -226,6 +226,15 @@ export default Model.extend({
 
   isInactive: Ember.computed('status', function(){
     return ["Sent", "Cancelled", "Closed"].indexOf(this.get("status")) >= 0;
+  }),
+
+  // unread order messages
+  unreadMessagesCount: Ember.computed('messages.@each.state', function () {
+    return this.get('messages').filterBy('state', 'unread').length;
+  }),
+
+  hasUnreadMessages: Ember.computed('unreadMessagesCount', function () {
+    return this.get('unreadMessagesCount') > 0;
   })
 
 });
