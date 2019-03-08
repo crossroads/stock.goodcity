@@ -98,26 +98,31 @@
 
       <div class="row">
         <div class="small-4 columns">
-          Total requests
+          {{t "order_contact_summary.total_requests"}}
         </div>
         <div class="small-8 columns email">
-          {{#if model.userSubmittedCount}}
+          {{#if model.userSubmittedOrderCount}}
             <i>{{fa-icon 'envelope'}}</i>
             <span class="state-count" id="submitted_count">
-              {{model.userSubmittedCount}}
+              {{model.userSubmittedOrderCount}}
             </span>
           {{/if}}
-          {{#if model.userAwaitingDispatchCount}}
+          {{#if model.userAwaitingDispatchOrderCount}}
             <i>{{fa-icon 'clock'}}</i>
             <span class="state-count" id="scheduled_count">
-              {{model.userAwaitingDispatchCount}}
+              {{model.userAwaitingDispatchOrderCount}}
             </span>
           {{/if}}
-          {{!-- <i>{{fa-icon 'thumbs-up'}}</i> <span class="state-count">4</span> --}}
-          {{#if model.userCancelledCount}}
+          {{#if model.userClosedOrderCount}}
+            <i>{{fa-icon 'thumbs-down'}}</i>
+            <span class="state-count" id="closed_count">
+              {{model.userClosedOrderCount}}
+            </span>
+          {{/if}}
+          {{#if model.userCancelledOrderCount}}
             <i>{{fa-icon 'thumbs-down'}}</i>
             <span class="state-count" id="cancelled_count">
-              {{model.userCancelledCount}}
+              {{model.userCancelledOrderCount}}
             </span>
           {{/if}}
         </div>

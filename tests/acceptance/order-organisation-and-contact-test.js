@@ -25,13 +25,11 @@ module('Acceptance: Order summary', {
     identity_type = FactoryGuy.make('identity_type');
     beneficiary = FactoryGuy.make('beneficiary', { identity_type: identity_type });
     organisation_user = FactoryGuy.make("organisationsUser", { gcOrganisation: gc_organisation, user: user });
-    designation = FactoryGuy.make("designation", { state: "submitted", detailType: "GoodCity", goodcityRequests: request, gcOrganisation: gc_organisation, beneficiaryId: beneficiary.id, createdBy: user, userCancelledCount: 21, userAwaitingDispatchCount: 34, userSubmittedCount: 23, peopleHelped: '2', purposeDescription: 'Test' });
-    var designation1 = FactoryGuy.make("designation", { id: designation.id, state: "submitted", beneficiary: null, detailType: "GoodCity", goodcityRequests: request, gcOrganisation: gc_organisation, beneficiaryId: beneficiary.id, createdBy: user, userCancelledCount: 21, userAwaitingDispatchCount: 34, userSubmittedCount: 23, peopleHelped: '2', purposeDescription: 'Test' });
+    designation = FactoryGuy.make("designation", { state: "submitted", detailType: "GoodCity", goodcityRequests: request, gcOrganisation: gc_organisation, beneficiaryId: beneficiary.id, createdBy: user, userCancelledOrderCount: 21, userAwaitingDispatchOrderCount: 34, userSubmittedOrderCount: 23, userClosedOrderCount: 6, peopleHelped: '2', purposeDescription: 'Test' });
     request = FactoryGuy.make("goodcity_request", { quantity: 1, designation: designation});
     item1 = FactoryGuy.make("item", { state: "submitted", quantity: 0 , designation: designation});
     orders_package1 = FactoryGuy.make("orders_package", { state: "dispatched", quantity: 1, item: item1, designation: designation });
     data = {"user_profile": [{"id": 2,"first_name": "David", "last_name": "Dara51", "mobile": "61111111", "user_role_ids": [1]}], "users": [{"id": 2,"first_name": "David", "last_name": "Dara51", "mobile": "61111111"}], "roles": [{"id": 4, "name": "Supervisor"}], "user_roles": [{"id": 1, "user_id": 2, "role_id": 4}]};
-    var designation1 = FactoryGuy.make("designation", { id: designation.id, benificiary: '', state: "submitted", detailType: "GoodCity", goodcityRequests: request, gcOrganisation: gc_organisation, createdBy: user, userCancelledCount: 21, userAwaitingDispatchCount: 34, userSubmittedCount: 23, peopleHelped: '2', purposeDescription: 'Test' });
     $.mockjax({url:"/api/v1/auth/current_user_profil*",
       responseText: data });
 
@@ -78,16 +76,17 @@ module('Acceptance: Order summary', {
 });
 
 test("Order summary detail", function(assert) {
-  assert.expect(9);
+  assert.expect(10);
   assert.equal(currentPath(), "orders.contact_summary");
   assert.equal($('.organisation_name').text().trim(), gc_organisation.get("nameEn"));
   assert.equal($('#contact_name').text().trim(), designation.get("createdBy.fullName"));
   assert.equal($('#contact_mobile').text().trim(), designation.get("createdBy.mobile"));
   assert.equal($('#contact_position').text().trim(), designation.get("createdBy.position"));
   assert.equal($('#contact_email').text().trim(), designation.get("createdBy.email"));
-  assert.equal($('#submitted_count').text().trim(), designation.get("userSubmittedCount"));
-  assert.equal($('#scheduled_count').text().trim(), designation.get("userAwaitingDispatchCount"));
-  assert.equal($('#cancelled_count').text().trim(), designation.get("userCancelledCount"));
+  assert.equal($('#submitted_count').text().trim(), designation.get("userSubmittedOrderCount"));
+  assert.equal($('#scheduled_count').text().trim(), designation.get("userAwaitingDispatchOrderCount"));
+  assert.equal($('#cancelled_count').text().trim(), designation.get("userCancelledOrderCount"));
+  assert.equal($('#closed_count').text().trim(), designation.get("userClosedOrderCount"));
 });
 
 test("Clicking Client/Purpose lands to Client Page", function(assert) {
@@ -96,7 +95,7 @@ test("Clicking Client/Purpose lands to Client Page", function(assert) {
   andThen(function() {
     assert.equal(currentPath(), "orders.client_summary");
   });
-})
+});
 
 test("Client/Purpose displays beneficiary details", function(assert) {
   assert.expect(8);
@@ -111,20 +110,4 @@ test("Client/Purpose displays beneficiary details", function(assert) {
     assert.equal($('.people-helped').val(), designation.get("peopleHelped"));
     assert.equal($('.order-description-textarea').val(), designation.get("purposeDescription"));
   });
-})
-
-// test("Clicking 'Remove client/beneficiary will remove beneficiary from Order", function(assert) {
-//   assert.equal(currentPath(), "orders.contact_summary");
-//   click($('#client_tab'));
-//   andThen(function() {
-//     assert.equal(currentPath(), "orders.client_summary");
-//     click($('#delete-beneficiary'));
-//   });
-//   andThen(function() {
-//     click($('#btn2'));
-//   });
-//   andThen(function() {
-//     return pauseTest();
-//     assert.equal($('#add-beneficiary').text().trim(), 'Add client/summary');
-//   });
-// });
+});
