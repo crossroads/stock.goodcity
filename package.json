@@ -96,6 +96,7 @@
     "ember-cli-babel": "^5.1.10",
     "ember-cli-test-loader": "^1.1.0",
     "extend": "2.0.2",
+    "hoek": "4.2.1",
     "jquery": "^3.2.0",
     "lodash": "4.17.11",
     "minimatch": "3.0.2",
