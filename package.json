@@ -92,6 +92,7 @@
     "cordova": "^7.1.0",
     "cordova-lib": "https://github.com/crossroads/goodcity-lib.git#master",
     "cordova-update-config": "^1.0.2",
+    "deep-extend": "0.5.1",
     "ember-cli-babel": "^5.1.10",
     "ember-cli-test-loader": "^1.1.0",
     "extend": "2.0.2",
