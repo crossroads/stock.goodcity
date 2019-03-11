@@ -17,7 +17,7 @@
         {{partial "order/user_information"}}
 
         {{validate-inputs
-          elementCssIdentifiersArrayJson='["#people-count", "#description", ".district-selector"]'
+          elementCssIdentifiersArrayJson='["#people-count", "#description", ".district-selector select"]'
           errorClass='form__control--error'
           buttonId='#request-submit'
         }}
@@ -28,7 +28,7 @@
               <br>
               {{t 'order.request_purpose.people_count_info'}}
               {{#form-control}}
-                {{input type='number' value=peopleHelped required='true' id="people-count"}}
+                {{input type='number' min="1" value=peopleHelped required='true' id="people-count"}}
                 <div class='input-error'>
                   {{fa-icon "exclamation-triangle"}}
                   <span class="error-reason-margin">

@@ -14,7 +14,6 @@
     border-color: #f34d4f;
     background: #fddbdc;
   }
-
   .time_slots_radio_buttons {
       display: inline-block;
       position: relative;
@@ -49,4 +48,21 @@
         }
       }
     }
+}
+
+.time_inputs {
+  .form__control--error > .pickadate{
+    border-color: #f34d4f;
+    background: #fddbdc;
+  }
+}
+
+.booking-success {
+  .booking-sucess-state {
+    font-size: 200%;
+  }
+
+  .order-state {
+    margin-left: 2%;
+  }
 }
