@@ -1,29 +1,27 @@
-import Ember from 'ember';
-import config from '../../config/environment';
-import detail from './detail';
+import Ember from "ember";
+import config from "../../config/environment";
+import detail from "./detail";
 
 export default detail.extend({
   messagesUtil: Ember.inject.service("messages"),
-  body: '',
+  body: "",
   isPrivate: false,
   backLinkPath: "",
   isMobileApp: config.cordova.enabled,
   itemIdforHistoryRoute: null,
   organisationIdforHistoryRoute: null,
   i18n: Ember.inject.service(),
-  sortProperties: [
-    "createdAt: asc"
-  ],
+  sortProperties: ["createdAt: asc"],
   model: null,
   noMessage: Ember.computed.empty("model.messages"),
 
-  displayChatNote: Ember.computed('noMessage', 'disabled', function () {
+  displayChatNote: Ember.computed("noMessage", "disabled", function() {
     return this.get("noMessage") && !this.get("disabled");
   }),
 
   sortedMessages: Ember.computed.sort("model.messages", "sortProperties"),
 
-  groupedMessages: Ember.computed("sortedMessages", function () {
+  groupedMessages: Ember.computed("sortedMessages", function() {
     this.autoScroll();
     return this.groupBy(this.get("sortedMessages"), "createdDate");
   }),
@@ -33,13 +31,13 @@ export default detail.extend({
     window.scrollTo(0, document.body.scrollHeight);
   },
 
-  groupBy: function (content, key) {
+  groupBy: function(content, key) {
     var result = [];
     var object, value;
 
-    content.forEach(function (item) {
+    content.forEach(function(item) {
       value = item.get(key);
-      object = result.findBy('value', value);
+      object = result.findBy("value", value);
       if (!object) {
         object = {
           value: value,
@@ -49,37 +47,41 @@ export default detail.extend({
       }
       return object.items.push(item);
     });
-    return result.getEach('items');
+    return result.getEach("items");
   },
 
   createMessage(values) {
     var message = this.store.createRecord("message", values);
-    message.save()
-    .then(() => {
-      this.set("body", "");
-    })
-    .catch(error => {
-      this.store.unloadRecord(message);
-      throw error;
-    });
+    message
+      .save()
+      .then(() => {
+        this.set("body", "");
+      })
+      .catch(error => {
+        this.store.unloadRecord(message);
+        throw error;
+      });
   },
 
   actions: {
-    sendMessage(){
-      Ember.$("textarea").trigger('blur');
+    sendMessage() {
+      Ember.$("textarea").trigger("blur");
       var values = this.getProperties("body");
-      values.designation = this.get('model');
+      values.designation = this.get("model");
       values.createdAt = new Date();
-      values.isPrivate = this.get('isPrivate');
-      values.sender = this.store.peekRecord("sender", this.get("session.currentUser.id"));
+      values.isPrivate = this.get("isPrivate");
+      values.sender = this.store.peekRecord(
+        "user",
+        this.get("session.currentUser.id")
+      );
       this.createMessage(values);
 
       // Animate and scroll to bottom
       this.autoScroll();
     },
-    markRead(){
+    markRead() {
       this.get("sortedMessages")
-        .filterBy('state', 'unread')
+        .filterBy("state", "unread")
         .forEach(message => this.get("messagesUtil").markRead(message));
     }
   }
