@@ -14,15 +14,15 @@ export default Ember.Controller.extend({
 
   initSubscription: Ember.on("init", function() {
     this.get("subscription").send("wire");
-    if (this.get("isMobileApp") && cordova.platformId === "android") {
-      // jshint ignore:line
+    //prettier-ignore
+    if (this.get("isMobileApp") && cordova.platformId === "android") { // jshint ignore:line
       this.redirectToItem();
     }
   }),
 
   redirectToItem() {
-    universalLinks.subscribe("redirectToItem", eventData => {
-      // jshint ignore:line
+    //prettier-ignore
+    universalLinks.subscribe("redirectToItem", eventData => { // jshint ignore:line
       this.transitionToRoute(eventData.path);
     });
   },
