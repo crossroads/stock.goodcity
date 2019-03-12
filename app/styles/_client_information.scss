@@ -6,14 +6,13 @@
     font-size: 0.9rem;
     margin-top: 1rem;
     font-weight: 600;
-    margin-left: -1%;
   }
 
   .confirm-page-title {
     color: white;
   }
 
-  ::-webkit-input-placeholder {
+  #hk-id-number::-webkit-input-placeholder {
     text-align: center;
   }
 
@@ -83,6 +82,12 @@
     }
   }
 }
+
+.name-details {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
 div .hk-id{
   margin-left: 0 !important;
   margin-right: 0 !important;
