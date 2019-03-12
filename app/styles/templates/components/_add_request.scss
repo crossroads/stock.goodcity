@@ -14,9 +14,7 @@
       width: 64% !important;
     }
   }
-  .request-block {
-    border-bottom: 1px solid;
-  }
+
   .req-description input {
     margin-top: 0.1rem;
   }
@@ -38,10 +36,6 @@
   }
 }
 
-.req-more-goods{
-  border-top: 1px solid;
-}
-
 .add-request, .req-description{
   margin-top: 1rem;
   .select-goods, .add-quantity, .add-description {
@@ -58,6 +52,9 @@
   margin-top: 1rem;
   .remove-request{
     color: #f34d4f;
+  }
+  .request-section{
+    border-bottom: 1px solid;
   }
 }
 .request-section .add-request .remove-request-click{
