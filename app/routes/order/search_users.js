@@ -26,6 +26,6 @@ export default AuthorizeRoute.extend({
       users.push(userObject);
     });
 
-    controller.set("filteredResults", users);
+    controller.set("filteredResults", users.uniq());
   }
 });
