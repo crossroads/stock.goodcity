@@ -55,6 +55,7 @@ module.exports = function(environment) {
       BANNER_IMAGE: "/assets/images/stock.png",
       ANDROID_APP_ID: "hk.goodcity.stock",
       APPLE_APP_ID: "1144806764",
+      BANNER_REOPEN_DAYS: 3,
 
       REVIEW_APP_NAME: "Stock App",
       ANDROID_APP_URL: "market://details?id=hk.goodcity.stock",

@@ -9,7 +9,7 @@ export default Ember.Controller.extend({
   ios_app_id: config.APP.APPLE_APP_ID,
   appTitle: config.APP.TITLE,
   bannerImage: config.APP.BANNER_IMAGE,
-
+  bannerReopenDays: config.BANNER_REOPEN_DAYS,
   isMobileApp: config.cordova.enabled,
 
   initSubscription: Ember.on("init", function() {
@@ -21,10 +21,11 @@ export default Ember.Controller.extend({
   }),
 
   redirectToItem() {
-    //prettier-ignore
-    universalLinks.subscribe("redirectToItem", eventData => { // jshint ignore:line
-      this.transitionToRoute(eventData.path);
-    });
+    universalLinks &&
+      universalLinks.subscribe("redirectToItem", eventData => {
+        // jshint ignore:line
+        this.transitionToRoute(eventData.path);
+      });
   },
 
   actions: {
