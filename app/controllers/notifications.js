@@ -10,7 +10,7 @@ export default Ember.Controller.extend({
     }
   }),
 
-  nextNotification: Ember.computed('model.[]', function() {
+  nextNotification: Ember.computed("model.[]", function() {
     //retrieveNotification is not implemented here because it needs to call itself
     return this.retrieveNotification();
   }),
@@ -27,15 +27,21 @@ export default Ember.Controller.extend({
     return notification;
   },
 
-   setRoute: function(notification) {
-      notification.route = ['orders.detail', notification.order_id];
-   },
+  setRoute: function(notification) {
+    if (notification.category === "message") {
+      return (notification.route = [
+        "orders.conversation",
+        notification.order_id
+      ]);
+    }
+    notification.route = ["orders.detail", notification.order_id];
+  },
 
-   redirectToOrderDetail: function(orderId){
-      this.transitionToRoute("orders.detail", orderId);
-   },
+  redirectToOrderDetail: function(orderId) {
+    this.transitionToRoute("orders.detail", orderId);
+  },
 
-   actions: {
+  actions: {
     view() {
       var notification = this.get("nextNotification");
       this.get("model").removeObject(notification);
@@ -43,7 +49,7 @@ export default Ember.Controller.extend({
     },
 
     unloadNotifications() {
-      this.set('model', []);
+      this.set("model", []);
     }
   }
 });
