@@ -142,7 +142,7 @@ export default Model.extend({
     }
   }),
 
-  appointmentTransport: Ember.computed(
+  appointmentTransportLabel: Ember.computed(
     "orderTransport.transportType",
     function() {
       let i18n = this.get("i18n");
