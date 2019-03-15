@@ -1,10 +1,9 @@
-import config from '../../config/environment';
+import config from "../../config/environment";
 import Ember from "ember";
 import searchModule from "../search_module";
 
 export default searchModule.extend({
-
-  queryParams: ['searchInput'],
+  queryParams: ["searchInput"],
   searchInput: "",
   hideDetailsLink: true,
 
@@ -19,21 +18,27 @@ export default searchModule.extend({
     if (searchText) {
       this.set("isLoading", true);
       this.set("hasNoResults", false);
-      this.infinityModel("item",
-        { perPage: 25, startingPage: 1, modelPath: 'filteredResults', stockRequest: true },
-        { orderId: "orderId", searchText: "searchText" })
+      this.infinityModel(
+        "item",
+        {
+          perPage: 25,
+          startingPage: 1,
+          modelPath: "filteredResults",
+          stockRequest: true
+        },
+        { orderId: "orderId", searchText: "searchText" }
+      )
         .then(data => {
-          if(this.get("searchText").trim() !== data.meta.search) {
+          if (this.get("searchText").trim() !== data.meta.search) {
             return;
           }
 
-          data = data.filter(item => item && item.get("quantity") === 1)
-            .filter(item => item.get("inventoryNumber"));
+          data = data.filter(item => item.get("inventoryNumber"));
 
           this.set("filteredResults", data);
           this.set("hasNoResults", data.get("length") === 0);
 
-          if(data.get("length") === 1) {
+          if (data.get("length") === 1) {
             Ember.run.debounce(this, this.triggerDisplayDesignateOverlay, 100);
           }
         })
@@ -42,7 +47,7 @@ export default searchModule.extend({
     this.set("filteredResults", []);
   },
 
-  triggerDisplayDesignateOverlay(){
+  triggerDisplayDesignateOverlay() {
     this.set("autoDisplayOverlay", true);
   },
 
