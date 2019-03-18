@@ -42,7 +42,7 @@
       {{else}}
         {{#link-to 'items.partial_undesignate' item.id tagName='span' href=false}}
           <div class="stock_status">
-            <i aria-hidden="true">{{fa-icon (if item.allowWebPublish 'eye' 'eye-slash')}}</i> In Stock
+            <i aria-hidden="true">{{fa-icon (if item.allowWebPublish 'eye' 'eye-slash')}}</i> {{t "item_status_bar.in_stock"}}
           </div>
         {{/link-to}}
       {{/if}}
@@ -52,7 +52,7 @@
     {{#unless item.hasAllPackagesDispatched}}
       <i> {{fa-icon 'map-marker-alt'}}</i>
       {{#if item.hasMultiLocations}}
-        {{#link-to 'items.partial_move' item.id tagName='span' href=false}} Multiple {{/link-to}}
+        {{#link-to 'items.partial_move' item.id tagName='span' href=false}} {{t "item_status_bar.multiple"}} {{/link-to}}
       {{else}}
         {{item.firstAllLocationName}}
       {{/if}}

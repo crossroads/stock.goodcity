@@ -6,14 +6,14 @@
           {{#link-to 'items.detail' model.id classNames="back"}}
             <i aria-hidden="true">{{fa-icon 'angle-left' size='1x'}}</i>
             <div class="back-text">
-              Back
+              {{t 'back'}}
             </div>
           {{/link-to}}
         {{else}}
           {{#link-to "items.index" class="back"}}
             <i aria-hidden="true">{{fa-icon 'angle-left'}}</i>
             <div class="back-text">
-              Back
+              {{t 'back'}}
             </div>
           {{/link-to}}
         {{/if}}

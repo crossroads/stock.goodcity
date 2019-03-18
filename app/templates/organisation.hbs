@@ -1,7 +1,7 @@
 <nav class="tab-bar submitted_page">
   <section class="middle tab-bar-section">
     <h1 class="title">
-      Organisation
+      {{t "organisation.title"}}
     </h1>
   </section>
 </nav>
@@ -13,19 +13,19 @@
 
         {{#link-to 'organisations.detail' model.id tagName="dd" classNames="small-3 columns text-center"}}
           {{#link-to 'organisations.detail' model.id}}
-            <div> Details </div>
+            <div> {{t "organisation.details"}} </div>
           {{/link-to}}
         {{/link-to}}
 
         {{#link-to 'organisations.orders' model.id tagName="dd" classNames="small-3 columns text-center"}}
           {{#link-to 'organisations.orders' model.id}}
-            <div> Orders </div>
+            <div> {{t "organisation.orders"}} </div>
           {{/link-to}}
         {{/link-to}}
 
         {{#link-to 'organisations.users' model.id tagName="dd" classNames="small-3 columns text-center"}}
           {{#link-to 'organisations.users' model.id}}
-            <div> Users </div>
+            <div> {{t "organisation.users"}} </div>
           {{/link-to}}
         {{/link-to}}
       </dl>

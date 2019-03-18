@@ -3,7 +3,7 @@
     {{#link-to 'items.new' classNames="back"}}
       <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-left'}}</i>
       <div class="back_text">
-        Back
+        {{t "select_location.back"}}
       </div>
     {{/link-to}}
   </div>
@@ -53,7 +53,7 @@
           <div class='no_result'>{{t "no_search_results"}}</div>
         {{else if recentlyUsedLocations}}
 
-          <div class="recent_locations">Recently used locations</div>
+          <div class="recent_locations">{{t "select_location.recent_used_locations"}}</div>
 
           <ul class="list list-activity list-offer-items">
             {{#each recentlyUsedLocations as |location|}}

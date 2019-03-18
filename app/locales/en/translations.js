@@ -32,10 +32,12 @@ export default {
   save_changes: "Save changes",
   discard: "Discard",
   discard_changes: "Discard changes",
+  manage_charity_users: "Manage charity users",
   add_inventory_item: "Add Item to Inventory",
   manage_inventory: "Manage Appointment Quotas",
   new_order: "Create New Order",
   full_name: "{{firstName}} {{lastName}}",
+  mobile_prefix: "+852",
   messages: {
     you: "You",
     chat_note: "Chat about this order with the user",
@@ -339,7 +341,7 @@ export default {
       for_client: "Yes - order is for a client/benificiary",
       people_count_info: "How many people will benefit from these items?",
       district_label: "Where in Hong Kong will these goods be primarily used?",
-      "district-label-info": "This assists us with our reporting.",
+      district_label_info: "This assists us with our reporting.",
       select_placeholder: "Select District",
       people_count_warning: "You must input a number here",
       need_description: "Description of need",
@@ -419,46 +421,11 @@ export default {
         labour_info:
           "Client understands labour requirements and can supply labour if needed.",
         appointment: "Appointment"
-      }
+      },
     },
-    confirm_booking: {
-      title: "Confirmation",
-      your_details: {
-        title: "Your Details",
-        phone: "Phone",
-        organisation: "Organisation",
-        position: "Position",
-        email: "Email"
-      },
-      request_purpose_detail: {
-        title: "Request Purpose",
-        purpose_of_goods: "Purpose of goods",
-        number_benefiting: "Number benefiting",
-        description_of_need: "Description of need"
-      },
-      client_info_detail: {
-        title: "Client Information",
-        id_type: "Type of ID held",
-        id_number: "ID Number",
-        client_name: "Client's Name",
-        client_phone: "Client's Phone"
-      },
-      goods_detail: {
-        title: "Goods Details",
-        no_description: "No description provided"
-      },
-      appointment_detail: {
-        title: "Appointment Details",
-        transport: "Transport",
-        labour: "Labour",
-        labour_info:
-          "Client understands labour requirements and can supply labour if needed.",
-        appointment: "Appointment"
-      },
-      submit_order: "Submit order",
-      info:
-        "Please review the information below and then submit.</br>If you need to change something, click 'back'."
-    }
+    submit_order: "Submit order",
+    info:
+      "Please review the information below and then submit.</br>If you need to change something, click 'back'."
   },
   item: {
     edit: "edit",
@@ -578,5 +545,121 @@ export default {
       select_day: "Select a day",
       no_bookings_allowed: "No bookings will be allowed for this date"
     }
+  },
+  search_order: {
+    recent: "Recently used designations"
+  },
+  select_location: {
+    back: "Back",
+    recent_used_locations: "Recently Used Locations"
+  },
+
+  footer: {
+    menu: "Menu",
+    details: "Details",
+    history: "History",
+    staff: "Staff"
+  },
+
+  cancelled_order_packages: {
+    multiple: "Multiple"
+  },
+
+  items_list_tabs: {
+    active: "Active",
+    requests: "Requests"
+  },
+
+  add_request: {
+    add: "Add Request",
+    quantity: "Quantity*",
+    description: "Description",
+    validation_errors: {
+      quantity: "Quantity cannot be blank."
+    }
+  },
+
+  requested_items:{
+    quantity: "Quantity",
+    description: "Description",
+    type: "Type"
+  },
+
+  search_users: {
+    new_user: "Which user is this request being made for ?"
+  },
+
+  item_details:{
+    quantity: "Quantity",
+    type: "Type",
+    description: 'Description',
+    size: "Size (cm)",
+    quality: "Quality:",
+    grade: "Grade :",
+    condition: "Condition :",
+    validation_errors:{
+      description: 'Description cannot be blank.'
+    }
+  },
+
+  inventory_options:{
+    auto: "Auto Id",
+    input: "Input Id",
+    scan: "Scan Id"
+  },
+
+  item_status_bar: {
+    in_stock: "In Stock",
+    multiple: "Multiple"
+  },
+
+  location_filters: {
+    all_locations: "ALL LOCATIONS",
+    clear: "(Clear Location Filter)",
+    recent_used_locations: "Recently used locations"
+  },
+
+  no_image: "No image available.",
+
+  images: {
+    add_image: "Add Some Photos"
+  },
+
+  items: {
+    history: "History",
+    order_code: "Order Code",
+    quantity: "Quantity",
+    number: "Number",
+    no_history: "No history available.",
+    new: {
+      add: "Add",
+      add_images: "Add Images",
+      quantity: "Quantity*",
+      type: "Type*",
+      description: "Description*",
+      size: "Size (cm)",
+      quality: "Quality*",
+      grade: "Grade:",
+      condition: "Condition:",
+      donation: "Donation#",
+      location: "Location*",
+      inventory: "Inventory#",
+      publish: "Immediately publish this item for online browsing",
+      validation_errors:{
+        description: "Description cannot be blank.",
+        donation: "Must be a number or in the form 'CAS-12345'",
+        invalid_location: "Scanned Location is invalid.",
+        quantity: "Quantity cannot be blank.",
+        blank_notification: "Location cannot be blank."
+      }
+    }
+  },
+  modify_designation: {
+    designation_to: "Designation to",
+    item: "Item:",
+    order: "Order:",
+    quantity_designated_to: "Quantity designated to",
+    maximum: "Maximum",
+    cancel: "Cancel the designation of this item"
   }
 };

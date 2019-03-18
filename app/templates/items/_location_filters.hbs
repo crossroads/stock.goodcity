@@ -3,7 +3,7 @@
     {{#link-to 'items.index' classNames="back"}}
       <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-left'}}</i>
       <div class="back_text">
-        Back
+        {{t 'back'}}
       </div>
     {{/link-to}}
   </div>
@@ -35,10 +35,10 @@
             <li {{action 'clearLocationAndRedirect'}}>
               <div class="row">
                 <div class="small-6 columns building_name">
-                  ALL LOCATIONS
+                  {{t "location_filteres.all_locations"}}
                 </div>
                 <div class="small-6 columns">
-                  <span>(Clear Location Filter)</span>
+                  <span>{{t "location_filteres.clear"}}</span>
                 </div>
               </div>
             </li>
@@ -63,7 +63,7 @@
           <div class='no_result'>{{t "no_search_results"}}</div>
         {{else if recentlyUsedLocations}}
 
-          <div class="recent_locations">Recently used locations</div>
+          <div class="recent_locations">{{t 'location_filters.recent_used_locations'}}</div>
 
           <ul class="list list-activity list-offer-items">
             {{#each recentlyUsedLocations as |location|}}

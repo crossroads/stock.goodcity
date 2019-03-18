@@ -12,7 +12,7 @@
         {{#if ordersPackage.item.hasSingleLocation}}
           {{ordersPackage.item.firstLocationName}}
         {{else if ordersPackage.item.hasMultiLocations}}
-          Multiple
+          {{t "cancelled_order_packages.multiple"}}
         {{/if}}
       {{/unless}}
     </div>

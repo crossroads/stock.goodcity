@@ -8,7 +8,7 @@
     <div class="option_menu">
       <a {{action "autoGenerateInventoryNumber"}} >
         <i aria-hidden="true">{{fa-icon 'refresh'}}</i>
-        Auto Id
+        {{t 'inventory_options.auto'}}
       </a>
     </div>
   {{/unless}}
@@ -17,7 +17,7 @@
     <div class="option_menu">
       <a {{action "editInventoryNumber"}} >
         <i aria-hidden="true">{{fa-icon 'keyboard'}}</i>
-        Input Id
+        {{t 'inventory_options.input'}}
       </a>
     </div>
   {{/unless}}
@@ -26,7 +26,7 @@
     <div class="option_menu">
       <a {{action "scanInventoryNumber"}}>
         <i aria-hidden="true">{{fa-icon 'barcode'}}</i>
-        Scan Id
+        {{t 'inventory_options.scan'}}
       </a>
     </div>
   {{/if}}

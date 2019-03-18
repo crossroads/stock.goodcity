@@ -13,7 +13,7 @@
       <div class="{{if isMobileApp 'small-7 large-8' 'small-9'}} columns">
         {{#form-control}}
           {{input type='text' value=firstName placeholder=fNamePlaceholder required='true'}}
-          <div class='input-error'>First Name cannot be blank.</div>
+          <div class='input-error'>{{t 'organisation.user.validation_error.first_name'}}</div>
         {{/form-control}}
       </div>
     </div>
@@ -25,7 +25,7 @@
       <div class="{{if isMobileApp 'small-7 large-8' 'small-9'}} columns">
         {{#form-control}}
           {{input type='text' value=lastName placeholder=lNamePlaceholder required='true'}}
-          <div class='input-error'>Family Name cannot be blank.</div>
+          <div class='input-error'>{{t 'organisation.user.validation_error.family_name'}}</div>
         {{/form-control}}
       </div>
     </div>
@@ -35,7 +35,7 @@
         {{t 'organisation.user.mobile'}}
       </div>
       <div class="small-1 columns ui dialing-code">
-         <label>+852</label>
+         <label>{{t "mobile_prefix"}}</label>
       </div>
       <div class="{{if isMobileApp 'small-7 large-8' 'small-9'}} columns">
         {{#form-control}}
@@ -64,7 +64,7 @@
       <div class="{{if isMobileApp 'small-7 large-8' 'small-9'}} columns">
         {{#form-control}}
           {{input type='text' value=position placeholder=positionPlaceholder required='true'}}
-          <div class='input-error'>Position cannot be blank.</div>
+          <div class='input-error'>{{t 'organisation.user.validation_error.position'}}</div>
         {{/form-control}}
       </div>
     </div>
