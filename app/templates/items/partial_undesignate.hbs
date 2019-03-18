@@ -19,7 +19,7 @@
         {{/if}}
       </div>
       <div class="columns small-9 medium-9 large-9 inventory-status">
-        <i>{{fa-icon (if model.isSet 'tags' 'tag')}}</i> {{model.inventoryNumber}}: Status
+        <i>{{fa-icon (if model.isSet 'tags' 'tag')}}</i> {{t "partial_undesignate" inventoryNumber= model.inventoryNumber}}
       </div>
       <br><hr/>
     </div>
@@ -33,14 +33,14 @@
       {{else}}
         <i aria-hidden="true">{{fa-icon 'eye'}}</i>
       {{/unless}}
-        <span class="item-status-text">Available </span>
+        <span class="item-status-text">{{t 'partial_undesignate.available'}}</span>
         {{#unless model.allowWebPublish}}
-          <span class="item-status-private-text">(Private)</span>
+          <span class="item-status-private-text">{{t 'partial_undesignate.private'}}</span>
         {{/unless}}
       </div>
       <div class="columns small-5 item-status-quantity">
         <div class="columns small-5 item-status-quantity">
-          Qty:
+          {{t 'partial_undesignate.qty'}}
         </div>
         <div class="columns small-5 item-status-quantity">
           {{model.quantity}}
@@ -62,11 +62,11 @@
       <div class="item-status-header">
         <div class="columns small-4 item-status-block">
           <i>{{fa-icon 'shopping-basket'}}</i>
-          <span class="item-status-text">Designated</span>
+          <span class="item-status-text">{{t 'partial_undesignate.designated'}}</span>
         </div>
         <div class="columns small-5 item-status-quantity">
           <div class="columns small-5 item-status-quantity">
-            Qty:
+            {{t 'partial_undesignate.qty'}}
           </div>
           <div class="columns small-5 item-status-quantity">
             {{model.totalDesignatedQty}}
@@ -93,7 +93,7 @@
                   {{ordersPackage.designation.code}} - {{ordersPackage.designation.status}}
                 </div>
                 <div class="columns small-2 orders-package-quantity">
-                  Qty:
+                  {{t 'partial_undesignate.qty'}}
                 </div>
                 <div class="columns small-3 orders-package-quantity">
                   {{ordersPackage.quantity}}
@@ -111,13 +111,13 @@
             {{/link-to}}
               <br>
             {{#link-to "items.modify_designation" model.id (query-params ordersPackageId=ordersPackage.id) tagName='span' href=false}}
-              <span class="modify-text">Modify</span>
+              <span class="modify-text">{{t 'partial_undesignate.modify'}}</span>
             {{/link-to}}
           </div>
           <div class="columns small-1 medium-1 large-1 dispatch-packages" {{action 'dispatch' model ordersPackage}} style="cursor: pointer;">
             <i aria-hidden="true">{{fa-icon 'ship'}}</i>
             <br>
-            <span class="dispatch-text">Dispatch</span>
+            <span class="dispatch-text">{{t 'partial_undesignate.dispatch'}}</span>
           </div>
         </div>
       </div>
@@ -129,11 +129,11 @@
       <div class="item-status-header">
         <div class="columns small-4 item-status-block">
           <i>{{fa-icon 'ship'}}</i>
-          <span class="item-status-text">Dispatched</span>
+          <span class="item-status-text">{{t 'partial_undesignate.dispatched'}}</span>
         </div>
         <div class="columns small-5 item-status-quantity">
           <div class="columns small-5 item-status-quantity">
-            Qty:
+            {{t 'partial_undesignate.qty'}}
           </div>
           <div class="columns small-5 item-status-quantity">
              {{model.totalDispatchedQty}}
@@ -158,7 +158,7 @@
                   {{ordersPackage.designation.code}} - {{ordersPackage.designation.status}}
                 </div>
                 <div class="columns small-2  orders-package-quantity">
-                  Qty:
+                  {{t 'partial_undesignate.qty'}}
                 </div>
                 <div class="columns small-3 orders-package-quantity">
                   {{ordersPackage.quantity}}
@@ -186,7 +186,7 @@
   <div class="status-qty">
     <div class="row">
       <div class="columns small-5 medium-4  on-hand">
-        Total quantity on hand:
+        {{t 'partial_undesignate.in_hand_quantity'}}
       </div>
       <div class="columns small-1 align-right ">
         {{model.onHandQty}}
@@ -198,7 +198,7 @@
     </div>
     <div class="row">
       <div class="columns small-5  medium-4 ">
-        Total Lifetime quantity:
+        {{t 'partial_undesignate.lifetime_quantity'}}
       </div>
       <div class="columns small-1 align-right">
         {{model.receivedQuantity}}
