@@ -95,3 +95,20 @@
 
 {{/message-box}}
 
+{{#message-box btn1Text=(t "okay") isVisible=reDesignateDispatchAlertPopUp classNames="popupOverlay designate-form"}}
+  <p>Item already dispatched to {{dispatchedItemOrder.code}}</p>
+  {{partial 'orders/item_block_without_link'}}
+  <div class="warnings">
+    <div class="warning_text">
+        <div class="left-icon">
+          <i>{{fa-icon 'exclamation-triangle'}}</i>
+        </div>
+        <div>
+          {{#link-to 'orders.items_list' dispatchedItemOrder.id classNames='warning_link_to'}}
+            This Item was dispatched to <span class="dispatched_order_code">{{dispatchedItemOrder.code}} </span>
+          {{/link-to}}
+        </div>
+    </div>
+  </div>
+{{/message-box}}
+
