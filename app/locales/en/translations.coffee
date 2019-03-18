@@ -322,7 +322,7 @@ I18nTranslationsEn =
       "no_time_slot_selected_error": "Please select appointment time."
     }
     "request": {
-      "remove_req": "Remove this request from order",
+      "remove_req": "Remove this request from order {{orderCode}}",
       "remove": "Remove"
     },
     "appointment": {
