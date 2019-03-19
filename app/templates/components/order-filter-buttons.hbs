@@ -2,42 +2,42 @@
   <div class="small-4 columns">
 
     <!-- State button -->
-    <button 
-      {{action "redirectTofilters" "applyStateFilter"}} 
-      id="order-state-filter" 
+    <button
+      {{action "redirectTofilters" "applyStateFilter"}}
+      id="order-state-filter"
       class="button expand filter-button-css {{if hasStateFilters 'filter-button-border'}}"
     >
       {{#if (is-equal orderStateFilters.length 0) }}
         {{t 'order_filters.button_state'}}
-      {{else if (is-equal orderStateFilters.length 1) }}  
+      {{else if (is-equal orderStateFilters.length 1) }}
         {{t (concat 'order_filters.' orderStateFilters.firstObject) }}
-      {{else}} 
+      {{else}}
         {{t 'order_filters.button_state'}}: {{orderStateFilters.length}}
-      {{/if}} 
+      {{/if}}
     </button>
   </div>
 
   <!-- Type button -->
   <div class="small-4 columns">
-    <button 
+    <button
       {{action "redirectTofilters" "applyTypeFilter"}}
       id="order-type-filter"
       class="button expand filter-button-css {{if hasTypeFilters 'filter-button-border'}}">
-      
+
       {{#if (is-equal orderTypeFilters.length 0) }}
         {{t 'order_filters.button_type'}}
-      {{else if (is-equal orderTypeFilters.length 1) }}  
+      {{else if (is-equal orderTypeFilters.length 1) }}
         {{t (concat 'order_filters.' orderTypeFilters.firstObject) }}
-      {{else}} 
+      {{else}}
         {{t 'order_filters.button_type'}}: {{orderTypeFilters.length}}
-      {{/if}} 
+      {{/if}}
     </button>
   </div>
 
   <!-- Time ranges -->
   <div class="small-4 columns">
-    <button 
-      {{action "redirectTofilters" "applyTimeFilter"}} 
+    <button
+      {{action "redirectTofilters" "applyTimeFilter"}}
       id="order-time-filter"
       class="button expand filter-button-css {{if hasTimeFilters 'filter-button-border'}}">
 

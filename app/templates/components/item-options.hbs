@@ -5,7 +5,7 @@
 <div class="receive-options {{if hidden 'hidden'}}">
   {{#print-label item=item closeList=(action 'toggle' true)}}
     <i class="item-menu">{{fa-icon 'print'}}</i><br />
-    Label
+     {{t "label"}}
   {{/print-label}}
 
   {{#if (is-equal ordersPackage.state "dispatched")}}

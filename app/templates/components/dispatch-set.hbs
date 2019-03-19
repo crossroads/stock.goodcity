@@ -6,7 +6,7 @@
   {{#if item.setItem.hasSameSingleDesignation}}
     {{#message-box btn1Text=(t "dispatch.dispatch") btn1Callback=(action "dispatchItemSet") btn2Text=(t "cancel") isVisible=displayUserPrompt classNames="popupOverlay designate-form"}}
 
-      <p>Dispatch multi-part set to {{order.code}}</p>
+      <p>{{t "dispatch_set.dispatch_multipart" orderCode= order.code}}</p>
 
       {{#each item.setItem.items as |item|}}
         {{partial 'items/set_item_block'}}
@@ -16,7 +16,7 @@
         {{#if item.setItem.multiQuantitySet}}
           <div class="warning_text">
             <i>{{fa-icon 'exclamation-triangle'}}</i>
-            Dispatches entire quantity.
+            {{t "dispatch_set.dispatch_entire"}}
           </div>
         {{/if}}
       </div>

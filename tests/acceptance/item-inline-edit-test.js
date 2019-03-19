@@ -389,7 +389,7 @@ test("Filling invalid condition gives validation error", function(assert) {
   andThen(function() {
     assert.equal(
       $(".donation-input-error").text(),
-      'Must be in the form "CAS-12345"'
+      "Must be in the form 'CAS-12345'"
     );
   });
 });
