@@ -431,7 +431,9 @@ I18nTranslationsEn =
 
   "designate":
     "modify_designation": "取消指派至訂單 {{code}}"
-    "form_title": "指派此物資到訂單{{code}}"
+    "form_title": "{{status}} this item to order {{code}}"
+    "item_already_designated": "The Item is already designated to <span class='dispatched_order_code'>{{orderCode}}</span>.<br> If you proceed it will be removed from that order!"
+    "item_dispatched": "This Item was dispatched to <span class='dispatched_order_code'>{{orderCode}}</span>"
     "designate": "指派"
     "overrides_existing": "確認重新指派物資"
     "quantity" : "指派{{quantity}}件"

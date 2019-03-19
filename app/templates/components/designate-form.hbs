@@ -72,7 +72,7 @@
       {{/if}}
     </div>
   {{else}}
-    <p>{{t "designate.form_title" code=order.code}}</p>
+    <p>{{t "designate.form_title" status=designationDetails.status code=order.code}}</p>
     {{partial 'orders/item_block_without_link'}}
     <div class="warnings">
       {{#if (is-greater item.quantity 1)}}
@@ -87,6 +87,21 @@
           <div class="left-icon"><i>{{fa-icon 'exclamation-triangle'}}</i></div>
           <div class="right-message">
             <div class= "designate-message">Designates only part of set.</div>
+          </div>
+        </div>
+      {{/if}}
+
+      {{#if (is-equal designationDetails.status "Re-designate")}}
+        <div class="warnings">
+          <div class="warning_text">
+              <div class="left-icon">
+                <i>{{fa-icon 'exclamation-triangle'}}</i>
+              </div>
+              <div>
+                {{#link-to 'orders.items_list' designationDetails.orderId classNames='warning_link_to'}}
+                  {{t "designate.item_already_designated" orderCode=designationDetails.orderCode}}
+                {{/link-to}}
+              </div>
           </div>
         </div>
       {{/if}}
@@ -105,7 +120,7 @@
         </div>
         <div>
           {{#link-to 'orders.items_list' dispatchedItemOrder.id classNames='warning_link_to'}}
-            This Item was dispatched to <span class="dispatched_order_code">{{dispatchedItemOrder.code}} </span>
+            {{t "designate.item_dispatched" orderCode=dispatchedItemOrder.code}}
           {{/link-to}}
         </div>
     </div>

@@ -177,12 +177,22 @@ export default Ember.Component.extend({
     }
   ),
 
-  isDesignated: Ember.computed("order", "item", function() {
+  isDispatched: Ember.computed("order", "item", function() {
     let item = this.get("item");
     if (item.get("hasOneDispatchedPackage")) {
       this.set("dispatchedItemOrder", item.get("designation"));
       return true;
     }
+  }),
+
+  designationDetails: Ember.computed("item", function() {
+    let item = this.get("item");
+    let itemStatus = {};
+    return {
+      status: item.get("designationId") ? "Re-designate" : "Designating",
+      orderId: item.get("designationId"),
+      orderCode: item.get("orderCode")
+    };
   }),
 
   actions: {
@@ -207,7 +217,7 @@ export default Ember.Component.extend({
           this.set("partialDesignatedConfirmationPopUp", true);
           return true;
         }
-      } else if (this.get("isDesignated")) {
+      } else if (this.get("isDispatched")) {
         this.set("reDesignateDispatchAlertPopUp", true);
       } else {
         this.set("displayUserPrompt", true);
