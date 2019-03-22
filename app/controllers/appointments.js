@@ -13,11 +13,11 @@ export default GoodcityController.extend({
 
   /* Options for the select inputs [00:00, 00:30, ... 23:30]  */
   timeSlots: Ember.computed(function() {
-    let buildSlot = (hours, minutes) => {
+    let make = (hours, minutes) => {
       let time = this.formatTime(hours, minutes);
       return { name: time, id: time, time, hours, minutes };
     };
-    let slots = _.range(0, 24).map(h => [0, 30].map(m => buildSlot(h, m)));
+    let slots = _.range(0, 24).map(h => [make(h, 0), make(h, 30)]);
     return _.flatten(slots);
   }),
 
@@ -116,8 +116,8 @@ export default GoodcityController.extend({
   },
 
   getTimeStringOf(record) {
-    const isPreset =
-      record.get("constructor.modelName") === "appointment-slot-preset";
+    const modelName = record.get("constructor.modelName");
+    const isPreset = modelName === "appointment-slot-preset";
     if (isPreset) {
       return this.formatTime(record.get("hours"), record.get("minutes")); // Preset
     }
@@ -261,6 +261,7 @@ export default GoodcityController.extend({
       const record = slot.get("record");
       const currentTime = new Date(record.get("timestamp"));
       const updatedTime = new Date(record.get("timestamp"));
+
       updatedTime.setHours(newTimeSlot.hours);
       updatedTime.setMinutes(newTimeSlot.minutes);
       if (currentTime !== updatedTime) {
