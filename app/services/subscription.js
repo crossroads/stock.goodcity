@@ -30,9 +30,7 @@ export default Ember.Service.extend(Ember.Evented, {
   socket: null,
   lastOnline: Date.now(),
   deviceTtl: 0,
-  deviceId: Math.random()
-    .toString()
-    .substring(2),
+  deviceId: Ember.computed.alias("session.deviceId"),
   status: {
     online: false
   },
@@ -93,14 +91,15 @@ export default Ember.Service.extend(Ember.Evented, {
   checkdeviceTTL: Ember.observer("status.online", function() {
     let online = this.get("status.online");
     let deviceTtl = this.get("deviceTtl");
-    if (
-      online &&
-      deviceTtl !== 0 &&
-      Date.now() - this.get("lastOnline") > deviceTtl * 1000
-    ) {
-      this.resync();
-    } else if (online === false) {
+
+    if (!online) {
       this.set("lastOnline", Date.now());
+      return;
+    }
+
+    let overtime = Date.now() - this.get("lastOnline") > deviceTtl * 1000;
+    if (deviceTtl && overtime) {
+      this.resync();
     }
   }),
 
@@ -198,9 +197,14 @@ export default Ember.Service.extend(Ember.Evented, {
   },
 
   update_store(data, success) {
-    let { item: payload, operation } = data;
+    let { item: payload, operation, device_id } = data;
     let type = Object.keys(payload)[0].toLowerCase();
     let record = Ember.$.extend({}, payload[type]);
+    let wasInitiatedByUs = device_id == this.get("deviceId");
+
+    if (wasInitiatedByUs) {
+      return false;
+    }
 
     if (this.get("unhandledTypes").indexOf(type) >= 0) {
       console.warn(`[Subscription] Unhandled data type '${type}'`);
@@ -215,10 +219,6 @@ export default Ember.Service.extend(Ember.Evented, {
     }
 
     type = this.resolveTypeAliases(type);
-
-    if (operation === "create" && this.wasCreatedByUs(type, record)) {
-      return false;
-    }
 
     const store = this.get("store");
     switch (operation) {
@@ -239,15 +239,5 @@ export default Ember.Service.extend(Ember.Evented, {
 
     run(success);
     return true;
-  },
-
-  wasCreatedByUs(type, record) {
-    // @TODO: fix - this implementation is flawed and likely to cause edge case bugs
-    let existingItem = this.get("store").peekRecord(type, record.id);
-    let hasNewItemSaving = this.get("store")
-      .peekAll(type)
-      .any(o => o.id === null && o.get("isSaving"));
-    let existingItemIsSaving = existingItem && existingItem.get("isSaving");
-    return hasNewItemSaving || existingItemIsSaving;
   }
 });
