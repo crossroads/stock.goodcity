@@ -1,6 +1,7 @@
 import Ember from "ember";
 
 export default Ember.Controller.extend({
+  subscription: Ember.inject.service(),
   model: Ember.computed({
     get() {
       return [];
@@ -14,6 +15,15 @@ export default Ember.Controller.extend({
     //retrieveNotification is not implemented here because it needs to call itself
     return this.retrieveNotification();
   }),
+
+  init() {
+    this._super(...arguments);
+    this.get("subscription").on("notification", this, this.onNewNotification);
+  },
+
+  onNewNotification(notification) {
+    this.get("model").pushObject(notification);
+  },
 
   retrieveNotification: function(index) {
     // not sure why but model.firstObject is undefined when there's one notification

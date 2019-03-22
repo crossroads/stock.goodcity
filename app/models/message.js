@@ -16,6 +16,7 @@ export default DS.Model.extend({
   sender: belongsTo("user", {
     async: false
   }),
+  designationId: attr(),
   designation: belongsTo("designation", { async: false }),
 
   myMessage: Ember.computed("sender", function() {
