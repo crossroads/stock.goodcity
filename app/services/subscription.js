@@ -179,7 +179,6 @@ export default Ember.Service.extend(Ember.Evented, {
   },
 
   notification: function(data, success) {
-    data.date = new Date(data.date);
     this.trigger("notification", data);
     run(success);
   },

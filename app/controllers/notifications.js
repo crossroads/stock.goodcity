@@ -22,6 +22,7 @@ export default Ember.Controller.extend({
   },
 
   onNewNotification(notification) {
+    notification.date = new Date(notification.date);
     this.get("model").pushObject(notification);
   },
 
