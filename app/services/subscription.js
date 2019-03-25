@@ -181,7 +181,7 @@ export default Ember.Service.extend(Ember.Evented, {
     let { operation, deviceId, rawType, type } = this.parseData(data);
 
     if (deviceId == this.get("deviceId")) {
-      return false; // Change initiated by ys
+      return true; // Change initiated by us
     }
 
     if (this.get("unhandledTypes").indexOf(rawType) >= 0) {
