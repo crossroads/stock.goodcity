@@ -1,6 +1,6 @@
 import Ember from "ember";
-import RSVP from "rsvp";
 import _ from "lodash";
+import apptUtils from "../utils/appointments";
 import GoodcityController from "./goodcity_controller";
 
 export default GoodcityController.extend({
@@ -11,27 +11,23 @@ export default GoodcityController.extend({
 
   // ---- Data structure
 
-  /* Options for the select inputs [00:00, 00:30, ... 23:30]  */
   timeSlots: Ember.computed(function() {
-    let make = (hours, minutes) => {
-      let time = this.formatTime(hours, minutes);
-      return { name: time, id: time, time, hours, minutes };
-    };
-    let slots = _.range(0, 24).map(h => [make(h, 0), make(h, 30)]);
-    return _.flatten(slots);
+    return apptUtils.timeslots();
   }),
 
   presets: Ember.computed(
     "model.appointmentSlotPresets.@each.{day,hours,minutes,quota}",
     function() {
-      return this.makeSelectableList(this.get("model.appointmentSlotPresets"));
+      return apptUtils.makeSelectableList(
+        this.get("model.appointmentSlotPresets")
+      );
     }
   ),
 
   specialSlots: Ember.computed(
     "model.appointmentSlots.@each.{quota,note,timestamp}",
     function() {
-      return this.makeSelectableList(this.get("model.appointmentSlots"));
+      return apptUtils.makeSelectableList(this.get("model.appointmentSlots"));
     }
   ),
 
@@ -60,7 +56,7 @@ export default GoodcityController.extend({
       let slotsByDates = [];
       this.get("specialSlots").forEach(slot => {
         const record = slot.record;
-        const dateString = this.getDateStringOf(record);
+        const dateString = apptUtils.getDateStringOfSlot(record);
 
         let aggregate = _.find(slotsByDates, ["dateString", dateString]);
         if (!aggregate) {
@@ -99,48 +95,8 @@ export default GoodcityController.extend({
 
   // ---- Helpers
 
-  /* Pairs composed of a record and it's select-able timeslot */
-  makeSelectableList(models) {
-    return models.map(r => {
-      return Ember.Object.create({
-        record: r,
-        timeslot: this.getTimeSlotOf(r)
-      });
-    });
-  },
-
-  formatTime(hour, minute) {
-    return moment()
-      .set({ hour, minute })
-      .format("HH:mm");
-  },
-
-  getTimeStringOf(record) {
-    const modelName = record.get("constructor.modelName");
-    const isPreset = modelName === "appointment-slot-preset";
-    if (isPreset) {
-      return this.formatTime(record.get("hours"), record.get("minutes")); // Preset
-    }
-    return moment
-      .utc(record.get("timestamp"))
-      .local()
-      .format("HH:mm"); // Special day
-  },
-
-  getDateStringOf(slot) {
-    return moment
-      .utc(slot.get("timestamp"))
-      .local()
-      .format("dddd Do MMM YYYY");
-  },
-
-  getTimeSlotOf(record) {
-    const time = this.getTimeStringOf(record);
-    return this.get("timeSlots").find(ts => ts.time === time);
-  },
-
   getOpenPresetTimeslot(dayNumber) {
-    return this.get("timeSlots").find(ts => {
+    return apptUtils.timeslots().find(ts => {
       return !this.get("model.appointmentSlotPresets").find(
         record =>
           record.get("day") === dayNumber &&
@@ -151,24 +107,16 @@ export default GoodcityController.extend({
   },
 
   getOpenDateTimeslot(date) {
-    return this.get("timeSlots").find(ts => {
+    return apptUtils.timeslots().find(ts => {
       return !this.get("model.appointmentSlots").find(record => {
         let recordDate = new Date(record.get("timestamp"));
         return (
-          this.sameDay(date, recordDate) &&
+          apptUtils.sameDay(date, recordDate) &&
           record.get("quota") > 0 &&
-          this.getTimeStringOf(record) === ts.time
+          apptUtils.getTimeStringOf(record) === ts.time
         );
       });
     });
-  },
-
-  sameDay(d1, d2) {
-    return (
-      d1.getFullYear() === d2.getFullYear() &&
-      d1.getMonth() === d2.getMonth() &&
-      d1.getDate() === d2.getDate()
-    );
   },
 
   // ---- Controller implementation
@@ -211,7 +159,7 @@ export default GoodcityController.extend({
       const timestamp = this.get("selectedDate");
       const clear = this.send.bind(this, "cancelDateCreation");
       const dateExists = this.get("model.appointmentSlots").find(sl =>
-        this.sameDay(sl.get("timestamp"), timestamp)
+        apptUtils.sameDay(sl.get("timestamp"), timestamp)
       );
 
       if (dateExists) {
@@ -267,10 +215,10 @@ export default GoodcityController.extend({
       if (currentTime !== updatedTime) {
         // Has been modified
         const resetInput = () =>
-          slot.set("timeslot", this.getTimeSlotOf(record));
+          slot.set("timeslot", apptUtils.getTimeSlotOf(record));
         const timeString = newTimeSlot.time;
         const timeslotAlreadyInUse = !!day.items.find(
-          it => this.getTimeStringOf(it.get("record")) === timeString
+          it => apptUtils.getTimeStringOf(it.get("record")) === timeString
         );
         if (timeslotAlreadyInUse) {
           return this.showError(
@@ -291,9 +239,9 @@ export default GoodcityController.extend({
       if (record.get("hours") !== hours || record.get("minutes") !== minutes) {
         // Has been modified
         const resetInput = () =>
-          item.set("timeslot", this.getTimeSlotOf(record));
+          item.set("timeslot", apptUtils.getTimeSlotOf(record));
         const timeslotAlreadyInUse = !!day.items.find(
-          it => this.getTimeStringOf(it.get("record")) === time
+          it => apptUtils.getTimeStringOf(it.get("record")) === time
         );
         if (timeslotAlreadyInUse) {
           return this.showError(

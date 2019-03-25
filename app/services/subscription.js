@@ -104,28 +104,13 @@ export default Ember.Service.extend(Ember.Evented, {
   }),
 
   // -----------
-  // Implementation
+  // Setup
   // -----------
+
   init() {
     var updateStatus = Ember.run.bind(this, this.updateStatus);
     window.addEventListener("online", updateStatus);
     window.addEventListener("offline", updateStatus);
-  },
-
-  getStrategy(type) {
-    let defaultStrat = this.importStrategies.defaults;
-    let typeStrat = this.importStrategies[type] || {};
-    return _.extend({}, defaultStrat, typeStrat);
-  },
-
-  operationIsAllowed(operation, type) {
-    let { operations } = this.getStrategy(type);
-    return operations.indexOf(operation) >= 0;
-  },
-
-  resolveTypeAliases(type) {
-    const typeMapping = this.get("internalTypeMapping");
-    return typeMapping[type] || type;
   },
 
   wire() {
@@ -142,20 +127,7 @@ export default Ember.Service.extend(Ember.Evented, {
     });
     socket.on("notification", Ember.run.bind(this, this.notification));
     socket.on("disconnect", updateStatus);
-    socket.on(
-      "error",
-      Ember.run.bind(this, function(reason) {
-        // ignore xhr post error related to no internet connection
-        if (
-          typeof reason !== "object" ||
-          (reason.type !== "TransportError" &&
-            reason.message !== "xhr post error")
-        ) {
-          console.warn(`[Subscription] Socker error`, reason);
-        }
-      })
-    );
-
+    socket.on("error", Ember.run.bind(this, this.error));
     socket.on("update_store", Ember.run.bind(this, this.update_store));
     socket.on("_batch", Ember.run.bind(this, this.batch));
     socket.on("_resync", Ember.run.bind(this, this.resync));
@@ -177,9 +149,71 @@ export default Ember.Service.extend(Ember.Evented, {
     }
   },
 
+  // -----------
+  // Helpers
+  // -----------
+
+  getStrategy(type) {
+    let defaultStrat = this.importStrategies.defaults;
+    let typeStrat = this.importStrategies[type] || {};
+    return _.extend({}, defaultStrat, typeStrat);
+  },
+
+  operationIsAllowed(operation, type) {
+    let { operations } = this.getStrategy(type);
+    return operations.indexOf(operation) >= 0;
+  },
+
+  resolveTypeAliases(type) {
+    const typeMapping = this.get("internalTypeMapping");
+    return typeMapping[type] || type;
+  },
+
+  parseData(data) {
+    let { item: payload, operation, device_id } = data;
+    let rawType = Object.keys(payload)[0].toLowerCase();
+    let type = this.resolveTypeAliases(rawType);
+    let record = Ember.$.extend({}, payload[type]);
+    return { payload, record, operation, type, rawType, deviceId: device_id };
+  },
+
+  isUnhandled(data) {
+    let { operation, deviceId, rawType, type } = this.parseData(data);
+
+    if (deviceId == this.get("deviceId")) {
+      return false; // Change initiated by ys
+    }
+
+    if (this.get("unhandledTypes").indexOf(rawType) >= 0) {
+      console.warn(`[Subscription] Unhandled data type '${rawType}'`);
+      return true;
+    }
+
+    if (!this.operationIsAllowed(operation, type)) {
+      console.warn(
+        `[Subscription] Ignoring a '${operation}' operation for type '${type}'`
+      );
+      return true;
+    }
+    return false;
+  },
+
+  // -----------
+  // Stocket hooks
+  // -----------
+
   notification: function(data, success) {
     this.trigger("notification", data);
     run(success);
+  },
+
+  error(reason) {
+    if (
+      typeof reason !== "object" ||
+      (reason.type !== "TransportError" && reason.message !== "xhr post error")
+    ) {
+      console.warn(`[Subscription] Socker error`, reason);
+    }
   },
 
   batch: function(events, success) {
@@ -197,46 +231,29 @@ export default Ember.Service.extend(Ember.Evented, {
   },
 
   update_store(data, success) {
-    let { item: payload, operation, device_id } = data;
-    let type = Object.keys(payload)[0].toLowerCase();
-    let record = Ember.$.extend({}, payload[type]);
-    let wasInitiatedByUs = device_id == this.get("deviceId");
-
-    if (wasInitiatedByUs) {
+    if (this.isUnhandled(data)) {
       return false;
     }
 
-    if (this.get("unhandledTypes").indexOf(type) >= 0) {
-      console.warn(`[Subscription] Unhandled data type '${type}'`);
-      return false;
-    }
+    let { record, operation, deviceId, type } = this.parseData(data);
 
-    if (!this.operationIsAllowed(operation, type)) {
-      console.warn(
-        `[Subscription] Ignoring a '${operation}' operation for type '${type}'`
-      );
-      return false;
-    }
-
-    type = this.resolveTypeAliases(type);
-
-    const store = this.get("store");
     switch (operation) {
       case "create":
       case "update":
         const { strategy } = this.getStrategy(type);
-        strategy(store, type, record);
+        strategy(this.get("store"), type, record);
         break;
       case "delete":
-        store.unloadRecord(existingItem);
+        let existingItem = this.get("store").peekRecord(type, record.id);
+        if (existingItem) {
+          store.unloadRecord(existingItem);
+        }
         break;
       default:
         console.error(`[Subscription] Unsupported operation '${operation}'`);
         return false;
     }
-
     this.trigger(`change:${type}`, { type, operation, record });
-
     run(success);
     return true;
   }
