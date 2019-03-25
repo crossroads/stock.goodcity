@@ -199,7 +199,7 @@ export default Ember.Service.extend(Ember.Evented, {
   },
 
   // -----------
-  // Stocket hooks
+  // Socket hooks
   // -----------
 
   notification: function(data, success) {
