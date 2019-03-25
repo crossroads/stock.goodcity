@@ -1,6 +1,11 @@
 import FactoryGuy from "ember-data-factory-guy";
 
 FactoryGuy.define("location", {
+  sequences: {
+    id: function() {
+      return Math.floor(Math.random() * 100);
+    }
+  },
   default: {
     id: FactoryGuy.generate("id"),
     building: FactoryGuy.generate(function(num) {
