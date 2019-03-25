@@ -1,7 +1,8 @@
-import FactoryGuy from 'ember-data-factory-guy';
+import FactoryGuy from "ember-data-factory-guy";
 
-FactoryGuy.define('location', {
+FactoryGuy.define("location", {
   default: {
+    id: FactoryGuy.generate("id"),
     building: FactoryGuy.generate(function(num) {
       return "building" + num;
     }),
