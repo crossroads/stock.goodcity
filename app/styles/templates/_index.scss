@@ -57,6 +57,10 @@
   height: 4rem;
   line-height: 4rem;
 
+  @media #{$small-only} {
+    font-size: 0.63rem;
+  }
+
   .order_code  {
     text-align: right;
   }
