@@ -141,9 +141,15 @@
               name="people_helped"
               maxlength=3
               disabled=(if model.isEditAllowed "" true)
-              class="numeric-input beneficiary-inline-input"
+              class="numeric-input beneficiary-inline-input people-helped"
               value=model.peopleHelped
               order=model}}
+            <div class='client_people_helped_error people_helped_error'>
+              {{fa-icon "exclamation-triangle"}}
+              <span class="error-reason-margin">
+                {{t "order_client_summary.people_helped_error"}}
+              </span>
+            </div>
           </div>
         </div>
 
@@ -160,7 +166,7 @@
               id=(concat 'desc' item.id)
               class="description-textarea order-description-textarea"
               order=model}}
-              <div class='client_summary_description_error'>
+              <div class='client_summary_description_error description_error'>
                 {{fa-icon "exclamation-triangle"}}
                 <span class="error-reason-margin">
                   {{t "order_client_summary.description_error"}}

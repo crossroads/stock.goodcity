@@ -72,6 +72,7 @@ I18nTranslationsEn =
     "primary_location": "Primary location"
     "description_of_need": "Description of need"
     "description_error": "Description is required"
+    "people_helped_error": "Number is required"
 
   "order_contact_summary":
     "change_contact": "Change Contact"
@@ -321,7 +322,7 @@ I18nTranslationsEn =
       "no_time_slot_selected_error": "Please select appointment time."
     }
     "request": {
-      "remove_req": "Remove this request from order",
+      "remove_req": "Remove this request from order {{orderCode}}",
       "remove": "Remove"
     },
     "appointment": {

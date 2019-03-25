@@ -15,6 +15,7 @@ export default Ember.Controller.extend({
   deviceId: Math.random().toString().substring(2),
   modelDataTypes: ["offer", "Offer", "item", "Item", "Schedule", "schedule", "delivery", "Delivery", "gogovan_order", "GogovanOrder", "contact", "Contact", "address", "Address", "order", "Order"],
   // logger: Ember.inject.service(),
+  messagesUtil: Ember.inject.service("messages"),
   status: {
     online: false
   },
@@ -146,6 +147,32 @@ export default Ember.Controller.extend({
     this.get("store").findAll("item");
   },
 
+  getMessageUrl: function(data, type){
+    var router = this.get("target");
+    var messageRoute = this.get("messagesUtil").getRoute(data.item[type]);
+    var messageUrl = router.generate.apply(router, messageRoute);
+    return messageUrl = messageUrl.split("#").get("lastObject");
+  },
+
+  markReadAndScroll: function(message){
+    if (message && !message.get("isRead")) {
+      this.get("messagesUtil").markRead(message);
+
+      var scrollOffset;
+      if (Ember.$(".message-textbar").length > 0) {
+        scrollOffset = Ember.$(document).height();
+      }
+
+      var screenHeight = document.documentElement.clientHeight;
+      var pageHeight = document.documentElement.scrollHeight;
+
+      if (scrollOffset && pageHeight > screenHeight) {
+        Ember.run.later(this, function () {
+          window.scrollTo(0, scrollOffset);
+        });
+      }
+    }
+  },
   // each action below is an event in a channel
   update_store: function(data, success) {
     var type = Object.keys(data.item)[0];
@@ -214,6 +241,18 @@ export default Ember.Controller.extend({
     } else if (existingItem) { //delete
       this.store.unloadRecord(existingItem);
     }
+
+    // mark message read here
+    if (type === "message") {
+      var currentUrl = window.location.href.split("#").get("lastObject");
+      var messageUrl = this.getMessageUrl(data, type);
+
+      if (currentUrl.indexOf(messageUrl) >= 0) {
+        var message = this.store.peekRecord("message", item.id);
+        this.markReadAndScroll(message);
+      }
+    }
+
     run(success);
   }
 });

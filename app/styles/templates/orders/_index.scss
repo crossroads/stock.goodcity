@@ -97,6 +97,20 @@ $header-height: 3em;
         padding-right: 1rem;
       }
     }
+    .order_message_bubble {
+      @media #{$small-only} {
+        margin-top: 23px;
+        margin-right: -5px;
+      }
+
+      @media #{$large-only} {
+        margin-right: -32px;
+      }
+
+      @media #{$medium-only} {
+        margin-right: -32px;
+      }
+    }
   }
 
 

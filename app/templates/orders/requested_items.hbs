@@ -20,42 +20,8 @@
     <div class="row first-line">
       <hr/>
     </div>
-    {{#each sortedGcRequests as |req|}}
-      <div class="row detail-section">
-        <div class="columns small-12">
-          <div class="row req-first-row">
-            <div class="columns small-4 request-quantity">Quantity </div>
-            <div class="columns small-6 request-value">
-              {{request-inline-input id=(concat 'qty' req.id) name="quantity" class="numeric-input item-width small-3 columns" value=req.quantity maxlength="5"  request=req}}
-            </div>
-            <div class='small-2 columns icon-center'>
-              <i class='icon' {{action "deleteRequest" req.id on="click"}}>{{fa-icon 'times-circle' size="2x"}}</i>
-            </div>
-          </div>
-          <div class="row req-second-row">
-            <div class="columns small-4 request-type">Type </div>
-            <div class="columns small-8 request-value">
-              {{#link-to 'orders.search_code' model.id (query-params changeCode=true reqId=req.id)}}
-                {{input value=req.code.name class="item-type" disabled=true}}
-              {{/link-to}}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="row detail-section">
-        <div class="columns small-12">
-          <div class="row req-third-row">
-            <div class="columns small-4 request-desc">Description </div>
-            <div class="columns small-8 value request-description">
-              {{request-description-textarea data-autoresize=true name="description" value=req.description pattern=".*\S.*" id=(concat 'desc' req.id) class="description-textarea" request=req}}
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="after-req-line row">
-        <hr/>
-      </div>
+    {{#each sortedGcRequests as |req index|}}
+      {{add-request request=req id=index order=model}}
     {{/each}}
   </section>
 </section>

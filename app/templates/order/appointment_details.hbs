@@ -18,6 +18,11 @@
     </section>
 
     {{#validate-appointment}}
+      {{validate-inputs
+        elementCssIdentifiersArrayJson='["#selectedDate input"]'
+        errorClass='form__control--error'
+        buttonId='#appointment-submit'
+      }}
       {{#validatable-form onSubmit=(action 'saveTransportDetails') as |form|}}
         <section class="main-section client-information request-purpose appointment-date medium-12 large-12 small-12 columns">
           {{partial "order/user_information"}}
@@ -83,17 +88,19 @@
           </div>
 
           <div class="row time_inputs">
-            <div class=" small-12 columns date_selector">
-              {{select-appointment-date
-                name='selectedDate'
-                id='selectedDate'
-                value=''
-                available=available_dates
-                selection=selectedDate
-                placeholder="Date"
-                pattern="[a-zA-Z]{3}\s?[a-zA-Z]{3}\s?[0-9]{1,2}"}}
-              <i class="fa fa-calendar calender_icon">{{fa-icon "calendar"}}</i>
-            </div>
+            {{#form-control}}
+              <div class=" small-12 columns date_selector">
+                {{select-appointment-date
+                  name='selectedDate'
+                  id='selectedDate'
+                  value=''
+                  available=available_dates
+                  selection=selectedDate
+                  placeholder="Date"
+                  pattern="[a-zA-Z]{3}\s?[a-zA-Z]{3}\s?[0-9]{1,2}"}}
+                <i class="fa fa-calendar calender_icon">{{fa-icon "calendar"}}</i>
+              </div>
+            {{/form-control}}
           </div>
 
           <br>

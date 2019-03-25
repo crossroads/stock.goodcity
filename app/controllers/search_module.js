@@ -5,20 +5,25 @@ export default Ember.Controller.extend(InfinityRoute, {
   filterService: Ember.inject.service(),
   utilityMethods: Ember.inject.service(),
 
-  getCurrentUser: Ember.computed(function(){
-    var store = this.get('store');
-    var currentUser = store.peekAll('user_profile').get('firstObject') || null;
+  getCurrentUser: Ember.computed(function() {
+    var store = this.get("store");
+    var currentUser = store.peekAll("user_profile").get("firstObject") || null;
     return currentUser;
   }).volatile(),
 
-  sanitizeString(str){
-    str = str.replace(/[^a-z0-9áéíóúñü \.,_-]/gim,"");
+  sanitizeString(str) {
+    // these are the special characters '.,)(@_-' that are allowed for search
+    // '\.' => will allow '.'
+    // '\(' => will allow '('
+    // '\@' => will allow '@'
+    // '\)' => will allow ')'
+    str = str.replace(/[^a-z0-9áéíóúñü \.,\)\(@_-]/gim, "");
     return str.trim();
   },
 
-  searchText: Ember.computed('searchInput',{
+  searchText: Ember.computed("searchInput", {
     get() {
-      return this.get('searchInput') || "";
+      return this.get("searchInput") || "";
     },
 
     set(key, value) {
@@ -74,46 +79,50 @@ export default Ember.Controller.extend(InfinityRoute, {
 
   applyFilter() {
     var searchText = this.get("searchText");
-    let filterService = this.get('filterService');
+    let filterService = this.get("filterService");
     let utilities = this.get("utilityMethods");
-    let UNLOAD_MODELS = [ "designation", "item", "location", "code"];
+    let UNLOAD_MODELS = ["designation", "item", "location", "code"];
 
     if (searchText.length > 0) {
       this.set("isLoading", true);
       this.set("hasNoResults", false);
-      if(this.get("unloadAll")) {  UNLOAD_MODELS.forEach((model) => this.store.unloadAll(model)); }
+      if (this.get("unloadAll")) {
+        UNLOAD_MODELS.forEach(model => this.store.unloadAll(model));
+      }
 
-      let filter = filterService.get('getOrderStateFilters');
+      let filter = filterService.get("getOrderStateFilters");
 
       let isPriority = filterService.isPriority();
       if (isPriority) {
         filter.shift();
       }
-      let typesFilter = filterService.get('getOrderTypeFilters');
+      let typesFilter = filterService.get("getOrderTypeFilters");
       const paginationOpts = {
         perPage: 25,
         startingPage: 1,
-        modelPath: 'filteredResults',
+        modelPath: "filteredResults",
         stockRequest: true,
         state: utilities.stringifyArray(filter),
         type: utilities.stringifyArray(typesFilter),
         priority: isPriority
       };
-      this.infinityModel(this.get("searchModelName"),
+      this.infinityModel(
+        this.get("searchModelName"),
         paginationOpts,
         this.buildQueryParamMap()
-      ).then(data => {
-        data.forEach(record => {
-          if (this.onItemLoaded) {
-            this.onItemLoaded(record);
+      )
+        .then(data => {
+          data.forEach(record => {
+            if (this.onItemLoaded) {
+              this.onItemLoaded(record);
+            }
+          });
+          if (this.get("searchText") === data.meta.search) {
+            this.set("filteredResults", data);
+            this.set("hasNoResults", data.get("length") === 0);
           }
-        });
-        if(this.get("searchText") === data.meta.search) {
-          this.set("filteredResults", data);
-          this.set("hasNoResults", data.get("length") === 0);
-        }
-      })
-      .finally(() => this.set("isLoading", false));
+        })
+        .finally(() => this.set("isLoading", false));
     }
     this.set("filteredResults", []);
   },

@@ -11,6 +11,15 @@ export default GoodcityController.extend({
   displayAllItems: false,
   displayItemOptions: true,
   isMobileApp: config.cordova.enabled,
+  order: Ember.computed.alias('model'),
+  hasUnreadMessages: Ember.computed('order', function () {
+    return this.get('order.hasUnreadMessages');
+  }),
+
+  unreadMessagesCount: Ember.computed('order', function () {
+    return this.get('order.unreadMessagesCount');
+  }),
+
   itemIdforHistoryRoute: null,
   organisationIdforHistoryRoute: null,
   store: Ember.inject.service(),

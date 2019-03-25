@@ -711,12 +711,18 @@
   margin-left: 5px;
 }
 
-.client_summary_description_error {
+.client_summary_description_error, .people_helped_error {
   background-color: red;
   display: none;
   padding: 2px;
   width: 100%;
+}
 
+.people_helped_error{
+  width: 80%;
+}
+
+.description_error {
   @media #{$small-only} {
     margin-left: -3%;
     margin-top: -3%;
