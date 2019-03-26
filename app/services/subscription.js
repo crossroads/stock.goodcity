@@ -173,7 +173,7 @@ export default Ember.Service.extend(Ember.Evented, {
     let { item: payload, operation, device_id } = data;
     let rawType = Object.keys(payload)[0].toLowerCase();
     let type = this.resolveTypeAliases(rawType);
-    let record = Ember.$.extend({}, payload[type]);
+    let record = Ember.$.extend({}, payload[rawType]);
     return { payload, record, operation, type, rawType, deviceId: device_id };
   },
 
