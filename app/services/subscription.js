@@ -16,6 +16,9 @@ const UPDATE_STRATEGY = {
   },
   MERGE: (store, type, record) => {
     store.pushPayload({ [type]: record });
+  },
+  SAVE_SENDER: (store, type, record, sender) => {
+    store.pushPayload(sender);
   }
 };
 
@@ -64,6 +67,9 @@ export default Ember.Service.extend(Ember.Evented, {
     },
     item: {
       strategy: UPDATE_STRATEGY.RELOAD
+    },
+    message: {
+      strategy: [UPDATE_STRATEGY.MERGE, UPDATE_STRATEGY.SAVE_SENDER]
     },
     defaults: {
       operations: ALL_OPERATIONS,
@@ -170,11 +176,11 @@ export default Ember.Service.extend(Ember.Evented, {
   },
 
   parseData(data) {
-    let { item: payload, operation, device_id } = data;
+    let { item: payload, operation, sender, device_id: deviceId } = data;
     let rawType = Object.keys(payload)[0].toLowerCase();
     let type = this.resolveTypeAliases(rawType);
     let record = Ember.$.extend({}, payload[rawType]);
-    return { payload, record, operation, type, rawType, deviceId: device_id };
+    return { payload, record, operation, type, rawType, sender, deviceId };
   },
 
   isUnhandled(data) {
@@ -196,6 +202,15 @@ export default Ember.Service.extend(Ember.Evented, {
       return true;
     }
     return false;
+  },
+
+  applyUpdateStrategy(record, type, sender) {
+    const store = this.get("store");
+    const { strategy } = this.getStrategy(type);
+
+    _.flatten([strategy]).forEach(fn => {
+      fn(store, type, record, sender);
+    });
   },
 
   // -----------
@@ -235,13 +250,12 @@ export default Ember.Service.extend(Ember.Evented, {
       return false;
     }
 
-    let { record, operation, deviceId, type } = this.parseData(data);
+    let { record, operation, deviceId, type, sender } = this.parseData(data);
 
     switch (operation) {
       case "create":
       case "update":
-        const { strategy } = this.getStrategy(type);
-        strategy(this.get("store"), type, record);
+        this.applyUpdateStrategy(record, type, sender);
         break;
       case "delete":
         let existingItem = this.get("store").peekRecord(type, record.id);
