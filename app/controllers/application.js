@@ -1,33 +1,40 @@
-import Ember from 'ember';
-import config from '../config/environment';
+import Ember from "ember";
+import config from "../config/environment";
 
 export default Ember.Controller.extend({
-
   subscription: Ember.inject.controller(),
   cordova: Ember.inject.service(),
   store: Ember.inject.service(),
+  app_id: config.APP.ANDROID_APP_ID,
+  ios_app_id: config.APP.APPLE_APP_ID,
+  appTitle: config.APP.TITLE,
+  bannerImage: config.APP.BANNER_IMAGE,
+  bannerReopenDays: config.BANNER_REOPEN_DAYS,
   isMobileApp: config.cordova.enabled,
 
-  initSubscription: Ember.on('init', function() {
-    this.get('subscription').send('wire');
-    if (this.get('isMobileApp') && cordova.platformId === "android") { // jshint ignore:line
+  initSubscription: Ember.on("init", function() {
+    this.get("subscription").send("wire");
+    //prettier-ignore
+    if (this.get("isMobileApp") && cordova.platformId === "android") { // jshint ignore:line
       this.redirectToItem();
     }
   }),
 
   redirectToItem() {
-    universalLinks && universalLinks.subscribe("redirectToItem", (eventData) => { // jshint ignore:line
-      this.transitionToRoute(eventData.path);
-    });
+    universalLinks &&
+      universalLinks.subscribe("redirectToItem", eventData => {
+        // jshint ignore:line
+        this.transitionToRoute(eventData.path);
+      });
   },
 
   actions: {
     logMeOut() {
       this.session.clear(); // this should be first since it updates isLoggedIn status
-      this.get('subscription').send('unwire');
-      this.get('subscription').send('unloadNotifications');
-      this.get('store').unloadAll();
-      this.transitionToRoute('login');
+      this.get("subscription").send("unwire");
+      this.get("subscription").send("unloadNotifications");
+      this.get("store").unloadAll();
+      this.transitionToRoute("login");
     }
   }
 });
