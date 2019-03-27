@@ -16,7 +16,7 @@ export default Ember.Controller.extend({
   }),
 
   redirectToItem() {
-    universalLinks.subscribe("redirectToItem", (eventData) => { // jshint ignore:line
+    universalLinks && universalLinks.subscribe("redirectToItem", (eventData) => { // jshint ignore:line
       this.transitionToRoute(eventData.path);
     });
   },
