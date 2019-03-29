@@ -3,7 +3,7 @@
     <div class="row req-first-row">
       <div class="columns small-4 request-quantity">Quantity </div>
       <div class="columns small-6 request-value">
-        {{request-inline-input id=(concat 'qty' request.id) name="quantity" class="numeric-input item-width small-3 columns" value=request.quantity maxlength="5"  request=req}}
+        {{request-inline-input id=(concat 'qty' request.id) name="quantity" class="numeric-input item-width small-3 columns" value=request.quantity maxlength="5"  request=request}}
       </div>
       <div class='small-2 columns icon-center'>
         <i class='icon' {{action "deleteRequest" request.id on="click"}}>{{fa-icon 'times-circle' size="2x"}}</i>
@@ -25,7 +25,7 @@
     <div class="row req-third-row">
       <div class="columns small-4 request-desc">Description </div>
       <div class="columns small-8 value request-description">
-        {{request-description-textarea data-autoresize=true name="description" value=request.description pattern=".*\S.*" id=(concat 'desc' request.id) class="description-textarea" request=req}}
+        {{request-description-textarea data-autoresize=true name="description" value=request.description pattern=".*\S.*" id=(concat 'desc' request.id) class="description-textarea" request=request}}
       </div>
     </div>
   </div>
