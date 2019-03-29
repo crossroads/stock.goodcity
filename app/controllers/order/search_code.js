@@ -114,6 +114,7 @@ export default Ember.Controller.extend({
 
       new AjaxPromise(url, actionType, this.get('session.authToken'), { goodcity_request: goodcityRequestParams })
         .then(data => {
+          this.send("clearSearch");
           this.get("store").pushPayload(data);
         })
         .finally(() => {
