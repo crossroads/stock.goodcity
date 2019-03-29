@@ -1,4 +1,15 @@
 {{#init-foundation}}
+  {{#unless isMobileApp}}
+    {{smart-banner
+      appIdAndroid = app_id
+      appIdIOS = ios_app_id
+      showAfterClose= bannerReopenDays
+      showAfterVisit= bannerReopenDays
+      iconUrl = bannerImage
+      title = appTitle
+      description = 'Crossroads'
+    }}
+  {{/unless}}
   {{outlet "notifications"}}
 {{/init-foundation}}
 {{outlet}}
