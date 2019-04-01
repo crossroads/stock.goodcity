@@ -95,7 +95,7 @@ test("Check validation for 'Add item to inventory ' page''", function(assert) {
 
   andThen(function () {
     assert.equal(currentPath(), "index");
-    click($('.small-block-grid-5 li:last'));
+    click($('.small-block-grid-4 li:last'));
   });
 
   andThen(function () {
