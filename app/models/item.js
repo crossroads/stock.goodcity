@@ -65,14 +65,6 @@ export default cloudinaryUrl.extend({
     }
   ),
 
-  itemState: Ember.computed("isDesignated", function() {
-    if (this.get("designationId")) {
-      return "Re-designate";
-    } else {
-      return "Designate";
-    }
-  }),
-
   validUndispatchedLocations: Ember.computed(
     "packagesLocations.@each.quantity",
     function() {
