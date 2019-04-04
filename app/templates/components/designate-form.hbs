@@ -56,8 +56,7 @@
 {{/message-box}}
 
 {{#message-box btn1Text=(t "okay") btn1Callback=(action "designateItem") btn2Text=(t "cancel") isVisible=displayUserPrompt classNames="popupOverlay designate-form"}}
-
-  {{#if isSet}}
+  {{#if (is-equal isSet "true")}}
     <p>Designate this set of items to {{order.code}} ?</p>
     {{#each item.setItem.items as |item|}}
       {{partial 'items/set_item_block'}}
