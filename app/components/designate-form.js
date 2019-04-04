@@ -239,13 +239,12 @@ export default Ember.Component.extend({
         order_id: order.get("id"),
         package_id: item.get("id"),
         quantity: item.get("quantity"),
-        received_quantity: item.get("receivedQuantity")
+        received_quantity: item.get("receivedQuantity"),
+        quantity_to_designate: ordersPackage
+          ? ordersPackage.get("quantity")
+          : item.get("quantity"),
+        orders_package_id: ordersPackage ? ordersPackage.id : null //id of previous OrdersPackage ie to be cancelled
       };
-
-      if (ordersPackage) {
-        properties["quantity_to_designate"] = ordersPackage.get("quantity");
-        properties["orders_package_id"] = ordersPackage.id; //id of previous OrdersPackage ie to be cancelled
-      }
 
       new AjaxPromise(url, "PUT", this.get("session.authToken"), {
         package: properties
