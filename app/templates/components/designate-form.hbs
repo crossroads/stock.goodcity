@@ -56,8 +56,7 @@
 {{/message-box}}
 
 {{#message-box btn1Text=(t "okay") btn1Callback=(action "designateItem") btn2Text=(t "cancel") isVisible=displayUserPrompt classNames="popupOverlay designate-form"}}
-
-  {{#if isSet}}
+  {{#if (is-equal isSet "true")}}
     <p>Designate this set of items to {{order.code}} ?</p>
     {{#each item.setItem.items as |item|}}
       {{partial 'items/set_item_block'}}
@@ -72,7 +71,7 @@
       {{/if}}
     </div>
   {{else}}
-    <p>{{t "designate.form_title" code=order.code}}</p>
+    <p>{{t "designate.form_title" status=designationDetails.status code=order.code}}</p>
     {{partial 'orders/item_block_without_link'}}
     <div class="warnings">
       {{#if (is-greater item.quantity 1)}}
@@ -90,8 +89,40 @@
           </div>
         </div>
       {{/if}}
+
+      {{#if (is-equal designationDetails.status "Re-designate")}}
+        <div class="warnings">
+          <div class="warning_text">
+              <div class="left-icon">
+                <i>{{fa-icon 'exclamation-triangle'}}</i>
+              </div>
+              <div>
+                {{#link-to 'orders.items_list' designationDetails.orderId classNames='warning_link_to'}}
+                  {{t "designate.item_already_designated" orderCode=designationDetails.orderCode}}
+                {{/link-to}}
+              </div>
+          </div>
+        </div>
+      {{/if}}
     </div>
   {{/if}}
 
+{{/message-box}}
+
+{{#message-box btn1Text=(t "okay") isVisible=reDesignateDispatchAlertPopUp classNames="popupOverlay designate-form"}}
+  <p>Item already dispatched to {{dispatchedItemOrder.code}}</p>
+  {{partial 'orders/item_block_without_link'}}
+  <div class="warnings">
+    <div class="warning_text">
+        <div class="left-icon">
+          <i>{{fa-icon 'exclamation-triangle'}}</i>
+        </div>
+        <div>
+          {{#link-to 'orders.items_list' dispatchedItemOrder.id classNames='warning_link_to'}}
+            {{t "designate.item_dispatched" orderCode=dispatchedItemOrder.code}}
+          {{/link-to}}
+        </div>
+    </div>
+  </div>
 {{/message-box}}
 

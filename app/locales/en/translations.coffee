@@ -440,7 +440,9 @@ I18nTranslationsEn =
 
   "designate":
     "modify_designation": "Cancels the designation to order {{code}}"
-    "form_title": "Designating this item to order {{code}}"
+    "form_title": "{{status}} this item to order {{code}}"
+    "item_already_designated": "The Item is already designated to <span class='dispatched_order_code'>{{orderCode}}</span>.<br> If you proceed it will be removed from that order!"
+    "item_dispatched": "This Item was dispatched to <span class='dispatched_order_code'>{{orderCode}}</span>"
     "designate": "Designate"
     "overrides_existing": "Overrides an existing designation."
     "quantity" : "Designates quantity of {{quantity}}."

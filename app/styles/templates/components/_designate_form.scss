@@ -27,6 +27,17 @@
     }
   }
 
+  .warning_link_to {
+    background-color: inherit;
+    color: #f34d4f !important;
+    margin-left: 4%;
+  }
+
+  .dispatched_order_code {
+    text-decoration:underline;
+    cursor:pointer;
+  }
+
   label {
     color: black;
     font-size: 0.75rem;
