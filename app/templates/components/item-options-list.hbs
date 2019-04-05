@@ -19,7 +19,7 @@
 
   <div>
     {{#if (is-or item.designationId item.hasOneDispatchedPackage)}}
-      {{#link-to 'items.search_order' item.id (query-params isSet=item.isSet) tagName='div' href=false}}
+      {{#link-to 'items.search_order' item.id tagName='div' href=false}}
         <i class="item-menu">{{fa-icon 'shopping-basket' size="2x"}}</i><br />
         {{t "item.designate"}}
       {{/link-to}}

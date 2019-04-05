@@ -238,9 +238,7 @@ export default Ember.Component.extend({
       var properties = {
         order_id: order.get("id"),
         package_id: item.get("id"),
-        quantity: item.get("quantity"),
-        received_quantity: item.get("receivedQuantity"),
-        quantity_to_designate: ordersPackage
+        quantity: ordersPackage
           ? ordersPackage.get("quantity")
           : item.get("quantity"),
         orders_package_id: ordersPackage ? ordersPackage.id : null //id of previous OrdersPackage ie to be cancelled
