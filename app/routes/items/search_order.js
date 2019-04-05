@@ -4,7 +4,9 @@ const { getOwner } = Ember;
 
 export default AuthorizeRoute.extend({
   queryParams: {
-    showDispatchOverlay: false
+    showDispatchOverlay: false,
+    isSet: false,
+    partial_qty: false
   },
 
   partial_qnty: Ember.computed.localStorage(),
