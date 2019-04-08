@@ -347,15 +347,19 @@ export default cloudinaryUrl.extend({
     return this.get("ordersPackages.firstObject");
   }),
 
-  packagesLocationsList: Ember.computed("packagesLocations.[]", function() {
-    var packagesLocations = [];
-    this.get("packagesLocations").forEach(packages_location => {
-      if (packages_location.get("location.building") !== "Dispatched") {
-        packagesLocations.pushObject(packages_location);
-      }
-    });
-    return packagesLocations.uniq();
-  }),
+  packagesLocationsList: Ember.computed(
+    "packagesLocations.[]",
+    "packagesLocations.@each.location",
+    function() {
+      var packagesLocations = [];
+      this.get("packagesLocations").forEach(packages_location => {
+        if (packages_location.get("location.building") !== "Dispatched") {
+          packagesLocations.pushObject(packages_location);
+        }
+      });
+      return packagesLocations.uniq();
+    }
+  ),
 
   availableQtyForMove: Ember.computed("packagesLocations.[]", function() {
     var quantityToMove = this.get("receivedQuantity");
