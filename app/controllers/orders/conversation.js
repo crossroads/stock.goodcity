@@ -3,6 +3,8 @@ import config from "../../config/environment";
 import detail from "./detail";
 
 export default detail.extend({
+  store: Ember.inject.service(),
+  subscription: Ember.inject.service(),
   messagesUtil: Ember.inject.service("messages"),
   body: "",
   isPrivate: false,
@@ -25,6 +27,18 @@ export default detail.extend({
     this.autoScroll();
     return this.groupBy(this.get("sortedMessages"), "createdDate");
   }),
+
+  on() {
+    this.get("subscription").on("change:message", this, this.markReadAndScroll);
+  },
+
+  off() {
+    this.get("subscription").off(
+      "change:message",
+      this,
+      this.markReadAndScroll
+    );
+  },
 
   autoScroll() {
     // scroll the messages screen to bottom
@@ -61,6 +75,33 @@ export default detail.extend({
         this.store.unloadRecord(message);
         throw error;
       });
+  },
+
+  markReadAndScroll: function({ record }) {
+    let message = this.store.peekRecord("message", record.id);
+    if (
+      !message ||
+      message.get("isRead") ||
+      message.get("designationId") != this.get("model.id")
+    ) {
+      return;
+    }
+
+    this.get("messagesUtil").markRead(message);
+
+    if (!Ember.$(".message-textbar").length) {
+      return;
+    }
+
+    let scrollOffset = Ember.$(document).height();
+    let screenHeight = document.documentElement.clientHeight;
+    let pageHeight = document.documentElement.scrollHeight;
+
+    if (pageHeight > screenHeight) {
+      Ember.run.later(this, function() {
+        window.scrollTo(0, scrollOffset);
+      });
+    }
   },
 
   actions: {
