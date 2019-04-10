@@ -20,6 +20,7 @@ export default Ember.Service.extend({
 
   clear: function() {
     this.set("authToken", null);
+    this.set("language", null);
     this.set("otpAuthKey", null);
     this.set("orderStateFilters", null);
     this.set("orderTypeFilters", null);
