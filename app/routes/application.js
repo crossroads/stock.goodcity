@@ -93,10 +93,10 @@ export default Ember.Route.extend(preloadDataMixin, {
     var language;
     if (transition.queryParams.ln) {
       language = transition.queryParams.ln === "zh-tw" ? "zh-tw" : "en";
-      this.set('session.language', language);
     }
 
     language = this.session.get("language") || "en";
+    this.set('session.language', language);
     moment.locale(language);
     this.set("i18n.locale", language);
 
