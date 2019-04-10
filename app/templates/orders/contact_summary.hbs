@@ -101,28 +101,31 @@
           {{t "order_contact_summary.total_requests"}}
         </div>
         <div class="small-8 columns email">
-          {{#if model.userSubmittedOrderCount}}
+          {{log model.dispatchingCount}}
+          {{log model}}
+
+          {{#if model.submittedCount}}
             <i>{{fa-icon 'envelope'}}</i>
             <span class="state-count" id="submitted_count">
-              {{model.userSubmittedOrderCount}}
+              {{model.submittedCount}}
             </span>
           {{/if}}
-          {{#if model.userAwaitingDispatchOrderCount}}
+          {{#if model.dispatchingCount}}
             <i>{{fa-icon 'clock'}}</i>
             <span class="state-count" id="scheduled_count">
-              {{model.userAwaitingDispatchOrderCount}}
+              {{model.dispatchingCount}}
             </span>
           {{/if}}
-          {{#if model.userClosedOrderCount}}
+          {{#if model.closedCount}}
             <i>{{fa-icon 'thumbs-down'}}</i>
             <span class="state-count" id="closed_count">
-              {{model.userClosedOrderCount}}
+              {{model.closedCount}}
             </span>
           {{/if}}
-          {{#if model.userCancelledOrderCount}}
+          {{#if model.cancelledCount}}
             <i>{{fa-icon 'thumbs-down'}}</i>
             <span class="state-count" id="cancelled_count">
-              {{model.userCancelledOrderCount}}
+              {{model.cancelledCount}}
             </span>
           {{/if}}
         </div>
