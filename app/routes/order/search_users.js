@@ -34,8 +34,7 @@ export default AuthorizeRoute.extend({
     controller.set("filteredResults", users.uniq());
   },
 
-  deactivate() {
-    let controller = this.controllerFor("order.searchUsers");
+  resetController(controller) {
     controller.set("searchText", "");
   }
 });
