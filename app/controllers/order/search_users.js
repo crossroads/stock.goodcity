@@ -70,7 +70,6 @@ export default searchModule.extend({
         { order: orderParams }
       ).then(data => {
         this.store.pushPayload(data);
-        this.set("searchText", "");
         if (this.get("prevPath") === "contact_summary") {
           this.transitionToRoute("orders.contact_summary", orderId);
         } else {
