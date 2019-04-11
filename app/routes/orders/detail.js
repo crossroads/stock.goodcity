@@ -1,5 +1,6 @@
 import getOrderRoute from "./get_order";
 import Ember from "ember";
+import AjaxPromise from "stock/utils/ajax-promise";
 
 export default getOrderRoute.extend({
   orderBackLinkPath: Ember.computed.localStorage(),
@@ -65,9 +66,18 @@ export default getOrderRoute.extend({
     this.set("orderBackLinkPath", path);
   },
 
-  model(params) {
+  /* jshint ignore:start */
+  async model(params) {
+    let result = await new AjaxPromise(
+      `/orders/${params.order_id}/`,
+      "GET",
+      this.get("session.authToken")
+    );
+    Object.assign(result.designation, result.meta.counts);
+    this.store.pushPayload(result);
     return this.loadIfAbsent("designation", params.order_id);
   },
+  /* jshint ignore:end */
 
   afterModel(model) {
     if (!model) {
