@@ -68,13 +68,16 @@ export default getOrderRoute.extend({
 
   /* jshint ignore:start */
   async model(params) {
+    let _this = this;
     let result = await new AjaxPromise(
       `/orders/${params.order_id}/`,
       "GET",
       this.get("session.authToken")
     );
     Object.assign(result.designation, result.meta.counts);
-    this.store.pushPayload(result);
+    Ember.run(function() {
+      _this.store.pushPayload(result);
+    });
     return this.loadIfAbsent("designation", params.order_id);
   },
   /* jshint ignore:end */

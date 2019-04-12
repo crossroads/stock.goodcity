@@ -12,9 +12,15 @@ var mocks;
 module("Acceptance: Order search list", {
   beforeEach: function() {
     App = startApp({}, 2);
-    user = FactoryGuy.make("user", { mobile: "123456", email: "abc@xyz", firstName: "John", lastName: "Lennon", id: 5 });
+    user = FactoryGuy.make("user", {
+      mobile: "123456",
+      email: "abc@xyz",
+      firstName: "John",
+      lastName: "Lennon",
+      id: 5
+    });
     designation = FactoryGuy.make("designation", {
-      detailType: 'GoodCity'
+      detailType: "GoodCity"
     });
     item = FactoryGuy.make("item", { state: "submitted" });
     var location = FactoryGuy.make("location");
@@ -22,18 +28,23 @@ module("Acceptance: Order search list", {
     orders_package = FactoryGuy.make("orders_package", {
       state: "designated",
       item: item,
-      designation: designation,
+      designation: designation
     });
 
     var userProfile = {
-      user_profile: [{
-        id: 2,
-        first_name: "David",
-        last_name: "Dara51",
-        mobile: "61111111",
-        user_role_ids: [1]
-      }],
-      users: [{ id: 2, first_name: "David", last_name: "Dara51", mobile: "61111111" }, user.toJSON({ includeId: true })],
+      user_profile: [
+        {
+          id: 2,
+          first_name: "David",
+          last_name: "Dara51",
+          mobile: "61111111",
+          user_role_ids: [1]
+        }
+      ],
+      users: [
+        { id: 2, first_name: "David", last_name: "Dara51", mobile: "61111111" },
+        user.toJSON({ includeId: true })
+      ],
       roles: [{ id: 4, name: "Supervisor" }],
       user_roles: [{ id: 1, user_id: 2, role_id: 4 }]
     };
@@ -51,45 +62,56 @@ module("Acceptance: Order search list", {
 
     mocks.push(
       $.mockjax({
-        url: "/api/v1/designation*",
+        url: "/api/v1/order*",
         responseText: {
-          designations: [designation.toJSON({ includeId: true })],
+          meta: {
+            counts: { cancelled: 21, dispatching: 34, submitted: 23, closed: 6 }
+          },
+          designation: [designation.toJSON({ includeId: true })],
           items: [item.toJSON({ includeId: true })],
           orders_packages: [orders_package.toJSON({ includeId: true })],
-          meta: { search: designation.get("code") },
-          designation: designation.toJSON({ includeId: true })
+          meta: { search: designation.get("code") }
         }
       }),
-      $.mockjax({url:"/api/v1/orders/summar*", responseText: {
-        "submitted":14,
-        "awaiting_dispatch":1,
-        "dispatching":1,
-        "processing":2,
-        "priority_submitted":14,
-        "priority_dispatching":1,
-        "priority_processing":2,
-        "priority_awaiting_dispatch":1
-      }})
+      $.mockjax({
+        url: "/api/v1/orders/summar*",
+        responseText: {
+          submitted: 14,
+          awaiting_dispatch: 1,
+          dispatching: 1,
+          processing: 2,
+          priority_submitted: 14,
+          priority_dispatching: 1,
+          priority_processing: 2,
+          priority_awaiting_dispatch: 1
+        }
+      })
     );
 
-    mockFindAll('designation').returns({ json: {
-      designations: [designation.toJSON({ includeId: true })],
-      items: [item.toJSON({ includeId: true })],
-      orders_packages: [orders_package.toJSON({ includeId: true })],
-      meta: { search: designation.get("code") }
-    }});
+    mockFindAll("designation").returns({
+      json: {
+        designations: [designation.toJSON({ includeId: true })],
+        items: [item.toJSON({ includeId: true })],
+        orders_packages: [orders_package.toJSON({ includeId: true })],
+        meta: { search: designation.get("code") }
+      }
+    });
 
-    mockFindAll('orders_package').returns({ json: {orders_packages: [orders_package.toJSON({includeId: true})]}});
-    mockFindAll('location').returns({json: {locations: [location.toJSON({includeId: true})]}});
-    mockFindAll("booking_type").returns({json: {booking_types: [bookingType.toJSON({includeId: true})]}});
-
+    mockFindAll("orders_package").returns({
+      json: { orders_packages: [orders_package.toJSON({ includeId: true })] }
+    });
+    mockFindAll("location").returns({
+      json: { locations: [location.toJSON({ includeId: true })] }
+    });
+    mockFindAll("booking_type").returns({
+      json: { booking_types: [bookingType.toJSON({ includeId: true })] }
+    });
 
     visit("/");
 
     andThen(function() {
       visit("/orders/");
     });
-
   },
   afterEach: function() {
     // Clear our ajax mocks
@@ -104,36 +126,54 @@ module("Acceptance: Order search list", {
 // ------ Helpers
 
 function searchOrders(assert) {
-
   visit("/orders/");
 
-  andThen(function () {
-    assert.equal(currentPath(), "orders.index", "Should be on the order listing page");
-    assert.equal(Ember.$('#searchText').length, 1, "Should have an input field");
+  andThen(function() {
+    assert.equal(
+      currentPath(),
+      "orders.index",
+      "Should be on the order listing page"
+    );
+    assert.equal(
+      Ember.$("#searchText").length,
+      1,
+      "Should have an input field"
+    );
     fillIn("#searchText", designation.get("code"));
   });
 
-  andThen(function () {
-    assert.equal(Ember.$('.loading_screen').length, 0, "Should hide the loading screen");
-    assert.equal(Ember.$('.order_block').length, 1, "Should have one item displayed");
+  andThen(function() {
+    assert.equal(
+      Ember.$(".loading_screen").length,
+      0,
+      "Should hide the loading screen"
+    );
+    assert.equal(
+      Ember.$(".order_block").length,
+      1,
+      "Should have one item displayed"
+    );
   });
 }
 
 // ------ Tests
 
-test("Clicking on an order should redirect to the order details page", function (assert) {
+test("Clicking on an order should redirect to the order details page", function(assert) {
   assert.expect(5);
 
   searchOrders(assert);
 
   andThen(() => {
-    click(Ember.$('.order_block')[0]);
+    click(Ember.$(".order_block")[0]);
   });
 
   andThen(() => {
-    assert.equal(currentURL(), `/orders/${designation.get("id")}/active_items`, "Should be on the order details page");
+    assert.equal(
+      currentURL(),
+      `/orders/${designation.get("id")}/active_items`,
+      "Should be on the order details page"
+    );
   });
-
 });
 
 test("Order codes should be displayed on screen", function(assert) {
@@ -143,12 +183,13 @@ test("Order codes should be displayed on screen", function(assert) {
 
   andThen(function() {
     assert.equal(
-      find(".order_code").text().trim(),
+      find(".order_code")
+        .text()
+        .trim(),
       designation.get("code"),
       "Should be displaying the order code"
     );
   });
-
 });
 
 test("Order's state should be displayed on screen", function(assert) {
@@ -158,10 +199,12 @@ test("Order's state should be displayed on screen", function(assert) {
 
   andThen(function() {
     assert.equal(
-      find(".order_state_text").text().trim().toLowerCase(),
+      find(".order_state_text")
+        .text()
+        .trim()
+        .toLowerCase(),
       designation.get("state"),
       "Should be displaying the order's state"
     );
   });
 });
-

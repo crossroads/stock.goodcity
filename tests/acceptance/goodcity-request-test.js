@@ -99,11 +99,14 @@ module("Acceptance: Goodcity Request test", {
     });
 
     $.mockjax({
-      url: "/api/v1/designations/*",
+      url: "/api/v1/orders/*",
       type: "GET",
       status: 200,
       responseText: {
-        designations: [designation1.toJSON({ includeId: true })],
+        meta: {
+          counts: { cancelled: 21, dispatching: 34, submitted: 23, closed: 6 }
+        },
+        designation: designation1.toJSON({ includeId: true }),
         orders_packages: []
       }
     });
@@ -118,11 +121,14 @@ module("Acceptance: Goodcity Request test", {
 test("Add a request to order", function(assert) {
   assert.expect(4);
   $.mockjax({
-    url: "/api/v1/designations/*",
+    url: "/api/v1/orders/*",
     type: "GET",
     status: 200,
     responseText: {
-      designations: [designation1.toJSON({ includeId: true })],
+      meta: {
+        counts: { cancelled: 21, dispatching: 34, submitted: 23, closed: 6 }
+      },
+      designations: designation1.toJSON({ includeId: true }),
       orders_packages: []
     }
   });
