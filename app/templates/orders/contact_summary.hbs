@@ -12,19 +12,19 @@
   <div class="row">
     <div class="small-12 columns main_details">
       {{#if model.isEditAllowed}}
-        <div class="row">
-          <div class="small-4 columns">
-            {{t "order_contact_summary.change_contact"}}
-          </div>
-          <div class="small-8 columns underline">
-            {{#link-to "order.search_users" model.id (query-params prevPath="contact_summary") class="change-contact" tagName='div' href=false}}
-              {{t "order_contact_summary.choose_different_contact"}}
-            {{/link-to}}
-          </div>
+      <div class="row">
+        <div class="small-4 columns">
+          {{t "order_contact_summary.change_contact"}}
         </div>
+        <div class="small-8 columns underline">
+          {{#link-to "order.search_users" model.id (query-params prevPath="contact_summary") class="change-contact" tagName='div' href=false}}
+          {{t "order_contact_summary.choose_different_contact"}}
+          {{/link-to}}
+        </div>
+      </div>
       {{/if}}
 
-      <br/>
+      <br />
       <div class="row">
         <div class="small-4 columns">
           {{t "order_contact_summary.organisation_title"}}
@@ -40,9 +40,9 @@
         </div>
         <div id="contact_name" class="small-8 columns">
           {{#if model.isGoodCityOrder}}
-            {{model.createdBy.fullName}}
+          {{model.createdBy.fullName}}
           {{else}}
-            {{model.stockitContact.fullName}}
+          {{model.stockitContact.fullName}}
           {{/if}}
         </div>
       </div>
@@ -55,6 +55,16 @@
           {{model.createdBy.mobile}}
         </div>
       </div>
+
+      <div class="row">
+        <div class="small-4 columns">
+          {{t "order_contact_summary.preferred_contact_number"}}
+        </div>
+        <div id="contact_mobile" class="small-8 columns">
+          {{model.createdBy.preferredContactNumber}}
+        </div>
+      </div>
+
 
       <div class="row">
         <div class="small-4 columns">
@@ -80,9 +90,9 @@
         </div>
         <div id="contact_last_seen" class="small-8 columns email">
           {{#if model.createdBy.onlineStatusLabel}}
-            {{model.createdBy.onlineStatusLabel}}
+          {{model.createdBy.onlineStatusLabel}}
           {{else}}
-            {{time-ago timeValue=model.createdBy.lastDisconnected smallPrefix=false}}
+          {{time-ago timeValue=model.createdBy.lastDisconnected smallPrefix=false}}
           {{/if}}
         </div>
       </div>
@@ -98,7 +108,7 @@
 
       {{!-- <div class="row">
         <div class="small-4 columns">
-          Total requests 
+          Total requests
         </div>
         <div class="small-8 columns email">
           {{display-timeago model.createdBy.createdAt}}

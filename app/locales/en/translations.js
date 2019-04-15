@@ -82,6 +82,7 @@ export default {
     organisation_title: "Organisation",
     contact_name: "Name",
     contact_phone: "Phone",
+    preferred_contact_number: "Preferred contact number",
     contact_position: "Position",
     contact_email: "Email",
     contact_last_seen: "Last seen",
