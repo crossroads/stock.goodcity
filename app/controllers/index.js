@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import Ember from "ember";
 
 export default Ember.Controller.extend({
   application: Ember.inject.controller(),
@@ -6,21 +6,20 @@ export default Ember.Controller.extend({
 
   actions: {
     logMeOut() {
-      this.get('application').send('logMeOut');
+      this.get("application").send("logMeOut");
     },
 
-    goToOrder(states, priority= false) {
-      let filterService = this.get('filterService');
+    goToOrder(states, priority = false) {
+      let filterService = this.get("filterService");
       let stateFilter = [states];
       if (priority) {
-        stateFilter.unshift('showPriority');
+        stateFilter.unshift("showPriority");
       }
       filterService.clearFilters();
-      filterService.setStateTypeFilter(stateFilter);
-      filterService.notifyPropertyChange("getOrderStateFilters");
-      filterService.notifyPropertyChange("getOrderTypeFilters");
-      this.transitionToRoute('orders', { queryParams: { preload: true }});
+      filterService.set("orderStateFilters", stateFilter);
+      filterService.notifyPropertyChange("orderStateFilters");
+      filterService.notifyPropertyChange("orderTypeFilters");
+      this.transitionToRoute("orders", { queryParams: { preload: true } });
     }
-
   }
 });

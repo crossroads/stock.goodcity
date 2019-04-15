@@ -1,38 +1,41 @@
 import Ember from "ember";
 
-export default Ember.Service.extend({
+// --- Helpers
 
+const PERSISTENT_VAR = function(propName, defaultValue) {
+  return Ember.computed({
+    get() {
+      return this.get("localStorage").read(propName, defaultValue);
+    },
+    set(k, value) {
+      this.get("localStorage").write(propName, value);
+      return value;
+    }
+  });
+};
+
+// --- Service
+
+export default Ember.Service.extend({
   localStorage: Ember.inject.service(),
 
-  getOrderStateFilters: Ember.computed(function() {
-    return this.get('localStorage').read('orderStateFilters', []);
-  }),
+  orderStateFilters: PERSISTENT_VAR("orderStateFilters", []),
 
-  getOrderTypeFilters: Ember.computed(function() {
-    return this.get('localStorage').read('orderTypeFilters', []);
-  }),
+  orderTypeFilters: PERSISTENT_VAR("orderTypeFilters", []),
 
-  getItemStateFilters: Ember.computed(function(){
-    return this.get('localStorage').read('itemStateFilters', []);
-  }),
+  orderTimeFilters: PERSISTENT_VAR("orderTimeFilters", []),
 
-  getItemLocationFilters: Ember.computed(function(){
-    return this.get('localStorage').readString('itemLocationFilters');
-  }),
+  itemStateFilters: PERSISTENT_VAR("itemStateFilters", []),
+
+  itemLocationFilters: PERSISTENT_VAR("itemLocationFilters", ""),
 
   isPriority() {
-    if (this.get('getOrderStateFilters')) {
-      return this.get('getOrderStateFilters').indexOf('showPriority') >= 0;
-    }
-  },
-
-  setStateTypeFilter(states) {
-    this.get('localStorage').write('orderStateFilters', states);
+    const filters = this.get("orderStateFilters");
+    return filters && filters.indexOf("showPriority") >= 0;
   },
 
   clearFilters() {
-    this.get('localStorage').remove('orderStateFilters');
-    this.get('localStorage').remove('orderTypeFilters');
+    this.set("orderStateFilters", []);
+    this.set("orderTypeFilters", []);
   }
-
 });

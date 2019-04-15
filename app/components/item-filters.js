@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import Ember from "ember";
 
 // --HELPERS
 function setFilter(filter, val) {
@@ -24,8 +24,8 @@ export default Ember.Component.extend({
 
   //Marks filters as selected depending on pre-selected set of filters
   didInsertElement() {
-    if(this.get("applyStateFilter")) {
-      this.filterService.get('getItemStateFilters').forEach(checkFilter);
+    if (this.get("applyStateFilter")) {
+      this.get("filterService.itemStateFilters").forEach(checkFilter);
     }
   },
 
@@ -33,12 +33,17 @@ export default Ember.Component.extend({
   addToLocalStorageAndRedirect(filterType, localStorageName) {
     let appliedFilters = [];
     filterType.forEach(state => {
-      if(Ember.$(`#${state}`)[0].checked) {
+      if (Ember.$(`#${state}`)[0].checked) {
         appliedFilters.push(state); // jshint ignore:line
       }
     });
-    window.localStorage.setItem(localStorageName, JSON.stringify(appliedFilters));
-    this.get('router').transitionTo("items.index", { queryParams: { locationFilterChanged: null } });
+    window.localStorage.setItem(
+      localStorageName,
+      JSON.stringify(appliedFilters)
+    );
+    this.get("router").transitionTo("items.index", {
+      queryParams: { locationFilterChanged: null }
+    });
   },
 
   //Removes applied filters (Generic for all filters)
@@ -48,16 +53,19 @@ export default Ember.Component.extend({
 
   actions: {
     applyFilters() {
-      if(JSON.parse(this.get("applyStateFilter"))) {
-        let allStatesFilters = this.get("stateFilters").concat(this.get("publishFilters")).concat(this.get("imageFilters"));
+      if (JSON.parse(this.get("applyStateFilter"))) {
+        let allStatesFilters = this.get("stateFilters")
+          .concat(this.get("publishFilters"))
+          .concat(this.get("imageFilters"));
         this.addToLocalStorageAndRedirect(allStatesFilters, "itemStateFilters");
-        this.get('filterService').notifyPropertyChange("getItemStateFilters");
       }
     },
 
     clearFilters() {
-      if(JSON.parse(this.get("applyStateFilter"))) {
-        let allStatesFilters = this.get("stateFilters").concat(this.get("publishFilters")).concat(this.get("imageFilters"));
+      if (JSON.parse(this.get("applyStateFilter"))) {
+        let allStatesFilters = this.get("stateFilters")
+          .concat(this.get("publishFilters"))
+          .concat(this.get("imageFilters"));
         this.clearFiltersFromLocalStorage(allStatesFilters);
       }
     }

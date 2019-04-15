@@ -1,25 +1,36 @@
 import Ember from "ember";
 
+const LS = window.localStorage;
+
+// --- Helpers
+
+function serialize(data) {
+  return JSON.stringify({ data });
+}
+
+function deserialize(str) {
+  try {
+    const obj = JSON.parse(str);
+    return obj && obj.data;
+  } catch (e) {
+    console.error(e);
+    return null;
+  }
+}
+
+// --- Service
+
 export default Ember.Service.extend({
   read(key, defaultValue) {
-    return JSON.parse(window.localStorage.getItem(key)) || defaultValue;
-  },
-
-  readString(key, defaultValue) {
-    return window.localStorage.getItem(key) || defaultValue;
+    return deserialize(LS.getItem(key)) || defaultValue;
   },
 
   write(key, val) {
-    this.writeString(key, JSON.stringify(val));
-    return val;
-  },
-
-  writeString(key, val) {
-    window.localStorage.setItem(key, val);
+    LS.setItem(key, serialize(val));
     return val;
   },
 
   remove(key) {
-    window.localStorage.removeItem(key);
+    LS.removeItem(key);
   }
 });

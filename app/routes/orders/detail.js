@@ -1,3 +1,4 @@
+import Cache from "../../utils/cache";
 import getOrderRoute from "./get_order";
 import Ember from "ember";
 
@@ -66,26 +67,16 @@ export default getOrderRoute.extend({
   },
 
   model(params) {
-    return this.loadIfAbsent("designation", params.order_id);
-  },
+    const store = this.get("store");
+    const model = "designation";
+    const id = params.order_id;
 
-  afterModel(model) {
-    if (!model) {
-      return;
-    }
-
-    const tasks = [
-      this.store.query("orders_package", {
-        search_by_order_id: model.get("id")
-      })
-    ];
-
-    let organisationId = model.get("gcOrganisationId");
-    if (organisationId) {
-      tasks.push(this.loadIfAbsent("gcOrganisation", organisationId));
-    }
-
-    return Ember.RSVP.all(tasks);
+    return Cache.exec(`designation:${id}`, () => {
+      // We ensure that the order has been fully loaded at least once.
+      return store.findRecord(model, id, { reload: true });
+    }).then(() => {
+      return store.peekRecord(model, id);
+    });
   },
 
   setupController(controller, model) {
