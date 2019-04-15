@@ -53,7 +53,7 @@ export default Ember.Component.extend({
   applyFilter(filters, name) {
     let filterService = this.get("filterService");
     let appliedFilters = filters.filter(isChecked);
-    filterService.set(filters, name);
+    filterService.set(name, appliedFilters);
     this.get("router").transitionTo("orders.index");
   },
 

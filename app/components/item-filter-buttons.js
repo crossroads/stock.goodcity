@@ -21,7 +21,6 @@ export default Ember.Component.extend({
   //Changes name and css of button depending on filters applied
   didRender() {
     this._super(...arguments);
-    let localStorage = window.localStorage;
     let itemStateFilters = this.get("filterService.itemStateFilters");
     if (itemStateFilters && itemStateFilters.length) {
       itemStateFilters = this.removeA(

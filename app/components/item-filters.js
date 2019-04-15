@@ -13,6 +13,10 @@ function uncheckFilter(filter) {
   setFilter(filter, false);
 }
 
+function isChecked(filter) {
+  return Ember.$(`#${filter}`)[0].checked;
+}
+
 // ---Component
 
 export default Ember.Component.extend({
@@ -29,44 +33,38 @@ export default Ember.Component.extend({
     }
   },
 
-  //Adds applied filters to localStorage as an array and redirects (Generic for all filters)
-  addToLocalStorageAndRedirect(filterType, localStorageName) {
-    let appliedFilters = [];
-    filterType.forEach(state => {
-      if (Ember.$(`#${state}`)[0].checked) {
-        appliedFilters.push(state); // jshint ignore:line
-      }
-    });
-    window.localStorage.setItem(
-      localStorageName,
-      JSON.stringify(appliedFilters)
-    );
+  // Adds applied filters to localStorage as an array and redirects
+  applyFilter(filters, name) {
+    let filterService = this.get("filterService");
+    let appliedFilters = filters.filter(isChecked);
+
+    filterService.set(name, appliedFilters);
     this.get("router").transitionTo("items.index", {
       queryParams: { locationFilterChanged: null }
     });
   },
 
-  //Removes applied filters (Generic for all filters)
-  clearFiltersFromLocalStorage(filters) {
-    filters.forEach(uncheckFilter); // jshint ignore:line
+  // Removes applied filters (Generic for all filters)
+  uncheckAll(filters) {
+    filters.forEach(uncheckFilter);
   },
 
   actions: {
     applyFilters() {
-      if (JSON.parse(this.get("applyStateFilter"))) {
+      if (this.get("applyStateFilter")) {
         let allStatesFilters = this.get("stateFilters")
           .concat(this.get("publishFilters"))
           .concat(this.get("imageFilters"));
-        this.addToLocalStorageAndRedirect(allStatesFilters, "itemStateFilters");
+        this.applyFilter(allStatesFilters, "itemStateFilters");
       }
     },
 
     clearFilters() {
-      if (JSON.parse(this.get("applyStateFilter"))) {
+      if (this.get("applyStateFilter")) {
         let allStatesFilters = this.get("stateFilters")
           .concat(this.get("publishFilters"))
           .concat(this.get("imageFilters"));
-        this.clearFiltersFromLocalStorage(allStatesFilters);
+        this.uncheckAll(allStatesFilters);
       }
     }
   }
