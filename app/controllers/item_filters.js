@@ -34,12 +34,10 @@ export default searchModule.extend({
       )
         .then(data => {
           if (this.get("searchText") === data.meta.search) {
+            let area = "(All areas)";
             let buildingNames = data.getEach("building").uniq();
-            buildingNames.forEach(buildingName => {
-              this.store.createRecord("location", {
-                building: buildingName,
-                area: "(All areas)"
-              });
+            buildingNames.forEach(building => {
+              this.store.createRecord("location", { building, area });
             });
             this.set("model", this.store.peekAll("location"));
             this.set("hasNoResults", !data.get("length"));

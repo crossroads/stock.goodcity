@@ -48,10 +48,9 @@ export default searchModule.extend({
       if (this.get("unloadAll")) {
         UNLOAD_MODELS.forEach(model => this.store.unloadAll(model));
       }
-      const paginationOpts = this.createFilterParams();
       this.infinityModel(
         this.get("searchModelName"),
-        paginationOpts,
+        this.createFilterParams(),
         this.buildQueryParamMap()
       )
         .then(data => {
