@@ -30,9 +30,9 @@
           {{partial 'loading'}}
         </div>
       {{else}}
-        {{#if filteredResults}}
+        {{#if model}}
           <ul class="list list-activity">
-            {{#each filteredResults as |organisation|}}
+            {{#each model as |organisation|}}
               <li>
               {{#link-to 'organisations.detail' organisation.id tagName='div' href=false}}
                 <div class="row">
@@ -47,10 +47,9 @@
               {{/link-to}}
               </li>
             {{/each}}
-          </ul>
+            {{infinity-loader infinityModel=model}}
 
-          {{#infinity-loader}}
-          {{/infinity-loader}}
+          </ul>
 
         {{else if hasNoResults}}
           <div class='no_result'>{{t "no_search_results"}}</div>
