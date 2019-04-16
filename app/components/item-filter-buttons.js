@@ -1,29 +1,16 @@
 import Ember from "ember";
+import _ from "lodash";
 
 export default Ember.Component.extend({
   i18n: Ember.inject.service(),
   filterService: Ember.inject.service(),
-
-  removeA(arr) {
-    var what,
-      a = arguments,
-      L = a.length,
-      ax;
-    while (L > 1 && arr.length) {
-      what = a[--L];
-      while ((ax = arr.indexOf(what)) !== -1) {
-        arr.splice(ax, 1);
-      }
-    }
-    return arr;
-  },
 
   //Changes name and css of button depending on filters applied
   didRender() {
     this._super(...arguments);
     let itemStateFilters = this.get("filterService.itemStateFilters");
     if (itemStateFilters && itemStateFilters.length) {
-      itemStateFilters = this.removeA(
+      _.pull(
         itemStateFilters,
         "published_and_private",
         "with_and_without_images"
