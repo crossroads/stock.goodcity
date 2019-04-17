@@ -25,36 +25,26 @@
 <section class="main-section organisation_search_result">
   <div class="row search">
     <div class="small-12 columns">
-      {{#if isLoading}}
-        <div class="loading_screen">
-          {{partial 'loading'}}
-        </div>
-      {{else}}
-        {{#if model}}
-          <ul class="list list-activity">
-            {{#each model as |organisation|}}
-              <li>
-              {{#link-to 'organisations.detail' organisation.id tagName='div' href=false}}
-                <div class="row">
-                  <div class="small-12 columns">
-                    {{organisation.nameEn}}
-                  </div>
+      {{#infinite-list loadMore=(action "loadSearchOrganisation")}}
+        <ul class="list list-activity" style="overflow: auto;">
+          {{#each fetchedResults as |organisation|}}
+            <li>
+            {{#link-to 'organisations.detail' organisation.id tagName='div' href=false}}
+              <div class="row">
+                <div class="small-12 columns">
+                  {{organisation.nameEn}}
                 </div>
-                 <div class="row">
-                  {{organisation.ordersCount}} {{t 'orders'}}
-                  {{organisation.usersCount}} <i>{{fa-icon 'users'}}</i>
-                </div>
-              {{/link-to}}
-              </li>
-            {{/each}}
-            {{infinity-loader infinityModel=model}}
+              </div>
+               <div class="row">
+                {{organisation.ordersCount}} {{t 'orders'}}
+                {{organisation.usersCount}} <i>{{fa-icon 'users'}}</i>
+              </div>
+            {{/link-to}}
+            </li>
+          {{/each}}
+        </ul>
+      {{/infinite-list}}
 
-          </ul>
-
-        {{else if hasNoResults}}
-          <div class='no_result'>{{t "no_search_results"}}</div>
-        {{/if}}
-      {{/if}}
     </div>
 
   </div>

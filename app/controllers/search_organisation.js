@@ -1,34 +1,40 @@
 import Ember from "ember";
 import searchModule from "./search_module";
+const { getOwner } = Ember;
 
 export default searchModule.extend({
   minSearchTextLength: 3,
+  fetchedResults: [],
+  startingPage: 0,
 
-  onSearchTextChange: Ember.observer("searchText", function(){
-    if(this.get('searchText').length){
-      Ember.run.debounce(this, this.applyFilter, 500);
+  onSearchTextChange: Ember.observer("searchText", function() {
+    if (this.get("searchText").length) {
+      Ember.run.debounce(this, this.fetchRecord, 500);
     } else {
-      this.set("filteredResults", []);
+      this.set("fetchedResults", []);
     }
   }),
 
-  applyFilter() {
-    var searchText = this.get("searchText");
+  fetchRecord() {
+    const searchText = this.get("searchText");
     if (searchText.length > this.get("minSearchTextLength")) {
-      this.set("isLoading", true);
-      this.set("hasNoResults", false);
-      if(this.get("unloadAll")) { this.get("store").unloadAll(); }
-
-      this.infinityModel("gcOrganisation",
-        { startingPage: 1, perPage: 25, modelPath: 'filteredResults',stockRequest: true },
-        { searchText: "searchText"}).then(data => {
-          if(this.get("searchText") === data.meta.search) {
-            this.set("filteredResults", data);
-            this.set("hasNoResults", data.get("length") === 0);
-          }
-        }).finally(() => this.set("isLoading", false));
+      let currentPage = this.get("startingPage") + 1;
+      let loadingView = getOwner(this)
+        .lookup("component:loading")
+        .append();
+      this.store
+        .query("gcOrganisation", {
+          perPage: 12,
+          startingPage: currentPage,
+          searchText: searchText
+        })
+        .then(data => {
+          let updatedData = this.get("fetchedResults").pushObject(data);
+          this.set("fetchedResults", updatedData);
+          this.set("startingPage", currentPage);
+        })
+        .finally(() => loadingView.destroy());
     }
-    this.set("filteredResults", []);
   },
 
   actions: {
@@ -36,6 +42,11 @@ export default searchModule.extend({
       Ember.$("#searchText").blur();
       this.send("clearSearch", true);
       this.transitionToRoute("app_menu_list");
+    },
+
+    loadSearchOrganisation() {
+      console.log("gcOrganisation called");
+      this.fetchRecord();
     }
   }
 });
