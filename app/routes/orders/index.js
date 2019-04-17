@@ -16,7 +16,13 @@ export default AuthorizeRoute.extend({
     return /^orders\..+$/.test(this.previousPage(transition));
   },
 
+  firstLoad: true,
   hasModifiedFilters(transition) {
+    if (this.firstLoad && this.get("filterService.hasOrderFilters")) {
+      // Filters set during the previous session
+      this.firstLoad = false;
+      return true;
+    }
     return this.previousPage(transition) === "order_filters";
   },
 
@@ -66,10 +72,12 @@ export default AuthorizeRoute.extend({
 
     const { preloaded, hasModifiedFilters } = model;
     if (preloaded) {
+      // Display pre-loaded content
       controller.set("searchText", "");
       controller.set("filteredResults", preloaded);
     } else if (hasModifiedFilters) {
-      controller.onFilterChange();
+      // Re-trigger the search after the filters have changed
+      controller.onFilterChange({ force: true });
     }
   },
   /* jshint ignore:end */

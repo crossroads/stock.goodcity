@@ -75,7 +75,7 @@ export default getOrderRoute.extend({
       // We ensure that the order has been fully loaded at least once.
       return store.findRecord(model, id, { reload: true });
     }).then(() => {
-      return store.peekRecord(model, id);
+      return this.loadIfAbsent(model, id);
     });
   },
 

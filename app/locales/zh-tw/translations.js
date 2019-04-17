@@ -148,6 +148,18 @@ export default {
     dispatched_info: "Entire quantity was previously sent out"
   },
   order_filters: {
+    time_presets: {
+      overdue: "Overdue",
+      today: "Today",
+      tomorrow: "Tomorrow",
+      week: "This week",
+      next_week: "Next week",
+      month: "This month",
+      next_month: "Next month"
+    },
+    button_state: "State",
+    button_type: "Type",
+    button_due: "Due",
     priority: "Priority",
     apply_filter_button: "Apply Filter",
     clear_button: "Clear",

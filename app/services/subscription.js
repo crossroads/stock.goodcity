@@ -120,6 +120,10 @@ export default Ember.Service.extend(Ember.Evented, {
   },
 
   wire() {
+    if (config.environment === "test") {
+      return;
+    }
+
     let updateStatus = Ember.run.bind(this, this.updateStatus);
     let socket = io(this.get("connectUrl"), {
       autoConnect: false,
