@@ -1,5 +1,5 @@
 import searchModule from "./search_module";
-import Ember from 'ember';
+import Ember from "ember";
 
 export default searchModule.extend({
   searchModelName: "location",
@@ -15,7 +15,7 @@ export default searchModule.extend({
     return {
       perPage: 25,
       startingPage: 1,
-      modelPath: 'sortedLocations',
+      modelPath: "sortedLocations",
       stockRequest: true
     };
   },
@@ -27,36 +27,42 @@ export default searchModule.extend({
       this.set("hasNoResults", false);
       this.store.unloadAll("location");
 
-      this.infinityModel(this.get("searchModelName"),
+      this.infinityModel(
+        this.get("searchModelName"),
         this.paginationOpts(),
         this.buildQueryParamMap()
-      ).then(data => {
-        if(this.get("searchText") === data.meta.search) {
-          let buildingNames = data.getEach("building").uniq();
-          buildingNames.forEach(buildingName => {
-            this.store.createRecord("location", { building: buildingName, area: "(All areas)" });
-          });
-          this.set("model", this.store.peekAll("location"));
-          this.set("hasNoResults", !data.get("length"));
-        }
-      })
-      .finally(() => this.set("isLoading", false));
+      )
+        .then(data => {
+          if (this.get("searchText") === data.meta.search) {
+            let area = "(All areas)";
+            let buildingNames = data.getEach("building").uniq();
+            buildingNames.forEach(building => {
+              this.store.createRecord("location", { building, area });
+            });
+            this.set("model", this.store.peekAll("location"));
+            this.set("hasNoResults", !data.get("length"));
+          }
+        })
+        .finally(() => this.set("isLoading", false));
     }
     this.set("model", []);
   },
 
   actions: {
     setLocation(location) {
-      window.localStorage.removeItem("itemLocationFilters");
-      window.localStorage.setItem("itemLocationFilters", location.get("name"));
-      this.get('filterService').notifyPropertyChange('getItemLocationFilters');
-      this.transitionToRoute("items.index", { queryParams: { locationFilterChanged: true } });
+      this.get("filterService").set(
+        "itemLocationFilters",
+        location.get("name")
+      );
+      this.transitionToRoute("items.index", {
+        queryParams: { locationFilterChanged: true }
+      });
     },
     clearLocationAndRedirect() {
-      window.localStorage.removeItem("itemLocationFilters");
-      this.get('filterService').notifyPropertyChange("getItemLocationFilters");
-      this.transitionToRoute("items.index", { queryParams: { locationFilterChanged: true } });
+      this.get("filterService").set("itemLocationFilters", "");
+      this.transitionToRoute("items.index", {
+        queryParams: { locationFilterChanged: true }
+      });
     }
   }
 });
-

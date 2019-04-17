@@ -154,6 +154,7 @@ export default {
     apply_filter_button: "Apply Filter",
     clear_button: "Clear",
     type_filter_title: "Order Types",
+    time_filter_title: "Order Due Date",
     state_filter_title: "Order Statuses",
     appointment: "Appointments",
     appointment_info:

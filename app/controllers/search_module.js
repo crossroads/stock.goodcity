@@ -40,7 +40,7 @@ export default Ember.Controller.extend(InfinityRoute, {
   minSearchTextLength: 0,
   searchInput: null,
   toDesignateItem: null,
-  excludeAssociations: false,
+  excludeAssociations: true,
   requestOptions: {},
 
   hasSearchText: Ember.computed("searchText", function() {
@@ -90,13 +90,13 @@ export default Ember.Controller.extend(InfinityRoute, {
         UNLOAD_MODELS.forEach(model => this.store.unloadAll(model));
       }
 
-      let filter = filterService.get("getOrderStateFilters");
+      let filter = filterService.get("orderStateFilters");
 
       let isPriority = filterService.isPriority();
       if (isPriority) {
         filter.shift();
       }
-      let typesFilter = filterService.get("getOrderTypeFilters");
+      let typesFilter = filterService.get("orderTypeFilters");
       const paginationOpts = {
         perPage: 25,
         startingPage: 1,
@@ -112,11 +112,6 @@ export default Ember.Controller.extend(InfinityRoute, {
         this.buildQueryParamMap()
       )
         .then(data => {
-          data.forEach(record => {
-            if (this.onItemLoaded) {
-              this.onItemLoaded(record);
-            }
-          });
           if (this.get("searchText") === data.meta.search) {
             this.set("filteredResults", data);
             this.set("hasNoResults", data.get("length") === 0);

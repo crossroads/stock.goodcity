@@ -1,10 +1,9 @@
-import config from '../../config/environment';
+import config from "../../config/environment";
 import Ember from "ember";
 import searchModule from "../search_module";
 
 export default searchModule.extend({
-
-  queryParams: ['searchInput', "itemSetId", "locationFilterChanged"],
+  queryParams: ["searchInput", "itemSetId", "locationFilterChanged"],
   searchInput: "",
   itemSetId: null,
   locationFilterChanged: null,
@@ -14,7 +13,7 @@ export default searchModule.extend({
   searchModelName: "item",
   minSearchTextLength: 2,
   requestOptions: {
-    withInventoryNumber: 'true'
+    withInventoryNumber: "true"
   },
 
   onFilterChange() {
@@ -24,15 +23,15 @@ export default searchModule.extend({
     }
   },
 
-  createFilterParams(){
-    let filterService = this.get('filterService');
+  createFilterParams() {
+    let filterService = this.get("filterService");
     let utilities = this.get("utilityMethods");
-    let itemStateFilters = filterService.get('getItemStateFilters');
-    let itemlocationFilter = filterService.get('getItemLocationFilters');
+    let itemStateFilters = filterService.get("itemStateFilters");
+    let itemlocationFilter = filterService.get("itemLocationFilters");
     return {
       perPage: 25,
       startingPage: 1,
-      modelPath: 'filteredResults',
+      modelPath: "filteredResults",
       stockRequest: true,
       state: utilities.stringifyArray(itemStateFilters) || "received",
       location: itemlocationFilter
@@ -41,28 +40,26 @@ export default searchModule.extend({
 
   applyFilter() {
     var searchText = this.get("searchText");
-    let UNLOAD_MODELS = [ "designation", "item", "location", "code"];
+    let UNLOAD_MODELS = ["designation", "item", "location", "code"];
 
     if (searchText.length) {
       this.set("isLoading", true);
       this.set("hasNoResults", false);
-      if(this.get("unloadAll")) {  UNLOAD_MODELS.forEach((model) => this.store.unloadAll(model)); }
-      const paginationOpts = this.createFilterParams();
-      this.infinityModel(this.get("searchModelName"),
-        paginationOpts,
+      if (this.get("unloadAll")) {
+        UNLOAD_MODELS.forEach(model => this.store.unloadAll(model));
+      }
+      this.infinityModel(
+        this.get("searchModelName"),
+        this.createFilterParams(),
         this.buildQueryParamMap()
-      ).then(data => {
-        data.forEach(record => {
-          if (this.onItemLoaded) {
-            this.onItemLoaded(record);
+      )
+        .then(data => {
+          if (this.get("searchText") === data.meta.search) {
+            this.set("filteredResults", data);
+            this.set("hasNoResults", data.get("length") === 0);
           }
-        });
-        if(this.get("searchText") === data.meta.search) {
-          this.set("filteredResults", data);
-          this.set("hasNoResults", data.get("length") === 0);
-        }
-      })
-      .finally(() => this.set("isLoading", false));
+        })
+        .finally(() => this.set("isLoading", false));
     }
     this.set("filteredResults", []);
   },

@@ -25,6 +25,8 @@ cordova/www
 cordova/platforms
 cordova/plugins/*
 cordova/.secret_keys
+cordova/node_modules
+
 
 # iOS
 *.xcuserdatad
