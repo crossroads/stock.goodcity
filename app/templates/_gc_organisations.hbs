@@ -1,0 +1,13 @@
+<li>
+  {{#link-to 'organisations.detail' organisation.id tagName='div' href=false}}
+    <div class="row">
+      <div class="small-12 columns">
+        {{organisation.nameEn}}
+      </div>
+    </div>
+     <div class="row">
+      {{organisation.ordersCount}} {{t 'orders'}}
+      {{organisation.usersCount}} <i>{{fa-icon 'users'}}</i>
+    </div>
+  {{/link-to}}
+</li>

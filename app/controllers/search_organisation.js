@@ -6,6 +6,7 @@ export default searchModule.extend({
   minSearchTextLength: 3,
   fetchedResults: [],
   startingPage: 0,
+  searchedText: "",
 
   onSearchTextChange: Ember.observer("searchText", function() {
     if (this.get("searchText").length) {
@@ -17,24 +18,7 @@ export default searchModule.extend({
 
   fetchRecord() {
     const searchText = this.get("searchText");
-    if (searchText.length > this.get("minSearchTextLength")) {
-      let currentPage = this.get("startingPage") + 1;
-      let loadingView = getOwner(this)
-        .lookup("component:loading")
-        .append();
-      this.store
-        .query("gcOrganisation", {
-          perPage: 12,
-          startingPage: currentPage,
-          searchText: searchText
-        })
-        .then(data => {
-          let updatedData = this.get("fetchedResults").pushObject(data);
-          this.set("fetchedResults", updatedData);
-          this.set("startingPage", currentPage);
-        })
-        .finally(() => loadingView.destroy());
-    }
+    this.set("searchedText", searchText);
   },
 
   actions: {

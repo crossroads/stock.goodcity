@@ -25,26 +25,12 @@
 <section class="main-section organisation_search_result">
   <div class="row search">
     <div class="small-12 columns">
-      {{#infinite-list loadMore=(action "loadSearchOrganisation")}}
-        <ul class="list list-activity" style="overflow: auto;">
-          {{#each fetchedResults as |organisation|}}
-            <li>
-            {{#link-to 'organisations.detail' organisation.id tagName='div' href=false}}
-              <div class="row">
-                <div class="small-12 columns">
-                  {{organisation.nameEn}}
-                </div>
-              </div>
-               <div class="row">
-                {{organisation.ordersCount}} {{t 'orders'}}
-                {{organisation.usersCount}} <i>{{fa-icon 'users'}}</i>
-              </div>
-            {{/link-to}}
-            </li>
-          {{/each}}
-        </ul>
-      {{/infinite-list}}
-
+      {{infinite-list
+        searchText= searchedText
+        partialName = 'gc_organisations'
+        model = 'gc_organisation'
+        per_page = 15
+      }}
     </div>
 
   </div>
