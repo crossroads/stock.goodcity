@@ -1,5 +1,1 @@
-<ul class="list list-activity" style="overflow: auto;">
-  {{#each fetchData.content as |organisation|}}
-    {{partial partialName}}
-  {{/each}}
-</ul>
+{{yield filteredContent}}

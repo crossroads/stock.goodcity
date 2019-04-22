@@ -37,7 +37,7 @@ export default Model.extend({
   beneficiary: belongsTo("beneficiary", { async: false }),
   stockitContact: belongsTo("stockit_contact", { async: false }),
   organisation: belongsTo("organisation", { async: false }),
-  gcOrganisation: belongsTo("gcOrganisation", { async: false }),
+  gcOrganisation: belongsTo("gcOrganisation", { async: true }),
   localOrder: belongsTo("local_order", { async: false }),
   items: hasMany("item", { async: true }),
   goodcityRequests: hasMany("goodcity_request", { async: false }),

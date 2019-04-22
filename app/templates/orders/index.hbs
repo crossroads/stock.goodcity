@@ -16,27 +16,19 @@
 <section class="main-section orders_search_result">
   <div class="row search">
     <div class="small-12 columns">
-      {{#if isLoading}}
-        <div class="loading_screen">
-          {{partial 'loading'}}
-        </div>
-      {{/if}}
-
-      {{#if filteredResults}}
-        <ul class="list list-activity list-offer-items">
-          {{#each filteredResults as |order|}}
-            {{#link-to 'orders.items_list' order href=false}}
-              {{partial 'orders/order_block'}}
-            {{/link-to}}
-          {{/each}}
-        </ul>
-
-        {{#infinity-loader}}
-        {{/infinity-loader}}
-
-      {{else if hasNoResults}}
-        <div class='no_result'>{{t "no_search_results"}}</div>
-      {{/if}}
+      <div class="small-12 columns">
+        {{#infinite-list model='designation'
+          opts=optionalParams
+          per_page = 15 as |filteredContent|}}
+          <ul class="list list-activity list-offer-items">
+            {{#each filteredContent as |order|}}
+              {{#link-to 'orders.items_list' order href=false}}
+                {{partial 'orders/order_block'}}
+              {{/link-to}}
+            {{/each}}
+          </ul>
+        {{/infinite-list}}
+      </div>
     </div>
   </div>
   {{partial "sticky_footer"}}

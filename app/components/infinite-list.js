@@ -2,18 +2,18 @@ import Ember from "ember";
 const { getOwner } = Ember;
 
 export default Ember.Component.extend({
-  tagName: "div",
-  partialName: "",
-  store: Ember.inject.service(),
   model: "",
   per_page: "",
-  searchText: "",
   page: 1,
   toggle: false,
   filteredResults: [],
   totalPages: 1,
+  oldSearchedText: "",
+  opts: null,
 
-  allData: Ember.computed(
+  store: Ember.inject.service(),
+
+  filteredContent: Ember.computed(
     "toggle",
     "filteredResults",
     "filteredResults.[]",
@@ -22,7 +22,7 @@ export default Ember.Component.extend({
     }
   ),
 
-  didRender() {
+  didInsertElement() {
     this._super(...arguments);
     let _this = this;
     Ember.$("body").on("scroll", function() {
@@ -46,29 +46,46 @@ export default Ember.Component.extend({
     }
   },
 
-  fetchData: Ember.observer("searchText", "page", function() {
-    if (this.get("searchText").length) {
-      const model = this.get("model");
-      const per_page = this.get("per_page");
-
-      let loadingView = getOwner(this)
-        .lookup("component:loading")
-        .append();
-      this.get("store")
-        .query(model, {
-          per_page: 12,
-          page: this.get("page"),
-          searchText: this.get("searchText")
-        })
-        .then(data => {
-          const newPageData = data.content;
-          let filteredData = this.get("filteredResults");
-          newPageData.forEach(data => filteredData.push(data));
-          this.set("filteredResults", filteredData);
-          this.toggleProperty("toggle");
-          this.set("totalPages", data.meta.total_pages);
-        })
-        .finally(() => loadingView.destroy());
+  clearOldSearchedData: Ember.observer("opts", function() {
+    if (this.get("opts.searchText") !== this.get("oldSearchedText")) {
+      this.set("filteredResults", []);
     }
-  })
+  }),
+
+  params() {
+    const per_page = this.get("per_page");
+    let defaultObject = {
+      per_page: this.get("per_page") || 25,
+      page: this.get("page")
+    };
+    return Object.assign(defaultObject, this.get("opts"));
+  },
+
+  fetchData: Ember.observer("opts", "page", function() {
+    const model = this.get("model");
+    let loadingView = getOwner(this)
+      .lookup("component:loading")
+      .append();
+
+    this.get("store")
+      .query(model, this.params())
+      .then(data => {
+        this.get("store").pushPayload(data);
+        const newPageData = data.content;
+        let filteredData = this.get("filteredResults");
+        newPageData.forEach(data => {
+          let record = this.get("store").peekRecord("designation", data.id);
+          filteredData.push(record);
+        });
+        this.set("filteredResults", filteredData);
+        this.toggleProperty("toggle");
+        this.set("totalPages", data.meta.total_pages);
+        this.set("oldSearchedText", data.meta.search);
+      })
+      .finally(() => loadingView.destroy());
+  }),
+
+  willDestroyElement() {
+    Ember.$("body").unbind();
+  }
 });
