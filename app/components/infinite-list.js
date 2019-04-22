@@ -1,4 +1,5 @@
 import Ember from "ember";
+const { getOwner } = Ember;
 
 export default Ember.Component.extend({
   tagName: "div",
@@ -8,7 +9,18 @@ export default Ember.Component.extend({
   per_page: "",
   searchText: "",
   page: 1,
+  toggle: false,
   filteredResults: [],
+  totalPages: 1,
+
+  allData: Ember.computed(
+    "toggle",
+    "filteredResults",
+    "filteredResults.[]",
+    function() {
+      return this.get("filteredResults");
+    }
+  ),
 
   didRender() {
     this._super(...arguments);
@@ -23,38 +35,40 @@ export default Ember.Component.extend({
       $(self).scrollTop() + $(self).innerHeight() >=
       $(self)[0].scrollHeight - 100
     ) {
-      Ember.$("body").unbind();
-      $("body").animate({ scrollTop: $(self)[0].scrollHeight - 1000 });
-      Ember.run.debounce(this, this.fetchMore, 100);
+      Ember.run.debounce(this, this.incrementPage, 100);
     }
   },
 
-  fetchMore() {
+  incrementPage() {
     let incrementPageSize = this.get("page") + 1;
-    this.set("page", incrementPageSize);
+    if (this.get("page") < this.get("totalPages")) {
+      this.set("page", incrementPageSize);
+    }
   },
 
-  fetchData: Ember.computed("searchText", "page", function() {
+  fetchData: Ember.observer("searchText", "page", function() {
     if (this.get("searchText").length) {
-      const ObjectPromiseProxy = Ember.ObjectProxy.extend(
-        Ember.PromiseProxyMixin
-      );
       const model = this.get("model");
       const per_page = this.get("per_page");
 
-      let promise = this.get("store").query(model, {
-        per_page: 12,
-        page: 1,
-        searchText: this.get("searchText")
-      });
-      let responseObject = ObjectPromiseProxy.create({ promise });
-      responseObject.catch(() => {});
-      return responseObject;
+      let loadingView = getOwner(this)
+        .lookup("component:loading")
+        .append();
+      this.get("store")
+        .query(model, {
+          per_page: 12,
+          page: this.get("page"),
+          searchText: this.get("searchText")
+        })
+        .then(data => {
+          const newPageData = data.content;
+          let filteredData = this.get("filteredResults");
+          newPageData.forEach(data => filteredData.push(data));
+          this.set("filteredResults", filteredData);
+          this.toggleProperty("toggle");
+          this.set("totalPages", data.meta.total_pages);
+        })
+        .finally(() => loadingView.destroy());
     }
   })
-
-  // filteredData: Ember.observer('fetchData.content.content', function(){
-  //   let data = this.get('fetchData.content.content');
-  //   this.get('filteredResults').pushObject(data);
-  // })
 });
