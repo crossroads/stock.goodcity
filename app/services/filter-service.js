@@ -169,10 +169,7 @@ export default Ember.Service.extend({
     );
 
     if (preset) {
-      return {
-        preset,
-        ...this.get(`orderTimeRangePresets.${preset}`)
-      };
+      return _.extend({ preset }, this.get(`orderTimeRangePresets.${preset}`));
     }
     return { preset, after, before };
   }).volatile()

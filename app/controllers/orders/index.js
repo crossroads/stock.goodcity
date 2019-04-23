@@ -25,12 +25,12 @@ export default searchModule.extend({
     }
     let typesFilters = filterService.get("orderTypeFilters");
     let { after, before } = filterService.get("orderTimeRange");
-    let params = {
-      ...this._super(),
+    let params = _.extend({}, this._super(), {
       state: utilities.stringifyArray(stateFilters),
       type: utilities.stringifyArray(typesFilters),
       priority: isPriority
-    };
+    });
+
     if (after) {
       params.after = after.getTime();
     }
