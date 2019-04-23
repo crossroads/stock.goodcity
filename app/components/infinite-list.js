@@ -10,6 +10,8 @@ export default Ember.Component.extend({
   totalPages: 1,
   oldSearchedText: "",
   opts: null,
+  isLoadingMore: false,
+  hasMorePages: true,
 
   store: Ember.inject.service(),
 
@@ -28,6 +30,7 @@ export default Ember.Component.extend({
     Ember.$("body").on("scroll", function() {
       _this.detectPosition(this);
     });
+    //this.incrementPage();
   },
 
   detectPosition(self) {
@@ -41,13 +44,16 @@ export default Ember.Component.extend({
 
   incrementPage() {
     let incrementPageSize = this.get("page") + 1;
-    if (this.get("page") < this.get("totalPages")) {
+    if (this.get("hasMorePages")) {
       this.set("page", incrementPageSize);
     }
   },
 
   clearOldSearchedData: Ember.observer("opts", function() {
-    if (this.get("opts.searchText") !== this.get("oldSearchedText")) {
+    if (
+      this.get("opts.searchText") !== this.get("oldSearchedText") ||
+      !this.get("opts.searchText").length
+    ) {
       this.set("filteredResults", []);
     }
   }),
@@ -62,30 +68,30 @@ export default Ember.Component.extend({
   },
 
   fetchData: Ember.observer("opts", "page", function() {
-    const model = this.get("model");
-    let loadingView = getOwner(this)
-      .lookup("component:loading")
-      .append();
-
-    this.get("store")
-      .query(model, this.params())
-      .then(data => {
-        this.get("store").pushPayload(data);
-        const newPageData = data.content;
-        let filteredData = this.get("filteredResults");
-        newPageData.forEach(data => {
-          let record = this.get("store").peekRecord("designation", data.id);
-          filteredData.push(record);
-        });
-        this.set("filteredResults", filteredData);
-        this.toggleProperty("toggle");
-        this.set("totalPages", data.meta.total_pages);
-        this.set("oldSearchedText", data.meta.search);
-      })
-      .finally(() => loadingView.destroy());
+    if (this.get("opts.searchText")) {
+      const model = this.get("model");
+      this.set("isLoadingMore", true);
+      this.get("store")
+        .query(model, this.params())
+        .then(data => {
+          data.content.length
+            ? this.set("hasMorePages", true)
+            : this.set("hasMorePages", false);
+          const newPageData = data.content;
+          let filteredData = this.get("filteredResults");
+          newPageData.forEach(data => {
+            let record = this.get("store").peekRecord("designation", data.id);
+            filteredData.push(record);
+          });
+          this.set("filteredResults", filteredData);
+          this.toggleProperty("toggle");
+          this.set("oldSearchedText", data.meta.search);
+        })
+        .finally(() => this.set("isLoadingMore", false));
+    }
   }),
 
   willDestroyElement() {
-    Ember.$("body").unbind();
+    Ember.$(this).unbind();
   }
 });

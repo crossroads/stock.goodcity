@@ -13,7 +13,10 @@ export default searchModule.extend({
   utilityMethods: Ember.inject.service(),
 
   onSearchTextChange: Ember.observer("searchText", function() {
-    if (this.get("searchText").length) {
+    if (
+      this.get("searchText").length > this.get("minSearchTextLength") ||
+      !this.get("searchText").length
+    ) {
       Ember.run.debounce(this, this.fetchRecord, 500);
     }
   }),

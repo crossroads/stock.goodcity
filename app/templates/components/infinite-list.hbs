@@ -1,1 +1,4 @@
 {{yield filteredContent}}
+{{#if isLoadingMore}}
+  {{infinite-load-spinner}}
+{{/if}}
