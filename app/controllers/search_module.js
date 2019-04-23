@@ -88,9 +88,11 @@ export default Ember.Controller.extend(InfinityRoute, {
   },
 
   beforeSearch() {
-    _.each(["designation", "item", "location", "code"], m => {
-      this.get("store").unloadAll(m);
-    });
+    if (this.get("unloadAll")) {
+      _.each(["designation", "item", "location", "code"], m => {
+        this.get("store").unloadAll(m);
+      });
+    }
   },
 
   afterSearch() {

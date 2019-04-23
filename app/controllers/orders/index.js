@@ -7,6 +7,7 @@ export default searchModule.extend({
   minSearchTextLength: 2,
   queryParams: ["preload"],
   modelPath: "filteredResults",
+  unloadAll: false,
 
   afterSearch(designations) {
     this.get("store").query("order_transport", {
