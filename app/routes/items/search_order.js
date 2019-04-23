@@ -84,5 +84,12 @@ export default AuthorizeRoute.extend({
     }
     controller.set("searchText", "");
     controller.set("backLinkPath", this.get("itemDesignateBackLinkPath"));
+  },
+
+  resetController(controller, isExiting) {
+    if (isExiting) {
+      controller.set("partial_qty", undefined);
+      controller.set("isSet", undefined);
+    }
   }
 });
