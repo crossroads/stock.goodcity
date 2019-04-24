@@ -19,6 +19,23 @@ function isChecked(filter) {
   return Ember.$(`#${filter}`)[0].checked;
 }
 
+function startOfDay(date) {
+  return moment(date)
+    .startOf("day")
+    .toDate();
+}
+
+function endOfDay(date) {
+  return moment(date)
+    .endOf("day")
+    .toDate();
+}
+
+const STATE = "state";
+const TYPE = "type";
+const TIME = "time";
+const UNKNOWN = "unknown";
+
 // --- Component
 
 export default Ember.Component.extend({
@@ -52,24 +69,41 @@ export default Ember.Component.extend({
     return this.get("allOrderStateFilters").slice(1);
   }),
 
+  filterContext: Ember.computed(
+    "applyStateFilter",
+    "applyTimeFilter",
+    "applyTypeFilter",
+    function() {
+      if (this.get("applyStateFilter")) {
+        return STATE;
+      }
+      if (this.get("applyTypeFilter")) {
+        return TYPE;
+      }
+      if (this.get("applyTimeFilter")) {
+        return TIME;
+      }
+      return UNKNOWN;
+    }
+  ),
+
   // Marks filters as selected depending on pre-selected set of filters
   didInsertElement() {
     const service = this.get("filterService");
-    if (this.get("applyStateFilter")) {
-      return service.get("orderStateFilters").forEach(checkFilter);
-    }
+    const context = this.get("filterContext");
 
-    if (this.get("applyTypeFilter")) {
-      return service.get("orderTypeFilters").forEach(checkFilter);
-    }
-
-    if (this.get("applyTimeFilter")) {
-      const { preset, after, before } = service.get("orderTimeRange");
-      return this.set("selectedTimeRange", {
-        preset,
-        after: preset ? null : after,
-        before: preset ? null : before
-      });
+    switch (context) {
+      case TYPE:
+        return service.get("orderStateFilters").forEach(checkFilter);
+      case STATE:
+        return service.get("orderStateFilters").forEach(checkFilter);
+      case TIME:
+        const { preset, after, before } = service.get("orderTimeRange");
+        return this.set("selectedTimeRange", {
+          preset,
+          after: preset ? null : after,
+          before: preset ? null : before
+        });
     }
   },
 
@@ -126,36 +160,32 @@ export default Ember.Component.extend({
       }
 
       if (this.get("applyTimeFilter")) {
-        this.set("selectedTimeRange.preset", null);
-        this.set("selectedTimeRange.before", null);
-        this.set("selectedTimeRange.after", null);
+        this.clearTimeFilters();
       }
     },
 
-    selectTimePreset(presetKey) {
-      this.set("selectedTimeRange.preset", presetKey);
+    clearTimeFilters() {
+      this.set("selectedTimeRange.preset", null);
       this.set("selectedTimeRange.before", null);
       this.set("selectedTimeRange.after", null);
     },
 
+    selectTimePreset(presetKey) {
+      this.clearTimeFilters();
+      this.set("selectedTimeRange.preset", presetKey);
+    },
+
     setBeforeTime(before) {
-      this.set("selectedTimeRange.preset", null);
-      this.set(
-        "selectedTimeRange.before",
-        moment(before)
-          .endOf("day")
-          .toDate()
-      );
+      this._setRangeProperty("before", endOfDay(before));
     },
 
     setAfterTime(after) {
+      this._setRangeProperty("after", startOfDay(after));
+    },
+
+    _setRangeProperty(prop, date) {
       this.set("selectedTimeRange.preset", null);
-      this.set(
-        "selectedTimeRange.after",
-        moment(after)
-          .startOf("day")
-          .toDate()
-      );
+      this.set(`selectedTimeRange.${prop}`, date);
     }
   }
 });

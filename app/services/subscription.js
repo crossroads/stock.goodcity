@@ -124,6 +124,10 @@ export default Ember.Service.extend(Ember.Evented, {
       return;
     }
 
+    return this.setup();
+  },
+
+  setup() {
     let updateStatus = Ember.run.bind(this, this.updateStatus);
     let socket = io(this.get("connectUrl"), {
       autoConnect: false,

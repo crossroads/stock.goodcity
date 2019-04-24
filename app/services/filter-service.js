@@ -1,5 +1,6 @@
 import Ember from "ember";
 import _ from "lodash";
+import timeRanges from "../utils/time-ranges";
 
 // --- Helpers
 
@@ -72,70 +73,7 @@ export default Ember.Service.extend({
   ),
 
   orderTimeRangePresets: Ember.computed(function() {
-    return {
-      overdue: {
-        before: moment().toDate(),
-        after: null
-      },
-      today: {
-        after: moment()
-          .startOf("day")
-          .toDate(),
-        before: moment()
-          .endOf("day")
-          .toDate()
-      },
-      tomorrow: {
-        after: moment()
-          .add(1, "days")
-          .startOf("day")
-          .toDate(),
-        before: moment()
-          .add(1, "days")
-          .endOf("day")
-          .toDate()
-      },
-      week: {
-        after: moment()
-          .startOf("week")
-          .isoWeekday(2)
-          .toDate(),
-        before: moment()
-          .endOf("week")
-          .isoWeekday(2)
-          .toDate()
-      },
-      next_week: {
-        after: moment()
-          .add(1, "weeks")
-          .startOf("week")
-          .isoWeekday(2)
-          .toDate(),
-        before: moment()
-          .add(1, "weeks")
-          .endOf("week")
-          .isoWeekday(2)
-          .toDate()
-      },
-      month: {
-        after: moment()
-          .startOf("month")
-          .toDate(),
-        before: moment()
-          .endOf("month")
-          .toDate()
-      },
-      next_month: {
-        after: moment()
-          .add(1, "months")
-          .startOf("month")
-          .toDate(),
-        before: moment()
-          .add(1, "months")
-          .endOf("month")
-          .toDate()
-      }
-    };
+    return timeRanges;
   }).volatile(),
 
   /**
