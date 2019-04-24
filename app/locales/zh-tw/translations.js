@@ -472,6 +472,10 @@ export default {
   designate: {
     modify_designation: "取消指派至訂單 {{code}}",
     form_title: "指派此物資到訂單{{code}}",
+    item_already_designated:
+      "此物品已被指派至<span class='dispatched_order_code'>{{orderCode}}</span>.<br>. 如你繼續,它將會被移出該訂單!",
+    item_dispatched:
+      "此物品已被派送出至<span class='dispatched_order_code'>{{orderCode}}</span>",
     designate: "指派",
     overrides_existing: "確認重新指派物資",
     quantity: "指派{{quantity}}件",
