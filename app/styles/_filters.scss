@@ -1,6 +1,7 @@
 .filter-buttons {
   line-height: 3rem;
   .filter-button-css, .filter-button-css:hover {
+    text-transform: capitalize;
     border-radius: 10px;
     background-color: white;
     color: #8c8c8c;
@@ -53,6 +54,43 @@
       }
       @media #{$large-only} {
         margin-right: 29.2rem;
+      }
+    }
+  }
+
+  .time-filter-block {
+    .time-filter-title {
+      padding-left: 1.6rem;
+    }
+    .time_inputs {
+      padding: 1rem;
+
+      .input-container {
+        display: flex;
+        border: 1px solid white;
+        input {
+          margin-bottom: 0;
+          background: transparent;
+          color: white;
+          border: none;
+        }
+        i.fa {
+          font-size: 1.4rem;
+          line-height: 2.5rem;
+          padding-right: 1rem;
+        }
+      }
+    }
+    .row.preset {
+      text-align: center;
+      padding: 1rem;
+      border-bottom: 1px solid grey;
+      cursor: pointer;
+      .text {
+        width: 5rem;
+      }
+      &.selected {
+        background-color: rgba(255,255,255,0.1);
       }
     }
   }

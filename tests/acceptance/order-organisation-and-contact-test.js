@@ -10,6 +10,7 @@ import "../factories/gc_organisation";
 import "../factories/user";
 import "../factories/location";
 import "../factories/organisations_user";
+import MockUtils from "../helpers/mock-utils";
 import FactoryGuy from "ember-data-factory-guy";
 import { mockFindAll } from "ember-data-factory-guy";
 
@@ -28,10 +29,11 @@ var App,
 module("Acceptance: Order summary", {
   beforeEach: function() {
     App = startApp({}, 2);
-    user = FactoryGuy.make("user", {
-      mobile: "123456",
-      email: "abc@xyz"
-    });
+    MockUtils.startSession();
+    MockUtils.mockDefault();
+    MockUtils.mockOrderSummary();
+
+    user = FactoryGuy.make("user", { mobile: "123456", email: "abc@xyz" });
     var location = FactoryGuy.make("location");
     gc_organisation = FactoryGuy.make("gc_organisation");
     bookingType = FactoryGuy.make("booking_type");
@@ -61,71 +63,14 @@ module("Acceptance: Order summary", {
       item: item1,
       designation: designation
     });
-    data = {
-      user_profile: [
-        {
-          id: 2,
-          first_name: "David",
-          last_name: "Dara51",
-          mobile: "61111111",
-          user_role_ids: [1]
-        }
-      ],
-      users: [
-        {
-          id: 2,
-          first_name: "David",
-          last_name: "Dara51",
-          mobile: "61111111"
-        }
-      ],
-      roles: [
-        {
-          id: 4,
-          name: "Supervisor"
-        }
-      ],
-      user_roles: [
-        {
-          id: 1,
-          user_id: 2,
-          role_id: 4
-        }
-      ]
-    };
 
-    $.mockjax({
-      url: "/api/v1/auth/current_user_profil*",
-      responseText: data
-    });
-    $.mockjax({
+    MockUtils.mock({
       url: "/api/v1/designations/*",
       type: "GET",
       status: 200,
       responseText: {
-        designations: [
-          designation.toJSON({
-            includeId: true
-          })
-        ],
-        orders_packages: [
-          orders_package1.toJSON({
-            includeId: true
-          })
-        ]
-      }
-    });
-    $.mockjax({
-      url: "/api/v1/orders/summar*",
-      responseText: {
-        submitted: 14,
-        awaiting_dispatch: 1,
-        dispatching: 1,
-        processing: 2,
-        priority_submitted: 14,
-        priority_dispatching: 1,
-        priority_processing: 2,
-        priority_awaiting_dispatch: 1
+        designations: [designation.toJSON({ includeId: true })],
+        orders_packages: [orders_package1.toJSON({ includeId: true })]
       }
     });
 
@@ -140,57 +85,25 @@ module("Acceptance: Order summary", {
     });
 
     mockFindAll("location").returns({
-      json: {
-        locations: [
-          location.toJSON({
-            includeId: true
-          })
-        ]
-      }
+      json: { locations: [location.toJSON({ includeId: true })] }
     });
     mockFindAll("designation").returns({
       json: {
-        designations: [
-          designation.toJSON({
-            includeId: true
-          })
-        ],
-        items: [
-          item1.toJSON({
-            includeId: true
-          })
-        ],
-        orders_packages: [
-          orders_package1.toJSON({
-            includeId: true
-          })
-        ],
-        meta: {
-          search: designation.get("code").toString()
-        }
+        designations: [designation.toJSON({ includeId: true })],
+        items: [item1.toJSON({ includeId: true })],
+        orders_packages: [orders_package1.toJSON({ includeId: true })],
+        meta: { search: designation.get("code").toString() }
       }
     });
-    7718071289;
     mockFindAll("orders_package").returns({
-      json: {
-        orders_packages: [
-          orders_package1.toJSON({
-            includeId: true
-          })
-        ]
-      }
+      json: { orders_packages: [orders_package1.toJSON({ includeId: true })] }
     });
     mockFindAll("booking_type").returns({
-      json: {
-        booking_types: [
-          bookingType.toJSON({
-            includeId: true
-          })
-        ]
-      }
+      json: { booking_types: [bookingType.toJSON({ includeId: true })] }
     });
   },
   afterEach: function() {
+    MockUtils.closeSession();
     Ember.run(App, "destroy");
   }
 });

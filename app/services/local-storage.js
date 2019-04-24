@@ -1,6 +1,9 @@
 import Ember from "ember";
+import config from "../config/environment";
 
 const LS = window.localStorage;
+const ENV = config.environment;
+const isProd = /^prod/.test(ENV);
 
 // --- Helpers
 
@@ -18,19 +21,28 @@ function deserialize(str) {
   }
 }
 
+function prefixKey(key) {
+  if (isProd) {
+    return key;
+  }
+  return `${ENV}/${key}`;
+}
+
 // --- Service
 
 export default Ember.Service.extend({
   read(key, defaultValue) {
-    return deserialize(LS.getItem(key)) || defaultValue;
+    const fullKey = prefixKey(key);
+    return deserialize(LS.getItem(fullKey)) || defaultValue;
   },
 
   write(key, val) {
-    LS.setItem(key, serialize(val));
+    const fullKey = prefixKey(key);
+    LS.setItem(fullKey, serialize(val));
     return val;
   },
 
   remove(key) {
-    LS.removeItem(key);
+    LS.removeItem(prefixKey(key));
   }
 });
