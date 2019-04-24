@@ -117,7 +117,7 @@ module("Acceptance: Order resubmit", {
 
 test("Clicking on resubmit order changes order state to submitted", function(assert) {
   assert.expect(2);
-  $.mockjax({
+  MockUtils.mock({
     url: "/api/v1/designations/*",
     type: "GET",
     status: 200,
@@ -129,7 +129,7 @@ test("Clicking on resubmit order changes order state to submitted", function(ass
       ]
     }
   });
-  $.mockjax({
+  MockUtils.mock({
     url: "/api/v1/orders/" + order6.id + "/transitio*",
     type: "PUT",
     status: 200,

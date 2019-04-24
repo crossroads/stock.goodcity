@@ -135,6 +135,11 @@ export default Ember.Component.extend({
     this.set("selectedTimeRange.after", null);
   },
 
+  _setRangeProperty(prop, date) {
+    this.set("selectedTimeRange.preset", null);
+    this.set(`selectedTimeRange.${prop}`, date);
+  },
+
   actions: {
     applyFilters() {
       if (this.get("applyStateFilter")) {
@@ -181,11 +186,6 @@ export default Ember.Component.extend({
 
     setAfterTime(after) {
       this._setRangeProperty("after", startOfDay(after));
-    },
-
-    _setRangeProperty(prop, date) {
-      this.set("selectedTimeRange.preset", null);
-      this.set(`selectedTimeRange.${prop}`, date);
     }
   }
 });
