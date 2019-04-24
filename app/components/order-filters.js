@@ -1,5 +1,6 @@
 import Ember from "ember";
 import _ from "lodash";
+import { TYPE_FILTERS, STATE_FILTERS } from "../services/filter-service";
 
 // --- Helpers
 
@@ -52,21 +53,17 @@ export default Ember.Component.extend({
     return _.keys(this.get("filterService.orderTimeRangePresets"));
   }),
 
-  allOrderStateFilters: [
-    "showPriority",
-    "submitted",
-    "processing",
-    "awaiting_dispatch",
-    "dispatching",
-    "closed",
-    "cancelled"
-  ],
+  allOrderStateFilters: Ember.computed(function() {
+    return _.values(STATE_FILTERS);
+  }),
 
-  allOrderTypeFilters: ["appointment", "online_orders", "shipment"],
+  allOrderTypeFilters: Ember.computed(function() {
+    return _.values(TYPE_FILTERS);
+  }),
 
-  // To separate out "showPriority" filter as it has some different css properties than others
   orderStateFilters: Ember.computed("allOrderStateFilters.[]", function() {
-    return this.get("allOrderStateFilters").slice(1);
+    // Separate out "showPriority" filter as it has some different css properties than others
+    return _.without(this.get("allOrderStateFilters"), STATE_FILTERS.PRIORITY);
   }),
 
   filterContext: Ember.computed(
