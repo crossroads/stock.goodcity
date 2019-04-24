@@ -94,7 +94,7 @@ export default Ember.Component.extend({
 
     switch (context) {
       case TYPE:
-        return service.get("orderStateFilters").forEach(checkFilter);
+        return service.get("orderTypeFilters").forEach(checkFilter);
       case STATE:
         return service.get("orderStateFilters").forEach(checkFilter);
       case TIME:
