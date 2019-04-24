@@ -3,6 +3,8 @@ import searchModule from "../search_module";
 
 export default searchModule.extend({
   searchModelName: "designation",
+  filterService: Ember.inject.service(),
+  utilityMethods: Ember.inject.service(),
   unloadAll: true,
   minSearchTextLength: 2,
   queryParams: ["preload"],
@@ -11,6 +13,7 @@ export default searchModule.extend({
   fetchedData: [],
   page: 0,
   hasMorePages: true,
+  isLoadingMore: false,
 
   filterService: Ember.inject.service(),
   utilityMethods: Ember.inject.service(),
@@ -42,10 +45,24 @@ export default searchModule.extend({
 
   actions: {
     loadOrders() {
+      const utils = this.get("utilityMethods");
+      const filterService = this.get("filterService");
+
+      let filter = filterService.get("getOrderStateFilters");
+      let typeFilter = filterService.get("getOrderTypeFilters");
+      let isPriority = filterService.isPriority();
+      if (isPriority) {
+        filter.shift();
+      }
+
       let incrementPageSize = this.get("page") + 1;
       this.set("page", incrementPageSize);
+      this.set("isLoadingMore", true);
       this.get("store")
         .query("designation", {
+          state: utils.stringifyArray(filter),
+          type: utils.stringifyArray(typeFilter),
+          priority: isPriority,
           per_page: 12,
           page: incrementPageSize,
           searchText: this.get("searchText")
@@ -59,7 +76,8 @@ export default searchModule.extend({
           data.content.length
             ? this.set("hasMorePages", true)
             : this.set("hasMorePages", false);
-        });
+        })
+        .finally(() => this.set("isLoadingMore", false));
     }
   }
 });
