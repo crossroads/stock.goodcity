@@ -17,11 +17,9 @@
   <div class="row search">
     <div class="small-12 columns">
       <div class="small-12 columns">
-        {{#infinite-list model='designation'
-          opts=optionalParams
-          per_page = 15 as |filteredContent|}}
+        {{#infinite-list hasMorePages=hasMorePages loadMore=(action "loadOrders") }}
           <ul class="list list-activity list-offer-items">
-            {{#each filteredContent as |order|}}
+            {{#each fetchedData as |order|}}
               {{#link-to 'orders.items_list' order href=false}}
                 {{partial 'orders/order_block'}}
               {{/link-to}}

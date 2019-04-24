@@ -8,44 +8,58 @@ export default searchModule.extend({
   queryParams: ["preload"],
   searchedText: "",
   optionalParams: null,
+  fetchedData: [],
+  page: 0,
+  hasMorePages: true,
 
   filterService: Ember.inject.service(),
   utilityMethods: Ember.inject.service(),
 
-  onSearchTextChange: Ember.observer("searchText", function() {
-    if (
-      this.get("searchText").length > this.get("minSearchTextLength") ||
-      !this.get("searchText").length
-    ) {
-      Ember.run.debounce(this, this.fetchRecord, 500);
+  clearContent: Ember.observer("searchText", function() {
+    if (!this.get("searchText").length) {
+      this.set("fetchedData", []);
     }
   }),
 
-  fetchRecord() {
-    const filterService = this.get("filterService");
-    const typesFilter = filterService.get("getOrderTypeFilters");
-    const utilities = this.get("utilityMethods");
-    const isPriority = filterService.isPriority();
-    let filter = filterService.get("getOrderStateFilters");
-
-    if (isPriority) {
-      filter.shift();
+  onSearchTextChange: Ember.observer("searchText", function() {
+    if (this.get("searchText").length > this.get("minSearchTextLength")) {
+      Ember.run.debounce(
+        this,
+        function() {
+          this.send("loadOrders");
+        },
+        500
+      );
     }
-    const searchText = this.get("searchText");
-
-    let params = {
-      state: utilities.stringifyArray(filter),
-      type: utilities.stringifyArray(typesFilter),
-      priority: isPriority,
-      searchText: searchText
-    };
-    this.set("optionalParams", params);
-  },
+  }),
 
   onItemLoaded(record) {
     const orgId = Ember.get(record, "gcOrganisationId");
     if (orgId) {
       this.store.findRecord("gc_organisation", orgId, { reload: false });
+    }
+  },
+
+  actions: {
+    loadOrders() {
+      let incrementPageSize = this.get("page") + 1;
+      this.set("page", incrementPageSize);
+      this.get("store")
+        .query("designation", {
+          per_page: 12,
+          page: incrementPageSize,
+          searchText: this.get("searchText")
+        })
+        .then(data => {
+          const newPageData = data.content;
+          newPageData.forEach(data => {
+            let record = this.get("store").peekRecord("designation", data.id);
+            this.get("fetchedData").pushObject(record);
+          });
+          data.content.length
+            ? this.set("hasMorePages", true)
+            : this.set("hasMorePages", false);
+        });
     }
   }
 });
