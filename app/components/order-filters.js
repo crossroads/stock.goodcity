@@ -129,6 +129,12 @@ export default Ember.Component.extend({
     this.navigateAway();
   },
 
+  clearTimeFilters() {
+    this.set("selectedTimeRange.preset", null);
+    this.set("selectedTimeRange.before", null);
+    this.set("selectedTimeRange.after", null);
+  },
+
   actions: {
     applyFilters() {
       if (this.get("applyStateFilter")) {
@@ -162,12 +168,6 @@ export default Ember.Component.extend({
       if (this.get("applyTimeFilter")) {
         this.clearTimeFilters();
       }
-    },
-
-    clearTimeFilters() {
-      this.set("selectedTimeRange.preset", null);
-      this.set("selectedTimeRange.before", null);
-      this.set("selectedTimeRange.after", null);
     },
 
     selectTimePreset(presetKey) {
