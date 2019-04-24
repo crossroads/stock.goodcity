@@ -2,6 +2,7 @@ import AuthorizeRoute from "./../authorize";
 import Ember from "ember";
 import AjaxPromise from "stock/utils/ajax-promise"; //jshint ignore:line
 import _ from "lodash";
+import { STATE_FILTERS } from "../../services/filter-service";
 
 export default AuthorizeRoute.extend({
   filterService: Ember.inject.service(),
@@ -34,7 +35,7 @@ export default AuthorizeRoute.extend({
     let typeFilter = filterService.get("orderTypeFilters");
     let isPriority = filterService.isPriority();
     if (isPriority) {
-      filter.shift();
+      filter = _.without(filter, STATE_FILTERS.PRIORITY);
     }
 
     return this.store.query("designation", {

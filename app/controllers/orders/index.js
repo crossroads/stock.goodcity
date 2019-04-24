@@ -1,6 +1,7 @@
 import Ember from "ember";
 import _ from "lodash";
 import searchModule from "../search_module";
+import { STATE_FILTERS } from "../../services/filter-service";
 
 export default searchModule.extend({
   searchModelName: "designation",
@@ -21,7 +22,7 @@ export default searchModule.extend({
     let stateFilters = filterService.get("orderStateFilters");
     let isPriority = filterService.isPriority();
     if (isPriority) {
-      stateFilters = _.without(stateFilters, "showPriority");
+      stateFilters = _.without(stateFilters, STATE_FILTERS.PRIORITY);
     }
     let typesFilters = filterService.get("orderTypeFilters");
     let { after, before } = filterService.get("orderTimeRange");

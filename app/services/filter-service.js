@@ -22,6 +22,23 @@ const PERSISTENT_VAR = function(propName, defaultValue, deserializeMap = {}) {
   });
 };
 
+// @TODO: priority should not be a state filter
+export const STATE_FILTERS = {
+  PRIORITY: "showPriority",
+  SUBMITTED: "submitted",
+  PROCESSING: "processing",
+  SCHEDULED: "awaiting_dispatch",
+  DISPATCHING: "dispatching",
+  CLOSED: "closed",
+  CANCELLED: "cancelled"
+};
+
+export const TYPE_FILTERS = {
+  APPOINTMENT: "appointment",
+  ONLINE_ORDER: "online_orders",
+  SHIPMENT: "shipment"
+};
+
 // --- Service
 
 export default Ember.Service.extend({
@@ -37,7 +54,7 @@ export default Ember.Service.extend({
 
   isPriority() {
     const filters = this.get("orderStateFilters");
-    return filters && filters.indexOf("showPriority") >= 0;
+    return filters && filters.indexOf(STATE_FILTERS.PRIORITY) >= 0;
   },
 
   clearFilters() {
