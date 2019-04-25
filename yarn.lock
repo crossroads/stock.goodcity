@@ -3551,7 +3551,7 @@ ember-cli-babel@^5.0.0, ember-cli-babel@^5.1.10, ember-cli-babel@^5.1.3, ember-c
     ember-cli-version-checker "^1.0.2"
     resolve "^1.1.2"
 
-ember-cli-babel@^6.0.0, ember-cli-babel@^6.0.0-beta.4, ember-cli-babel@^6.1.0, ember-cli-babel@^6.10.0, ember-cli-babel@^6.16.0, ember-cli-babel@^6.3.0, ember-cli-babel@^6.6.0, ember-cli-babel@^6.8.0, ember-cli-babel@^6.8.2, ember-cli-babel@^6.9.0:
+ember-cli-babel@^6.0.0, ember-cli-babel@^6.0.0-beta.4, ember-cli-babel@^6.1.0, ember-cli-babel@^6.10.0, ember-cli-babel@^6.16.0, ember-cli-babel@^6.3.0, ember-cli-babel@^6.8.0, ember-cli-babel@^6.8.2, ember-cli-babel@^6.9.0:
   version "6.18.0"
   resolved "https://registry.yarnpkg.com/ember-cli-babel/-/ember-cli-babel-6.18.0.tgz#3f6435fd275172edeff2b634ee7b29ce74318957"
   dependencies:
@@ -4152,20 +4152,15 @@ ember-i18n@~4.3.2:
     ember-cli-version-checker "^1.1.6"
     ember-getowner-polyfill "^1.0.0"
 
-ember-in-viewport@~3.0.3:
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/ember-in-viewport/-/ember-in-viewport-3.0.3.tgz#49c60b52525795246761742ed4495ad6cd9bf70d"
-  integrity sha512-Iw8qquApABdrP9xA8hJFaYAxz/iOGLJ0Acq4QptemEnpsHcQqAET/SKL/A1fbtDGQAVtB5+bULaJcsrzRMCteg==
+ember-infinity@0.2.5:
+  version "0.2.5"
+  resolved "https://registry.yarnpkg.com/ember-infinity/-/ember-infinity-0.2.5.tgz#a0ae220d01af9a51bd63ffa7076a525a84282c89"
+  integrity sha1-oK4iDQGvmlG9Y/+nB2pSWoQoLIk=
   dependencies:
-    ember-cli-babel "^6.6.0"
-
-ember-infinity@~1.0.0:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/ember-infinity/-/ember-infinity-1.0.2.tgz#e4e8e1a1b23e131ad467f49befa02bce10220c7c"
-  integrity sha512-ikX7gikL6Qv7yHG/JaSV44p3qd0ozaHQcbY5VkKgg/1GlFFGI8YyhWBza3ChX1C1QUtmjxZ55gsijqa6q5k8Wg==
-  dependencies:
-    ember-cli-babel "^6.6.0"
-    ember-in-viewport "~3.0.3"
+    ember-cli-babel "^5.1.5"
+    ember-cli-htmlbars "^1.0.1"
+    ember-cli-version-checker "^1.0.2"
+    ember-version-is "0.0.3"
 
 ember-inflector@^2.0.0:
   version "2.3.0"
@@ -4302,6 +4297,13 @@ ember-try@^0.2.15:
     rimraf "^2.3.2"
     rsvp "^3.0.17"
     semver "^5.1.0"
+
+ember-version-is@0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/ember-version-is/-/ember-version-is-0.0.3.tgz#7d54ec39ed5e03f0df11cf8a5e22dc20b0810b1a"
+  integrity sha1-fVTsOe1eA/DfEc+KXiLcILCBCxo=
+  dependencies:
+    ember-cli-babel "^5.0.0"
 
 ember-welcome-page@^1.0.3:
   version "1.0.4"

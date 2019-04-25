@@ -1,6 +1,5 @@
 import Ember from "ember";
 import _ from "lodash";
-const { getOwner } = Ember;
 
 function isEmpty(results) {
   if (!results || results.length === 0) {
@@ -24,7 +23,7 @@ export default Ember.Component.extend({
     this.set("destroyed", false);
     this.fetchMoreRecords();
 
-    this.listElement = Ember.$(this.element).find(".inifinite-list-container");
+    this.listElement = Ember.$(this.element).find(".infinite-list-container");
 
     let _this = this;
     this.listElement.on("scroll", function() {
@@ -45,7 +44,7 @@ export default Ember.Component.extend({
     }
   },
 
-  _cb(fn) {
+  _safeCb(fn) {
     return (...args) => {
       if (this.get("destroyed")) {
         return;
@@ -59,7 +58,7 @@ export default Ember.Component.extend({
 
     Ember.RSVP.resolve(this.get("loadMore")(this.pageNo))
       .then(
-        this._cb(newItems => {
+        this._safeCb(newItems => {
           if (isEmpty(newItems)) {
             this.set("isFinished", true);
             return;
@@ -69,7 +68,7 @@ export default Ember.Component.extend({
         })
       )
       .finally(
-        this._cb(() => {
+        this._safeCb(() => {
           this.set("isLoadingMore", false);
         })
       );

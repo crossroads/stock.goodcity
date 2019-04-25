@@ -20,24 +20,6 @@ export default AuthorizeRoute.extend({
     return this.previousPage(transition) === "order_filters";
   },
 
-  // preloadData() {
-  //   const utils = this.get("utilityMethods");
-  //   const filterService = this.get('filterService');
-
-  //   let filter = filterService.get('getOrderStateFilters');
-  //   let typeFilter = filterService.get('getOrderTypeFilters');
-  //   let isPriority = filterService.isPriority();
-  //   if (isPriority) {
-  //     filter.shift();
-  //   }
-
-  //   return this.store.query('designation', {
-  //     state: utils.stringifyArray(filter),
-  //     type: utils.stringifyArray(typeFilter),
-  //     priority: isPriority
-  //   });
-  // },
-
   /* jshint ignore:start */
   async model(params, transition) {
     if (this.isBackNavigation(transition)) {
@@ -56,22 +38,12 @@ export default AuthorizeRoute.extend({
     }
 
     return Ember.RSVP.hash({
-      hasModifiedFilters: this.hasModifiedFilters(transition),
-      preloaded: params.preload ? this.preloadData() : null
+      hasModifiedFilters: this.hasModifiedFilters(transition)
     });
   },
 
   async setupController(controller, model = {}) {
     this._super(controller, model);
-
-    // const { preloaded, hasModifiedFilters } = model;
-    // if (preloaded) {
-    //   preloaded.forEach(record => controller.onItemLoaded(record));
-    //   controller.set("searchText", "");
-    //   controller.set("filteredResults", preloaded);
-    // } else if (hasModifiedFilters) {
-    //   controller.onFilterChange();
-    // }
     controller.onStartup();
   },
   /* jshint ignore:end */
