@@ -83,6 +83,7 @@ I18nTranslationsEn =
     "contact_email": "Email"
     "contact_last_seen": "Last seen"
     "contact_registered": "Registered"
+    "preferred_contact_number": "Preferred contact number",
 
   "order_tabs":
     "summary": "Summary"
