@@ -17,15 +17,19 @@
   <div class="row search">
     <div class="small-12 columns">
       <div class="small-12 columns">
-        {{#infinite-list hasMorePages=hasMorePages isLoadingMore=isLoadingMore loadMore=(action "loadOrders") }}
-          <ul class="list list-activity list-offer-items">
-            {{#each fetchedData as |order|}}
-              {{#link-to 'orders.items_list' order href=false}}
-                {{partial 'orders/order_block'}}
-              {{/link-to}}
-            {{/each}}
-          </ul>
-        {{/infinite-list}}
+      
+        {{#if displayResults}}
+          {{#infinite-list height="75vh" loadMore=(action "loadMoreOrders") as |items| }}
+            <ul class="list list-activity list-offer-items">
+              {{#each items as |order|}}
+                {{#link-to 'orders.items_list' order href=false}}
+                  {{partial 'orders/order_block'}}
+                {{/link-to}}
+              {{/each}}
+            </ul>
+          {{/infinite-list}}
+        {{/if}}
+
       </div>
     </div>
   </div>

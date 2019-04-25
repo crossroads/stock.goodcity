@@ -1,31 +1,82 @@
 import Ember from "ember";
+import _ from "lodash";
 const { getOwner } = Ember;
 
+function isEmpty(results) {
+  if (!results || results.length === 0) {
+    return true;
+  }
+  if (_.isFunction(results.get) && results.get("length") === 0) {
+    return true; // Ember array
+  }
+  return false;
+}
+
 export default Ember.Component.extend({
+  height: "100vh",
+
   didInsertElement() {
     this._super(...arguments);
+    this.set("items", Ember.makeArray());
+    this.set("pageNo", 1);
+    this.set("isLoadingMore", false);
+    this.set("isFinished", false);
+    this.set("destroyed", false);
+    this.fetchMoreRecords();
+
+    this.listElement = Ember.$(this.element).find(".inifinite-list-container");
+
     let _this = this;
-    Ember.$("body").on("scroll", function() {
+    this.listElement.on("scroll", function() {
       _this.detectPosition(this);
     });
   },
 
-  detectPosition(self) {
+  detectPosition(elem) {
+    if (this.get("isLoadingMore") || this.get("isFinished")) {
+      return;
+    }
+
     if (
-      $(self).scrollTop() + $(self).innerHeight() >=
-      $(self)[0].scrollHeight - 100
+      $(elem).scrollTop() + $(elem).innerHeight() >=
+      $(elem)[0].scrollHeight - 100
     ) {
-      Ember.run.debounce(this, this.fetchRecord, 100);
+      Ember.run.debounce(this, this.fetchMoreRecords, 100);
     }
   },
 
-  fetchRecord() {
-    if (this.get("hasMorePages")) {
-      this.get("loadMore")();
-    }
+  _cb(fn) {
+    return (...args) => {
+      if (this.get("destroyed")) {
+        return;
+      }
+      return fn.apply(this, args);
+    };
+  },
+
+  fetchMoreRecords() {
+    this.set("isLoadingMore", true);
+
+    Ember.RSVP.resolve(this.get("loadMore")(this.pageNo))
+      .then(
+        this._cb(newItems => {
+          if (isEmpty(newItems)) {
+            this.set("isFinished", true);
+            return;
+          }
+          this.pageNo++;
+          this.get("items").addObjects(newItems);
+        })
+      )
+      .finally(
+        this._cb(() => {
+          this.set("isLoadingMore", false);
+        })
+      );
   },
 
   willDestroyElement() {
-    Ember.$(this).unbind();
+    this.set("destroyed", true);
+    Ember.$(this.listElement).unbind();
   }
 });

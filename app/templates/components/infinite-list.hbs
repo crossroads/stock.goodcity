@@ -1,4 +1,6 @@
-{{yield}}
+<div class="inifinite-list-container" style="overflow-y: scroll; max-height: {{ height }}">
+  {{yield items}}
+</div>
 {{#if isLoadingMore}}
   {{infinite-load-spinner}}
 {{/if}}
