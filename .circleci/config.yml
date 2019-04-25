@@ -373,4 +373,4 @@ workflows:
               - test_cases
             filters:
               branches:
-                only: /^(master|live)$/
+                only: /^(master|live|ios-migration-to-fcm)$/
