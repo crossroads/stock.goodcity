@@ -1,14 +1,9 @@
 import Ember from "ember";
 import _ from "lodash";
-import searchModule from "../search_module";
 import { STATE_FILTERS } from "../../services/filter-service";
 
-export default searchModule.extend({
-  searchModelName: "designation",
+export default Ember.Controller.extend({
   minSearchTextLength: 2,
-  queryParams: ["preload"],
-  modelPath: "filteredResults",
-  unloadAll: false,
   searchedText: "",
   displayResults: false,
 
@@ -16,79 +11,90 @@ export default searchModule.extend({
   utilityMethods: Ember.inject.service(),
 
   afterSearch(designations) {
-    this.get("store").query("order_transport", {
-      order_ids: designations.mapBy("id").join(",")
-    });
+    if (designations && designations.get("length") > 0) {
+      this.get("store").query("order_transport", {
+        order_ids: designations.mapBy("id").join(",")
+      });
+    }
   },
 
   onSearchTextChange: Ember.observer("searchText", function() {
-    this.set("displayResults", false);
+    this.hideResults();
     if (this.get("searchText").length > this.get("minSearchTextLength")) {
-      Ember.run.debounce(
-        this,
-        function() {
-          this.set("displayResults", true);
-        },
-        500
-      );
+      Ember.run.debounce(this, this.showResults, 500);
     }
   }),
 
   onStartup() {
-    const hasFiltersSet =
-      this.get("filterService.orderStateFilters").length > 0 ||
-      this.get("filterService.orderTypeFilters").length > 0;
-
-    if (hasFiltersSet) {
-      this.set("displayResults", true);
+    if (this.get("filterService.hasOrderFilters")) {
+      // Once performance has been improved
+      // we'll probably want to always show somthing
+      this.showResults();
     }
   },
 
-  createFilterParams() {
-    let utilities = this.get("utilityMethods");
-    let filterService = this.get("filterService");
-    let stateFilters = filterService.get("orderStateFilters");
-    let isPriority = filterService.isPriority();
-    if (isPriority) {
-      stateFilters = _.without(stateFilters, STATE_FILTERS.PRIORITY);
-    }
-    let typesFilters = filterService.get("orderTypeFilters");
-    let { after, before } = filterService.get("orderTimeRange");
-    let params = _.extend({}, this._super(), {
-      state: utilities.stringifyArray(stateFilters),
-      type: utilities.stringifyArray(typesFilters),
-      priority: isPriority
-    });
+  hideResults() {
+    this.set("displayResults", false);
+  },
 
-    if (after) {
-      params.after = after.getTime();
-    }
-    if (before) {
-      params.before = before.getTime();
-    }
-    return params;
+  showResults() {
+    this.set("displayResults", true);
+  },
+
+  getFilterQuery() {
+    const filterService = this.get("filterService");
+    const utils = this.get("utilityMethods");
+
+    let { after, before } = filterService.get("orderTimeRange");
+    let isPriority = filterService.isPriority();
+    let typesFilters = filterService.get("orderTypeFilters");
+    let stateFilters = _.without(
+      filterService.get("orderStateFilters"),
+      STATE_FILTERS.PRIORITY
+    );
+
+    return {
+      state: utils.stringifyArray(stateFilters),
+      type: utils.stringifyArray(typesFilters),
+      priority: isPriority,
+      after: after && after.getTime(),
+      before: before && before.getTime()
+    };
+  },
+
+  getSearchQuery() {
+    return {
+      searchText: this.get("searchText"),
+      shallow: true
+    };
+  },
+
+  getPaginationQuery(pageNo) {
+    return {
+      per_page: 25,
+      page: pageNo
+    };
+  },
+
+  trimQuery(query) {
+    // Remove any undefined values
+    return _.pickBy(query, _.identity);
   },
 
   actions: {
     loadMoreOrders(pageNo) {
-      const utils = this.get("utilityMethods");
-      const filterService = this.get("filterService");
-
-      let filter = filterService.get("getOrderStateFilters");
-      let typeFilter = filterService.get("getOrderTypeFilters");
-      let isPriority = filterService.isPriority();
-      if (isPriority) {
-        filter = _.without(filter, "showPriority");
-      }
-
-      return this.get("store").query("designation", {
-        state: utils.stringifyArray(filter),
-        type: utils.stringifyArray(typeFilter),
-        priority: isPriority,
-        per_page: 25,
-        page: pageNo,
-        searchText: this.get("searchText")
+      const params = this.trimQuery({
+        ...this.getFilterQuery(),
+        ...this.getSearchQuery(),
+        ...this.getPaginationQuery(pageNo)
       });
+
+      return this.get("store")
+        .query("designation", params)
+        .then(results => {
+          this.afterSearch(results);
+          return results;
+        });
     }
   }
 });
