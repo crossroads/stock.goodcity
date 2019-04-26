@@ -18,6 +18,12 @@ export default Ember.Controller.extend({
     }
   },
 
+  afterSearch(designations) {
+    this.get("store").query("order_transport", {
+      order_ids: designations.mapBy("id").join(",")
+    });
+  },
+
   on() {
     this.get("filterService").on("change", this, this.onFilterChange);
   },
