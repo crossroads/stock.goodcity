@@ -18,6 +18,14 @@ export default Ember.Controller.extend({
     }
   },
 
+  on() {
+    this.get("filterService").on("change", this, this.onFilterChange);
+  },
+
+  off() {
+    this.get("filterService").off("change", this, this.onFilterChange);
+  },
+
   onSearchTextChange: Ember.observer("searchText", function() {
     this.hideResults();
     if (this.get("searchText").length > this.get("minSearchTextLength")) {

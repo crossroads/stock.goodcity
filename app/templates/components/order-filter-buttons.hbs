@@ -2,50 +2,74 @@
   <div class="small-4 columns">
 
     <!-- State button -->
-    <button
-      {{action "redirectTofilters" "applyStateFilter"}}
-      id="order-state-filter"
+    <div 
+      id="order-state-filter" 
       class="button expand filter-button-css {{if hasStateFilters 'filter-button-border'}}"
     >
-      {{#if (is-equal orderStateFilters.length 0) }}
-        {{t 'order_filters.button_state'}}
-      {{else if (is-equal orderStateFilters.length 1) }}
-        {{t (concat 'order_filters.' orderStateFilters.firstObject) }}
-      {{else}}
-        {{t 'order_filters.button_state'}}: {{orderStateFilters.length}}
+      <!-- Close btn -->
+      {{#if hasStateFilters}}
+        <div class="remove-filters-icon" {{action "clearStateFilters"}}>
+          {{fa-icon 'times' size="lg"}}
+        </div>
       {{/if}}
-    </button>
+
+      <!-- Open btn -->
+      <div class="button-text" {{action "redirectTofilters" "applyStateFilter"}} >
+        {{#if (is-equal orderStateFilters.length 0) }}
+          {{t 'order_filters.button_state'}}
+        {{else if (is-equal orderStateFilters.length 1) }}  
+          {{t (concat 'order_filters.' orderStateFilters.firstObject) }}
+        {{else}} 
+          {{t 'order_filters.button_state'}}: {{orderStateFilters.length}}
+        {{/if}} 
+      </div>
+    </div>
   </div>
 
   <!-- Type button -->
   <div class="small-4 columns">
-    <button
-      {{action "redirectTofilters" "applyTypeFilter"}}
+    <div 
       id="order-type-filter"
       class="button expand filter-button-css {{if hasTypeFilters 'filter-button-border'}}">
+      
 
-      {{#if (is-equal orderTypeFilters.length 0) }}
-        {{t 'order_filters.button_type'}}
-      {{else if (is-equal orderTypeFilters.length 1) }}
-        {{t (concat 'order_filters.' orderTypeFilters.firstObject) }}
-      {{else}}
-        {{t 'order_filters.button_type'}}: {{orderTypeFilters.length}}
+      {{#if hasTypeFilters}}
+        <div class="remove-filters-icon" {{action "clearTypeFilters"}}>
+          {{fa-icon 'times' size="lg"}}
+        </div>
       {{/if}}
-    </button>
+      
+      <div class="button-text" {{action "redirectTofilters" "applyTypeFilter"}} >
+        {{#if (is-equal orderTypeFilters.length 0) }}
+          {{t 'order_filters.button_type'}}
+        {{else if (is-equal orderTypeFilters.length 1) }}  
+          {{t (concat 'order_filters.' orderTypeFilters.firstObject) }}
+        {{else}} 
+          {{t 'order_filters.button_type'}}: {{orderTypeFilters.length}}
+        {{/if}} 
+      </div>
+    </div>
   </div>
 
   <!-- Time ranges -->
   <div class="small-4 columns">
-    <button
-      {{action "redirectTofilters" "applyTimeFilter"}}
+    <div 
       id="order-time-filter"
       class="button expand filter-button-css {{if hasTimeFilters 'filter-button-border'}}">
 
-        {{#if orderTimeRange.preset }}
-          {{t (concat 'order_filters.time_presets.' orderTimeRange.preset) }}
-        {{else}}
-          {{t 'order_filters.button_due'}}
+        {{#if hasTimeFilters}}
+          <div class="remove-filters-icon" {{action "clearTimeFilters"}}>
+            {{fa-icon 'times' size="lg"}}
+          </div>
         {{/if}}
-      </button>
+
+        <div class="button-text" {{action "redirectTofilters" "applyTimeFilter"}} >
+          {{#if orderTimeRange.preset }}
+            {{t (concat 'order_filters.time_presets.' orderTimeRange.preset) }}
+          {{else}}
+            {{t 'order_filters.button_due'}}
+          {{/if}}
+        </div>
+      </div>
   </div>
 </div>
