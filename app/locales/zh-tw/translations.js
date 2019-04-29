@@ -20,6 +20,7 @@ export default {
   organisation_title: "機構",
   save: "儲存",
   details: "詳情",
+  orders_in_process: "Orders In Process",
   orders: "訂單",
   users: "用戶",
   menu: "主目錄",
