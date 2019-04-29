@@ -421,7 +421,7 @@ export default {
         labour_info:
           "Client understands labour requirements and can supply labour if needed.",
         appointment: "Appointment"
-      },
+      }
     },
     submit_order: "Submit order",
     info:
@@ -579,7 +579,7 @@ export default {
     }
   },
 
-  requested_items:{
+  requested_items: {
     quantity: "Quantity",
     description: "Description",
     type: "Type"
@@ -589,20 +589,20 @@ export default {
     new_user: "Which user is this request being made for ?"
   },
 
-  item_details:{
+  item_details: {
     quantity: "Quantity",
     type: "Type",
-    description: 'Description',
+    description: "Description",
     size: "Size (cm)",
     quality: "Quality:",
     grade: "Grade :",
     condition: "Condition :",
-    validation_errors:{
-      description: 'Description cannot be blank.'
+    validation_errors: {
+      description: "Description cannot be blank."
     }
   },
 
-  inventory_options:{
+  inventory_options: {
     auto: "Auto Id",
     input: "Input Id",
     scan: "Scan Id"
@@ -645,7 +645,7 @@ export default {
       location: "Location*",
       inventory: "Inventory#",
       publish: "Immediately publish this item for online browsing",
-      validation_errors:{
+      validation_errors: {
         description: "Description cannot be blank.",
         donation: "Must be a number or in the form 'CAS-12345'",
         invalid_location: "Scanned Location is invalid.",
@@ -661,5 +661,12 @@ export default {
     quantity_designated_to: "Quantity designated to",
     maximum: "Maximum",
     cancel: "Cancel the designation of this item"
+  },
+  donation: {
+    donation_number_error: "Must be in the form 'CAS-12345'"
+  },
+  partial_undesignate: {
+    modify: "Modify",
+    dispatch: "Dispatch"
   }
 };

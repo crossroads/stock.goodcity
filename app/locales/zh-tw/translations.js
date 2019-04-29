@@ -6,7 +6,7 @@ export default {
   "language.en": "English",
   "language.zh": "中文",
   back: "返回",
-  switch_language: "Switch language",
+  switch_language: "切換語言",
   no_search_results: "沒有搜尋結果",
   search: "搜尋",
   QuotaExceededError:
@@ -26,28 +26,28 @@ export default {
   search_organisation: "搜尋機構",
   not_now: "稍後",
   incomplete_form: "請填寫必需填寫之項目以繼續下一步",
-  continue: "Continue",
-  save_changes: "Save changes",
-  discard: "Discard",
-  discard_changes: "Discard changes",
+  continue: "繼續",
+  save_changes: "儲存變更",
+  discard: "棄置",
+  discard_changes: "棄置變更",
   manage_charity_users: "Manage charity users",
-  add_inventory_item: "Add Item to Inventory",
-  manage_inventory: "Manage Appointment Quotas",
-  new_order: "Create New Order",
+  add_inventory_item: "將物品加入倉存",
+  manage_inventory: "管理預約限額",
+  new_order: "建立新的訂單",
   full_name: "{{firstName}} {{lastName}}",
   mobile_prefix: "+852",
   messages: {
-    you: "You",
-    chat_note: "Chat about this order with the user",
-    send: "Send",
+    you: "您",
+    chat_note: "與使用者對話",
+    send: "發送",
     day: {
-      today: "Today",
-      morning: "Morning",
-      afternoon: "Afternoon"
+      today: "今天",
+      morning: "早上",
+      afternoon: "下午"
     }
   },
   camera_scan: {
-    permission_error: "Camera permission is not turned on."
+    permission_error: "並未允許使用手機相機"
   },
   weekday_1: "星期一",
   weekday_2: "星期二",
@@ -57,46 +57,46 @@ export default {
   weekday_6: "星期六",
   weekday_7: "星期日",
   online_status: {
-    online: "Online",
-    not_connected: "Not Connected"
+    online: "已連線",
+    not_connected: "並未連線"
   },
   order_client_summary: {
-    remove_client_title: "Remove Client",
-    remove_client_info: "Remove client/beneficiary",
-    client_name: "Client's Name",
-    client_phone: "Client's Phone",
-    id_title: "Type of id held",
-    id_number: "ID Number",
-    no_client: "No client",
-    add_beneficiary: "Add client/beneficiary",
-    request_purpose: "Request Purpose",
-    number_benefiting: "Number benefiting",
-    primary_location: "Primary location",
-    description_of_need: "Description of need",
-    description_error: "Description is required",
-    people_helped_error: "Number is required"
+    remove_client_title: "移除受惠者",
+    remove_client_info: "移除受惠者",
+    client_name: "受惠者姓名",
+    client_phone: "受惠者電話號碼",
+    id_title: "身份證明文件類別",
+    id_number: "身份證號碼",
+    no_client: "沒有受惠者",
+    add_beneficiary: "新增受惠者",
+    request_purpose: "申請原因",
+    number_benefiting: "受惠人數",
+    primary_location: "主要地點",
+    description_of_need: "有關需要的詳情",
+    description_error: "必須填寫有關詳情",
+    people_helped_error: "必須填寫受惠人數"
   },
   order_contact_summary: {
-    change_contact: "Change Contact",
-    choose_different_contact: "Choose different contact",
-    organisation_title: "Organisation",
-    contact_name: "Name",
-    contact_phone: "Phone",
+    change_contact: "更改聯絡人",
+    choose_different_contact: "揀選不同的聯絡人",
+    organisation_title: "機構名稱",
+    contact_name: "聯絡人姓名",
+    contact_phone: "聯絡電話",
     preferred_contact_number: "Preferred contact number",
-    contact_position: "Position",
-    contact_email: "Email",
-    contact_last_seen: "Last seen",
-    contact_registered: "Registered"
+    contact_position: "聯絡人職位",
+    contact_email: "聯絡電郵",
+    contact_last_seen: "最後連線時間",
+    contact_registered: "已登記"
   },
   order_tabs: {
-    summary: "Summary",
-    goods: "Goods",
-    logistics: "Logistics",
-    chat: "Chat"
+    summary: "總結",
+    goods: "物品",
+    logistics: "物流",
+    chat: "對話"
   },
   order_summary_tabs: {
-    contact: "Contact",
-    client: "Purpose/Client"
+    contact: "聯絡",
+    client: "用途/受惠者"
   },
   authenticate: {
     input_code: "請輸入驗證碼"
@@ -125,29 +125,28 @@ export default {
     goto: "前往"
   },
   beneficiary_warning: {
-    delete_title: "Remove Client?",
-    delete_info:
-      "If this request will no longer be for a client/beneficiary you can delete the beneficiary details.",
-    warning: "This cannot be undone!"
+    delete_title: "移除受惠者?",
+    delete_info: "如此申請不再受惠於個案受惠者，你可刪除受惠者資料。",
+    warning: "不能取消變更!"
   },
   item_filters: {
-    with_and_without_images: "All",
-    has_images: "Has Image(s)",
-    no_images: "No Image(s)",
-    image_filter_title: "Images",
-    image_filter_title_info: "items with associated images or not",
-    publish_filter_title: "Publishing status",
-    publish_filter_title_info: "available for online browsing or not",
-    published_and_private: "All",
-    published: "Published",
-    private: "Private",
-    state_filter_title: "Item states",
-    in_stock: "In Stock",
-    in_stock_info: "At least one is available(i.e not designated)",
-    designated: "Designated",
-    designated_info: "All remaining quantity is reserved for order(s)",
-    dispatched: "Dispatched",
-    dispatched_info: "Entire quantity was previously sent out"
+    with_and_without_images: "全部",
+    has_images: "包含相片",
+    no_images: "沒有相片",
+    image_filter_title: "相片",
+    image_filter_title_info: "有否與物品相關的圖片",
+    publish_filter_title: "公開狀況",
+    publish_filter_title_info: "能否與網上瀏覽",
+    published_and_private: "全部",
+    published: "已刊登",
+    private: "未被刊登",
+    state_filter_title: "物件狀態",
+    in_stock: "有貨存",
+    in_stock_info: "最少一件有貨存（即未被指派）",
+    designated: "已指派",
+    designated_info: "所有餘下的數量已被預留至訂單",
+    dispatched: "已派送",
+    dispatched_info: "較早前已送出所有數量"
   },
   order_filters: {
     time_presets: {
@@ -162,53 +161,48 @@ export default {
     button_state: "State",
     button_type: "Type",
     button_due: "Due",
-    priority: "Priority",
-    apply_filter_button: "Apply Filter",
-    clear_button: "Clear",
-    type_filter_title: "Order Types",
+    priority: "優先",
+    apply_filter_button: "進行篩選",
+    clear_button: "清除",
+    type_filter_title: "訂單類別",
     time_filter_title: "Order Due Date",
-    state_filter_title: "Order Statuses",
-    appointment: "Appointments",
-    appointment_info:
-      "Client comes to select goods from our warehouse with help from our staff",
-    online_orders: "Online Orders",
-    online_orders_info: "Client ordered specific goods online",
-    dispatch: "Dispatch",
-    dispatch_info: "We will load into van and send to client",
-    online_orders: "Online Orders",
-    online_orders_info: "Client ordered specfic goods online",
-    shipment: "Shipments",
-    shipment_info:
-      "Overseas organisation will have goods shipped to them from Crossroads' warehouse",
-    other: "Others",
-    other_info: "Special designations such as recycling",
-    showPriority: "Only show priority orders",
-    showPriority_info:
-      "Priority orders have been in one state longer than they should and they need quick attention",
-    submitted: "Submitted",
+    state_filter_title: "訂單狀態",
+    appointment: "預約",
+    appointment_info: "受惠者可前往我們的貨倉在職員的協助下挑選物品",
+    online_orders: "網上訂單",
+    online_orders_info: "受惠者已於網上訂了指定物品",
+    dispatch: "派送",
+    dispatch_info: "我們會將物品裝載到貨車並運送至受惠者",
+    online_orders: "網上訂單",
+    online_orders_info: "受惠者已於網上訂了指定物品",
+    shipment: "裝運",
+    shipment_info: "十字路會會將物品裝運至海外機構",
+    other: "其他",
+    other_info: "特別的指派點例如回收",
+    showPriority: "只顯示優先處理訂單",
+    showPriority_info: "優先訂單已停留在一狀態過長，需要盡快處理",
+    submitted: "已提交",
     submitted_info:
-      "GoodCity orders that have yet to be reviewed.</br>Also StockIt 'Active' & 'From website.",
-    processing: "Processing",
-    processing_info:
-      "GoodCity orders being reviewed.</br>Includes all other StockIt states.",
-    awaiting_dispatch: "Scheduled",
-    awaiting_dispatch_info: "GoodCity order with confirmed booking time.",
-    dispatching: "Dispatching",
-    dispatching_info: "GoodCity order being dispatched now.",
-    closed: "Closed",
-    closed_info:
-      "Orders that were successfully completed.</br>Includes sent shipments.",
-    cancelled: "Cancelled",
-    cancelled_info: "Orders that were unsuccessful.",
-    recent_orders: "Your recent orders"
+      "好人好巿訂單尚未被審批。<br/>還有StockIt 'Active' & '從網頁'。",
+    processing: "處理中",
+    processing_info: "好人好巿訂單正在審批。<br/>包括所有StockIt 狀態。",
+    awaiting_dispatch: "已安排時間",
+    awaiting_dispatch_info: "已確認時間的好人好巿訂單",
+    dispatching: "派送中",
+    dispatching_info: "好人好巿訂單現正派送",
+    closed: "已完結",
+    closed_info: "訂單已完成 <br/> 包括已送出的運輸。",
+    cancelled: "已取消",
+    cancelled_info: "訂單尚未成功。",
+    recent_orders: "您最近的訂單"
   },
   split_quantity: {
-    btn: "Split",
-    title: "Split Quantity",
-    header: "Split off how many items?",
-    info_1: "All items will have Q Inventory Number",
-    info_2: "This action cannot be undone",
-    warning: "Quantity to split must be at least 1 and less than {{qty}}"
+    btn: "分拆",
+    title: "分拆數量",
+    header: "分拆多少件?",
+    info_1: "所有物品將有Q 的倉存編號",
+    info_2: "此動作將不能復原",
+    warning: "分拆數量需最少1 件或少於 {{qty}}"
   },
   order_details: {
     client_name: "服務對使用者姓名",
@@ -238,7 +232,7 @@ export default {
     cancel_warning: "此動作將會移除訂單中的任何物品並取消訂單。",
     close_warning: "完成訂單後，您將不能再修改訂單内容。",
     close_order_dispatch_alert:
-      "To close the Order, there should be 0 designated items and at least 1 dispatched item.",
+      "完結訂單, 需要0 件已指派物品或最少1 件已派送物品。",
     first_item_dispatch_warning:
       "您正派送訂單中的第一件物資。訂單狀態將會設置為「派送中」。",
     close_order_popup:
@@ -247,31 +241,31 @@ export default {
       " 請確認繼續指派物資到此訂單。請注意，訂單狀態將會由「已取消」重設為「處理中」。",
     cancel_order_alert: "如需取消訂單，訂單中只能存有0 件已派送物品。",
     logistics: {
-      scheduled: "Scheduled",
-      type: "Type",
-      transport_type: "Transport Type",
-      destination: "Destination",
-      vehicle_type: "Vehicle Type",
-      base_estimate: "Base est.",
-      add_note: "Tap to add/edit sticky note",
-      tap_to_save: "tap to save",
-      processing_checklist: "Processing checklist",
-      checklist_incomplete: "Processing checklist is incomplete",
-      pick_date: "Pick a date",
+      scheduled: "已安排時間",
+      type: "種類",
+      transport_type: "運輸種類",
+      destination: "目的地",
+      vehicle_type: "車型種類",
+      base_estimate: "估計",
+      add_note: "按下以增加/修改記事板",
+      tap_to_save: "按下以儲存",
+      processing_checklist: "處理中的清單",
+      checklist_incomplete: "處理中的清單尚未完成",
+      pick_date: "選擇日期",
       vehicle: {
-        self: "Private vehicle",
-        ggv: "Needs hired vehicle"
+        self: "私人車輛",
+        ggv: "需要聘用車輛"
       }
     }
   },
   order_transports: {
-    online_order: "Online Order",
-    appointment: "Appointment",
-    unknown_transport: "Other"
+    online_order: "網上訂單",
+    appointment: "預約",
+    unknown_transport: "其他"
   },
   order: {
-    appointment: "Appointment",
-    online_order: "Online order",
+    appointment: "預約",
+    online_order: "網上訂單",
     processing: "處理中",
     submitted: "訂單已經提交",
     draft: "等待提交",
@@ -293,128 +287,124 @@ export default {
     due_date: "到期日",
     submitted_for_client: "為服務使用者提交",
     client_information: {
-      title: "Client Information",
-      is_order_client: "Is this order being placed on behalf of a client?",
-      id_type_held_by_client: "Type of ID held by client",
-      verify: "We will use this ID to verify client on arrival.",
-      data_confidentiality: "All client data is kept strictly confidential.",
-      hk_id: "Hong Kong Identity Card",
-      asrf_id: "Asylum Seeker Recognizance Form",
-      first_name: "Client's First Name",
-      family_name: "Client's Family Name",
-      name_instruction: "As shown on identity document",
-      name_warning: "You must enter client’s name here.",
-      phone_number: "Clients contact phone number",
-      phone_number_instruction:
-        "We will use this number to confirm schedule and details.",
+      title: "受惠者資料",
+      is_order_client: "您正在代替受惠者下訂單?",
+      id_type_held_by_client: "受惠者持有的身份證明文件類別",
+      verify: "當天我們將以此身份證明文件核對受惠者身份",
+      data_confidentiality: "所有受惠者資料將會被嚴格保密",
+      hk_id: "香港身份證",
+      asrf_id: "酷刑聲請人身份證明表",
+      first_name: "受惠者名稱",
+      family_name: "受惠者姓氏",
+      name_instruction: "顯示於身份證明文件上",
+      name_warning: "您必需填寫受惠者姓名於此",
+      phone_number: "受惠者聯絡電話號碼",
+      phone_number_instruction: "我們將會以此號碼來確認時間及詳情",
       hk_id_instruction: {
-        title: "Input the last 4 digits of the client's HKID",
-        sub_title: "You do not need to include number in brackets"
+        title: "請輸入受惠者身份證明文件的最後4位數字",
+        sub_title: "您不需要包括括號內的數字"
       },
       rbcl: {
-        title: "Input recognizance form ID (numbers only)",
-        sub_title: 'Numbers appear after four letters e.g "RBCL"'
+        title: "填寫身份證明表的編號 (只限數字)",
+        sub_title: "號碼出現於四位英文字母後,如RBCL"
       }
     },
     user_title: {
-      mr: "Mr",
-      mrs: "Mrs",
-      miss: "Miss",
-      ms: "Ms"
+      mr: "先生",
+      mrs: "太太",
+      miss: "小姐",
+      ms: "女士"
     },
     request_purpose: {
-      title: "Request Purpose",
-      purpose: "Purpose of Goods",
-      for_organisation: "No - order for organisation's own programs",
-      for_client: "Yes - order is for a client/benificiary",
-      people_count_info: "How many people will benefit from these items?",
-      district_label: "Where in Hong Kong will these goods be primarily used?",
-      district_label_info: "This assists us with our reporting.",
-      select_placeholder: "Select District",
-      people_count_warning: "You must input a number here",
-      need_description: "Description of need",
-      need_description_info: "Please briefly describe why goods are needed.",
-      description_warning: "Description cannot be blank."
+      title: "申請目的",
+      purpose: "申請有關物品的目的",
+      for_organisation: "不是 - 訂單是給機構活動使用的",
+      for_client: "是  - 訂單是給受惠者使用的",
+      people_count_info: "多少位人士將會受惠於這些物品?",
+      district_label: "這些物品將會於香港哪一地區使用?",
+      district_label_info: "這項資料會協助我們作統計之用。",
+      select_placeholder: "選擇地區",
+      people_count_warning: "您必須填寫一個數字於此欄",
+      need_description: "需要的原因",
+      need_description_info: "請簡單填寫為什麼需要這些物品",
+      description_warning: "此欄不能留空"
     },
     goods_details: {
-      title: "Goods Details",
-      info_1: "Please indicate type and quantity of each item needed.",
+      title: "物品資料",
+      info_1: "請指出每項所需物品的類別及數量。",
       info_2:
-        "We regularly update the categories available based on the items we normally have in our stock. For unusual requirements not listed here please email",
-      info_3: "and we will help if we can.",
-      request_more: "Request more goods",
-      type_label: "Goods type",
-      quantity_label: "Quantity",
-      description_details_label: "Specifics of item (Optional)",
-      no_goods_error: "At least one Item is required.",
-      no_time_slot_selected_error: "Please select appointment time."
+        "我們恆常地會就著貨存去更新可選擇之物品類別。有一些不常見物品並不限於此，請以電郵聯絡。",
+      info_3: "我們會盡力幫忙。",
+      request_more: "申請更多物品",
+      type_label: "物品種類",
+      quantity_label: "數量",
+      description_details_label: "指定物品 (非必需)",
+      no_goods_error: "需要最少一件物品",
+      no_time_slot_selected_error: "請選擇預約時間"
     },
     request: {
-      remove_req: "Remove this request from order {{orderCode}}",
-      remove: "Remove"
+      remove_req: "從訂單 {{orderCode}} 中移除申請",
+      remove: "移除"
     },
     appointment: {
       title: "Appointment Details",
       transport: "Transport",
-      self_vehicle: "Client will bring private vehicle",
-      hire_vehicle: "Client needs information about hiring vehicle",
-      confirm_labor: "Confirm understanding of labor requirements",
+      self_vehicle: "受惠者會自備車輛",
+      hire_vehicle: "受惠者需要聘用車輛的資料",
+      confirm_labor: "確認已清楚明白搬運工人的要求",
       labor_info:
-        "If the request is too large for the client to carry alone, please advise them to bring their own labor to load at our end and unload at their end. Crossroads does not provide labor, and hired truck drivers do not provide loading services without charge.",
-      labor_confirmation: "I confirm understanding of labor requirements.",
-      date: "Appointment Date",
-      time: "Appointment Time"
+        "如受惠者申請的物品體積龐大，請建議他／她帶備足夠人手以在十字路會提貨及到達目的地時卸貨。十字路會未能提供搬運工人，而聘用車輛司機協助搬運是需要額外收費的。",
+      labor_confirmation: "我確認已清楚明白搬運工人的要求",
+      date: "預約日期",
+      time: "預約時間"
     },
     booking_success: {
-      success: "Success!",
-      reference_number: "Reference Number",
-      status: "Status",
-      what_happen_after_booking: "What happens now?",
+      success: "成功!",
+      reference_number: "參考編號",
+      status: "狀態",
+      what_happen_after_booking: "現在的狀況是？",
       after_booking_info_1:
-        "Our staff will soon start checking the details and may contact you and/or beneficiery to clarify. If everything is okay then the order will be marked confirmed.",
+        "我們的職員將很快檢查資料及或許會聯絡閣下或您的受惠者核實。如一切無誤，訂單將轉至確認狀態。",
       after_booking_info_2:
-        "To see or modify your orders / appointments / preferences etc. visit your dashboard.",
-      visit_dashboard: "Go to your dashboard"
+        "要翻查或更改您的訂單／預約／設定等，請到您的控制頁。",
+      visit_dashboard: "前往控制頁"
     },
     confirm_booking: {
-      title: "Confirmation",
+      title: "確認",
       your_details: {
-        title: "Your Details",
-        phone: "Phone",
-        organisation: "Organisation",
-        position: "Position",
-        email: "Email"
+        title: "您的資料",
+        phone: "電話",
+        organisation: "機構",
+        position: "職位",
+        email: "電郵"
       },
       request_purpose_detail: {
-        title: "Request Purpose",
-        purpose_of_goods: "Purpose of goods",
-        number_benefiting: "Number benefiting",
-        description_of_need: "Description of need"
+        title: "申請目的",
+        purpose_of_goods: "物品用途",
+        number_benefiting: "受惠人數",
+        description_of_need: "需要的詳情"
       },
       client_info_detail: {
-        title: "Client Information",
-        id_type: "Type of ID held",
-        id_number: "ID Number",
-        client_name: "Client's Name",
-        client_phone: "Client's Phone"
+        title: "受惠人士資料",
+        id_type: "身份證明文件類別",
+        id_number: "身份證號碼",
+        client_name: "受惠人士姓名",
+        client_phone: "受惠人士電話"
       },
       goods_detail: {
-        title: "Goods Details",
-        no_description: "No description provided"
+        title: "物品資料",
+        no_description: "並未提供詳情"
       },
       appointment_detail: {
-        title: "Appointment Details",
-        transport: "Transport",
-        labour: "Labour",
-        labour_info:
-          "Client understands labour requirements and can supply labour if needed.",
-        appointment: "Appointment"
+        title: "預約資料",
+        transport: "運輸",
+        labour: "搬運工人",
+        labour_info: "受惠人士清楚明白搬運的要求及如有需要，能自己處理搬運。",
+        appointment: "預約"
       }
     },
-    submit_order: "Submit order",
-    info:
-      "Please review the information below and then submit.</br>If you need to change something, click 'back'."
-    }
+    submit_order: "提交申請",
+    info: "請審視以下資料然後提交。</br>如需更改任何項目，請按＂返回＂。"
   },
   item: {
     edit: "修改",
@@ -504,7 +494,7 @@ export default {
       add_date: "設定日期",
       note: "別註",
       add_timeslot: "設定時間",
-      select_timeslot: "Select timeslot",
+      select_timeslot: "選擇時間段",
       delete_date: "刪除此日期",
       no_appointments: "沒有預約",
       special_day_placeholder: "例:星期四並沒有當值職員",
@@ -559,13 +549,13 @@ export default {
   item_details: {
     quantity: "Quantity",
     type: "Type",
-    description: 'Description',
+    description: "Description",
     size: "Size (cm)",
     quality: "Quality:",
     grade: "Grade :",
     condition: "Condition :",
     validation_errors: {
-      description: 'Description cannot be blank.'
+      description: "Description cannot be blank."
     }
   },
 
@@ -628,5 +618,12 @@ export default {
     quantity_designated_to: "Quantity designated to",
     maximum: "Maximum",
     cancel: "Cancel the designation of this item"
+  },
+  donation: {
+    donation_number_error: "Must be in the form 'CAS-12345'"
+  },
+  partial_undesignate: {
+    modify: "Modify",
+    dispatch: "Dispatch"
   }
 };
