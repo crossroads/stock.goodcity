@@ -2,7 +2,7 @@
   <div class="row">
     <div class='dispatch_location_header'>
       <div class='class= columns small-12 inventory_number_dispatch'>
-        <i>{{fa-icon (if model.isSet 'tags' 'tag')}}</i> {{model.inventoryNumber}}: Dispatch to {{model.orderCode}}
+        <i>{{fa-icon (if model.isSet 'tags' 'tag')}}</i>{{t 'partial_dispatch.dispatch_to' inventoryNumber= model.inventoryNumber orderCode= model.orderCode}}
       </div>
 
       <br><hr/>
@@ -11,7 +11,7 @@
   <div class="row">
     <div class="dispatched-location-header">
       <div class="columns small-12 dispatched-list">
-          Where are <b> {{model.availableQtyForMove}} items</b> being dispatched from?
+          {{t "partial_dispatch.available_quantity" availableQtyForMove= model.availableQtyForMove}}
       </div>
     </div>
   </div>
@@ -24,7 +24,7 @@
             {{packagesLocation.location.name}}
           </div>
           <div class="columns small-2 medium-1  text-align-right">
-            Qty:
+            {{t "partial_dispatch.qty"}}
           </div>
           <div id="packages-qty-location-{{packagesLocation.id}}" class="columns small-2 medium-1 text-align-right packages-location-qty">
              {{packagesLocation.quantity}}
@@ -39,7 +39,7 @@
     <div class="row">
       <div class='columns small-12 medium-12 large-12 total-to-move'>
         <div class="columns small-8 text-align-right">
-          Total to dispatch (must = {{orderPackage.quantity}})
+          {{t "partial_dispatch.total_to_dispatch" qty= orderPackage.quantity}}
         </div>
         <div class="columns small-4 text-align-right ">
           <div class="columns small-1">
@@ -54,24 +54,24 @@
     <div class="row">
       <div class="packages-location-block partial-move-buttons">
         <div class="columns small-5 medium-5">
-          <button id="partial_dispatch" type="submit" class="button expand" disabled={{unless orderPackage.isSingleQuantity true}} {{action 'dispatchQty' model}}>Dispatch</button>
+          <button id="partial_dispatch" type="submit" class="button expand" disabled={{unless orderPackage.isSingleQuantity true}} {{action 'dispatchQty' model}}>{{t "partial_dispatch.dispatch"}}</button>
         </div>
         <div class="columns small-5 medium-5">
           {{#if (is-equal partialDispatchBackLinkpath 'items.detail')}}
             {{#link-to 'items.detail' model.id }}
-              <button id="not-now" class="button expand">Not now</button>
+              <button id="not-now" class="button expand">{{t 'not_now'}}</button>
             {{/link-to}}
           {{else if (is-equal partialDispatchBackLinkpath 'items.partial_undesignate')}}
             {{#link-to 'items.partial_undesignate' model.id }}
-              <button id="not-now" class="button expand">Not now</button>
+              <button id="not-now" class="button expand">{{t 'not_now'}}</button>
             {{/link-to}}
           {{else if (is-equal partialDispatchBackLinkpath 'orders.detail')}}
             {{#link-to 'orders.detail' model.firstOrdersPackage.orderId }}
-              <button id="not-now" class="button expand">Not now</button>
+              <button id="not-now" class="button expand">{{t 'not_now'}}</button>
             {{/link-to}}
           {{else}}
             {{#link-to "items.index" }}
-              <button id="not-now" class="button expand">Not now</button>
+              <button id="not-now" class="button expand">{{t 'not_now'}}</button>
             {{/link-to}}
           {{/if}}
         </div>

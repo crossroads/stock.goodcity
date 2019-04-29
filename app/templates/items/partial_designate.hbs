@@ -28,7 +28,7 @@
               {{/if}}
             {{else}}
               <div class="stock_status">
-                <i aria-hidden="true">{{fa-icon (if item.allowWebPublish 'eye' 'eye-slash')}}</i> In Stock
+                <i aria-hidden="true">{{fa-icon (if item.allowWebPublish 'eye' 'eye-slash')}}</i> {{t "partial_designate.in_stock"}}
               </div>
             {{/if}}
           </div>
@@ -37,7 +37,7 @@
               {{#if item.hasSingleLocation}}
                 {{item.firstLocationName}}
               {{else if item.hasMultiLocations}}
-                {{#link-to 'items.partial_move' item.id tagName='span' href=false}} Multiple {{/link-to}}
+                {{#link-to 'items.partial_move' item.id tagName='span' href=false}} {{t "partial_designate.multiple"}} {{/link-to}}
               {{/if}}
             {{/unless}}
           </div>
@@ -107,7 +107,7 @@
           {{/if}}
         {{else}}
           <div class="stock_status">
-            <i aria-hidden="true">{{fa-icon (if item.allowWebPublish 'eye' 'eye-slash')}}</i> In Stock
+            <i aria-hidden="true">{{fa-icon (if item.allowWebPublish 'eye' 'eye-slash')}}</i> {{t 'partial_designate.in_stock'}}
           </div>
         {{/if}}
       </div>
@@ -117,7 +117,7 @@
           {{#if model.hasSingleLocation}}
             {{model.firstLocationName}}
           {{else if model.hasMultiLocations}}
-            {{#link-to 'items.partial_move' model.id tagName='span' href=false}} Multiple {{/link-to}}
+            {{#link-to 'items.partial_move' model.id tagName='span' href=false}} {{t 'partial_designate.multiple'}} {{/link-to}}
           {{/if}}
         {{/unless}}
       </div>
@@ -164,7 +164,7 @@
       <div class="warning_text">
         <div class="left-icon"><i>{{fa-icon 'exclamation-triangle'}}</i></div>
         <div class="right-message">
-          <div class="move-message">Designates only part of set.</div>
+          <div class="move-message">{{t 'partial_designate.move_message'}}</div>
         </div>
       </div><br/>
     {{/if}}
@@ -172,14 +172,15 @@
       <div class="left-icon"><i>{{fa-icon 'exclamation-triangle'}}</i></div>
       <div class="right-message">
         {{#if model.isSet}}
-          <div class="move-message">You can only designate maximum {{minSetQty}} items.</div>
+          <div class="move-message">{{t 'partial_designate.warning_text' qty=minSetQty}}
+          </div>
         {{else}}
-          <div class="move-message">You can only designate maximum {{totalInHandItems}} items.</div>
+          <div class="move-message">{{t 'partial_designate.warning_text' qty=totalInHandItems}}</div>
         {{/if}}
       </div>
     </div>
   </div>
-  <div class="confirm_quantity">Confirm the quantities you are designating.</div>
+  <div class="confirm_quantity">{{t 'partial_designate.confirm'}}</div>
     <div class="columns small-4 partial_designate_textfield">
       {{#if model.isSet}}
         {{partial-designate-input id=model.id value=model.minSetQty item=model}}

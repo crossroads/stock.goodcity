@@ -1,6 +1,6 @@
 <nav class="tab-bar new-item-nav">
   <section class="tab-bar-section">
-    <h1 class="title">Add - {{parentCodeName}}</h1>
+    <h1 class="title">{{t "items.new.add"}} - {{parentCodeName}}</h1>
   </section>
 </nav>
 
@@ -16,7 +16,7 @@
         <img  src={{newUploadedImage.thumbImageUrl}} class="thumb"/>
       {{else}}
         <i aria-hidden="true">{{fa-icon 'camera'}}</i><br />
-        Add Images
+        {{t "items.new.add_images"}}
       {{/if}}
       </span>
     </a>
@@ -27,19 +27,19 @@
 
       <div class="row">
         <div class="small-3 columns item-label">
-          Quantity*
+          {{t "items.new.quantity"}}
         </div>
         <div class="small-7 large-8 columns left">
           {{#form-control}}
             {{numeric-input id='qty' name="qty" value=quantity maxlength="8" required='true' pattern="\d{1,8}"}}
-            <div class='input-error'>Quantity cannot be blank.</div>
+            <div class='input-error'>{{t "items.new.validation_errors.quantity"}}</div>
           {{/form-control}}
         </div>
       </div>
 
       <div class="row">
         <div class="small-3 columns item-label">
-          Type*
+          {{t "items.new.type"}}
         </div>
         <div class="small-7 large-8 columns left">
           {{input value=code.name disabled=true}}
@@ -51,20 +51,20 @@
 
   <div class="row">
     <div class="small-3 columns item-label">
-      Description*
+      {{t "items.new.description"}}
     </div>
     <div class="small-9 columns description-block">
       {{#form-control}}
         <i class="remove-text" aria-hidden="true" {{action "clearDescription"}}>{{fa-icon 'times-circle'}}</i>
         {{auto-resize-textarea data-autoresize=true name="description" value=description required="required" pattern=".*\S.*" id="description"}}
-        <div class='input-error'>Description cannot be blank.</div>
+        <div class='input-error'>{{t 'items.new.validation_errors.description'}}</div>
       {{/form-control}}
     </div>
   </div>
 
   <div class="row dimension-row">
     <div class="small-3 columns item-label">
-      Size (cm)
+      {{t "items.new.size"}}
     </div>
     <div class="columns small-3 value length">
       <span class='input_text'>L :</span>
@@ -86,10 +86,10 @@
 
   <div class="row quality-row">
     <div class="small-3 columns item-label">
-      Quality*
+      {{t "items.new.quality"}}
     </div>
     <div class="small-4 columns">
-      <span class='input_text'>Grade :</span>
+      <span class='input_text'>{{t "items.new.grade"}}</span>
       {{select-list
         content=grades
         on-change=(action (mut selectedGrade))
@@ -99,7 +99,7 @@
         classNames='grade' }}
     </div>
     <div class="small-5 columns">
-      <span class='input_text'>Condition :</span>
+      <span class='input_text'>{{t "items.new.condition"}}</span>
       {{select-list
         content=conditions
         on-change=(action (mut selectedCondition))
@@ -114,12 +114,12 @@
 
   <div class="row">
     <div class="small-3 columns item-label">
-      Donation#
+      {{t "items.new.donation"}}
     </div>
     <div class="{{if isMobileApp 'small-7 large-8' 'small-9'}} columns">
       {{#form-control}}
         {{input type='text' value=caseNumber pattern="(CAS\-\d{5})|\d{5}"}}
-        <div class='input-error'>Must be a number or in the form "CAS-12345"</div>
+        <div class='input-error'>{{t "items.new.validation_errors.donation"}}</div>
       {{/form-control}}
     </div>
     {{#if isMobileApp}}
@@ -131,7 +131,7 @@
 
   <div class="row">
     <div class="small-3 columns item-label">
-      Location*
+      {{t "items.new.location"}}
     </div>
 
     <div class="{{if isMobileApp 'small-7 large-8' 'small-9'}} columns">
@@ -141,9 +141,9 @@
           {{input value=locationName disabled=true required='true'}}
           <div class='input-error'>
             {{#if invalidScanResult}}
-              Scanned Location is invalid.
+              {{t "items.new.validation_errors.invalid_location"}}
             {{else}}
-              Location cannot be blank.
+              {{t "items.new.validation_errors.blank_location"}}
             {{/if}}
           </div>
         </div>
@@ -159,7 +159,7 @@
 
   <div class="row">
     <div class="small-3 columns item-label">
-      Inventory#
+      {{t "items.new.inventory"}}
     </div>
     <div class="small-7 large-8 columns inventory-number">
 
@@ -179,7 +179,7 @@
   {{#if showPublishItemCheckBox}}
     <div class="row">
       <div class="small-10 columns item-label">
-        <label for="publishItem">Immediately publish this item for online browsing</label>
+        <label for="publishItem">{{t "items.new.publish"}}</label>
       </div>
       <div class="small-2 columns">
         {{input type="checkbox" name="publishItem" id="publishItem"}}
@@ -189,11 +189,11 @@
 
   <div class="row">
     <div class="small-6 columns">
-      <a {{action 'cancelForm'}} class="button secondary expand">Cancel</a>
+      <a {{action 'cancelForm'}} class="button secondary expand">{{t "cancel"}}</a>
     </div>
 
     <div class="small-6 columns">
-      <a {{action 'submit' target=form}} class="button expand">Save</a>
+      <a {{action 'submit' target=form}} class="button expand">{{t 'save'}}</a>
     </div>
   </div>
 
