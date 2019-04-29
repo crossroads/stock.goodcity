@@ -9,6 +9,8 @@ export default {
   loading: "Loading...",
   back: "Back",
   search: "Search",
+  state: "State",
+  location: "Location",
   QuotaExceededError:
     "Site may not work in Safari's <b>private mode.</b> Please try</br><ul><li><a href='https://itunes.apple.com/in/app/goodcitystock.hk/id1144806764?mt=8' style='color: black!important; background-color: #dee4eb !important;'>Downloading the iOS App</a></li><li>Using regular (not private) mode in Safari</li><li>Using Chrome's private browsing mode</li></ul>",
   search_min: "Search (min 3 characters)",
