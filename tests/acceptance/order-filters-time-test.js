@@ -262,7 +262,9 @@ test("Upon returning to the order list, the list is updated with the selected da
     $(".filter-btn.apply").click();
   });
 
-  andThen(() => {
-    assert.ok(apiCalled);
-  });
+  Ember.run.later(() => {
+    andThen(() => {
+      assert.ok(apiCalled);
+    });
+  }, 500);
 });

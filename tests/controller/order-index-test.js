@@ -5,12 +5,11 @@ moduleFor("controller:orders.index", "orders.index controller", {
 });
 
 test("checking default set properties", function(assert) {
-  assert.expect(3);
+  assert.expect(2);
 
   // get the controller instance
   var ctrl = this.subject();
 
-  assert.equal(ctrl.get("searchModelName"), "designation");
-  assert.equal(ctrl.get("unloadAll"), false);
+  assert.equal(ctrl.get("displayResults"), false);
   assert.equal(ctrl.get("minSearchTextLength"), 2);
 });
