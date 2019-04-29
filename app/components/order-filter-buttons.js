@@ -30,15 +30,15 @@ export default Ember.Component.extend({
     },
 
     clearStateFilters() {
-      this.get("filterService").clearStateFilters();
+      this.get("filterService").clearOrderStateFilters();
     },
 
     clearTypeFilters() {
-      this.get("filterService").clearTypeFilters();
+      this.get("filterService").clearOrderTypeFilters();
     },
 
     clearTimeFilters() {
-      this.get("filterService").clearTimeFilters();
+      this.get("filterService").clearOrderTimeFilters();
     }
   }
 });

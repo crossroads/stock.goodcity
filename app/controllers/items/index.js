@@ -16,11 +16,12 @@ export default searchModule.extend({
     withInventoryNumber: "true"
   },
 
-  onFilterChange() {
-    if (this.get("searchText").length > this.get("minSearchTextLength")) {
-      this.set("itemSetId", null);
-      Ember.run.debounce(this, this.applyFilter, 500);
-    }
+  on() {
+    this.get("filterService").on("change", this, this.onFilterChange);
+  },
+
+  off() {
+    this.get("filterService").off("change", this, this.onFilterChange);
   },
 
   createFilterParams() {
@@ -38,11 +39,12 @@ export default searchModule.extend({
     };
   },
 
-  applyFilter() {
+  applyFilter(opts = {}) {
+    const { force = false } = opts;
     var searchText = this.get("searchText");
     let UNLOAD_MODELS = ["designation", "item", "location", "code"];
 
-    if (searchText.length) {
+    if (force || searchText.length) {
       this.set("isLoading", true);
       this.set("hasNoResults", false);
       if (this.get("unloadAll")) {
@@ -54,7 +56,7 @@ export default searchModule.extend({
         this.buildQueryParamMap()
       )
         .then(data => {
-          if (this.get("searchText") === data.meta.search) {
+          if (force || this.get("searchText") === data.meta.search) {
             this.set("filteredResults", data);
             this.set("hasNoResults", data.get("length") === 0);
           }

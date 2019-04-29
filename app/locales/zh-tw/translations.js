@@ -136,6 +136,8 @@ export default {
     warning: "不能取消變更!"
   },
   item_filters: {
+    button_state: "State",
+    button_location: "Location",
     with_and_without_images: "全部",
     has_images: "包含相片",
     no_images: "沒有相片",

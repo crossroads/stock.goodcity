@@ -80,14 +80,11 @@ export default Ember.Controller.extend(InfinityRoute, {
   },
 
   onFilterChange() {
-    Ember.run.debounce(
-      this,
-      () =>
-        this.applyFilter({
-          force: true
-        }),
-      500
-    );
+    Ember.run.debounce(this, this.reloadResults, 500);
+  },
+
+  reloadResults() {
+    this.applyFilter({ force: true });
   },
 
   beforeSearch() {

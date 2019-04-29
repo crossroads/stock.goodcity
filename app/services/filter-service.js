@@ -58,22 +58,30 @@ export default Ember.Service.extend(Ember.Evented, {
     return filters && filters.indexOf(STATE_FILTERS.PRIORITY) >= 0;
   },
 
-  clearStateFilters() {
+  clearItemLocationFilters() {
+    this.set("itemLocationFilters", "");
+  },
+
+  clearItemStateFilters() {
+    this.set("itemStateFilters", []);
+  },
+
+  clearOrderStateFilters() {
     this.set("orderStateFilters", []);
   },
 
-  clearTypeFilters() {
+  clearOrderTypeFilters() {
     this.set("orderTypeFilters", []);
   },
 
-  clearTimeFilters() {
+  clearOrderTimeFilters() {
     this.setOrderTimeRange(null);
   },
 
   clearFilters() {
-    this.clearStateFilters();
-    this.clearTypeFilters();
-    this.clearTimeFilters();
+    this.clearOrderStateFilters();
+    this.clearOrderTypeFilters();
+    this.clearOrderTimeFilters();
   },
 
   hasOrderFilters: Ember.computed(
