@@ -83,11 +83,14 @@ export default Ember.Controller.extend({
 
   actions: {
     loadMoreOrders(pageNo) {
-      const params = this.trimQuery({
-        ...this.getFilterQuery(),
-        ...this.getSearchQuery(),
-        ...this.getPaginationQuery(pageNo)
-      });
+      const params = this.trimQuery(
+        _.merge(
+          {},
+          this.getFilterQuery(),
+          this.getSearchQuery(),
+          this.getPaginationQuery(pageNo)
+        )
+      );
 
       return this.get("store")
         .query("designation", params)
