@@ -696,5 +696,15 @@ export default {
   },
   print_label: {
     sent: "Sent to printer"
+  },
+  publish_item: {
+    publish: "Publish",
+    unpublish: "Unpublish",
+    publish_message1:
+      "You are about to publish this package for clients to view and request online.",
+    publish_message2:
+      "Please ensure descriptions and images are high quality before proceeding.",
+    unpublish_message:
+      "You are about to unpublish this package.Clients will no longer be able to view or request it online."
   }
 };
