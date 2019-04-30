@@ -10,6 +10,7 @@ export default {
   back: "Back",
   search: "Search",
   state: "State",
+  label: "Label",
   location: "Location",
   QuotaExceededError:
     "Site may not work in Safari's <b>private mode.</b> Please try</br><ul><li><a href='https://itunes.apple.com/in/app/goodcitystock.hk/id1144806764?mt=8' style='color: black!important; background-color: #dee4eb !important;'>Downloading the iOS App</a></li><li>Using regular (not private) mode in Safari</li><li>Using Chrome's private browsing mode</li></ul>",
@@ -424,11 +425,11 @@ export default {
         labour_info:
           "Client understands labour requirements and can supply labour if needed.",
         appointment: "Appointment"
-      }
-    },
-    submit_order: "Submit order",
-    info:
-      "Please review the information below and then submit.</br>If you need to change something, click 'back'."
+      },
+      submit_order: "Submit order",
+      info:
+        "Please review the information below and then submit.</br>If you need to change something, click 'back'."
+    }
   },
   item: {
     edit: "edit",
@@ -577,6 +578,7 @@ export default {
     add: "Add Request",
     quantity: "Quantity*",
     description: "Description",
+    error: "Enter valid details.",
     validation_errors: {
       quantity: "Quantity cannot be blank."
     }
@@ -666,10 +668,33 @@ export default {
     cancel: "Cancel the designation of this item"
   },
   donation: {
+    title: "Donation#",
     donation_number_error: "Must be in the form 'CAS-12345'"
   },
   partial_undesignate: {
     modify: "Modify",
+    dispatch: "Dispatch",
+    qty: "Qty:",
+    status: "{{inventoryNumber}}: Status",
+    private: "(Private)",
+    designated: "Designated",
+    available: "Available",
+    in_hand_quantity: "Total quantity on hand:",
+    lifetime_quantity: "Total lifetime quantity"
+  },
+  partial_dispatch: {
+    dispatch_to: "{{inventoryNumber}}: Dispatch to  {{orderCode}}",
+    available_quantity:
+      " Where are <b> {{availableQtyForMove}} items</b> being dispatched from?",
+    qty: "Qty:",
+    total_to_dispatch: "Total to dispatch (must = {{qty}})",
     dispatch: "Dispatch"
+  },
+  partial_move: {
+    location: "{{inventoryNumber}}: Location",
+    location_length: " Locations: {{locationLength}}"
+  },
+  print_label: {
+    sent: "Sent to printer"
   }
 };

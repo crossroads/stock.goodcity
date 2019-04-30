@@ -10,12 +10,14 @@ export default {
   no_search_results: "沒有搜尋結果",
   search: "搜尋",
   state: "State",
+  label: "Label",
   location: "Location",
   QuotaExceededError:
     "網頁部分功能於Safari 瀏覽器的 <b>「私密瀏覽」模式</b>並不適用。 請嘗試</br><ul><li><a href='https://itunes.apple.com/in/app/goodcitystock.hk/id1144806764?mt=8' style='color: black!important; background-color: #dee4eb !important;'>下載 iOS 手機應用程式</a></li><li>使用 Safari 瀏覽器正常模式 </li><li> 使用Chrome瀏覽器的「無痕模式」</li></ul>",
   search_min: "搜尋 (請輸入最少3個字元)",
   cancel: "取消",
   ok: "確定",
+  done: "Done",
   must_login: "請登入!",
   search_no_results: "對不起，沒有搜尋結果",
   version: "Stock v.",
@@ -289,6 +291,12 @@ export default {
     process_summary: "概覽",
     due_date: "到期日",
     submitted_for_client: "為服務使用者提交",
+    numbers_warning: "Please enter 4 digit number.",
+    mobile_warning: "Please provide a valid Hong Kong mobile number",
+    for_our_charity: "For our charity (facilities / programs etc.)",
+    for_client: "For client / beneficiary (personal use)",
+    for_charity_sale: "For charity sale, bartering (any form of trade)",
+    title: "Title",
     client_information: {
       title: "受惠者資料",
       is_order_client: "您正在代替受惠者下訂單?",
@@ -404,10 +412,10 @@ export default {
         labour: "搬運工人",
         labour_info: "受惠人士清楚明白搬運的要求及如有需要，能自己處理搬運。",
         appointment: "預約"
-      }
-    },
-    submit_order: "提交申請",
-    info: "請審視以下資料然後提交。</br>如需更改任何項目，請按＂返回＂。"
+      },
+      submit_order: "提交申請",
+      info: "請審視以下資料然後提交。</br>如需更改任何項目，請按＂返回＂。"
+    }
   },
   item: {
     edit: "修改",
@@ -534,6 +542,7 @@ export default {
     add: "Add Request",
     quantity: "Quantity*",
     description: "Description",
+    error: "Enter valid details.",
     validation_errors: {
       quantity: "Quantity cannot be blank."
     }
@@ -623,10 +632,38 @@ export default {
     cancel: "Cancel the designation of this item"
   },
   donation: {
+    title: "Donation#",
     donation_number_error: "Must be in the form 'CAS-12345'"
   },
   partial_undesignate: {
     modify: "Modify",
+    dispatch: "Dispatch",
+    qty: "Qty:",
+    status: "{{inventoryNumber}}: Status",
+    private: "(Private)",
+    designated: "Designated",
+    available: "Available",
+    in_hand_quantity: "Total quantity on hand:",
+    lifetime_quantity: "Total lifetime quantity"
+  },
+  partial_dispatch: {
+    dispatch_to: "{{inventoryNumber}}: Dispatch to  {{orderCode}}",
+    available_quantity:
+      " Where are <b> {{availableQtyForMove}} items</b> being dispatched from?",
+    qty: "Qty:",
+    total_to_dispatch: "Total to dispatch (must = {{qty}})",
     dispatch: "Dispatch"
+  },
+  partial_move: {
+    location: "{{inventoryNumber}}: Location",
+    location_length: " Locations: {{locationLength}}",
+    total_on_hand: "Total on Hand:",
+    qty: "Qty:",
+    move: "Move",
+    total_to_move: "Total to move",
+    proceed_to_choose_destination: "Proceed to choose destination"
+  },
+  print_label: {
+    sent: "Sent to printer"
   }
 };
