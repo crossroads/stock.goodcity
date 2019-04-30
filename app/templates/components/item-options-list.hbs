@@ -17,7 +17,7 @@
     {{/if}}
   </div>
 
-  <div>
+  <div class="{{unless item.isSingletonItem 'disabled'}}">
     {{#if (is-or item.designationId item.hasOneDispatchedPackage)}}
       {{#link-to 'items.search_order' item.id tagName='div' href=false}}
         <i class="item-menu">{{fa-icon 'shopping-basket' size="2x"}}</i><br />
