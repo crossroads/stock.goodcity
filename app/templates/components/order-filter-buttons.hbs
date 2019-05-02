@@ -1,8 +1,51 @@
 <div class="filter-buttons">
-  <div class="small-6 columns">
-    <button id="order-state-filter" {{action "redirectTofilters" "applyStateFilter"}} class="button expand filter-button-css">State</button>
+  <div class="small-4 columns">
+
+    <!-- State button -->
+    <button
+      {{action "redirectTofilters" "applyStateFilter"}}
+      id="order-state-filter"
+      class="button expand filter-button-css {{if hasStateFilters 'filter-button-border'}}"
+    >
+      {{#if (is-equal orderStateFilters.length 0) }}
+        {{t 'order_filters.button_state'}}
+      {{else if (is-equal orderStateFilters.length 1) }}
+        {{t (concat 'order_filters.' orderStateFilters.firstObject) }}
+      {{else}}
+        {{t 'order_filters.button_state'}}: {{orderStateFilters.length}}
+      {{/if}}
+    </button>
   </div>
-  <div class="small-6 columns">
-    <button id="order-type-filter" {{action "redirectTofilters" "applyTypeFilter"}} class="button expand filter-button-css">Type</button>
+
+  <!-- Type button -->
+  <div class="small-4 columns">
+    <button
+      {{action "redirectTofilters" "applyTypeFilter"}}
+      id="order-type-filter"
+      class="button expand filter-button-css {{if hasTypeFilters 'filter-button-border'}}">
+
+      {{#if (is-equal orderTypeFilters.length 0) }}
+        {{t 'order_filters.button_type'}}
+      {{else if (is-equal orderTypeFilters.length 1) }}
+        {{t (concat 'order_filters.' orderTypeFilters.firstObject) }}
+      {{else}}
+        {{t 'order_filters.button_type'}}: {{orderTypeFilters.length}}
+      {{/if}}
+    </button>
+  </div>
+
+  <!-- Time ranges -->
+  <div class="small-4 columns">
+    <button
+      {{action "redirectTofilters" "applyTimeFilter"}}
+      id="order-time-filter"
+      class="button expand filter-button-css {{if hasTimeFilters 'filter-button-border'}}">
+
+        {{#if orderTimeRange.preset }}
+          {{t (concat 'order_filters.time_presets.' orderTimeRange.preset) }}
+        {{else}}
+          {{t 'order_filters.button_due'}}
+        {{/if}}
+      </button>
   </div>
 </div>

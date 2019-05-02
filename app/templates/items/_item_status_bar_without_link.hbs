@@ -25,7 +25,7 @@
       {{/if}}
     {{else}}
         <div class="stock_status">
-          <i aria-hidden="true">{{fa-icon (if item.allowWebPublish 'eye' 'eye-slash')}}</i> In Stock
+          <i aria-hidden="true">{{fa-icon (if item.allowWebPublish 'eye' 'eye-slash')}}</i> {{t "item_status_bar.in_stock"}}
         </div>
     {{/if}}
   </div>
@@ -35,7 +35,7 @@
       {{#if item.hasSingleLocation}}
         {{item.firstLocationName}}
       {{else if item.hasMultiLocations}}
-        Multiple
+        {{t "item_status_bar.multiple"}}
       {{/if}}
     {{/unless}}
   </div>

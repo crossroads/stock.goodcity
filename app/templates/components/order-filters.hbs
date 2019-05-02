@@ -1,10 +1,10 @@
 <div class="order-filters">
   <div class="row">
     <div class="small-6 columns">
-      <button {{action "applyFilters"}} class="button expand filter-btn">{{t "order_filters.apply_filter_button"}}</button>
+      <button {{action "applyFilters"}} class="button expand filter-btn apply">{{t "order_filters.apply_filter_button"}}</button>
     </div>
     <div class="small-6 columns">
-      <button {{action "clearFilters"}} class="button expand filter-btn">{{t "order_filters.clear_button"}}</button>
+      <button {{action "clearFilters"}} class="button expand filter-btn clear">{{t "order_filters.clear_button"}}</button>
     </div>
   </div>
 
@@ -14,5 +14,8 @@
   {{else if applyTypeFilter}}
     {{!-- Order Type filters --}}
     {{partial "orders/type_filters"}}
+  {{else if applyTimeFilter}}
+    {{!-- Order Type filters --}}
+    {{partial "orders/time_filters"}}
   {{/if}}
 </div>

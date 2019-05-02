@@ -2,7 +2,7 @@ import Ember from "ember";
 import config from "../config/environment";
 
 export default Ember.Controller.extend({
-  subscription: Ember.inject.controller(),
+  subscription: Ember.inject.service(),
   cordova: Ember.inject.service(),
   store: Ember.inject.service(),
   app_id: config.APP.ANDROID_APP_ID,
@@ -11,11 +11,12 @@ export default Ember.Controller.extend({
   bannerImage: config.APP.BANNER_IMAGE,
   bannerReopenDays: config.BANNER_REOPEN_DAYS,
   isMobileApp: config.cordova.enabled,
+  notifications: Ember.inject.controller(),
 
   initSubscription: Ember.on("init", function() {
-    this.get("subscription").send("wire");
-    //prettier-ignore
-    if (this.get("isMobileApp") && cordova.platformId === "android") { // jshint ignore:line
+    this.get("subscription").wire();
+    if (this.get("isMobileApp") && cordova.platformId === "android") {
+      // jshint ignore:line
       this.redirectToItem();
     }
   }),
@@ -31,8 +32,8 @@ export default Ember.Controller.extend({
   actions: {
     logMeOut() {
       this.session.clear(); // this should be first since it updates isLoggedIn status
-      this.get("subscription").send("unwire");
-      this.get("subscription").send("unloadNotifications");
+      this.get("subscription").unwire();
+      this.get("notifications").send("unloadNotifications");
       this.get("store").unloadAll();
       this.transitionToRoute("login");
     }

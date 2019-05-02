@@ -10,6 +10,7 @@ import "../factories/gc_organisation";
 import "../factories/user";
 import "../factories/location";
 import "../factories/organisations_user";
+import MockUtils from "../helpers/mock-utils";
 import FactoryGuy from "ember-data-factory-guy";
 import { mockFindAll } from "ember-data-factory-guy";
 
@@ -28,6 +29,10 @@ var App,
 module("Acceptance: Order summary", {
   beforeEach: function() {
     App = startApp({}, 2);
+    MockUtils.startSession();
+    MockUtils.mockDefault();
+    MockUtils.mockOrderSummary();
+
     user = FactoryGuy.make("user", {
       mobile: "123456",
       email: "abc@xyz"
@@ -61,44 +66,8 @@ module("Acceptance: Order summary", {
       item: item1,
       designation: designation
     });
-    data = {
-      user_profile: [
-        {
-          id: 2,
-          first_name: "David",
-          last_name: "Dara51",
-          mobile: "61111111",
-          user_role_ids: [1]
-        }
-      ],
-      users: [
-        {
-          id: 2,
-          first_name: "David",
-          last_name: "Dara51",
-          mobile: "61111111"
-        }
-      ],
-      roles: [
-        {
-          id: 4,
-          name: "Supervisor"
-        }
-      ],
-      user_roles: [
-        {
-          id: 1,
-          user_id: 2,
-          role_id: 4
-        }
-      ]
-    };
 
-    $.mockjax({
-      url: "/api/v1/auth/current_user_profil*",
-      responseText: data
-    });
-    $.mockjax({
+    MockUtils.mock({
       url: "/api/v1/designations/*",
       type: "GET",
       status: 200,
@@ -113,19 +82,6 @@ module("Acceptance: Order summary", {
             includeId: true
           })
         ]
-      }
-    });
-    $.mockjax({
-      url: "/api/v1/orders/summar*",
-      responseText: {
-        submitted: 14,
-        awaiting_dispatch: 1,
-        dispatching: 1,
-        processing: 2,
-        priority_submitted: 14,
-        priority_dispatching: 1,
-        priority_processing: 2,
-        priority_awaiting_dispatch: 1
       }
     });
 
@@ -170,7 +126,6 @@ module("Acceptance: Order summary", {
         }
       }
     });
-    7718071289;
     mockFindAll("orders_package").returns({
       json: {
         orders_packages: [
@@ -191,6 +146,7 @@ module("Acceptance: Order summary", {
     });
   },
   afterEach: function() {
+    MockUtils.closeSession();
     Ember.run(App, "destroy");
   }
 });

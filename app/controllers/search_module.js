@@ -1,10 +1,10 @@
 import Ember from "ember";
+import _ from "lodash";
 import InfinityRoute from "ember-infinity/mixins/route";
 
 export default Ember.Controller.extend(InfinityRoute, {
   filterService: Ember.inject.service(),
   utilityMethods: Ember.inject.service(),
-
   getCurrentUser: Ember.computed(function() {
     var store = this.get("store");
     var currentUser = store.peekAll("user_profile").get("firstObject") || null;
@@ -40,95 +40,109 @@ export default Ember.Controller.extend(InfinityRoute, {
   minSearchTextLength: 0,
   searchInput: null,
   toDesignateItem: null,
-  excludeAssociations: false,
+  excludeAssociations: true,
   requestOptions: {},
+  modelPath: "filteredResults",
 
   hasSearchText: Ember.computed("searchText", function() {
     return !!this.get("searchText");
   }),
 
+  canSearch: Ember.computed("searchText", function() {
+    return this.get("searchText").length > this.get("minSearchTextLength");
+  }),
+
   onSearchTextChange: Ember.observer("searchText", function() {
     // wait before applying the filter
-    if (this.get("searchText").length > this.get("minSearchTextLength")) {
+    if (this.get("canSearch")) {
       this.set("itemSetId", null);
       Ember.run.debounce(this, this.applyFilter, 500);
     } else {
-      this.set("filteredResults", []);
+      this.set(this.get("modelPath"), []);
     }
   }),
 
   buildQueryParamMap() {
     let queryParamDefinitions = {
-      searchText: "searchText",
       itemId: "itemSetId",
       toDesignateItem: "toDesignateItem",
       shallow: "excludeAssociations"
     };
+
+    if (this.get("hasSearchText")) {
+      queryParamDefinitions.searchText = "searchText";
+    }
+
     for (var key in this.requestOptions) {
       queryParamDefinitions[key] = `requestOptions.${key}`;
     }
     return queryParamDefinitions;
   },
 
-  onFilterChange() {
-    if (this.get("searchText").length > this.get("minSearchTextLength")) {
+  onFilterChange(opts) {
+    const { force = false } = opts;
+    if (force || this.get("canSearch")) {
       this.set("itemSetId", null);
-      Ember.run.debounce(this, this.applyFilter, 500);
+      Ember.run.debounce(this, () => this.applyFilter(opts), 500);
     }
   },
 
-  applyFilter() {
-    var searchText = this.get("searchText");
-    let filterService = this.get("filterService");
-    let utilities = this.get("utilityMethods");
-    let UNLOAD_MODELS = ["designation", "item", "location", "code"];
+  beforeSearch() {
+    if (this.get("unloadAll")) {
+      _.each(["designation", "item", "location", "code"], m => {
+        this.get("store").unloadAll(m);
+      });
+    }
+  },
 
-    if (searchText.length > 0) {
+  afterSearch() {
+    // To be implemented
+  },
+
+  createFilterParams() {
+    // Default params, to be overriden in subclass
+    return {
+      perPage: 25,
+      startingPage: 1,
+      modelPath: this.get("modelPath"),
+      stockRequest: true
+    };
+  },
+
+  applyFilter(opts = {}) {
+    const { force = false } = opts;
+    const modelPath = this.get("modelPath");
+    const searchText = this.get("searchText");
+    if (force || this.get("canSearch")) {
       this.set("isLoading", true);
       this.set("hasNoResults", false);
-      if (this.get("unloadAll")) {
-        UNLOAD_MODELS.forEach(model => this.store.unloadAll(model));
-      }
+      this.set("forceLoading", force);
+      this.beforeSearch();
 
-      let filter = filterService.get("getOrderStateFilters");
-
-      let isPriority = filterService.isPriority();
-      if (isPriority) {
-        filter.shift();
-      }
-      let typesFilter = filterService.get("getOrderTypeFilters");
-      const paginationOpts = {
-        perPage: 25,
-        startingPage: 1,
-        modelPath: "filteredResults",
-        stockRequest: true,
-        state: utilities.stringifyArray(filter),
-        type: utilities.stringifyArray(typesFilter),
-        priority: isPriority
-      };
       this.infinityModel(
         this.get("searchModelName"),
-        paginationOpts,
+        this.createFilterParams(),
         this.buildQueryParamMap()
       )
         .then(data => {
-          data.forEach(record => {
-            if (this.onItemLoaded) {
-              this.onItemLoaded(record);
-            }
-          });
-          if (this.get("searchText") === data.meta.search) {
-            this.set("filteredResults", data);
+          return Ember.RSVP.resolve(this.afterSearch(data)).then(() => data);
+        })
+        .then(data => {
+          if (force || this.get("searchText") === data.meta.search) {
+            this.set(modelPath, data);
             this.set("hasNoResults", data.get("length") === 0);
           }
         })
         .finally(() => this.set("isLoading", false));
     }
-    this.set("filteredResults", []);
+    this.set(modelPath, []);
   },
 
   afterInfinityModel(records) {
     var searchText = this.get("searchText");
+    if (this.get("forceLoading")) {
+      return;
+    }
     if (searchText.length === 0 || searchText !== records.meta.search) {
       records.replaceContent(0, 25, []);
     }

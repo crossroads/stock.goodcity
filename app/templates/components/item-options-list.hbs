@@ -17,8 +17,13 @@
     {{/if}}
   </div>
 
-  <div class="{{unless item.isSingletonItem 'disabled'}} {{unless item.quantity 'disabled'}}">
-    {{#if item.isSingletonItem}}
+  <div class="{{unless item.isSingletonItem 'disabled'}}">
+    {{#if (is-or item.designationId item.hasOneDispatchedPackage)}}
+      {{#link-to 'items.search_order' item.id tagName='div' href=false}}
+        <i class="item-menu">{{fa-icon 'shopping-basket' size="2x"}}</i><br />
+        {{t "item.designate"}}
+      {{/link-to}}
+    {{else if item.isSingletonItem}}
       {{#link-to 'items.search_order' item.id (query-params isSet=item.isSet partial_qty=1) tagName='div' href=false}}
         <i class="item-menu">{{fa-icon 'shopping-basket' size="2x"}}</i><br />
         {{t "item.designate"}}
@@ -49,7 +54,7 @@
 
   {{#print-label item=item closeList=(action 'toggle' true)}}
     <i class="item-menu">{{fa-icon 'print' size="2x"}}</i><br />
-    Label
+     {{t "label"}}
   {{/print-label}}
 
   {{#if item.isSet}}

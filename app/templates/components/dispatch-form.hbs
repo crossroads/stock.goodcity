@@ -29,7 +29,8 @@
           <i>{{fa-icon 'shopping-basket'}}</i> {{package.designation.code}}
         {{else}}
           <div class="stock_status">
-            <i aria-hidden="true">{{fa-icon (if item.allowWebPublish 'eye' 'eye-slash')}}</i> In Stock
+            <i aria-hidden="true">{{fa-icon (if item.allowWebPublish 'eye' 'eye-slash')}}</i>
+            {{t "in_stock"}}
           </div>
         {{/if}}
       </div>
@@ -96,7 +97,7 @@
         <div class="left-icon"><i>{{fa-icon 'exclamation-triangle'}}</i></div>
         <div class="right-message">
           <div>{{t "dispatch.separate_set"}}</div>
-          <div>You could dispatch the {{#link-to 'items.detail' item}}entire set{{/link-to}} instead.</div>
+          <div> You could dispatch the {{#link-to 'items.detail' item}}entire set{{/link-to}} instead.</div>
         </div>
       </div>
 
@@ -106,7 +107,7 @@
       {{#if displayError}}
         <div class="error-box">
           <i>{{fa-icon 'exclamation-triangle'}}</i>
-          You must tick the confirmation box to proceed.
+          {{t "dispatch-form.confirmation"}}
         </div>
       {{/if}}
 
