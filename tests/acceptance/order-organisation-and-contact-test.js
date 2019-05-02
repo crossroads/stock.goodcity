@@ -33,7 +33,10 @@ module("Acceptance: Order summary", {
     MockUtils.mockDefault();
     MockUtils.mockOrderSummary();
 
-    user = FactoryGuy.make("user", { mobile: "123456", email: "abc@xyz" });
+    user = FactoryGuy.make("user", {
+      mobile: "123456",
+      email: "abc@xyz"
+    });
     var location = FactoryGuy.make("location");
     gc_organisation = FactoryGuy.make("gc_organisation");
     bookingType = FactoryGuy.make("booking_type");
@@ -69,8 +72,16 @@ module("Acceptance: Order summary", {
       type: "GET",
       status: 200,
       responseText: {
-        designations: [designation.toJSON({ includeId: true })],
-        orders_packages: [orders_package1.toJSON({ includeId: true })]
+        designations: [
+          designation.toJSON({
+            includeId: true
+          })
+        ],
+        orders_packages: [
+          orders_package1.toJSON({
+            includeId: true
+          })
+        ]
       }
     });
 
@@ -85,21 +96,53 @@ module("Acceptance: Order summary", {
     });
 
     mockFindAll("location").returns({
-      json: { locations: [location.toJSON({ includeId: true })] }
+      json: {
+        locations: [
+          location.toJSON({
+            includeId: true
+          })
+        ]
+      }
     });
     mockFindAll("designation").returns({
       json: {
-        designations: [designation.toJSON({ includeId: true })],
-        items: [item1.toJSON({ includeId: true })],
-        orders_packages: [orders_package1.toJSON({ includeId: true })],
-        meta: { search: designation.get("code").toString() }
+        designations: [
+          designation.toJSON({
+            includeId: true
+          })
+        ],
+        items: [
+          item1.toJSON({
+            includeId: true
+          })
+        ],
+        orders_packages: [
+          orders_package1.toJSON({
+            includeId: true
+          })
+        ],
+        meta: {
+          search: designation.get("code").toString()
+        }
       }
     });
     mockFindAll("orders_package").returns({
-      json: { orders_packages: [orders_package1.toJSON({ includeId: true })] }
+      json: {
+        orders_packages: [
+          orders_package1.toJSON({
+            includeId: true
+          })
+        ]
+      }
     });
     mockFindAll("booking_type").returns({
-      json: { booking_types: [bookingType.toJSON({ includeId: true })] }
+      json: {
+        booking_types: [
+          bookingType.toJSON({
+            includeId: true
+          })
+        ]
+      }
     });
   },
   afterEach: function() {
