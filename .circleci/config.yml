@@ -114,6 +114,7 @@ jobs:
   www_build:
     <<: *defaults
     environment:
+      JOBS: 1
       EMBER_CLI_CORDOVA: "0"
     steps:
       - restore-cache: *restore-repo-cache
