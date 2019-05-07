@@ -169,7 +169,8 @@ jobs:
   ember_cordova_build:
     <<: *defaults
     environment:
-        EMBER_CLI_CORDOVA: "1"
+      JOBS: 1
+      EMBER_CLI_CORDOVA: "1"
     steps:
       - restore-cache: *restore-repo-cache
       - restore-cache: *restore-yarn-cache
