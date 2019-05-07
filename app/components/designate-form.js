@@ -233,7 +233,7 @@ export default Ember.Component.extend({
       var loadingView = getOwner(this)
         .lookup("component:loading")
         .append();
-      var url = `/items/${item.get("id")}/designate_partial_item`;
+      var url;
 
       var properties = {
         order_id: order.get("id"),
@@ -243,6 +243,20 @@ export default Ember.Component.extend({
           : item.get("quantity"),
         orders_package_id: ordersPackage ? ordersPackage.id : null //id of previous OrdersPackage ie to be cancelled
       };
+
+      var isSameDesignation = this.get("order.ordersPackages")
+        .getEach("itemId")
+        .includes(parseInt(this.get("item.id")));
+
+      if (isSameDesignation && this.get("cancelledState")) {
+        url = `/items/${item.get(
+          "id"
+        )}/update_partial_quantity_of_same_designation`;
+        properties.state = "cancelled";
+        properties.new_orders_package_id = this.get("orderPackageId");
+      } else {
+        url = `/items/${item.get("id")}/designate_partial_item`;
+      }
 
       new AjaxPromise(url, "PUT", this.get("session.authToken"), {
         package: properties
