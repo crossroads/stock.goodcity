@@ -75,6 +75,7 @@ export default Ember.Service.extend({
     let url = `/orders/${order.get('id')}`;
     return new AjaxPromise(url, "PUT", this.get('session.authToken'), { order: payload })
       .then(data => {
+        this.get("store").unloadAll("order_process_checklist");
         this.get("store").pushPayload(data);
       });
   }
