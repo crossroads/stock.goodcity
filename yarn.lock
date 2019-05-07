@@ -5560,10 +5560,10 @@ ember-i18n@~4.3.2:
     ember-cli-version-checker "^1.1.6"
     ember-getowner-polyfill "^1.0.0"
 
-ember-infinite-list@1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/ember-infinite-list/-/ember-infinite-list-1.0.3.tgz#50db543c374a99877ff56f6dd43fd11cfd30438a"
-  integrity sha512-qeWIskbECVXd6RZHWm0Q+W1eNk0uPxaIfhwUoL3ozzlOnW3ffXbfAIlNpp6LwLmNhO4IRVQoZHSR7OFiosHBPQ==
+ember-infinite-list@1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/ember-infinite-list/-/ember-infinite-list-1.0.4.tgz#12ded002454b2272afb2bab7b7561ca7ecb1099c"
+  integrity sha512-BKYa3H1zRmICBf8n2H68POslYJeK0TZOOQ2z44yc5BlPkzD9Ar5Sa6pT/zcdoCh1tFZ0DNoimOGImWt771m2pA==
   dependencies:
     ember-cli-babel "^6.3.0"
     ember-cli-sass "5.5.2"

@@ -93,7 +93,7 @@
     "cordova-update-config": "^1.0.2",
     "ember-cli-babel": "^5.1.10",
     "ember-cli-test-loader": "^1.1.0",
-    "ember-infinite-list": "1.0.3",
+    "ember-infinite-list": "1.0.4",
     "jquery": "^3.2.0",
     "phantomjs-prebuilt": "^2.1.14"
   }
