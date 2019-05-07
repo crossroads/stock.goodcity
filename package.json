@@ -10,7 +10,9 @@
     "start": "EMBER_CLI_CORDOVA=0 ember serve --port 4203 --live-reload-port 35732",
     "build": "EMBER_CLI_CORDOVA=0 ember build",
     "test": "EMBER_CLI_CORDOVA=0 ember test --server --test-port 7359",
-    "test:ci": "EMBER_CLI_CORDOVA=0 ember-pretty-test"
+    "test:ci": "EMBER_CLI_CORDOVA=0 ember-pretty-test",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "husky": {
     "hooks": {
@@ -95,6 +97,8 @@
     "ember-cli-test-loader": "^1.1.0",
     "ember-infinite-list": "1.0.3",
     "jquery": "^3.2.0",
-    "phantomjs-prebuilt": "^2.1.14"
-  }
+    "phantomjs-prebuilt": "^2.1.14",
+    "snyk": "^1.161.1"
+  },
+  "snyk": true
 }
