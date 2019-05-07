@@ -28,9 +28,9 @@ export default Addressable.extend({
     return this.get("firstName") + " " + this.get("lastName");
   }),
 
-  // organisations: hasMany("organisation", {
-  //   async: false
-  // }),
+  organisations: hasMany("organisation", {
+    async: false
+  }),
   organisationsUsers: hasMany("organisationsUsers", {
     async: false
   }),
