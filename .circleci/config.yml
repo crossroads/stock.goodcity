@@ -343,8 +343,6 @@ workflows:
               branches:
                 only: /^(master|live)$/
         - www_build:
-            requires:
-              - test_cases
             filters:
               branches:
                 only: /^(master|live)$/
