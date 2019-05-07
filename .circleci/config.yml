@@ -340,7 +340,7 @@ workflows:
         - upload-coverage:
             requires:
               - package_dependencies
-              - test_cases
+              # - test_cases
             filters:
               branches:
                 only: /^(master|live)$/
@@ -349,13 +349,13 @@ workflows:
               - test_cases
             filters:
               branches:
-                only: /^(master|live)$/
+                only: /^(master|live|change-ember-version)$/
         - www-deploy:
             requires:
               - www_build
             filters:
               branches:
-                only: /^(master|live)$/
+                only: /^(master|live|change-ember-version)$/
         - ember_cordova_build:
             requires:
               - test_cases
