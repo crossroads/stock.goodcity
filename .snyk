@@ -1,0 +1,13 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.13.3
+ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  'npm:lodash:20180130':
+    - ember-infinite-list > ember-cli-sass > ember-cli-babel > broccoli-babel-transpiler > babel-core > lodash:
+        patched: '2019-05-07T11:04:37.106Z'
+    - ember-infinite-list > ember-cli-sass > ember-cli-babel > broccoli-babel-transpiler > babel-core > babel-plugin-proto-to-assign > lodash:
+        patched: '2019-05-07T11:04:37.106Z'
+  'npm:minimatch:20160620':
+    - ember-infinite-list > ember-cli-sass > ember-cli-babel > broccoli-babel-transpiler > babel-core > minimatch:
+        patched: '2019-05-07T11:04:37.106Z'
