@@ -12,6 +12,7 @@ export default {
   state: "State",
   label: "Label",
   location: "Location",
+  in_stock: "有貨存",
   QuotaExceededError:
     "網頁部分功能於Safari 瀏覽器的 <b>「私密瀏覽」模式</b>並不適用。 請嘗試</br><ul><li><a href='https://itunes.apple.com/in/app/goodcitystock.hk/id1144806764?mt=8' style='color: black!important; background-color: #dee4eb !important;'>下載 iOS 手機應用程式</a></li><li>使用 Safari 瀏覽器正常模式 </li><li> 使用Chrome瀏覽器的「無痕模式」</li></ul>",
   search_min: "搜尋 (請輸入最少3個字元)",
