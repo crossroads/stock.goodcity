@@ -3,7 +3,7 @@ import attr from "ember-data/attr";
 import { belongsTo } from "ember-data/relationships";
 
 export default Model.extend({
-  order: belongsTo("designation", {
+  designation: belongsTo("designation", {
     async: false
   }),
   orderId: attr("number"),
