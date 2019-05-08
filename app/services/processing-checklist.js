@@ -79,7 +79,7 @@ export default Ember.Service.extend({
         delete data["orders_process_checklists"];
         if(orderProcessChecklist && orderProcessChecklist.length) {
           orderProcessChecklist.forEach(checklist => {
-            _this.get("store").createRecord('orders_process_checklist', {
+            this.get("store").createRecord('orders_process_checklist', {
               id: checklist.id, 
               orderId: checklist.order_id, 
               processChecklistId: checklist.process_checklist_id
