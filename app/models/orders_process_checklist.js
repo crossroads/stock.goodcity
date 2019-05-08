@@ -7,6 +7,7 @@ export default Model.extend({
     async: false
   }),
   orderId: attr("number"),
+  designationId: attr("number"),
   processChecklist: belongsTo("booking_type", {
     async: false
   }),
