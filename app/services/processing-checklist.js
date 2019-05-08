@@ -75,7 +75,17 @@ export default Ember.Service.extend({
     let url = `/orders/${order.get('id')}`;
     return new AjaxPromise(url, "PUT", this.get('session.authToken'), { order: payload })
       .then(data => {
-        this.get("store").unloadAll("order_process_checklist");
+        const orderProcessChecklist = data["orders_process_checklists"];
+        delete data["orders_process_checklists"];
+        if(orderProcessChecklist && orderProcessChecklist.length) {
+          orderProcessChecklist.forEach(checklist => {
+            _this.get("store").createRecord('orders_process_checklist', {
+              id: checklist.id, 
+              orderId: checklist.order_id, 
+              processChecklistId: checklist.process_checklist_id
+            });
+          });
+        }
         this.get("store").pushPayload(data);
       });
   }
