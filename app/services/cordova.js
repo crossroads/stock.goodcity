@@ -33,15 +33,8 @@ export default Ember.Service.extend({
   initiatePushNotifications() {
     var _this = this;
 
-<<<<<<< HEAD
     function onDeviceReady() { // jshint ignore:line
       var push = PushNotification && PushNotification.init({ // jshint ignore:line
-=======
-    function onDeviceReady() {
-      // jshint ignore:line
-      var push = PushNotification.init({
-        // jshint ignore:line
->>>>>>> iOS migration to fcm
         android: {
           senderID: config.cordova.FcmSenderID,
           badge: false,
