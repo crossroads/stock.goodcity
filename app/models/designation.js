@@ -52,7 +52,9 @@ export default Model.extend({
   peopleHelped: attr("number"),
   districtId: attr("number"),
   district: belongsTo("district", { async: false }),
-  ordersProcessChecklists: hasMany("ordersProcessChecklists", { async: false }),
+  ordersProcessChecklists: hasMany("ordersProcessChecklists", {
+    inverse: "designation"
+  }),
   ordersProcessChecklistIds: attr(),
 
   clientIdType: Ember.computed(
