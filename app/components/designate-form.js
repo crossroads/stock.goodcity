@@ -253,7 +253,7 @@ export default Ember.Component.extend({
           "id"
         )}/update_partial_quantity_of_same_designation`;
         properties.state = "cancelled";
-        properties.new_orders_package_id = this.get("orderPackageId");
+        properties.cancelled_orders_package_id = this.get("orderPackageId");
       } else {
         url = `/items/${item.get("id")}/designate_partial_item`;
       }

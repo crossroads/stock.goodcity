@@ -60,7 +60,7 @@ export default Ember.Component.extend(singletonItemDispatchToGcOrder, {
         package_id: item.get("id"),
         quantity: item.get("quantity"),
         state: "cancelled",
-        new_orders_package_id: ordersPacakgeId
+        cancelled_orders_package_id: ordersPacakgeId
       };
       var url = `/items/${item.get(
         "id"
