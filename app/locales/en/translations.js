@@ -527,6 +527,9 @@ export default {
       position_in_organisation: "Position within organisation",
       validation_error: {
         email: "Email should be valid.",
+        first_name: "First name can't be blank",
+        family_name: "Family name can't be blank",
+        position: "Position can't be blank.",
         mobile: "Mobile Number should be 8 digits."
       }
     }
@@ -673,6 +676,13 @@ export default {
     title: "Donation#",
     donation_number_error: "Must be in the form 'CAS-12345'"
   },
+  partial_designate: {
+    in_stock: "In Stock",
+    multiple: "Multiple",
+    move_message: "Designates only part of set.",
+    warning_text: "You can only designate maximum {{qty}} items",
+    confirm: "Confirm the quantities you are designating."
+  },
   partial_undesignate: {
     modify: "Modify",
     dispatch: "Dispatch",
@@ -680,6 +690,7 @@ export default {
     status: "{{inventoryNumber}}: Status",
     private: "(Private)",
     designated: "Designated",
+    dispatched: "Dispatched",
     available: "Available",
     in_hand_quantity: "Total quantity on hand:",
     lifetime_quantity: "Total lifetime quantity"
