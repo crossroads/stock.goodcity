@@ -5462,10 +5462,10 @@ ember-data-factory-guy@2.7.0:
     broccoli-merge-trees "^1.1.1"
     urijs "~1.18.1"
 
-ember-data@~2.14.0:
-  version "2.14.11"
-  resolved "https://registry.yarnpkg.com/ember-data/-/ember-data-2.14.11.tgz#b03247b3f35523e2b3bd8cff0ce098d6bc069b1c"
-  integrity sha512-RuK5F5eknGV8PQ6ys6Y77UwcbgCqNgO+NmKAyqxKNd9AxtbrceBT7Dcj9GwG9F84kwAz/ruZ7Z8+Yx7Qd50O4w==
+ember-data@2.14.7:
+  version "2.14.7"
+  resolved "https://registry.yarnpkg.com/ember-data/-/ember-data-2.14.7.tgz#9906604bc9a8ea75764cb6266d43747932bbebbc"
+  integrity sha512-vfCfrxj985V6Vorqidf3ByjsWG1ZqE3TH5+pU2nalPCKZVRMg5mCVhzf6BeC6rlXG3LWl3fvsiMLkkp7j80SCw==
   dependencies:
     amd-name-resolver "0.0.7"
     babel-plugin-feature-flags "^0.3.1"
