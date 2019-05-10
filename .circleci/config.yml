@@ -343,34 +343,34 @@ workflows:
               - test_cases
             filters:
               branches:
-                only: /^(master|live)$/
+                only: /^(master|live|ember-data-issue)$/
         - www_build:
             requires:
-              - test_cases
+              - package_dependencies
             filters:
               branches:
-                only: /^(master|live)$/
+                only: /^(master|live|ember-data-issue)$/
         - www-deploy:
             requires:
               - www_build
             filters:
               branches:
-                only: /^(master|live)$/
+                only: /^(master|live|ember-data-issue)$/
         - ember_cordova_build:
             requires:
               - test_cases
             filters:
               branches:
-                only: /^(master|live)$/
+                only: /^(master|live|ember-data-issue)$/
         - android_build_and_deploy:
             requires:
               - ember_cordova_build
             filters:
               branches:
-                only: /^(master|live)$/
+                only: /^(master|live|ember-data-issue)$/
         - ios_build_and_deploy:
             requires:
               - test_cases
             filters:
               branches:
-                only: /^(master|live)$/
+                only: /^(master|live|ember-data-issue)$/
