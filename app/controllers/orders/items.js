@@ -33,7 +33,10 @@ export default searchModule.extend({
             return;
           }
 
-          data = data.filter(item => item.get("inventoryNumber"));
+          data = data.filter(
+            item =>
+              item && item.get("quantity") < 2 && item.get("inventoryNumber")
+          );
 
           this.set("filteredResults", data);
           this.set("hasNoResults", data.get("length") === 0);
