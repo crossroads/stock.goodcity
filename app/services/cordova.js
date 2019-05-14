@@ -25,7 +25,7 @@ export default Ember.Service.extend({
     var _this = this;
 
     function onDeviceReady() { // jshint ignore:line
-      var push = PushNotification.init({ // jshint ignore:line
+      var push = PushNotification && PushNotification.init({ // jshint ignore:line
         android: {
           senderID: config.cordova.GcmSenderId,
           badge: false,
