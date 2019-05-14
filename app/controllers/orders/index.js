@@ -18,33 +18,28 @@ export default Ember.Controller.extend({
     }
   },
 
-  afterSearch(designations) {
-    this.get("store").query("order_transport", {
-      order_ids: designations.mapBy("id").join(",")
-    });
-  },
-
   on() {
-    this.get("filterService").on("change", this, this.onFilterChange);
-  },
-
-  off() {
-    this.get("filterService").off("change", this, this.onFilterChange);
-  },
-
-  onSearchTextChange: Ember.observer("searchText", function() {
-    this.hideResults();
-    if (this.get("searchText").length > this.get("minSearchTextLength")) {
-      Ember.run.debounce(this, this.showResults, 500);
-    }
-  }),
-
-  onStartup() {
     if (this.get("filterService.hasOrderFilters")) {
       // Once performance has been improved
       // we'll probably want to always show somthing
       this.showResults();
     }
+    this.get("filterService").on("change", this, this.reloadResults);
+  },
+
+  off() {
+    this.get("filterService").off("change", this, this.reloadResults);
+  },
+
+  onSearchTextChange: Ember.observer("searchText", function() {
+    if (this.get("searchText").length > this.get("minSearchTextLength")) {
+      this.reloadResults();
+    }
+  }),
+
+  reloadResults() {
+    this.hideResults();
+    Ember.run.debounce(this, this.showResults, 500);
   },
 
   hideResults() {
