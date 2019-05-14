@@ -294,6 +294,12 @@ jobs:
               mv $PROVISIONING_PROFILE ~/Library/MobileDevice/Provisioning\ Profiles
           working_directory: ~/code
       - run:
+          name: Download GoogleService-Info file
+          command: |
+            yarn run azure-filestore download -d stock/$ENVIRONMENT -f GoogleService-Info.plist
+            mv GoogleService-Info.plist ~/code/cordova
+          working_directory: ~/code
+      - run:
           name: Download P12 certificate
           command: |
               yarn run azure-filestore download -f $CERTIFICATE
@@ -310,12 +316,6 @@ jobs:
       - run:
           name: Install cordova globally
           command: npm i -g cordova@7.1.0
-      - run:
-          name: Download GoogleService-Info file
-          command: |
-            yarn run azure-filestore download -d stock/$ENVIRONMENT -f GoogleService-Info.plist
-            mv GoogleService-Info.plist ~/code/cordova
-          working_directory: ~/code
       - run:
           name: Create keychain and import p12 certificate
           command: bundle exec fastlane ios prepare_certificates cert:$CERTIFICATE
@@ -349,19 +349,19 @@ workflows:
               - test_cases
             filters:
               branches:
-                only: /^(master|live|ios-migration-to-fcm)$/
+                only: /^(master|live)$/
         - www_build:
             requires:
               - test_cases
             filters:
               branches:
-                only: /^(master|live|ios-migration-to-fcm)$/
+                only: /^(master|live)$/
         - www-deploy:
             requires:
               - www_build
             filters:
               branches:
-                only: /^(master|live|ios-migration-to-fcm)$/
+                only: /^(master|live)$/
         - ember_cordova_build:
             requires:
               - test_cases
