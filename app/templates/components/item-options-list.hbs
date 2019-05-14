@@ -36,20 +36,24 @@
     {{/if}}
   </div>
 
-  <div class="{{unless item.isSingletonItem 'disabled'}} {{unless item.hasOneDesignatedPackage 'disabled'}}">
-    {{#if (is-and item.isSingletonItem item.designation.isGoodCityOrder)}}
-      <div>
-        <a href="#" {{action 'dispatchOrdersPackagePopUp' item item.firstDesignatedOrdersPackage.id}} >
+  <div class="{{unless item.isSingletonItem 'disabled'}}">
+    {{#unless item.dispatchedOrdersPackages.length}}
+      {{#if (is-and item.isSingletonItem item.designation.isGoodCityOrder)}}
+        <div>
+          <a href="#" {{action 'dispatchOrdersPackagePopUp' item item.firstDesignatedOrdersPackage.id}} >
+            <i class="item-menu">{{fa-icon 'ship' size="2x"}}</i><br />
+            {{t "item.dispatch"}}
+          </a>
+        </div>
+      {{else}}
+        {{#link-to 'items.partial_dispatch' item.id (query-params orderPackageId=item.firstDesignatedOrdersPackage.id) tagName='div' href=false}}
           <i class="item-menu">{{fa-icon 'ship' size="2x"}}</i><br />
           {{t "item.dispatch"}}
-        </a>
-      </div>
+        {{/link-to}}
+      {{/if}}
     {{else}}
-      {{#link-to 'items.partial_dispatch' item.id (query-params orderPackageId=item.firstDesignatedOrdersPackage.id) tagName='div' href=false}}
-        <i class="item-menu">{{fa-icon 'ship' size="2x"}}</i><br />
-        {{t "item.dispatch"}}
-      {{/link-to}}
-    {{/if}}
+      {{undispatch-item item=item package=item.dispatchedOrdersPackages.firstObject}}
+    {{/unless}}
   </div>
 
   {{#print-label item=item closeList=(action 'toggle' true)}}
