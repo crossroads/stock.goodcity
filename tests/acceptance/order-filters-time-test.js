@@ -24,7 +24,7 @@ module("Acceptance: Order time filters", {
     });
 
     andThen(function() {
-      $("#order-time-filter").click();
+      $("#order-time-filter .button-text").click();
     });
   },
   afterEach: function() {

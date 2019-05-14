@@ -7,11 +7,14 @@ import "../factories/item";
 import MockUtils from "../helpers/mock-utils";
 import FactoryGuy, { mockFindAll } from "ember-data-factory-guy";
 
-var App, designation, item, orders_package, bookingType;
+var App, designation, item, orders_package, bookingType, filterService;
 
 module("Acceptance: Order search list", {
   beforeEach: function() {
     App = startApp({}, 2);
+
+    filterService = App.__container__.lookup("service:filterService");
+    filterService.clearFilters();
 
     MockUtils.startSession();
     MockUtils.mockDefault();
@@ -148,5 +151,47 @@ test("Order's state should be displayed on screen", function(assert) {
       designation.get("state"),
       "Should be displaying the order's state"
     );
+  });
+});
+
+test("Clearing existing filters should retrigger the search", function(assert) {
+  assert.expect(4);
+
+  let getRequestSent = false;
+
+  Ember.run(() => {
+    filterService.set("orderStateFilters", ["submitted"]);
+  });
+
+  andThen(function() {
+    const closeBtns = $("#order-state-filter .remove-filters-icon");
+    assert.equal(
+      closeBtns.length,
+      1,
+      "Should display a cancel icon next to the filter button"
+    );
+
+    MockUtils.mock({
+      url: "/api/v1/designation*",
+      type: "GET",
+      status: 200,
+      onAfterComplete: () => (getRequestSent = true),
+      response: function(req) {
+        this.responseText = JSON.stringify({ designations: [] });
+      }
+    });
+
+    click(closeBtns);
+  });
+
+  andThen(function() {
+    const closeBtns = $("#order-state-filter .remove-filters-icon");
+    assert.equal(closeBtns.length, 0, "The close button has disappeared");
+    assert.deepEqual(
+      filterService.get("orderStateFilters"),
+      [],
+      "The filters have been cleared"
+    );
+    assert.ok(getRequestSent, "The search paged refreshed the results");
   });
 });

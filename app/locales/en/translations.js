@@ -138,6 +138,8 @@ export default {
     warning: "This cannot be undone!"
   },
   item_filters: {
+    button_state: "State",
+    button_location: "Location",
     with_and_without_images: "All",
     has_images: "Has Image(s)",
     no_images: "No Image(s)",

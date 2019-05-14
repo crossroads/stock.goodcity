@@ -24,7 +24,13 @@ export default AuthorizeRoute.extend({
 
   async setupController(controller, model = {}) {
     await this._super(controller, model);
-    controller.onStartup();
-  }
+    controller.on();
+  },
   /* jshint ignore:end */
+
+  resetController(controller, isExiting) {
+    if (isExiting) {
+      controller.off();
+    }
+  }
 });

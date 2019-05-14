@@ -17,6 +17,7 @@ const PERSISTENT_VAR = function(propName, defaultValue, deserializeMap = {}) {
     },
     set(k, value) {
       this.get("localStorage").write(propName, value);
+      this.trigger("change");
       return value;
     }
   });
@@ -41,7 +42,7 @@ export const TYPE_FILTERS = {
 
 // --- Service
 
-export default Ember.Service.extend({
+export default Ember.Service.extend(Ember.Evented, {
   localStorage: Ember.inject.service(),
 
   orderStateFilters: PERSISTENT_VAR("orderStateFilters", []),
@@ -57,10 +58,30 @@ export default Ember.Service.extend({
     return filters && filters.indexOf(STATE_FILTERS.PRIORITY) >= 0;
   },
 
-  clearFilters() {
+  clearItemLocationFilters() {
+    this.set("itemLocationFilters", "");
+  },
+
+  clearItemStateFilters() {
+    this.set("itemStateFilters", []);
+  },
+
+  clearOrderStateFilters() {
     this.set("orderStateFilters", []);
+  },
+
+  clearOrderTypeFilters() {
     this.set("orderTypeFilters", []);
+  },
+
+  clearOrderTimeFilters() {
     this.setOrderTimeRange(null);
+  },
+
+  clearFilters() {
+    this.clearOrderStateFilters();
+    this.clearOrderTypeFilters();
+    this.clearOrderTimeFilters();
   },
 
   hasOrderFilters: Ember.computed(
@@ -101,14 +122,16 @@ export default Ember.Service.extend({
   setOrderTimeRange(range) {
     if (_.isString(range)) {
       const preset = range;
-      return this.set("_orderTimeSettings", { preset });
+      this.set("_orderTimeSettings", { preset });
+    } else {
+      this.set("_orderTimeSettings", {
+        preset: null,
+        after: _.get(range, "after"),
+        before: _.get(range, "before")
+      });
     }
 
-    return this.set("_orderTimeSettings", {
-      preset: null,
-      after: _.get(range, "after"),
-      before: _.get(range, "before")
-    });
+    this.notifyPropertyChange("orderTimeRange");
   },
 
   /**
