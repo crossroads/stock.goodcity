@@ -39,11 +39,15 @@ export default Ember.Controller.extend({
   },
 
   hideResults() {
-    this.set("displayResults", false);
+    Ember.run(() => {
+      this.set("displayResults", false);
+    });
   },
 
   showResults() {
-    this.set("displayResults", true);
+    Ember.run(() => {
+      this.set("displayResults", true);
+    });
   },
 
   getFilterQuery() {
