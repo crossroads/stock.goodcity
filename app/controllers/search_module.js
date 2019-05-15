@@ -79,12 +79,12 @@ export default Ember.Controller.extend(InfinityRoute, {
     return queryParamDefinitions;
   },
 
-  onFilterChange(opts) {
-    const { force = false } = opts;
-    if (force || this.get("canSearch")) {
-      this.set("itemSetId", null);
-      Ember.run.debounce(this, () => this.applyFilter(opts), 500);
-    }
+  onFilterChange() {
+    Ember.run.debounce(this, this.reloadResults, 500);
+  },
+
+  reloadResults() {
+    this.applyFilter({ force: true });
   },
 
   beforeSearch() {

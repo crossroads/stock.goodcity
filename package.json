@@ -1,6 +1,6 @@
 {
   "name": "stock",
-  "version": "0.16.6",
+  "version": "0.16.7",
   "private": true,
   "directories": {
     "doc": "doc",
@@ -40,7 +40,7 @@
     "active-model-adapter": "2.1.1",
     "broccoli-asset-rev": "^2.4.2",
     "ember-ajax": "^2.5.1",
-    "ember-cli": "2.11.0",
+    "ember-cli": "2.15.0",
     "ember-cli-app-version": "^2.0.1",
     "ember-cli-babel": "5.2.8",
     "ember-cli-code-coverage": "^0.4.2",
@@ -93,6 +93,7 @@
     "cordova-update-config": "^1.0.2",
     "ember-cli-babel": "^5.1.10",
     "ember-cli-test-loader": "^1.1.0",
+    "ember-infinite-list": "1.0.4",
     "jquery": "^3.2.0",
     "phantomjs-prebuilt": "^2.1.14"
   }

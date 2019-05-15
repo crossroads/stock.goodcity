@@ -12,6 +12,7 @@ export default {
   state: "State",
   label: "Label",
   location: "Location",
+  in_stock: "In Stock",
   QuotaExceededError:
     "Site may not work in Safari's <b>private mode.</b> Please try</br><ul><li><a href='https://itunes.apple.com/in/app/goodcitystock.hk/id1144806764?mt=8' style='color: black!important; background-color: #dee4eb !important;'>Downloading the iOS App</a></li><li>Using regular (not private) mode in Safari</li><li>Using Chrome's private browsing mode</li></ul>",
   search_min: "Search (min 3 characters)",
@@ -137,6 +138,8 @@ export default {
     warning: "This cannot be undone!"
   },
   item_filters: {
+    button_state: "State",
+    button_location: "Location",
     with_and_without_images: "All",
     has_images: "Has Image(s)",
     no_images: "No Image(s)",
@@ -526,6 +529,9 @@ export default {
       position_in_organisation: "Position within organisation",
       validation_error: {
         email: "Email should be valid.",
+        first_name: "First name can't be blank",
+        family_name: "Family name can't be blank",
+        position: "Position can't be blank.",
         mobile: "Mobile Number should be 8 digits."
       }
     }
@@ -654,6 +660,7 @@ export default {
         description: "Description cannot be blank.",
         donation: "Must be a number or in the form 'CAS-12345'",
         invalid_location: "Scanned Location is invalid.",
+        blank_location: "Location can't be blank.",
         quantity: "Quantity cannot be blank.",
         blank_notification: "Location cannot be blank."
       }
@@ -671,6 +678,13 @@ export default {
     title: "Donation#",
     donation_number_error: "Must be in the form 'CAS-12345'"
   },
+  partial_designate: {
+    in_stock: "In Stock",
+    multiple: "Multiple",
+    move_message: "Designates only part of set.",
+    warning_text: "You can only designate maximum {{qty}} items",
+    confirm: "Confirm the quantities you are designating."
+  },
   partial_undesignate: {
     modify: "Modify",
     dispatch: "Dispatch",
@@ -678,6 +692,7 @@ export default {
     status: "{{inventoryNumber}}: Status",
     private: "(Private)",
     designated: "Designated",
+    dispatched: "Dispatched",
     available: "Available",
     in_hand_quantity: "Total quantity on hand:",
     lifetime_quantity: "Total lifetime quantity"

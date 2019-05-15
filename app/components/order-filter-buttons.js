@@ -27,6 +27,18 @@ export default Ember.Component.extend({
       this.get("router").transitionTo("order_filters", {
         queryParams: orderFilter
       });
+    },
+
+    clearStateFilters() {
+      this.get("filterService").clearOrderStateFilters();
+    },
+
+    clearTypeFilters() {
+      this.get("filterService").clearOrderTypeFilters();
+    },
+
+    clearTimeFilters() {
+      this.get("filterService").clearOrderTimeFilters();
     }
   }
 });

@@ -12,6 +12,7 @@ export default {
   state: "State",
   label: "Label",
   location: "Location",
+  in_stock: "有貨存",
   QuotaExceededError:
     "網頁部分功能於Safari 瀏覽器的 <b>「私密瀏覽」模式</b>並不適用。 請嘗試</br><ul><li><a href='https://itunes.apple.com/in/app/goodcitystock.hk/id1144806764?mt=8' style='color: black!important; background-color: #dee4eb !important;'>下載 iOS 手機應用程式</a></li><li>使用 Safari 瀏覽器正常模式 </li><li> 使用Chrome瀏覽器的「無痕模式」</li></ul>",
   search_min: "搜尋 (請輸入最少3個字元)",
@@ -135,6 +136,8 @@ export default {
     warning: "不能取消變更!"
   },
   item_filters: {
+    button_state: "State",
+    button_location: "Location",
     with_and_without_images: "全部",
     has_images: "包含相片",
     no_images: "沒有相片",
@@ -427,6 +430,7 @@ export default {
     undispatch: "取消派送",
     undesignate: "取消指派",
     partial_undesignate: "取消指派部分物資",
+    partial_undispatch: "Undispatch",
     separate: "分拆",
     move: "移動",
     partial_move: "移動部分物資",
@@ -473,6 +477,24 @@ export default {
       "此訂單中的所有物資已經派送完畢，請在Stockit系統上完成訂單",
     separate_and_dispatch: "將物資從套裝中移除並派送"
   },
+  edit_images: {
+    upload: "Choose Image",
+    camera: "Take Photo",
+    cancel: "Cancel",
+    add_photo: "Add photo",
+    delete_confirm: "Are you sure you want to delete this image?",
+    cant_delete_last_image: "You must have at least one image",
+    donating_what: "What are you donating?",
+    take_photos: "Take some photos",
+    fullscreen_tooltip: "toggle fullscreen",
+    favourite_tooltip: "set as cover image",
+    delete_tooltip: "delete image",
+    image_uploading: "Image Uploading ",
+    remove_image: "Remove image",
+    cancel_item: "Cancel item",
+    cannot_provide_photo: "Cannot provide photo",
+    last_image_with_item: "This is the only image associated with this item"
+  },
   organisation: {
     add_user_button: "新增機構用戶",
     add_user: "新增 - 用戶",
@@ -491,7 +513,10 @@ export default {
       position_in_organisation: "機構內的職稱",
       validation_error: {
         email: "請輸入有效的電郵地址",
-        mobile: "手提電話號碼必須為8個數字"
+        mobile: "手提電話號碼必須為8個數字",
+        first_name: "First name can't be blank",
+        family_name: "Family name can't be blank",
+        position: "Position can't be blank."
       }
     }
   },
@@ -618,6 +643,7 @@ export default {
         description: "Description cannot be blank.",
         donation: "Must be a number or in the form 'CAS-12345'",
         invalid_location: "Scanned Location is invalid.",
+        blank_location: "Location can't be blank.",
         quantity: "Quantity cannot be blank.",
         blank_notification: "Location cannot be blank."
       }
@@ -635,6 +661,13 @@ export default {
     title: "Donation#",
     donation_number_error: "Must be in the form 'CAS-12345'"
   },
+  partial_designate: {
+    in_stock: "In Stock",
+    multiple: "Multiple",
+    move_message: "Designates only part of set.",
+    warning_text: "You can only designate maximum {{qty}} items",
+    confirm: "Confirm the quantities you are designating."
+  },
   partial_undesignate: {
     modify: "Modify",
     dispatch: "Dispatch",
@@ -642,6 +675,7 @@ export default {
     status: "{{inventoryNumber}}: Status",
     private: "(Private)",
     designated: "Designated",
+    dispatched: "Dispatched",
     available: "Available",
     in_hand_quantity: "Total quantity on hand:",
     lifetime_quantity: "Total lifetime quantity"

@@ -60,11 +60,18 @@ export default AuthorizeRoute.extend({
       controller.onFilterChange();
     }
     controller.set("itemSetId", this.paramsFor("items.index").itemSetId);
+    controller.on();
   },
   /* jshint ignore:end */
 
   afterModel() {
     this.set("partial_qnty", 0);
     this.set("designateFullSet", false);
+  },
+
+  resetController(controller, isExiting) {
+    if (isExiting) {
+      controller.off();
+    }
   }
 });
