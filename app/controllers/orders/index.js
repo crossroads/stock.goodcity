@@ -19,11 +19,7 @@ export default Ember.Controller.extend({
   },
 
   on() {
-    if (this.get("filterService.hasOrderFilters")) {
-      // Once performance has been improved
-      // we'll probably want to always show somthing
-      this.showResults();
-    }
+    this.showResults(); // Upon opening the page, we populate with results
     this.get("filterService").on("change", this, this.reloadResults);
   },
 
