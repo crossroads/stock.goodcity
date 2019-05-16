@@ -308,8 +308,10 @@ jobs:
       - run:
           name: Install CocoaPods
           command: |
-            curl https://cocoapods-specs.circleci.com/fetch-cocoapods-repo-from-s3.sh | bash -s cf
-            pod setup
+            gem install cocoapods
+            pod init
+            pod install
+          working_directory: ~/code/cordova/platform/ios
       - run:
           name: Install cordova-update-config globally
           command: npm i -g cordova-update-config
@@ -367,16 +369,16 @@ workflows:
               - test_cases
             filters:
               branches:
-                only: /^(master|live|ios-migration-to-fcm)$/
+                only: /^(master|live)$/
         - android_build_and_deploy:
             requires:
               - ember_cordova_build
             filters:
               branches:
-                only: /^(master|live|ios-migration-to-fcm)$/
+                only: /^(master|live)$/
         - ios_build_and_deploy:
             requires:
-              - test_cases
+              - package_dependencies
             filters:
               branches:
                 only: /^(master|live|ios-migration-to-fcm)$/
