@@ -32,7 +32,6 @@
         <splash density="port-xxxhdpi" src="res/android/drawable-xxxhdpi/screen.png" />
     </platform>
     <platform name="ios">
-        <resource-file src="GoogleService-Info.plist" />
         <icon height="16" src="res/ios/Icon-App-16x16@1x.png" width="16" />
         <icon height="32" src="res/ios/Icon-App-16x16@2x.png" width="32" />
         <icon height="48" src="res/ios/Icon-App-16x16@3x.png" width="48" />
@@ -106,9 +105,7 @@
     <plugin name="cordova-android-support-gradle-release" spec="^2.0.1">
         <variable name="ANDROID_SUPPORT_VERSION" value="27.+" />
     </plugin>
-    <plugin name="phonegap-plugin-push" spec="~2.2.0">
-        <variable name="FCM_VERSION" value="15.0.0" />
-    </plugin>
+    <plugin name="phonegap-plugin-push" spec="~2.1.2" />
     <engine name="windows" spec="~4.3.1" />
     <engine name="android" spec="^6.3.0" />
     <engine name="ios" spec="^4.5.5" />
