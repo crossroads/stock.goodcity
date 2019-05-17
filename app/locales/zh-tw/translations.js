@@ -92,7 +92,8 @@ export default {
     contact_position: "聯絡人職位",
     contact_email: "聯絡電郵",
     contact_last_seen: "最後連線時間",
-    contact_registered: "已登記"
+    contact_registered: "已登記",
+    submitted_by: "提交自"
   },
   order_tabs: {
     summary: "總結",
@@ -390,7 +391,9 @@ export default {
         phone: "電話",
         organisation: "機構",
         position: "職位",
-        email: "電郵"
+        email: "電郵",
+        name: "Name",
+        preferred_contact_number: "Preferred Contact No."
       },
       request_purpose_detail: {
         title: "申請目的",
