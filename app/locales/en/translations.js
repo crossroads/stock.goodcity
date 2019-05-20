@@ -93,7 +93,8 @@ export default {
     contact_position: "Position",
     contact_email: "Email",
     contact_last_seen: "Last seen",
-    contact_registered: "Registered"
+    contact_registered: "Registered",
+    submitted_by: "Submitted By"
   },
   order_tabs: {
     summary: "Summary",
@@ -402,7 +403,9 @@ export default {
         phone: "Phone",
         organisation: "Organisation",
         position: "Position",
-        email: "Email"
+        email: "Email",
+        name: "Name",
+        preferred_contact_number: "Preferred Contact No."
       },
       request_purpose_detail: {
         title: "Request Purpose",
