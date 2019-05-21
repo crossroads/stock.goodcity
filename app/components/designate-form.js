@@ -1,5 +1,6 @@
 import Ember from "ember";
 import AjaxPromise from "stock/utils/ajax-promise";
+import _ from "lodash";
 const { getOwner } = Ember;
 import config from "../config/environment";
 
@@ -209,28 +210,95 @@ export default Ember.Component.extend({
     };
   },
 
-  designateOrUpdateItemParamAndUrl() {
-    let url;
-    let properties = this.itemDesignateParams();
-    let item = this.get("item");
-    let isSameDesignation = this.get("order.ordersPackages")
-      .getEach("itemId")
-      .includes(parseInt(this.get("item.id")));
+  showLoadingSpinner() {
+    if (Ember.testing) {
+      return;
+    }
+    if (!this.loadingView) {
+      this.loadingView = Ember.getOwner(this)
+        .lookup("component:loading")
+        .append();
+    }
+  },
 
-    if (isSameDesignation && this.get("cancelledState")) {
-      url = `/items/${item.get(
+  hideLoadingSpinner() {
+    if (Ember.testing) {
+      return;
+    }
+    if (this.loadingView) {
+      this.loadingView.destroy();
+      this.loadingView = null;
+    }
+  },
+
+  isSameDesignationOrCancelledState() {
+    return (
+      this.get("order.ordersPackages")
+        .getEach("itemId")
+        .includes(parseInt(this.get("item.id"))) && this.get("cancelledState")
+    );
+  },
+
+  updatePartialQuantityOfSameDesignation() {
+    const order = this.get("order");
+    const url = this._buildDesignateUrl();
+    const props = _.extend(this.itemDesignateParams(), {
+      state: "cancelled",
+      cancelled_orders_package_id: this.get("orderPackageId")
+    });
+    this.showLoadingSpinner();
+    return this._ajaxRequest(url, "PUT", {
+      package: props
+    })
+      .then(data => {
+        this.get("store").pushPayload(data);
+        this.get("router").transitionTo("orders.detail", order);
+      })
+      .catch(xhr => {
+        if (xhr.status === 422) {
+          this.get("messageBox").alert(xhr.responseJSON.errors);
+        }
+      })
+      .finally(() => {
+        this.hideLoadingSpinner();
+      });
+  },
+
+  partialItemDesignate() {
+    const order = this.get("order");
+    const url = this._buildDesignateUrl();
+    const props = this.itemDesignateParams();
+    this.showLoadingSpinner();
+    return this._ajaxRequest(url, "PUT", {
+      package: props
+    })
+      .then(data => {
+        this.get("store").pushPayload(data);
+        this.get("router").transitionTo("orders.detail", order);
+      })
+      .catch(xhr => {
+        if (xhr.status === 422) {
+          this.get("messageBox").alert(xhr.responseJSON.errors);
+        }
+      })
+      .finally(() => {
+        this.hideLoadingSpinner();
+      });
+  },
+
+  _buildDesignateUrl() {
+    const item = this.get("item");
+    if (this.isSameDesignationOrCancelledState()) {
+      return `/items/${item.get(
         "id"
       )}/update_partial_quantity_of_same_designation`;
-      properties.state = "cancelled";
-      properties.cancelled_orders_package_id = this.get("orderPackageId");
     } else {
-      url = `/items/${item.get("id")}/designate_partial_item`;
+      return `/items/${item.get("id")}/designate_partial_item`;
     }
+  },
 
-    return {
-      properties: properties,
-      url: url
-    };
+  _ajaxRequest(url, action, params) {
+    return new AjaxPromise(url, action, this.get("session.authToken"), params);
   },
 
   actions: {
@@ -263,28 +331,12 @@ export default Ember.Component.extend({
     },
 
     designateItem() {
-      let order = this.get("order");
-      let loadingView = getOwner(this)
-        .lookup("component:loading")
-        .append();
-      let { properties, url } = this.designateOrUpdateItemParamAndUrl();
       this.set("showAllSetItems", false);
-
-      new AjaxPromise(url, "PUT", this.get("session.authToken"), {
-        package: properties
-      })
-        .then(data => {
-          this.get("store").pushPayload(data);
-          this.get("router").transitionTo("orders.detail", order);
-        })
-        .catch(xhr => {
-          if (xhr.status === 422) {
-            this.get("messageBox").alert(xhr.responseJSON.errors);
-          }
-        })
-        .finally(() => {
-          loadingView.destroy();
-        });
+      if (this.isSameDesignationOrCancelledState()) {
+        this.updatePartialQuantityOfSameDesignation();
+      } else {
+        this.partialItemDesignate();
+      }
     },
 
     designatePartialItem() {
