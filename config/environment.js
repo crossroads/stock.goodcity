@@ -79,14 +79,14 @@ module.exports = function(environment) {
       enabled: process.env.EMBER_CLI_CORDOVA !== "0",
       rebuildOnChange: false,
       emulate: false,
-      GcmSenderId: "535052654081"
+      FcmSenderId: "535052654081"
     }
   };
 
   if (environment === "development") {
     ENV.APP.API_HOST_URL = "http://localhost:3000";
     ENV.APP.SOCKETIO_WEBSERVICE_URL = "http://localhost:1337/goodcity";
-
+    ENV.cordova.FcmSenderID = "535052654081";
     ENV.contentSecurityPolicy["connect-src"] = [
       "http://localhost:3000",
       "https://api.cloudinary.com",
@@ -123,7 +123,7 @@ module.exports = function(environment) {
   if (environment === "production") {
     ENV.APP.API_HOST_URL = "https://api.goodcity.hk";
     ENV.APP.SOCKETIO_WEBSERVICE_URL = "https://socket.goodcity.hk:81/goodcity";
-    ENV.cordova.GcmSenderId = "551756918176";
+    ENV.cordova.FcmSenderId = "551756918176";
 
     ENV.contentSecurityPolicy["connect-src"] = [
       "https://api.goodcity.hk",
@@ -138,10 +138,10 @@ module.exports = function(environment) {
 
   if ((process.env.staging || process.env.STAGING) === "true") {
     ENV.staging = true;
+    ENV.cordova.FcmSenderID = "535052654081";
     ENV.APP.API_HOST_URL = "https://api-staging.goodcity.hk";
     ENV.APP.SOCKETIO_WEBSERVICE_URL =
       "https://socket-staging.goodcity.hk:81/goodcity";
-
     ENV.contentSecurityPolicy["connect-src"] = [
       "https://api-staging.goodcity.hk",
       "https://errbit.crossroads.org.hk",
