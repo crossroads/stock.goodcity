@@ -24,7 +24,8 @@ export default searchModule.extend({
           perPage: 25,
           startingPage: 1,
           modelPath: "filteredResults",
-          stockRequest: true
+          stockRequest: true,
+          restrictMultiQuantity: true
         },
         { orderId: "orderId", searchText: "searchText" }
       )
@@ -32,8 +33,6 @@ export default searchModule.extend({
           if (this.get("searchText").trim() !== data.meta.search) {
             return;
           }
-
-          data = data.filter(item => item.get("inventoryNumber"));
 
           this.set("filteredResults", data);
           this.set("hasNoResults", data.get("length") === 0);
