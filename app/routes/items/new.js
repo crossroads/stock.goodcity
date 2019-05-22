@@ -90,6 +90,7 @@ export default AuthorizeRoute.extend({
       } else {
         controller.set("newUploadedImage", null);
       }
+      window.localStorage.setItem("isSelectLocationPreviousRoute", false);
     }
   }
 });

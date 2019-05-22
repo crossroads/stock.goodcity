@@ -1,44 +1,12 @@
 import Ember from "ember";
 import DS from "ember-data";
-import config from "../config/environment";
+import AjaxPromise from "./../utils/ajax-promise";
 
 function ID(recordOrId) {
   if (recordOrId instanceof DS.Model) {
     return recordOrId.get("id"); // model
   }
   return recordOrId; // id
-}
-
-function ajax(method, url, data, headers) {
-  // The goodcity lib AjaxPromise does not yet support passing headers to it
-  // so this is a temporary workaround.
-  // TODO: fix goodcity-lib and remove this
-  return new Ember.RSVP.Promise(function(resolve, reject) {
-    Ember.$.ajax(
-      Ember.$.extend(
-        {},
-        {
-          type: method,
-          dataType: "json",
-          data: data,
-          language: "en",
-          url: url.indexOf("http") === -1 ? config.APP.SERVER_PATH + url : url,
-          headers: headers,
-          success: function(data) {
-            Ember.run(function() {
-              resolve(data);
-            });
-          },
-          error: function(jqXHR) {
-            jqXHR.url = url;
-            Ember.run(function() {
-              reject(jqXHR);
-            });
-          }
-        }
-      )
-    );
-  });
 }
 
 export default Ember.Service.extend({
@@ -106,16 +74,9 @@ export default Ember.Service.extend({
 
   putPayload(order, payload) {
     const url = `/orders/${order.get("id")}`;
-    const headers = {
-      Authorization: `Bearer ${this.get("session.authToken")}`,
-      "Accept-Language": this.get("session.language"),
-      "X-GOODCITY-APP-NAME": config.APP.NAME,
-      "X-GOODCITY-APP-VERSION": config.APP.VERSION,
-      "X-GOODCITY-APP-SHA": config.APP.SHA,
-      "X-GOODCITY-DEVICE-ID": this.get("session.deviceId")
-    };
-
-    return new ajax("PUT", url, { order: payload }, headers).then(data => {
+    return new AjaxPromise(url, "PUT", this.get("session.authToken"), {
+      order: payload
+    }).then(data => {
       this.get("store").pushPayload(data);
     });
   }
