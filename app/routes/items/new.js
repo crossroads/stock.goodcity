@@ -9,9 +9,15 @@ export default AuthorizeRoute.extend({
   isSelectLocationPreviousRoute: Ember.computed.localStorage(),
 
   queryParams: {
-    codeId: "",
-    locationId: "",
-    scanLocationName: ""
+    codeId: {
+      replace: true
+    },
+    locationId: {
+      replace: true
+    },
+    scanLocationName: {
+      replace: true
+    }
   },
 
   beforeModel() {
@@ -21,7 +27,7 @@ export default AuthorizeRoute.extend({
       var newItemRequest = searchCodePreviousRoute ? true : false;
       this.set("newItemRequest", newItemRequest);
     } else {
-      this.transitionTo("search_code");
+      this.replaceWith("search_code");
     }
   },
 
