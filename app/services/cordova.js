@@ -38,7 +38,7 @@ export default Ember.Service.extend({
       var push = PushNotification.init({
         // jshint ignore:line
         android: {
-          senderID: config.cordova.FcmSenderID,
+          senderID: config.cordova.FcmSenderId,
           badge: false,
           icon: "ic_notify"
         },
