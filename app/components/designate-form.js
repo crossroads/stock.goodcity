@@ -341,7 +341,7 @@ export default Ember.Component.extend({
         url = `/items/${item.get("setItem.id")}/designate_stockit_item_set`;
       } else if (isSameDesignation || this.get("cancelledState")) {
         properties.state = "cancelled";
-        properties.orders_package_id = this.get("orderPackageId");
+        properties.cancelled_orders_package_id = this.get("orderPackageId");
         url = `/items/${item.get(
           "id"
         )}/update_partial_quantity_of_same_designation`;
