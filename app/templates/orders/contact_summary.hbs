@@ -115,14 +115,37 @@
         </div>
       </div>
 
-      {{!-- <div class="row">
+      <div class="row">
         <div class="small-4 columns">
-          Total requests
+          {{t "order_contact_summary.total_requests"}}
         </div>
         <div class="small-8 columns email">
-          {{display-timeago model.createdBy.createdAt}}
+          {{#if ordersCount.submitted}}
+            <i>{{fa-icon 'envelope'}}</i>
+            <span class="state-count" id="submitted_count">
+              {{ordersCount.submitted}}
+            </span>
+          {{/if}}
+          {{#if ordersCount.dispatching}}
+            <i>{{fa-icon 'clock'}}</i>
+            <span class="state-count" id="scheduled_count">
+              {{ordersCount.dispatching}}
+            </span>
+          {{/if}}
+          {{#if ordersCount.closed}}
+            <i>{{fa-icon 'thumbs-down'}}</i>
+            <span class="state-count" id="closed_count">
+              {{ordersCount.closed}}
+            </span>
+          {{/if}}
+          {{#if ordersCount.cancelled}}
+            <i>{{fa-icon 'thumbs-down'}}</i>
+            <span class="state-count" id="cancelled_count">
+              {{ordersCount.cancelled}}
+            </span>
+          {{/if}}
         </div>
-      </div> --}}
+      </div>
     </div>
   </div>
 
