@@ -31,7 +31,8 @@ export const STATE_FILTERS = {
   SCHEDULED: "awaiting_dispatch",
   DISPATCHING: "dispatching",
   CLOSED: "closed",
-  CANCELLED: "cancelled"
+  CANCELLED: "cancelled",
+  DRAFT: "draft"
 };
 
 export const TYPE_FILTERS = {

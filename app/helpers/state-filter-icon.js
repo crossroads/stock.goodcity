@@ -8,7 +8,8 @@ const {
   SCHEDULED,
   DISPATCHING,
   CLOSED,
-  CANCELLED
+  CANCELLED,
+  DRAFT
 } = STATE_FILTERS;
 
 export default Ember.Helper.helper(function(state) {
@@ -27,6 +28,8 @@ export default Ember.Helper.helper(function(state) {
       return "thumbs-up";
     case CANCELLED:
       return "thumbs-down";
+    case DRAFT:
+      return "pencil-alt";
     default:
       return "";
   }

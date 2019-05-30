@@ -86,7 +86,7 @@ module("Acceptance: Order summary", {
       }
     });
 
-    $.mockjax({ url: `/api/v1/users/*`, responseText: orders_count });
+    MockUtils.mock({ url: `/api/v1/users/*`, responseText: orders_count });
 
     visit("/");
 
@@ -200,7 +200,7 @@ test("Order summary detail", function(assert) {
     orders_count.submitted
   );
   assert.equal(
-    $("#scheduled_count")
+    $("#dispatching_count")
       .text()
       .trim(),
     orders_count.dispatching

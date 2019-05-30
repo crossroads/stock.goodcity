@@ -2,16 +2,24 @@ import detail from "./detail";
 import AjaxPromise from "stock/utils/ajax-promise"; //jshint ignore:line
 
 export default detail.extend({
-  async setupController(controller, model) {
-    if (controller) {
-      this._super(controller, model);
-      let userId = model.get("createdBy.id");
-      let ordersCount = await new AjaxPromise(
+  async model() {
+    const order = await this._super(...arguments);
+    const userId = order.get("createdBy.id");
+
+    return Ember.RSVP.hash({
+      order,
+      ordersCount: await new AjaxPromise(
         `/users/${userId}/orders_count`,
         "GET",
         this.session.get("authToken")
-      );
-      controller.set("ordersCount", ordersCount);
+      )
+    });
+  },
+
+  setupController(controller, model) {
+    if (controller) {
+      controller.set("model", model.order);
+      controller.set("ordersCount", model.ordersCount);
       controller.set("isActiveSummary", true);
     }
   }
