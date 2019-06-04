@@ -93,7 +93,8 @@ export default {
     contact_email: "聯絡電郵",
     contact_last_seen: "最後連線時間",
     contact_registered: "已登記",
-    submitted_by: "提交自"
+    submitted_by: "提交自",
+    total_requests: "Total requests"
   },
   order_tabs: {
     summary: "總結",

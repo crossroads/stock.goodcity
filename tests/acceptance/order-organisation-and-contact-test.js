@@ -24,7 +24,8 @@ var App,
   user,
   organisation_user,
   bookingType,
-  data;
+  data,
+  orders_count;
 
 module("Acceptance: Order summary", {
   beforeEach: function() {
@@ -32,7 +33,7 @@ module("Acceptance: Order summary", {
     MockUtils.startSession();
     MockUtils.mockDefault();
     MockUtils.mockOrderSummary();
-
+    orders_count = { cancelled: 21, dispatching: 34, submitted: 23, closed: 6 };
     user = FactoryGuy.make("user", {
       mobile: "123456",
       email: "abc@xyz"
@@ -84,6 +85,8 @@ module("Acceptance: Order summary", {
         ]
       }
     });
+
+    MockUtils.mock({ url: `/api/v1/users/*`, responseText: orders_count });
 
     visit("/");
 
@@ -152,7 +155,7 @@ module("Acceptance: Order summary", {
 });
 
 test("Order summary detail", function(assert) {
-  assert.expect(7);
+  assert.expect(11);
   assert.equal(currentPath(), "orders.contact_summary");
   assert.equal(
     $(".organisation_name")
@@ -189,5 +192,29 @@ test("Order summary detail", function(assert) {
       .text()
       .trim(),
     organisation_user.get("preferredContactNumber")
+  );
+  assert.equal(
+    Ember.$("#submitted_count")
+      .text()
+      .trim(),
+    orders_count.submitted
+  );
+  assert.equal(
+    $("#dispatching_count")
+      .text()
+      .trim(),
+    orders_count.dispatching
+  );
+  assert.equal(
+    $("#cancelled_count")
+      .text()
+      .trim(),
+    orders_count.cancelled
+  );
+  assert.equal(
+    $("#closed_count")
+      .text()
+      .trim(),
+    orders_count.closed
   );
 });

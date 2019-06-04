@@ -94,7 +94,8 @@ export default {
     contact_email: "Email",
     contact_last_seen: "Last seen",
     contact_registered: "Registered",
-    submitted_by: "Submitted By"
+    submitted_by: "Submitted By",
+    total_requests: "Total requests"
   },
   order_tabs: {
     summary: "Summary",
