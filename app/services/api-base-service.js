@@ -7,12 +7,12 @@ export default Ember.Service.extend({
 
   // ----- Utilities -----
   _request(url, options, authorizedRequest) {
-    const { action, params } = options;
+    const { action, body } = options;
     return new AjaxPromise(
       url,
       action,
       authorizedRequest ? this.get("session.authToken") : null,
-      params
+      body
     );
   },
 
@@ -32,37 +32,36 @@ export default Ember.Service.extend({
     );
   },
 
-  POST(url, opts = {}) {
-    const { params, authorizedRequest = true } = opts;
+  POST(url, body, opts = {}) {
+    const { authorizedRequest = true } = opts;
     return this._request(
       url,
       {
         action: "POST",
-        params
+        body
       },
       authorizedRequest
     );
   },
 
-  PUT(url, opts = {}) {
-    const { params, authorizedRequest = true } = opts;
+  PUT(url, body, opts = {}) {
+    const { authorizedRequest = true } = opts;
     return this._request(
       url,
       {
         action: "PUT",
-        params
+        body
       },
       authorizedRequest
     );
   },
 
   DELETE(url, opts = {}) {
-    const { params, authorizedRequest = true } = opts;
+    const { authorizedRequest = true } = opts;
     return this._request(
       url,
       {
-        action: "DELETE",
-        params
+        action: "DELETE"
       },
       authorizedRequest
     );
