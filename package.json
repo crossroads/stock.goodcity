@@ -98,7 +98,6 @@
     "handlebars": "^4.0.14",
     "jquery": "^3.2.0",
     "js-yaml": "^3.13.1",
-    "phantomjs-prebuilt": "^2.1.14",
-    "tunnel-agent": "^0.6.0"
+    "phantomjs-prebuilt": "^2.1.14"
   }
 }
