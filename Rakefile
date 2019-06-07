@@ -91,6 +91,12 @@ namespace :cordova do
 
   desc "Cordova build {platform}"
   task build: :prepare do
+    #Temporary fix for phonegap-plugin-push
+    if platform == "android"
+      sh %{ cordova plugin add phonegap-plugin-push@2.1.2 }
+    else
+      sh %{ cordova plugin add phonegap-plugin-push@1.9.2 --variable SENDER_ID="XXXXXXX" }
+    end
     Dir.chdir(CORDOVA_PATH) do
        #Temporary fix for phonegap-plugin-push
       if platform == 'android'

@@ -38,7 +38,7 @@ export default Ember.Service.extend({
       var push = PushNotification.init({
         // jshint ignore:line
         android: {
-          senderID: config.cordova.FcmSenderId,
+          senderID: config.cordova.GcmSenderId,
           badge: false,
           icon: "ic_notify"
         },
@@ -78,7 +78,7 @@ export default Ember.Service.extend({
       // jshint ignore:line
       var platform;
       if (_this.isAndroid()) {
-        platform = "fcm";
+        platform = "gcm";
       } else if (window.device.platform === "iOS") {
         platform = "aps";
       } else if (window.device.platform === "windows") {
