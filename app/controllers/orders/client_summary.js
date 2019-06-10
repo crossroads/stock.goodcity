@@ -24,19 +24,21 @@ export default detail.extend({
       this.toggleProperty("showBeneficiaryModal");
     },
 
-    async deleteBeneficiary() {
+    deleteBeneficiary() {
       const order = this.get("model");
       const beneficiary = order.get("beneficiary");
 
       if (beneficiary) {
         this.showLoadingSpinner();
-        try {
-          await beneficiary.destroyRecord();
-          order.set("beneficiary", null);
-          await order.save();
-        } finally {
-          this.hideLoadingSpinner();
-        }
+        beneficiary
+          .destroyRecord()
+          .then(() => {
+            order.set("beneficiary", null);
+            return order.save();
+          })
+          .finally(() => {
+            this.hideLoadingSpinner();
+          });
       }
     }
   }
