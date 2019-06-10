@@ -18,7 +18,6 @@ export default searchModule.extend({
   applyFilter() {
     this.set("isLoading", true);
     this.set("hasNoResults", false);
-    //if(this.get("unloadAll")) { this.get("store").unloadAll(); }
 
     this.infinityModel(
       "user",

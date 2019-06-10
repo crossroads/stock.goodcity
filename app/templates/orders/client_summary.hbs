@@ -31,12 +31,14 @@
           <div id="client_name" class="small-7 columns">
             <div class="columns small-3 value quality">
               <div class="select-quality">
-                {{beneficiary-inline-select-list
+                {{inline-select-list
                   content=titles
                   disabled=(if model.isEditAllowed "" true)
-                  selectedValue=model.beneficiary.title
                   on-change=(action (mut selectedReason))
                   name="title"
+                  autosave=true
+                  isPrimitive=true
+                  item=model.beneficiary
                   id="beneficiary-title-select"
                   class="beneficiary-inline-select"
                   beneficiary=model.beneficiary}}
@@ -78,12 +80,13 @@
           <div class="small-7 columns">
             <div class="value quality">
               <div class="select-quality">
-                {{beneficiary-inline-select-list
+                {{inline-select-list
                   content=identityTypes
                   disabled=(if model.isEditAllowed "" true)
-                  selectedValue=model.beneficiary.identityType.name
                   on-change=(action (mut selectedReason))
-                  name="identity_type_id"
+                  name="identityType"
+                  item=model.beneficiary
+                  autosave=true
                   id="beneficiary-identity-select"
                   class="beneficiary-identity-select"
                   beneficiary=model.beneficiary}}

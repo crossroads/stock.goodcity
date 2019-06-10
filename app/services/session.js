@@ -1,5 +1,6 @@
 import Ember from "ember";
 import "../computed/local-storage";
+import config from "../config/environment";
 
 export default Ember.Service.extend({
   authToken: Ember.computed.localStorage(),
@@ -20,5 +21,12 @@ export default Ember.Service.extend({
     this.set("authToken", null);
     this.set("language", null);
     this.set("otpAuthKey", null);
+  },
+
+  unloadSessionData() {
+    const store = this.get("store");
+    config.APP.USER_DATA_TYPES.forEach(name => {
+      store.unloadAll(name);
+    });
   }
 });
