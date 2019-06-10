@@ -24,33 +24,19 @@ export default detail.extend({
       this.toggleProperty("showBeneficiaryModal");
     },
 
-    deleteBeneficiary() {
-      const beneficiaryId = this.get("model.beneficiaryId");
-      var url = `/beneficiaries/${beneficiaryId}`;
-      var beneficiary = this.get("store").peekRecord(
-        "beneficiary",
-        beneficiaryId
-      );
+    async deleteBeneficiary() {
+      const order = this.get("model");
+      const beneficiary = order.get("beneficiary");
+
       if (beneficiary) {
-        var loadingView = getOwner(this)
-          .lookup("component:loading")
-          .append();
-        new AjaxPromise(url, "DELETE", this.get("session.authToken"))
-          .then(data => {
-            this.get("store").pushPayload(data);
-            return new AjaxPromise(
-              `/orders/${this.get("model.id")}`,
-              "PUT",
-              this.get("session.authToken"),
-              { order: { beneficiary_id: null } }
-            ).then(data => {
-              this.get("store").pushPayload(data);
-            });
-          })
-          .finally(() => {
-            loadingView.destroy();
-            this.get("store").unloadRecord(beneficiary);
-          });
+        this.showLoadingSpinner();
+        try {
+          await beneficiary.destroyRecord();
+          order.set("beneficiary", null);
+          await order.save();
+        } finally {
+          this.hideLoadingSpinner();
+        }
       }
     }
   }
