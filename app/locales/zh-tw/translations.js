@@ -94,7 +94,7 @@ export default {
     contact_last_seen: "最後連線時間",
     contact_registered: "已登記",
     submitted_by: "提交自",
-    total_requests: "Total requests"
+    total_requests: "全部要求"
   },
   order_tabs: {
     summary: "總結",
