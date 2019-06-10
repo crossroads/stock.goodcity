@@ -17,10 +17,6 @@ export default detail.extend({
 
   identityTypes: Ember.computed(function() {
     return this.get("store").peekAll("identity_type");
-    // return [
-    //   { name: 'Hong Kong Identity Card', id: 1 },
-    //   { name: 'Asylum Seeker Recognizance Form', id: 2}
-    // ];
   }),
 
   actions: {
