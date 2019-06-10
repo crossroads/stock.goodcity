@@ -10,104 +10,35 @@ import "../factories/designation";
 import "../factories/item";
 import FactoryGuy from "ember-data-factory-guy";
 import { mockFindAll } from "ember-data-factory-guy";
+import MockUtils from "../helpers/mock-utils";
 
-var App,
-  identity_type,
-  beneficiary,
-  designation,
-  item,
-  orders_package,
-  orders_purpose,
-  purpose,
-  bookingType;
+var App, beneficiary;
 
 module("Acceptance: Order Client summary", {
   beforeEach: function() {
     App = startApp({}, 2);
-    purpose = FactoryGuy.make("purpose", { nameEn: "Organisation" });
-    bookingType = FactoryGuy.make("booking_type");
-    identity_type = FactoryGuy.make("identity_type");
+
+    MockUtils.startSession();
+    MockUtils.mockEmptyPreload();
+    MockUtils.mockUserProfile();
+    MockUtils.mockOrderSummary();
+
     beneficiary = FactoryGuy.make("beneficiary", {
-      identity_type: identity_type
+      identity_type: FactoryGuy.make("identity_type")
     });
-    item = FactoryGuy.make("item", {
-      state: "submitted",
-      designation: designation
-    });
-    designation = FactoryGuy.make("designation", {
+    const designation = FactoryGuy.make("designation", {
       detailType: "GoodCity",
       code: "GC-00001",
-      beneficiary: beneficiary
-    });
-    orders_purpose = FactoryGuy.make("orders_purpose", {
-      designationId: designation.id,
-      purposeId: purpose.id,
-      designation: designation,
-      purpose: purpose
-    });
-    orders_package = FactoryGuy.make("orders_package", {
-      state: "designated",
-      quantity: 6,
-      item: item,
-      designation: designation
-    });
-    var data = {
-      user_profile: [
-        {
-          id: 2,
-          first_name: "David",
-          last_name: "Dara51",
-          mobile: "61111111",
-          user_role_ids: [1]
-        }
-      ],
-      users: [
-        { id: 2, first_name: "David", last_name: "Dara51", mobile: "61111111" }
-      ],
-      roles: [{ id: 4, name: "Supervisor" }],
-      user_roles: [{ id: 1, user_id: 2, role_id: 4 }]
-    };
-    var designationData = {
-      designations: [designation.toJSON({ includeId: true })],
-      items: [item.toJSON({ includeId: true })],
-      orders_purposes: [orders_purpose.toJSON({ includeId: true })],
-      purposes: [purpose.toJSON({ includeId: true })]
-    };
+      beneficiary
+    }).toJSON({ includeId: true });
 
-    $.mockjax.clear();
-    $.mockjax({ url: "/api/v1/auth/current_user_profil*", responseText: data });
+    MockUtils.mockWithRecords("designation", [designation]);
 
-    mockFindAll("designation").returns({
-      json: {
-        designations: [designation.toJSON({ includeId: true })],
-        items: [item.toJSON({ includeId: true })],
-        orders_packages: [orders_package.toJSON({ includeId: true })],
-        meta: { search: designation.get("code").toString() }
-      }
-    });
-    $.mockjax({
-      url: "/api/v1/designation*",
-      type: "GET",
-      status: 200,
-      responseText: designationData
-    });
-    $.mockjax({
-      url: "/api/v1/booking_ty*",
-      type: "GET",
-      status: 200,
-      responseText: { booking_types: [bookingType.toJSON({ includeId: true })] }
-    });
-    mockFindAll("orders_package").returns({
-      json: { orders_packages: [orders_package.toJSON({ includeId: true })] }
-    });
-    mockFindAll("purpose").returns({
-      json: { purposes: [purpose.toJSON({ includeId: true })] }
-    });
     visit("/orders/" + designation.id + "/client_summary");
   },
   afterEach: function() {
+    MockUtils.closeSession();
     Ember.run(App, "destroy");
-    $.mockjax.clear();
   }
 });
 
