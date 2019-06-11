@@ -5,6 +5,8 @@ const { getOwner } = Ember;
 
 export default detail.extend({
   showBeneficiaryModal: false,
+  showMore: false,
+  isShowing: false,
 
   titles: Ember.computed(function() {
     return [
@@ -19,7 +21,42 @@ export default detail.extend({
     return this.get("store").peekAll("identity_type");
   }),
 
+  calculatePurposeDescription: Ember.observer(
+    "model.purposeDescription",
+    function() {
+      const isLongDescription =
+        this.get("model.purposeDescription.length") > 170;
+      if (isLongDescription) {
+        this.set("showMore", true);
+      } else {
+        this.set("showMore", false);
+      }
+    }
+  ),
+
+  shortenedDescription: Ember.computed("isShowing", "showMore", function() {
+    let purposeDescription = this.get("model.purposeDescription");
+    if (this.get("showMore")) {
+      return purposeDescription.substring(0, 170);
+    } else {
+      return purposeDescription;
+    }
+  }),
+
   actions: {
+    showMoreToggle() {
+      this.toggleProperty("showMore");
+    },
+
+    enableEdit(makeEditable = true) {
+      this.set("isShowing", makeEditable);
+      if (makeEditable) {
+        Ember.run.later(() => {
+          Ember.$("#desc").click();
+        }, 50);
+      }
+    },
+
     removeBeneficiaryModal() {
       this.toggleProperty("showBeneficiaryModal");
     },
