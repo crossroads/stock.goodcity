@@ -171,11 +171,13 @@
               enableShowMore=(action "enableEdit")
               order=model}}
           {{else}}
-            <div {{action "enableEdit"}}>{{shortenedDescription}}</div>
-            {{#if showMore}}
-              <span {{action "showMoreToggle"}}>Show More..</span>
-            {{else}}
-              <span {{action "showMoreToggle"}}>Show Less</span>
+            <div {{action "enableEdit"}} class="purpose-description-area">{{shortPurposeDescription}}</div>
+            {{#if isLongDescription}}
+              {{#if showMore}}
+                <span {{action "showMoreToggle"}} class="show-more">show more</span>
+              {{else}}
+                <span {{action "showMoreToggle"}} class="show-more">show less</span>
+              {{/if}}
             {{/if}}
           {{/if}}
             <div class='client_summary_description_error description_error'>

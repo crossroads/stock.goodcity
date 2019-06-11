@@ -301,6 +301,16 @@
   height: 100px;
 }
 
+.purpose-description-area {
+  word-wrap: break-word
+}
+
+.show-more {
+  text-decoration: underline;
+  cursor: pointer;
+  float: right;
+}
+
 .donation-input-error, .description-error {
   padding-left: 0.2rem;
   color: white;

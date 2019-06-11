@@ -46,9 +46,7 @@ export default AutoResizableTextarea.extend({
       })
         .then(data => {
           this.get("store").pushPayload(data);
-          Ember.$(element)
-            .siblings()
-            .hide();
+          Ember.$(".client_summary_description_error").hide();
         })
         .finally(() => {
           loadingView.destroy();

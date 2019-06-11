@@ -21,23 +21,23 @@ export default detail.extend({
     return this.get("store").peekAll("identity_type");
   }),
 
-  calculatePurposeDescription: Ember.observer(
-    "model.purposeDescription",
-    function() {
-      const isLongDescription =
-        this.get("model.purposeDescription.length") > 170;
-      if (isLongDescription) {
-        this.set("showMore", true);
-      } else {
-        this.set("showMore", false);
-      }
-    }
-  ),
+  isLongDescription: Ember.computed("model.purposeDescription", function() {
+    return this.get("model.purposeDescription.length") > 170;
+  }),
 
-  shortenedDescription: Ember.computed("isShowing", "showMore", function() {
+  toggleShowMore: Ember.observer("model.purposeDescription", function() {
+    const isLongDescription = this.get("isLongDescription");
+    if (isLongDescription) {
+      this.set("showMore", true);
+    } else {
+      this.set("showMore", false);
+    }
+  }),
+
+  shortPurposeDescription: Ember.computed("isShowing", "showMore", function() {
     let purposeDescription = this.get("model.purposeDescription");
     if (this.get("showMore")) {
-      return purposeDescription.substring(0, 170);
+      return purposeDescription.substring(0, 170) + "...";
     } else {
       return purposeDescription;
     }
