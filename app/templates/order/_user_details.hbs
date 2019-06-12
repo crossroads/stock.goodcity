@@ -10,6 +10,24 @@
       {{t "order.confirm_booking.your_details.phone"}}
     </div>
     <div class="small-8 detail columns">
+      {{model.order.createdBy.mobile}}
+    </div>
+  </div>
+
+  <div class="row info">
+    <div class="small-4 columns">
+      {{t "order.confirm_booking.your_details.preferred_contact_number"}}
+    </div>
+    <div class="small-8 detail columns">
+      {{model.order.createdBy.preferredContactNumber}}
+    </div>
+  </div>
+
+  <div class="row info">
+    <div class="small-4 columns">
+      {{t "order.confirm_booking.your_details.name"}}
+    </div>
+    <div class="small-8 detail columns">
       {{model.order.createdBy.fullName}}
     </div>
   </div>

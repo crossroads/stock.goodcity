@@ -24,6 +24,15 @@
       </div>
       {{/if}}
 
+      <div class="row">
+        <div class="small-4 columns">
+          {{t "order_contact_summary.submitted_by"}}
+        </div>
+        <div class="small-8 columns">
+          {{model.submittedBy.fullName}}
+        </div>
+      </div>
+
       <br />
       <div class="row">
         <div class="small-4 columns">
@@ -106,14 +115,19 @@
         </div>
       </div>
 
-      {{!-- <div class="row">
+      <div class="row">
         <div class="small-4 columns">
-          Total requests
+          {{t "order_contact_summary.total_requests"}}
         </div>
         <div class="small-8 columns email">
-          {{display-timeago model.createdBy.createdAt}}
+          {{#each-in ordersCount as |state count|}}
+            <i>{{fa-icon (state-filter-icon state)}}</i>
+            <span class="state-count" id="{{state}}_count">
+              {{count}}
+            </span>
+          {{/each-in}}
         </div>
-      </div> --}}
+      </div>
     </div>
   </div>
 

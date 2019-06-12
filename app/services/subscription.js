@@ -57,8 +57,7 @@ export default Ember.Service.extend(Ember.Evented, {
     "delivery",
     "gogovan_order",
     "contact",
-    "address",
-    "order"
+    "address"
   ],
   importStrategies: {
     // define how we handle incoming changes
@@ -78,7 +77,8 @@ export default Ember.Service.extend(Ember.Evented, {
   },
   internalTypeMapping: {
     // type renaming
-    package: "item"
+    package: "item",
+    order: "designation"
   },
 
   // -----------

@@ -52,7 +52,9 @@
         {{/link-to}}
       {{/if}}
     {{else}}
-      {{undispatch-item item=item package=item.dispatchedOrdersPackages.firstObject}}
+      <div class="undispatch-item-icon">
+        {{undispatch-item item=item package=item.dispatchedOrdersPackages.firstObject}}
+      </div>
     {{/unless}}
   </div>
 

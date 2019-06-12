@@ -135,7 +135,7 @@
     </div>
 
     <div class="{{if isMobileApp 'small-7 large-8' 'small-9'}} columns">
-      {{#link-to "select_location"}}
+      {{#link-to "select_location" replace=true}}
         <div class="{{if (is-or invalidLocation invalidScanResult) 'ember-view form__control form__control--error'}}" id="inventory_location">
           <i class="location-icon" aria-hidden="true">{{fa-icon 'map-marker-alt'}}</i>
           {{input value=locationName disabled=true required='true'}}

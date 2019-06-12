@@ -10,8 +10,9 @@ export default searchModule.extend({
   actions: {
     setLocation(location) {
       window.localStorage.setItem("isSelectLocationPreviousRoute", true);
-      this.transitionToRoute("items.new", { queryParams: { locationId: location.get("id") } });
+      this.replaceRoute("items.new", {
+        queryParams: { locationId: location.get("id") }
+      });
     }
   }
-
 });

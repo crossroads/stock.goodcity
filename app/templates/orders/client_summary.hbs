@@ -124,57 +124,55 @@
           </div>
         {{/if}}
       {{/if}}
-      {{#if model.goodcityRequests}}
-        <div class="row">
-          <div class="small-12 columns active">
-            {{t "order_client_summary.request_purpose"}}
-          </div>
-          <br/>
+      <div class="row">
+        <div class="small-12 columns active">
+          {{t "order_client_summary.request_purpose"}}
         </div>
+        <br/>
+      </div>
 
-        <div class="row">
-          <div class="small-5 columns">
-            {{t "order_client_summary.number_benefiting"}}
+      <div class="row">
+        <div class="small-5 columns">
+          {{t "order_client_summary.number_benefiting"}}
+        </div>
+        <div class="small-7 columns">
+          {{order-inline-number-input
+            name="people_helped"
+            maxlength=3
+            disabled=(if model.isEditAllowed "" true)
+            class="numeric-input beneficiary-inline-input people-helped"
+            value=model.peopleHelped
+            order=model}}
+          <div class='client_people_helped_error people_helped_error'>
+            {{fa-icon "exclamation-triangle"}}
+            <span class="error-reason-margin">
+              {{t "order_client_summary.people_helped_error"}}
+            </span>
           </div>
-          <div class="small-7 columns">
-            {{order-inline-number-input
-              name="people_helped"
-              maxlength=3
-              disabled=(if model.isEditAllowed "" true)
-              class="numeric-input beneficiary-inline-input people-helped"
-              value=model.peopleHelped
-              order=model}}
-            <div class='client_people_helped_error people_helped_error'>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="small-5 columns">
+          {{t "order_client_summary.description_of_need"}}
+        </div>
+        <div class="small-7 columns">
+          {{order-inline-textarea-input
+            data-autoresize=true name="purpose_description"
+            value=model.purposeDescription
+            disabled=(if model.isEditAllowed "" true)
+            pattern=".*\S.*"
+            id=(concat 'desc' item.id)
+            class="description-textarea order-description-textarea"
+            order=model}}
+            <div class='client_summary_description_error description_error'>
               {{fa-icon "exclamation-triangle"}}
               <span class="error-reason-margin">
-                {{t "order_client_summary.people_helped_error"}}
+                {{t "order_client_summary.description_error"}}
               </span>
             </div>
-          </div>
         </div>
-
-        <div class="row">
-          <div class="small-5 columns">
-            {{t "order_client_summary.description_of_need"}}
-          </div>
-          <div class="small-7 columns">
-            {{order-inline-textarea-input
-              data-autoresize=true name="purpose_description"
-              value=model.purposeDescription
-              disabled=(if model.isEditAllowed "" true)
-              pattern=".*\S.*"
-              id=(concat 'desc' item.id)
-              class="description-textarea order-description-textarea"
-              order=model}}
-              <div class='client_summary_description_error description_error'>
-                {{fa-icon "exclamation-triangle"}}
-                <span class="error-reason-margin">
-                  {{t "order_client_summary.description_error"}}
-                </span>
-              </div>
-          </div>
-        </div>
-      {{/if}}
+      </div>
     </div>
   </div>
 </section>
