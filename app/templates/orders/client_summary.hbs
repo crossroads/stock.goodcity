@@ -160,7 +160,7 @@
           {{t "order_client_summary.description_of_need"}}
         </div>
         <div class="small-7 columns">
-          {{#if isShowing}}
+          {{#if showInlineEdit}}
             {{order-inline-textarea-input
               data-autoresize=true name="purpose_description"
               value=model.purposeDescription
@@ -168,24 +168,26 @@
               pattern=".*\S.*"
               id=(concat 'desc' item.id)
               class="description-textarea order-description-textarea"
-              enableShowMore=(action "enableEdit")
+              enableDescriptionEdit=(action "enableDescriptionEdit")
               order=model}}
           {{else}}
-            <div {{action "enableEdit"}} class="purpose-description-area">{{shortPurposeDescription}}</div>
+            <div {{action "enableDescriptionEdit"}} class="purpose-description-area">
+              {{shortPurposeDescription}}
+            </div>
             {{#if isLongDescription}}
               {{#if showMore}}
                 <span {{action "showMoreToggle"}} class="show-more">show more</span>
               {{else}}
-                <span {{action "showMoreToggle"}} class="show-more">show less</span>
+                <span {{action "showMoreToggle"}} class="show-less">show less</span>
               {{/if}}
             {{/if}}
           {{/if}}
-            <div class='client_summary_description_error description_error'>
-              {{fa-icon "exclamation-triangle"}}
-              <span class="error-reason-margin">
-                {{t "order_client_summary.description_error"}}
-              </span>
-            </div>
+          <div class='client_summary_description_error description_error'>
+            {{fa-icon "exclamation-triangle"}}
+            <span class="error-reason-margin">
+              {{t "order_client_summary.description_error"}}
+            </span>
+          </div>
         </div>
       </div>
     </div>

@@ -305,10 +305,21 @@
   word-wrap: break-word
 }
 
-.show-more {
+.show-less {
   text-decoration: underline;
   cursor: pointer;
   float: right;
+}
+
+.show-more {
+  text-decoration: underline;
+  cursor: pointer;
+  position: absolute;
+  right: 8%;
+  bottom: 0%;
+  z-index: 100;
+  background-color: #002352;
+  padding-left: 2%;
 }
 
 .donation-input-error, .description-error {

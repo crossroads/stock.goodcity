@@ -60,7 +60,7 @@ export default AutoResizableTextarea.extend({
         .show();
       return false;
     }
-    this.get("enableShowMore")(false);
+    this.get("enableDescriptionEdit")({ makeEditable: false });
     Ember.$(this.element).removeClass("item-description-textarea");
   },
 

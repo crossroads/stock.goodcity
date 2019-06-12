@@ -3,10 +3,12 @@ import Ember from "ember";
 import AjaxPromise from "stock/utils/ajax-promise";
 const { getOwner } = Ember;
 
+const LONG_DESCRIPTION_SIZE = 170;
+
 export default detail.extend({
   showBeneficiaryModal: false,
   showMore: false,
-  isShowing: false,
+  showInlineEdit: false,
 
   titles: Ember.computed(function() {
     return [
@@ -22,10 +24,10 @@ export default detail.extend({
   }),
 
   isLongDescription: Ember.computed("model.purposeDescription", function() {
-    return this.get("model.purposeDescription.length") > 170;
+    return this.get("model.purposeDescription.length") > LONG_DESCRIPTION_SIZE;
   }),
 
-  toggleShowMore: Ember.observer("model.purposeDescription", function() {
+  toggleShowMore: Ember.observer("isLongDescription", function() {
     const isLongDescription = this.get("isLongDescription");
     if (isLongDescription) {
       this.set("showMore", true);
@@ -34,22 +36,27 @@ export default detail.extend({
     }
   }),
 
-  shortPurposeDescription: Ember.computed("isShowing", "showMore", function() {
-    let purposeDescription = this.get("model.purposeDescription");
-    if (this.get("showMore")) {
-      return purposeDescription.substring(0, 170) + "...";
-    } else {
-      return purposeDescription;
+  shortPurposeDescription: Ember.computed(
+    "showInlineEdit",
+    "showMore",
+    function() {
+      let purposeDescription = this.get("model.purposeDescription");
+      if (this.get("showMore")) {
+        return purposeDescription.substring(0, LONG_DESCRIPTION_SIZE) + "...";
+      } else {
+        return purposeDescription;
+      }
     }
-  }),
+  ),
 
   actions: {
     showMoreToggle() {
       this.toggleProperty("showMore");
     },
 
-    enableEdit(makeEditable = true) {
-      this.set("isShowing", makeEditable);
+    enableDescriptionEdit(opts = {}) {
+      const { makeEditable = true } = opts;
+      this.set("showInlineEdit", makeEditable);
       if (makeEditable) {
         Ember.run.later(() => {
           Ember.$("#desc").click();
