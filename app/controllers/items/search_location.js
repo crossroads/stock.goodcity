@@ -2,6 +2,7 @@ import Ember from "ember";
 import config from "../../config/environment";
 import searchModule from "../search_module";
 import AjaxPromise from "stock/utils/ajax-promise";
+import _ from "lodash";
 const { getOwner } = Ember;
 
 export default searchModule.extend({
@@ -197,46 +198,29 @@ export default searchModule.extend({
     },
 
     undispatchFullQuantity() {
-      var item = this.get("item");
-      var location = this.get("selectedLocation");
+      const url = `/items/${this.get("item.id")}/move_full_quantity`;
 
-      var url = `/items/${item.get("id")}/move_full_quantity`;
-      var loadingView = getOwner(this)
-        .lookup("component:loading")
-        .append();
-
+      this.showLoadingSpinner();
       new AjaxPromise(url, "PUT", this.get("session.authToken"), {
-        location_id: location.get("id"),
+        location_id: this.get("selectedLocation.id"),
         ordersPackageId: this.get("ordersPackageId")
       })
         .then(data => {
           this.get("store").pushPayload(data);
-          var itemBackLinkPath = this.get("moveItemPath");
-          if (
-            itemBackLinkPath === "items.index" ||
-            itemBackLinkPath === "items"
-          ) {
+          const itemBackLinkPath = this.get("moveItemPath");
+          if (_.includes(["items.index", "items"], itemBackLinkPath)) {
             this.transitionToRoute(itemBackLinkPath);
           } else {
-            this.transitionToRoute("items.detail", item);
+            this.transitionToRoute("items.detail", this.get("item"));
           }
         })
         .catch(response => {
-          loadingView.destroy();
-          var errorMessage;
-          if (response.responseJSON.errors) {
-            errorMessage = response.responseJSON.errors[0];
-          }
-          if (
-            errorMessage &&
-            errorMessage.toLowerCase().indexOf("error") >= 0
-          ) {
+          const errorMessage = _.get(response, "responseJSON.errors[0]");
+          if (errorMessage) {
             this.get("messageBox").alert(errorMessage);
           }
         })
-        .finally(() => {
-          loadingView.destroy();
-        });
+        .finally(() => this.hideLoadingSpinner());
     },
 
     moveItem() {
