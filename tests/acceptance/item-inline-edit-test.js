@@ -7,12 +7,22 @@ import "../factories/item";
 import "../factories/location";
 import FactoryGuy from "ember-data-factory-guy";
 import { mockFindAll } from "ember-data-factory-guy";
+import MockUtils from "../helpers/mock-utils";
 
 var App, pkg;
 
 module("Acceptance: Item inline edit", {
   beforeEach: function() {
     App = startApp({}, 2);
+
+    MockUtils.startSession();
+    MockUtils.mockEmptyPreload();
+    MockUtils.mockUserProfile();
+    MockUtils.mockOrderSummary();
+    MockUtils.mockDonorConditions();
+    MockUtils.mockEmpty("process_checklist");
+    MockUtils.mockEmpty("purpose");
+
     var location = FactoryGuy.make("location");
     var designation = FactoryGuy.make("designation");
     var bookingType = FactoryGuy.make("booking_type");
@@ -39,52 +49,7 @@ module("Acceptance: Item inline edit", {
         items: [pkg.toJSON({ includeId: true })]
       }
     });
-    var data = {
-      user_profile: [
-        {
-          id: 2,
-          first_name: "David",
-          last_name: "Dara51",
-          mobile: "61111111",
-          user_role_ids: [1]
-        }
-      ],
-      users: [
-        { id: 2, first_name: "David", last_name: "Dara51", mobile: "61111111" }
-      ],
-      roles: [{ id: 4, name: "Supervisor" }],
-      user_roles: [{ id: 1, user_id: 2, role_id: 4 }]
-    };
 
-    $.mockjax({
-      url: "/api/v1/orders/summar*",
-      responseText: {
-        submitted: 14,
-        awaiting_dispatch: 1,
-        dispatching: 1,
-        processing: 2,
-        priority_submitted: 14,
-        priority_dispatching: 1,
-        priority_processing: 2,
-        priority_awaiting_dispatch: 1
-      }
-    });
-
-    $.mockjax({
-      url: "/api/v1/process_checklist*",
-      responseText: {
-        process_checklists: []
-      }
-    });
-
-    $.mockjax({
-      url: "/api/v1/purpose*",
-      responseText: {
-        purposes: []
-      }
-    });
-
-    $.mockjax({ url: "/api/v1/auth/current_user_profil*", responseText: data });
     mockFindAll("item").returns({
       json: { items: [pkg.toJSON({ includeId: true })] }
     });
@@ -104,6 +69,7 @@ module("Acceptance: Item inline edit", {
     });
   },
   afterEach: function() {
+    MockUtils.closeSession();
     Ember.run(App, "destroy");
   }
 });
@@ -291,7 +257,7 @@ test("Selecting different grade fires request for update", function(assert) {
   click(find(".grade-margin"));
   andThen(function() {
     //selecting B grade
-    click($(".grade-margin select option:eq(1)")[0]);
+    $(".grade-margin select option:eq(2)").attr("selected", "selected");
   });
   andThen(function() {
     assert.equal(
@@ -299,7 +265,7 @@ test("Selecting different grade fires request for update", function(assert) {
         .text()
         .trim()
         .substr(0, 1),
-      "B"
+      "C"
     );
   });
 });
@@ -328,14 +294,14 @@ test("Selecting different condition fires request for update", function(assert) 
   click(find(".grade-margin"));
   andThen(function() {
     //selecting Used condition
-    click($(".select-condition select option:eq(2)")[0]);
+    $(".select-condition select option:eq(2)").attr("selected", "selected");
   });
   andThen(function() {
     assert.equal(
       $(".select-condition select option:selected")
         .text()
         .trim(),
-      "Used"
+      "Heavily Used"
     );
   });
 });

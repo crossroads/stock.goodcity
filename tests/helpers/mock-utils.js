@@ -65,6 +65,15 @@ class MockUtils {
     this.mockEmpty("order_transport");
   }
 
+  mockDonorConditions() {
+    this.mockWithRecords("donor_condition", [
+      { id: 1, name: "New" },
+      { id: 2, name: "Lightly Used" },
+      { id: 3, name: "Heavily Used" },
+      { id: 4, name: "Broken" }
+    ]);
+  }
+
   mockOrderSummary(data = {}) {
     this.mocks.push(
       $.mockjax({

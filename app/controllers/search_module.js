@@ -1,8 +1,9 @@
 import Ember from "ember";
 import _ from "lodash";
 import InfinityRoute from "ember-infinity/mixins/route";
+import GoodcityController from "./goodcity_controller";
 
-export default Ember.Controller.extend(InfinityRoute, {
+export default GoodcityController.extend(InfinityRoute, {
   filterService: Ember.inject.service(),
   utilityMethods: Ember.inject.service(),
   getCurrentUser: Ember.computed(function() {

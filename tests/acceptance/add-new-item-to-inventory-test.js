@@ -7,44 +7,23 @@ import "../factories/designation";
 import "../factories/code";
 import FactoryGuy from "ember-data-factory-guy";
 import { mockFindAll } from "ember-data-factory-guy";
+import MockUtils from "../helpers/mock-utils";
 
-var App, location1, location2, designation, code, bookingType;
+var App, location1, location2, designation, code, bookingType, store;
 
 module("Acceptance: Add item to inventory", {
   beforeEach: function() {
     App = startApp({}, 2);
 
-    var data = {
-      user_profile: [
-        {
-          id: 2,
-          first_name: "David",
-          last_name: "Dara51",
-          mobile: "61111111",
-          user_role_ids: [1]
-        }
-      ],
-      users: [
-        { id: 2, first_name: "David", last_name: "Dara51", mobile: "61111111" }
-      ],
-      roles: [{ id: 4, name: "Supervisor" }],
-      user_roles: [{ id: 1, user_id: 2, role_id: 4 }]
-    };
+    store = App.__container__.lookup("service:store");
 
-    $.mockjax({
-      url: "/api/v1/orders/summar*",
-      responseText: {
-        submitted: 14,
-        awaiting_dispatch: 1,
-        dispatching: 1,
-        processing: 2,
-        priority_submitted: 14,
-        priority_dispatching: 1,
-        priority_processing: 2,
-        priority_awaiting_dispatch: 1
-      }
-    });
-    $.mockjax({ url: "/api/v1/auth/current_user_profil*", responseText: data });
+    MockUtils.startSession();
+    MockUtils.mockEmptyPreload();
+    MockUtils.mockEmpty("order_transport");
+    MockUtils.mockUserProfile();
+    MockUtils.mockOrderSummary();
+    MockUtils.mockDonorConditions();
+
     location1 = FactoryGuy.make("location");
     location2 = FactoryGuy.make("location");
     designation = FactoryGuy.make("designation");
@@ -65,6 +44,7 @@ module("Acceptance: Add item to inventory", {
     visit("/");
   },
   afterEach: function() {
+    MockUtils.closeSession();
     Ember.run(App, "destroy");
   }
 });
@@ -297,7 +277,10 @@ test("Redirect to /search_code after clicking Add item to inventory and save red
       //select grade
       assert.equal($("label select").val(), "B");
       //select condition
-      assert.equal($("#condition-select").val(), "U");
+      assert.equal(
+        $("#condition-select").val(),
+        store.peekAll("donor_condition").get("firstObject.id")
+      );
       //check  #Donation input box
       assert.equal(
         $(".small-9.columns input")
