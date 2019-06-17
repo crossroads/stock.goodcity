@@ -37,17 +37,7 @@ export default AutoResizableTextarea.extend({
           .trim() &&
       value !== ""
     ) {
-      let loadingView = getOwner(this)
-        .lookup("component:loading")
-        .append();
-      this.get("updatePurposeDescription")(orderId, { order: orderParams })
-        .then(data => {
-          this.get("store").pushPayload(data);
-          Ember.$(".client_summary_description_error").hide();
-        })
-        .finally(() => {
-          loadingView.destroy();
-        });
+      this.get("onFocusOut")(value);
     }
     this.element.value = value.trim();
     if (this.element.value === "") {
@@ -57,7 +47,6 @@ export default AutoResizableTextarea.extend({
         .show();
       return false;
     }
-    this.get("enableDescriptionEdit")({ makeEditable: false });
     Ember.$(this.element).removeClass("item-description-textarea");
   },
 

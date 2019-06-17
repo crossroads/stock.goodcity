@@ -9,7 +9,6 @@ export default detail.extend({
   showBeneficiaryModal: false,
   displayShowMore: true,
   showInlineEdit: false,
-  orderService: Ember.inject.service(),
 
   titles: Ember.computed(function() {
     return [
@@ -28,7 +27,7 @@ export default detail.extend({
     return this.get("model.purposeDescription.length") > LONG_DESCRIPTION_SIZE;
   }),
 
-  toggleDisplayShowMore: Ember.observer("isLongDescription", function() {
+  toggleDisplayShowMore: Ember.observer("model.purposeDescription", function() {
     const isLongDescription = this.get("isLongDescription");
     isLongDescription
       ? this.set("displayShowMore", true)
@@ -63,8 +62,19 @@ export default detail.extend({
       }
     },
 
-    updatePurposeDescription(orderId, body) {
-      return this.get("orderService").updateOrder(orderId, body);
+    updatePurposeDescription(purposeDescription) {
+      const order = this.get("model");
+      this.showLoadingSpinner();
+      order.set("purposeDescription", purposeDescription);
+      order
+        .save()
+        .then(() => {
+          Ember.$(".client_summary_description_error").hide();
+        })
+        .finally(() => {
+          this.hideLoadingSpinner();
+        });
+      this.send("enableDescriptionEdit", { makeEditable: false });
     },
 
     removeBeneficiaryModal() {

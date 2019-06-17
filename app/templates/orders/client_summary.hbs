@@ -161,15 +161,14 @@
         </div>
         <div class="small-7 columns">
           {{#if showInlineEdit}}
-            {{order-inline-textarea-input
+            {{inline-textarea-input
               data-autoresize=true name="purpose_description"
               value=model.purposeDescription
               disabled=(if model.isEditAllowed "" true)
               pattern=".*\S.*"
               id=(concat 'desc' item.id)
               class="description-textarea order-description-textarea"
-              enableDescriptionEdit=(action "enableDescriptionEdit")
-              updatePurposeDescription = (action "updatePurposeDescription")
+              onFocusOut = (action "updatePurposeDescription")
               order=model}}
           {{else}}
             <div {{action "enableDescriptionEdit"}} class="purpose-description-area">
