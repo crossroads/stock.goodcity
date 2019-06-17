@@ -11,7 +11,6 @@ export default Ember.Route.extend(preloadDataMixin, {
   logger: Ember.inject.service(),
   messageBox: Ember.inject.service(),
   cordova: Ember.inject.service(),
-  isMustLoginAlreadyShown: false,
 
   _loadDataStore: function() {
     return this.preloadData()
@@ -40,20 +39,14 @@ export default Ember.Route.extend(preloadDataMixin, {
       var authToken = window.localStorage.getItem("authToken");
       if (
         !authToken &&
-        !object.get("isMustLoginAlreadyShown") &&
         !(
           currentPath.indexOf("login") >= 0 ||
           currentPath.indexOf("authenticate") >= 0
         )
       ) {
-        object.set("isMustLoginAlreadyShown", true);
-        object
-          .get("messageBox")
-          .alert(object.get("i18n").t("must_login"), () => {
-            object.session.clear();
-            object.session.unloadSessionData();
-            object.transitionTo("login");
-          });
+        object.session.clear();
+        object.store.unloadSessionData();
+        object.transitionTo("login");
       } else if (
         authToken &&
         (currentPath.indexOf("login") >= 0 ||
@@ -94,18 +87,11 @@ export default Ember.Route.extend(preloadDataMixin, {
     }
   },
 
-  showMustLogin() {
-    if (
-      this.session.get("isLoggedIn") &&
-      !this.get("isLoginPopUpAlreadyShown")
-    ) {
-      this.set("isLoginPopUpAlreadyShown", true);
-      this.get("messageBox").alert(this.get("i18n").t("must_login"), () => {
-        this.set("isLoginPopUpAlreadyShown", false);
-        this.session.clear();
-        this.session.unloadSessionData();
-        this.transitionTo("login");
-      });
+  redirectToLogin() {
+    if (this.session.get("isLoggedIn")) {
+      this.session.clear();
+      this.session.unloadSessionData();
+      this.transitionTo("login");
     }
   },
 
@@ -167,7 +153,7 @@ export default Ember.Route.extend(preloadDataMixin, {
       } else if (reason.name === "NotFoundError" && reason.code === 8) {
         return false;
       } else if (status === 401) {
-        this.showMustLogin();
+        this.redirectToLogin();
       } else {
         if (
           reason.message &&
