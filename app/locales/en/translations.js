@@ -21,7 +21,6 @@ export default {
   ok: "OK",
   done: "Done",
   orders_in_process: "Orders In Process",
-  must_login: "You must login!",
   search_no_results: "Sorry, No results found.",
   version: "Stock v.",
   organisation_title: "Organisation",
