@@ -169,13 +169,14 @@
               id=(concat 'desc' item.id)
               class="description-textarea order-description-textarea"
               enableDescriptionEdit=(action "enableDescriptionEdit")
+              updatePurposeDescription = (action "updatePurposeDescription")
               order=model}}
           {{else}}
             <div {{action "enableDescriptionEdit"}} class="purpose-description-area">
               {{shortPurposeDescription}}
             </div>
             {{#if isLongDescription}}
-              {{#if showMore}}
+              {{#if displayShowMore}}
                 <span {{action "showMoreToggle"}} class="show-more">show more</span>
               {{else}}
                 <span {{action "showMoreToggle"}} class="show-less">show less</span>

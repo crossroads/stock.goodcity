@@ -23,13 +23,12 @@ export default AutoResizableTextarea.extend({
   },
 
   focusOut() {
-    var order = this.get("order");
-    var url = `/orders/${order.get("id")}`;
-    var key = this.get("name");
-    var value = this.attrs.value.value || "";
-    var orderParams = {};
+    const orderId = this.get("order.id");
+    const key = this.get("name");
+    const value = this.attrs.value.value || "";
+    let orderParams = {};
     orderParams[key] = this.get("value").trim() || "";
-    var element = this.element;
+    let element = this.element;
 
     if (
       orderParams[key].toString() !==
@@ -38,12 +37,10 @@ export default AutoResizableTextarea.extend({
           .trim() &&
       value !== ""
     ) {
-      var loadingView = getOwner(this)
+      let loadingView = getOwner(this)
         .lookup("component:loading")
         .append();
-      new AjaxPromise(url, "PUT", this.get("session.authToken"), {
-        order: orderParams
-      })
+      this.get("updatePurposeDescription")(orderId, { order: orderParams })
         .then(data => {
           this.get("store").pushPayload(data);
           Ember.$(".client_summary_description_error").hide();

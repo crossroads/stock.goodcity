@@ -7,8 +7,9 @@ const LONG_DESCRIPTION_SIZE = 170;
 
 export default detail.extend({
   showBeneficiaryModal: false,
-  showMore: false,
+  displayShowMore: true,
   showInlineEdit: false,
+  orderService: Ember.inject.service(),
 
   titles: Ember.computed(function() {
     return [
@@ -27,21 +28,19 @@ export default detail.extend({
     return this.get("model.purposeDescription.length") > LONG_DESCRIPTION_SIZE;
   }),
 
-  toggleShowMore: Ember.observer("isLongDescription", function() {
+  toggleDisplayShowMore: Ember.observer("isLongDescription", function() {
     const isLongDescription = this.get("isLongDescription");
-    if (isLongDescription) {
-      this.set("showMore", true);
-    } else {
-      this.set("showMore", false);
-    }
+    isLongDescription
+      ? this.set("displayShowMore", true)
+      : this.set("displayShowMore", false);
   }),
 
   shortPurposeDescription: Ember.computed(
     "showInlineEdit",
-    "showMore",
+    "displayShowMore",
     function() {
       let purposeDescription = this.get("model.purposeDescription");
-      if (this.get("showMore")) {
+      if (this.get("displayShowMore")) {
         return purposeDescription.substring(0, LONG_DESCRIPTION_SIZE) + "...";
       } else {
         return purposeDescription;
@@ -51,7 +50,7 @@ export default detail.extend({
 
   actions: {
     showMoreToggle() {
-      this.toggleProperty("showMore");
+      this.toggleProperty("displayShowMore");
     },
 
     enableDescriptionEdit(opts = {}) {
@@ -62,6 +61,10 @@ export default detail.extend({
           Ember.$("#desc").click();
         }, 50);
       }
+    },
+
+    updatePurposeDescription(orderId, body) {
+      return this.get("orderService").updateOrder(orderId, body);
     },
 
     removeBeneficiaryModal() {
