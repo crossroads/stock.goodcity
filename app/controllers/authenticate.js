@@ -1,76 +1,82 @@
-import Ember from 'ember';
-import AjaxPromise from './../utils/ajax-promise';
-import config from '../config/environment';
+import Ember from "ember";
+import AjaxPromise from "./../utils/ajax-promise";
+import config from "../config/environment";
+import preloadDataMixin from "../mixins/preload_data";
+import GoodcityController from "./goodcity_controller";
+import _ from "lodash";
 const { getOwner } = Ember;
 
-export default Ember.Controller.extend({
-
+export default GoodcityController.extend(preloadDataMixin, {
   messageBox: Ember.inject.service(),
+  authService: Ember.inject.service(),
   attemptedTransition: null,
   pin: "",
   isMobileApp: config.cordova.enabled,
 
-  mobile: Ember.computed('mobilePhone', function(){
-    return config.APP.HK_COUNTRY_CODE + this.get('mobilePhone');
+  mobile: Ember.computed("mobilePhone", function() {
+    return config.APP.HK_COUNTRY_CODE + this.get("mobilePhone");
   }),
 
   actions: {
-
     authenticateUser() {
-      Ember.$('.auth_error').hide();
-      var pin = this.get('pin');
-      var otp_auth_key = this.get('session.otpAuthKey');
-      var _this = this;
-      var attemptedTransition = this.get('attemptedTransition');
-      var loadingView = getOwner(this).lookup('component:loading').append();
-      new AjaxPromise("/auth/verify", "POST", null, {pin: pin, otp_auth_key: otp_auth_key})
-        .then(function(data) {
-          _this.setProperties({pin:null});
-          _this.set('session.authToken', data.jwt_token);
-          _this.set('session.otpAuthKey', null);
-          _this.store.pushPayload(data.user);
-          _this.setProperties({pin: null});
-          if (attemptedTransition) {
-            attemptedTransition.retry();
-          } else {
-            _this.transitionToRoute("/");
-          }
-          _this.set('attemptedTransition', null);
+      let pin = this.get("pin");
+      let otpAuthKey = this.get("session.otpAuthKey");
+
+      Ember.$(".auth_error").hide();
+      this.showLoadingSpinner();
+      this.get("authService")
+        .verify(pin, otpAuthKey)
+        .then(({ jwt_token, user }) => {
+          this.set("pin", null);
+          this.set("session.authToken", jwt_token);
+          this.set("session.otpAuthKey", null);
+          this.store.pushPayload(user);
+          return this.preloadData();
         })
-        .catch(function(jqXHR) {
-          Ember.$('#pin').closest('div').addClass('error');
-          _this.setProperties({pin: null});
-          if (jqXHR.status === 422 && jqXHR.responseJSON.errors && jqXHR.responseJSON.errors.pin) {
-            _this.get("messageBox").alert(jqXHR.responseJSON.errors.pin);
+        .then(() => {
+          this.hideLoadingSpinner();
+          let attemptedTransition = this.get("attemptedTransition");
+          if (!attemptedTransition) {
+            return this.transitionToRoute("/");
           }
-          console.log("Unable to authenticate");
+          attemptedTransition.retry();
+          this.set("attemptedTransition", null);
         })
-        .finally(() => loadingView.destroy());
+        .catch(jqXHR => {
+          Ember.$("#pin")
+            .closest("div")
+            .addClass("error");
+          if (jqXHR.status === 422) {
+            this.get("messageBox").alert(
+              _.get(jqXHR, "responseJSON.errors.pin")
+            );
+          }
+        });
     },
 
     resendPin() {
-      var mobile = this.get('mobile');
-      var loadingView = getOwner(this).lookup('component:loading').append();
-      var _this = this;
-
-      new AjaxPromise("/auth/send_pin", "POST", null, {mobile: mobile})
+      this.showLoadingSpinner();
+      this.get("authService")
+        .sendPin(this.get("mobile"))
         .then(data => {
-          this.set('session.otpAuthKey', data.otp_auth_key);
-          this.setProperties({pin:null});
-          this.transitionToRoute('/authenticate');
+          this.set("session.otpAuthKey", data.otp_auth_key);
+          this.set("pin", null);
+          this.transitionToRoute("/authenticate");
         })
         .catch(error => {
-          if([401].includes(error.status)) {
-             _this.get("messageBox").alert("You are not authorized.", () => {
-              _this.transitionToRoute("/");
-             });
+          if ([401].includes(error.status)) {
+            this.get("messageBox").alert("You are not authorized.", () => {
+              this.transitionToRoute("/");
+            });
           } else if ([422, 403].includes(error.status)) {
-            Ember.$('#mobile').closest('.mobile').addClass('error');
+            Ember.$("#mobile")
+              .closest(".mobile")
+              .addClass("error");
             return;
           }
           throw error;
         })
-        .finally(() => loadingView.destroy());
+        .finally(() => this.hideLoadingSpinner());
     }
   }
 });
