@@ -1,12 +1,12 @@
 import detail from "./detail";
-import Ember from 'ember';
-import AjaxPromise from 'stock/utils/ajax-promise';
+import Ember from "ember";
+import AjaxPromise from "stock/utils/ajax-promise";
 const { getOwner } = Ember;
 
 export default detail.extend({
   showBeneficiaryModal: false,
 
-  titles: Ember.computed(function(){
+  titles: Ember.computed(function() {
     return [
       { name: "Mr", id: "Mr" },
       { name: "Mrs", id: "Mrs" },
@@ -16,34 +16,28 @@ export default detail.extend({
   }),
 
   identityTypes: Ember.computed(function() {
-    return [
-      { name: 'Hong Kong Identity Card', id: 1 },
-      { name: 'Asylum Seeker Recognizance Form', id: 2}
-    ];
+    return this.get("store").peekAll("identity_type");
   }),
 
   actions: {
     removeBeneficiaryModal() {
-      this.toggleProperty('showBeneficiaryModal');
+      this.toggleProperty("showBeneficiaryModal");
     },
 
     deleteBeneficiary() {
-      const beneficiaryId = this.get("model.beneficiaryId");
-      var url = `/beneficiaries/${beneficiaryId}`;
-      var beneficiary = this.get("store").peekRecord("beneficiary", beneficiaryId);
-      if(beneficiary) {
-        var loadingView = getOwner(this).lookup('component:loading').append();
-        new AjaxPromise(url, "DELETE", this.get('session.authToken'))
-          .then(data => {
-            this.get("store").pushPayload(data);
-            return new AjaxPromise(`/orders/${this.get("model.id")}`, "PUT", this.get('session.authToken'), { order: { beneficiary_id: null } })
-              .then(data => {
-                this.get("store").pushPayload(data);
-              });
+      const order = this.get("model");
+      const beneficiary = order.get("beneficiary");
+
+      if (beneficiary) {
+        this.showLoadingSpinner();
+        beneficiary
+          .destroyRecord()
+          .then(() => {
+            order.set("beneficiary", null);
+            return order.save();
           })
           .finally(() => {
-            loadingView.destroy();
-            this.get("store").unloadRecord(beneficiary);
+            this.hideLoadingSpinner();
           });
       }
     }

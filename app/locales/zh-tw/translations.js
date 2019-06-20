@@ -19,7 +19,6 @@ export default {
   cancel: "取消",
   ok: "確定",
   done: "Done",
-  must_login: "請登入!",
   search_no_results: "對不起，沒有搜尋結果",
   version: "Stock v.",
   organisation_title: "機構",

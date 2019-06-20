@@ -79,6 +79,8 @@
                     content=grades
                     on-change=(action (mut selectedReason))
                     name="grade"
+                    autosave=true
+                    isPrimitive=true
                     id=(concat 'grd' item.id)
                     class="grade-margin"
                     item=item}}
@@ -90,8 +92,9 @@
                   {{inline-select-list
                     content=conditions
                     on-change=(action (mut selectedReason))
-                    name="donor_condition_id"
+                    name="donorCondition"
                     item=item
+                    autosave=true
                     id=(concat 'cnd' item.id)
                     class="condition-margin"}}
                 </div>

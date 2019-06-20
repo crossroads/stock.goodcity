@@ -68,7 +68,32 @@ module.exports = function(environment) {
       NAMESPACE: "api/v1",
       HK_COUNTRY_CODE: "+852",
 
-      PRELOAD_TYPES: ["booking_type", "purpose", "process_checklist"]
+      PRELOAD_TYPES: [
+        "booking_type",
+        "purpose",
+        "process_checklist",
+        "identity_type",
+        "donor_condition"
+      ],
+      USER_DATA_TYPES: [
+        "designation",
+        "item",
+        "order_transport",
+        "beneficiary",
+        "contact",
+        "gogovan_transport",
+        "user",
+        "user_profile",
+        "role",
+        "role_permission",
+        "image",
+        "packages_location",
+        "stockit_contact",
+        "goodcity_request",
+        "donor_condition",
+        "purpose",
+        "orders_process_checklist"
+      ]
     },
 
     i18n: {
