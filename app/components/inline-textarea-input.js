@@ -16,12 +16,6 @@ export default AutoResizableTextarea.extend({
     }
   },
 
-  didInsertElement() {
-    Ember.$(".description-textarea").val(
-      this.get("orderCopy.data.purposeDescription")
-    );
-  },
-
   focusOut() {
     const orderId = this.get("order.id");
     const key = this.get("name");
@@ -47,11 +41,15 @@ export default AutoResizableTextarea.extend({
         .show();
       return false;
     }
-    Ember.$(this.element).removeClass("item-description-textarea");
+    this.removeCssStyle();
   },
 
   focusIn() {
     this.addCssStyle();
+  },
+
+  removeCssStyle() {
+    Ember.$(this.element).removeClass("item-description-textarea");
   },
 
   addCssStyle() {
