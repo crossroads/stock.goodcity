@@ -323,6 +323,7 @@ export default Ember.Component.extend({
     designatePartialItem() {
       this.set("designatedOnce", false);
       var order = this.get("order");
+      const orderId = order.get("id");
       var item = this.get("item");
       var showAllSetItems = this.get("showAllSetItems");
       this.set("showAllSetItems", false);
@@ -332,7 +333,7 @@ export default Ember.Component.extend({
       this.showLoadingSpinner();
       var url;
       var properties = {
-        order_id: order.get("id"),
+        order_id: orderId,
         package_id: item.get("id"),
         quantity: this.get("partial_quantity")
       };
@@ -365,7 +366,7 @@ export default Ember.Component.extend({
             this.sendAction("displaySetItems");
           } else {
             this.hideLoadingSpinner();
-            this.get("router").transitionTo("items.index");
+            this.get("router").transitionTo("orders.active_items", orderId);
           }
         })
         .catch(error => {
