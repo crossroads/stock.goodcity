@@ -3,6 +3,8 @@ export default {
   unexpected_error: "錯誤",
   okay: "確定",
   loading: "正在加載...",
+  loading_timeout_error: "讀取時限已過",
+  loading_timeout: "需時太久了！點擊重新加載",
   "language.en": "English",
   "language.zh": "中文",
   back: "返回",
@@ -712,5 +714,19 @@ export default {
       "Please ensure descriptions and images are high quality before proceeding.",
     unpublish_message:
       "You are about to unpublish this package.Clients will no longer be able to view or request it online."
+  },
+  designate_form: {
+    warning_text:
+      "增加{{state}}的數量到{{totalQty}} 對於{{designationCode}}! ({{qty}} 原本{{pkgState}}-物件{{inventory number}})",
+    warning_text_without_link:
+      "增加{{state}}的數量到{{totalQty}} 對於{{orderCode}}! ({{qty}} 原本{{designatedState}})",
+    designate_to: "指定這組物件到{{orderCode}}",
+    designate_entire: " 指定全數",
+    designate_part: "指定部份"
+  },
+  "dispatch-form": {
+    confirmation: " 您必須勾選確認方格才可繼續",
+    dispatch_multipart: " 派送多部份至{{orderCode}}",
+    dispatch_entire: "派送全部數量"
   }
 };
