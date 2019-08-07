@@ -3,6 +3,8 @@ export default {
   unexpected_error: "錯誤",
   okay: "確定",
   loading: "正在加載...",
+  loading_timeout_error: "讀取時限已過",
+  loading_timeout: "需時太久了！點擊重新加載",
   "language.en": "English",
   "language.zh": "中文",
   back: "返回",

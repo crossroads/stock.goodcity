@@ -7,6 +7,8 @@ export default {
   "language.zh": "中文",
   switch_language: "Switch language",
   loading: "Loading...",
+  loading_timeout_error: "Loading view timeout reached.",
+  loading_timeout: "This is taking too long! Click okay to reload.",
   back: "Back",
   search: "Search",
   state: "State",
