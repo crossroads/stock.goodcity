@@ -717,16 +717,16 @@ export default {
   },
   designate_form: {
     warning_text:
-      "Increases {{state}} quantity to {{totalQty}} for {{designationCode}}! ({{qty}} previously {{pkgState}} - item {{inventoryNumber}})",
+      "增加{{state}}的數量到{{totalQty}} 對於{{designationCode}}! ({{qty}} 原本{{pkgState}}-物件{{inventory number}})",
     warning_text_without_link:
-      "Increases {{state}} quantity to {{totalQty}} for {{orderCode}}! ({{qty}} previously {{designatedState}})",
-    designate_to: "Designate this set of items to {{orderCode}}",
-    designate_entire: "Designates entire quantity.",
-    designate_part: "Designates only part of set."
+      "增加{{state}}的數量到{{totalQty}} 對於{{orderCode}}! ({{qty}} 原本{{designatedState}})",
+    designate_to: "指定這組物件到{{orderCode}}",
+    designate_entire: " 指定全數",
+    designate_part: "指定部份"
   },
   "dispatch-form": {
-    confirmation: "You must tick the confirmation box to proceed.",
-    dispatch_multipart: "Dispatch multi-part set to {{orderCode}}",
-    dispatch_entire: "Dispatches entire quantity."
+    confirmation: " 您必須勾選確認方格才可繼續",
+    dispatch_multipart: " 派送多部份至{{orderCode}}",
+    dispatch_entire: "派送全部數量"
   }
 };
