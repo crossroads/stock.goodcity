@@ -7,6 +7,8 @@ export default {
   "language.zh": "中文",
   switch_language: "Switch language",
   loading: "Loading...",
+  loading_timeout_error: "Loading view timeout reached.",
+  loading_timeout: "This is taking too long! Click okay to reload.",
   back: "Back",
   search: "Search",
   state: "State",
@@ -724,5 +726,19 @@ export default {
       "Please ensure descriptions and images are high quality before proceeding.",
     unpublish_message:
       "You are about to unpublish this package.Clients will no longer be able to view or request it online."
+  },
+  designate_form: {
+    warning_text:
+      "Increases {{state}} quantity to {{totalQty}} for {{designationCode}}! ({{qty}} previously {{pkgState}} - item {{inventoryNumber}})",
+    warning_text_without_link:
+      "Increases {{state}} quantity to {{totalQty}} for {{orderCode}}! ({{qty}} previously {{designatedState}})",
+    designate_to: "Designate this set of items to {{orderCode}}",
+    designate_entire: "Designates entire quantity.",
+    designate_part: "Designates only part of set."
+  },
+  "dispatch-form": {
+    confirmation: "You must tick the confirmation box to proceed.",
+    dispatch_multipart: "Dispatch multi-part set to {{orderCode}}",
+    dispatch_entire: "Dispatches entire quantity."
   }
 };
