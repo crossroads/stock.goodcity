@@ -64,16 +64,20 @@ export default Ember.Route.extend(preloadDataMixin, {
     );
   },
 
-  showSomethingWentWrong(reason) {
+  getErrorMessage(reason) {
+    if (reason.errors[0].detail && reason.errors[0].detail.status == 422) {
+      var message = reason.errors[0].detail.message;
+    }
+    return message ? message : this.get("i18n").t("unexpected_error");
+  },
+
+  showErrorPopup(reason) {
     this.get("logger").error(reason);
     if (!this.get("isErrPopUpAlreadyShown")) {
       this.set("isErrPopUpAlreadyShown", true);
-      this.get("messageBox").alert(
-        this.get("i18n").t("unexpected_error"),
-        () => {
-          this.set("isErrPopUpAlreadyShown", false);
-        }
-      );
+      this.get("messageBox").alert(this.getErrorMessage(reason), () => {
+        this.set("isErrPopUpAlreadyShown", false);
+      });
     }
   },
 
@@ -163,7 +167,7 @@ export default Ember.Route.extend(preloadDataMixin, {
         ) {
           this.showItemIsNotAvailable();
         } else {
-          this.showSomethingWentWrong(reason);
+          this.showErrorPopup(reason);
         }
       }
     } catch (err) {
