@@ -236,16 +236,21 @@ export default GoodcityController.extend({
           this.send("promptCloseOrderModel", order, actionName);
           break;
         case "finish_processing":
-          if (this.get("processingChecklist").checklistCompleted(order)) {
-            this.send("changeOrderState", order, actionName);
-          } else {
-            this.genericAlertPopUp(
-              "order_details.logistics.checklist_incomplete"
-            );
-          }
+          this.send("verifyChecklistAndChangeState", order, actionName);
+          break;
+        case "start_dispatching":
+          this.send("verifyChecklistAndChangeState", order, actionName);
           break;
         default:
           this.send("changeOrderState", order, actionName);
+      }
+    },
+
+    verifyChecklistAndChangeState(order, actionName) {
+      if (this.get("processingChecklist").checklistCompleted(order)) {
+        this.send("changeOrderState", order, actionName);
+      } else {
+        this.genericAlertPopUp("order_details.logistics.checklist_incomplete");
       }
     },
 
