@@ -526,6 +526,7 @@ export default {
       first_name: "First Name",
       last_name: "Family Name",
       mobile: "Mobile",
+      Preferred_mobile: "Preferred",
       email: "Email",
       position: "Position",
       phone_number: "Phone Number",
