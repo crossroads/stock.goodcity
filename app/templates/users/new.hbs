@@ -7,51 +7,51 @@
 <section class="main-section new-user-section ui">
   {{#validatable-form onSubmit=(action 'saveUser') as |form|}}
   <div class="row">
-    <div class="small-3 columns item-label">
+    <div class="small-12 columns item-label">
       {{t 'organisation.user.first_name'}}
     </div>
-    <div class="{{if isMobileApp 'small-7 large-8' 'small-9'}} columns">
+    <div class="small-12 columns field-container">
       {{#form-control}}
-      {{input type='text' value=firstName placeholder=fNamePlaceholder required='true'}}
+      {{input type='text' value=firstName  required='true'}}
       <div class='input-error'>{{t 'organisation.user.validation_error.first_name'}}</div>
       {{/form-control}}
     </div>
   </div>
 
   <div class="row">
-    <div class="small-3 columns item-label">
+    <div class="small-12 columns item-label">
       {{t 'organisation.user.last_name'}}
     </div>
-    <div class="{{if isMobileApp 'small-7 large-8' 'small-9'}} columns">
+    <div class="small-12 columns field-container">
       {{#form-control}}
-      {{input type='text' value=lastName placeholder=lNamePlaceholder required='true'}}
+      {{input type='text' value=lastName  required='true'}}
       <div class='input-error'>{{t 'organisation.user.validation_error.family_name'}}</div>
       {{/form-control}}
     </div>
   </div>
 
   <div class="row mobile">
-    <div class="small-2 columns item-label">
+    <div class="small-12 columns item-label">
       {{t 'organisation.user.mobile'}}
     </div>
     <div class="small-1 columns ui dialing-code">
       <label>{{t "mobile_prefix"}}</label>
     </div>
-    <div class="{{if isMobileApp 'small-7 large-8' 'small-9'}} columns">
+    <div class="small-11 columns field-container">
       {{#form-control}}
-      {{numeric-input value=mobilePhone name="mobilePhone" id="mobile" maxlength="8" placeholder=phoneNumberPlaceholder pattern=".{8,}"}}
+      {{numeric-input value=mobilePhone name="mobilePhone" id="mobile" maxlength="8"  pattern=".{8,}"}}
       <div class='input-error'>{{t 'organisation.user.validation_error.mobile'}}</div>
       {{/form-control}}
     </div>
   </div>
 
   <div class="row preferred-mobile">
-    <div class="small-2 columns item-label">
-      {{t 'organisation.user.Preferred_mobile'}}
+    <div class="small-12 columns item-label">
+      {{t 'order_contact_summary.preferred_contact_number'}}
     </div>
-    <div class="{{if isMobileApp 'small-7 large-8' 'small-9'}} columns">
+    <div class="small-12 columns field-container">
       {{#form-control}}
-      {{numeric-input value=preferredPhone name="preferredPhone" id="preferred-phone" maxlength="8" placeholder=phoneNumberPlaceholder pattern=".{8,}"}}
+      {{numeric-input value=preferredPhone name="preferredPhone" id="preferred-phone" maxlength="8"  pattern=".{8,}"}}
       <div class='input-error'>{{t 'organisation.user.validation_error.mobile'}}</div>
       {{/form-control}}
     </div>
@@ -59,24 +59,24 @@
 
 
   <div class="row">
-    <div class="small-3 columns item-label">
+    <div class="small-12 columns item-label">
       {{t 'organisation.user.email'}}
     </div>
-    <div class="{{if isMobileApp 'small-7 large-8' 'small-9'}} columns">
+    <div class="small-12 columns field-container">
       {{#form-control}}
-      {{input value=email name="email" id="email" type="email" placeholder=emailPlaceholder required='true'}}
+      {{input value=email name="email" id="email" type="email" required='true'}}
       <div class='input-error'>{{t 'organisation.user.validation_error.email'}}</div>
       {{/form-control}}
     </div>
   </div>
 
   <div class="row">
-    <div class="small-3 columns item-label">
+    <div class="small-12 columns item-label">
       {{t 'organisation.user.position'}}
     </div>
-    <div class="{{if isMobileApp 'small-7 large-8' 'small-9'}} columns">
+    <div class="small-12 columns field-container">
       {{#form-control}}
-      {{input type='text' value=position placeholder=positionPlaceholder required='true'}}
+      {{input type='text' value=position  required='true'}}
       <div class='input-error'>{{t 'organisation.user.validation_error.position'}}</div>
       {{/form-control}}
     </div>
