@@ -41,6 +41,10 @@
     line-height: 1.8rem;
   }
 
+  .field-container {
+    margin-bottom: 0.4rem;
+  }
+
   .dimension-row {
     .value {
       padding: 0;
@@ -106,7 +110,7 @@
     background: #002352 !important;
     border: 1px solid $tabbar-menu-icon-color !important;
     color: white;
-    height: 1.8rem !important;
+    height: 2.75rem !important;
   }
 
   textarea {
