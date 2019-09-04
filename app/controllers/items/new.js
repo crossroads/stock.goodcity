@@ -1,6 +1,7 @@
 import Ember from "ember";
 import AjaxPromise from "stock/utils/ajax-promise";
 import config from "../../config/environment";
+import _ from "lodash";
 const { getOwner } = Ember;
 
 export default Ember.Controller.extend({
@@ -18,6 +19,7 @@ export default Ember.Controller.extend({
   isSelectLocationPreviousRoute: Ember.computed.localStorage(),
 
   quantity: 1,
+  labels: 1,
   length: null,
   width: null,
   height: null,
@@ -105,6 +107,21 @@ export default Ember.Controller.extend({
       return selected && selected.defaultChildPackagesList()[0];
     }
     return selected;
+  }),
+
+  isInvalidaLabelCount: Ember.computed("labels", function() {
+    const labelCount = this.get("labels");
+    return !labelCount || Number(labelCount) < 0;
+  }),
+
+  isInvalidPrintCount: Ember.computed("labels", function() {
+    const labelCount = Number(this.get("labels"));
+    return _.inRange(labelCount, 0, 301);
+  }),
+
+  isMultipleCountPrint: Ember.computed("labels", function() {
+    const labelCount = Number(this.get("labels"));
+    return _.inRange(labelCount, 1, 301);
   }),
 
   location: Ember.computed("codeId", "locationId", {

@@ -158,21 +158,26 @@
   </div>
 
   <div class="row">
-    <div class="small-3 columns item-label">
+    <div class="small-3 columns item-label">Labels</div>
+    <div class="small-3 columns">
+      {{numeric-input id="labels" name="labels" value=labels placeholder="labels" maxlength="3" pattern="\d{1,8}"}}
+      {{#if isInvalidaLabelCount}}
+        <div id="label-empty-err" class='input-error' style="display: block;">Can't be blank</div>
+      {{/if}}
+      {{#unless isInvalidPrintCount}}
+        <div id="max-val-err" class='input-error' style="display: block;">Max 300</div>
+      {{/unless}}
+    </div>
+    <div class="small-2 columns item-label">
       {{t "items.new.inventory"}}
     </div>
-    <div class="small-7 large-8 columns inventory-number">
-
+    <div class="small-4 columns inventory-number">
       {{#if inputInventory}}
         {{input value=inventoryNumber}}
       {{else}}
         {{inventoryNumber}}
       {{/if}}
-
       {{partial "items/inventory_options"}}
-    </div>
-    <div class="small-2 large-1 columns scan-icon">
-      <i aria-hidden="true">{{fa-icon 'print'}}</i>
     </div>
   </div>
 
@@ -193,7 +198,12 @@
     </div>
 
     <div class="small-6 columns">
-      <a {{action 'submit' target=form}} class="button expand">{{t 'save'}}</a>
+      <a {{action 'submit' target=form}} class="button expand">
+        {{t "save"}}
+        {{#if isMultipleCountPrint}}
+          & Print {{labels}} <i class='fa fa-print'></i>
+        {{/if}}
+      </a>
     </div>
   </div>
 
