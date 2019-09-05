@@ -11,9 +11,6 @@ export default Ember.Controller.extend({
   lNamePlaceholder: t("organisation.user.doe"),
   emailPlaceholder: t("organisation.user.email"),
   positionPlaceholder: t("organisation.user.position_in_organisation"),
-  preferredPhonePlaceholder: t(
-    "order_contact_summary.preferred_contact_number"
-  ),
   mobilePhone: "",
   preferredPhone: "",
   organisationId: Ember.computed.alias("model.id"),
