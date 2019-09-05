@@ -25,28 +25,21 @@ export default Ember.Controller.extend({
     this.set("preferredPhone", "");
   },
 
-  formatMobileNumber(mobileNumber) {
-    if (mobileNumber.length) {
-      return mobileNumber;
-    } else {
-      return mobileNumber;
-    }
-  },
-
   actions: {
     saveUser() {
-      var loadingView = getOwner(this)
+      const loadingView = getOwner(this)
         .lookup("component:loading")
         .append();
-      var mobilePhone =
-        config.APP.HK_COUNTRY_CODE +
-        this.formatMobileNumber(this.get("mobilePhone"));
-      var preferredPhone = this.formatMobileNumber(this.get("preferredPhone"));
-      var firstName = this.get("firstName");
-      var lastName = this.get("lastName");
-      var organisationId = this.get("organisationId");
-      var position = this.get("position");
-      var email = this.get("email");
+      const mobilePhone =
+        this.get("preferredPhone.length") &&
+        `${config.APP.HK_COUNTRY_CODE}${this.get("mobilePhone")}`;
+      const preferredPhone =
+        this.get("preferredPhone.length") && this.get("preferredPhone");
+      const firstName = this.get("firstName");
+      const lastName = this.get("lastName");
+      const organisationId = this.get("organisationId");
+      const position = this.get("position");
+      const email = this.get("email");
       new AjaxPromise(
         "/organisations_users",
         "POST",
