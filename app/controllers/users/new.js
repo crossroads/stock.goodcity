@@ -25,44 +25,47 @@ export default Ember.Controller.extend({
     this.set("preferredPhone", "");
   },
 
+  getRequestParams() {
+    const preferredContactValue = this.get("preferredPhone");
+    const mobilePhone =
+      this.get("mobilePhone.length") &&
+      `${config.APP.HK_COUNTRY_CODE}${this.get("mobilePhone")}`;
+    const preferredPhone =
+      preferredContactValue.length && preferredContactValue;
+    const params = {
+      organisation_id: this.get("organisationId"),
+      position: this.get("position"),
+      preferred_contact_number: preferredPhone,
+      user_attributes: {
+        first_name: this.get("firstName"),
+        last_name: this.get("lastName"),
+        mobile: mobilePhone,
+        email: this.get("email")
+      }
+    };
+    return {
+      organisations_user: params
+    };
+  },
+
   actions: {
     saveUser() {
       const loadingView = getOwner(this)
         .lookup("component:loading")
         .append();
-      const preferredContactValue = this.get("preferredPhone");
-      const mobilePhone =
-        this.get("mobilePhone.length") &&
-        `${config.APP.HK_COUNTRY_CODE}${this.get("mobilePhone")}`;
-      const preferredPhone =
-        preferredContactValue.length && preferredContactValue;
-      const firstName = this.get("firstName");
-      const lastName = this.get("lastName");
-      const organisationId = this.get("organisationId");
-      const position = this.get("position");
-      const email = this.get("email");
       new AjaxPromise(
         "/organisations_users",
         "POST",
         this.get("session.authToken"),
-        {
-          organisations_user: {
-            organisation_id: organisationId,
-            position: position,
-            preferred_contact_number: preferredPhone,
-            user_attributes: {
-              first_name: firstName,
-              last_name: lastName,
-              mobile: mobilePhone,
-              email: email
-            }
-          }
-        }
+        this.getRequestParams()
       )
         .then(data => {
           this.get("store").pushPayload(data);
           this.clearFormData();
-          this.transitionToRoute("organisations.users", organisationId);
+          this.transitionToRoute(
+            "organisations.users",
+            this.get("organisationId")
+          );
         })
         .catch(xhr => {
           if (xhr.status === 422) {
