@@ -51,6 +51,7 @@
   font-weight: bold;
   color: white;
   margin-top: 3rem;
+
   @media #{$small-only} {
     font-size: 0.9rem;
   }
@@ -117,6 +118,7 @@
 
   li {
     padding: 0.8rem 1rem;
+
     @media #{$small-only} {
       font-size: 0.7rem;
     }
@@ -124,6 +126,10 @@
     .state_details {
       color: $white;
       font-weight: bold;
+    }
+
+    .prefered_contact_number {
+      text-transform: capitalize;
     }
 
     .row {
