@@ -51,8 +51,8 @@
     </div>
     <div class="small-12 columns field-container">
       {{#form-control}}
-      {{numeric-input value=preferredPhone name="preferredPhone" id="preferred-phone" maxlength="8"  pattern=".{8,}"}}
-      <div class='input-error'>{{t 'organisation.user.validation_error.mobile'}}</div>
+      {{numeric-input value=preferredPhone name="preferredPhone" id="preferred-phone" maxlength="8"  pattern=".{8,}" required="true"}}
+      <div class='input-error'>{{t 'organisation.user.validation_error.preferred_contact_number'}}</div>
       {{/form-control}}
     </div>
   </div>

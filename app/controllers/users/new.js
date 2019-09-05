@@ -31,7 +31,7 @@ export default Ember.Controller.extend({
         .lookup("component:loading")
         .append();
       const mobilePhone =
-        this.get("preferredPhone.length") &&
+        this.get("mobilePhone.length") &&
         `${config.APP.HK_COUNTRY_CODE}${this.get("mobilePhone")}`;
       const preferredPhone =
         this.get("preferredPhone.length") && this.get("preferredPhone");
