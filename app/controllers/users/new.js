@@ -30,12 +30,12 @@ export default Ember.Controller.extend({
       const loadingView = getOwner(this)
         .lookup("component:loading")
         .append();
-      const preferredContactvalue = this.get("preferredPhone");
+      const preferredContactValue = this.get("preferredPhone");
       const mobilePhone =
         this.get("mobilePhone.length") &&
         `${config.APP.HK_COUNTRY_CODE}${this.get("mobilePhone")}`;
       const preferredPhone =
-        preferredContactvalue.length && preferredContactvalue;
+        preferredContactValue.length && preferredContactValue;
       const firstName = this.get("firstName");
       const lastName = this.get("lastName");
       const organisationId = this.get("organisationId");
