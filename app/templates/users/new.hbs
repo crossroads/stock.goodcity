@@ -6,91 +6,91 @@
 
 <section class="main-section new-user-section ui">
   {{#validatable-form onSubmit=(action 'saveUser') as |form|}}
-  <div class="row">
-    <div class="small-12 columns item-label">
-      {{t 'organisation.user.first_name'}}
-    </div>
-    <div class="small-12 columns field-container">
-      {{#form-control}}
-      {{input type='text' value=firstName  required='true'}}
-      <div class='input-error'>{{t 'organisation.user.validation_error.first_name'}}</div>
-      {{/form-control}}
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="small-12 columns item-label">
-      {{t 'organisation.user.last_name'}}
-    </div>
-    <div class="small-12 columns field-container">
-      {{#form-control}}
-      {{input type='text' value=lastName  required='true'}}
-      <div class='input-error'>{{t 'organisation.user.validation_error.family_name'}}</div>
-      {{/form-control}}
-    </div>
-  </div>
-
-  <div class="row mobile">
-    <div class="small-12 columns item-label">
-      {{t 'organisation.user.mobile'}}
-    </div>
-    <div class="small-1 columns ui dialing-code">
-      <label>{{t "mobile_prefix"}}</label>
-    </div>
-    <div class="small-11 columns field-container">
-      {{#form-control}}
-      {{numeric-input value=mobilePhone name="mobilePhone" id="mobile" maxlength="8"  pattern=".{8,}"}}
-      <div class='input-error'>{{t 'organisation.user.validation_error.mobile'}}</div>
-      {{/form-control}}
-    </div>
-  </div>
-
-  <div class="row preferred-mobile">
-    <div class="small-12 columns item-label">
-      {{t 'order_contact_summary.preferred_contact_number'}}
-    </div>
-    <div class="small-12 columns field-container">
-      {{#form-control}}
-      {{numeric-input value=preferredPhone name="preferredPhone" id="preferred-phone" maxlength="8"  pattern=".{8,}" required="true"}}
-      <div class='input-error'>{{t 'organisation.user.validation_error.preferred_contact_number'}}</div>
-      {{/form-control}}
-    </div>
-  </div>
-
-
-  <div class="row">
-    <div class="small-12 columns item-label">
-      {{t 'organisation.user.email'}}
-    </div>
-    <div class="small-12 columns field-container">
-      {{#form-control}}
-      {{input value=email name="email" id="email" type="email" required='true'}}
-      <div class='input-error'>{{t 'organisation.user.validation_error.email'}}</div>
-      {{/form-control}}
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="small-12 columns item-label">
-      {{t 'organisation.user.position_in_organisation'}}
-    </div>
-    <div class="small-12 columns field-container">
-      {{#form-control}}
-      {{input type='text' value=position  required='true'}}
-      <div class='input-error'>{{t 'organisation.user.validation_error.position'}}</div>
-      {{/form-control}}
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="small-6 columns">
-      <a {{action 'cancelForm'}} class="button secondary expand">{{t 'cancel'}}</a>
+    <div class="row">
+      <div class="small-12 columns item-label">
+        {{t 'organisation.user.first_name'}}
+      </div>
+      <div class="small-12 columns field-container">
+        {{#form-control}}
+        {{input type='text' value=firstName  required='true'}}
+        <div class='input-error'>{{t 'organisation.user.validation_error.first_name'}}</div>
+        {{/form-control}}
+      </div>
     </div>
 
-    <div class="small-6 columns">
-      <a {{action 'submit' target=form}} class="button expand">{{t 'save'}}</a>
+    <div class="row">
+      <div class="small-12 columns item-label">
+        {{t 'organisation.user.last_name'}}
+      </div>
+      <div class="small-12 columns field-container">
+        {{#form-control}}
+        {{input type='text' value=lastName  required='true'}}
+        <div class='input-error'>{{t 'organisation.user.validation_error.family_name'}}</div>
+        {{/form-control}}
+      </div>
     </div>
-  </div>
+
+    <div class="row mobile">
+      <div class="small-12 columns item-label">
+        {{t 'organisation.user.mobile'}}
+      </div>
+      <div class="small-1 columns ui dialing-code">
+        <label>{{t "mobile_prefix"}}</label>
+      </div>
+      <div class="small-11 columns field-container">
+        {{#form-control}}
+        {{numeric-input value=mobilePhone name="mobilePhone" id="mobile" maxlength="8"  pattern=".{8,}"}}
+        <div class='input-error'>{{t 'organisation.user.validation_error.mobile'}}</div>
+        {{/form-control}}
+      </div>
+    </div>
+
+    <div class="row preferred-mobile">
+      <div class="small-12 columns item-label">
+        {{t 'order_contact_summary.preferred_contact_number'}}
+      </div>
+      <div class="small-12 columns field-container">
+        {{#form-control}}
+        {{numeric-input value=preferredPhone name="preferredPhone" id="preferred-phone" maxlength="8"  pattern=".{8,}" required="true"}}
+        <div class='input-error'>{{t 'organisation.user.validation_error.preferred_contact_number'}}</div>
+        {{/form-control}}
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="small-12 columns item-label">
+        {{t 'organisation.user.email'}}
+      </div>
+      <div class="small-12 columns field-container">
+        {{#form-control}}
+        {{input value=email name="email" id="email" type="email" required='true'}}
+        <div class='input-error'>{{t 'organisation.user.validation_error.email'}}</div>
+        {{/form-control}}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="small-12 columns item-label">
+        {{t 'organisation.user.position_in_organisation'}}
+      </div>
+      <div class="small-12 columns field-container">
+        {{#form-control}}
+        {{input type='text' value=position  required='true'}}
+        <div class='input-error'>{{t 'organisation.user.validation_error.position'}}</div>
+        {{/form-control}}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="small-6 columns">
+        <a {{action 'cancelForm'}} class="button secondary expand">{{t 'cancel'}}</a>
+      </div>
+
+      <div class="small-6 columns">
+        <a {{action 'submit' target=form}} class="button expand">{{t 'save'}}</a>
+      </div>
+    </div>
 
   {{/validatable-form}}
 </section>
