@@ -124,6 +124,17 @@ export default Ember.Controller.extend({
     return _.inRange(labelCount, 1, 301);
   }),
 
+  isInvalidDimension: Ember.computed("length", "width", "height", function() {
+    const length = this.get("length");
+    const width = this.get("width");
+    const height = this.get("height");
+    const dimensionsCount = _.filter(
+      [length, width, height],
+      item => Number(item) <= 0
+    ).length;
+    return _.inRange(dimensionsCount, 1, 3);
+  }),
+
   location: Ember.computed("codeId", "locationId", {
     get() {
       var location;
