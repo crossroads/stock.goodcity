@@ -193,7 +193,7 @@
         <label for="publishItem">{{t "items.new.publish"}}</label>
       </div>
       <div class="small-2 columns">
-        {{input type="checkbox" name="publishItem" id="publishItem"}}
+        {{input type="checkbox" id="publishItem" checked=isAllowedToPublish}}
       </div>
     </div>
   {{/if}}
@@ -207,7 +207,7 @@
       <a {{action 'submit' target=form}} class="button expand">
         {{t "save"}}
         {{#if isMultipleCountPrint}}
-          & Print {{labels}} <i class='fa fa-print'></i>
+          & Print {{printLabelCount}} <i class='fa fa-print'></i>
         {{/if}}
       </a>
     </div>
