@@ -86,7 +86,9 @@
   {{#if isInvalidDimension}}
     <div class="row">
       <div class="small-3 columns item-label"></div>
-      <div id="max-val-err" class='small-9 columns input-error' style="display: block;">Provide all 3 dimensions(or none)</div>
+      <div id="max-val-err" class='small-9 columns input-error show-validation'>
+        {{t "items.new.validation_errors.invalid_dimensions"}}
+      </div>
     </div>
   {{/if}}
 
@@ -167,10 +169,14 @@
     <div class="small-3 columns">
       {{numeric-input id="labels" name="labels" value=labels placeholder="labels" maxlength="3" pattern="\d{1,8}"}}
       {{#if isInvalidaLabelCount}}
-        <div id="label-empty-err" class='input-error' style="display: block;">Can't be blank</div>
+        <div id="label-empty-err" class='input-error show-validation'>
+          {{t "items.new.validation_errors.blank_label"}}
+        </div>
       {{/if}}
       {{#unless isInvalidPrintCount}}
-        <div id="max-val-err" class='input-error' style="display: block;">Max 300</div>
+        <div id="max-val-err" class='input-error show-validation'>
+          {{t "items.new.validation_errors.max_label"}}
+        </div>
       {{/unless}}
     </div>
     <div class="small-2 columns item-label">
@@ -206,7 +212,7 @@
       <a {{action 'submit' target=form}} class="button expand">
         {{t "save"}}
         {{#if isMultipleCountPrint}}
-          & Print {{printLabelCount}} <i class='fa fa-print'></i>
+          {{t "items.new.print" labels=printLabelCount}}<i class='fa fa-print'></i>
         {{/if}}
       </a>
     </div>

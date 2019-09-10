@@ -279,7 +279,10 @@ test("Redirect to /search_code after clicking Add item to inventory and save red
       //select condition
       assert.equal(
         $("#condition-select").val(),
-        store.peekAll("donor_condition").get("firstObject.id")
+        store
+          .peekAll("donor_condition")
+          .filterBy("name", "Lightly Used")
+          .get("firstObject.id")
       );
       //check  #Donation input box
       assert.equal(
