@@ -25,7 +25,6 @@ export default GoodcityController.extend({
   width: null,
   height: null,
   selectedGrade: { name: "B", id: "B" },
-  selectedCondition: { name: "Used", id: "U" },
   invalidLocation: false,
   invalidScanResult: false,
   newUploadedImage: null,
@@ -73,6 +72,14 @@ export default GoodcityController.extend({
 
   conditions: Ember.computed(function() {
     return this.get("store").peekAll("donor_condition");
+  }),
+
+  defaultCondition: Ember.computed(function() {
+    const conditions = this.get("conditions");
+    return (
+      conditions.filterBy("name", "Lightly Used").get("firstObject") ||
+      conditions.get("firstObject")
+    );
   }),
 
   grades: Ember.computed(function() {
@@ -211,7 +218,7 @@ export default GoodcityController.extend({
       case_number: this.get("caseNumber"),
       notes: this.get("description"),
       grade: this.get("selectedGrade.id"),
-      donor_condition_id: this.get("selectedCondition.id"),
+      donor_condition_id: this.get("defaultCondition.id"),
       location_id: locationId,
       package_type_id: this.get("code.id"),
       state_event: "mark_received",
@@ -221,7 +228,7 @@ export default GoodcityController.extend({
     };
   },
 
-  updateStoreAndSaveImage(data, _this) {
+  updateStoreAndSaveImage(data) {
     this.get("store").pushPayload(data);
     var image = this.get("newUploadedImage");
     if (image) {
@@ -234,7 +241,7 @@ export default GoodcityController.extend({
     this.set("locationId", "");
     this.set("inventoryNumber", "");
     this.hideLoadingSpinner();
-    _this.replaceRoute("items.detail", data.item.id);
+    this.replaceRoute("items.detail", data.item.id);
   },
 
   getItemConditions() {
@@ -246,6 +253,9 @@ export default GoodcityController.extend({
       !this.get("location") ||
       this.get("inventoryNumber").trim().length === 0 ||
       !this.get("code") ||
+      !this.get("isInvalidPrintCount") ||
+      this.get("isInvalidaLabelCount") ||
+      this.get("isInvalidDimension") ||
       parseInt(this.get("length"), 10) === 0 ||
       parseInt(this.get("width"), 10) === 0 ||
       parseInt(this.get("height"), 10) === 0
@@ -302,6 +312,18 @@ export default GoodcityController.extend({
       .catch(error => {
         this.get("messageBox").alert(error.responseJSON.errors);
       });
+  },
+
+  isInValidConditions() {
+    const itemConditions = this.getItemConditions();
+    if (itemConditions) {
+      if (!this.get("location")) {
+        this.set("invalidLocation", true);
+      }
+      return true;
+    } else {
+      return false;
+    }
   },
 
   actions: {
@@ -478,12 +500,7 @@ export default GoodcityController.extend({
       }
       window.localStorage.setItem("isSelectLocationPreviousRoute", false);
       this.set("isSearchCodePreviousRoute", false);
-      var _this = this;
-      const itemConditions = this.getItemConditions();
-      if (itemConditions) {
-        if (!_this.get("location")) {
-          this.set("invalidLocation", true);
-        }
+      if (this.isInValidConditions()) {
         return false;
       } else {
         this.showLoadingSpinner();
@@ -492,10 +509,10 @@ export default GoodcityController.extend({
             package: this.packageParams()
           })
           .then(data => {
-            // if (this.get("isMultipleCountPrint")) {
-            //   this.printBarcode(data.id);
-            // }
-            this.updateStoreAndSaveImage(data, _this);
+            if (this.get("isMultipleCountPrint")) {
+              this.printBarcode(data.item.id);
+            }
+            this.updateStoreAndSaveImage(data);
           })
           .catch(response => {
             this.showLoadingSpinner();

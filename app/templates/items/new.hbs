@@ -108,14 +108,13 @@
       <span class='input_text'>{{t "items.new.condition"}}</span>
       {{select-list
         content=conditions
-        on-change=(action (mut selectedCondition))
-        selectedValue=selectedCondition
+        on-change=(action (mut defaultCondition))
+        selectedValue=defaultCondition
         selectArrow=true
-        value=selectedCondition
+        value=defaultCondition
         classNames='condition'
         idNames='condition-select' }}
     </div>
-
   </div>
 
   <div class="row">
