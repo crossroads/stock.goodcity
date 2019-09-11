@@ -126,13 +126,11 @@ export default GoodcityController.extend({
   }),
 
   isInvalidPrintCount: Ember.computed("labels", function() {
-    const labelCount = Number(this.get("labels"));
-    return _.inRange(labelCount, 0, 301);
+    return this.isValidLabelRange({ startRange: 0 });
   }),
 
   isMultipleCountPrint: Ember.computed("labels", function() {
-    const labelCount = Number(this.get("labels"));
-    return _.inRange(labelCount, 1, 301);
+    return this.isValidLabelRange({ startRange: 1 });
   }),
 
   isInvalidDimension: Ember.computed("length", "width", "height", function() {
@@ -147,7 +145,7 @@ export default GoodcityController.extend({
   }),
 
   printLabelCount: Ember.computed("labels", function() {
-    return (this.get("labels") * 1).toString();
+    return Number(this.get("labels"));
   }),
 
   location: Ember.computed("codeId", "locationId", {
@@ -228,6 +226,11 @@ export default GoodcityController.extend({
     };
   },
 
+  isValidLabelRange({ startRange }) {
+    const labelCount = Number(this.get("labels"));
+    return _.inRange(labelCount, startRange, 301);
+  },
+
   updateStoreAndSaveImage(data) {
     this.get("store").pushPayload(data);
     var image = this.get("newUploadedImage");
@@ -244,7 +247,7 @@ export default GoodcityController.extend({
     this.replaceRoute("items.detail", data.item.id);
   },
 
-  getItemConditions() {
+  hasIncompleteConditions() {
     return (
       this.get("quantity")
         .toString()
@@ -315,7 +318,7 @@ export default GoodcityController.extend({
   },
 
   isInValidConditions() {
-    const itemConditions = this.getItemConditions();
+    const itemConditions = this.hasIncompleteConditions();
     if (itemConditions) {
       if (!this.get("location")) {
         this.set("invalidLocation", true);
