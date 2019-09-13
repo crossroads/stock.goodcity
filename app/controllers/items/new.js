@@ -17,6 +17,7 @@ export default GoodcityController.extend({
   locationName: Ember.computed.alias("location.displayName"),
   caseNumber: "",
   isSearchCodePreviousRoute: Ember.computed.localStorage(),
+  weight: "",
   isSelectLocationPreviousRoute: Ember.computed.localStorage(),
 
   quantity: 1,
@@ -212,6 +213,7 @@ export default GoodcityController.extend({
       length: this.get("length"),
       width: this.get("width"),
       height: this.get("height"),
+      weight: this.get("weight"),
       inventory_number: this.get("inventoryNumber"),
       case_number: this.get("caseNumber"),
       notes: this.get("description"),

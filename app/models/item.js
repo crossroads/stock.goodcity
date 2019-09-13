@@ -14,6 +14,7 @@ export default cloudinaryUrl.extend({
   length: attr("number"),
   width: attr("number"),
   height: attr("number"),
+  weight: attr("number"),
 
   sentOn: attr("date"),
   isSet: attr("boolean"),

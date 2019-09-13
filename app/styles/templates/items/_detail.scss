@@ -120,7 +120,6 @@
     }
 
     span {
-      float: right;
       color: $medium-blue;
     }
 
@@ -405,11 +404,19 @@
   top: -0.1rem;
 }
 
+.weight-field {
+  float: left !important;
+  top: -0.1rem;
+}
+
 .numeric-inline-input, .inline-text-input, .item-description-textarea {
   border: 1px solid #8091a9 !important;
 }
 
-.item-height, .item-width, .item-length {
+.item-height,
+.item-width,
+.item-length,
+.item-weight {
   width: 70% !important;
   padding: 0.2rem !important;
   display: inline-block !important;
