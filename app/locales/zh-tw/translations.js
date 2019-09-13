@@ -601,7 +601,10 @@ export default {
     condition: "Condition :",
     validation_errors: {
       description: "Description cannot be blank."
-    }
+    },
+    viewing_set: "Viewing part of this set",
+    show_set: "Show Set",
+    hide_set: "Hide Set"
   },
 
   inventory_options: {

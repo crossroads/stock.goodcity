@@ -32,6 +32,7 @@ export default cloudinaryUrl.extend({
   packagesLocations: hasMany("packages_location", { async: true }),
 
   ordersPackages: hasMany("ordersPackages", { async: true }),
+  imageIds: attr(),
   images: hasMany("image", { async: true }),
 
   isDispatched: Ember.computed.bool("sentOn"),
@@ -389,11 +390,11 @@ export default cloudinaryUrl.extend({
   ),
 
   setImages: Ember.computed(
-    "setItem.@each.items.@each.imageUrlList.[]",
     "images",
-    "setItem.@each.items.images.[]",
-    "setItem.@each.items.@each.imageUrl",
-    "setItem.@each.items.@each.thumbImageUrl",
+    "setItem.items.@each.imageUrlList.[]",
+    "setItem.items.@each.images.[]",
+    "setItem.items.@each.imageUrl",
+    "setItem.items.@each.thumbImageUrl",
     function() {
       var setItemImages = [];
       this.get("setItem.items").forEach(item => {
@@ -405,5 +406,17 @@ export default cloudinaryUrl.extend({
 
   allowLabelPrint: Ember.computed("ordersPackages.[]", function() {
     return !this.get("isDispatchedForQuantity") && !this.get("isSet");
+  }),
+
+  /**
+   * Returns the other packages that are part of the same set
+   */
+  siblings: Ember.computed("isSet", "setItems.items.[]", function() {
+    if (!this.get("isSet")) {
+      return [];
+    }
+
+    const siblings = this.get("setItem.items");
+    return siblings.rejectBy("id", this.get("id"));
   })
 });

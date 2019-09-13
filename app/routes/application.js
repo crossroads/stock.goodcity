@@ -1,6 +1,8 @@
 import Ember from "ember";
 import config from "../config/environment";
 import preloadDataMixin from "../mixins/preload_data";
+import _ from "lodash";
+
 const { getOwner } = Ember;
 
 export default Ember.Route.extend(preloadDataMixin, {
@@ -65,11 +67,14 @@ export default Ember.Route.extend(preloadDataMixin, {
   },
 
   getErrorMessage(reason) {
-    if (reason.errors.length && reason.errors[0].detail && reason.errors[0].detail.status == 422) {
-      return reason.errors[0].detail.message;
-    } else {
-      return this.get("i18n").t("unexpected_error");
+    const status = _.get(reason, "errors[0].detail.status");
+    const defaultMessage = this.get("i18n").t("unexpected_error");
+
+    if (status === 422) {
+      return _.get(reason, "errors[0].detail.message", defaultMessage);
     }
+
+    return defaultMessage;
   },
 
   showErrorPopup(reason) {

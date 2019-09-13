@@ -4,15 +4,27 @@ import singletonItemDispatchToGcOrder from "../../mixins/singleton_item_dispatch
 
 export default Ember.Controller.extend(singletonItemDispatchToGcOrder, {
   isMobileApp: config.cordova.enabled,
-  item: Ember.computed.alias("model"),
   backLinkPath: "",
+  item: Ember.computed.alias("model"),
   queryParams: ["showDispatchOverlay"],
   showDispatchOverlay: false,
   autoDisplayOverlay: false,
+  application: Ember.inject.controller(),
   messageBox: Ember.inject.service(),
   displayScanner: false,
   designateFullSet: Ember.computed.localStorage(),
   callOrderObserver: false,
+  showSetList: false,
+  hideDetailsLink: true,
+
+  currentRoute: Ember.computed.alias("application.currentPath"),
+  pkg: Ember.computed.alias("model"),
+
+  tabName: Ember.computed("currentRoute", function() {
+    return this.get("currentRoute")
+      .split(".")
+      .get("lastObject");
+  }),
 
   grades: Ember.computed("item.grade", function() {
     return [
@@ -78,9 +90,25 @@ export default Ember.Controller.extend(singletonItemDispatchToGcOrder, {
   ),
 
   actions: {
+    selectItem(it) {
+      // this.set('model', it);
+      // this.set('showSetList', false);
+
+      this.replaceRoute(this.get("currentRoute"), it);
+      //this.replaceRoute(`/items/${it.get('id')}`);
+    },
+
+    toggleSetList() {
+      this.toggleProperty("showSetList");
+    },
+
     partialDesignateForSet() {
       this.set("designateFullSet", true);
       this.set("callOrderObserver", true);
+    },
+
+    openTab(tabName) {
+      this.replaceRoute(`items.detail.${tabName}`);
     },
 
     moveItemSet() {
