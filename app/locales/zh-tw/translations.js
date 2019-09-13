@@ -521,7 +521,8 @@ export default {
         mobile: "手提電話號碼必須為8個數字",
         first_name: "First name can't be blank",
         family_name: "Family name can't be blank",
-        position: "Position can't be blank."
+        position: "Position can't be blank.",
+        preferred_contact_number: "聯絡號碼需要為8位數字"
       }
     }
   },
