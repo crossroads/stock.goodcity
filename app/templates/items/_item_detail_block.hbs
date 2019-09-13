@@ -53,7 +53,39 @@
     {{#toggle-item-options-list item=item}}
       <div class="row detail-section">
         <div class="columns small-12">
-
+          <div class="row">
+            <div class="columns small-3">{{t 'item_details.quality'}} </div>
+            <div class="columns small-3 value quality">
+              <div class="select-quality">
+                <span class='input_text'>{{t 'item_details.grade'}}</span>
+                {{inline-select-list
+                  content=grades
+                  on-change=(action (mut selectedReason))
+                  name="grade"
+                  autosave=true
+                  isPrimitive=true
+                  id=(concat 'grd' item.id)
+                  class="grade-margin"
+                  item=item}}
+              </div>
+            </div>
+            <div class="columns small-6 value condition-field">
+              <div class="select-condition">
+                <span class='input_text'>{{t 'item_details.condition'}}</span>
+                {{inline-select-list
+                  content=conditions
+                  on-change=(action (mut selectedReason))
+                  name="donorCondition"
+                  item=item
+                  autosave=true
+                  id=(concat 'cnd' item.id)
+                  class="condition-margin"}}
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            {{donation-field item=item caseNumber=item.caseNumber}}
+          </div>
           <div class="row">
             <div class="columns small-3">{{t "item_details.size"}}</div>
             <div class="columns small-3 value">
@@ -78,40 +110,6 @@
               {{numeric-inline-input id=(concat 'wgt' item.id) name="weight" class="numeric-input item-weight small-3" value=item.weight maxlength="10"  item=item}}
             </div>
           </div>
-
-          <div class="row">
-            <div class="columns small-3">{{t 'item_details.quality'}} </div>
-              <div class="columns small-3 value quality">
-                <div class="select-quality">
-                  <span class='input_text'>{{t 'item_details.grade'}}</span>
-                  {{inline-select-list
-                    content=grades
-                    on-change=(action (mut selectedReason))
-                    name="grade"
-                    autosave=true
-                    isPrimitive=true
-                    id=(concat 'grd' item.id)
-                    class="grade-margin"
-                    item=item}}
-                </div>
-              </div>
-              <div class="columns small-6 value condition-field">
-                <div class="select-condition">
-                  <span class='input_text'>{{t 'item_details.condition'}}</span>
-                  {{inline-select-list
-                    content=conditions
-                    on-change=(action (mut selectedReason))
-                    name="donorCondition"
-                    item=item
-                    autosave=true
-                    id=(concat 'cnd' item.id)
-                    class="condition-margin"}}
-                </div>
-              </div>
-            </div>
-            <div class="row">
-             {{donation-field item=item caseNumber=item.caseNumber}}
-            </div>
-          </div>
         </div>
-      {{/toggle-item-options-list}}
+      </div>
+    {{/toggle-item-options-list}}
