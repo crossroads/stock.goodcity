@@ -8,6 +8,8 @@ export default AuthorizeRoute.extend({
   isSearchCodePreviousRoute: Ember.computed.localStorage(),
   isSelectLocationPreviousRoute: Ember.computed.localStorage(),
 
+  packageService: Ember.inject.service(),
+
   queryParams: {
     codeId: {
       replace: true
@@ -32,19 +34,16 @@ export default AuthorizeRoute.extend({
   },
 
   model() {
-    var _this = this;
     if (
       !this.controller ||
       !this.controller.get("inventoryNumber") ||
       !this.inventoryNumber
     ) {
-      return new AjaxPromise(
-        "/inventory_numbers",
-        "POST",
-        this.get("session.authToken")
-      ).then(function(data) {
-        _this.set("inventoryNumber", data.inventory_number);
-      });
+      return this.get("packageService")
+        .generateInventoryNumber()
+        .then(data => {
+          this.set("inventoryNumber", data.inventory_number);
+        });
     }
   },
 
@@ -61,6 +60,7 @@ export default AuthorizeRoute.extend({
     controller.set("inputInventory", false);
     controller.set("invalidLocation", false);
     controller.set("invalidScanResult", false);
+    controller.set("labels", 1);
 
     if (this.get("newItemRequest")) {
       this.set("newItemRequest", false);
