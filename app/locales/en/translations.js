@@ -662,7 +662,11 @@ export default {
       location: "Location*",
       inventory: "Inventory#",
       publish: "Immediately publish this item for online browsing",
+      print: "& Print {{labels}}",
       validation_errors: {
+        blank_label: "Can't be blank",
+        max_label: "Max 300",
+        invalid_dimensions: "Provide all 3 dimensions(or none)",
         description: "Description cannot be blank.",
         donation: "Must be a number or in the form 'CAS-12345'",
         invalid_location: "Scanned Location is invalid.",

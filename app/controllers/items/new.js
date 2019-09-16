@@ -1,9 +1,11 @@
 import Ember from "ember";
 import AjaxPromise from "stock/utils/ajax-promise";
+import GoodcityController from "../goodcity_controller";
 import config from "../../config/environment";
+import _ from "lodash";
 const { getOwner } = Ember;
 
-export default Ember.Controller.extend({
+export default GoodcityController.extend({
   queryParams: ["codeId", "locationId", "scanLocationName", "caseNumber"],
   codeId: "",
   locationId: "",
@@ -18,20 +20,23 @@ export default Ember.Controller.extend({
   isSelectLocationPreviousRoute: Ember.computed.localStorage(),
 
   quantity: 1,
+  labels: 1,
   length: null,
   width: null,
   height: null,
   selectedGrade: { name: "B", id: "B" },
-  selectedCondition: { name: "Used", id: "U" },
   invalidLocation: false,
   invalidScanResult: false,
   newUploadedImage: null,
+  isAllowedToPublish: false,
 
   imageKeys: Ember.computed.localStorage(),
 
   i18n: Ember.inject.service(),
+  packageService: Ember.inject.service(),
 
   showPublishItemCheckBox: Ember.computed("quantity", function() {
+    this.set("isAllowedToPublish", false);
     return +this.get("quantity") === 1;
   }),
 
@@ -67,6 +72,14 @@ export default Ember.Controller.extend({
 
   conditions: Ember.computed(function() {
     return this.get("store").peekAll("donor_condition");
+  }),
+
+  defaultCondition: Ember.computed(function() {
+    const conditions = this.get("conditions");
+    return (
+      conditions.filterBy("name", "Lightly Used").get("firstObject") ||
+      conditions.get("firstObject")
+    );
   }),
 
   grades: Ember.computed(function() {
@@ -105,6 +118,34 @@ export default Ember.Controller.extend({
       return selected && selected.defaultChildPackagesList()[0];
     }
     return selected;
+  }),
+
+  isInvalidaLabelCount: Ember.computed("labels", function() {
+    const labelCount = this.get("labels");
+    return !labelCount || Number(labelCount) < 0;
+  }),
+
+  isInvalidPrintCount: Ember.computed("labels", function() {
+    return this.isValidLabelRange({ startRange: 0 });
+  }),
+
+  isMultipleCountPrint: Ember.computed("labels", function() {
+    return this.isValidLabelRange({ startRange: 1 });
+  }),
+
+  isInvalidDimension: Ember.computed("length", "width", "height", function() {
+    const length = this.get("length");
+    const width = this.get("width");
+    const height = this.get("height");
+    const dimensionsCount = _.filter(
+      [length, width, height],
+      item => Number(item) <= 0
+    ).length;
+    return _.inRange(dimensionsCount, 1, 3);
+  }),
+
+  printLabelCount: Ember.computed("labels", function() {
+    return Number(this.get("labels"));
   }),
 
   location: Ember.computed("codeId", "locationId", {
@@ -162,20 +203,22 @@ export default Ember.Controller.extend({
     );
   },
 
-  getItemProperties(publishItem, quantity, locationId, _this) {
+  packageParams() {
+    const locationId = this.get("location.id");
+    const quantity = this.get("quantity");
     return {
       quantity: quantity,
-      allow_web_publish: publishItem,
-      length: _this.get("length"),
-      width: _this.get("width"),
-      height: _this.get("height"),
-      inventory_number: _this.get("inventoryNumber"),
-      case_number: _this.get("caseNumber"),
-      notes: _this.get("description"),
-      grade: _this.get("selectedGrade.id"),
-      donor_condition_id: _this.get("selectedCondition.id"),
+      allow_web_publish: this.get("isAllowedToPublish"),
+      length: this.get("length"),
+      width: this.get("width"),
+      height: this.get("height"),
+      inventory_number: this.get("inventoryNumber"),
+      case_number: this.get("caseNumber"),
+      notes: this.get("description"),
+      grade: this.get("selectedGrade.id"),
+      donor_condition_id: this.get("defaultCondition.id"),
       location_id: locationId,
-      package_type_id: _this.get("code.id"),
+      package_type_id: this.get("code.id"),
       state_event: "mark_received",
       packages_locations_attributes: {
         0: { location_id: locationId, quantity: quantity }
@@ -183,7 +226,12 @@ export default Ember.Controller.extend({
     };
   },
 
-  updateStoreAndSaveImage(data, loadingView, _this) {
+  isValidLabelRange({ startRange }) {
+    const labelCount = Number(this.get("labels"));
+    return _.inRange(labelCount, startRange, 301);
+  },
+
+  updateStoreAndSaveImage(data) {
     this.get("store").pushPayload(data);
     var image = this.get("newUploadedImage");
     if (image) {
@@ -195,23 +243,25 @@ export default Ember.Controller.extend({
     }
     this.set("locationId", "");
     this.set("inventoryNumber", "");
-    loadingView.destroy();
-    _this.replaceRoute("items.detail", data.item.id);
+    this.hideLoadingSpinner();
+    this.replaceRoute("items.detail", data.item.id);
   },
 
-  getItemConditions(_this) {
+  hasIncompleteConditions() {
     return (
-      _this
-        .get("quantity")
+      this.get("quantity")
         .toString()
         .trim().length === 0 ||
-      _this.get("description").trim().length === 0 ||
-      !_this.get("location") ||
-      _this.get("inventoryNumber").trim().length === 0 ||
-      !_this.get("code") ||
-      parseInt(_this.get("length"), 10) === 0 ||
-      parseInt(_this.get("width"), 10) === 0 ||
-      parseInt(_this.get("height"), 10) === 0
+      this.get("description").trim().length === 0 ||
+      !this.get("location") ||
+      this.get("inventoryNumber").trim().length === 0 ||
+      !this.get("code") ||
+      !this.get("isInvalidPrintCount") ||
+      this.get("isInvalidaLabelCount") ||
+      this.get("isInvalidDimension") ||
+      parseInt(this.get("length"), 10) === 0 ||
+      parseInt(this.get("width"), 10) === 0 ||
+      parseInt(this.get("height"), 10) === 0
     );
   },
 
@@ -256,6 +306,27 @@ export default Ember.Controller.extend({
       this.get("messageBox").alert("Scanning failed: " + error);
     let options = { formats: "QR_CODE, CODE_128", orientation: "portrait" };
     window.cordova.plugins.barcodeScanner.scan(onSuccess, onError, options);
+  },
+
+  printBarcode(packageId) {
+    const labels = this.get("labels");
+    this.get("packageService")
+      .printBarcode({ package_id: packageId, labels })
+      .catch(error => {
+        this.get("messageBox").alert(error.responseJSON.errors);
+      });
+  },
+
+  isInValidConditions() {
+    const itemConditions = this.hasIncompleteConditions();
+    if (itemConditions) {
+      if (!this.get("location")) {
+        this.set("invalidLocation", true);
+      }
+      return true;
+    } else {
+      return false;
+    }
   },
 
   actions: {
@@ -344,12 +415,12 @@ export default Ember.Controller.extend({
     },
 
     deleteAutoGeneratedNumber() {
-      new AjaxPromise(
-        "/inventory_numbers/remove_number",
-        "PUT",
-        this.get("session.authToken"),
-        { code: this.get("inventoryNumber") }
-      );
+      this.showLoadingSpinner();
+      this.get("packageService")
+        .removeInventoryNumber({
+          code: this.get("inventoryNumber")
+        })
+        .then(() => this.hideLoadingSpinner());
     },
 
     deleteUnusedImage() {
@@ -403,19 +474,18 @@ export default Ember.Controller.extend({
     },
 
     autoGenerateInventoryNumber() {
-      var _this = this;
       this.set("inventoryNumber", "");
       this.set("inputInventory", false);
       this.set("autoGenerateInventory", true);
       this.set("displayInventoryOptions", false);
 
-      new AjaxPromise(
-        "/inventory_numbers",
-        "POST",
-        this.get("session.authToken")
-      ).then(function(data) {
-        _this.set("inventoryNumber", data.inventory_number);
-      });
+      this.showLoadingSpinner();
+      this.get("packageService")
+        .generateInventoryNumber()
+        .then(data => {
+          this.set("inventoryNumber", data.inventory_number);
+          this.hideLoadingSpinner();
+        });
     },
 
     scanInventoryNumber() {
@@ -433,39 +503,23 @@ export default Ember.Controller.extend({
       }
       window.localStorage.setItem("isSelectLocationPreviousRoute", false);
       this.set("isSearchCodePreviousRoute", false);
-      var _this = this,
-        loadingView;
-      var itemConditions = this.getItemConditions(_this);
-      if (itemConditions) {
-        if (!_this.get("location")) {
-          this.set("invalidLocation", true);
-        }
+      if (this.isInValidConditions()) {
         return false;
       } else {
-        loadingView = getOwner(this)
-          .lookup("component:loading")
-          .append();
-        var locationId = this.get("location.id");
-        var quantity = this.get("quantity");
-        let isItemAllowedToPublish =
-          Ember.$("#publishItem")[0] && Ember.$("#publishItem")[0].checked;
-        let publishItem = quantity === 1 ? isItemAllowedToPublish : false;
-        var properties = this.getItemProperties(
-          publishItem,
-          quantity,
-          locationId,
-          _this
-        );
-
-        new AjaxPromise("/packages", "POST", this.get("session.authToken"), {
-          package: properties
-        })
+        this.showLoadingSpinner();
+        this.get("packageService")
+          .createPackage({
+            package: this.packageParams()
+          })
           .then(data => {
-            this.updateStoreAndSaveImage(data, loadingView, _this);
+            if (this.get("isMultipleCountPrint")) {
+              this.printBarcode(data.item.id);
+            }
+            this.updateStoreAndSaveImage(data);
           })
           .catch(response => {
-            loadingView.destroy();
-            _this.get("messageBox").alert(response.responseJSON.errors[0]);
+            this.showLoadingSpinner();
+            this.get("messageBox").alert(response.responseJSON.errors[0]);
           });
       }
     }

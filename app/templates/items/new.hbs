@@ -83,6 +83,14 @@
       {{numeric-input name="height" id='height' value=height maxlength="5" pattern="[1-9][0-9]{0,4}"}}
     </div>
   </div>
+  {{#if isInvalidDimension}}
+    <div class="row">
+      <div class="small-3 columns item-label"></div>
+      <div id="max-val-err" class='small-9 columns input-error show-validation'>
+        {{t "items.new.validation_errors.invalid_dimensions"}}
+      </div>
+    </div>
+  {{/if}}
 
   <div class="row quality-row">
     <div class="small-3 columns item-label">
@@ -102,14 +110,13 @@
       <span class='input_text'>{{t "items.new.condition"}}</span>
       {{select-list
         content=conditions
-        on-change=(action (mut selectedCondition))
-        selectedValue=selectedCondition
+        on-change=(action (mut defaultCondition))
+        selectedValue=defaultCondition
         selectArrow=true
-        value=selectedCondition
+        value=defaultCondition
         classNames='condition'
         idNames='condition-select' }}
     </div>
-
   </div>
 
   <div class="row">
@@ -158,21 +165,30 @@
   </div>
 
   <div class="row">
-    <div class="small-3 columns item-label">
+    <div class="small-3 columns item-label">Labels</div>
+    <div class="small-3 columns">
+      {{input type="number" id="labels" name="labels" value=labels placeholder="labels" maxlength="3" pattern="\d{1,8}"}}
+      {{#if isInvalidaLabelCount}}
+        <div id="label-empty-err" class='input-error show-validation'>
+          {{t "items.new.validation_errors.blank_label"}}
+        </div>
+      {{/if}}
+      {{#unless isInvalidPrintCount}}
+        <div id="max-val-err" class='input-error show-validation'>
+          {{t "items.new.validation_errors.max_label"}}
+        </div>
+      {{/unless}}
+    </div>
+    <div class="small-2 columns item-label">
       {{t "items.new.inventory"}}
     </div>
-    <div class="small-7 large-8 columns inventory-number">
-
+    <div class="small-4 columns inventory-number">
       {{#if inputInventory}}
         {{input value=inventoryNumber}}
       {{else}}
         {{inventoryNumber}}
       {{/if}}
-
       {{partial "items/inventory_options"}}
-    </div>
-    <div class="small-2 large-1 columns scan-icon">
-      <i aria-hidden="true">{{fa-icon 'print'}}</i>
     </div>
   </div>
 
@@ -182,7 +198,7 @@
         <label for="publishItem">{{t "items.new.publish"}}</label>
       </div>
       <div class="small-2 columns">
-        {{input type="checkbox" name="publishItem" id="publishItem"}}
+        {{input type="checkbox" id="publishItem" checked=isAllowedToPublish}}
       </div>
     </div>
   {{/if}}
@@ -193,7 +209,12 @@
     </div>
 
     <div class="small-6 columns">
-      <a {{action 'submit' target=form}} class="button expand">{{t 'save'}}</a>
+      <a {{action 'submit' target=form}} class="button expand">
+        {{t "save"}}
+        {{#if isMultipleCountPrint}}
+          {{t "items.new.print" labels=printLabelCount}}<i class='fa fa-print'></i>
+        {{/if}}
+      </a>
     </div>
   </div>
 
