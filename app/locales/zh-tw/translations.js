@@ -644,11 +644,12 @@ export default {
       grade: "Grade:",
       weight: "Weight (kg)",
       pieces: "Pieces",
+      publish: "Publish",
+      labels: "Labels",
       condition: "Condition:",
       donation: "Donation#",
       location: "Location*",
       inventory: "Inventory#",
-      publish: "Immediately publish this item for online browsing",
       print: "& Print {{labels}}",
       validation_errors: {
         blank_label: "Can't be blank",

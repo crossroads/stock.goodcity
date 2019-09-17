@@ -188,7 +188,7 @@
   </div>
   <hr>
   <div class="row">
-    <div class="small-3 columns item-label">Labels</div>
+    <div class="small-3 columns item-label">{{t "items.new.labels"}}</div>
     <div class="small-3 columns">
       {{input type="number" id="labels" name="labels" value=labels placeholder="labels" maxlength="3" pattern="\d{1,8}"}}
       {{#if isInvalidaLabelCount}}
@@ -218,7 +218,7 @@
   {{#if showPublishItemCheckBox}}
     <div class="row">
       <div class="small-3 columns item-label">
-        <label for="publishItem">Publish</label>
+        <label for="publishItem">{{t "items.new.publish"}}</label>
       </div>
       <div class="small-1 columns publish">
         {{input type="checkbox" id="publishItem" checked=isAllowedToPublish}}

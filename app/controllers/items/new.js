@@ -104,10 +104,11 @@ export default GoodcityController.extend({
   showPiecesInput: Ember.computed("codeId", function() {
     let selected;
     let codeId = this.get("codeId");
-    if (codeId.length) {
+    if (codeId) {
       selected = this.get("store").peekRecord("code", codeId);
       return selected && selected.get("allow_pieces");
     }
+    return false;
   }),
 
   parentCodeName: Ember.computed("codeId", function() {
