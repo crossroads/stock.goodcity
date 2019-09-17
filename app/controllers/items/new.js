@@ -101,6 +101,15 @@ export default GoodcityController.extend({
     }
   }),
 
+  showPiecesInput: Ember.computed("codeId", function() {
+    let selected;
+    let codeId = this.get("codeId");
+    if (codeId.length) {
+      selected = this.get("store").peekRecord("code", codeId);
+      return selected && selected.get("allow_pieces");
+    }
+  }),
+
   parentCodeName: Ember.computed("codeId", function() {
     var selected = "";
     var codeId = this.get("codeId");
@@ -214,6 +223,7 @@ export default GoodcityController.extend({
       width: this.get("width"),
       height: this.get("height"),
       weight: this.get("weight"),
+      pieces: this.get("pieces"),
       inventory_number: this.get("inventoryNumber"),
       case_number: this.get("caseNumber"),
       notes: this.get("description"),

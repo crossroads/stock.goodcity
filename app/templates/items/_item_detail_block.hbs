@@ -106,8 +106,14 @@
             <div class="columns small-3 weight-field">
               <span class='input_text'>{{t 'item_details.weight'}}</span>
             </div>
-            <div class="columns small-5 value weight-field">
+            <div class="columns small-3 value weight-field">
               {{numeric-inline-input id=(concat 'wgt' item.id) name="weight" class="numeric-input item-weight small-3" value=item.weight maxlength="10"  item=item}}
+            </div>
+            <div class="columns small-3 pieces-field">
+              <span class='input_text'>{{t 'item_details.pieces'}}</span>
+            </div>
+            <div class="columns small-3 value pieces-field">
+              {{numeric-inline-input id=(concat 'pcs' item.id) name="pieces" class="numeric-input item-pieces small-3" value=item.pieces maxlength="10"  item=item}}
             </div>
           </div>
         </div>

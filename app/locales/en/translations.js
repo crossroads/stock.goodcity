@@ -614,6 +614,7 @@ export default {
     quality: "Quality:",
     grade: "Grade :",
     weight: "Weight (kg)",
+    pieces: "Pieces",
     condition: "Condition :",
     validation_errors: {
       description: "Description cannot be blank."
@@ -659,6 +660,7 @@ export default {
       quality: "Quality*",
       grade: "Grade:",
       weight: "Weight (kg)",
+      pieces: "Pieces",
       condition: "Condition:",
       donation: "Donation#",
       location: "Location*",
