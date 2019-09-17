@@ -413,7 +413,6 @@ export default cloudinaryUrl.extend({
       return [];
     }
 
-    const siblings = this.get("setItem.items");
-    return siblings.rejectBy("id", this.get("id"));
+    return this.get("setItem.items").rejectBy("id", this.get("id"));
   })
 });

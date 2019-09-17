@@ -81,7 +81,8 @@ export default AuthorizeRoute.extend({
    * @param {Item} item the selected item
    */
   preloadImages(item) {
-    return Ember.RSVP.all(item.get("imageIds").map(id => this.loadImage(id)));
+    const ids = item.getWithDefault("imageIds", []);
+    return Ember.RSVP.all(ids.map(id => this.loadImage(id)));
   },
 
   /**
