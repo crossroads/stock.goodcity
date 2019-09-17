@@ -1,3 +1,6 @@
+@import "./detail/location_tab";
+@import "./detail/publishing_tab";
+
 .item_details_screen {
 
   .hidden {
@@ -297,19 +300,14 @@
 
 .image-action-list {
   margin-left: 34rem;
-  top: 10.5rem;
+  top: 0.5rem;
   position: absolute;
 
   @media only screen and (max-width: 780px) {
     margin-left: 0rem;
     right: 0rem;
   }
-  @media #{$small-only} {
-    top: 9.5rem;
-  }
-
-
-
+ 
   >div {
     display: inline-block;
   }

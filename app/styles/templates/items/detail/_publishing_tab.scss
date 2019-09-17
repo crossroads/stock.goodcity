@@ -1,0 +1,29 @@
+.item_details_screen .publishing-tab {
+  @mixin spaced-out($mul : 1) {
+    margin-top: 1rem * $mul;
+    margin-bottom: 1rem * $mul;
+  }
+
+  .tab-title {
+    @include spaced-out();
+    font-size: 1.1rem;
+    color: white;
+  }
+
+  .toggle-switch {
+    @include spaced-out(1);
+  }
+
+  .count-row {
+    @include spaced-out();
+    font-size: 0.8rem;
+
+    svg {
+      margin-right: 0.5rem;
+    }
+
+    .bold {
+      font-family: $header-font-family;
+    }
+  }
+}

@@ -1,8 +1,9 @@
 import Ember from "ember";
 import config from "../../config/environment";
 import singletonItemDispatchToGcOrder from "../../mixins/singleton_item_dispatch_to_gc_order";
+import GoodcityController from "../goodcity_controller";
 
-export default Ember.Controller.extend(singletonItemDispatchToGcOrder, {
+export default GoodcityController.extend(singletonItemDispatchToGcOrder, {
   isMobileApp: config.cordova.enabled,
   backLinkPath: "",
   item: Ember.computed.alias("model"),
@@ -90,12 +91,13 @@ export default Ember.Controller.extend(singletonItemDispatchToGcOrder, {
   ),
 
   actions: {
-    selectItem(it) {
-      // this.set('model', it);
-      // this.set('showSetList', false);
+    persistPublishStatus() {
+      this.updateRecord(this.get("model"));
+    },
 
+    selectItem(it) {
+      // Switch to another item of the same set
       this.replaceRoute(this.get("currentRoute"), it);
-      //this.replaceRoute(`/items/${it.get('id')}`);
     },
 
     toggleSetList() {
@@ -109,6 +111,18 @@ export default Ember.Controller.extend(singletonItemDispatchToGcOrder, {
 
     openTab(tabName) {
       this.replaceRoute(`items.detail.${tabName}`);
+    },
+
+    moveFullPackageQty() {
+      // Note: temporary until we handle per-item per-location partial move
+      this.transitionToRoute("items.search_location", this.get("item.id"), {
+        queryParams: {
+          isSet: false,
+          isPartialMove: true,
+          pkgsLocationId: this.get("item.packagesLocations.firstObject.id"),
+          skipScreenForSingletonItem: true
+        }
+      });
     },
 
     moveItemSet() {

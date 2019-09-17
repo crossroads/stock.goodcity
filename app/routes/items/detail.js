@@ -64,6 +64,13 @@ export default AuthorizeRoute.extend({
     controller.set("showSetList", false);
     controller.set("callOrderObserver", false);
     controller.set("backLinkPath", this.get("itemBackLinkPath"));
+    controller.set("active", true);
+  },
+
+  resetController(controller, isExiting) {
+    if (isExiting) {
+      controller.set("active", false);
+    }
   },
 
   // --- Helpers

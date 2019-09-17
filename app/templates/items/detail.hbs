@@ -20,6 +20,7 @@
         </div>
       </div>
       <div class="image-action-list">
+        {{ log model }}
         {{#unless (is-or model.hasAllPackagesDispatched model.hasAllPackagesDesignated)}}
           {{#if model.quantity}}
             {{#if (is-not model.isSet)}}

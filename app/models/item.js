@@ -20,13 +20,14 @@ export default cloudinaryUrl.extend({
   sentOn: attr("date"),
   isSet: attr("boolean"),
   hasBoxPallet: attr("boolean"),
-  itemId: attr("number"),
+  itemId: attr("string"),
   allowWebPublish: attr("boolean"),
 
   designationId: attr("string"),
   designation: belongsTo("designation", { async: true }),
   location: belongsTo("location", { async: false }),
   code: belongsTo("code", { async: false }),
+  packageType: belongsTo("packageType", { async: false }),
   donorCondition: belongsTo("donor_condition", { async: false }),
   setItem: belongsTo("set_item", { async: false }),
   packagesLocations: hasMany("packages_location", { async: true }),
@@ -354,13 +355,9 @@ export default cloudinaryUrl.extend({
     "packagesLocations.[]",
     "packagesLocations.@each.location",
     function() {
-      var packagesLocations = [];
-      this.get("packagesLocations").forEach(packages_location => {
-        if (packages_location.get("location.building") !== "Dispatched") {
-          packagesLocations.pushObject(packages_location);
-        }
-      });
-      return packagesLocations.uniq();
+      return this.get("packagesLocations")
+        .rejectBy("location.building", "Dispatched")
+        .uniq();
     }
   ),
 

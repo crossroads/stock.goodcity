@@ -608,6 +608,7 @@ export default {
 
   item_details: {
     quantity: "Quantity",
+    initial_quantity: "Initial qty",
     type: "Type",
     description: "Description",
     size: "Size (cm)",

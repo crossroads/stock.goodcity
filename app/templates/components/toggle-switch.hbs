@@ -1,0 +1,22 @@
+<label class="toggle-switch">
+  {{!-- {{#if change}}
+    {{input type='checkbox' checked=value change=toggle}}
+  {{else}}
+    {{input type='checkbox' checked=value}}
+  {{/if}} --}}
+  {{input type='checkbox' checked=value}}
+  <span class="slider">
+    <span class="switch-label on">
+      {{#if on-icon}}
+        {{fa-icon on-icon size="md"}}
+      {{/if}}
+      {{if on-text on-text 'On'}}
+    </span>
+    <span class="switch-label off">
+      {{#if off-icon}}
+        {{fa-icon off-icon size="md"}}
+      {{/if}}
+      {{if off-text off-text 'Off'}}
+    </span>
+  </span>
+</label>
