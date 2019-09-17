@@ -62,36 +62,6 @@
     </div>
   </div>
 
-  <div class="row dimension-row">
-    <div class="small-3 columns item-label">
-      {{t "items.new.size"}}
-    </div>
-    <div class="columns small-3 value length">
-      <span class='input_text'>L :</span>
-      {{numeric-input name="length" id='length' value=length maxlength="8" pattern="[1-9][0-9]{0,7}"}}
-      <span><i aria-hidden="true">{{fa-icon 'times'}}</i></span>
-    </div>
-
-    <div class="columns small-3 value">
-      <span class='input_text'>W :</span>
-      {{numeric-input name="width" id='width' value=width maxlength="5" pattern="[1-9][0-9]{0,4}"}}
-      <span><i aria-hidden="true">{{fa-icon 'times'}}</i></span>
-    </div>
-
-    <div class="columns small-3 value height">
-      <span class='input_text'>H :</span>
-      {{numeric-input name="height" id='height' value=height maxlength="5" pattern="[1-9][0-9]{0,4}"}}
-    </div>
-  </div>
-  {{#if isInvalidDimension}}
-    <div class="row">
-      <div class="small-3 columns item-label"></div>
-      <div id="max-val-err" class='small-9 columns input-error show-validation'>
-        {{t "items.new.validation_errors.invalid_dimensions"}}
-      </div>
-    </div>
-  {{/if}}
-
   <div class="row quality-row">
     <div class="small-3 columns item-label">
       {{t "items.new.quality"}}
@@ -150,9 +120,9 @@
         {{input value=locationName disabled=true required='true'}}
         <div class='input-error'>
           {{#if invalidScanResult}}
-          {{t "items.new.validation_errors.invalid_location"}}
+            {{t "items.new.validation_errors.invalid_location"}}
           {{else}}
-          {{t "items.new.validation_errors.blank_location"}}
+            {{t "items.new.validation_errors.blank_location"}}
           {{/if}}
         </div>
       </div>
