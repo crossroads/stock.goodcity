@@ -613,6 +613,8 @@ export default {
     size: "Size (cm)",
     quality: "Quality:",
     grade: "Grade :",
+    weight: "Weight (kg)",
+    pieces: "Pieces",
     condition: "Condition :",
     validation_errors: {
       description: "Description cannot be blank."
@@ -657,11 +659,14 @@ export default {
       size: "Size (cm)",
       quality: "Quality*",
       grade: "Grade:",
+      weight: "Weight (kg)",
+      publish: "Publish",
+      labels: "Labels",
+      pieces: "Pieces",
       condition: "Condition:",
       donation: "Donation#",
       location: "Location*",
       inventory: "Inventory#",
-      publish: "Immediately publish this item for online browsing",
       print: "& Print {{labels}}",
       validation_errors: {
         blank_label: "Can't be blank",
