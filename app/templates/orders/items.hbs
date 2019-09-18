@@ -27,25 +27,15 @@
 <section class="main-section items_search_result">
   <div class="row search">
     <div class="small-12 columns">
-      {{#if isLoading}}
-        <div class="loading_screen">
-          {{partial 'loading'}}
-        </div>
-      {{/if}}
-
-      {{#if filteredResults}}
-        <ul class="list list-activity list-offer-items">
-          {{#each filteredResults as |item|}}
+      {{#if displayResults}}
+        {{#infinite-list height="85vh" loadMore=(action "loadMoreItems") as |items| }}
+          {{#each items as |item|}}
             {{#designate-form order=model item=item autoDisplayOverlay=autoDisplayOverlay displaySetItems=(action "displaySetItems" item)}}
               {{partial 'orders/item_block'}}
             {{/designate-form}}
           {{/each}}
-        </ul>
-
-        {{#infinity-loader}}
-        {{/infinity-loader}}
-
-      {{else if hasNoResults}}
+        {{/infinite-list}}
+      {{else}}
         <div class='no_result'>{{t "no_search_results"}}</div>
       {{/if}}
     </div>

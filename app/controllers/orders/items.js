@@ -1,49 +1,60 @@
 import config from "../../config/environment";
 import Ember from "ember";
-import searchModule from "../search_module";
+import _ from "lodash";
 
-export default searchModule.extend({
+export default Ember.Controller.extend({
   queryParams: ["searchInput"],
-  searchInput: "",
   hideDetailsLink: true,
 
   orderId: Ember.computed.alias("model.id"),
   isMobileApp: config.cordova.enabled,
   autoDisplayOverlay: false,
   minSearchTextLength: 2,
+  searchText: "",
+  displayResults: false,
 
-  applyFilter() {
-    this.set("autoDisplayOverlay", false);
-    var searchText = this.get("searchText").trim();
-    if (searchText) {
-      this.set("isLoading", true);
-      this.set("hasNoResults", false);
-      this.infinityModel(
-        "item",
-        {
-          perPage: 25,
-          startingPage: 1,
-          modelPath: "filteredResults",
-          stockRequest: true,
-          restrictMultiQuantity: true
-        },
-        { orderId: "orderId", searchText: "searchText" }
-      )
-        .then(data => {
-          if (this.get("searchText").trim() !== data.meta.search) {
-            return;
-          }
-
-          this.set("filteredResults", data);
-          this.set("hasNoResults", data.get("length") === 0);
-
-          if (data.get("length") === 1) {
-            Ember.run.debounce(this, this.triggerDisplayDesignateOverlay, 100);
-          }
-        })
-        .finally(() => this.set("isLoading", false));
+  onSearchTextChange: Ember.observer("searchText", function() {
+    if (this.get("searchText").length > this.get("minSearchTextLength")) {
+      this.showResults();
     }
-    this.set("filteredResults", []);
+  }),
+
+  getFilterQuery() {
+    return {
+      stockRequest: true,
+      restrictMultiQuantity: true
+    };
+  },
+
+  hideResults() {
+    Ember.run(() => {
+      this.set("displayResults", false);
+    });
+  },
+
+  showResults() {
+    Ember.run(() => {
+      this.set("displayResults", true);
+    });
+  },
+
+  getSearchQuery() {
+    return {
+      searchText: this.get("searchText"),
+      shallow: true
+    };
+  },
+
+  getPaginationQuery(pageNo) {
+    return {
+      per_page: 25,
+      page: pageNo
+    };
+  },
+
+  trimQuery(query) {
+    // Remove any undefined values
+    return _.pickBy(query, _.identity);
   },
 
   triggerDisplayDesignateOverlay() {
@@ -51,6 +62,23 @@ export default searchModule.extend({
   },
 
   actions: {
+    loadMoreItems(pageNo) {
+      const params = this.trimQuery(
+        _.merge(
+          {},
+          this.getFilterQuery(),
+          this.getSearchQuery(),
+          this.getPaginationQuery(pageNo)
+        )
+      );
+
+      return this.get("store")
+        .query("item", params)
+        .then(results => {
+          return results;
+        });
+    },
+
     displaySetItems(item) {
       this.set("itemSetId", item.get("itemId"));
       Ember.run.debounce(this, this.applyFilter, 0);
