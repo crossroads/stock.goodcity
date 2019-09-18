@@ -54,14 +54,6 @@ export default AuthorizeRoute.extend({
     this._super(controller, model);
     this.set("designateFullSet", false);
     this.set("partial_qnty", 0);
-
-    const { hasModifiedFilters } = model;
-    controller.applyFilter();
-
-    if (hasModifiedFilters) {
-      controller.onFilterChange();
-    }
-
     controller.set("itemSetId", this.paramsFor("items.index").itemSetId);
     controller.on();
   },

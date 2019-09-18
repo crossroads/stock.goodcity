@@ -28,17 +28,15 @@
         </div>
       {{/if}}
 
-      {{#if filteredResults}}
-        <ul class="list list-activity list-offer-items">
-          {{#each filteredResults as |item|}}
-            {{partial 'orders/item_block'}}
-          {{/each}}
-        </ul>
-
-        {{#infinity-loader}}
-        {{/infinity-loader}}
-
-      {{else if hasNoResults}}
+      {{#if displayResults}}
+        {{#infinite-list height="75vh" loadMore=(action "loadMoreItems") as |items| }}
+          <ul class="list list-activity list-offer-items">
+            {{#each items as |item|}}
+              {{partial 'orders/item_block'}}
+            {{/each}}
+          </ul>
+        {{/infinite-list}}
+      {{else}}
         <div class='no_result'>{{t "no_search_results"}}</div>
         <div class="add_item_text small-12 columns center-text">
           {{#if stockAppVersion}}
