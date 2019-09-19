@@ -5,6 +5,7 @@ export default AuthorizeRoute.extend({
   itemBackLinkPath: Ember.computed.localStorage(),
   transition: null,
   messageBox: Ember.inject.service(),
+  i18n: Ember.inject.service(),
 
   queryParams: {
     showDispatchOverlay: false
@@ -31,7 +32,7 @@ export default AuthorizeRoute.extend({
     if (!model.get("inventoryNumber")) {
       this.get("transition").abort();
       this.get("messageBox").alert(
-        "This item is not inventoried yet or has been marked as missing.",
+        this.get("i18n").t("item_details.not_inventorized_or_missing"),
         () => {
           this.transitionTo("items.index");
         }
@@ -91,10 +92,10 @@ export default AuthorizeRoute.extend({
    * @param {String} id the image id
    * @returns {Image} the image record
    */
-  loadImage(id) {
+  async loadImage(id) {
     const cachedImg = this.store.peekRecord("image", id);
     if (cachedImg) {
-      return Ember.RSVP.resolve(cachedImg);
+      return cachedImg;
     }
     return this.store.findRecord("image", id, { reload: true });
   },

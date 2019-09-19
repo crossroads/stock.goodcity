@@ -605,7 +605,9 @@ export default {
     },
     viewing_set: "Viewing part of this set",
     show_set: "Show Set",
-    hide_set: "Hide Set"
+    hide_set: "Hide Set",
+    not_inventorized_or_missing:
+      "This item is not inventoried yet or has been marked as missing."
   },
 
   inventory_options: {
