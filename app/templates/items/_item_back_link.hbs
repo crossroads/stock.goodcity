@@ -1,5 +1,5 @@
 {{#if (matches backLinkPath '^items\.detail')}}
-  {{#link-to 'items.detail' item.id classNames="back"}}
+  {{#link-to backLinkPath item.id classNames="back"}}
     <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-left'}}</i>
     <div class="back_text">
       <i>{{fa-icon 'tag'}}</i>
@@ -7,7 +7,7 @@
     </div>
   {{/link-to}}
 {{else if (is-equal backLinkPath 'orders.active_items')}}
-  {{#link-to "orders.active_items" orderIdForOrderDetail class="back"}}
+  {{#link-to backLinkPath orderIdForOrderDetail class="back"}}
     <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-left'}}</i>
     <div class="back_text">
       <i>{{fa-icon 'tag'}}</i>
@@ -15,7 +15,7 @@
     </div>
   {{/link-to}}
 {{else if (matches backLinkPath '^items\.partial')}}
-  {{#link-to 'items.partial_move' item.id classNames="back"}}
+  {{#link-to backLinkPath item.id classNames="back"}}
     <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-left'}}</i>
     <div class="back_text">
       <i>{{fa-icon 'tag'}}</i>
