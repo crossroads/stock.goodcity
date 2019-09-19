@@ -5,7 +5,7 @@
   <!-- DETAILS TAB -->
   <div
     {{action 'openTab' 'info'}} 
-    class="tab small {{if (is-equal tabName 'info') 'selected'}}"
+    class="tab info small {{if (is-equal tabName 'info') 'selected'}}"
   >
     <div class="icon-holder">{{fa-icon 'tag' size="lg"}}</div>
     <div class="text-holder">{{ model.inventoryNumber }}</div>
@@ -14,7 +14,7 @@
   <!-- LOCATION TAB -->
   <div
     {{action 'openTab' 'location'}}
-    class="tab large {{if (is-equal tabName 'location') 'selected'}}">
+    class="tab location large {{if (is-equal tabName 'location') 'selected'}}">
     <div class="icon-holder">{{fa-icon 'map-marker-alt' size="lg"}}</div>
     <div class="text-holder">
       {{#if model.hasMultiLocations}}
@@ -32,7 +32,7 @@
   <!-- PUBLISHING TAB -->
   <div
     {{action 'openTab' 'publishing'}}
-    class="tab divided large {{if (is-equal tabName 'publishing') 'selected'}}"
+    class="tab publishing divided large {{if (is-equal tabName 'publishing') 'selected'}}"
   >
     <div class="subtab">
       <div class="icon-holder">{{fa-icon 'paper-plane' size="lg"}}</div>
