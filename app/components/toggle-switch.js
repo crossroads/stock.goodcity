@@ -7,8 +7,9 @@ import _ from "lodash";
  * @property {boolean} value a property the component will bind to
  * @property {function} [afterChange] a callback triggered after value changes
  * <br> We typically listen to data change with Ember observers in the
- * <br> controllers. But those are likely to unwanted changes as well.
- * <br> The callback can be used to react to changes that exclusively belong
+ * <br> controllers. But those are likely to react to unwanted changes even
+ * <br> after the page has been closed (controllers persist)
+ * <br> This callback can be used to react to changes that exclusively belong
  * <br> to the checkbox
  *
  */

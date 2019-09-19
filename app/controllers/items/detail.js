@@ -91,30 +91,48 @@ export default GoodcityController.extend(singletonItemDispatchToGcOrder, {
   ),
 
   actions: {
-    persistPublishStatus() {
+    /**
+     * Called after a property is changed to push the updated
+     * record to the API
+     */
+    persistModel() {
       this.updateRecord(this.get("model"));
     },
 
+    /**
+     * Switch to another item of the same set
+     *
+     * @param {Item} it the newly selected item
+     */
     selectItem(it) {
-      // Switch to another item of the same set
       this.replaceRoute(this.get("currentRoute"), it);
     },
 
+    /**
+     * Display/Hide the set list
+     */
     toggleSetList() {
       this.toggleProperty("showSetList");
     },
 
-    partialDesignateForSet() {
-      this.set("designateFullSet", true);
-      this.set("callOrderObserver", true);
-    },
-
+    /**
+     * Switches to the specified tab by navigating to the correct subroute
+     *
+     * @param {String} tabName The tab we wish to open
+     */
     openTab(tabName) {
       this.replaceRoute(`items.detail.${tabName}`);
     },
 
+    /**
+     * Move the currently viewed item to another location
+     * It is configured to act as a singleton (isSet: false),
+     * and apply the move exclusively to the current item.
+     * The other items of the set should not be affected by it.
+     *
+     * Note: temporary until we handle per-item per-location partial move
+     */
     moveFullPackageQty() {
-      // Note: temporary until we handle per-item per-location partial move
       this.transitionToRoute("items.search_location", this.get("item.id"), {
         queryParams: {
           isSet: false,
@@ -123,6 +141,11 @@ export default GoodcityController.extend(singletonItemDispatchToGcOrder, {
           skipScreenForSingletonItem: true
         }
       });
+    },
+
+    partialDesignateForSet() {
+      this.set("designateFullSet", true);
+      this.set("callOrderObserver", true);
     },
 
     moveItemSet() {
