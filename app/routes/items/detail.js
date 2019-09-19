@@ -123,10 +123,10 @@ export default AuthorizeRoute.extend({
   async loadItem(id, opts = {}) {
     const { loadImages = false } = opts;
 
-    const it = await this.store.findRecord("item", id, { reload: true });
+    const item = await this.store.findRecord("item", id, { reload: true });
     if (loadImages) {
-      await this.preloadImages(it);
+      await this.preloadImages(item);
     }
-    return it;
+    return item;
   }
 });
