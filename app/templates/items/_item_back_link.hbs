@@ -1,4 +1,4 @@
-{{#if (is-equal backLinkPath 'items.detail')}}
+{{#if (matches backLinkPath '^items\.detail')}}
   {{#link-to 'items.detail' item.id classNames="back"}}
     <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-left'}}</i>
     <div class="back_text">
@@ -14,24 +14,8 @@
       {{item.inventoryNumber}}
     </div>
   {{/link-to}}
-{{else if (is-equal backLinkPath 'items.partial_move')}}
+{{else if (matches backLinkPath '^items\.partial')}}
   {{#link-to 'items.partial_move' item.id classNames="back"}}
-    <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-left'}}</i>
-    <div class="back_text">
-      <i>{{fa-icon 'tag'}}</i>
-      {{item.inventoryNumber}}
-    </div>
-  {{/link-to}}
-{{else if (is-equal backLinkPath 'items.partial_undesignate')}}
-  {{#link-to 'items.partial_undesignate' item.id classNames="back"}}
-    <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-left'}}</i>
-    <div class="back_text">
-      <i>{{fa-icon 'tag'}}</i>
-      {{item.inventoryNumber}}
-    </div>
-  {{/link-to}}
-{{else if (is-equal backLinkPath 'items.partial_designate')}}
-  {{#link-to 'items.partial_designate' item.id classNames="back"}}
     <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-left'}}</i>
     <div class="back_text">
       <i>{{fa-icon 'tag'}}</i>
