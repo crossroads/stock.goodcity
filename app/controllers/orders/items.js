@@ -1,60 +1,22 @@
 import config from "../../config/environment";
 import Ember from "ember";
 import _ from "lodash";
+import SearchMixin from "../../mixins/search_resource";
 
-export default Ember.Controller.extend({
+export default Ember.Controller.extend(SearchMixin, {
   queryParams: ["searchInput"],
   hideDetailsLink: true,
 
   orderId: Ember.computed.alias("model.id"),
   isMobileApp: config.cordova.enabled,
   autoDisplayOverlay: false,
-  minSearchTextLength: 2,
-  searchText: "",
-  displayResults: false,
-
-  onSearchTextChange: Ember.observer("searchText", function() {
-    if (this.get("searchText").length > this.get("minSearchTextLength")) {
-      this.showResults();
-    }
-  }),
+  isPreloadable: false,
 
   getFilterQuery() {
     return {
       stockRequest: true,
       restrictMultiQuantity: true
     };
-  },
-
-  hideResults() {
-    Ember.run(() => {
-      this.set("displayResults", false);
-    });
-  },
-
-  showResults() {
-    Ember.run(() => {
-      this.set("displayResults", true);
-    });
-  },
-
-  getSearchQuery() {
-    return {
-      searchText: this.get("searchText"),
-      shallow: true
-    };
-  },
-
-  getPaginationQuery(pageNo) {
-    return {
-      per_page: 25,
-      page: pageNo
-    };
-  },
-
-  trimQuery(query) {
-    // Remove any undefined values
-    return _.pickBy(query, _.identity);
   },
 
   triggerDisplayDesignateOverlay() {

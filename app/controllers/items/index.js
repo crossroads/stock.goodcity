@@ -1,8 +1,8 @@
 import config from "../../config/environment";
-import Ember from "ember";
 import _ from "lodash";
+import SearchMixin from "../../mixins/search_resource";
 
-export default Ember.Controller.extend({
+export default Ember.Controller.extend(SearchMixin, {
   queryParams: ["searchInput", "itemSetId", "locationFilterChanged"],
   itemSetId: null,
   locationFilterChanged: null,
@@ -10,66 +10,11 @@ export default Ember.Controller.extend({
   displayItemOptions: false,
   displayItemOptionsList: true,
   searchModelName: "item",
-  minSearchTextLength: 2,
-  searchedText: "",
-  filterService: Ember.inject.service(),
-  utilityMethods: Ember.inject.service(),
   requestOptions: {
     withInventoryNumber: "true"
   },
 
-  displayResults: false,
-
-  on() {
-    this.showResults(); // Upon opening the page, we populate with results
-    this.get("filterService").on("change", this, this.reloadResults);
-  },
-
-  off() {
-    this.get("filterService").off("change", this, this.reloadResults);
-  },
-
-  onSearchTextChange: Ember.observer("searchText", function() {
-    if (this.get("searchText").length > this.get("minSearchTextLength")) {
-      this.reloadResults();
-    }
-  }),
-
-  reloadResults() {
-    this.hideResults();
-    Ember.run.debounce(this, this.showResults, 500);
-  },
-
-  hideResults() {
-    Ember.run(() => {
-      this.set("displayResults", false);
-    });
-  },
-
-  showResults() {
-    Ember.run(() => {
-      this.set("displayResults", true);
-    });
-  },
-
-  getSearchQuery() {
-    return {
-      searchText: this.get("searchText"),
-      shallow: true
-    };
-  },
-
-  getPaginationQuery(pageNo) {
-    return {
-      per_page: 25,
-      page: pageNo
-    };
-  },
-
-  trimQuery(query) {
-    // Remove any undefined values
-    return _.pickBy(query, _.identity);
-  },
+  isPreloadable: true,
 
   getFilterQuery() {
     let filterService = this.get("filterService");

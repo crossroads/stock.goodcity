@@ -1,14 +1,10 @@
 import Ember from "ember";
 import _ from "lodash";
 import { STATE_FILTERS } from "../../services/filter-service";
+import SearchMixin from "../../mixins/search_resource";
 
-export default Ember.Controller.extend({
-  minSearchTextLength: 2,
-  searchedText: "",
-  displayResults: false,
-
-  filterService: Ember.inject.service(),
-  utilityMethods: Ember.inject.service(),
+export default Ember.Controller.extend(SearchMixin, {
+  isPreloadable: true,
 
   afterSearch(designations) {
     if (designations && designations.get("length") > 0) {
@@ -16,38 +12,6 @@ export default Ember.Controller.extend({
         order_ids: designations.mapBy("id").join(",")
       });
     }
-  },
-
-  on() {
-    this.showResults(); // Upon opening the page, we populate with results
-    this.get("filterService").on("change", this, this.reloadResults);
-  },
-
-  off() {
-    this.get("filterService").off("change", this, this.reloadResults);
-  },
-
-  onSearchTextChange: Ember.observer("searchText", function() {
-    if (this.get("searchText").length > this.get("minSearchTextLength")) {
-      this.reloadResults();
-    }
-  }),
-
-  reloadResults() {
-    this.hideResults();
-    Ember.run.debounce(this, this.showResults, 500);
-  },
-
-  hideResults() {
-    Ember.run(() => {
-      this.set("displayResults", false);
-    });
-  },
-
-  showResults() {
-    Ember.run(() => {
-      this.set("displayResults", true);
-    });
   },
 
   getFilterQuery() {
@@ -69,25 +33,6 @@ export default Ember.Controller.extend({
       after: after && after.getTime(),
       before: before && before.getTime()
     };
-  },
-
-  getSearchQuery() {
-    return {
-      searchText: this.get("searchText"),
-      shallow: true
-    };
-  },
-
-  getPaginationQuery(pageNo) {
-    return {
-      per_page: 25,
-      page: pageNo
-    };
-  },
-
-  trimQuery(query) {
-    // Remove any undefined values
-    return _.pickBy(query, _.identity);
   },
 
   actions: {
