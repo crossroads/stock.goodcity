@@ -1,0 +1,31 @@
+<div class="location-tab">
+  {{!-- Temporary button until we implement partial move per location --}}
+  <div class="light-button centered {{if (is-equal model.availableQtyForMove 0) 'disabled'}}" {{action 'moveFullPackageQty'}}>
+    {{t 'item.move' }} 1 {{ model.code.name }}
+  </div>
+
+  <div class="row header-row">
+    <div class="columns small-6">{{t 'location'}}</div>
+    <div class="columns small-6">{{t 'partial_undesignate.qty'}}</div>
+  </div>
+  {{#each model.packagesLocationsList as |pkgLocation|}}
+    <div class="row content-row">
+      <div class="columns small-2">&nbsp;{{ pkgLocation.location.building }}</div>
+      <div class="columns small-4">&nbsp;{{ pkgLocation.location.area }}</div>
+      <div class="columns small-2">&nbsp;{{ pkgLocation.quantity }}</div>
+      <div class="columns small-2">
+        <div class="light-button disabled">{{t 'item.move' }}</div>
+      </div>
+      <div class="columns small-2"></div>
+    </div>
+  {{/each}}
+  <div class="row content-row italic">
+    <div class="columns small-6">&nbsp;</div>
+    <div class="columns small-2">{{ model.totalDispatchedQty }}</div>
+    <div class="columns small-2">
+      {{t 'item_filters.dispatched' }}
+    </div>
+    <div class="columns small-2"></div>
+  </div>
+</div>
+

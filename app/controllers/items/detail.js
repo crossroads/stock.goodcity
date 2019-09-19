@@ -1,18 +1,31 @@
 import Ember from "ember";
 import config from "../../config/environment";
 import singletonItemDispatchToGcOrder from "../../mixins/singleton_item_dispatch_to_gc_order";
+import GoodcityController from "../goodcity_controller";
 
-export default Ember.Controller.extend(singletonItemDispatchToGcOrder, {
+export default GoodcityController.extend(singletonItemDispatchToGcOrder, {
   isMobileApp: config.cordova.enabled,
-  item: Ember.computed.alias("model"),
   backLinkPath: "",
+  item: Ember.computed.alias("model"),
   queryParams: ["showDispatchOverlay"],
   showDispatchOverlay: false,
   autoDisplayOverlay: false,
+  application: Ember.inject.controller(),
   messageBox: Ember.inject.service(),
   displayScanner: false,
   designateFullSet: Ember.computed.localStorage(),
   callOrderObserver: false,
+  showSetList: false,
+  hideDetailsLink: true,
+
+  currentRoute: Ember.computed.alias("application.currentPath"),
+  pkg: Ember.computed.alias("model"),
+
+  tabName: Ember.computed("currentRoute", function() {
+    return this.get("currentRoute")
+      .split(".")
+      .get("lastObject");
+  }),
 
   grades: Ember.computed("item.grade", function() {
     return [
@@ -78,6 +91,58 @@ export default Ember.Controller.extend(singletonItemDispatchToGcOrder, {
   ),
 
   actions: {
+    /**
+     * Called after a property is changed to push the updated
+     * record to the API
+     */
+    persistModel() {
+      this.updateRecord(this.get("model"));
+    },
+
+    /**
+     * Switch to another item of the same set
+     *
+     * @param {Item} it the newly selected item
+     */
+    selectItem(it) {
+      this.replaceRoute(this.get("currentRoute"), it);
+    },
+
+    /**
+     * Display/Hide the set list
+     */
+    toggleSetList() {
+      this.toggleProperty("showSetList");
+    },
+
+    /**
+     * Switches to the specified tab by navigating to the correct subroute
+     *
+     * @param {String} tabName The tab we wish to open
+     */
+    openTab(tabName) {
+      this.replaceRoute(`items.detail.${tabName}`);
+    },
+
+    /**
+     * Move the currently viewed item to another location
+     * It is configured to act as a singleton (isSet: false),
+     * and apply the move exclusively to the current item.
+     * The other items of the set should not be affected by it.
+     *
+     * Note: temporary until we handle per-item per-location partial move
+     */
+    moveFullPackageQty() {
+      this.transitionToRoute("items.search_location", this.get("item.id"), {
+        queryParams: {
+          isSet: false,
+          isPartialMove: true,
+          pkgsLocationId: this.get("item.packagesLocations.firstObject.id"),
+          skipScreenForSingletonItem: true
+        }
+      });
+    },
+
     partialDesignateForSet() {
       this.set("designateFullSet", true);
       this.set("callOrderObserver", true);

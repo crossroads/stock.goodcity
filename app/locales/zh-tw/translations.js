@@ -591,6 +591,7 @@ export default {
 
   item_details: {
     quantity: "Quantity",
+    initial_quantity: "Initial qty",
     type: "Type",
     description: "Description",
     size: "Size (cm)",
@@ -601,7 +602,12 @@ export default {
     condition: "Condition :",
     validation_errors: {
       description: "Description cannot be blank."
-    }
+    },
+    viewing_set: "Viewing part of this set",
+    show_set: "Show Set",
+    hide_set: "Hide Set",
+    not_inventorized_or_missing:
+      "This item is not inventoried yet or has been marked as missing."
   },
 
   inventory_options: {
