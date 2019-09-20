@@ -3,9 +3,8 @@ import _ from "lodash";
 import SearchMixin from "../../mixins/search_resource";
 
 export default Ember.Controller.extend(SearchMixin, {
-  queryParams: ["searchInput", "itemSetId", "locationFilterChanged"],
+  queryParams: ["searchInput", "itemSetId"],
   itemSetId: null,
-  locationFilterChanged: null,
   isMobileApp: config.cordova.enabled,
   displayItemOptions: false,
   displayItemOptionsList: true,
@@ -31,7 +30,7 @@ export default Ember.Controller.extend(SearchMixin, {
   onItemSetIdChange: Ember.observer("itemSetId", function() {
     // wait before applying the filter
     if (this.get("itemSetId")) {
-      Ember.run.debounce(this, this.applyFilter, 0);
+      this.reloadResults();
     }
   }),
 
