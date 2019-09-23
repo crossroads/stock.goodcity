@@ -36,6 +36,16 @@ export default Ember.Mixin.create({
 
   // ----- Helpers ------
 
+  sanitizeString(str) {
+    // these are the special characters '.,)(@_-' that are allowed for search
+    // '\.' => will allow '.'
+    // '\(' => will allow '('
+    // '\@' => will allow '@'
+    // '\)' => will allow ')'
+    str = str.replace(/[^a-z0-9áéíóúñü \.,\)\(@_-]/gim, "");
+    return str.trim();
+  },
+
   /**
    * Rerequest or request new Search
    **/

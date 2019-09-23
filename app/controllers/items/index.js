@@ -15,6 +15,14 @@ export default Ember.Controller.extend(SearchMixin, {
 
   isPreloadable: true,
 
+  scannedItem: Ember.observer("searchInput", function() {
+    const searchInput = this.get("searchInput") || "";
+    const sanitizeString = this.sanitizeString(searchInput);
+    if (sanitizeString) {
+      this.set("searchText", sanitizeString);
+    }
+  }),
+
   getFilterQuery() {
     let filterService = this.get("filterService");
     let utilities = this.get("utilityMethods");
