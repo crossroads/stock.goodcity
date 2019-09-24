@@ -4,7 +4,10 @@ import { STATE_FILTERS } from "../../services/filter-service";
 import SearchMixin from "../../mixins/search_resource";
 
 export default Ember.Controller.extend(SearchMixin, {
-  isPreloadable: true,
+  /**
+   * @type {Boolean}, expected in SearchMixin
+   **/
+  autoLoad: true,
 
   afterSearch(designations) {
     if (designations && designations.get("length") > 0) {

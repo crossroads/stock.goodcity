@@ -2,10 +2,13 @@ import Ember from "ember";
 import _ from "lodash";
 
 /**
- * Search mixin has utilities for implement Searching.
+ * Search mixin has utilities to implement Searching.
+ * This Mixin expects boolean property `autoLoad` on the implemented controller.
  * There are two use case of this mixin:
- * a) Query on resource as soon we land on the page.
- * b) Query on resource explicitly with some `searchText`.
+ * a) Query on model as soon we land on the page.
+ *   - declare `autoLoad: true` in the used controller
+ * b) Query on model explicitly with some `searchText`.
+ *   - declare `autoLoad: false` in the used controller
  **/
 
 export default Ember.Mixin.create({
@@ -50,7 +53,7 @@ export default Ember.Mixin.create({
    * Rerequest or request new Search
    **/
   rerenderOrShowNewResult() {
-    if (this.get("isPreloadable")) {
+    if (this.get("autoLoad")) {
       this.reloadResults();
     } else {
       this.showResults();

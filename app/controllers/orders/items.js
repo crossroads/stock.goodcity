@@ -10,7 +10,11 @@ export default Ember.Controller.extend(SearchMixin, {
   orderId: Ember.computed.alias("model.id"),
   isMobileApp: config.cordova.enabled,
   autoDisplayOverlay: false,
-  isPreloadable: false,
+
+  /**
+   * @type {Boolean}, expected in SearchMixin
+   **/
+  autoLoad: false,
 
   getFilterQuery() {
     return {

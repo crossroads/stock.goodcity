@@ -13,7 +13,10 @@ export default Ember.Controller.extend(SearchMixin, {
     withInventoryNumber: "true"
   },
 
-  isPreloadable: true,
+  /**
+   * @type {Boolean}, expected in SearchMixin
+   **/
+  autoLoad: true,
 
   scannedItem: Ember.observer("searchInput", function() {
     const searchInput = this.get("searchInput") || "";
