@@ -17,6 +17,10 @@ export default Ember.Controller.extend(SearchMixin, {
    * @type {Boolean}, expected in SearchMixin
    **/
   autoLoad: true,
+  /**
+   * @type {Number}, perPage in response
+   **/
+  perPage: 25,
 
   scannedItem: Ember.observer("searchInput", function() {
     const searchInput = this.get("searchInput") || "";

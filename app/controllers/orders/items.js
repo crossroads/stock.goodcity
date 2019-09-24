@@ -15,6 +15,10 @@ export default Ember.Controller.extend(SearchMixin, {
    * @type {Boolean}, expected in SearchMixin
    **/
   autoLoad: false,
+  /**
+   * @type {Number}, perPage in response
+   **/
+  perPage: 25,
 
   getFilterQuery() {
     return {

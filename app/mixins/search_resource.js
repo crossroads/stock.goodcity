@@ -3,12 +3,21 @@ import _ from "lodash";
 
 /**
  * Search mixin has utilities to implement Searching.
- * This Mixin expects boolean property `autoLoad` on the implemented controller.
- * There are two use case of this mixin:
- * a) Query on model as soon we land on the page.
- *   - declare `autoLoad: true` in the used controller
- * b) Query on model explicitly with some `searchText`.
- *   - declare `autoLoad: false` in the used controller
+ *
+ * Configuring the search(property to be declared in controller where this mixin is used):
+ *  -  @property {Number} `perPage`: number of results in response.
+ *  -  @property {Boolean} `autoLoad`: to query on model as soon we land on the page.
+
+ * Requirements:
+ *  - This controllers sets and unsets `displayResults`
+ *  - call `on()` and `off()` from calling page route for auto initial load of the records and cleaning the record.
+ *    Example:
+ *     setupController() {
+ *       controller.on()
+ *     },
+ *     resetController(controller) {
+ *       controller.off()
+ *     }
  **/
 
 export default Ember.Mixin.create({
@@ -92,7 +101,7 @@ export default Ember.Mixin.create({
    **/
   getPaginationQuery(pageNo) {
     return {
-      per_page: 25,
+      per_page: this.get("perPage"),
       page: pageNo
     };
   },

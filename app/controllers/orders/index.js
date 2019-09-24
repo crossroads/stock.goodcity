@@ -8,6 +8,10 @@ export default Ember.Controller.extend(SearchMixin, {
    * @type {Boolean}, expected in SearchMixin
    **/
   autoLoad: true,
+  /**
+   * @type {Number}, perPage in response
+   **/
+  perPage: 25,
 
   afterSearch(designations) {
     if (designations && designations.get("length") > 0) {
