@@ -1,6 +1,6 @@
 import config from "../../config/environment";
 import _ from "lodash";
-import SearchMixin from "../../mixins/search_resource";
+import SearchMixin from "stock/mixins/search_resource";
 
 export default Ember.Controller.extend(SearchMixin, {
   queryParams: ["searchInput", "itemSetId"],

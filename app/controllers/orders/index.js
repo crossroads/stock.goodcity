@@ -1,7 +1,7 @@
 import Ember from "ember";
 import _ from "lodash";
 import { STATE_FILTERS } from "../../services/filter-service";
-import SearchMixin from "../../mixins/search_resource";
+import SearchMixin from "stock/mixins/search_resource";
 
 export default Ember.Controller.extend(SearchMixin, {
   /**
