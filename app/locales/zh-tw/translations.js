@@ -345,7 +345,7 @@ export default {
       need_description: "需要的原因",
       need_description_info: "請簡單填寫為什麼需要這些物品",
       description_warning: "此欄不能留空",
-      error_message: "You must select the district"
+      error_message: "你需要選擇地區"
     },
     goods_details: {
       title: "物品資料",
@@ -375,7 +375,7 @@ export default {
       labor_confirmation: "我確認已清楚明白搬運工人的要求",
       date: "預約日期",
       time: "預約時間",
-      error_message: "You Must select the appointment date"
+      error_message: "你需要選擇約定日期"
     },
     booking_success: {
       success: "成功!",
