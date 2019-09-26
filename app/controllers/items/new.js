@@ -25,7 +25,10 @@ export default GoodcityController.extend({
   length: null,
   width: null,
   height: null,
-  selectedGrade: { name: "B", id: "B" },
+  selectedGrade: {
+    name: "B",
+    id: "B"
+  },
   invalidLocation: false,
   invalidScanResult: false,
   newUploadedImage: null,
@@ -33,7 +36,259 @@ export default GoodcityController.extend({
 
   imageKeys: Ember.computed.localStorage(),
 
+  formElement: {},
+
   i18n: Ember.inject.service(),
+  additionalFields: [
+    {
+      label: "Brand",
+      name: "brand",
+      value: "brand",
+      type: "text",
+      autoComplete: true,
+      category: ["computer", "computer_accessory", "electrical"]
+    },
+    {
+      label: "Model",
+      name: "model",
+      type: "text",
+      value: "model",
+      autoComplete: false,
+      category: ["computer", "computer_accessory", "electrical"]
+    },
+    {
+      label: "Serial Number",
+      name: "serial_num",
+      type: "text",
+      value: "serialNum",
+      autoComplete: false,
+      category: ["computer", "computer_accessory", "electrical"]
+    },
+    {
+      label: "Country of origin",
+      name: "country",
+      type: "number",
+      value: "country",
+      autoComplete: true,
+      category: ["computer", "computer_accessory", "electrical"]
+    },
+    {
+      label: "Size",
+      name: "size",
+      type: "text",
+      value: "size",
+      autoComplete: true,
+      category: ["computer", "computer_accessory"]
+    },
+    {
+      label: "Cpu",
+      name: "cpu",
+      type: "text",
+      value: "cpu",
+      autoComplete: true,
+      category: ["computer"]
+    },
+    {
+      label: "Ram",
+      name: "ram",
+      type: "text",
+      value: "ram",
+      autoComplete: true,
+      category: ["computer"]
+    },
+    {
+      label: "HDD",
+      name: "hdd",
+      type: "text",
+      value: "hdd",
+      autoComplete: true,
+      category: ["computer"]
+    },
+    {
+      label: "Optical",
+      name: "optical",
+      type: "text",
+      value: "optical",
+      autoComplete: true,
+      category: ["computer"]
+    },
+    {
+      label: "video",
+      name: "Video",
+      type: "text",
+      value: "video",
+      autoComplete: true,
+      category: ["computer"]
+    },
+    {
+      label: "Sound",
+      name: "sound",
+      type: "text",
+      value: "sound",
+      autoComplete: true,
+      category: ["computer"]
+    },
+    {
+      label: "Lan",
+      name: "lan",
+      type: "text",
+      value: "lan",
+      autoComplete: true,
+      category: ["computer"]
+    },
+    {
+      label: "Wireless",
+      name: "wireless",
+      type: "text",
+      value: "wireless",
+      autoComplete: true,
+      category: ["computer"]
+    },
+    {
+      label: "Usb",
+      name: "usb",
+      type: "text",
+      value: "usb",
+      autoComplete: true,
+      category: ["computer"]
+    },
+    {
+      label: "Comp Voltage",
+      name: "comp_voltage",
+      type: "text",
+      value: "compVoltage",
+      autoComplete: true,
+      category: ["computer", "computer_accessory"]
+    },
+    {
+      label: "Test status",
+      name: "test_status",
+      type: "text",
+      autoComplete: true,
+      value: "testStatus",
+      category: ["computer", "computer_accessory"]
+    },
+    {
+      label: "OS",
+      name: "os",
+      type: "text",
+      value: "os",
+      autoComplete: true,
+      category: ["computer"]
+    },
+    {
+      label: "OS Serial Num",
+      name: "os_serial_num",
+      type: "text",
+      value: "osSerialNum",
+      autoComplete: "true",
+      category: ["computer"]
+    },
+    {
+      label: "Ms Office Serial Num",
+      name: "ms_office_serial_num",
+      type: "text",
+      value: "msOfficeSerialNum",
+      autoComplete: "true",
+      category: ["computer"]
+    },
+    {
+      label: "Mar  OS serial Num",
+      name: "mar_os_serial_num",
+      type: "text",
+      value: "marOsSerialNum",
+      autoComplete: "true",
+      category: ["computer"]
+    },
+    {
+      label: "Mar Ms Office Serial Num",
+      name: "mar_ms_office_serial_num",
+      type: "text",
+      value: "marMsOfficeSerialNum",
+      autoComplete: "true",
+      category: ["computer"]
+    },
+    {
+      label: "Interface",
+      name: "interface",
+      type: "text",
+      value: "interface",
+      autoComplete: "true",
+      category: ["computer_accessory"]
+    },
+    {
+      label: "Standard",
+      name: "standard",
+      type: "text",
+      value: "standard",
+      autoComplete: "true",
+      category: ["computer_accessory"]
+    },
+    {
+      label: "Voltage",
+      name: "voltage",
+      type: "number",
+      value: "voltage",
+      autoComplete: true,
+      category: ["electrical"]
+    },
+    {
+      label: "Power",
+      name: "power",
+      type: "text",
+      value: "power",
+      autoComplete: true,
+      category: ["electrical"]
+    },
+    {
+      label: "System or Region",
+      name: "system_or_region",
+      type: "text",
+      value: "systemOrRegion",
+      autoComplete: true,
+      category: ["electrical"]
+    },
+    {
+      label: "Test Status",
+      name: "test_status",
+      type: "text",
+      value: "tesetStatus",
+      autoComplete: true,
+      category: ["electrical"]
+    },
+    {
+      label: "Tested On",
+      name: "tested_on",
+      type: "text",
+      value: "tesetedOn",
+      autoComplete: true,
+      category: ["electrical"]
+    },
+    {
+      label: "Frequency",
+      name: "frequency",
+      type: "number",
+      value: "frequency",
+      autoComplete: true,
+      category: ["electrical"]
+    }
+  ],
+
+  showAdditionalFields: Ember.computed("code", function() {
+    return !(
+      ["computer", "computer_accessory", "electrical"].indexOf("electrical") ===
+      -1
+    );
+  }),
+
+  displayFields: Ember.computed("code", function() {
+    if (this.get("showAdditionalFields")) {
+      return this.additionalFields.filter(function(field) {
+        return field.category.includes("electrical");
+      });
+    }
+  }),
+
   packageService: Ember.inject.service(),
 
   showPublishItemCheckBox: Ember.computed("quantity", function() {
@@ -85,10 +340,22 @@ export default GoodcityController.extend({
 
   grades: Ember.computed(function() {
     return [
-      { name: "A", id: "A" },
-      { name: "B", id: "B" },
-      { name: "C", id: "C" },
-      { name: "D", id: "D" }
+      {
+        name: "A",
+        id: "A"
+      },
+      {
+        name: "B",
+        id: "B"
+      },
+      {
+        name: "C",
+        id: "C"
+      },
+      {
+        name: "D",
+        id: "D"
+      }
     ];
   }),
 
@@ -135,11 +402,15 @@ export default GoodcityController.extend({
   }),
 
   isInvalidPrintCount: Ember.computed("labels", function() {
-    return this.isValidLabelRange({ startRange: 0 });
+    return this.isValidLabelRange({
+      startRange: 0
+    });
   }),
 
   isMultipleCountPrint: Ember.computed("labels", function() {
-    return this.isValidLabelRange({ startRange: 1 });
+    return this.isValidLabelRange({
+      startRange: 1
+    });
   }),
 
   isInvalidDimension: Ember.computed("length", "width", "height", function() {
@@ -232,7 +503,10 @@ export default GoodcityController.extend({
       package_type_id: this.get("code.id"),
       state_event: "mark_received",
       packages_locations_attributes: {
-        0: { location_id: locationId, quantity: quantity }
+        0: {
+          location_id: locationId,
+          quantity: quantity
+        }
       }
     };
   },
@@ -315,14 +589,20 @@ export default GoodcityController.extend({
     };
     let onError = error =>
       this.get("messageBox").alert("Scanning failed: " + error);
-    let options = { formats: "QR_CODE, CODE_128", orientation: "portrait" };
+    let options = {
+      formats: "QR_CODE, CODE_128",
+      orientation: "portrait"
+    };
     window.cordova.plugins.barcodeScanner.scan(onSuccess, onError, options);
   },
 
   printBarcode(packageId) {
     const labels = this.get("labels");
     this.get("packageService")
-      .printBarcode({ package_id: packageId, labels })
+      .printBarcode({
+        package_id: packageId,
+        labels
+      })
       .catch(error => {
         this.get("messageBox").alert(error.responseJSON.errors);
       });
@@ -440,7 +720,9 @@ export default GoodcityController.extend({
           "/images/delete_cloudinary_image",
           "PUT",
           this.get("session.authToken"),
-          { cloudinary_id: this.get("imageKeys") }
+          {
+            cloudinary_id: this.get("imageKeys")
+          }
         );
         this.set("imageKeys", "");
         this.set("newUploadedImage", null);
@@ -508,6 +790,7 @@ export default GoodcityController.extend({
     },
 
     saveItem() {
+      debugger;
       if (!window.navigator.onLine) {
         this.get("messageBox").alert(this.get("i18n").t("offline_error"));
         return false;
