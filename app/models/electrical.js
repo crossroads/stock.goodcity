@@ -15,7 +15,6 @@ export default Model.export({
   systemOfRegion: attr("string"),
   testStatus: attr("string"),
   testedOn: attr("date"),
-  tesetdBy: attr("string"),
   createdAt: attr("date"),
   updatedAt: attr("date")
 });
