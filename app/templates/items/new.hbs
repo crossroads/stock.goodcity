@@ -12,12 +12,12 @@
 
     <a {{action "triggerUpload"}} class="{{unless isReady 'disabled'}}">
       <span class="image-box">
-      {{#if newUploadedImage}}
-        <img  src={{newUploadedImage.thumbImageUrl}} class="thumb"/>
-      {{else}}
+        {{#if newUploadedImage}}
+        <img src={{newUploadedImage.thumbImageUrl}} class="thumb" />
+        {{else}}
         <i aria-hidden="true">{{fa-icon 'camera'}}</i><br />
         {{t "items.new.add_images"}}
-      {{/if}}
+        {{/if}}
       </span>
     </a>
     {{cloudinary-upload ready="uploadReady" progress="uploadProgress"
@@ -31,8 +31,8 @@
         </div>
         <div class="small-7 large-8 columns left">
           {{#form-control}}
-            {{numeric-input id='qty' name="qty" value=quantity maxlength="8" required='true' pattern="\d{1,8}"}}
-            <div class='input-error'>{{t "items.new.validation_errors.quantity"}}</div>
+          {{numeric-input id='qty' name="qty" value=quantity maxlength="8" required='true' pattern="\d{1,8}"}}
+          <div class='input-error'>{{t "items.new.validation_errors.quantity"}}</div>
           {{/form-control}}
         </div>
       </div>
@@ -55,9 +55,9 @@
     </div>
     <div class="small-9 columns description-block">
       {{#form-control}}
-        <i class="remove-text" aria-hidden="true" {{action "clearDescription"}}>{{fa-icon 'times-circle'}}</i>
-        {{auto-resize-textarea data-autoresize=true name="description" value=description required="required" pattern=".*\S.*" id="description"}}
-        <div class='input-error'>{{t 'items.new.validation_errors.description'}}</div>
+      <i class="remove-text" aria-hidden="true" {{action "clearDescription"}}>{{fa-icon 'times-circle'}}</i>
+      {{auto-resize-textarea data-autoresize=true name="description" value=description required="required" pattern=".*\S.*" id="description"}}
+      <div class='input-error'>{{t 'items.new.validation_errors.description'}}</div>
       {{/form-control}}
     </div>
   </div>
@@ -120,9 +120,9 @@
         {{input value=locationName disabled=true required='true'}}
         <div class='input-error'>
           {{#if invalidScanResult}}
-            {{t "items.new.validation_errors.invalid_location"}}
+          {{t "items.new.validation_errors.invalid_location"}}
           {{else}}
-            {{t "items.new.validation_errors.blank_location"}}
+          {{t "items.new.validation_errors.blank_location"}}
           {{/if}}
         </div>
       </div>
@@ -177,29 +177,35 @@
     </div>
 
     {{#if showPiecesInput}}
-      <div class="small-3 columns item-label" align="right">
-        {{t "items.new.pieces"}}
-      </div>
+    <div class="small-3 columns item-label" align="right">
+      {{t "items.new.pieces"}}
+    </div>
 
-      <div class="small-3 columns pieces">
-        {{numeric-input name="pieces" id='pieces' value=pieces maxlength="10" pattern="[1-9]{0,5}"}}
-      </div>
+    <div class="small-3 columns pieces">
+      {{numeric-input name="pieces" id='pieces' value=pieces maxlength="10" pattern="[1-9]{0,5}"}}
+    </div>
     {{/if}}
   </div>
+  {{!--
+  {{input value=formElement.firstName}} --}}
+  <hr>
+  {{#if showAdditionalFields}}
+  {{partial "items/computer_fields"}}
+  {{/if}}
   <hr>
   <div class="row">
     <div class="small-3 columns item-label">{{t "items.new.labels"}}</div>
     <div class="small-3 columns">
       {{input type="number" id="labels" name="labels" value=labels placeholder="labels" maxlength="3" pattern="\d{1,8}"}}
       {{#if isInvalidaLabelCount}}
-        <div id="label-empty-err" class='input-error show-validation'>
-          {{t "items.new.validation_errors.blank_label"}}
-        </div>
+      <div id="label-empty-err" class='input-error show-validation'>
+        {{t "items.new.validation_errors.blank_label"}}
+      </div>
       {{/if}}
       {{#unless isInvalidPrintCount}}
-        <div id="max-val-err" class='input-error show-validation'>
-          {{t "items.new.validation_errors.max_label"}}
-        </div>
+      <div id="max-val-err" class='input-error show-validation'>
+        {{t "items.new.validation_errors.max_label"}}
+      </div>
       {{/unless}}
     </div>
     <div class="small-2 columns item-label">
@@ -207,23 +213,23 @@
     </div>
     <div class="small-4 columns inventory-number">
       {{#if inputInventory}}
-        {{input value=inventoryNumber}}
+      {{input value=inventoryNumber}}
       {{else}}
-        {{inventoryNumber}}
+      {{inventoryNumber}}
       {{/if}}
       {{partial "items/inventory_options"}}
     </div>
   </div>
 
   {{#if showPublishItemCheckBox}}
-    <div class="row">
-      <div class="small-3 columns item-label">
-        <label for="publishItem">{{t "items.new.publish"}}</label>
-      </div>
-      <div class="small-1 columns publish">
-        {{input type="checkbox" id="publishItem" checked=isAllowedToPublish}}
-      </div>
+  <div class="row">
+    <div class="small-3 columns item-label">
+      <label for="publishItem">{{t "items.new.publish"}}</label>
     </div>
+    <div class="small-1 columns publish">
+      {{input type="checkbox" id="publishItem" checked=isAllowedToPublish}}
+    </div>
+  </div>
   {{/if}}
 
   <div class="row">
@@ -235,7 +241,7 @@
       <a {{action 'submit' target=form}} class="button expand">
         {{t "save"}}
         {{#if isMultipleCountPrint}}
-          {{t "items.new.print" labels=printLabelCount}}<i class='fa fa-print'></i>
+        {{t "items.new.print" labels=printLabelCount}}<i class='fa fa-print'></i>
         {{/if}}
       </a>
     </div>

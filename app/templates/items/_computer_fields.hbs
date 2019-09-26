@@ -1,0 +1,17 @@
+<div class="row">
+  {{#each displayFields as |fields|}}
+  <div class="small-6 columns">
+    <div class="row">
+      <div class="small-12 columns item-label">
+        {{fields.label}}
+      </div>
+      <div class="small-12 columns left">
+        {{#form-control}}
+        {{input name=fields.name type=fields.type value=(mut (get formElement fields.value)) maxlength="8" required='true'}}
+        <div class='input-error'>{{t "items.new.validation_errors.quantity"}}</div>
+        {{/form-control}}
+      </div>
+    </div>
+  </div>
+  {{/each}}
+</div>
