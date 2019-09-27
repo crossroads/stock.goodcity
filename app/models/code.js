@@ -13,6 +13,7 @@ export default Model.extend({
 
   defaultChildPackages: attr("string"),
   otherChildPackages: attr("string"),
+  subform: attr("string"),
 
   defaultChildPackagesList: function() {
     return this._getPackages(this, this.get("defaultChildPackages"));
