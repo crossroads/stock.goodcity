@@ -11,11 +11,13 @@ export default AuthorizeRoute.extend({
 
     if(previousRoute) {
       var routeName = previousRoute.name;
+      var backLinkPath = "items.detail";
+
       if(routeName === "items"){
-        this.set("partialUndesignateBackLinkpath", "items.index");
-      } else {
-        this.set("partialUndesignateBackLinkpath", "items.detail");
+        backLinkPath = "items.index";
       }
+
+      this.set("partialUndesignateBackLinkpath", backLinkPath);
     }
   },
 
@@ -25,7 +27,8 @@ export default AuthorizeRoute.extend({
   },
 
   afterModel(model) {
-    var designation = null;
+    var designation;
+
     if(model) {
       model.get('ordersPackages').forEach( orderPackage => {
         var orderId = orderPackage.get('designationId');

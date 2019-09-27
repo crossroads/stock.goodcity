@@ -25,15 +25,17 @@ export default orderUserOrganisation.extend({
     let orderTransport = model.orderTransport;
     let availableDatesAndTime = model.availableDatesAndtime;
     let slots = null;
+
     if (orderTransport){
       selectedId = orderTransport.get('transportType');
       selectedTime = orderTransport.get('timeslot');
       selectedDate = moment.tz(orderTransport.get("scheduledAt"), 'Asia/Hong_Kong');
       if(selectedDate) {
         slots = availableDatesAndTime.appointment_calendar_dates.filter( date => date.date === selectedDate.format('YYYY-MM-DD'))[0].slots;
-        selectedSlot = slots.filter(slot => slot.timestamp.indexOf(orderTransport.get("timeslot")) >= 0)[0];
+        selectedSlot = slots.find(slot => slot.timestamp.indexOf(orderTransport.get("timeslot")) >= 0);
       }
     }
+    
     controller.set('selectedId', selectedId);
     controller.set('selectedTimeId', selectedTime);
     controller.set('available_dates', availableDatesAndTime);

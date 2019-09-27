@@ -20,6 +20,8 @@ export default AuthorizeRoute.extend({
   /* jshint ignore:end */
 
   afterModel() {
-    Ember.$('body').animate({scrollTop: 0});  //https://github.com/dollarshaveclub/ember-router-scroll. Read this link for nested route issue for not scrolling at top of the page
+    // Refer: for nested route issue for not scrolling at top of the page
+    // https://github.com/dollarshaveclub/ember-router-scroll. 
+    Ember.$('body').animate({scrollTop: 0});
   }
 });

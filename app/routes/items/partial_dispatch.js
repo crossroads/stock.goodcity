@@ -16,13 +16,15 @@ export default AuthorizeRoute.extend({
 
     if(previousRoute) {
       var routeName = previousRoute.name;
+      var backLinkPath = "items.detail";
+
       if(routeName === "items"){
-        this.set("partialDispatchBackLinkpath", "items.index");
+        backLinkPath = "items.index";
       } else if(routeName === "items.partial_undesignate" || routeName === 'orders.detail') {
-        this.set("partialDispatchBackLinkpath", routeName);
-      } else {
-        this.set("partialDispatchBackLinkpath", "items.detail");
+        backLinkPath = routeName;
       }
+
+      this.set("partialDispatchBackLinkpath", backLinkPath);
     }
   },
 

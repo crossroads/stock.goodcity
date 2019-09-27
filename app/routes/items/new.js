@@ -25,6 +25,7 @@ export default AuthorizeRoute.extend({
   beforeModel() {
     this._super(...arguments);
     var searchCodePreviousRoute = this.get("isSearchCodePreviousRoute");
+
     if (searchCodePreviousRoute) {
       var newItemRequest = searchCodePreviousRoute ? true : false;
       this.set("newItemRequest", newItemRequest);
