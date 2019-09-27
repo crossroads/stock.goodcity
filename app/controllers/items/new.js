@@ -39,6 +39,7 @@ export default GoodcityController.extend({
   formElement: {},
 
   i18n: Ember.inject.service(),
+
   additionalFields: [
     {
       label: "Brand",
@@ -276,15 +277,17 @@ export default GoodcityController.extend({
 
   showAdditionalFields: Ember.computed("code", function() {
     return !(
-      ["computer", "computer_accessory", "electrical"].indexOf("electrical") ===
-      -1
+      ["computer", "computer_accessory", "electrical"].indexOf(
+        this.get("code.subform")
+      ) === -1
     );
   }),
 
   displayFields: Ember.computed("code", function() {
+    let _this = this;
     if (this.get("showAdditionalFields")) {
       return this.additionalFields.filter(function(field) {
-        return field.category.includes("electrical");
+        return field.category.includes(_this.get("code.subform"));
       });
     }
   }),
