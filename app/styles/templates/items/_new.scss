@@ -33,6 +33,7 @@
 
   .row {
     margin-top: 0.5rem !important;
+
     @media #{$small-only} {
       margin-right: 0rem !important;
     }
@@ -56,6 +57,7 @@
         .fa {
           margin-left: 0.5rem;
         }
+
         margin-left: 0.1rem;
       }
 
@@ -74,9 +76,10 @@
 
     .value.height input {
       width: 97%;
+
       @media #{$small-only} {
-      width: 93%;
-    }
+        width: 93%;
+      }
     }
   }
 
@@ -99,12 +102,20 @@
     }
   }
 
-  input, select {
+  input,
+  select {
     padding: 0 0.5rem;
     background: #002352 !important;
     border: 1px solid $tabbar-menu-icon-color !important;
     color: white;
     height: 1.8rem !important;
+  }
+
+  .input-field-container {
+    float: none;
+    display: inline-block;
+    vertical-align: top;
+    width: 49.5%;
   }
 
   textarea {
@@ -117,7 +128,7 @@
     padding-right: 1.5rem;
   }
 
-  .remove-text{
+  .remove-text {
     position: absolute;
     right: 3%;
     font-size: 0.9rem;
@@ -126,7 +137,9 @@
   }
 
   .image-box-row {
-    input, .input-error {
+
+    input,
+    .input-error {
       width: 89%;
     }
   }
@@ -196,7 +209,9 @@
       color: $tabbar-menu-icon-color !important;
     }
   }
-  .weight, .publish {
+
+  .weight,
+  .publish {
     float: left !important;
   }
 }
@@ -206,6 +221,7 @@
   right: 1rem;
   top: 0.30rem;
   color: #a3aab6;
+
   @media #{$small-only} {
     top: 0.5rem;
   }
@@ -235,9 +251,9 @@
   }
 
   /* box-shadow style */
-  -webkit-box-shadow: -8px 8px 25px 1px rgba(0,0,0,0.75);
-  -moz-box-shadow: -8px 8px 25px 1px rgba(0,0,0,0.75);
-  box-shadow: -8px 8px 25px 1px rgba(0,0,0,0.75);
+  -webkit-box-shadow: -8px 8px 25px 1px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: -8px 8px 25px 1px rgba(0, 0, 0, 0.75);
+  box-shadow: -8px 8px 25px 1px rgba(0, 0, 0, 0.75);
 
   .option_menu {
     padding: 0 1rem;
@@ -258,15 +274,18 @@
   }
 }
 
-.hide_image_loading{
+.hide_image_loading {
   display: none;
+
   div {
     @media #{$small-only} {
       font-size: 1.2rem;
     }
+
     a {
       color: $medium-blue !important;
       text-decoration: underline;
+
       @media #{$small-only} {
         font-size: 1rem;
       }
@@ -276,19 +295,20 @@
 
 .loading-image-indicator {
   z-index: 1000;
-  position:fixed;
-  width:100%;
-  height:100%;
-  top:0px;
-  left:0px;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  left: 0px;
   background-color: rgba(0, 0, 0, 0.5);
-  > div {
-    position:fixed;
-    top:50%;
-    left:0px;
+
+  >div {
+    position: fixed;
+    top: 50%;
+    left: 0px;
     width: 100%;
     margin-top: -20px;
-    text-align:center;
+    text-align: center;
     font-size: 2.0em;
     color: white;
   }

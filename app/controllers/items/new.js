@@ -19,6 +19,21 @@ export default GoodcityController.extend({
   isSearchCodePreviousRoute: Ember.computed.localStorage(),
   weight: "",
   isSelectLocationPreviousRoute: Ember.computed.localStorage(),
+  classNames: "Example",
+  newItemName: null,
+  talkTags: [
+    {
+      id: 0,
+      tag: "ele"
+    },
+    {
+      id: 1,
+      tag: "ele123"
+    }
+  ],
+  selectedTags: [],
+  numTags: Ember.computed.alias("talkTags.length"),
+  selectedOptionData: " ",
 
   quantity: 1,
   labels: 1,
@@ -47,7 +62,13 @@ export default GoodcityController.extend({
       value: "brand",
       type: "text",
       autoComplete: true,
-      category: ["computer", "computer_accessory", "electrical"]
+      category: ["computer", "computer_accessory", "electrical"],
+      values: [
+        {
+          id: 1,
+          tag: "name3123"
+        }
+      ]
     },
     {
       label: "Model",
@@ -55,7 +76,13 @@ export default GoodcityController.extend({
       type: "text",
       value: "model",
       autoComplete: false,
-      category: ["computer", "computer_accessory", "electrical"]
+      category: ["computer", "computer_accessory", "electrical"],
+      values: [
+        {
+          id: 1,
+          tag: "name3wdw"
+        }
+      ]
     },
     {
       label: "Serial Number",
@@ -63,7 +90,13 @@ export default GoodcityController.extend({
       type: "text",
       value: "serialNum",
       autoComplete: false,
-      category: ["computer", "computer_accessory", "electrical"]
+      category: ["computer", "computer_accessory", "electrical"],
+      values: [
+        {
+          id: 1,
+          tag: "name3nronf"
+        }
+      ]
     },
     {
       label: "Country of origin",
@@ -71,7 +104,13 @@ export default GoodcityController.extend({
       type: "number",
       value: "country",
       autoComplete: true,
-      category: ["computer", "computer_accessory", "electrical"]
+      category: ["computer", "computer_accessory", "electrical"],
+      values: [
+        {
+          id: 1,
+          tag: "name389hjk"
+        }
+      ]
     },
     {
       label: "Size",
@@ -182,7 +221,7 @@ export default GoodcityController.extend({
       name: "os_serial_num",
       type: "text",
       value: "osSerialNum",
-      autoComplete: "true",
+      autoComplete: true,
       category: ["computer"]
     },
     {
@@ -190,7 +229,7 @@ export default GoodcityController.extend({
       name: "ms_office_serial_num",
       type: "text",
       value: "msOfficeSerialNum",
-      autoComplete: "true",
+      autoComplete: true,
       category: ["computer"]
     },
     {
@@ -198,7 +237,7 @@ export default GoodcityController.extend({
       name: "mar_os_serial_num",
       type: "text",
       value: "marOsSerialNum",
-      autoComplete: "true",
+      autoComplete: true,
       category: ["computer"]
     },
     {
@@ -206,7 +245,7 @@ export default GoodcityController.extend({
       name: "mar_ms_office_serial_num",
       type: "text",
       value: "marMsOfficeSerialNum",
-      autoComplete: "true",
+      autoComplete: true,
       category: ["computer"]
     },
     {
@@ -214,7 +253,7 @@ export default GoodcityController.extend({
       name: "interface",
       type: "text",
       value: "interface",
-      autoComplete: "true",
+      autoComplete: true,
       category: ["computer_accessory"]
     },
     {
@@ -222,7 +261,7 @@ export default GoodcityController.extend({
       name: "standard",
       type: "text",
       value: "standard",
-      autoComplete: "true",
+      autoComplete: true,
       category: ["computer_accessory"]
     },
     {
@@ -297,6 +336,51 @@ export default GoodcityController.extend({
   showPublishItemCheckBox: Ember.computed("quantity", function() {
     this.set("isAllowedToPublish", false);
     return +this.get("quantity") === 1;
+  }),
+
+  resourceType: Ember.computed(function() {
+    return {
+      size: [
+        {
+          id: 0,
+          tag: "1x"
+        },
+        {
+          id: 0,
+          tag: "2x"
+        }
+      ],
+      voltage: [
+        {
+          id: 0,
+          tag: "1V"
+        },
+        {
+          id: 1,
+          tag: "2V"
+        }
+      ],
+      power: [
+        {
+          id: 0,
+          tag: "100power"
+        },
+        {
+          id: 2,
+          tag: "200power"
+        }
+      ],
+      brand: [
+        {
+          id: 0,
+          tag: "Lenovo"
+        },
+        {
+          id: 2,
+          tag: "Philipes"
+        }
+      ]
+    };
   }),
 
   locale: function(str) {
@@ -675,6 +759,22 @@ export default GoodcityController.extend({
       }
     },
 
+    addNew(text, fieldName) {
+      console.log(text, fieldName, "text");
+
+      // console.log(this.get('talkTags'));
+
+      // this.set('newItemName', text);
+
+      // let newTag = {
+      //   id: this.get('numTags'),
+      //   tag: text
+      // };
+      // console.log('hit', newTag);
+      // this.get('talkTags').addObject(newTag);
+      // this.set('selectedOptionData', newTag);
+    },
+
     uploadProgress(e, data) {
       e.target.disabled = true; // disable image-selection
       var progress = parseInt((data.loaded / data.total) * 100, 10) || 0;
@@ -793,7 +893,7 @@ export default GoodcityController.extend({
     },
 
     saveItem() {
-      debugger;
+      //debugger;
       if (!window.navigator.onLine) {
         this.get("messageBox").alert(this.get("i18n").t("offline_error"));
         return false;
