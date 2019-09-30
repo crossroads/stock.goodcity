@@ -9,16 +9,17 @@
         {{#form-control}}
 
         {{#if fields.autoComplete}}
+        {{!-- render - component --}}
         {{searchable-select
             content=(mut (get resourceType fields.name))
             sortBy="name"
             optionLabelKey="tag"
+            selected=selected
             addLabel="Add New Item"
-            prompt="Select tags"
+            prompt="Select an option"
             on-add=(action "addNew" fields.name)}}
         {{else}}
-        {{input name=fields.name type=fields.type value=(mut (get formElement fields.value)) maxlength="8" required='true'}}
-        <div class='input-error'>{{t "items.new.validation_errors.quantity"}}</div>
+        {{input name=fields.name type=fields.type value=(mut (get formElement fields.value)) }}
         {{/if}}
         {{/form-control}}
       </div>
