@@ -7,17 +7,8 @@
       </div>
       <div class="small-12 columns left">
         {{#form-control}}
-
         {{#if fields.autoComplete}}
-        {{!-- render - component --}}
-        {{searchable-select
-            content=(mut (get resourceType fields.name))
-            sortBy="name"
-            optionLabelKey="tag"
-            selected=selected
-            addLabel="Add New Item"
-            prompt="Select an option"
-            on-add=(action "addNew" fields.name)}}
+        {{dropdown-search content=fields.name packageDetails=fetchPackageDetails}}
         {{else}}
         {{input name=fields.name type=fields.type value=(mut (get formElement fields.value)) }}
         {{/if}}
