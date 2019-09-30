@@ -20,7 +20,7 @@ export default GoodcityController.extend({
   weight: "",
   isSelectLocationPreviousRoute: Ember.computed.localStorage(),
   classNames: "Example",
-  newItemName: null,
+  selected: [],
   talkTags: [
     {
       id: 0,
@@ -759,20 +759,15 @@ export default GoodcityController.extend({
       }
     },
 
-    addNew(text, fieldName) {
-      console.log(text, fieldName, "text");
-
-      // console.log(this.get('talkTags'));
-
-      // this.set('newItemName', text);
-
-      // let newTag = {
-      //   id: this.get('numTags'),
-      //   tag: text
-      // };
+    addNew(fieldName, text) {
+      this.set(fieldName, text);
+      let newTag = {
+        id: this.get("numTags"),
+        tag: text
+      };
       // console.log('hit', newTag);
       // this.get('talkTags').addObject(newTag);
-      // this.set('selectedOptionData', newTag);
+      this.set("selected", newTag);
     },
 
     uploadProgress(e, data) {

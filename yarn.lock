@@ -5694,6 +5694,14 @@ ember-scroll-to-bottom@1.3.0:
     ember-cli-babel "^6.3.0"
     ember-cli-sass "5.5.2"
 
+ember-searchable-select@^0.11.0:
+  version "0.11.0"
+  resolved "https://registry.yarnpkg.com/ember-searchable-select/-/ember-searchable-select-0.11.0.tgz#785406483a8e1573f63880bebe1efd3aa79b2737"
+  integrity sha1-eFQGSDqOFXP2OIC+vh79OqebJzc=
+  dependencies:
+    ember-cli-babel "^5.1.3"
+    ember-cli-htmlbars "^1.0.1"
+
 ember-smart-banner@0.1.3:
   version "0.1.3"
   resolved "https://registry.yarnpkg.com/ember-smart-banner/-/ember-smart-banner-0.1.3.tgz#7102486f1940f8854e3dde2075bbb2a769bd5ff0"
