@@ -3,7 +3,7 @@ import Model from "ember-data/model";
 import attr from "ember-data/attr";
 import { belongsTo, hasMany } from "ember-data/relationships";
 
-export default Model.export({
+export default Model.extend({
   brand: attr("string"),
   model: attr("string"),
   serialNumber: attr("string"),

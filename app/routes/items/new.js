@@ -49,12 +49,13 @@ export default AuthorizeRoute.extend({
   },
 
   afterModel() {
-    this.store.findAll("location", { reload: true });
+    this.store.findAll("location", {
+      reload: true
+    });
   },
 
-  setupController(controller, model) {
+  async setupController(controller, model) {
     this._super(controller, model);
-
     controller.set("inventoryNumber", this.get("inventoryNumber"));
     controller.set("displayInventoryOptions", false);
     controller.set("autoGenerateInventory", true);
@@ -62,7 +63,6 @@ export default AuthorizeRoute.extend({
     controller.set("invalidLocation", false);
     controller.set("invalidScanResult", false);
     controller.set("labels", 1);
-
     if (this.get("newItemRequest")) {
       this.set("newItemRequest", false);
       controller.set("quantity", 1);
@@ -73,11 +73,32 @@ export default AuthorizeRoute.extend({
         controller.set("length", null);
         controller.set("width", null);
         controller.set("height", null);
-        controller.set("selectedGrade", { name: "B", id: "B" });
-        controller.set("selectedCondition", { name: "Used", id: "U" });
+        controller.set("selectedGrade", {
+          name: "B",
+          id: "B"
+        });
+        controller.set("selectedCondition", {
+          name: "Used",
+          id: "U"
+        });
         controller.set("imageKeys", "");
       }
       var imageKey = controller.get("imageKeys");
+      let codeId = controller.get("codeId");
+      if (codeId) {
+        let selected = this.get("store").peekRecord("code", codeId);
+        if (selected) {
+          if (
+            ["computer", "electrical", "computer_accessory"].indexOf(
+              selected.get("subform")
+            ) >= 0
+          ) {
+            controller.set("showAdditionalFields", true);
+            let details = await this.store.findAll(selected.get("subform"));
+            controller.set("packageDetails", details);
+          }
+        }
+      }
       if (
         imageKey &&
         imageKey.length &&

@@ -19,22 +19,6 @@ export default GoodcityController.extend({
   isSearchCodePreviousRoute: Ember.computed.localStorage(),
   weight: "",
   isSelectLocationPreviousRoute: Ember.computed.localStorage(),
-  classNames: "Example",
-  selected: [],
-  talkTags: [
-    {
-      id: 0,
-      tag: "ele"
-    },
-    {
-      id: 1,
-      tag: "ele123"
-    }
-  ],
-  selectedTags: [],
-  numTags: Ember.computed.alias("talkTags.length"),
-  selectedOptionData: " ",
-
   quantity: 1,
   labels: 1,
   length: null,
@@ -51,7 +35,10 @@ export default GoodcityController.extend({
 
   imageKeys: Ember.computed.localStorage(),
 
-  formElement: {},
+  // detailParams: function(){
+  //   this.get("additionalFields").forEach(field)
+  //   {this.get(field.name)};
+  // },
 
   i18n: Ember.inject.service(),
 
@@ -221,7 +208,7 @@ export default GoodcityController.extend({
       name: "os_serial_num",
       type: "text",
       value: "osSerialNum",
-      autoComplete: true,
+      autoComplete: false,
       category: ["computer"]
     },
     {
@@ -229,7 +216,7 @@ export default GoodcityController.extend({
       name: "ms_office_serial_num",
       type: "text",
       value: "msOfficeSerialNum",
-      autoComplete: true,
+      autoComplete: false,
       category: ["computer"]
     },
     {
@@ -237,7 +224,7 @@ export default GoodcityController.extend({
       name: "mar_os_serial_num",
       type: "text",
       value: "marOsSerialNum",
-      autoComplete: true,
+      autoComplete: false,
       category: ["computer"]
     },
     {
@@ -245,7 +232,7 @@ export default GoodcityController.extend({
       name: "mar_ms_office_serial_num",
       type: "text",
       value: "marMsOfficeSerialNum",
-      autoComplete: true,
+      autoComplete: false,
       category: ["computer"]
     },
     {
@@ -322,6 +309,26 @@ export default GoodcityController.extend({
     );
   }),
 
+  fetchPackageDetails: Ember.computed("packageDetails", function() {
+    if (this.get("showAdditionalFields")) {
+      let package_details = this.get("packageDetails");
+      if (package_details) {
+        let dataObject = {};
+        dataObject["brand"] = [];
+        let i = 0;
+        package_details.forEach(detail => {
+          console.log(detail.get("brand"));
+          dataObject["brand"].push({
+            id: i,
+            tag: detail.get("brand")
+          });
+          i++;
+        });
+        return dataObject;
+      }
+    }
+  }),
+
   displayFields: Ember.computed("code", function() {
     let _this = this;
     if (this.get("showAdditionalFields")) {
@@ -336,51 +343,6 @@ export default GoodcityController.extend({
   showPublishItemCheckBox: Ember.computed("quantity", function() {
     this.set("isAllowedToPublish", false);
     return +this.get("quantity") === 1;
-  }),
-
-  resourceType: Ember.computed(function() {
-    return {
-      size: [
-        {
-          id: 0,
-          tag: "1x"
-        },
-        {
-          id: 0,
-          tag: "2x"
-        }
-      ],
-      voltage: [
-        {
-          id: 0,
-          tag: "1V"
-        },
-        {
-          id: 1,
-          tag: "2V"
-        }
-      ],
-      power: [
-        {
-          id: 0,
-          tag: "100power"
-        },
-        {
-          id: 2,
-          tag: "200power"
-        }
-      ],
-      brand: [
-        {
-          id: 0,
-          tag: "Lenovo"
-        },
-        {
-          id: 2,
-          tag: "Philipes"
-        }
-      ]
-    };
   }),
 
   locale: function(str) {
@@ -412,7 +374,7 @@ export default GoodcityController.extend({
 
   isMobileApp: config.cordova.enabled,
   messageBox: Ember.inject.service(),
-
+  formElement: {},
   conditions: Ember.computed(function() {
     return this.get("store").peekAll("donor_condition");
   }),
@@ -759,17 +721,6 @@ export default GoodcityController.extend({
       }
     },
 
-    addNew(fieldName, text) {
-      this.set(fieldName, text);
-      let newTag = {
-        id: this.get("numTags"),
-        tag: text
-      };
-      // console.log('hit', newTag);
-      // this.get('talkTags').addObject(newTag);
-      this.set("selected", newTag);
-    },
-
     uploadProgress(e, data) {
       e.target.disabled = true; // disable image-selection
       var progress = parseInt((data.loaded / data.total) * 100, 10) || 0;
@@ -888,7 +839,7 @@ export default GoodcityController.extend({
     },
 
     saveItem() {
-      //debugger;
+      debugger;
       if (!window.navigator.onLine) {
         this.get("messageBox").alert(this.get("i18n").t("offline_error"));
         return false;
