@@ -49,27 +49,15 @@ export default GoodcityController.extend({
       value: "brand",
       type: "text",
       autoComplete: true,
-      category: ["computer", "computer_accessory", "electrical"],
-      values: [
-        {
-          id: 1,
-          tag: "name3123"
-        }
-      ]
+      category: ["computer", "computer_accessory", "electrical"]
     },
     {
       label: "Model",
       name: "model",
       type: "text",
       value: "model",
-      autoComplete: false,
-      category: ["computer", "computer_accessory", "electrical"],
-      values: [
-        {
-          id: 1,
-          tag: "name3wdw"
-        }
-      ]
+      autoComplete: true,
+      category: ["computer", "computer_accessory", "electrical"]
     },
     {
       label: "Serial Number",
@@ -77,13 +65,7 @@ export default GoodcityController.extend({
       type: "text",
       value: "serialNum",
       autoComplete: false,
-      category: ["computer", "computer_accessory", "electrical"],
-      values: [
-        {
-          id: 1,
-          tag: "name3nronf"
-        }
-      ]
+      category: ["computer", "computer_accessory", "electrical"]
     },
     {
       label: "Country of origin",
@@ -91,13 +73,7 @@ export default GoodcityController.extend({
       type: "number",
       value: "country",
       autoComplete: true,
-      category: ["computer", "computer_accessory", "electrical"],
-      values: [
-        {
-          id: 1,
-          tag: "name389hjk"
-        }
-      ]
+      category: ["computer", "computer_accessory", "electrical"]
     },
     {
       label: "Size",
@@ -313,18 +289,19 @@ export default GoodcityController.extend({
     if (this.get("showAdditionalFields")) {
       let package_details = this.get("packageDetails");
       if (package_details) {
-        let dataObject = {};
-        dataObject["brand"] = [];
-        let i = 0;
-        package_details.forEach(detail => {
-          console.log(detail.get("brand"));
-          dataObject["brand"].push({
-            id: i,
-            tag: detail.get("brand")
+        let subFormData = {};
+        let columns = Object.keys(package_details.get("firstObject").toJSON());
+        columns.map(column => {
+          let columnData = package_details.getEach(column);
+          subFormData[column] = columnData.map((_column, index) => {
+            return {
+              id: index + 1,
+              tag: columnData[index]
+            };
           });
-          i++;
         });
-        return dataObject;
+
+        return subFormData;
       }
     }
   }),
