@@ -28,6 +28,8 @@ export default GoodcityController.extend({
     name: "B",
     id: "B"
   },
+  fieldsValues: {},
+  subFormData: {},
   invalidLocation: false,
   invalidScanResult: false,
   newUploadedImage: null,
@@ -314,6 +316,8 @@ export default GoodcityController.extend({
       });
     }
   }),
+
+  formElement: {},
 
   packageService: Ember.inject.service(),
 
@@ -681,6 +685,10 @@ export default GoodcityController.extend({
       }
     },
 
+    setFields(value) {
+      this.set("fieldValues", value);
+    },
+
     uploadReady() {
       this.set("isReady", true);
     },
@@ -816,7 +824,10 @@ export default GoodcityController.extend({
     },
 
     saveItem() {
-      debugger;
+      this.set("subFormData", {
+        ...this.get("formElement"),
+        ...this.get("fieldValues")
+      });
       if (!window.navigator.onLine) {
         this.get("messageBox").alert(this.get("i18n").t("offline_error"));
         return false;

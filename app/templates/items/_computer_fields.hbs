@@ -8,7 +8,7 @@
       <div class="small-12 columns left">
         {{#form-control}}
         {{#if fields.autoComplete}}
-        {{dropdown-search content=fields.name packageDetails=fetchPackageDetails}}
+        {{dropdown-search content=fields.name packageDetails=fetchPackageDetails onConfirm=(action 'setFields')}}
         {{else}}
         {{input name=fields.name type=fields.type value=(mut (get formElement fields.value)) }}
         {{/if}}
