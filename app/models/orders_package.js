@@ -20,9 +20,8 @@ export default Model.extend({
   isDesignated: Ember.computed.equal("state", "designated"),
   isCancelled: Ember.computed.equal("state", "cancelled"),
 
-  availableQty: Ember.computed("quantity", function() {
-    return this.get('quantity');
-  }),
+  availableQty: Ember.computed.alias("quantity"),
+  isSingleQuantity: Ember.computed.equal('quantity', 1),
 
   qtyToModify: Ember.computed("quantity", "item.quantity", function() {
     return this.get('quantity') + this.get("item.quantity");
@@ -32,7 +31,4 @@ export default Model.extend({
     return this.get('designation.code');
   }),
 
-  isSingleQuantity: Ember.computed('quantity', function(){
-    return this.get('quantity') === 1;
-  })
 });

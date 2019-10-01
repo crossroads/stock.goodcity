@@ -12,11 +12,7 @@ export default Addressable.extend({
   userRoles: DS.hasMany('userRoles', { async: false }),
 
   roles: Ember.computed('userRoles.[]', function(){
-    var roles = [];
-    this.get('userRoles').forEach(userRole => {
-      roles.push(userRole.get('role'));
-    });
-    return roles;
+    return this.get('userRoles').map(userRole => userRole.get('role'));
   }),
 
   roleNames: Ember.computed('roles', function(){

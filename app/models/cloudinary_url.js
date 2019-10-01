@@ -17,13 +17,15 @@ export default Model.extend({
 
   generateUrl: function(width, height, crop) {
     var id = this.get('cloudinaryId') || "1438323573/default/test_image.jpg";
-    var angle = this.get('angle') || 0;
+
     if (!id || id.indexOf("/") === -1) {
       return null;
     }
+
     var version = id.split("/")[0];
     var filename = id.substring(id.indexOf("/") + 1);
     var options = this.getOptions(version, height, width, crop, id);
+    var angle = this.get('angle');
     if(angle) { options["angle"] = angle; }
     return Ember.$.cloudinary.url(filename, options);
   }

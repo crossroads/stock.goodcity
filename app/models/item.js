@@ -55,9 +55,8 @@ export default cloudinaryUrl.extend({
     }
   ),
 
-  available_qty: Ember.computed("quantity", function() {
-    return this.get("quantity");
-  }),
+  available_qty: Ember.computed.alias("quantity"),
+  availableQty: Ember.computed.alias("quantity"),
 
   thumbImageUrl: Ember.computed(
     "favouriteImage.{angle,cloudinaryId}",
@@ -252,7 +251,7 @@ export default cloudinaryUrl.extend({
       dispatchedOrdersPackages.forEach(record => {
         totalDispatchedQty += parseInt(record.get("quantity"), 10);
       });
-      return totalDispatchedQty === received_quantity ? true : false;
+      return totalDispatchedQty === received_quantity;
     }
   ),
 
@@ -268,7 +267,7 @@ export default cloudinaryUrl.extend({
       designatedOrdersPackages.forEach(record => {
         totalDesignatedQty += parseInt(record.get("quantity"), 10);
       });
-      return totalDesignatedQty === received_quantity ? true : false;
+      return totalDesignatedQty === received_quantity;
     }
   ),
 
@@ -284,10 +283,6 @@ export default cloudinaryUrl.extend({
       return orderPackages;
     }
   ),
-
-  availableQty: Ember.computed("quantity", function() {
-    return this.get("quantity");
-  }),
 
   minSetQty: Ember.computed("setItem.items", function() {
     if (this.get("isSet") && this.get("designateFullSet")) {
