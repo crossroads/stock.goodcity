@@ -1,0 +1,9 @@
+{{searchable-select
+  content=(mut (get resourceType content))
+  sortBy="name"
+  optionLabelKey="tag"
+  selected=selected
+  addLabel="Add New Item"
+  prompt="Select an option"
+  on-change=(action "setSelected")
+  on-add=(action "addNew" content)}}
