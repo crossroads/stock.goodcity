@@ -32,6 +32,16 @@ export default GoodcityController.extend(singletonItemDispatchToGcOrder, {
     }
   ),
 
+  allowPublish: Ember.computed(
+    "model.isSingletonItem",
+    "model.availableQty",
+    function() {
+      return (
+        this.get("model.isSingletonItem") && this.get("model.availableQty") > 0
+      );
+    }
+  ),
+
   tabName: Ember.computed("currentRoute", function() {
     return this.get("currentRoute")
       .split(".")
