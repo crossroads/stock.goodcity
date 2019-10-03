@@ -28,6 +28,7 @@ export default GoodcityController.extend({
     name: "B",
     id: "B"
   },
+  polymorphicField: null,
   fieldsValues: {},
   subFormData: {},
   invalidLocation: false,
@@ -58,14 +59,14 @@ export default GoodcityController.extend({
       name: "model",
       type: "text",
       value: "model",
-      autoComplete: true,
+      autoComplete: false,
       category: ["computer", "computer_accessory", "electrical"]
     },
     {
       label: "Serial Number",
-      name: "serial_num",
+      name: "serialNumber",
       type: "text",
-      value: "serialNum",
+      value: "serialNumber",
       autoComplete: false,
       category: ["computer", "computer_accessory", "electrical"]
     },
@@ -166,14 +167,6 @@ export default GoodcityController.extend({
       category: ["computer", "computer_accessory"]
     },
     {
-      label: "Test status",
-      name: "test_status",
-      type: "text",
-      autoComplete: true,
-      value: "testStatus",
-      category: ["computer", "computer_accessory"]
-    },
-    {
       label: "OS",
       name: "os",
       type: "text",
@@ -247,7 +240,7 @@ export default GoodcityController.extend({
     },
     {
       label: "System or Region",
-      name: "system_or_region",
+      name: "systemOfRegion",
       type: "text",
       value: "systemOrRegion",
       autoComplete: true,
@@ -255,15 +248,15 @@ export default GoodcityController.extend({
     },
     {
       label: "Test Status",
-      name: "test_status",
+      name: "testStatus",
       type: "text",
-      value: "tesetStatus",
+      value: "testStatus",
       autoComplete: true,
       category: ["electrical"]
     },
     {
       label: "Tested On",
-      name: "tested_on",
+      name: "testedOn",
       type: "text",
       value: "tesetedOn",
       autoComplete: true,
@@ -290,6 +283,7 @@ export default GoodcityController.extend({
   fetchPackageDetails: Ember.computed("packageDetails", function() {
     if (this.get("showAdditionalFields")) {
       let package_details = this.get("packageDetails");
+      debugger;
       if (package_details) {
         let subFormData = {};
         let columns = Object.keys(package_details.get("firstObject").toJSON());
@@ -824,10 +818,22 @@ export default GoodcityController.extend({
     },
 
     saveItem() {
-      this.set("subFormData", {
+      let polymorphicField = {};
+      let subFormDataObj = {};
+      subFormDataObj[`${this.get("code.subform")}_attributes`] = {
         ...this.get("formElement"),
         ...this.get("fieldValues")
-      });
+      };
+      polymorphicField["detail_type"] = this.get("code.subform");
+      this.set("subFormDataObj", subFormDataObj);
+      this.set("polymorphicField", polymorphicField);
+      let packageParamsObj = {
+        ...this.packageParams(),
+        ...this.get("polymorphicField"),
+        ...this.get("subFormDataObj")
+      };
+      console.log(packageParamsObj, "hit");
+      debugger;
       if (!window.navigator.onLine) {
         this.get("messageBox").alert(this.get("i18n").t("offline_error"));
         return false;
@@ -840,7 +846,7 @@ export default GoodcityController.extend({
         this.showLoadingSpinner();
         this.get("packageService")
           .createPackage({
-            package: this.packageParams()
+            package: packageParamsObj
           })
           .then(data => {
             if (this.get("isMultipleCountPrint")) {
