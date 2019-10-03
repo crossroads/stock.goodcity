@@ -21,6 +21,17 @@ export default GoodcityController.extend(singletonItemDispatchToGcOrder, {
   currentRoute: Ember.computed.alias("application.currentPath"),
   pkg: Ember.computed.alias("model"),
 
+  allowMove: Ember.computed(
+    "model.isSingletonItem",
+    "model.availableQtyForMove",
+    function() {
+      return (
+        this.get("model.isSingletonItem") &&
+        this.get("model.availableQtyForMove") > 0
+      );
+    }
+  ),
+
   tabName: Ember.computed("currentRoute", function() {
     return this.get("currentRoute")
       .split(".")
