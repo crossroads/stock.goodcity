@@ -307,6 +307,8 @@ export default cloudinaryUrl.extend({
     return this.get("receivedQuantity") === 1;
   }),
 
+  isMultiQtyItem: Ember.computed.not("isSingletonItem"),
+
   hasSingleLocation: Ember.computed(
     "packagesLocations.[]",
     "packagesLocationsList",

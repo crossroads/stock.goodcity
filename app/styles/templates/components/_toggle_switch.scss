@@ -1,5 +1,10 @@
 .toggle-switch {
 
+  &.disabled {
+    opacity: 0.4;
+    pointer-events: none;
+  }
+
   @mixin animated {
     -webkit-transition: transform .4s;
     transition: transform .4s;
