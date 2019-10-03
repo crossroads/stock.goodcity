@@ -6,7 +6,6 @@ export default Ember.Component.extend({
   selected: [],
   selectedTags: [],
   optionObject: {},
-  numTags: Ember.computed.alias("talkTags.length"),
   selectedOptionData: " ",
 
   resourceType: Ember.computed("packageDetails", function() {
@@ -16,19 +15,24 @@ export default Ember.Component.extend({
 
   actions: {
     addNew(fieldName, text) {
-      console.log(this.get("packageDetails"), "hit");
+      this.set(fieldName, text);
       let data = this.get("packageDetails");
-      console.log(fieldName, "hit");
+      let newTag = {
+        id: data[fieldName].length + 1,
+        tag: text
+      };
+      console.log(newTag, "hit");
+
+      console.log(this.get("packageDetails"), "hit");
+
       data[fieldName].push({
         id: data[fieldName].length + 1,
         tag: text
       });
+      this.set("selected", newTag);
       console.log(data, "new");
       this.set("packageDetails", data);
-      this.send("setSelected", fieldName, {
-        id: data[fieldName].length + 1,
-        tag: text
-      });
+      this.send("setSelected", fieldName, newTag);
     },
     setSelected(fieldName, value) {
       let optionObj = this.get("optionObject");
