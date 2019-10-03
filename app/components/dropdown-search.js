@@ -4,16 +4,6 @@ import Ember from "ember";
 export default Ember.Component.extend({
   // classNames: "Example",
   selected: [],
-  talkTags: [
-    {
-      id: 0,
-      tag: "ele"
-    },
-    {
-      id: 1,
-      tag: "ele123"
-    }
-  ],
   selectedTags: [],
   optionObject: {},
   numTags: Ember.computed.alias("talkTags.length"),
@@ -26,21 +16,19 @@ export default Ember.Component.extend({
 
   actions: {
     addNew(fieldName, text) {
-      this.set(fieldName, text);
-      let newTag = {
-        id: this.get("numTags"),
-        tag: text
-      };
-      this.set("selected", newTag);
       console.log(this.get("packageDetails"), "hit");
       let data = this.get("packageDetails");
+      console.log(fieldName, "hit");
       data[fieldName].push({
         id: data[fieldName].length + 1,
         tag: text
       });
       console.log(data, "new");
       this.set("packageDetails", data);
-      this.send("setSelected", fieldName, newTag);
+      this.send("setSelected", fieldName, {
+        id: data[fieldName].length + 1,
+        tag: text
+      });
     },
     setSelected(fieldName, value) {
       let optionObj = this.get("optionObject");
