@@ -55,7 +55,6 @@ export default cloudinaryUrl.extend({
     }
   ),
 
-  available_qty: Ember.computed.alias("quantity"),
   availableQty: Ember.computed.alias("quantity"),
 
   thumbImageUrl: Ember.computed(
