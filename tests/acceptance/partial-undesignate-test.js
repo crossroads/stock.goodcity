@@ -363,7 +363,7 @@ test("Dispatching designated OrdersPackage", function(assert) {
 
   //Redirects back to item's detail page
   andThen(function() {
-    assert.equal(currentPath(), "items.detail");
+    assert.equal(currentPath(), "items.detail.info");
   });
 });
 
@@ -466,6 +466,6 @@ test("Undispatching dispatched OrdersPackage", function(assert) {
 
   //Redirected back to Item's detail
   andThen(function() {
-    assert.equal(currentPath(), "items.detail");
+    assert.equal(currentPath(), "items.detail.info");
   });
 });

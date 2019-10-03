@@ -537,7 +537,8 @@ export default {
         first_name: "First name can't be blank",
         family_name: "Family name can't be blank",
         position: "Position can't be blank.",
-        mobile: "Mobile Number should be 8 digits."
+        mobile: "Mobile Number should be 8 digits.",
+        preferred_contact_number: "Preferred Contact Number should be 8 digits."
       }
     }
   },
@@ -607,15 +608,23 @@ export default {
 
   item_details: {
     quantity: "Quantity",
+    initial_quantity: "Initial qty",
     type: "Type",
     description: "Description",
     size: "Size (cm)",
     quality: "Quality:",
     grade: "Grade :",
+    weight: "Weight (kg)",
+    pieces: "Pieces",
     condition: "Condition :",
     validation_errors: {
       description: "Description cannot be blank."
-    }
+    },
+    viewing_set: "Viewing part of this set",
+    show_set: "Show Set",
+    hide_set: "Hide Set",
+    not_inventorized_or_missing:
+      "This item is not inventoried yet or has been marked as missing."
   },
 
   inventory_options: {
@@ -656,12 +665,19 @@ export default {
       size: "Size (cm)",
       quality: "Quality*",
       grade: "Grade:",
+      weight: "Weight (kg)",
+      publish: "Publish",
+      labels: "Labels",
+      pieces: "Pieces",
       condition: "Condition:",
       donation: "Donation#",
       location: "Location*",
       inventory: "Inventory#",
-      publish: "Immediately publish this item for online browsing",
+      print: "& Print {{labels}}",
       validation_errors: {
+        blank_label: "Can't be blank",
+        max_label: "Max 300",
+        invalid_dimensions: "Provide all 3 dimensions(or none)",
         description: "Description cannot be blank.",
         donation: "Must be a number or in the form 'CAS-12345'",
         invalid_location: "Scanned Location is invalid.",

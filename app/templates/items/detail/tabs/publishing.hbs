@@ -1,0 +1,36 @@
+<div class="publishing-tab">
+  <div class="row">
+    <div class="tab-title">
+      {{#if model.allowWebPublish}}
+        {{fa-icon 'eye'}}
+      {{else}}
+        {{fa-icon 'eye-slash'}}
+      {{/if}}
+      {{t 'partial_undesignate.available' }} ({{ model.availableQty }})
+    </div>
+    {{toggle-switch
+        disabled=(unless allowPublish true)
+        on-icon='eye'
+        off-icon='eye-slash'
+        on-text=(t 'item_filters.published')
+        off-text=(t 'item_filters.private')
+        value=model.allowWebPublish
+        after-change=(action 'persistModel')
+    }}
+  </div>
+
+  <div class="row count-row">
+    <div class="columns small-4 bold">
+      {{fa-icon 'bullseye'}}
+      {{model.receivedQuantity}} {{t 'item_details.initial_quantity'}}
+    </div>
+    <div class="columns small-4">
+      {{fa-icon 'paper-plane'}}
+      {{model.totalDispatchedQty}} {{t 'item_filters.dispatched' }}
+    </div>
+    <div class="columns small-4">
+      {{fa-icon 'eye'}}
+      {{model.totalDesignatedQty}} {{t 'item_filters.designated' }}
+    </div>
+  </div>
+</div>
