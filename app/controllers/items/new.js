@@ -241,7 +241,7 @@ export default GoodcityController.extend({
     },
     {
       label: "System or Region",
-      name: "systemOfRegion",
+      name: "systemOrRegion",
       type: "text",
       value: "systemOrRegion",
       autoComplete: true,
