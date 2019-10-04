@@ -241,6 +241,6 @@ test('designations: returns designated ordersPackages', function(assert){
       designation: designation });
     model.get('designatedSetItemOrderPackages').pushObject([ordersPackage]);
   });
-  
+
   assert.equal(model.get('designations.length'), 1);
 });

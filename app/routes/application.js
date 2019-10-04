@@ -17,10 +17,8 @@ export default Ember.Route.extend(preloadDataMixin, {
   _loadDataStore: function() {
     return this.preloadData()
       .catch(error => {
-        if (
-          error.status === 0 ||
-          (error.errors && error.errors[0].status === "0")
-        ) {
+        let isZeroStatus = error.status === 0 || (error.errors && error.errors[0].status === "0");
+        if (isZeroStatus) {
           this.transitionTo("offline");
         } else {
           this.handleError(error);
@@ -37,26 +35,19 @@ export default Ember.Route.extend(preloadDataMixin, {
   init() {
     var _this = this;
     var storageHandler = function(object) {
-      var currentPath = window.location.href;
-      var authToken = window.localStorage.getItem("authToken");
-      if (
-        !authToken &&
-        !(
-          currentPath.indexOf("login") >= 0 ||
-          currentPath.indexOf("authenticate") >= 0
-        )
-      ) {
+      let currentPath = window.location.href;
+      let authToken = window.localStorage.getItem("authToken");
+      let isLoginPath = currentPath.indexOf("login") >= 0 || currentPath.indexOf("authenticate") >= 0;
+
+      if (!authToken && !isLoginPath) {
         object.session.clear();
         object.store.unloadSessionData();
         object.transitionTo("login");
-      } else if (
-        authToken &&
-        (currentPath.indexOf("login") >= 0 ||
-          currentPath.indexOf("authenticate") >= 0)
-      ) {
+      } else if (authToken && isLoginPath) {
         object.transitionTo("/");
       }
     };
+
     window.addEventListener(
       "storage",
       function() {
@@ -79,6 +70,7 @@ export default Ember.Route.extend(preloadDataMixin, {
 
   showErrorPopup(reason) {
     this.get("logger").error(reason);
+
     if (!this.get("isErrPopUpAlreadyShown")) {
       this.set("isErrPopUpAlreadyShown", true);
       this.get("messageBox").alert(this.getErrorMessage(reason), () => {
@@ -89,6 +81,7 @@ export default Ember.Route.extend(preloadDataMixin, {
 
   showItemIsNotAvailable() {
     this.set("isItemUnavailable", true);
+
     if (this.get("target") && this.get("target").currentPath !== "index") {
       this.get("messageBox").alert("This item is not available.", () => {
         this.set("isItemUnavailable", false);
@@ -111,9 +104,10 @@ export default Ember.Route.extend(preloadDataMixin, {
     } catch (e) {
       this.get("messageBox").alert(this.get("i18n").t("QuotaExceededError"));
     }
-    localStorage.removeItem("test");
 
+    localStorage.removeItem("test");
     var language;
+
     if (transition.queryParams.ln) {
       language = transition.queryParams.ln === "zh-tw" ? "zh-tw" : "en";
     }
@@ -145,7 +139,7 @@ export default Ember.Route.extend(preloadDataMixin, {
   handleError: function(reason) {
     try {
       var status;
-      // let hasPopup = Ember.$('.reveal-modal:visible').length > 0;
+
       try {
         status = parseInt(reason.errors[0].status, 10);
       } catch (err) {

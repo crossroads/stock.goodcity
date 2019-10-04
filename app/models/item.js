@@ -55,9 +55,7 @@ export default cloudinaryUrl.extend({
     }
   ),
 
-  available_qty: Ember.computed("quantity", function() {
-    return this.get("quantity");
-  }),
+  availableQty: Ember.computed.alias("quantity"),
 
   thumbImageUrl: Ember.computed(
     "favouriteImage.{angle,cloudinaryId}",
@@ -170,13 +168,7 @@ export default cloudinaryUrl.extend({
   desinatedAndDisaptchedItemPackages: Ember.computed(
     "ordersPackages.[]",
     function() {
-      var orderPackages = this.get("ordersPackages").filterBy("quantity");
-      orderPackages.forEach(record => {
-        if (record && record.get("state") === "cancelled") {
-          orderPackages.removeObject(record);
-        }
-      });
-      return orderPackages.get("length");
+      return this.get("ordersPackagesWithStateDesignatedAndDispatched.length");
     }
   ),
 
@@ -243,32 +235,22 @@ export default cloudinaryUrl.extend({
   hasAllPackagesDispatched: Ember.computed(
     "ordersPackages.@each.state",
     function() {
-      var received_quantity = this.get("receivedQuantity");
-      var totalDispatchedQty = 0;
-      var dispatchedOrdersPackages = this.get("ordersPackages").filterBy(
-        "state",
-        "dispatched"
-      );
-      dispatchedOrdersPackages.forEach(record => {
-        totalDispatchedQty += parseInt(record.get("quantity"), 10);
-      });
-      return totalDispatchedQty === received_quantity ? true : false;
+      return this.packagesByState("dispatched");
     }
   ),
+
+  packagesByState(state) {
+    var received_quantity = this.get("receivedQuantity");
+    var ordersPackages = this.get("ordersPackages").filterBy("state", state);
+    var totalQty = ordersPackages.reduce((qty, record) => qty + parseInt(record.get("quantity"), 10), 0);
+
+    return totalQty === received_quantity;
+  },
 
   hasAllPackagesDesignated: Ember.computed(
     "ordersPackages.@each.state",
     function() {
-      var received_quantity = this.get("receivedQuantity");
-      var totalDesignatedQty = 0;
-      var designatedOrdersPackages = this.get("ordersPackages").filterBy(
-        "state",
-        "designated"
-      );
-      designatedOrdersPackages.forEach(record => {
-        totalDesignatedQty += parseInt(record.get("quantity"), 10);
-      });
-      return totalDesignatedQty === received_quantity ? true : false;
+      return this.packagesByState("designated");
     }
   ),
 
@@ -284,10 +266,6 @@ export default cloudinaryUrl.extend({
       return orderPackages;
     }
   ),
-
-  availableQty: Ember.computed("quantity", function() {
-    return this.get("quantity");
-  }),
 
   minSetQty: Ember.computed("setItem.items", function() {
     if (this.get("isSet") && this.get("designateFullSet")) {

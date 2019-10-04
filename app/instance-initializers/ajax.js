@@ -6,8 +6,6 @@ export default {
     const { container = app } = app;
     const adapter = container.lookup("adapter:application");
 
-    AjaxPromise.setDefaultHeaders(() => {
-      return adapter.get("headers");
-    });
+    AjaxPromise.setDefaultHeaders(() => adapter.get("headers"));
   }
 };
