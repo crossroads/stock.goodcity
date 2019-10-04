@@ -35,6 +35,7 @@ export default GoodcityController.extend({
   invalidScanResult: false,
   newUploadedImage: null,
   isAllowedToPublish: false,
+  snakeCasefieldObj: {},
 
   imageKeys: Ember.computed.localStorage(),
 
@@ -475,6 +476,24 @@ export default GoodcityController.extend({
     }
   }),
 
+  camerToSnakeCaseConversion: function(string) {
+    return string
+      .replace(/[\w]([A-Z])/g, function(m) {
+        return m[0] + "_" + m[1];
+      })
+      .toLowerCase();
+  },
+
+  camerToSnakeCase: function(obj) {
+    console.log(obj, "in funciton");
+    let newObj = this.get("snakeCasefieldObj");
+    let objValue = obj[`${this.get("code.subform")}_attributes`];
+    for (var camel in objValue) {
+      newObj[this.camerToSnakeCaseConversion(camel)] = objValue[camel];
+    }
+    this.set("snakeCasefieldObj", newObj);
+  },
+
   initActionSheet: function(onSuccess) {
     return window.plugins.actionsheet.show(
       {
@@ -820,6 +839,7 @@ export default GoodcityController.extend({
     saveItem() {
       let polymorphicField = {};
       let subFormDataObj = {};
+      let finalObject = {};
       subFormDataObj[`${this.get("code.subform")}_attributes`] = {
         ...this.get("formElement"),
         ...this.get("fieldValues")
@@ -827,10 +847,14 @@ export default GoodcityController.extend({
       polymorphicField["detail_type"] = this.get("code.subform");
       this.set("subFormDataObj", subFormDataObj);
       this.set("polymorphicField", polymorphicField);
+      this.camerToSnakeCase(this.get("subFormDataObj"));
+      finalObject[`${this.get("code.subform")}_attributes`] = {
+        ...this.get("snakeCasefieldObj")
+      };
       let packageParamsObj = {
         ...this.packageParams(),
         ...this.get("polymorphicField"),
-        ...this.get("subFormDataObj")
+        ...finalObject
       };
       console.log(packageParamsObj, "hit");
       debugger;
