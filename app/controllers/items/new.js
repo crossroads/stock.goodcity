@@ -10,6 +10,7 @@ export default GoodcityController.extend({
   codeId: "",
   locationId: "",
   inventoryNumber: "",
+  searchText: "",
   scanLocationName: "",
   displayInventoryOptions: false,
   autoGenerateInventory: true,
@@ -20,6 +21,16 @@ export default GoodcityController.extend({
   weight: "",
   isSelectLocationPreviousRoute: Ember.computed.localStorage(),
   quantity: 1,
+  countryObj: [
+    {
+      id: 0,
+      tag: "india"
+    },
+    {
+      id: 2,
+      tag: "USA"
+    }
+  ],
   labels: 1,
   length: null,
   width: null,
@@ -121,7 +132,7 @@ export default GoodcityController.extend({
     },
     {
       label: "video",
-      name: "Video",
+      name: "video",
       type: "text",
       value: "video",
       autoComplete: true,
@@ -161,7 +172,7 @@ export default GoodcityController.extend({
     },
     {
       label: "Comp Voltage",
-      name: "comp_voltage",
+      name: "compVoltage",
       type: "text",
       value: "compVoltage",
       autoComplete: true,
@@ -704,6 +715,33 @@ export default GoodcityController.extend({
           Ember.$("input[type='file']").trigger("click");
         }
       }
+    },
+
+    onSearch(searchText) {
+      let searchTextLength = Ember.$.trim(searchText).length;
+      if (searchTextLength) {
+        this.set("searchText", searchText);
+        Ember.run.debounce(this, this.applyFilter, 500);
+      }
+    },
+
+    applyFilter: function() {
+      let searchText = this.get("searchText");
+      this.runTask(
+        this.get("store")
+          .query("country", {
+            filter: {
+              nameEn: searchText
+            }
+          })
+          .then(country => {
+            // Check the input has changed since the promise started
+            // if (searchText === this.get("searchText")) {
+            //   this.set("results", users);
+            // }
+            console.log("country", country);
+          })
+      );
     },
 
     setFields(value) {

@@ -95,6 +95,8 @@ export default AuthorizeRoute.extend({
           ) {
             controller.set("showAdditionalFields", true);
             let details = await this.store.findAll(selected.get("subform"));
+            let country = await this.store.findAll("country");
+            console.log(country, "hit");
             controller.set("packageDetails", details);
           }
         }
