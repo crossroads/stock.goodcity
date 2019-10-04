@@ -21,10 +21,6 @@ export default Ember.Component.extend({
         id: data[fieldName].length + 1,
         tag: text
       };
-      console.log(newTag, "hit");
-
-      console.log(this.get("packageDetails"), "hit");
-
       data[fieldName].push({
         id: data[fieldName].length + 1,
         tag: text

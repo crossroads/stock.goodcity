@@ -248,6 +248,14 @@ export default GoodcityController.extend({
       category: ["electrical"]
     },
     {
+      label: "Standard",
+      name: "standard",
+      type: "text",
+      value: "Standard",
+      autoComplete: false,
+      category: ["electrical"]
+    },
+    {
       label: "Test Status",
       name: "testStatus",
       type: "text",

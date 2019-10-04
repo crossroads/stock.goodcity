@@ -12,7 +12,7 @@ export default Model.extend({
   voltage: attr("number"),
   frequency: attr("number"),
   power: attr("string"),
-  systemOfRegion: attr("string"),
+  systemOrRegion: attr("string"),
   testStatus: attr("string"),
   testedOn: attr("date"),
   createdAt: attr("date"),
