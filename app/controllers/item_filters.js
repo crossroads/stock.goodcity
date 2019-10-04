@@ -54,15 +54,11 @@ export default searchModule.extend({
         "itemLocationFilters",
         location.get("name")
       );
-      this.transitionToRoute("items.index", {
-        queryParams: { locationFilterChanged: true }
-      });
+      this.transitionToRoute("items.index");
     },
     clearLocationAndRedirect() {
       this.get("filterService").set("itemLocationFilters", "");
-      this.transitionToRoute("items.index", {
-        queryParams: { locationFilterChanged: true }
-      });
+      this.transitionToRoute("items.index");
     }
   }
 });
