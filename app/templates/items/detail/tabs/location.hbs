@@ -1,6 +1,6 @@
 <div class="location-tab">
   {{!-- Temporary button until we implement partial move per location --}}
-  <div class="light-button centered {{if (is-equal model.availableQtyForMove 0) 'disabled'}}" {{action 'moveFullPackageQty'}}>
+  <div class="light-button centered {{unless allowMove 'disabled'}}" {{action 'moveFullPackageQty'}}>
     {{t 'item.move' }} 1 {{ model.code.name }}
   </div>
 

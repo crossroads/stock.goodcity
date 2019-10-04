@@ -33,6 +33,7 @@
 
   .row {
     margin-top: 0.5rem !important;
+    position: relative;
 
     @media #{$small-only} {
       margin-right: 0rem !important;
@@ -152,11 +153,9 @@
     background-color: #334f75;
     text-align: center;
     position: absolute;
-
+    right: 0;
+    width: 12%;
     height: 4.1rem;
-
-    right: 20%;
-    width: 8%;
     font-size: 0.8rem;
     z-index: 100;
 

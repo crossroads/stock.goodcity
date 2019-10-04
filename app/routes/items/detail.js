@@ -46,6 +46,7 @@ export default AuthorizeRoute.extend({
     var previousRoutes = this.router.router.currentHandlerInfos;
     var previousRoute = previousRoutes && previousRoutes.pop();
     var path = "items.index";
+
     if (previousRoute) {
       var routeName = previousRoute.name;
       if (routeName.indexOf("items") === 0) {

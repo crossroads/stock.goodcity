@@ -1,8 +1,7 @@
 import Ember from "ember";
-import AuthorizeRoute from './../authorize';
+import AuthorizeRoute from "./../authorize";
 
 export default AuthorizeRoute.extend({
-
   queryParams: {
     isSet: false
   },
@@ -17,13 +16,15 @@ export default AuthorizeRoute.extend({
     var previousRoute = previousRoutes && previousRoutes.pop();
     var path = "items.index";
 
-    if(previousRoute) {
-      if(previousRoute.name === "orders.active_items") {
+    if (previousRoute) {
+      if (previousRoute.name === "orders.active_items") {
         this.set("orderId", previousRoute.params.order_id);
       }
-      this.set('itemPreviousRoute', previousRoute.name);
+
+      this.set("itemPreviousRoute", previousRoute.name);
       var routeName = previousRoute.name;
-      if(routeName.indexOf("active_items")){
+
+      if (routeName.indexOf("active_items")) {
         path = routeName;
       }
     }
@@ -33,22 +34,29 @@ export default AuthorizeRoute.extend({
 
   model(params) {
     var item = this.store.peekRecord("item", params.item_id);
-    var recentlyUsedLocations = this.store.peekAll('location').filterBy('recentlyUsedAt');
+    var recentlyUsedLocations = this.store
+      .peekAll("location")
+      .filterBy("recentlyUsedAt");
 
     return Ember.RSVP.hash({
-      item: item || this.store.findRecord('item', params.item_id),
-      locations: recentlyUsedLocations.get('length') !== 0 ? recentlyUsedLocations : this.store.query('location', { recently_used: true })
+      item: item || this.store.findRecord("item", params.item_id),
+      locations:
+        recentlyUsedLocations.get("length") !== 0
+          ? recentlyUsedLocations
+          : this.store.query("location", { recently_used: true })
     });
   },
 
-  setupController(controller, model){
+  setupController(controller, model) {
     this._super(controller, model);
-    model.item.get('packagesLocations').filterBy('isEditing', true).setEach('isEditing', false);
-    controller.set('searchText', "");
+    model.item
+      .get("packagesLocations")
+      .filterBy("isEditing", true)
+      .setEach("isEditing", false);
+    controller.set("searchText", "");
     controller.set("orderIdForOrderDetail", this.get("orderId"));
-    controller.set('moveItemPath', this.get('itemPreviousRoute'));
-    controller.set('backLinkPath', this.get('itemMoveBackLinkPath'));
-    controller.set('selectedLocation', null);
+    controller.set("moveItemPath", this.get("itemPreviousRoute"));
+    controller.set("backLinkPath", this.get("itemMoveBackLinkPath"));
+    controller.set("selectedLocation", null);
   }
 });
-

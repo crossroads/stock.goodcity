@@ -9,6 +9,7 @@ export default AuthorizeRoute.extend({
     searchInput: "",
     locationFilterChanged: false
   },
+
   designateFullSet: Ember.computed.localStorage(),
   partial_qnty: Ember.computed.localStorage(),
 
@@ -56,9 +57,11 @@ export default AuthorizeRoute.extend({
 
     const { hasModifiedFilters } = model;
     controller.applyFilter();
+
     if (hasModifiedFilters) {
       controller.onFilterChange();
     }
+
     controller.set("itemSetId", this.paramsFor("items.index").itemSetId);
     controller.on();
   },

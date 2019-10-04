@@ -31,13 +31,7 @@ export default Model.extend({
 
   _getPackages: function(model, packageNames) {
     var array = (packageNames || "").split(",");
-    var packages = [];
     var allPackageTypes = model.store.peekAll("code");
-    array.forEach(function(type) {
-      allPackageTypes.filter(function(pkg) {
-        return pkg.get("code") === type ? packages.push(pkg) : "";
-      });
-    });
-    return packages;
+    return allPackageTypes.filter(pkg => array.indexOf(pkg.get("code")) > -1);
   }
 });

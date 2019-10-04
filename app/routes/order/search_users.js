@@ -22,6 +22,7 @@ export default AuthorizeRoute.extend({
     this._super(controller, model);
     this.get("store").pushPayload(model.recentUsers);
     let users = [];
+
     model.recentUsers.users.forEach(user => {
       let userObject = this.store.peekRecord("user", user.id);
       user.organisations_users_ids.forEach(org_user_id => {

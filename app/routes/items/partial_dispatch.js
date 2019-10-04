@@ -1,37 +1,47 @@
-import AuthorizeRoute from './../authorize';
-import Ember from 'ember';
+import AuthorizeRoute from "./../authorize";
+import Ember from "ember";
 
 export default AuthorizeRoute.extend({
-
   partialDispatchBackLinkpath: Ember.computed.localStorage(),
 
-  queryParams:{
+  queryParams: {
     orderPackageId: null
   },
 
-  beforeModel(){
+  beforeModel() {
     this._super(...arguments);
     var previousRoutes = this.router.router.currentHandlerInfos;
     var previousRoute = previousRoutes && previousRoutes.pop();
 
-    if(previousRoute) {
+    if (previousRoute) {
       var routeName = previousRoute.name;
-      if(routeName === "items"){
-        this.set("partialDispatchBackLinkpath", "items.index");
-      } else if(routeName === "items.partial_undesignate" || routeName === 'orders.detail') {
-        this.set("partialDispatchBackLinkpath", routeName);
-      } else {
-        this.set("partialDispatchBackLinkpath", "items.detail");
+      var backLinkPath = "items.detail";
+
+      if (routeName === "items") {
+        backLinkPath = "items.index";
+      } else if (
+        routeName === "items.partial_undesignate" ||
+        routeName === "orders.detail"
+      ) {
+        backLinkPath = routeName;
       }
+
+      this.set("partialDispatchBackLinkpath", backLinkPath);
     }
   },
 
-  model(params){
-    return this.store.peekRecord("item", params.item_id) || this.store.findRecord('item', params.item_id);
+  model(params) {
+    return (
+      this.store.peekRecord("item", params.item_id) ||
+      this.store.findRecord("item", params.item_id)
+    );
   },
 
-  setupController(controller, model){
+  setupController(controller, model) {
     this._super(controller, model);
-    controller.set('partialDispatchBackLinkpath', this.get('partialDispatchBackLinkpath'));
+    controller.set(
+      "partialDispatchBackLinkpath",
+      this.get("partialDispatchBackLinkpath")
+    );
   }
 });

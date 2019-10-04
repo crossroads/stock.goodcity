@@ -840,6 +840,7 @@ export default GoodcityController.extend({
       let polymorphicField = {};
       let subFormDataObj = {};
       let finalObject = {};
+
       subFormDataObj[`${this.get("code.subform")}_attributes`] = {
         ...this.get("formElement"),
         ...this.get("fieldValues")
@@ -851,6 +852,7 @@ export default GoodcityController.extend({
       finalObject[`${this.get("code.subform")}_attributes`] = {
         ...this.get("snakeCasefieldObj")
       };
+
       let packageParamsObj = {
         ...this.packageParams(),
         ...this.get("polymorphicField"),

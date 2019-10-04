@@ -27,23 +27,14 @@ export default AuthorizeRoute.extend({
 
     var path = "items.index";
 
-    if (previousRoute) {
-      var routeName = previousRoute.name;
-      if (routeName.indexOf("detail")) {
-        path = routeName;
-      }
-      if (routeName === "items.partial_designate") {
-        path = "items.index";
-        this.set("partialDesignatePath", true);
-      } else {
-        this.set("partialDesignatePath", false);
-      }
+    if (previousRoute && routeName.indexOf("detail")) {
+      path = previousRoute.name;
     }
-    if (parseInt(window.localStorage.getItem("partial_qnty"), 10)) {
-      this.set("partialDesignatePath", true);
-    } else {
-      this.set("partialDesignatePath", false);
-    }
+
+    this.set(
+      "partialDesignatePath",
+      Boolean(parseInt(window.localStorage.getItem("partial_qnty"), 10))
+    );
     this.set("itemDesignateBackLinkPath", path);
   },
 
@@ -52,6 +43,7 @@ export default AuthorizeRoute.extend({
     var recentlyUsedDesignations = this.store
       .peekAll("designation")
       .filterBy("recentlyUsedAt");
+
     recentlyUsedDesignations.forEach(record => {
       if (record.constructor.toString() === "stock@model:designation:") {
         this.store.query("orders_package", {
@@ -62,26 +54,23 @@ export default AuthorizeRoute.extend({
 
     return Ember.RSVP.hash({
       item: item || this.store.findRecord("item", params.item_id),
-      designations:
-        recentlyUsedDesignations.get("length") !== 0
-          ? recentlyUsedDesignations
-          : this.get("store").query("designation", {
-              shallow: true,
-              recently_used: true
-            })
+      designations: recentlyUsedDesignations.get("length")
+        ? recentlyUsedDesignations
+        : this.get("store").query("designation", {
+            shallow: true,
+            recently_used: true
+          })
     });
   },
 
   setupController(controller, model) {
     this._super(controller, model);
-    if (
+
+    let isNotPartialRoute =
       !this.get("partialDesignatePath") &&
-      !parseInt(window.localStorage.getItem("partial_qnty"), 10)
-    ) {
-      controller.set("notPartialRoute", true);
-    } else {
-      controller.set("notPartialRoute", false);
-    }
+      !parseInt(window.localStorage.getItem("partial_qnty"), 10);
+
+    controller.set("notPartialRoute", isNotPartialRoute);
     controller.set("searchText", "");
     controller.set("backLinkPath", this.get("itemDesignateBackLinkPath"));
   },
