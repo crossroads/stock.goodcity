@@ -301,7 +301,8 @@ export default GoodcityController.extend({
         let subFormData = {};
         let columns = Object.keys(package_details.get("firstObject").toJSON());
         columns.map(column => {
-          let columnData = package_details.getEach(column);
+          let columnData = package_details.getEach(column).filter(Boolean);
+          console.log(columnData, "hit");
           subFormData[column] = columnData.map((_column, index) => {
             return {
               id: index + 1,
@@ -309,6 +310,8 @@ export default GoodcityController.extend({
             };
           });
         });
+
+        console.log(subFormData, "final");
 
         return subFormData;
       }
