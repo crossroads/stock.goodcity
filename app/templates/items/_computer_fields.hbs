@@ -15,8 +15,9 @@
         {{searchable-select
           content=countryArray
           sortBy="name"
-          optionLabelKey="tag"
+          optionLabelKey="nameEn"
           selected=selected
+          on-change=(action "selectedCountry")
           addLabel="Add New Item"
           prompt="Select an option"
           on-search=(action "onSearch")}}

@@ -24,6 +24,7 @@ export default GoodcityController.extend({
   quantity: 1,
   countryObj: {},
   countryArray: [],
+  selectedCountry: {},
   labels: 1,
   length: null,
   width: null,
@@ -682,17 +683,7 @@ export default GoodcityController.extend({
       .then(countries => {
         //Check the input has changed since the promise started
         if (searchText === this.get("searchText")) {
-          let countryObj = this.get("countryObj");
-          let countryArray = countries.getEach("nameEn");
-          let results = countryArray.map((column, index) => {
-            return {
-              id: index + 1,
-              tag: column
-            };
-          });
-          countryObj["country"] = [...results];
-          this.set("countryObj", countryObj);
-          this.set("countryArray", Ember.A(countryObj["country"]));
+          this.set("countryArray", Ember.A(countries));
         }
       });
   },
@@ -738,6 +729,13 @@ export default GoodcityController.extend({
         this.set("searchText", searchText);
         Ember.run.debounce(this, this.applyFilter, 500);
       }
+    },
+
+    selectedCountry(value) {
+      let country = {
+        country: value.id
+      };
+      this.set("selectedCountry", country);
     },
 
     setFields(value) {
@@ -884,9 +882,10 @@ export default GoodcityController.extend({
       let finalObject = {};
       subFormDataObj["detail_attributes"] = {
         ...this.get("formElement"),
-        ...this.get("fieldValues")
+        ...this.get("fieldValues"),
+        ...this.get("selectedCountry")
       };
-      debugger;
+
       polymorphicField["detail_type"] = this.get("code.subform");
       this.set("subFormDataObj", subFormDataObj);
       this.set("polymorphicField", polymorphicField);
@@ -894,6 +893,8 @@ export default GoodcityController.extend({
       finalObject["detail_attributes"] = {
         ...this.get("snakeCasefieldObj")
       };
+      console.log(finalObject, "hit");
+      debugger;
 
       let packageParamsObj = {
         ...this.packageParams(),
