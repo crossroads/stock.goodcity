@@ -87,16 +87,15 @@ export default AuthorizeRoute.extend({
       let codeId = controller.get("codeId");
       if (codeId) {
         let selected = this.get("store").peekRecord("code", codeId);
-        if (selected) {
-          if (
-            ["computer", "electrical", "computer_accessory"].indexOf(
-              selected.get("subform")
-            ) >= 0
-          ) {
-            controller.set("showAdditionalFields", true);
-            let details = await this.store.findAll(selected.get("subform"));
-            controller.set("packageDetails", details);
-          }
+        if (
+          selected &&
+          ["computer", "electrical", "computer_accessory"].indexOf(
+            selected.get("subform")
+          ) >= 0
+        ) {
+          controller.set("showAdditionalFields", true);
+          let details = await this.store.findAll(selected.get("subform"));
+          controller.set("packageDetails", details);
         }
       }
       if (

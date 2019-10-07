@@ -292,7 +292,6 @@ export default GoodcityController.extend({
   fetchPackageDetails: Ember.computed("packageDetails", function() {
     if (this.get("showAdditionalFields")) {
       let package_details = this.get("packageDetails");
-      debugger;
       if (package_details) {
         let subFormData = {};
         let columns = Object.keys(package_details.get("firstObject").toJSON());
@@ -484,7 +483,7 @@ export default GoodcityController.extend({
     }
   }),
 
-  camerToSnakeCaseConversion: function(string) {
+  camelToSnakeCaseConversion: function(string) {
     return string
       .replace(/[\w]([A-Z])/g, function(m) {
         return m[0] + "_" + m[1];
@@ -495,9 +494,9 @@ export default GoodcityController.extend({
   camerToSnakeCase: function(obj) {
     console.log(obj, "in funciton");
     let newObj = this.get("snakeCasefieldObj");
-    let objValue = obj[`${this.get("code.subform")}_attributes`];
+    let objValue = obj["detail_attributes"];
     for (var camel in objValue) {
-      newObj[this.camerToSnakeCaseConversion(camel)] = objValue[camel];
+      newObj[this.camelToSnakeCaseConversion(camel)] = objValue[camel];
     }
     this.set("snakeCasefieldObj", newObj);
   },
@@ -848,8 +847,7 @@ export default GoodcityController.extend({
       let polymorphicField = {};
       let subFormDataObj = {};
       let finalObject = {};
-
-      subFormDataObj[`${this.get("code.subform")}_attributes`] = {
+      subFormDataObj["detail_attributes"] = {
         ...this.get("formElement"),
         ...this.get("fieldValues")
       };
@@ -857,7 +855,7 @@ export default GoodcityController.extend({
       this.set("subFormDataObj", subFormDataObj);
       this.set("polymorphicField", polymorphicField);
       this.camerToSnakeCase(this.get("subFormDataObj"));
-      finalObject[`${this.get("code.subform")}_attributes`] = {
+      finalObject["detail_attributes"] = {
         ...this.get("snakeCasefieldObj")
       };
 
@@ -866,8 +864,7 @@ export default GoodcityController.extend({
         ...this.get("polymorphicField"),
         ...finalObject
       };
-      console.log(packageParamsObj, "hit");
-      debugger;
+      console.log(packageParamsObj);
       if (!window.navigator.onLine) {
         this.get("messageBox").alert(this.get("i18n").t("offline_error"));
         return false;
