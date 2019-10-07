@@ -1,5 +1,6 @@
 <hr>
 <div class="row">
+
   {{#each displayFields as |fields|}}
   <div class="small-6 columns input-field-container">
     <div class="row">
@@ -12,7 +13,7 @@
         {{dropdown-search content=fields.name packageDetails=fetchPackageDetails onConfirm=(action 'setFields')}}
         {{else if (is-equal fields.name 'country')}}
         {{searchable-select
-          content=countryObj
+          content=countryArray
           sortBy="name"
           optionLabelKey="tag"
           selected=selected

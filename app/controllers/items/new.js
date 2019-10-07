@@ -3,13 +3,14 @@ import AjaxPromise from "stock/utils/ajax-promise";
 import GoodcityController from "../goodcity_controller";
 import config from "../../config/environment";
 import _ from "lodash";
-const { getOwner } = Ember;
+const { getOwner, A } = Ember;
 
 export default GoodcityController.extend({
   queryParams: ["codeId", "locationId", "scanLocationName", "caseNumber"],
   codeId: "",
   locationId: "",
   inventoryNumber: "",
+  results: "",
   searchText: "",
   scanLocationName: "",
   displayInventoryOptions: false,
@@ -21,16 +22,8 @@ export default GoodcityController.extend({
   weight: "",
   isSelectLocationPreviousRoute: Ember.computed.localStorage(),
   quantity: 1,
-  countryObj: [
-    {
-      id: 0,
-      tag: "india"
-    },
-    {
-      id: 2,
-      tag: "USA"
-    }
-  ],
+  countryObj: {},
+  countryArray: [],
   labels: 1,
   length: null,
   width: null,
@@ -503,7 +496,6 @@ export default GoodcityController.extend({
   },
 
   camerToSnakeCase: function(obj) {
-    console.log(obj, "in funciton");
     let newObj = this.get("snakeCasefieldObj");
     let objValue = obj["detail_attributes"];
     for (var camel in objValue) {
@@ -681,6 +673,30 @@ export default GoodcityController.extend({
     }
   },
 
+  applyFilter: function() {
+    let searchText = this.get("searchText");
+    this.get("store")
+      .query("country", {
+        searchText
+      })
+      .then(countries => {
+        //Check the input has changed since the promise started
+        if (searchText === this.get("searchText")) {
+          let countryObj = this.get("countryObj");
+          let countryArray = countries.getEach("nameEn");
+          let results = countryArray.map((column, index) => {
+            return {
+              id: index + 1,
+              tag: column
+            };
+          });
+          countryObj["country"] = [...results];
+          this.set("countryObj", countryObj);
+          this.set("countryArray", Ember.A(countryObj["country"]));
+        }
+      });
+  },
+
   actions: {
     //file upload
     triggerUpload() {
@@ -722,25 +738,6 @@ export default GoodcityController.extend({
         this.set("searchText", searchText);
         Ember.run.debounce(this, this.applyFilter, 500);
       }
-    },
-
-    applyFilter: function() {
-      let searchText = this.get("searchText");
-      this.runTask(
-        this.get("store")
-          .query("country", {
-            filter: {
-              nameEn: searchText
-            }
-          })
-          .then(country => {
-            // Check the input has changed since the promise started
-            // if (searchText === this.get("searchText")) {
-            //   this.set("results", users);
-            // }
-            console.log("country", country);
-          })
-      );
     },
 
     setFields(value) {
@@ -889,6 +886,7 @@ export default GoodcityController.extend({
         ...this.get("formElement"),
         ...this.get("fieldValues")
       };
+      debugger;
       polymorphicField["detail_type"] = this.get("code.subform");
       this.set("subFormDataObj", subFormDataObj);
       this.set("polymorphicField", polymorphicField);
@@ -902,7 +900,6 @@ export default GoodcityController.extend({
         ...this.get("polymorphicField"),
         ...finalObject
       };
-      console.log(packageParamsObj);
       if (!window.navigator.onLine) {
         this.get("messageBox").alert(this.get("i18n").t("offline_error"));
         return false;
