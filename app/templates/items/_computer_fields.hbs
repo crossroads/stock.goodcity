@@ -8,8 +8,17 @@
       </div>
       <div class="small-12 columns left">
         {{#form-control}}
-        {{#if fields.autoComplete}}
+        {{#if (is-and fields.autoComplete (is-not-equal fields.name 'country')) }}
         {{dropdown-search content=fields.name packageDetails=fetchPackageDetails onConfirm=(action 'setFields')}}
+        {{else if (is-equal fields.name 'country')}}
+        {{searchable-select
+          content=countryObj
+          sortBy="name"
+          optionLabelKey="tag"
+          selected=selected
+          addLabel="Add New Item"
+          prompt="Select an option"
+          on-search=(action "onSearch")}}
         {{else}}
         {{input name=fields.name type=fields.type value=(mut (get formElement fields.value)) }}
         {{/if}}
