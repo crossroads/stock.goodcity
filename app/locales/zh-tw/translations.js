@@ -445,7 +445,17 @@ export default {
     max_undesignate: "從: {{code}}<br/>數量: {{qty}}",
     already_dispatched: "所有被指派的物資已經被派送",
     multiple: "多項",
-    dispatch_message: "請確認你要派送此物資"
+    dispatch_message: "請確認你要派送此物資",
+    related_orders: "Related Orders"
+  },
+  orders_package: {
+    actions: {
+      edit_quantity: "Edit Qty",
+      cancel: "Cancel",
+      redesignate: "Redesignate",
+      dispatch: "Dispatch",
+      undispatch: "Undispatch"
+    }
   },
   designate: {
     modify_designation: "取消指派至訂單 {{code}}",

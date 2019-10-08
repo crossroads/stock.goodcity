@@ -1,20 +1,21 @@
-import Ember from 'ember';
-import Model from 'ember-data/model';
-import attr from 'ember-data/attr';
-import { belongsTo } from 'ember-data/relationships';
+import Ember from "ember";
+import Model from "ember-data/model";
+import attr from "ember-data/attr";
+import { belongsTo } from "ember-data/relationships";
 
 export default Model.extend({
-  packageId: attr('number'),
-  orderId: attr('number'),
-  itemId: attr('number'),
-  designationId: attr('number'),
-  quantity: attr('number'),
-  sentOn: attr('date'),
-  state: attr('string'),
+  packageId: attr("number"),
+  orderId: attr("number"),
+  itemId: attr("number"),
+  designationId: attr("number"),
+  quantity: attr("number"),
+  sentOn: attr("date"),
+  state: attr("string"),
+  allowedActions: attr(),
 
-  item:    belongsTo('item', { async: true }),
-  designation:    belongsTo('designation', { async: true }),
-  isDispatched: Ember.computed.bool('sentOn'),
+  item: belongsTo("item", { async: true }),
+  designation: belongsTo("designation", { async: true }),
+  isDispatched: Ember.computed.bool("sentOn"),
 
   isRequested: Ember.computed.equal("state", "requested"),
   isDesignated: Ember.computed.equal("state", "designated"),
@@ -24,11 +25,11 @@ export default Model.extend({
   isSingleQuantity: Ember.computed.equal('quantity', 1),
 
   qtyToModify: Ember.computed("quantity", "item.quantity", function() {
-    return this.get('quantity') + this.get("item.quantity");
+    return this.get("quantity") + this.get("item.quantity");
   }),
 
-  orderCode: Ember.computed("designation", function(){
-    return this.get('designation.code');
-  }),
+  orderCode: Ember.computed("designation", function() {
+    return this.get("designation.code");
+  })
 
 });
