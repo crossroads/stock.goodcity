@@ -53,11 +53,10 @@
       {{t 'item.related_orders' }}
     </div>
 
-    {{#each model.ordersPackages as |orderPkg|}}
+    {{#each sortedOrdersPackages as |orderPkg|}}
       <div class="row">
         {{goodcity/orders-package-block orderPkg=orderPkg }}
       </div>
     {{/each}}
   </div>
-  {{goodcity/orders-search-overlay open=true}}
 </div>

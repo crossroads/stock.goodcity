@@ -1,0 +1,12 @@
+{{#side-drawer}}
+  <div class="cmp action-drawer">
+    <div class="action-holder">
+      {{#each actionList as |act|}}
+        <div class="action {{if act.enabled 'enabled' 'disabled' }}" {{action act.trigger}}>
+          <div>{{fa-icon act.icon size='lg' }}</div>
+          <div>{{ act.label }}</div>
+        </div>
+      {{/each}}
+    </div>
+  </div>
+{{/side-drawer}}

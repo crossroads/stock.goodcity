@@ -1,0 +1,29 @@
+<div class="row gc-orders-package-block">
+  <div class="columns small-2 sub-block left">
+    <div>{{fa-icon (orders-package-icon orderPkg.state) size='lg'}}</div>
+    <div>{{orderPkg.quantity}}</div>
+  </div>
+  <div class="columns small-9 sub-block main {{ orderPkg.designation.state }}">
+    <div class="row">
+      <div class="columns small-6 text-align-left">
+        {{fa-icon orderPkg.designation.transportIcon size='lg'}}
+        {{ orderPkg.designation.code }}
+      </div>
+    </div>
+    <div class="row">
+      {{#if orderPkg.designation.isGoodCityOrder}}
+        {{ orderPkg.designation.gcOrganisation.nameEn }}
+      {{else}}
+        {{ orderPkg.designation.organisation.name }}
+      {{/if}}
+    </div>
+  </div>
+  <div class="columns small-1 sub-block">
+    {{action-drawer actionList=actionList}}
+    {{goodcity/orders-search-overlay
+        open=openOrderSearch
+        onSelect=orderSelected
+        searchProps=orderSearchProps
+    }}
+  </div>
+</div>

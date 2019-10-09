@@ -27,11 +27,14 @@ export default AuthorizeRoute.extend({
 
     var path = "items.index";
 
-    if (previousRoute && routeName.indexOf("detail")) {
+    if (previousRoute && previousRoute.name.indexOf("detail")) {
       path = previousRoute.name;
     }
 
-    this.set("partialDesignatePath", Boolean(parseInt(window.localStorage.getItem("partial_qnty"), 10)));
+    this.set(
+      "partialDesignatePath",
+      Boolean(parseInt(window.localStorage.getItem("partial_qnty"), 10))
+    );
     this.set("itemDesignateBackLinkPath", path);
   },
 
@@ -51,20 +54,20 @@ export default AuthorizeRoute.extend({
 
     return Ember.RSVP.hash({
       item: item || this.store.findRecord("item", params.item_id),
-      designations:
-        recentlyUsedDesignations.get("length")
-          ? recentlyUsedDesignations
-          : this.get("store").query("designation", {
-              shallow: true,
-              recently_used: true
-            })
+      designations: recentlyUsedDesignations.get("length")
+        ? recentlyUsedDesignations
+        : this.get("store").query("designation", {
+            shallow: true,
+            recently_used: true
+          })
     });
   },
 
   setupController(controller, model) {
     this._super(controller, model);
 
-    let isNotPartialRoute = !this.get("partialDesignatePath") &&
+    let isNotPartialRoute =
+      !this.get("partialDesignatePath") &&
       !parseInt(window.localStorage.getItem("partial_qnty"), 10);
 
     controller.set("notPartialRoute", isNotPartialRoute);

@@ -1,0 +1,14 @@
+<div class="cmp side-drawer">
+  <div class="arrow-icon-holder" {{action (toggle this "isOpen")}} >
+    {{#if isOpen}}
+      {{fa-icon 'angle-right'}}
+    {{else}}
+      {{fa-icon 'angle-left'}}
+    {{/if}}
+  </div>
+  <div class="content-wrapper">
+    <div class="content {{if isOpen 'open' 'closed'}}">
+      {{ yield }}
+    </div>
+  </div>
+</div>
