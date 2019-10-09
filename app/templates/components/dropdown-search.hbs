@@ -1,3 +1,4 @@
+{{#if addAble}}
 {{searchable-select
   content=(mut (get resourceType content))
   sortBy="name"
@@ -7,4 +8,12 @@
   prompt="Select an option"
   on-change=(action "setSelected" content)
   on-add=(action "addNew" content)}}
-{{log resourceType}}
+{{else}}
+{{searchable-select
+    content=(mut (get resourceType content))
+    sortBy="name"
+    optionLabelKey="tag"
+    selected=selected
+    prompt="Select an option"
+    on-change=(action "setSelected" content)}}
+{{/if}}

@@ -10,7 +10,7 @@
       <div class="small-12 columns left">
         {{#form-control}}
         {{#if (is-and fields.autoComplete (is-not-equal fields.name 'country')) }}
-        {{dropdown-search content=fields.name packageDetails=fetchPackageDetails onConfirm=(action 'setFields')}}
+        {{dropdown-search content=fields.name addAble=fields.addAble packageDetails=fetchPackageDetails onConfirm=(action 'setFields')}}
         {{else if (is-equal fields.name 'country')}}
         {{searchable-select
           content=countryArray

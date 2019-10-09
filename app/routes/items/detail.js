@@ -98,7 +98,9 @@ export default AuthorizeRoute.extend({
     if (cachedImg) {
       return cachedImg;
     }
-    return this.store.findRecord("image", id, { reload: true });
+    return this.store.findRecord("image", id, {
+      reload: true
+    });
   },
 
   /**
@@ -109,7 +111,9 @@ export default AuthorizeRoute.extend({
    * @returns {Item} the item record
    */
   loadItemWithImages(id) {
-    return this.loadItem(id, { loadImages: true });
+    return this.loadItem(id, {
+      loadImages: true
+    });
   },
 
   /**
@@ -124,7 +128,9 @@ export default AuthorizeRoute.extend({
   async loadItem(id, opts = {}) {
     const { loadImages = false } = opts;
 
-    const item = await this.store.findRecord("item", id, { reload: true });
+    const item = await this.store.findRecord("item", id, {
+      reload: true
+    });
     if (loadImages) {
       await this.preloadImages(item);
     }

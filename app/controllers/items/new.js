@@ -58,7 +58,8 @@ export default GoodcityController.extend({
       value: "brand",
       type: "text",
       autoComplete: true,
-      category: ["computer", "computer_accessory", "electrical"]
+      category: ["computer", "computer_accessory", "electrical"],
+      addAble: true
     },
     {
       label: "Model",
@@ -66,7 +67,8 @@ export default GoodcityController.extend({
       type: "text",
       value: "model",
       autoComplete: false,
-      category: ["computer", "computer_accessory", "electrical"]
+      category: ["computer", "computer_accessory", "electrical"],
+      addAble: false
     },
     {
       label: "Serial Number",
@@ -74,7 +76,8 @@ export default GoodcityController.extend({
       type: "text",
       value: "serialNumber",
       autoComplete: false,
-      category: ["computer", "computer_accessory", "electrical"]
+      category: ["computer", "computer_accessory", "electrical"],
+      addAble: false
     },
     {
       label: "Country of origin",
@@ -82,7 +85,8 @@ export default GoodcityController.extend({
       type: "number",
       value: "country",
       autoComplete: true,
-      category: ["computer", "computer_accessory", "electrical"]
+      category: ["computer", "computer_accessory", "electrical"],
+      addAble: false
     },
     {
       label: "Size",
@@ -90,7 +94,8 @@ export default GoodcityController.extend({
       type: "text",
       value: "size",
       autoComplete: true,
-      category: ["computer", "computer_accessory"]
+      category: ["computer", "computer_accessory"],
+      addAble: true
     },
     {
       label: "Cpu",
@@ -98,7 +103,17 @@ export default GoodcityController.extend({
       type: "text",
       value: "cpu",
       autoComplete: true,
-      category: ["computer"]
+      category: ["computer"],
+      addAble: true
+    },
+    {
+      label: "Comp Test Status",
+      name: "compTestStatus",
+      type: "text",
+      value: "compTestStatus",
+      autoComplete: true,
+      category: ["computer", "computer_accessory"],
+      addAble: false
     },
     {
       label: "Ram",
@@ -106,7 +121,8 @@ export default GoodcityController.extend({
       type: "text",
       value: "ram",
       autoComplete: true,
-      category: ["computer"]
+      category: ["computer"],
+      addAble: true
     },
     {
       label: "HDD",
@@ -114,7 +130,8 @@ export default GoodcityController.extend({
       type: "text",
       value: "hdd",
       autoComplete: true,
-      category: ["computer"]
+      category: ["computer"],
+      addAble: true
     },
     {
       label: "Optical",
@@ -122,7 +139,8 @@ export default GoodcityController.extend({
       type: "text",
       value: "optical",
       autoComplete: true,
-      category: ["computer"]
+      category: ["computer"],
+      addAble: true
     },
     {
       label: "video",
@@ -130,7 +148,8 @@ export default GoodcityController.extend({
       type: "text",
       value: "video",
       autoComplete: true,
-      category: ["computer"]
+      category: ["computer"],
+      addAble: true
     },
     {
       label: "Sound",
@@ -138,7 +157,8 @@ export default GoodcityController.extend({
       type: "text",
       value: "sound",
       autoComplete: true,
-      category: ["computer"]
+      category: ["computer"],
+      addAble: true
     },
     {
       label: "Lan",
@@ -146,7 +166,8 @@ export default GoodcityController.extend({
       type: "text",
       value: "lan",
       autoComplete: true,
-      category: ["computer"]
+      category: ["computer"],
+      addAble: true
     },
     {
       label: "Wireless",
@@ -154,7 +175,8 @@ export default GoodcityController.extend({
       type: "text",
       value: "wireless",
       autoComplete: true,
-      category: ["computer"]
+      category: ["computer"],
+      addAble: true
     },
     {
       label: "Usb",
@@ -162,7 +184,8 @@ export default GoodcityController.extend({
       type: "text",
       value: "usb",
       autoComplete: true,
-      category: ["computer"]
+      category: ["computer"],
+      addAble: true
     },
     {
       label: "Comp Voltage",
@@ -170,7 +193,8 @@ export default GoodcityController.extend({
       type: "text",
       value: "compVoltage",
       autoComplete: true,
-      category: ["computer", "computer_accessory"]
+      category: ["computer", "computer_accessory"],
+      addAble: true
     },
     {
       label: "OS",
@@ -178,7 +202,8 @@ export default GoodcityController.extend({
       type: "text",
       value: "os",
       autoComplete: true,
-      category: ["computer"]
+      category: ["computer"],
+      addAble: true
     },
     {
       label: "OS Serial Num",
@@ -186,7 +211,8 @@ export default GoodcityController.extend({
       type: "text",
       value: "osSerialNum",
       autoComplete: false,
-      category: ["computer"]
+      category: ["computer"],
+      addAble: false
     },
     {
       label: "Ms Office Serial Num",
@@ -194,7 +220,8 @@ export default GoodcityController.extend({
       type: "text",
       value: "msOfficeSerialNum",
       autoComplete: false,
-      category: ["computer"]
+      category: ["computer"],
+      addAble: false
     },
     {
       label: "Mar  OS serial Num",
@@ -202,7 +229,8 @@ export default GoodcityController.extend({
       type: "text",
       value: "marOsSerialNum",
       autoComplete: false,
-      category: ["computer"]
+      category: ["computer"],
+      addAble: false
     },
     {
       label: "Mar Ms Office Serial Num",
@@ -210,7 +238,8 @@ export default GoodcityController.extend({
       type: "text",
       value: "marMsOfficeSerialNum",
       autoComplete: false,
-      category: ["computer"]
+      category: ["computer"],
+      addAble: false
     },
     {
       label: "Interface",
@@ -218,7 +247,8 @@ export default GoodcityController.extend({
       type: "text",
       value: "interface",
       autoComplete: true,
-      category: ["computer_accessory"]
+      category: ["computer_accessory"],
+      addAble: false
     },
     {
       label: "Standard",
@@ -226,7 +256,8 @@ export default GoodcityController.extend({
       type: "text",
       value: "standard",
       autoComplete: true,
-      category: ["computer_accessory"]
+      category: ["computer_accessory"],
+      addAble: true
     },
     {
       label: "Voltage",
@@ -234,7 +265,8 @@ export default GoodcityController.extend({
       type: "number",
       value: "voltage",
       autoComplete: true,
-      category: ["electrical"]
+      category: ["electrical"],
+      addAble: false
     },
     {
       label: "Power",
@@ -242,7 +274,8 @@ export default GoodcityController.extend({
       type: "text",
       value: "power",
       autoComplete: true,
-      category: ["electrical"]
+      category: ["electrical"],
+      addAble: true
     },
     {
       label: "System or Region",
@@ -250,7 +283,8 @@ export default GoodcityController.extend({
       type: "text",
       value: "systemOrRegion",
       autoComplete: true,
-      category: ["electrical"]
+      category: ["electrical"],
+      addAble: true
     },
     {
       label: "Standard",
@@ -258,7 +292,8 @@ export default GoodcityController.extend({
       type: "text",
       value: "Standard",
       autoComplete: false,
-      category: ["electrical"]
+      category: ["electrical"],
+      addAble: true
     },
     {
       label: "Test Status",
@@ -266,7 +301,8 @@ export default GoodcityController.extend({
       type: "text",
       value: "testStatus",
       autoComplete: true,
-      category: ["electrical"]
+      category: ["electrical"],
+      addAble: false
     },
     {
       label: "Frequency",
@@ -274,7 +310,8 @@ export default GoodcityController.extend({
       type: "number",
       value: "frequency",
       autoComplete: true,
-      category: ["electrical"]
+      category: ["electrical"],
+      addAble: false
     }
   ],
 
@@ -293,8 +330,34 @@ export default GoodcityController.extend({
         let subFormData = {};
         let columns = Object.keys(package_details.get("firstObject").toJSON());
         columns.map(column => {
-          let columnData = package_details.getEach(column).filter(Boolean);
-          console.log(columnData, "hit");
+          console.log(column, "here");
+          let columnData = [];
+          switch (column) {
+            case "frequency":
+              columnData = ["50", "50/60 (Multi)", "60", "N/A", "Other"];
+              break;
+            case "voltage":
+              columnData = [
+                "120V ~ (100-200V)",
+                "240V ~ (200-300V)",
+                "> 300v",
+                "Multi",
+                "NA",
+                "Other"
+              ];
+              break;
+            case "testStatus":
+              columnData = [
+                "Maintenance (DO NOT USE)",
+                "Tested (DO NOT USE)",
+                "Untested (DO NOT USE)"
+              ];
+              break;
+            default:
+              columnData = [
+                ...new Set(package_details.getEach(column).filter(Boolean))
+              ];
+          }
           subFormData[column] = columnData.map((_column, index) => {
             return {
               id: index + 1,
