@@ -12,7 +12,8 @@
         {{#if (is-and fields.autoComplete (is-not-equal fields.name 'country')) }}
         {{dropdown-search content=fields.name addAble=fields.addAble packageDetails=fetchPackageDetails onConfirm=(action 'setFields')}}
         {{else if (is-equal fields.name 'country')}}
-        {{searchable-select
+        <div class="dropdown-wrapper">
+          {{searchable-select
           content=countryArray
           sortBy="name"
           optionLabelKey="nameEn"
@@ -21,6 +22,8 @@
           addLabel="Add New Item"
           prompt="Select an option"
           on-search=(action "onSearch")}}
+          <div class="dropdown-icon"> {{fa-icon 'chevron-down'}}</div>
+        </div>
         {{else}}
         {{input name=fields.name type=fields.type value=(mut (get formElement fields.value)) }}
         {{/if}}
