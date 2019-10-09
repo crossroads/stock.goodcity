@@ -42,6 +42,16 @@ export default GoodcityController.extend(singletonItemDispatchToGcOrder, {
     }
   ),
 
+  isPackageTypeEditable: Ember.computed("model.code", function() {
+    let subformValue = this.get("model.code.subform");
+    if (
+      ["computer", "electrical", "computer_accessory"].indexOf(subformValue) >=
+      0
+    ) {
+      return true;
+    }
+  }),
+
   tabName: Ember.computed("currentRoute", function() {
     return this.get("currentRoute")
       .split(".")
@@ -50,10 +60,22 @@ export default GoodcityController.extend(singletonItemDispatchToGcOrder, {
 
   grades: Ember.computed("item.grade", function() {
     return [
-      { name: "A", id: "A" },
-      { name: "B", id: "B" },
-      { name: "C", id: "C" },
-      { name: "D", id: "D" }
+      {
+        name: "A",
+        id: "A"
+      },
+      {
+        name: "B",
+        id: "B"
+      },
+      {
+        name: "C",
+        id: "C"
+      },
+      {
+        name: "D",
+        id: "D"
+      }
     ];
   }),
 
@@ -173,7 +195,9 @@ export default GoodcityController.extend(singletonItemDispatchToGcOrder, {
       if (this.get("item.isSet")) {
         if (this.get("item.setItem.canBeMoved")) {
           this.transitionToRoute("items.search_location", this.get("item.id"), {
-            queryParams: { isSet: true }
+            queryParams: {
+              isSet: true
+            }
           });
         } else {
           this.get("messageBox").alert(
@@ -182,7 +206,10 @@ export default GoodcityController.extend(singletonItemDispatchToGcOrder, {
         }
       } else {
         this.transitionToRoute("items.search_location", this.get("item.id"), {
-          queryParams: { isSet: false, isPartialMove: false }
+          queryParams: {
+            isSet: false,
+            isPartialMove: false
+          }
         });
       }
     }
