@@ -121,7 +121,7 @@ export default ApiBaseService.extend({
     this.set("openOrderSearch", true);
     this.set("onnOrderSelected", order => {
       this.set("onnOrderSelected", _.noop);
-      deferred.resolve(order ? order.get("id") : null);
+      deferred.resolve(order || null);
     });
 
     return deferred.promise;

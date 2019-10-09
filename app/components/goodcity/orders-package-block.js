@@ -69,18 +69,18 @@ export default Ember.Component.extend({
   // --- PARAMS RESOLUTION
 
   /**
-   * Prompts the user to select a package
+   * Prompts the user to select an order, and returns its id
    *
    * CANCELLED is returned if the user closes the UI
    *
-   * @returns {Promise<Model>}
+   * @returns {Promise<String>}
    */
   async selectOrder() {
     const order = await this.get("designationService").userPickOrder({
       state: ACTIVE_ORDER_STATES.join(",")
     });
 
-    return order || CANCELLED;
+    return order ? order.get("id") : CANCELLED;
   },
 
   /**
