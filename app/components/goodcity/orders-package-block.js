@@ -55,10 +55,8 @@ export default Ember.Component.extend({
   store: Ember.inject.service(),
   messageBox: Ember.inject.service(),
   i18n: Ember.inject.service(),
-  actionRunner: Ember.inject.service("designationService"),
-  orderSearchProps: {
-    state: ACTIVE_ORDER_STATES.join(",")
-  },
+  designationService: Ember.inject.service(),
+  actionRunner: Ember.computed.alias("designationService"),
 
   init() {
     this._super(...arguments);
@@ -71,23 +69,18 @@ export default Ember.Component.extend({
   // --- PARAMS RESOLUTION
 
   /**
-   * Triggers the order selection popup, and resolves the promise
-   * once an order has been selected.
+   * Prompts the user to select a package
    *
    * CANCELLED is returned if the user closes the UI
    *
    * @returns {Promise<Model>}
    */
-  selectOrder() {
-    const deferred = Ember.RSVP.defer();
-
-    this.set("openOrderSearch", true);
-    this.set("orderSelected", order => {
-      deferred.resolve(order ? order.get("id") : CANCELLED);
-      this.set("orderSelected", _.noop);
+  async selectOrder() {
+    const order = await this.get("designationService").userPickOrder({
+      state: ACTIVE_ORDER_STATES.join(",")
     });
 
-    return deferred.promise;
+    return order || CANCELLED;
   },
 
   /**

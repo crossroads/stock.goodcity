@@ -1,5 +1,6 @@
 import Ember from "ember";
 import ApiBaseService from "./api-base-service";
+import _ from "lodash";
 
 function ID(modelOrId) {
   if (modelOrId.get) {
@@ -22,6 +23,11 @@ function ID(modelOrId) {
  */
 export default ApiBaseService.extend({
   store: Ember.inject.service(),
+
+  init() {
+    this._super(...arguments);
+    this.set("openOrderSearch", false);
+  },
 
   /**
    * Runs a remote action on the specified orders_package
@@ -98,5 +104,26 @@ export default ApiBaseService.extend({
    */
   editQuantity(ordersPackage, quantity) {
     return this.execAction(ordersPackage, "undispatch", { quantity });
+  },
+
+  /**
+   * Triggers the order selection popup, and resolves the promise
+   * once an order has been selected.
+   *
+   * null is returned if the user closes the UI
+   *
+   * @returns {Promise<Model>}
+   */
+  userPickOrder(filters = {}) {
+    const deferred = Ember.RSVP.defer();
+
+    this.set("orderSearchProps", filters);
+    this.set("openOrderSearch", true);
+    this.set("onnOrderSelected", order => {
+      this.set("onnOrderSelected", _.noop);
+      deferred.resolve(order ? order.get("id") : null);
+    });
+
+    return deferred.promise;
   }
 });
