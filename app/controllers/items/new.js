@@ -736,7 +736,7 @@ export default GoodcityController.extend({
 
     selectedCountry(value) {
       let country = {
-        country: value.id
+        country_id: value.id
       };
       this.set("selectedCountry", country);
     },
