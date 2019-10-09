@@ -40,6 +40,25 @@
     }
   }
 
+  .dropdown-wrapper {
+    .Searchable-select__label {
+      border-radius: 0;
+      padding: 0.34em 1em;
+      background: none;
+    }
+
+    .dropdown-icon {
+      position: absolute;
+      top: 50%;
+      -o-transform: translateY(-50%);
+      -webkit-transform: translateY(-50%);
+      -ms-transform: translateY(-50%);
+      -moz-transform: translateY(-50%);
+      transform: translateY(-50%);
+      right: 7%;
+    }
+  }
+
   .item-label {
     line-height: 1.8rem;
   }

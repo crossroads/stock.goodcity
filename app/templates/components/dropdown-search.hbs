@@ -1,5 +1,6 @@
-{{#if addAble}}
-{{searchable-select
+<div class="dropdown-wrapper">
+  {{#if addAble}}
+  {{searchable-select
   content=(mut (get resourceType content))
   sortBy="name"
   optionLabelKey="tag"
@@ -8,12 +9,14 @@
   prompt="Select an option"
   on-change=(action "setSelected" content)
   on-add=(action "addNew" content)}}
-{{else}}
-{{searchable-select
+  {{else}}
+  {{searchable-select
     content=(mut (get resourceType content))
     sortBy="name"
     optionLabelKey="tag"
     selected=selected
     prompt="Select an option"
     on-change=(action "setSelected" content)}}
-{{/if}}
+  {{/if}}
+  <div class="dropdown-icon"> {{fa-icon 'chevron-down'}}</div>
+</div>
