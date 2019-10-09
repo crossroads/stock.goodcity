@@ -1,13 +1,16 @@
-.request-purpose, .client-information {
-  .button{
+.request-purpose,
+.client-information {
+  .button {
     margin-top: 1rem;
   }
+
   .input-error {
     background: #ED4C4E !important;
     color: white;
     padding: 0.2rem;
     display: none;
     padding-bottom: 0.25rem !important;
+
     @media #{$small-only} {
       font-size: 0.65rem;
       width: 100%;
@@ -26,14 +29,15 @@
   }
 
   .form__control.form__control--error .input-error {
-    .input-error{
+    .input-error {
       display: block !important;
     }
   }
 
-  .select.form__control--error > #district-select-dropdown{
+  .select.form__control--error>#district-select-dropdown {
     border-color: #f34d4f;
     background: #fddbdc;
+    margin-bottom: 0;
   }
 
   .request_purpose_title {
@@ -48,9 +52,10 @@
     margin-right: 0;
 
     .custom_radio_buttons {
-      @media #{$small-only}{
+      @media #{$small-only} {
         width: 100% !important;
       }
+
       display: inline-block;
       position: relative;
       border: 1px solid;
@@ -73,12 +78,14 @@
         width: 2em;
         height: 2em;
       }
+
       label {
         font-size: 0.8rem !important;
         margin-top: 0.4rem !important;
         margin-left: 3rem;
       }
     }
+
     @media #{$small-only} {
       font-size: 0.65rem;
     }
@@ -96,15 +103,18 @@
       padding: .4rem;
       margin-top: 1rem;
       height: 2.7rem;
+
       // border: 1px solid white !important;
       input[type=radio] {
         margin: 0 0 0 0px;
       }
+
       label {
         font-size: 0.8rem !important;
         margin-top: 0.4rem !important;
       }
     }
+
     @media #{$small-only} {
       font-size: 0.65rem;
       width: 98%;
@@ -117,22 +127,25 @@
     }
   }
 
-  .time-slots{
+  .time-slots {
     .custom_radio_buttons {
       border: 1px solid;
       padding: .4rem;
       margin-top: 1rem;
       height: 2.7rem;
+
       // border: 1px solid white !important;
       input[type=radio] {
         margin: 0 0 0 0px;
       }
+
       label {
-        @media #{$large-only}{
+        @media #{$large-only} {
           font-size: 0.8rem !important;
           margin-top: 0.4rem !important;
         }
-        @media #{$small-only}{
+
+        @media #{$small-only} {
           margin-left: 0 !important;
           margin-right: 0 !important;
           font-size: 0.6rem !important;
@@ -142,12 +155,12 @@
     }
   }
 
-  .people-count{
+  .people-count {
     padding-left: 0rem !important;
     margin-left: 0;
     margin-right: 0;
 
-    .people-count-label{
+    .people-count-label {
       margin-top: 1rem !important;
       color: white;
       font-size: 0.9rem;
@@ -155,6 +168,7 @@
       margin-top: 1rem;
       margin-bottom: 0.5rem;
     }
+
     input {
       height: 2.7rem;
       padding: 0 0.5rem;
@@ -176,14 +190,17 @@
       margin-top: 1rem;
       margin-bottom: 0.2rem;
     }
-    .reason-of-need{
+
+    .reason-of-need {
       font-size: 0.8rem;
       margin-bottom: 0.5rem;
     }
+
     textarea {
-      @media #{$small-only}{
+      @media #{$small-only} {
         max-width: 100%;
       }
+
       padding: 0.3rem 0.5rem;
       background: #002352;
       border: 1px solid $tabbar-menu-icon-color;
@@ -192,13 +209,16 @@
       margin-bottom: 0;
       height: 5rem !important;
     }
-    .remove-text{
+
+    .remove-text {
       position: absolute;
       right: 1%;
-      @media #{$small-only}{
+
+      @media #{$small-only} {
         right: 3%;
         top: 0%;
       }
+
       font-size: 1rem;
       cursor: pointer;
     }
@@ -210,26 +230,28 @@
   }
 }
 
-.success-submit{
+.success-submit {
   background: cornflowerblue !important;
   color: white !important;
   text-transform: capitalize !important;
 }
 
-.no-gc-req-error, .no-time-slot-selected-error {
+.no-gc-req-error,
+.no-time-slot-selected-error {
   color: #ee4f4b;
 }
 
-.book_appointment_headers{
-  @media #{$small-only}{
+.book_appointment_headers {
+  @media #{$small-only} {
     width: 96%
   }
 }
 
-.labor_confirmation{
-  @media #{$small-only}{
+.labor_confirmation {
+  @media #{$small-only} {
     font-size: 1em;
   }
+
   width: 110%;
 }
 
@@ -250,26 +272,29 @@
     content: none !important;
   }
 
-  #district-select-dropdown{
+  #district-select-dropdown {
     label.select {
       -webkit-appearance: menulist-button;
     }
 
-    @media #{$small-only}{
+    @media #{$small-only} {
       margin-left: -5px;
     }
+
     border: 1px solid #8091a9;
     background: bottom;
     color: #a3aab6;
     margin-left: 0% !important;
   }
+
   .district-label {
     color: white;
     font-size: 0.9rem;
     margin-top: 1rem;
     margin-bottom: 0.2rem;
   }
-  .district-label-info{
+
+  .district-label-info {
     font-size: 0.8rem;
     margin-bottom: 0.5rem;
   }
@@ -308,7 +333,7 @@
   font-size: 0.9rem;
   font-weight: 700;
 
-  @media #{$small-only}{
+  @media #{$small-only} {
     font-size: 0.7rem;
   }
 }
@@ -322,3 +347,25 @@
   margin-top: -2%;
 }
 
+.select-error-message {
+  display: none;
+  background: $cherry-red;
+  color: $white;
+  padding: 0.2rem;
+  display: none;
+  padding-bottom: 0.25rem;
+  width: 100%;
+
+  span {
+    margin-left: 0.7rem;
+  }
+
+  @media #{$small-only} {
+    font-size: 0.65rem;
+  }
+}
+
+.select.form__control--error>#district-select-dropdown+.select-error-message {
+  display: block;
+  float: left;
+}

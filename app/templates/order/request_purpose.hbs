@@ -22,70 +22,71 @@
           buttonId='#request-submit'
         }}
         {{#validatable-form onSubmit=(action 'createOrderWithRequestPuropose') as |form|}}
-          <div class="row people-count">
-            <div class="small-12 columns people-count-label">
-              <div class="request_purpose_title">{{t 'order.request_purpose.purpose'}}</div>
-              <br>
-              {{t 'order.request_purpose.people_count_info'}}
-              {{#form-control}}
-                {{input type='number' min="1" value=peopleHelped required='true' id="people-count"}}
-                <div class='input-error'>
-                  {{fa-icon "exclamation-triangle"}}
-                  <span class="error-reason-margin">
-                    {{t 'order.request_purpose.people_count_warning'}}
-                  </span>
-                </div>
-              {{/form-control}}
+        <div class="row people-count">
+          <div class="small-12 columns people-count-label">
+            <div class="request_purpose_title">{{t 'order.request_purpose.purpose'}}</div>
+            <br>
+            {{t 'order.request_purpose.people_count_info'}}
+            {{#form-control}}
+            {{input type='number' min="1" value=peopleHelped required='true' id="people-count"}}
+            <div class='input-error'>
+              {{fa-icon "exclamation-triangle"}}
+              <span class="error-reason-margin">
+                {{t 'order.request_purpose.people_count_warning'}}
+              </span>
             </div>
+            {{/form-control}}
           </div>
-          <div class="row district-select">
-            <div class="small-12 columns district-label">
-              {{t 'order.request_purpose.district_label'}}
-            </div>
-            <div class="small-12 columns district-label-info">
-              {{t 'order.request_purpose.district_label_info'}}
-              <br>
-              {{#form-control}}
-                {{select-list
-                  content=districts
-                  on-change=(action (mut selectedDistrict))
-                  selectedValue=selectedDistrict
-                  prompt=(t 'order.request_purpose.select_placeholder')
-                  value= selectedDistrict
-                  selectArrow=true
-                  required=true
-                  classNames='district-selector'
-                  idNames='district-select-dropdown'}}
-              {{/form-control}}
-            </div>
+        </div>
+        <div class="row district-select">
+          <div class="small-12 columns district-label">
+            {{t 'order.request_purpose.district_label'}}
           </div>
-          <div class="row description-of-need">
-            <div class="small-12 columns description">
-              {{t 'order.request_purpose.need_description'}}
-            </div>
-            <div class="small-12 columns reason-of-need">
-              {{t 'order.request_purpose.need_description_info'}}
-            </div>
-            <div class="small-12 columns">
-              {{#form-control}}
-                <span class="remove-text" {{action "clearDescription" }}>
-                  {{fa-icon 'times-circle'}}
-                </span>
-                {{auto-resize-textarea data-autoresize=true name="description" value=order.purposeDescription required="required" pattern=".*\S.*" id="description"}}
-                <div class='input-error error-margin'>
-                  {{fa-icon "exclamation-triangle"}}
-                  <span class="error-reason-margin">
-                    {{t 'order.request_purpose.description_warning'}}
-                  </span>
-                </div>
-              {{/form-control}}
-            </div>
+          <div class="small-12 columns district-label-info">
+            {{t 'order.request_purpose.district_label_info'}}
+            <br>
+            {{#form-control}}
+            {{select-list
+              content=districts
+              on-change=(action (mut selectedDistrict))
+              selectedValue=selectedDistrict
+              prompt=(t 'order.request_purpose.select_placeholder')
+              value= selectedDistrict
+              selectArrow=true
+              required=true
+              errorMessage = (t 'order.request_purpose.error_message')
+              classNames='district-selector'
+              idNames='district-select-dropdown'}}
+            {{/form-control}}
           </div>
-          <div class="row continue">
-            <div class="small-12 columns">
-              <a  {{action 'submit' target=form}} class="button expand" id="request-submit"> {{t 'continue'}} </a>
-            </div>
+        </div>
+        <div class="row description-of-need">
+          <div class="small-12 columns description">
+            {{t 'order.request_purpose.need_description'}}
           </div>
+          <div class="small-12 columns reason-of-need">
+            {{t 'order.request_purpose.need_description_info'}}
+          </div>
+          <div class="small-12 columns">
+            {{#form-control}}
+            <span class="remove-text" {{action "clearDescription" }}>
+              {{fa-icon 'times-circle'}}
+            </span>
+            {{auto-resize-textarea data-autoresize=true name="description" value=order.purposeDescription required="required" pattern=".*\S.*" id="description"}}
+            <div class='input-error error-margin'>
+              {{fa-icon "exclamation-triangle"}}
+              <span class="error-reason-margin">
+                {{t 'order.request_purpose.description_warning'}}
+              </span>
+            </div>
+            {{/form-control}}
+          </div>
+        </div>
+        <div class="row continue">
+          <div class="small-12 columns">
+            <a {{action 'submit' target=form}} class="button expand" id="request-submit"> {{t 'continue'}} </a>
+          </div>
+        </div>
         {{/validatable-form}}
       </section>
     </div>
