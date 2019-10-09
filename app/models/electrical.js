@@ -14,7 +14,6 @@ export default Model.extend({
   power: attr("string"),
   systemOrRegion: attr("string"),
   testStatus: attr("string"),
-  testedOn: attr("date"),
   createdAt: attr("date"),
   updatedAt: attr("date")
 });

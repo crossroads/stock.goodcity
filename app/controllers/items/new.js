@@ -269,14 +269,6 @@ export default GoodcityController.extend({
       category: ["electrical"]
     },
     {
-      label: "Tested On",
-      name: "testedOn",
-      type: "text",
-      value: "tesetedOn",
-      autoComplete: true,
-      category: ["electrical"]
-    },
-    {
       label: "Frequency",
       name: "frequency",
       type: "number",
