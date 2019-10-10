@@ -21,6 +21,283 @@ export default GoodcityController.extend(singletonItemDispatchToGcOrder, {
   currentRoute: Ember.computed.alias("application.currentPath"),
   pkg: Ember.computed.alias("model"),
 
+  displayFieldsObj: [
+    {
+      label: "Brand",
+      name: "brand",
+      value: "brand",
+      type: "text",
+      autoComplete: false,
+      category: ["computer", "computer_accessory", "electrical"],
+      addAble: true
+    },
+    {
+      label: "Model",
+      name: "model",
+      type: "text",
+      value: "model",
+      autoComplete: false,
+      category: ["computer", "computer_accessory", "electrical"],
+      addAble: false
+    },
+    {
+      label: "Serial Number",
+      name: "serialNumber",
+      type: "text",
+      value: "serialNumber",
+      autoComplete: false,
+      category: ["computer", "computer_accessory", "electrical"],
+      addAble: false
+    },
+    {
+      label: "Country of origin",
+      name: "country",
+      type: "number",
+      value: "country",
+      autoComplete: false,
+      category: ["computer", "computer_accessory", "electrical"],
+      addAble: false
+    },
+    {
+      label: "Size",
+      name: "size",
+      type: "text",
+      value: "size",
+      autoComplete: false,
+      category: ["computer", "computer_accessory"],
+      addAble: true
+    },
+    {
+      label: "Cpu",
+      name: "cpu",
+      type: "text",
+      value: "cpu",
+      autoComplete: false,
+      category: ["computer"],
+      addAble: true
+    },
+    {
+      label: "Comp Test Status",
+      name: "compTestStatus",
+      type: "text",
+      value: "compTestStatus",
+      autoComplete: false,
+      category: ["computer", "computer_accessory"],
+      addAble: false
+    },
+    {
+      label: "Ram",
+      name: "ram",
+      type: "text",
+      value: "ram",
+      autoComplete: false,
+      category: ["computer"],
+      addAble: true
+    },
+    {
+      label: "HDD",
+      name: "hdd",
+      type: "text",
+      value: "hdd",
+      autoComplete: false,
+      category: ["computer"],
+      addAble: true
+    },
+    {
+      label: "Optical",
+      name: "optical",
+      type: "text",
+      value: "optical",
+      autoComplete: false,
+      category: ["computer"],
+      addAble: true
+    },
+    {
+      label: "video",
+      name: "video",
+      type: "text",
+      value: "video",
+      autoComplete: false,
+      category: ["computer"],
+      addAble: true
+    },
+    {
+      label: "Sound",
+      name: "sound",
+      type: "text",
+      value: "sound",
+      autoComplete: false,
+      category: ["computer"],
+      addAble: true
+    },
+    {
+      label: "Lan",
+      name: "lan",
+      type: "text",
+      value: "lan",
+      autoComplete: false,
+      category: ["computer"],
+      addAble: true
+    },
+    {
+      label: "Wireless",
+      name: "wireless",
+      type: "text",
+      value: "wireless",
+      autoComplete: false,
+      category: ["computer"],
+      addAble: true
+    },
+    {
+      label: "Usb",
+      name: "usb",
+      type: "text",
+      value: "usb",
+      autoComplete: false,
+      category: ["computer"],
+      addAble: true
+    },
+    {
+      label: "Comp Voltage",
+      name: "compVoltage",
+      type: "text",
+      value: "compVoltage",
+      autoComplete: false,
+      category: ["computer", "computer_accessory"],
+      addAble: true
+    },
+    {
+      label: "OS",
+      name: "os",
+      type: "text",
+      value: "os",
+      autoComplete: false,
+      category: ["computer"],
+      addAble: true
+    },
+    {
+      label: "OS Serial Num",
+      name: "os_serial_num",
+      type: "text",
+      value: "osSerialNum",
+      autoComplete: false,
+      category: ["computer"],
+      addAble: false
+    },
+    {
+      label: "Ms Office Serial Num",
+      name: "ms_office_serial_num",
+      type: "text",
+      value: "msOfficeSerialNum",
+      autoComplete: false,
+      category: ["computer"],
+      addAble: false
+    },
+    {
+      label: "Mar  OS serial Num",
+      name: "mar_os_serial_num",
+      type: "text",
+      value: "marOsSerialNum",
+      autoComplete: false,
+      category: ["computer"],
+      addAble: false
+    },
+    {
+      label: "Mar Ms Office Serial Num",
+      name: "mar_ms_office_serial_num",
+      type: "text",
+      value: "marMsOfficeSerialNum",
+      autoComplete: false,
+      category: ["computer"],
+      addAble: false
+    },
+    {
+      label: "Interface",
+      name: "interface",
+      type: "text",
+      value: "interface",
+      autoComplete: false,
+      category: ["computer_accessory"],
+      addAble: false
+    },
+    {
+      label: "Standard",
+      name: "standard",
+      type: "text",
+      value: "standard",
+      autoComplete: false,
+      category: ["computer_accessory"],
+      addAble: true
+    },
+    {
+      label: "Voltage",
+      name: "voltage",
+      type: "number",
+      value: "voltage",
+      autoComplete: false,
+      category: ["electrical"],
+      addAble: false
+    },
+    {
+      label: "Power",
+      name: "power",
+      type: "text",
+      value: "power",
+      autoComplete: false,
+      category: ["electrical"],
+      addAble: true
+    },
+    {
+      label: "System or Region",
+      name: "systemOrRegion",
+      type: "text",
+      value: "systemOrRegion",
+      autoComplete: false,
+      category: ["electrical"],
+      addAble: true
+    },
+    {
+      label: "Standard",
+      name: "standard",
+      type: "text",
+      value: "Standard",
+      autoComplete: false,
+      category: ["electrical"],
+      addAble: true
+    },
+    {
+      label: "Test Status",
+      name: "testStatus",
+      type: "text",
+      value: "testStatus",
+      autoComplete: true,
+      category: ["electrical"],
+      addAble: false
+    },
+    {
+      label: "Frequency",
+      name: "frequency",
+      type: "number",
+      value: "frequency",
+      autoComplete: false,
+      category: ["electrical"],
+      addAble: false
+    }
+  ],
+
+  displayFields: Ember.computed("model.code", function() {
+    let _this = this;
+    let subformValue = this.get("model.code.subform");
+    if (
+      ["computer", "electrical", "computer_accessory"].indexOf(subformValue) >=
+      0
+    ) {
+      return this.displayFieldsObj.filter(function(field) {
+        return field.category.includes(subformValue);
+      });
+    }
+  }),
+
   allowMove: Ember.computed(
     "model.isSingletonItem",
     "model.availableQtyForMove",

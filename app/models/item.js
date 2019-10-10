@@ -22,19 +22,40 @@ export default cloudinaryUrl.extend({
   hasBoxPallet: attr("boolean"),
   itemId: attr("string"),
   allowWebPublish: attr("boolean"),
+  detail: belongsTo("detail", {
+    polymorphic: true
+  }),
 
   designationId: attr("string"),
-  designation: belongsTo("designation", { async: true }),
-  location: belongsTo("location", { async: false }),
-  code: belongsTo("code", { async: false }),
-  packageType: belongsTo("packageType", { async: false }),
-  donorCondition: belongsTo("donor_condition", { async: false }),
-  setItem: belongsTo("set_item", { async: false }),
-  packagesLocations: hasMany("packages_location", { async: true }),
+  designation: belongsTo("designation", {
+    async: true
+  }),
+  location: belongsTo("location", {
+    async: false
+  }),
+  code: belongsTo("code", {
+    async: false
+  }),
+  packageType: belongsTo("packageType", {
+    async: false
+  }),
+  donorCondition: belongsTo("donor_condition", {
+    async: false
+  }),
+  setItem: belongsTo("set_item", {
+    async: false
+  }),
+  packagesLocations: hasMany("packages_location", {
+    async: true
+  }),
 
-  ordersPackages: hasMany("ordersPackages", { async: true }),
+  ordersPackages: hasMany("ordersPackages", {
+    async: true
+  }),
   imageIds: attr(),
-  images: hasMany("image", { async: true }),
+  images: hasMany("image", {
+    async: true
+  }),
 
   isDispatched: Ember.computed.bool("sentOn"),
   isDesignated: Ember.computed.bool("designation"),

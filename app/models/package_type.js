@@ -6,8 +6,12 @@ import { hasMany } from "ember-data/relationships";
 export default Model.extend({
   name: attr("string"),
   code: attr("string"),
-  items: hasMany("item", { async: false }),
-  packages: hasMany("package", { async: false }),
+  items: hasMany("item", {
+    async: false
+  }),
+  packages: hasMany("package", {
+    async: false
+  }),
 
   getItemPackageList: Ember.computed(
     "packages.@each.allowWebPublish",

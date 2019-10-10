@@ -128,4 +128,37 @@
 
 <p>
   Display subform details here:
+  <hr>
+  <div class="row">
+
+    {{#each displayFields as |fields|}}
+    <div class="small-6 columns input-field-container">
+      <div class="row">
+        <div class="small-12 columns item-label">
+          {{fields.label}}
+        </div>
+        <div class="small-12 columns left">
+          {{#form-control}}
+          {{#if (is-and fields.autoComplete (is-not-equal fields.name 'country'))}}
+          {{dropdown-search }}
+          {{else if (is-equal fields.name 'country')}}
+          <div class="dropdown-wrapper">
+            {{searchable-select
+                    content=countryArray
+                    sortBy="name"
+                    optionLabelKey="nameEn"
+                    selected=selected
+                    addLabel="Add New Item"
+                    prompt="Select an option"}}
+            <div class="dropdown-icon"> {{fa-icon 'chevron-down'}}</div>
+          </div>
+          {{else}}
+          <input type="text">
+          {{/if}}
+          {{/form-control}}
+        </div>
+      </div>
+    </div>
+    {{/each}}
+  </div>
 </p>
