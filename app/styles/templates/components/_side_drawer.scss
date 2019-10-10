@@ -7,6 +7,13 @@
   width: 2em;
   position: relative;
 
+  &.hidden {
+    .arrow-icon-holder {
+      pointer-events: none;
+      visibility: hidden;
+    }
+  }
+
   .arrow-icon-holder {
     font-size: 2rem;
     padding-left: 1.5rem;

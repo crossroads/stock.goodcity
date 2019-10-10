@@ -1,4 +1,4 @@
-<div class="cmp side-drawer">
+<div class="cmp side-drawer {{if hidden 'hidden'}}">
   <div class="arrow-icon-holder" {{action (toggle this "isOpen")}} >
     {{#if isOpen}}
       {{fa-icon 'angle-right'}}

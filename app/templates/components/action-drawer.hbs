@@ -1,4 +1,4 @@
-{{#side-drawer}}
+{{#side-drawer hidden=(is-equal actionList.length 0)}}
   <div class="cmp action-drawer">
     <div class="action-holder">
       {{#each actionList as |act|}}
