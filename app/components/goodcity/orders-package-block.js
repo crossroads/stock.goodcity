@@ -121,18 +121,22 @@ export default Ember.Component.extend({
   // --- EXECUTION
 
   showSpinner() {
-    if (!this.loadingView) {
-      this.loadingView = Ember.getOwner(this)
-        .lookup("component:loading")
-        .append();
-    }
+    Ember.run(() => {
+      if (!this.loadingView) {
+        this.loadingView = Ember.getOwner(this)
+          .lookup("component:loading")
+          .append();
+      }
+    });
   },
 
   hideSpinner() {
-    if (this.loadingView) {
-      this.loadingView.destroy();
-      this.loadingView = null;
-    }
+    Ember.run(() => {
+      if (this.loadingView) {
+        this.loadingView.destroy();
+        this.loadingView = null;
+      }
+    });
   },
 
   onError(reason) {

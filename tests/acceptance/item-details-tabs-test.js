@@ -9,11 +9,18 @@ import FactoryGuy from "ember-data-factory-guy";
 import { mockFindAll } from "ember-data-factory-guy";
 import MockUtils from "../helpers/mock-utils";
 
-let App, pkg;
+let App, pkg, designationService, execAction, actionsRan;
 
 module("Acceptance: Item details tabs", {
   beforeEach: function() {
     App = startApp({}, 2);
+
+    actionsRan = [];
+    designationService = App.__container__.lookup("service:designationService");
+    execAction = designationService.execAction;
+    designationService.execAction = async (_, name) => {
+      actionsRan.push(name);
+    };
 
     MockUtils.startSession();
     MockUtils.mockEmptyPreload();
@@ -39,8 +46,23 @@ module("Acceptance: Item details tabs", {
     let packagesLocation = FactoryGuy.make("packages_location", {
       location: location,
       item: pkg,
-      packageId: pkg.get("it"),
+      packageId: pkg.get("id"),
       quantity: 1
+    });
+    let ordersPackage = FactoryGuy.make("orders_package", {
+      packageId: pkg.get("id"),
+      item: pkg,
+      designationId: designation.get("id"),
+      orderId: designation.get("id"),
+      orderId: designation.get("id"),
+      designation: designation,
+      allowedActions: [
+        { name: "cancel", enabled: true },
+        { name: "dispatch", enabled: true }
+      ]
+    });
+    mockFindAll("orders_package").returns({
+      json: { orders_packages: [ordersPackage.toJSON({ includeId: true })] }
     });
     mockFindAll("designation").returns({
       json: { designations: [designation.toJSON({ includeId: true })] }
@@ -60,7 +82,8 @@ module("Acceptance: Item details tabs", {
       responseText: {
         items: [pkg.toJSON({ includeId: true })],
         locations: [location.toJSON({ includeId: true })],
-        packages_locations: [packagesLocation.toJSON({ includeId: true })]
+        packages_locations: [packagesLocation.toJSON({ includeId: true })],
+        orders_packages: [ordersPackage.toJSON({ includeId: true })]
       }
     });
 
@@ -77,6 +100,7 @@ module("Acceptance: Item details tabs", {
     });
   },
   afterEach: function() {
+    designationService.execAction = execAction; // restore
     MockUtils.closeSession();
     Ember.run(App, "destroy");
   }
@@ -188,6 +212,67 @@ test("Publishing tab content", function(assert) {
     andThen(() => {
       assert.equal(checkbox.prop("checked"), true);
       assert.equal(pkg.get("allowWebPublish"), true);
+    });
+  });
+});
+
+test("Publishing tab orders_packages blocks", function(assert) {
+  assert.equal(currentPath(), "items.detail.info");
+
+  click(".item_details_screen .tab-container .tab.publishing");
+
+  andThen(() => {
+    assert.equal(
+      $(".gc-orders-package-block .content-wrapper .content").hasClass(
+        "closed"
+      ),
+      true
+    );
+
+    click(".gc-orders-package-block .arrow-icon-holder");
+
+    andThen(() => {
+      assert.equal(
+        $(".gc-orders-package-block .content-wrapper .content").hasClass(
+          "closed"
+        ),
+        false
+      );
+
+      const ordersPackagesBLocks = $(".gc-orders-package-block");
+      assert.equal(ordersPackagesBLocks.length, 1);
+
+      const actions = ordersPackagesBLocks.find(".action-drawer .action");
+      assert.equal(actions.length, 2);
+      assert.equal(
+        actions
+          .eq(0)
+          .text()
+          .trim(),
+        "Cancel"
+      );
+      assert.equal(
+        actions
+          .eq(1)
+          .text()
+          .trim(),
+        "Dispatch"
+      );
+
+      Ember.run(() => {
+        assert.equal(actionsRan.length, 0);
+        actions.eq(0).click();
+        Ember.run.next(() => {
+          assert.equal(actionsRan.length, 1);
+          assert.equal(actionsRan[0], "cancel");
+          actions.eq(1).click();
+          Ember.run.later(() => {
+            assert.equal(actionsRan.length, 2);
+            assert.equal(actionsRan[0], "cancel");
+            assert.equal(actionsRan[1], "dispatch");
+          });
+        });
+      });
     });
   });
 });
