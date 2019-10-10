@@ -35,11 +35,11 @@ const CANCELLED = {};
 /**
  * UI Component representing an orders_package
  *
- * -----------------------------------------------------
- * |  ico   |   order code                     |    <  |
- * |        |                                  |  <    |
- * |  qty   |   organisation                   |    <  |
- * -----------------------------------------------------
+ * --------------------------------------------------------
+ * | op_state  |   order_code         order_state |    <  |
+ * |           |                                  |  <    |
+ * | qty       |   organisation                   |    <  |
+ * --------------------------------------------------------
  *
  * It provides a drawer from the right side which is populated
  * with the actions provided by the backend

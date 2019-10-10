@@ -5,9 +5,12 @@
   </div>
   <div class="columns small-9 sub-block main {{ orderPkg.designation.state }}">
     <div class="row">
-      <div class="columns small-6 text-align-left">
+      <div class="columns small-11 text-align-left">
         {{fa-icon orderPkg.designation.transportIcon size='lg'}}
         {{ orderPkg.designation.code }}
+      </div>
+      <div class="columns small-1 text-align-left">
+        {{fa-icon orderPkg.designation.stateIcon size='lg'}}
       </div>
     </div>
     <div class="row">
