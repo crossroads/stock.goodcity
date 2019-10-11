@@ -32,7 +32,7 @@
 
     <div class="row detail-section">
       {{#toggle-item-options-list item=item}}
-        <div class="columns small-11">
+        <div class="columns small-12">
           <div class="row">
             <div class="columns small-3">{{t 'item_details.description'}} </div>
             <div class="columns small-9 value description">
@@ -44,9 +44,6 @@
           </div>
         </div>
       {{/toggle-item-options-list}}
-      <div class="columns small-1 item_options_component">
-        {{item-options-list item=item ordersPackage=item.firstOrdersPackage}}
-      </div>
     </div>
 
     {{#toggle-item-options-list item=item}}
