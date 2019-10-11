@@ -4,7 +4,7 @@ import attr from "ember-data/attr";
 import { belongsTo, hasMany } from "ember-data/relationships";
 import Detail from "./detail";
 
-export default Detail.extends({
+export default Detail.extend({
   createdAt: attr("date"),
   updatedAt: attr("date"),
   brand: attr("string"),
