@@ -353,6 +353,15 @@ export default GoodcityController.extend({
                 "Untested (DO NOT USE)"
               ];
               break;
+            case "compTestStatus":
+              columnData = [
+                "Active",
+                "Failure",
+                "Obsolete",
+                "Reserved",
+                "Spares"
+              ];
+              break;
             default:
               columnData = [
                 ...new Set(package_details.getEach(column).filter(Boolean))
