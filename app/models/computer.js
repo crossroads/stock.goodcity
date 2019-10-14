@@ -10,6 +10,7 @@ export default Detail.extend({
   brand: attr("string"),
   model: attr("string"),
   countryId: attr("number"),
+  serialNum: attr("string"),
   size: attr("string"),
   cpu: attr("string"),
   ram: attr("string"),

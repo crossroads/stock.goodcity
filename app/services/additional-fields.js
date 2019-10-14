@@ -23,11 +23,20 @@ export default Ember.Service.extend({
     },
     {
       label: "Serial Number",
+      name: "serialNum",
+      type: "text",
+      value: "serialNum",
+      autoComplete: false,
+      category: ["computer", "computer_accessory"],
+      addAble: false
+    },
+    {
+      label: "Serial Number",
       name: "serialNumber",
       type: "text",
       value: "serialNumber",
       autoComplete: false,
-      category: ["computer", "computer_accessory", "electrical"],
+      category: ["electrical"],
       addAble: false
     },
     {

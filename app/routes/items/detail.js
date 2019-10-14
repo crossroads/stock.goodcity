@@ -25,6 +25,12 @@ export default AuthorizeRoute.extend({
       await Ember.RSVP.all(promises);
     }
 
+    let detail_type = model.get("detailType");
+    let detail_id = model.get("detailId");
+    if (detail_type) {
+      await this.preLoadDetail(detail_type, detail_id);
+      await this.preloadAllDetails(detail_type);
+    }
     return model;
   },
 
@@ -85,6 +91,25 @@ export default AuthorizeRoute.extend({
   preloadImages(item) {
     const ids = item.getWithDefault("imageIds", []);
     return Ember.RSVP.all(ids.map(id => this.loadImage(id)));
+  },
+
+  async preLoadDetail(detail_type, detail_id) {
+    if (detail_type) {
+      return (
+        this.store.peekRecord(detail_type.toLowerCase(), detail_id) ||
+        this.store.findRecord(detail_type.toLowerCase(), detail_id, {
+          reload: true
+        })
+      );
+    }
+  },
+
+  async preloadAllDetails(detail_type) {
+    if (detail_type) {
+      return await this.store.findAll(detail_type.toLowerCase(), {
+        reload: true
+      });
+    }
   },
 
   /**
