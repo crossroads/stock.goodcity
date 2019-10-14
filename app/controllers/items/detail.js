@@ -33,6 +33,21 @@ export default GoodcityController.extend(singletonItemDispatchToGcOrder, {
       });
     }
   }),
+  selectedValues: Ember.computed("item.detail", function() {
+    debugger;
+    console.log(this.get("item.detail.data"));
+    let DbObj = {};
+    let selectedValues = this.get("item.detail.data");
+    let selectedValuesArray = Object.keys(this.get("item.detail.data"));
+
+    selectedValuesArray.map((data, index) => {
+      DbObj[data] = {
+        id: index + 1,
+        tag: selectedValues[data]
+      };
+    });
+    return DbObj;
+  }),
 
   allowMove: Ember.computed(
     "model.isSingletonItem",

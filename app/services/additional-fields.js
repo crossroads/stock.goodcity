@@ -233,7 +233,7 @@ export default Ember.Service.extend({
       name: "power",
       type: "text",
       value: "power",
-      autoComplete: true,
+      autoComplete: false,
       category: ["electrical"],
       addAble: true
     },
@@ -242,7 +242,7 @@ export default Ember.Service.extend({
       name: "systemOrRegion",
       type: "text",
       value: "systemOrRegion",
-      autoComplete: true,
+      autoComplete: false,
       category: ["electrical"],
       addAble: true
     },

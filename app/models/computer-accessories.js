@@ -14,5 +14,6 @@ export default Detail.extend({
   size: attr("string"),
   interface: attr("string"),
   compVoltage: attr("string"),
-  compTestStatus: attr("string")
+  compTestStatus: attr("string"),
+  item: belongsTo("item")
 });

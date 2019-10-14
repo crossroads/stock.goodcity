@@ -24,8 +24,10 @@ export default cloudinaryUrl.extend({
   hasBoxPallet: attr("boolean"),
   itemId: attr("string"),
   allowWebPublish: attr("boolean"),
+  detailType: DS.attr("string"),
   detail: belongsTo("detail", {
-    polymorphic: true
+    polymorphic: true,
+    async: true
   }),
 
   designationId: attr("string"),

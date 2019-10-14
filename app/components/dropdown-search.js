@@ -9,8 +9,13 @@ export default Ember.Component.extend({
   selectedOptionData: " ",
 
   resourceType: Ember.computed("packageDetails", function() {
-    console.log(this.get("packageDetails"), "hit123");
     return this.get("packageDetails");
+  }),
+
+  selectedData: Ember.computed("selectedValue", function() {
+    console.log(this.get("selectedValue"), "hit ttot");
+    debugger;
+    return this.get("selectedValue");
   }),
 
   actions: {

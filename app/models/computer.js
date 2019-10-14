@@ -27,5 +27,6 @@ export default Detail.extend({
   osSerialNum: attr("string"),
   msOfficeSerialNum: attr("string"),
   marOsSerialNum: attr("string"),
-  marMsOfficeSerialNum: attr("string")
+  marMsOfficeSerialNum: attr("string"),
+  item: belongsTo("item")
 });

@@ -140,7 +140,7 @@
         <div class="small-12 columns left">
           {{#form-control}}
           {{#if (is-and fields.autoComplete (is-not-equal fields.name 'country'))}}
-          {{dropdown-search }}
+          {{dropdown-search selectedValue=selectedValues content=fields.name}}
           {{else if (is-equal fields.name 'country')}}
           <div class="dropdown-wrapper">
             {{searchable-select
@@ -153,7 +153,9 @@
             <div class="dropdown-icon"> {{fa-icon 'chevron-down'}}</div>
           </div>
           {{else}}
-          <input type="text">
+          {{log item.detailType}}
+          {{log item.detail.id}}
+          {{additinal-fields-input id=fields.name name="" type="text" class="inline-input additional-input" value='' item=item detailType=item.detailType detailId=item.detail.id}}
           {{/if}}
           {{/form-control}}
         </div>

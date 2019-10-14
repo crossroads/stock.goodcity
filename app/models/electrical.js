@@ -16,5 +16,6 @@ export default Detail.extend({
   systemOrRegion: attr("string"),
   testStatus: attr("string"),
   createdAt: attr("date"),
-  updatedAt: attr("date")
+  updatedAt: attr("date"),
+  item: belongsTo("item")
 });

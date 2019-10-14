@@ -4,7 +4,7 @@
   content=(mut (get resourceType content))
   sortBy="name"
   optionLabelKey="tag"
-  selected=selected
+  selected=(mut (get selectedData content))
   addLabel="Add New Item"
   prompt="Select an option"
   on-change=(action "setSelected" content)
