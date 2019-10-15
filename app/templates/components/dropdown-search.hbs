@@ -1,22 +1,24 @@
 <div class="dropdown-wrapper">
   {{#if addAble}}
-  {{searchable-select
-  content=(mut (get resourceType content))
-  sortBy="name"
-  optionLabelKey="tag"
-  selected=(if displayPage (mut (get selectedDataDisplay content)) selected )
-  addLabel="Add New Item"
-  prompt="Select an option"
-  on-change=(action "setSelected" content)
-  on-add=(action "addNew" content)}}
+    {{searchable-select
+      content=(mut (get resourceType content))
+      sortBy="name"
+      optionLabelKey="tag"
+      selected=(if displayPage (mut (get selectedDataDisplay content)) selected )
+      addLabel="Add New Item"
+      prompt="Select an option"
+      on-change=(action "setSelected" content)
+      on-add=(action "addNew" content)
+    }}
   {{else}}
-  {{searchable-select
-    content=(mut (get resourceType content))
-    sortBy="name"
-    optionLabelKey="tag"
-    selected=(if displayPage (mut (get selectedDataDisplay content)) selected )
-    prompt="Select an option"
-    on-change=(action "setSelected" content)}}
+    {{searchable-select
+      content=(mut (get resourceType content))
+      sortBy="name"
+      optionLabelKey="tag"
+      selected=(if displayPage (mut (get selectedDataDisplay content)) selected )
+      prompt="Select an option"
+      on-change=(action "setSelected" content)
+    }}
   {{/if}}
   <div class="dropdown-icon"> {{fa-icon 'chevron-down'}}</div>
 </div>
