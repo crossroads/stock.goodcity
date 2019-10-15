@@ -11,6 +11,7 @@
     <div class="row action-row">
       <div class="small-6 columns">
         {{toggle-switch
+            disabled=(unless allowPublish true)
             on-icon='eye'
             off-icon='eye-slash'
             on-text=(t 'item_filters.published')
