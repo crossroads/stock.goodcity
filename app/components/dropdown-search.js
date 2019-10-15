@@ -7,15 +7,22 @@ export default Ember.Component.extend({
   selectedTags: [],
   optionObject: {},
   selectedOptionData: " ",
+  disbale: true,
 
   resourceType: Ember.computed("packageDetails", function() {
     return this.get("packageDetails");
   }),
 
-  selectedData: Ember.computed("selectedValue", function() {
-    console.log(this.get("selectedValue"), "hit ttot");
-    debugger;
-    return this.get("selectedValue");
+  selectedData: Ember.computed("selectedValues", function() {
+    return this.get("selectedValues");
+  }),
+
+  selectedDataDisplay: Ember.computed("selectedValuesDisplay", function() {
+    return this.get("selectedValuesDisplay");
+  }),
+
+  displayPage: Ember.computed("displayPage", function() {
+    return this.get("displayPage");
   }),
 
   actions: {
@@ -31,7 +38,6 @@ export default Ember.Component.extend({
         tag: text
       });
       this.set("selected", newTag);
-      console.log(data, "new");
       this.set("packageDetails", data);
       this.send("setSelected", fieldName, newTag);
     },
@@ -39,7 +45,6 @@ export default Ember.Component.extend({
       let optionObj = this.get("optionObject");
       optionObj[fieldName] = value.tag;
       this.set("optionObject", optionObj);
-      console.log(this.get("optionObject"));
       this.get("onConfirm")(this.get("optionObject"));
     }
   }

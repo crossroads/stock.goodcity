@@ -34,19 +34,33 @@ export default GoodcityController.extend(singletonItemDispatchToGcOrder, {
     }
   }),
   selectedValues: Ember.computed("item.detail", function() {
-    debugger;
-    console.log(this.get("item.detail.data"));
-    let DbObj = {};
+    let dataObj = {};
     let selectedValues = this.get("item.detail.data");
     let selectedValuesArray = Object.keys(this.get("item.detail.data"));
 
     selectedValuesArray.map((data, index) => {
-      DbObj[data] = {
+      dataObj[data] = [
+        {
+          id: index + 1,
+          tag: selectedValues[data]
+        }
+      ];
+    });
+    return dataObj;
+  }),
+
+  selectedValuesDisplay: Ember.computed("item.detail", function() {
+    let dataObj = {};
+    let selectedValues = this.get("item.detail.data");
+    let selectedValuesArray = Object.keys(this.get("item.detail.data"));
+
+    selectedValuesArray.map((data, index) => {
+      dataObj[data] = {
         id: index + 1,
         tag: selectedValues[data]
       };
     });
-    return DbObj;
+    return dataObj;
   }),
 
   allowMove: Ember.computed(
@@ -193,6 +207,10 @@ export default GoodcityController.extend(singletonItemDispatchToGcOrder, {
      */
     openTab(tabName) {
       this.replaceRoute(`items.detail.${tabName}`);
+    },
+
+    setFields(value) {
+      this.set("fieldValues", value);
     },
 
     /**

@@ -132,30 +132,28 @@
   <div class="row">
 
     {{#each displayFields as |fields|}}
-    <div class="small-6 columns input-field-container">
+    <div class="small-6 columns input-field-container disable">
       <div class="row">
         <div class="small-12 columns item-label">
           {{fields.label}}
         </div>
-        <div class="small-12 columns left">
+        <div class="small-12 columns left input-fields">
           {{#form-control}}
           {{#if (is-and fields.autoComplete (is-not-equal fields.name 'country'))}}
-          {{dropdown-search selectedValue=selectedValues content=fields.name}}
+          {{dropdown-search addAble=fields.addAble displayPage=true selectedValuesDisplay=selectedValuesDisplay packageDetails=selectedValues content=fields.name onConfirm=(action 'setFields')}}
           {{else if (is-equal fields.name 'country')}}
           <div class="dropdown-wrapper">
             {{searchable-select
-                    content=countryArray
-                    sortBy="name"
-                    optionLabelKey="nameEn"
-                    selected=selected
-                    addLabel="Add New Item"
-                    prompt="Select an option"}}
+              content=countryArray
+              sortBy="name"
+              optionLabelKey="nameEn"
+              selected=selected
+              addLabel="Add New Item"
+              prompt="Select an option"}}
             <div class="dropdown-icon"> {{fa-icon 'chevron-down'}}</div>
           </div>
           {{else}}
-          {{log item.detailType}}
-          {{log item.detail.id}}
-          {{additinal-fields-input id=fields.name name="" type="text" class="inline-input additional-input" value='' item=item detailType=item.detailType detailId=item.detail.id}}
+          {{additinal-fields-input id=fields.name name="" type="text" class="inline-input additional-input" value=(mut (get (get selectedValuesDisplay fields.name) 'tag')) item=item detailType=item.detailType detailId=item.detail.id}}
           {{/if}}
           {{/form-control}}
         </div>

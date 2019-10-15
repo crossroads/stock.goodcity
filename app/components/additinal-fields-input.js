@@ -35,9 +35,9 @@ export default Ember.TextField.extend({
 
   focusOut() {
     var item = this.get("item");
-    let detail_type = pluralize("Computer accessory").toLowerCase();
-    let detail_id = item.get("detailId");
-    var url = `/${detail_type}/${detail_id}`;
+    let detailType = pluralize(this.get("detailType")).toLowerCase();
+    let detailId = this.get("detailId");
+    var url = `/${detailType}/${detailId}`;
     var key = this.get("name");
     var packageParams = {};
     packageParams[key] = this.get("value") || "";

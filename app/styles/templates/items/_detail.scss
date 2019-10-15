@@ -207,6 +207,12 @@
       }
     }
 
+    &.disable {
+      .input-fields {
+        pointer-events: none;
+      }
+    }
+
   }
 
   .click-action-zone {

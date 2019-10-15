@@ -62,7 +62,6 @@ export default GoodcityController.extend({
         let subFormData = {};
         let columns = Object.keys(package_details.get("firstObject").toJSON());
         columns.map(column => {
-          console.log(column, "here");
           let columnData = [];
           switch (column) {
             case "frequency":
@@ -106,9 +105,6 @@ export default GoodcityController.extend({
             };
           });
         });
-
-        console.log(subFormData, "final");
-
         return subFormData;
       }
     }
@@ -695,9 +691,6 @@ export default GoodcityController.extend({
       finalObject["detail_attributes"] = {
         ...this.get("snakeCasefieldObj")
       };
-      console.log(finalObject, "hit");
-      debugger;
-
       let packageParamsObj = {
         ...this.packageParams(),
         ...this.get("polymorphicField"),
