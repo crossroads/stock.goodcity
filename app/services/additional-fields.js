@@ -167,7 +167,7 @@ export default Ember.Service.extend({
     },
     {
       label: "OS Serial Num",
-      name: "os_serial_num",
+      name: "osSerialNum",
       type: "text",
       value: "osSerialNum",
       autoComplete: false,
@@ -176,7 +176,7 @@ export default Ember.Service.extend({
     },
     {
       label: "Ms Office Serial Num",
-      name: "ms_office_serial_num",
+      name: "msOfficeSerialNum",
       type: "text",
       value: "msOfficeSerialNum",
       autoComplete: false,
@@ -185,7 +185,7 @@ export default Ember.Service.extend({
     },
     {
       label: "Mar  OS serial Num",
-      name: "mar_os_serial_num",
+      name: "marOsSerialNum",
       type: "text",
       value: "marOsSerialNum",
       autoComplete: false,
@@ -194,7 +194,7 @@ export default Ember.Service.extend({
     },
     {
       label: "Mar Ms Office Serial Num",
-      name: "mar_ms_office_serial_num",
+      name: "marMsOfficeSerialNum",
       type: "text",
       value: "marMsOfficeSerialNum",
       autoComplete: false,

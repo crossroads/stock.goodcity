@@ -46,6 +46,7 @@ export default GoodcityController.extend(singletonItemDispatchToGcOrder, {
         }
       ];
     });
+    console.log(dataObj, "dataObj");
     return dataObj;
   }),
 
