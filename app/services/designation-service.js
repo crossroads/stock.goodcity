@@ -119,8 +119,8 @@ export default ApiBaseService.extend({
 
     this.set("orderSearchProps", filters);
     this.set("openOrderSearch", true);
-    this.set("onnOrderSelected", order => {
-      this.set("onnOrderSelected", _.noop);
+    this.set("onOrderSelected", order => {
+      this.set("onOrderSelected", _.noop);
       deferred.resolve(order || null);
     });
 

@@ -1,5 +1,6 @@
 import Ember from "ember";
 import _ from "lodash";
+import AsyncMixin from "../../mixins/async";
 
 const ACTIONS_SETTINGS = {
   dispatch: {
@@ -51,7 +52,7 @@ const CANCELLED = {};
  * Usage:
  *  {{goodcity/orders-package-block orderPkg=orderPkg }}
  */
-export default Ember.Component.extend({
+export default Ember.Component.extend(AsyncMixin, {
   store: Ember.inject.service(),
   messageBox: Ember.inject.service(),
   i18n: Ember.inject.service(),
@@ -120,25 +121,6 @@ export default Ember.Component.extend({
 
   // --- EXECUTION
 
-  showSpinner() {
-    Ember.run(() => {
-      if (!this.loadingView) {
-        this.loadingView = Ember.getOwner(this)
-          .lookup("component:loading")
-          .append();
-      }
-    });
-  },
-
-  hideSpinner() {
-    Ember.run(() => {
-      if (this.loadingView) {
-        this.loadingView.destroy();
-        this.loadingView = null;
-      }
-    });
-  },
-
   onError(reason) {
     const defaultMessage = this.get("i18n").t("unexpected_error");
     const message = _.get(
@@ -161,13 +143,11 @@ export default Ember.Component.extend({
       return;
     }
 
-    this.showSpinner();
-
     try {
-      await this.get("actionRunner").execAction(ordersPkg, actionName, params);
-      this.hideSpinner();
+      await this.runTask(
+        this.get("actionRunner").execAction(ordersPkg, actionName, params)
+      );
     } catch (e) {
-      this.hideSpinner();
       this.onError(e);
     }
   },
