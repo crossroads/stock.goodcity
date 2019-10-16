@@ -15,5 +15,8 @@ export default Detail.extend({
   interface: attr("string"),
   compVoltage: attr("string"),
   compTestStatus: attr("string"),
-  item: belongsTo("item")
+  item: belongsTo("item"),
+  country: belongsTo("country", {
+    async: false
+  })
 });

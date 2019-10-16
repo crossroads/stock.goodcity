@@ -28,5 +28,8 @@ export default Detail.extend({
   msOfficeSerialNum: attr("string"),
   marOsSerialNum: attr("string"),
   marMsOfficeSerialNum: attr("string"),
-  item: belongsTo("item")
+  item: belongsTo("item"),
+  country: belongsTo("country", {
+    async: false
+  })
 });

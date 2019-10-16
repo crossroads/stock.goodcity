@@ -17,5 +17,8 @@ export default Detail.extend({
   testStatus: attr("string"),
   createdAt: attr("date"),
   updatedAt: attr("date"),
-  item: belongsTo("item")
+  item: belongsTo("item"),
+  country: belongsTo("country", {
+    async: false
+  })
 });

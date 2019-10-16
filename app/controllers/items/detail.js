@@ -50,6 +50,35 @@ export default GoodcityController.extend(singletonItemDispatchToGcOrder, {
     return dataObj;
   }),
 
+  selectedCountry: Ember.computed("item.detail", function() {
+    let country = this.get("item.detail.country");
+    if (country) {
+      return {
+        id: 1,
+        nameEn: country.get("nameEn")
+      };
+    }
+  }),
+
+  countryArray: Ember.computed("item.detail", function() {
+    let country = this.get("item.detail.country");
+    if (country) {
+      return [
+        {
+          id: 1,
+          nameEn: country.get("nameEn")
+        }
+      ];
+    } else {
+      return [
+        {
+          id: 1,
+          nameEn: "               "
+        }
+      ];
+    }
+  }),
+
   selectedValuesDisplay: Ember.computed("item.detail", function() {
     let dataObj = {};
     let selectedValues = this.get("item.detail.data");
