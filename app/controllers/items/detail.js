@@ -39,12 +39,21 @@ export default GoodcityController.extend(singletonItemDispatchToGcOrder, {
     let selectedValuesArray = Object.keys(this.get("item.detail.data"));
 
     selectedValuesArray.map((data, index) => {
-      dataObj[data] = [
-        {
-          id: index + 1,
-          tag: selectedValues[data]
-        }
-      ];
+      if (selectedValues[data]) {
+        return (dataObj[data] = [
+          {
+            id: index + 1,
+            tag: selectedValues[data]
+          }
+        ]);
+      } else {
+        return (dataObj[data] = [
+          {
+            id: index + 1,
+            tag: "          "
+          }
+        ]);
+      }
     });
     console.log(dataObj, "dataObj");
     return dataObj;
@@ -83,12 +92,20 @@ export default GoodcityController.extend(singletonItemDispatchToGcOrder, {
     let dataObj = {};
     let selectedValues = this.get("item.detail.data");
     let selectedValuesArray = Object.keys(this.get("item.detail.data"));
+    console.log(selectedValuesArray, "hit here me");
 
     selectedValuesArray.map((data, index) => {
-      dataObj[data] = {
-        id: index + 1,
-        tag: selectedValues[data]
-      };
+      if (selectedValues[data]) {
+        return (dataObj[data] = {
+          id: index + 1,
+          tag: selectedValues[data]
+        });
+      } else {
+        return (dataObj[data] = {
+          id: index + 1,
+          tag: "Please enter a value"
+        });
+      }
     });
     return dataObj;
   }),
