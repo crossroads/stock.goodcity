@@ -12,6 +12,12 @@ export default GoodcityController.extend({
   inventoryNumber: "",
   results: "",
   searchText: "",
+  dropDownValues: {},
+  inputFieldValues: {},
+  countryObj: {},
+  countryArray: [],
+  countryValue: {},
+  detail_attributes: {},
   scanLocationName: "",
   displayInventoryOptions: false,
   autoGenerateInventory: true,
@@ -23,9 +29,6 @@ export default GoodcityController.extend({
   weight: "",
   isSelectLocationPreviousRoute: Ember.computed.localStorage(),
   quantity: 1,
-  countryObj: {},
-  countryArray: [],
-  selectedCountry: {},
   labels: 1,
   length: null,
   width: null,
@@ -34,14 +37,11 @@ export default GoodcityController.extend({
     name: "B",
     id: "B"
   },
-  polymorphicField: null,
-  fieldsValues: {},
   subFormData: {},
   invalidLocation: false,
   invalidScanResult: false,
   newUploadedImage: null,
   isAllowedToPublish: false,
-  snakeCasefieldObj: {},
 
   imageKeys: Ember.computed.localStorage(),
 
@@ -119,8 +119,6 @@ export default GoodcityController.extend({
     }
   }),
 
-  formElement: {},
-
   packageService: Ember.inject.service(),
 
   showPublishItemCheckBox: Ember.computed("quantity", function() {
@@ -157,7 +155,6 @@ export default GoodcityController.extend({
 
   isMobileApp: config.cordova.enabled,
   messageBox: Ember.inject.service(),
-  formElement: {},
   conditions: Ember.computed(function() {
     return this.get("store").peekAll("donor_condition");
   }),
@@ -283,21 +280,18 @@ export default GoodcityController.extend({
     }
   }),
 
-  camelToSnakeCaseConversion: function(string) {
-    return string
-      .replace(/[\w]([A-Z])/g, function(m) {
-        return m[0] + "_" + m[1];
-      })
-      .toLowerCase();
-  },
-
-  camerToSnakeCase: function(obj) {
-    let newObj = this.get("snakeCasefieldObj");
-    let objValue = obj["detail_attributes"];
-    for (var camel in objValue) {
-      newObj[this.camelToSnakeCaseConversion(camel)] = objValue[camel];
-    }
-    this.set("snakeCasefieldObj", newObj);
+  fetchDetailAttributes() {
+    let detail_attributes = {};
+    let attributes = {
+      ...this.get("inputFieldValues"),
+      ...this.get("dropDownValues"),
+      ...this.get("countryValue")
+    };
+    Object.keys(attributes).forEach(key => {
+      detail_attributes[_.snakeCase(key)] = attributes[key];
+    });
+    this.set("detail_attributes", detail_attributes);
+    return this.get("detail_attributes");
   },
 
   initActionSheet: function(onSuccess) {
@@ -335,6 +329,7 @@ export default GoodcityController.extend({
   packageParams() {
     const locationId = this.get("location.id");
     const quantity = this.get("quantity");
+    const detail_attributes = this.fetchDetailAttributes();
     return {
       quantity: quantity,
       allow_web_publish: this.get("isAllowedToPublish"),
@@ -349,6 +344,7 @@ export default GoodcityController.extend({
       grade: this.get("selectedGrade.id"),
       donor_condition_id: this.get("defaultCondition.id"),
       location_id: locationId,
+      detail_type: this.get("code.subform"),
       package_type_id: this.get("code.id"),
       state_event: "mark_received",
       packages_locations_attributes: {
@@ -356,7 +352,8 @@ export default GoodcityController.extend({
           location_id: locationId,
           quantity: quantity
         }
-      }
+      },
+      detail_attributes: detail_attributes
     };
   },
 
@@ -526,15 +523,12 @@ export default GoodcityController.extend({
       }
     },
 
-    selectedCountry(value) {
-      let country = {
-        country_id: value.id
-      };
-      this.set("selectedCountry", country);
+    countryValue(value) {
+      this.set("countryValue", { country_id: value.id });
     },
 
     setFields(value) {
-      this.set("fieldValues", value);
+      this.set("dropDownValues", value);
     },
 
     uploadReady() {
@@ -672,30 +666,6 @@ export default GoodcityController.extend({
     },
 
     saveItem() {
-      let polymorphicField = {};
-      let subFormDataObj = {};
-      let finalObject = {};
-      subFormDataObj["detail_attributes"] = {
-        ...this.get("formElement"),
-        ...this.get("fieldValues"),
-        ...this.get("selectedCountry")
-      };
-      this.set("formElement", {});
-      this.set("fieldsValues", {});
-      this.set("selectedCountry", {});
-
-      polymorphicField["detail_type"] = this.get("code.subform");
-      this.set("subFormDataObj", subFormDataObj);
-      this.set("polymorphicField", polymorphicField);
-      this.camerToSnakeCase(this.get("subFormDataObj"));
-      finalObject["detail_attributes"] = {
-        ...this.get("snakeCasefieldObj")
-      };
-      let packageParamsObj = {
-        ...this.packageParams(),
-        ...this.get("polymorphicField"),
-        ...finalObject
-      };
       if (!window.navigator.onLine) {
         this.get("messageBox").alert(this.get("i18n").t("offline_error"));
         return false;
@@ -708,13 +678,17 @@ export default GoodcityController.extend({
         this.showLoadingSpinner();
         this.get("packageService")
           .createPackage({
-            package: packageParamsObj
+            package: this.packageParams()
           })
           .then(data => {
             if (this.get("isMultipleCountPrint")) {
               this.printBarcode(data.item.id);
             }
             this.updateStoreAndSaveImage(data);
+            this.set("detail_attributes", {});
+            this.set("inputFieldValues", {}),
+              this.set("dropDownValues", {}),
+              this.set("countryValue", {});
           })
           .catch(response => {
             this.showLoadingSpinner();
