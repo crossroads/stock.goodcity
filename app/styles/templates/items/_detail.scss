@@ -181,33 +181,21 @@
 
       .columns {
 
-        input,
-        select {
-          padding: 0 0.8rem !important;
-          background: $light-blue-3 !important;
-          border: 1px solid $light-blue-3 !important;
-          color: $white;
-          height: 2rem !important;
-          margin-bottom: 0px;
-        }
 
-        .dropdown-wrapper {
-          .Searchable-select__label {
-            border-radius: 0;
-            background: none;
-            border: none;
+        .form__control {
+
+          input,
+          select {
+            padding: 0 0.8rem !important;
             background: $light-blue-3 !important;
+            border: 1px solid $light-blue-3 !important;
+            color: $white !important;
+            height: 2rem !important;
+            margin-bottom: 0px;
           }
 
-          .dropdown-icon {
-            position: absolute;
-            top: 50%;
-            -o-transform: translateY(-50%);
-            -webkit-transform: translateY(-50%);
-            -ms-transform: translateY(-50%);
-            -moz-transform: translateY(-50%);
-            transform: translateY(-50%);
-            right: 7%;
+          .inline-text-input {
+            border: 1px solid #8091a9 !important;
           }
 
           .Searchable-select__options-list {
@@ -219,15 +207,28 @@
               }
             }
           }
+
+          .dropdown-wrapper {
+            .Searchable-select__label {
+              border-radius: 0;
+              background: none;
+              border: none;
+              background: $light-blue-3;
+            }
+
+            .dropdown-icon {
+              position: absolute;
+              top: 50%;
+              -o-transform: translateY(-50%);
+              -webkit-transform: translateY(-50%);
+              -ms-transform: translateY(-50%);
+              -moz-transform: translateY(-50%);
+              transform: translateY(-50%);
+              right: 7%;
+            }
+          }
         }
       }
-
-      &.disable {
-        .input-fields {
-          pointer-events: none;
-        }
-      }
-
     }
   }
 
