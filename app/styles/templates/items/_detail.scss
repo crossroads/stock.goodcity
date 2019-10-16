@@ -179,10 +179,10 @@
 
       input,
       select {
-        padding: 0 0.5rem;
-        background: #1a3964 !important;
-        border: 1px solid #1a3964 !important;
-        color: white;
+        padding: 0 0.8rem !important;
+        background: $light-blue-3 !important;
+        border: 1px solid $light-blue-3 !important;
+        color: $white;
         height: 1.8rem !important;
       }
 
@@ -191,7 +191,7 @@
           border-radius: 0;
           background: none;
           border: none;
-          background: #1a3964 !important;
+          background: $light-blue-3 !important;
         }
 
         .dropdown-icon {
