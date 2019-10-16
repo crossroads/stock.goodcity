@@ -172,6 +172,7 @@
 
     .input-field-container {
       padding-left: 0.7rem;
+      margin-bottom: 15px;
       padding-right: 1.3125rem;
       float: none;
       display: inline-block;
@@ -187,6 +188,7 @@
           border: 1px solid $light-blue-3 !important;
           color: $white;
           height: 2rem !important;
+          margin-bottom: 0px;
         }
 
         .dropdown-wrapper {
