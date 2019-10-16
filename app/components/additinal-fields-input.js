@@ -21,36 +21,21 @@ export default Ember.TextField.extend({
     "pattern"
   ],
   store: Ember.inject.service(),
-  previousValue: "",
-  displayScanner: false,
   item: null,
-
-  focusTrigger: Ember.observer("value", function() {
-    this.$().focus();
-  }),
-
-  controllerNameEnd: Ember.computed("detailType", function() {
-    return `${detailType.toLowerCase()}s`;
-  }),
+  classNameBindings: ["class"],
+  previousValue: "",
 
   focusOut() {
     var item = this.get("item");
     let detailType = pluralize(this.get("detailType")).toLowerCase();
     let detailId = this.get("detailId");
     var url = `/${detailType}/${detailId}`;
+    console.log(url);
     var key = this.get("name");
+    console.log(key, "hit");
     var packageParams = {};
     packageParams[key] = this.get("value") || "";
-    var value = this.attrs.value.value || "";
-    var regexPattern = /^(CAS\-\d{5})$/;
-
-    if (value && value.toString().search(regexPattern) !== 0) {
-      this.set("value", this.get("previousValue"));
-      this.$().focus();
-      Ember.$("#CAS-error" + item.id).show();
-      return false;
-    }
-
+    console.log(this.get("previousValue"), "hit");
     Ember.$(this.element).removeClass("inline-text-input");
     if (
       packageParams[key].toString() !== this.get("previousValue").toString()
@@ -68,9 +53,6 @@ export default Ember.TextField.extend({
           loadingView.destroy();
         });
     }
-    Ember.$(this.element).removeClass("inline-text-input");
-    Ember.$("#CAS-error" + item.id).hide();
-    Ember.run.debounce(this, this.removeScanner, 2000);
   },
 
   focusIn() {
@@ -84,6 +66,5 @@ export default Ember.TextField.extend({
 
   click() {
     this.addCssStyle();
-    this.set("previousValue", this.get("value") || "");
   }
 });

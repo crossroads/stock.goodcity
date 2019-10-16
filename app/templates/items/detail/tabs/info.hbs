@@ -149,7 +149,7 @@
           <div class="dropdown-icon"> {{fa-icon 'chevron-down'}}</div>
         </div>
         {{else}}
-        {{additinal-fields-input id=fields.name name="" type="text" class="inline-input additional-input" value=(mut (get (get selectedValuesDisplay fields.name) 'tag')) item=item detailType=item.detailType detailId=item.detail.id}}
+        {{additinal-fields-input id=fields.name name=fields.name type="text" class="inline-input additional-input" value=(mut (get (get selectedValuesDisplay fields.name) 'tag')) item=item detailType=item.detailType detailId=item.detail.id}}
         {{/if}}
         {{/form-control}}
       </div>
