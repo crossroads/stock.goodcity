@@ -18,14 +18,14 @@
           sortBy="name"
           optionLabelKey="nameEn"
           selected=selected
-          on-change=(action "selectedCountry")
+          on-change=(action "countryValue")
           addLabel="Add New Item"
           prompt="Select an option"
           on-search=(action "onSearch")}}
           <div class="dropdown-icon"> {{fa-icon 'chevron-down'}}</div>
         </div>
         {{else}}
-        {{input name=fields.name type=fields.type value=(mut (get formElement fields.value)) }}
+        {{input name=fields.name type=fields.type value=(mut (get inputFieldValues fields.value)) }}
         {{/if}}
         {{/form-control}}
       </div>

@@ -41,6 +41,7 @@ export default Ember.Component.extend({
       this.set("packageDetails", data);
       this.send("setSelected", fieldName, newTag);
     },
+
     setSelected(fieldName, value) {
       let optionObj = this.get("optionObject");
       optionObj[fieldName] = value.tag;
