@@ -29,6 +29,9 @@ export default Ember.Mixin.create({
   minSearchTextLength: 2,
   searchText: "",
   displayResults: false,
+  searchProps: {
+    shallow: true
+  },
 
   // ----- Observers -----
   on() {
@@ -112,7 +115,7 @@ export default Ember.Mixin.create({
   getSearchQuery() {
     return {
       searchText: this.get("searchText"),
-      shallow: true
+      ...this.get("searchProps")
     };
   },
 

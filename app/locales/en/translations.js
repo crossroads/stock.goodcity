@@ -461,7 +461,17 @@ export default {
     max_undesignate: "From: {{code}}<br/>Quantity: {{qty}}",
     already_dispatched: "All designated Items are already dispatched",
     multiple: "Multiple",
-    dispatch_message: "Are you sure you want to dispatch this Item?"
+    dispatch_message: "Are you sure you want to dispatch this Item?",
+    related_orders: "Related Orders"
+  },
+  orders_package: {
+    actions: {
+      edit_quantity: "Edit Qty",
+      cancel: "Cancel",
+      redesignate: "Redesignate",
+      dispatch: "Dispatch",
+      undispatch: "Undispatch"
+    }
   },
   designate: {
     modify_designation: "Cancels the designation to order {{code}}",

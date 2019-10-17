@@ -72,7 +72,9 @@ export default Model.extend({
   }),
 
   isLocalOrder: Ember.computed("detailType", function() {
-    return ["LocalOrder", "StockitLocalOrder"].indexOf(this.get("detailType")) > -1;
+    return (
+      ["LocalOrder", "StockitLocalOrder"].indexOf(this.get("detailType")) > -1
+    );
   }),
 
   isGoodCityOrder: Ember.computed.equal("detailType", "GoodCity"),
@@ -165,7 +167,7 @@ export default Model.extend({
     }
   ),
 
-  transportIcon: Ember.computed("orderTransport", function() {
+  transportIcon: Ember.computed("isAppointment", "isOnlineOrder", function() {
     if (this.get("isAppointment")) {
       return "warehouse";
     } else if (this.get("isOnlineOrder")) {

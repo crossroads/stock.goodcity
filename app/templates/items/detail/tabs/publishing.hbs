@@ -8,15 +8,29 @@
       {{/if}}
       {{t 'partial_undesignate.available' }} ({{ model.availableQty }})
     </div>
-    {{toggle-switch
-        disabled=(unless allowPublish true)
-        on-icon='eye'
-        off-icon='eye-slash'
-        on-text=(t 'item_filters.published')
-        off-text=(t 'item_filters.private')
-        value=model.allowWebPublish
-        after-change=(action 'persistModel')
-    }}
+    <div class="row action-row">
+      <div class="small-6 columns">
+        {{toggle-switch
+            disabled=(unless allowPublish true)
+            on-icon='eye'
+            off-icon='eye-slash'
+            on-text=(t 'item_filters.published')
+            off-text=(t 'item_filters.private')
+            value=model.allowWebPublish
+            after-change=(action 'persistModel')
+        }}
+      </div>
+      <div class="small-6 columns">
+        {{#link-to
+          'items.search_order' item.id (query-params isSet=item.isSet partial_qty=1)
+          tagName='button' class='button'
+          disabled=(if model.isSingletonItem false true)
+          href=false
+        }}
+          {{fa-icon 'shopping-basket'}} {{t 'item.designate'}}
+        {{/link-to}}
+      </div>
+    </div>
   </div>
 
   <div class="row count-row">
@@ -32,5 +46,18 @@
       {{fa-icon 'eye'}}
       {{model.totalDesignatedQty}} {{t 'item_filters.designated' }}
     </div>
+  </div>
+
+  <div class="row">
+    <div class="tab-title">
+      {{fa-icon 'shopping-basket'}}
+      {{t 'item.related_orders' }}
+    </div>
+
+    {{#each sortedOrdersPackages as |orderPkg|}}
+      <div class="row">
+        {{goodcity/orders-package-block orderPkg=orderPkg }}
+      </div>
+    {{/each}}
   </div>
 </div>

@@ -1,7 +1,21 @@
 .item_details_screen .publishing-tab {
+  padding-left: 1rem;
+
   @mixin spaced-out($mul : 1) {
     margin-top: 1rem * $mul;
     margin-bottom: 1rem * $mul;
+  }
+
+  .row.action-row {
+    .button {
+      padding: 0.45rem 1rem;
+      margin: 1rem;
+      @media only screen and (max-width: 400px) {
+        svg {
+          display: none;
+        }
+      }
+    }
   }
 
   .tab-title {
