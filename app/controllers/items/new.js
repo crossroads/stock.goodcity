@@ -2,6 +2,7 @@ import Ember from "ember";
 import AjaxPromise from "stock/utils/ajax-promise";
 import GoodcityController from "../goodcity_controller";
 import config from "../../config/environment";
+import additionalFields from "../../constants/additional-fields";
 import _ from "lodash";
 const { getOwner, A } = Ember;
 
@@ -25,7 +26,7 @@ export default GoodcityController.extend({
   locationName: Ember.computed.alias("location.displayName"),
   caseNumber: "",
   isSearchCodePreviousRoute: Ember.computed.localStorage(),
-  fields: Ember.inject.service("additional-fields"),
+  fields: additionalFields,
   weight: "",
   isSelectLocationPreviousRoute: Ember.computed.localStorage(),
   quantity: 1,
