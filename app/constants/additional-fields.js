@@ -1,7 +1,4 @@
-import Ember from "ember";
-import AjaxPromise from "./../utils/ajax-promise";
-
-export default Ember.Service.extend({
+export default {
   additionalFields: [
     {
       label: "Brand",
@@ -274,4 +271,4 @@ export default Ember.Service.extend({
       addAble: false
     }
   ]
-});
+};

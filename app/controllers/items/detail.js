@@ -2,6 +2,7 @@ import Ember from "ember";
 import config from "../../config/environment";
 import singletonItemDispatchToGcOrder from "../../mixins/singleton_item_dispatch_to_gc_order";
 import GoodcityController from "../goodcity_controller";
+import additionalFields from "../../constants/additional-fields";
 
 export default GoodcityController.extend(singletonItemDispatchToGcOrder, {
   isMobileApp: config.cordova.enabled,
@@ -20,7 +21,7 @@ export default GoodcityController.extend(singletonItemDispatchToGcOrder, {
 
   currentRoute: Ember.computed.alias("application.currentPath"),
   pkg: Ember.computed.alias("model"),
-  fields: Ember.inject.service("additional-fields"),
+  fields: additionalFields,
 
   displayFields: Ember.computed("model.code", function() {
     let subformElement = this.get("model.code.subform");
@@ -47,12 +48,11 @@ export default GoodcityController.extend(singletonItemDispatchToGcOrder, {
         return (dataObj[data] = [
           {
             id: index + 1,
-            tag: "          "
+            tag: " ".repeat(15)
           }
         ]);
       }
     });
-    console.log(dataObj, "dataObj");
     return dataObj;
   }),
 
@@ -79,7 +79,7 @@ export default GoodcityController.extend(singletonItemDispatchToGcOrder, {
       return [
         {
           id: 1,
-          nameEn: "               "
+          nameEn: " ".repeat(15)
         }
       ];
     }
