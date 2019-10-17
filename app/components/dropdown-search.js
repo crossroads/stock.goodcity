@@ -1,17 +1,32 @@
 import Ember from "ember";
+import {
+  singularize,
+  pluralize
+} from "ember-inflector";
+import AjaxPromise from "stock/utils/ajax-promise";
+import _ from "lodash";
+const {
+  getOwner
+} = Ember;
 
 export default Ember.Component.extend({
   selected: [],
-  optionObject: {},
+  previousValue: "",
+  store: Ember.inject.service(),
 
   resourceType: Ember.computed.alias("packageDetails"),
   selectedData: Ember.computed.alias("selectedValue"),
-  selectedDataDisplay: Ember.computed("selectedValuesDisplay", function() {
+  selectedDataDisplay: Ember.computed("selectedValuesDisplay", function () {
     return this.get("selectedValuesDisplay");
   }),
-  displayLabel: Ember.computed("addAble", function() {
+  displayLabel: Ember.computed("addAble", function () {
     return this.get("addAble") ? "Add New Item" : "";
   }),
+
+
+  valueChanged(newValue, previousValue) {
+    return newValue !== previousValue;
+  },
 
   actions: {
     addNew(fieldName, text) {
@@ -28,6 +43,55 @@ export default Ember.Component.extend({
 
     setSelected(fieldName, value) {
       this.get("onConfirm")(fieldName, value.tag);
-    }
+      if (this.get("displayPage")) {
+        let detailType = this.get("detailType").toLowerCase();
+        let apiEndpoint = pluralize(detailType);
+        let detailId = this.get("detailId");
+        var url = `/${apiEndpoint}/${detailId}`;
+        let snakeCaseKey = _.snakeCase(fieldName);
+        var _this = this;
+        var packageDetailParams = {
+          [snakeCaseKey]: value.tag || ""
+        };
+        console.log(packageDetailParams);
+        console.log(this.get("previousValue"), "hit");
+        if (
+          this.valueChanged(
+            packageDetailParams[snakeCaseKey],
+            this.get("previousValue")
+          )
+        ) {
+          var loadingView = getOwner(this)
+            .lookup("component:loading")
+            .append();
+          new AjaxPromise(url, "PUT", this.get("session.authToken"), {
+              [detailType]: packageDetailParams
+            })
+            .then(data => {
+              this.get("store").pushPayload(data);
+              let selectedValuesObj = {
+                ...this.get("selectedValuesDisplay")
+              };
+              selectedValuesObj[snakeCaseKey] = value.tag;
+              _this.set("selectedValuesDisplay", selectedValuesObj);
+            })
+            .finally(() => {
+              loadingView.destroy();
+            });
+        }
+      }
+    },
+
+    openDropDown(fieldName) {
+      if (this.get("displayPage")) {
+        console.log(fieldName);
+        this.set(
+          "previousValue",
+          this.get("selectedDataDisplay")[fieldName]["tag"] || ""
+        );
+      }
+    },
+
+    closeDropDown() {}
   }
 });

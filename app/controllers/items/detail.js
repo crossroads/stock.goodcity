@@ -73,9 +73,10 @@ export default GoodcityController.extend(singletonItemDispatchToGcOrder, {
     ];
   }),
 
-  selectedValuesDisplay: Ember.computed("item.detail", function() {
+  selectedValuesDisplay: Ember.computed("item.detail.{}", function() {
     let dataObj = {};
     let selectedValues = this.get("item.detail.data");
+    debugger;
     let selectedValuesArray = Object.keys(this.get("item.detail.data"));
 
     selectedValuesArray.map((data, index) => {
