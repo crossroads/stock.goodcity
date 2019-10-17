@@ -8,7 +8,7 @@
       </div>
       <div class="columns small-5 value">
         {{#if (is-greater item.quantity 1)}}
-        {{quantity-chooser item=item}}
+          {{quantity-chooser item=item}}
         {{/if}}
       </div>
     </div>
@@ -16,11 +16,11 @@
       <div class="columns small-4">{{t "item_details.type"}} </div>
       <div class="columns small-8 value">
         {{#if isPackageTypeEditable}}
-        {{input value=item.code.name class="item-type" disabled=true}}
+          {{input value=item.code.name class="item-type" disabled=true}}
         {{else}}
-        {{#link-to 'items.search_code' item.id}}
-        {{input value=item.code.name class="item-type" disabled=true}}
-        {{/link-to}}
+          {{#link-to 'items.search_code' item.id}}
+            {{input value=item.code.name class="item-type" disabled=true}}
+          {{/link-to}}
         {{/if}}
       </div>
     </div>
@@ -28,7 +28,7 @@
   </div>
   <div class="columns small-3">
     {{#link-to 'items.edit_images' item.id}}
-    <img src={{item.thumbImageUrl}} class="thumb" />
+      <img src={{item.thumbImageUrl}} class="thumb" />
     {{/link-to}}
   </div>
 </div>
@@ -41,8 +41,10 @@
       <div class="columns small-3">{{t 'item_details.description'}} </div>
       <div class="columns small-9 value description">
         {{#form-control}}
-        {{item-description-textarea data-autoresize=true name="notes" value=item.notes required="required" pattern=".*\S.*" id=(concat 'desc' item.id) class="description-textarea" item=item}}
-        <div class='description-error'>{{t 'item_details.validation_errors.description'}}</div>
+          {{item-description-textarea data-autoresize=true name="notes" value=item.notes required="required" pattern=".*\S.*" id=(concat 'desc' item.id) class="description-textarea" item=item}}
+          <div class='description-error'>
+            {{t 'item_details.validation_errors.description'}}
+          </div>
         {{/form-control}}
       </div>
     </div>
@@ -62,27 +64,29 @@
         <div class="select-quality">
           <span class='input_text'>{{t 'item_details.grade'}}</span>
           {{inline-select-list
-                  content=grades
-                  on-change=(action (mut selectedReason))
-                  name="grade"
-                  autosave=true
-                  isPrimitive=true
-                  id=(concat 'grd' item.id)
-                  class="grade-margin"
-                  item=item}}
+            content=grades
+            on-change=(action (mut selectedReason))
+            name="grade"
+            autosave=true
+            isPrimitive=true
+            id=(concat 'grd' item.id)
+            class="grade-margin"
+            item=item
+          }}
         </div>
       </div>
       <div class="columns small-6 value condition-field">
         <div class="select-condition">
           <span class='input_text'>{{t 'item_details.condition'}}</span>
           {{inline-select-list
-                  content=conditions
-                  on-change=(action (mut selectedReason))
-                  name="donorCondition"
-                  item=item
-                  autosave=true
-                  id=(concat 'cnd' item.id)
-                  class="condition-margin"}}
+            content=conditions
+            on-change=(action (mut selectedReason))
+            name="donorCondition"
+            item=item
+            autosave=true
+            id=(concat 'cnd' item.id)
+            class="condition-margin"
+          }}
         </div>
       </div>
     </div>
@@ -94,13 +98,17 @@
       <div class="columns small-3 value">
         L:
         {{numeric-inline-input id=(concat 'qty' item.id) name="length" class="numeric-input item-length small-3" value=item.length maxlength="5" item=item}}
-        <span><i aria-hidden="true">{{fa-icon 'times'}}</i></span>
+        <span>
+          <i aria-hidden="true">{{fa-icon 'times'}}</i>
+        </span>
       </div>
 
       <div class="columns small-3 value">
         W:
         {{numeric-inline-input id=(concat 'wth' item.id) name="width" class="numeric-input item-width small-3" value=item.width maxlength="5"  item=item}}
-        <span><i aria-hidden="true">{{fa-icon 'times'}}</i></span>
+        <span>
+          <i aria-hidden="true">{{fa-icon 'times'}}</i>
+        </span>
       </div>
 
       <div class="columns small-3 value">
@@ -139,16 +147,24 @@
             {{dropdown-search addAble=fields.addAble displayPage=true selectedValuesDisplay=selectedValuesDisplay packageDetails=selectedValues content=fields.name onConfirm=(action ‘setFields’)}}
            {{else if (is-equal fields.name ‘country’)}}
              <div class=“dropdown-wrapper”>
-               {{searchable-select
-                 content=countryArray
-                 sortBy=“name”
-                 optionLabelKey=“nameEn”
-                 selected=selectedCountry
-                 prompt=“Select an option”}}
-               <div class=“dropdown-icon”> {{fa-icon ‘chevron-down’}}</div>
+              {{searchable-select
+                content=countryArray
+                sortBy= "name"
+                optionLabelKey= "nameEn"
+                selected=selectedCountry
+                prompt= "Select an option"
+              }}
+              <div class=“dropdown-icon”>{{fa-icon ‘chevron-down’}}</div>
              </div>
            {{else}}
-             {{additinal-fields-input id=fields.name name=fields.name type=“text” class=“inline-input additional-input” value=(mut (get (get selectedValuesDisplay fields.name) ‘tag’)) item=item detailType=item.detailType detailId=item.detail.id}}
+              {{additinal-fields-input
+                id=fields.name name=fields.name type= "text"
+                class= "inline-input additional-input"
+                value=(mut (get (get selectedValuesDisplay fields.name) ‘tag’))
+                item=item
+                detailType=item.detailType
+                detailId=item.detail.id
+              }}
              {{/if}}
          {{/form-control}}
        </div>

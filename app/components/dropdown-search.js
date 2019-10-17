@@ -1,4 +1,3 @@
-2;
 import Ember from "ember";
 
 export default Ember.Component.extend({
@@ -6,6 +5,10 @@ export default Ember.Component.extend({
 
   resourceType: Ember.computed.alias("packageDetails"),
   selectedData: Ember.computed.alias("selectedValue"),
+
+  displayLabel: Ember.computed("addAble", function() {
+    return this.get("addAble") ? "Add New Item" : "";
+  }),
 
   actions: {
     addNew(fieldName, text) {
@@ -15,7 +18,8 @@ export default Ember.Component.extend({
         tag: text
       };
       this.set("selected", newTag);
-      this.set("packageDetails", packageDetails[fieldName].push(newTag));
+      packageDetails[fieldName].push(newTag);
+      this.set("packageDetails", packageDetails);
       this.send("setSelected", fieldName, newTag);
     },
 
