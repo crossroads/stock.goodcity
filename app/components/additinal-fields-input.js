@@ -9,6 +9,7 @@ import {
 const {
   getOwner
 } = Ember;
+import _ from "lodash";
 
 export default Ember.TextField.extend({
   tagName: "input",
@@ -26,30 +27,27 @@ export default Ember.TextField.extend({
     "pattern"
   ],
   store: Ember.inject.service(),
-  item: null,
   classNameBindings: ["class"],
   previousValue: "",
 
   focusOut() {
-    var item = this.get("item");
-    let detailType = pluralize(this.get("detailType")).toLowerCase();
+    let detailType = this.get("detailType").toLowerCase();
+    let apiEndpoint = pluralize(detailType);
     let detailId = this.get("detailId");
-    var url = `/${detailType}/${detailId}`;
-    console.log(url);
+    var url = `/${apiEndpoint}/${detailId}`;
     var key = this.get("name");
-    console.log(key, "hit");
-    var packageParams = {};
-    packageParams[key] = this.get("value") || "";
-    console.log(this.get("previousValue"), "hit");
+    var packageDetailParams = {
+      [_.snakeCase(key)]: this.get("value") || ""
+    };
     Ember.$(this.element).removeClass("inline-text-input");
     if (
-      packageParams[key].toString() !== this.get("previousValue").toString()
+      this.valueChanged(packageDetailParams[key], this.get("previousValue"))
     ) {
       var loadingView = getOwner(this)
         .lookup("component:loading")
         .append();
       new AjaxPromise(url, "PUT", this.get("session.authToken"), {
-          package: packageParams
+          [detailType]: packageDetailParams
         })
         .then(data => {
           this.get("store").pushPayload(data);
@@ -58,6 +56,10 @@ export default Ember.TextField.extend({
           loadingView.destroy();
         });
     }
+  },
+
+  valueChanged(newValue, previousValue) {
+    return newValue !== previousValue;
   },
 
   focusIn() {
