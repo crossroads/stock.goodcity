@@ -16,13 +16,18 @@ export default Ember.Component.extend({
 
   resourceType: Ember.computed.alias("packageDetails"),
   selectedData: Ember.computed.alias("selectedValue"),
+
   selectedDataDisplay: Ember.computed("selectedValuesDisplay", function () {
     return this.get("selectedValuesDisplay");
   }),
+
   displayLabel: Ember.computed("addAble", function () {
     return this.get("addAble") ? "Add New Item" : "";
   }),
 
+  displayPage: Ember.computed("displayPage", function () {
+    return this.get("displayPage");
+  }),
 
   valueChanged(newValue, previousValue) {
     return newValue !== previousValue;
@@ -68,11 +73,18 @@ export default Ember.Component.extend({
               [detailType]: packageDetailParams
             })
             .then(data => {
+              console.log(data, "data");
+              debugger;
               this.get("store").pushPayload(data);
               let selectedValuesObj = {
                 ...this.get("selectedValuesDisplay")
               };
-              selectedValuesObj[snakeCaseKey] = value.tag;
+              let subformType = Object.keys(data)[0];
+              selectedValuesObj[snakeCaseKey] = {
+                id: data.id,
+                tag: data[subformType][snakeCaseKey]
+              };
+              console.log(selectedValuesObj);
               _this.set("selectedValuesDisplay", selectedValuesObj);
             })
             .finally(() => {

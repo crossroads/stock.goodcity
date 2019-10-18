@@ -137,7 +137,7 @@
       <div class="small-12 columns left input-fields">
         {{#form-control}}
         {{#if (is-and fields.autoComplete (is-not-equal fields.name 'country'))}}
-        {{dropdown-search addAble=fields.addAble displayPage=true selectedValuesDisplay=selectedValuesDisplay packageDetails=selectedValues content=fields.name onConfirm=(action 'setFields')
+        {{dropdown-search addAble=fields.addAble displayPage=true selectedValuesDisplay=selectedValuesDisplay packageDetails=selectedValues content=fields.name onConfirm=(action 'setFields') item=item
         detailType=item.detailType detailId=item.detail.id}}
         {{else if (is-equal fields.name 'country')}}
         <div class="dropdown-wrapper">
