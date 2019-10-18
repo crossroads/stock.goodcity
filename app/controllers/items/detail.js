@@ -94,8 +94,6 @@ export default GoodcityController.extend(singletonItemDispatchToGcOrder, {
     let dataObj = {};
     let selectedValues = this.get("item.detail.data");
     let selectedValuesArray = Object.keys(this.get("item.detail.data"));
-    console.log(selectedValuesArray, "hit here me");
-    console.log(selectedValues, "hit");
 
     selectedValuesArray.map((data, index) => {
       if (selectedValues[data]) {
@@ -110,7 +108,6 @@ export default GoodcityController.extend(singletonItemDispatchToGcOrder, {
         });
       }
     });
-    console.log(dataObj, "here");
     return dataObj;
   }),
 
