@@ -25,12 +25,17 @@ export default GoodcityController.extend(singletonItemDispatchToGcOrder, {
 
   displayFields: Ember.computed("model.code", function() {
     let subformElement = this.get("model.code.subform");
-    if (this.isPackageTypeEditable()) {
+    if (
+      ["computer", "electrical", "computer_accessory"].indexOf(
+        subformElement
+      ) >= 0
+    ) {
       return this.get("fields").additionalFields.filter(function(field) {
         return field.category.includes(subformElement);
       });
     }
   }),
+
   selectedValues: Ember.computed("item.detail", function() {
     let dataObj = {};
     let selectedValues = this.get("item.detail.data");
@@ -90,6 +95,7 @@ export default GoodcityController.extend(singletonItemDispatchToGcOrder, {
     let selectedValues = this.get("item.detail.data");
     let selectedValuesArray = Object.keys(this.get("item.detail.data"));
     console.log(selectedValuesArray, "hit here me");
+    console.log(selectedValues, "hit");
 
     selectedValuesArray.map((data, index) => {
       if (selectedValues[data]) {
@@ -104,6 +110,7 @@ export default GoodcityController.extend(singletonItemDispatchToGcOrder, {
         });
       }
     });
+    console.log(dataObj, "here");
     return dataObj;
   }),
 

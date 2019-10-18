@@ -525,7 +525,9 @@ export default GoodcityController.extend({
     },
 
     countryValue(value) {
-      this.set("countryValue", { country_id: value.id });
+      this.set("countryValue", {
+        country_id: value.id
+      });
     },
 
     setFields(value) {

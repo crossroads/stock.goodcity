@@ -2,10 +2,13 @@ import Ember from "ember";
 
 export default Ember.Component.extend({
   selected: [],
+  optionObject: {},
 
   resourceType: Ember.computed.alias("packageDetails"),
   selectedData: Ember.computed.alias("selectedValue"),
-
+  selectedDataDisplay: Ember.computed("selectedValuesDisplay", function() {
+    return this.get("selectedValuesDisplay");
+  }),
   displayLabel: Ember.computed("addAble", function() {
     return this.get("addAble") ? "Add New Item" : "";
   }),
@@ -24,8 +27,10 @@ export default Ember.Component.extend({
     },
 
     setSelected(fieldName, value) {
-      const newOption = { [fieldName]: value.tag };
-      this.get("onConfirm")(newOption);
+      let optionObj = this.get("optionObject");
+      optionObj[fieldName] = value.tag;
+      this.set("optionObject", optionObj);
+      this.get("onConfirm")(this.get("optionObject"));
     }
   }
 });
