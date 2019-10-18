@@ -29,18 +29,59 @@ module("Acceptance: Add item to inventory", {
     designation = FactoryGuy.make("designation");
     bookingType = FactoryGuy.make("booking_type");
     mockFindAll("designation").returns({
-      json: { designations: [designation.toJSON({ includeId: true })] }
+      json: {
+        designations: [
+          designation.toJSON({
+            includeId: true
+          })
+        ]
+      }
     });
     mockFindAll("location").returns({
       json: {
-        locations: [location2.toJSON({ includeId: true })],
-        meta: { search: location2.get("building").toString() }
+        locations: [
+          location2.toJSON({
+            includeId: true
+          })
+        ],
+        meta: {
+          search: location2.get("building").toString()
+        }
       }
     });
     mockFindAll("booking_type").returns({
-      json: { booking_types: [bookingType.toJSON({ includeId: true })] }
+      json: {
+        booking_types: [
+          bookingType.toJSON({
+            includeId: true
+          })
+        ]
+      }
     });
-    code = FactoryGuy.make("code", { location: location1 });
+    code = FactoryGuy.make("code", {
+      location: location1
+    });
+    //generate inventory_number for new package
+    $.mockjax({
+      url: "/api/v1/inventory*",
+      type: "POST",
+      status: 200,
+      responseText: {
+        inventory_number: "000311"
+      }
+    });
+    //stub image request dummy values
+    $.mockjax({
+      url: "/api/v1/images/generate_sign*",
+      type: "GET",
+      status: 200,
+      responseText: {
+        api_key: 123456789876543,
+        signature: "3ec17bf700bc23446d61932385d",
+        timestamp: 1234567891,
+        tags: "staging"
+      }
+    });
     visit("/");
   },
   afterEach: function() {
@@ -60,7 +101,11 @@ test("Select custom location on create item screen instead of default location o
     type: "GET",
     status: 200,
     responseText: {
-      codes: [code.toJSON({ includeId: true })]
+      codes: [
+        code.toJSON({
+          includeId: true
+        })
+      ]
     }
   });
 
@@ -70,25 +115,6 @@ test("Select custom location on create item screen instead of default location o
     fillIn("#searchText", code.get("name"));
     //click on first package_type
     click(find(".list li:first")[0]);
-    //generate inventory_number for new package
-    $.mockjax({
-      url: "/api/v1/inventory*",
-      type: "POST",
-      status: 200,
-      responseText: { inventory_number: "000311" }
-    });
-    //stub image request dummy values
-    $.mockjax({
-      url: "/api/v1/images/generate_sign*",
-      type: "GET",
-      status: 200,
-      responseText: {
-        api_key: 123456789876543,
-        signature: "3ec17bf700bc23446d61932385d",
-        timestamp: 1234567891,
-        tags: "staging"
-      }
-    });
 
     andThen(function() {
       assert.equal(currentPath(), "items.new");
@@ -101,8 +127,14 @@ test("Select custom location on create item screen instead of default location o
 
         mockFindAll("location").returns({
           json: {
-            locations: [location2.toJSON({ includeId: true })],
-            meta: { search: location2.get("building").toString() }
+            locations: [
+              location2.toJSON({
+                includeId: true
+              })
+            ],
+            meta: {
+              search: location2.get("building").toString()
+            }
           }
         });
         andThen(function() {
@@ -148,7 +180,11 @@ test("Check validation for 'Add item to inventory ' page''", function(assert) {
     type: "GET",
     status: 200,
     responseText: {
-      codes: [code.toJSON({ includeId: true })]
+      codes: [
+        code.toJSON({
+          includeId: true
+        })
+      ]
     }
   });
   andThen(function() {
@@ -162,7 +198,9 @@ test("Check validation for 'Add item to inventory ' page''", function(assert) {
       url: "/api/v1/inventory*",
       type: "POST",
       status: 200,
-      responseText: { inventory_number: "000311" }
+      responseText: {
+        inventory_number: "000311"
+      }
     });
     //stub image request dummy values
     $.mockjax({
@@ -215,7 +253,11 @@ test("Redirect to /search_code after clicking Add item to inventory and save red
     type: "GET",
     status: 200,
     responseText: {
-      codes: [code.toJSON({ includeId: true })]
+      codes: [
+        code.toJSON({
+          includeId: true
+        })
+      ]
     }
   });
 
@@ -243,7 +285,9 @@ test("Redirect to /search_code after clicking Add item to inventory and save red
       url: "/api/v1/inventory*",
       type: "POST",
       status: 200,
-      responseText: { inventory_number: "000311" }
+      responseText: {
+        inventory_number: "000311"
+      }
     });
     //stub image request dummy values
     $.mockjax({
