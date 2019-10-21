@@ -8,7 +8,9 @@
   addLabel="Add New Item"
   prompt="Select an option"
   on-change=(action "setSelected" content)
-  on-add=(action "addNew" content)}}
+  on-add=(action "addNew" content)
+  on-open=(action "openDropDown" content)
+  on-close=(action "closeDropDown")}}
   {{else}}
   {{searchable-select
     content=(mut (get resourceType content))
@@ -16,7 +18,9 @@
     optionLabelKey="tag"
     selected=(if displayPage (mut (get selectedDataDisplay content)) selected )
     prompt="Select an option"
-    on-change=(action "setSelected" content)}}
+    on-change=(action "setSelected" content)
+    on-open=(action "openDropDown")
+    on-close=(action "closeDropDown")}}
   {{/if}}
   <div class="dropdown-icon"> {{fa-icon 'chevron-down'}}</div>
 </div>
