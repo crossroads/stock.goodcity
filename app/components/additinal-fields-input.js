@@ -26,7 +26,7 @@ export default Ember.TextField.extend({
   previousValue: "",
 
   focusOut() {
-    let detailType = this.get("detailType").toLowerCase();
+    let detailType = _.snakeCase(this.get("detailType")).toLowerCase();
     let apiEndpoint = pluralize(detailType);
     let detailId = this.get("detailId");
     var url = `/${apiEndpoint}/${detailId}`;

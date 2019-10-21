@@ -1,5 +1,6 @@
 import AuthorizeRoute from "../authorize";
 import Ember from "ember";
+import _ from "lodash";
 
 export default AuthorizeRoute.extend({
   itemBackLinkPath: Ember.computed.localStorage(),
@@ -96,10 +97,17 @@ export default AuthorizeRoute.extend({
   async preLoadDetail(detail_type, detail_id) {
     if (detail_type) {
       return (
-        this.store.peekRecord(detail_type.toLowerCase(), detail_id) ||
-        this.store.findRecord(detail_type.toLowerCase(), detail_id, {
-          reload: true
-        })
+        this.store.peekRecord(
+          _.snakeCase(detail_type).toLowerCase(),
+          detail_id
+        ) ||
+        this.store.findRecord(
+          _.snakeCase(detail_type).toLowerCase(),
+          detail_id,
+          {
+            reload: true
+          }
+        )
       );
     }
   },
