@@ -100,7 +100,7 @@ export default {
       addAble: true
     },
     {
-      label: "video",
+      label: "Video",
       name: "video",
       type: "text",
       value: "video",
