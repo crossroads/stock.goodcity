@@ -57,6 +57,16 @@
       transform: translateY(-50%);
       right: 7%;
     }
+
+    .Searchable-select__options-list {
+      li {
+        padding: 0.6em 1.2em;
+
+        .Searchable-select__icon {
+          display: none;
+        }
+      }
+    }
   }
 
   .item-label {

@@ -5,6 +5,7 @@
     optionLabelKey="tag"
     selected=(if displayPage (mut (get selectedDataDisplay content)) selected )
     addLabel= displayLabel
+    isClearable=false
     prompt="Select an option"
     on-change=(action "setSelected" content)
     on-add= (if addAble (action "addNew" content) "")
