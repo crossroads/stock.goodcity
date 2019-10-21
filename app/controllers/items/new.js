@@ -530,8 +530,10 @@ export default GoodcityController.extend({
       });
     },
 
-    setFields(value) {
-      this.set("dropDownValues", value);
+    setFields(fieldName, value) {
+      let dropDownValues = this.get("dropDownValues");
+      dropDownValues[fieldName] = value;
+      this.set("dropDownValues", dropDownValues);
     },
 
     uploadReady() {
@@ -689,9 +691,9 @@ export default GoodcityController.extend({
             }
             this.updateStoreAndSaveImage(data);
             this.set("detail_attributes", {});
-            this.set("inputFieldValues", {}),
-              this.set("dropDownValues", {}),
-              this.set("countryValue", {});
+            this.set("inputFieldValues", {});
+            this.set("dropDownValues", {});
+            this.set("countryValue", {});
           })
           .catch(response => {
             this.showLoadingSpinner();

@@ -27,10 +27,7 @@ export default Ember.Component.extend({
     },
 
     setSelected(fieldName, value) {
-      let optionObj = this.get("optionObject");
-      optionObj[fieldName] = value.tag;
-      this.set("optionObject", optionObj);
-      this.get("onConfirm")(this.get("optionObject"));
+      this.get("onConfirm")(fieldName, value.tag);
     }
   }
 });
