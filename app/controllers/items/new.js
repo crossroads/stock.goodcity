@@ -481,6 +481,13 @@ export default GoodcityController.extend({
       });
   },
 
+  clearAttributes() {
+    this.set("detail_attributes", {});
+    this.set("inputFieldValues", {});
+    this.set("dropDownValues", {});
+    this.set("countryValue", {});
+  },
+
   actions: {
     //file upload
     triggerUpload() {
@@ -690,10 +697,7 @@ export default GoodcityController.extend({
               this.printBarcode(data.item.id);
             }
             this.updateStoreAndSaveImage(data);
-            this.set("detail_attributes", {});
-            this.set("inputFieldValues", {});
-            this.set("dropDownValues", {});
-            this.set("countryValue", {});
+            this.clearAttributes();
           })
           .catch(response => {
             this.showLoadingSpinner();
