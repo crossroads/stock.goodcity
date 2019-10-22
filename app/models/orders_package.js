@@ -11,6 +11,7 @@ export default Model.extend({
   quantity: attr("number"),
   sentOn: attr("date"),
   state: attr("string"),
+  allowedActions: attr(),
 
   item: belongsTo("item", { async: true }),
   designation: belongsTo("designation", { async: true }),

@@ -1,0 +1,28 @@
+//
+// Custom drawer that slides open a list of actions
+//
+.cmp.action-drawer {
+  height: 6em;
+  width: calc(90vw - 2rem);
+  max-width: 37rem;
+  background-color: black;
+
+  .action-holder {
+    white-space: nowrap;
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 1rem;
+    .action {
+      width: 6em;
+      height: 6em;
+      line-height: 2em;
+      padding-top: 1em;
+      text-align: center;
+
+      &.disabled {
+        opacity: 0.4;
+        pointer-events: none;
+      }
+    }
+  }
+}

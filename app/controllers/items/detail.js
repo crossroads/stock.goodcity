@@ -223,6 +223,19 @@ export default GoodcityController.extend(singletonItemDispatchToGcOrder, {
     }
   ),
 
+  sortedOrdersPackages: Ember.computed(
+    "model.ordersPackages.[]",
+    "model.ordersPackages.@each.state",
+    function() {
+      // Cancelled orders packages are moved to the bottom
+      const records = this.get("model.ordersPackages");
+      return [
+        ...records.rejectBy("state", "cancelled"),
+        ...records.filterBy("state", "cancelled")
+      ];
+    }
+  ),
+
   actions: {
     /**
      * Called after a property is changed to push the updated

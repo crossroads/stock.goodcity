@@ -167,7 +167,7 @@ export default Model.extend({
     }
   ),
 
-  transportIcon: Ember.computed("orderTransport", function() {
+  transportIcon: Ember.computed("isAppointment", "isOnlineOrder", function() {
     if (this.get("isAppointment")) {
       return "warehouse";
     } else if (this.get("isOnlineOrder")) {

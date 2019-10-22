@@ -39,9 +39,7 @@ export default Ember.Component.extend({
     let appliedFilters = filters.filter(isChecked);
 
     filterService.set(name, appliedFilters);
-    this.get("router").transitionTo("items.index", {
-      queryParams: { locationFilterChanged: null }
-    });
+    this.get("router").transitionTo("items.index");
   },
 
   // Removes applied filters (Generic for all filters)

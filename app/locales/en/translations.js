@@ -356,7 +356,8 @@ export default {
       people_count_warning: "You must input a number here",
       need_description: "Description of need",
       need_description_info: "Please briefly describe why goods are needed.",
-      description_warning: "Description cannot be blank."
+      description_warning: "Description cannot be blank.",
+      error_message: "You must select the district"
     },
     goods_details: {
       title: "Goods Details",
@@ -385,7 +386,8 @@ export default {
         "If the request is too large for the client to carry alone, please advise them to bring their own labor to load at our end and unload at their end. Crossroads does not provide labor, and hired truck drivers do not provide loading services without charge.",
       labor_confirmation: "I confirm understanding of labor requirements.",
       date: "Appointment Date",
-      time: "Appointment Time"
+      time: "Appointment Time",
+      error_message: "You Must select the appointment date"
     },
     booking_success: {
       success: "Success!",
@@ -459,7 +461,17 @@ export default {
     max_undesignate: "From: {{code}}<br/>Quantity: {{qty}}",
     already_dispatched: "All designated Items are already dispatched",
     multiple: "Multiple",
-    dispatch_message: "Are you sure you want to dispatch this Item?"
+    dispatch_message: "Are you sure you want to dispatch this Item?",
+    related_orders: "Related Orders"
+  },
+  orders_package: {
+    actions: {
+      edit_quantity: "Edit Qty",
+      cancel: "Cancel",
+      redesignate: "Redesignate",
+      dispatch: "Dispatch",
+      undispatch: "Undispatch"
+    }
   },
   designate: {
     modify_designation: "Cancels the designation to order {{code}}",
