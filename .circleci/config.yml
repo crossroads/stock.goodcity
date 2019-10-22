@@ -349,7 +349,7 @@ workflows:
               - test_cases
             filters:
               branches:
-                only: /^(master|live)$/
+                only: /^(master|live|GCW-2804-additional-fields-ui-with-details-page)$/
         - www-deploy:
             requires:
               - www_build
