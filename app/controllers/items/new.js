@@ -61,7 +61,6 @@ export default GoodcityController.extend({
     switch (column) {
       case "frequency":
         return ["50", "50/60 (Multi)", "60", "N/A", "Other"];
-        break;
       case "voltage":
         return [
           "120V ~ (100-200V)",
@@ -71,17 +70,14 @@ export default GoodcityController.extend({
           "NA",
           "Other"
         ];
-        break;
       case "testStatus":
         return [
           "Maintenance (DO NOT USE)",
           "Tested (DO NOT USE)",
           "Untested (DO NOT USE)"
         ];
-        break;
       case "compTestStatus":
         return ["Active", "Failure", "Obsolete", "Reserved", "Spares"];
-        break;
       default:
         return [...new Set(package_details.getEach(column).filter(Boolean))];
     }
