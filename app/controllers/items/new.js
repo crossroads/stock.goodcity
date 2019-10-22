@@ -349,10 +349,7 @@ export default GoodcityController.extend({
       package_type_id: this.get("code.id"),
       state_event: "mark_received",
       packages_locations_attributes: {
-        0: {
-          location_id: locationId,
-          quantity: quantity
-        }
+        0: { location_id: locationId, quantity: quantity }
       },
       detail_attributes: detail_attributes
     };
