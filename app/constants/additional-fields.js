@@ -222,7 +222,7 @@ export default {
       name: "standard",
       type: "text",
       autoComplete: false,
-      value: "systemOrRegion",
+      value: "standard",
       category: ["electrical"],
       addAble: true
     },
