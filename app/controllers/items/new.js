@@ -686,9 +686,7 @@ export default GoodcityController.extend({
       } else {
         this.showLoadingSpinner();
         this.get("packageService")
-          .createPackage({
-            package: this.packageParams()
-          })
+          .createPackage({ package: this.packageParams() })
           .then(data => {
             if (this.get("isMultipleCountPrint")) {
               this.printBarcode(data.item.id);
