@@ -17,9 +17,9 @@ export default Ember.Controller.extend({
     if (selectedDate) {
       var timeSlots = this.get(
         "available_dates"
-      ).appointment_calendar_dates.filter(
+      ).appointment_calendar_dates.find(
         date => date.date === moment(selectedDate).format("YYYY-MM-DD")
-      )[0].slots;
+      ).slots;
       return timeSlots;
     }
   }),

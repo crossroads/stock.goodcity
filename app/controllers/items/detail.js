@@ -42,21 +42,12 @@ export default GoodcityController.extend(singletonItemDispatchToGcOrder, {
     let selectedValuesArray = Object.keys(this.get("item.detail.data"));
 
     selectedValuesArray.map((data, index) => {
-      if (selectedValues[data]) {
-        return (dataObj[data] = [
-          {
-            id: index + 1,
-            tag: selectedValues[data]
-          }
-        ]);
-      } else {
-        return (dataObj[data] = [
-          {
-            id: index + 1,
-            tag: " ".repeat(15)
-          }
-        ]);
-      }
+      dataObj[data] = [
+        {
+          id: index + 1,
+          tag: selectedValues[data] || " ".repeat(15)
+        }
+      ];
     });
     return dataObj;
   }),
@@ -73,21 +64,13 @@ export default GoodcityController.extend(singletonItemDispatchToGcOrder, {
 
   countryArray: Ember.computed("item.detail", function() {
     let country = this.get("item.detail.country");
-    if (country) {
-      return [
-        {
-          id: 1,
-          nameEn: country.get("nameEn")
-        }
-      ];
-    } else {
-      return [
-        {
-          id: 1,
-          nameEn: " ".repeat(15)
-        }
-      ];
-    }
+    let countryName = country ? country.get("nameEn") : " ".repeat(15);
+    return [
+      {
+        id: 1,
+        nameEn: countryName
+      }
+    ];
   }),
 
   selectedValuesDisplay: Ember.computed("item.detail", function() {
@@ -96,17 +79,10 @@ export default GoodcityController.extend(singletonItemDispatchToGcOrder, {
     let selectedValuesArray = Object.keys(this.get("item.detail.data"));
 
     selectedValuesArray.map((data, index) => {
-      if (selectedValues[data]) {
-        return (dataObj[data] = {
-          id: index + 1,
-          tag: selectedValues[data]
-        });
-      } else {
-        return (dataObj[data] = {
-          id: index + 1,
-          tag: "Please enter a value"
-        });
-      }
+      return (dataObj[data] = {
+        id: index + 1,
+        tag: selectedValues[data] || "Please enter a value"
+      });
     });
     return dataObj;
   }),
@@ -134,12 +110,10 @@ export default GoodcityController.extend(singletonItemDispatchToGcOrder, {
 
   isPackageTypeEditable: Ember.computed("model.code", function() {
     let subformValue = this.get("model.code.subform");
-    if (
+    return (
       ["computer", "electrical", "computer_accessory"].indexOf(subformValue) >=
       0
-    ) {
-      return true;
-    }
+    );
   }),
 
   tabName: Ember.computed("currentRoute", function() {
@@ -149,24 +123,11 @@ export default GoodcityController.extend(singletonItemDispatchToGcOrder, {
   }),
 
   grades: Ember.computed("item.grade", function() {
-    return [
-      {
-        name: "A",
-        id: "A"
-      },
-      {
-        name: "B",
-        id: "B"
-      },
-      {
-        name: "C",
-        id: "C"
-      },
-      {
-        name: "D",
-        id: "D"
-      }
-    ];
+    let grades = ["A", "B", "C", "D"];
+    return grades.map(key => ({
+      name: key,
+      id: key
+    }));
   }),
 
   conditions: Ember.computed(function() {

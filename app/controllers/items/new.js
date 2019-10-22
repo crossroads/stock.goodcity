@@ -49,10 +49,10 @@ export default GoodcityController.extend({
   i18n: Ember.inject.service(),
 
   showAdditionalFields: Ember.computed("code", function() {
-    return !(
+    return (
       ["computer", "computer_accessory", "electrical"].indexOf(
         this.get("code.subform")
-      ) === -1
+      ) > -1
     );
   }),
 

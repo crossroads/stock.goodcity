@@ -7,7 +7,7 @@ export default Model.extend({
       version: version,
       height: height,
       width: width,
-      crop: crop === true ? "fill" : "fit",
+      crop: crop ? "fill" : "fit",
       flags: "progressive",
       id: id,
       secure: true,
