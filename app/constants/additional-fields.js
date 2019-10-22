@@ -13,6 +13,7 @@ export default {
       name: "model",
       type: "text",
       autoComplete: false,
+      value: "model",
       category: ["computer", "computer_accessory", "electrical"],
       addAble: false
     },
@@ -20,6 +21,7 @@ export default {
       label: "Serial Number",
       name: "serialNum",
       type: "text",
+      value: "serialNum",
       autoComplete: false,
       category: ["computer", "computer_accessory"],
       addAble: false
@@ -28,6 +30,7 @@ export default {
       label: "Serial Number",
       name: "serialNumber",
       type: "text",
+      value: "serialNumber",
       autoComplete: false,
       category: ["electrical"],
       addAble: false
@@ -149,6 +152,7 @@ export default {
       name: "osSerialNum",
       type: "text",
       autoComplete: false,
+      value: "osSerialNum",
       category: ["computer"],
       addAble: false
     },
@@ -156,6 +160,7 @@ export default {
       label: "Ms Office Serial Num",
       name: "msOfficeSerialNum",
       type: "text",
+      value: "msOfficeSerialNum",
       autoComplete: false,
       category: ["computer"],
       addAble: false
@@ -164,6 +169,7 @@ export default {
       label: "Mar  OS serial Num",
       name: "marOsSerialNum",
       type: "text",
+      value: "marOsSerialNum",
       autoComplete: false,
       category: ["computer"],
       addAble: false
@@ -172,6 +178,7 @@ export default {
       label: "Mar Ms Office Serial Num",
       name: "marMsOfficeSerialNum",
       type: "text",
+      value: "marMsOfficeSerialNum",
       autoComplete: false,
       category: ["computer"],
       addAble: false
@@ -197,6 +204,7 @@ export default {
       name: "power",
       type: "text",
       autoComplete: false,
+      value: "power",
       category: ["electrical"],
       addAble: true
     },
@@ -205,6 +213,7 @@ export default {
       name: "systemOrRegion",
       type: "text",
       autoComplete: false,
+      value: "systemOrRegion",
       category: ["electrical"],
       addAble: true
     },
@@ -213,6 +222,7 @@ export default {
       name: "standard",
       type: "text",
       autoComplete: false,
+      value: "systemOrRegion",
       category: ["electrical"],
       addAble: true
     },
