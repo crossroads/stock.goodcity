@@ -28,11 +28,5 @@ export default Detail.extend({
   msOfficeSerialNum: attr("string"),
   marOsSerialNum: attr("string"),
   marMsOfficeSerialNum: attr("string"),
-  item: belongsTo("item"),
-  country: Ember.computed("countryId", function() {
-    let countryId = this.get("countryId");
-    if (countryId) {
-      return this.store.peekRecord("country", this.get("countryId"));
-    }
-  })
+  item: belongsTo("item")
 });

@@ -15,11 +15,5 @@ export default Detail.extend({
   interface: attr("string"),
   compVoltage: attr("string"),
   compTestStatus: attr("string"),
-  item: belongsTo("item"),
-  country: Ember.computed("countryId", function() {
-    let countryId = this.get("countryId");
-    if (countryId) {
-      return this.store.peekRecord("country", this.get("countryId"));
-    }
-  })
+  item: belongsTo("item")
 });

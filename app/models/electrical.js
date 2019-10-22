@@ -17,11 +17,5 @@ export default Detail.extend({
   testStatus: attr("string"),
   createdAt: attr("date"),
   updatedAt: attr("date"),
-  item: belongsTo("item"),
-  country: Ember.computed("countryId", function() {
-    let countryId = this.get("countryId");
-    if (countryId) {
-      return this.store.peekRecord("country", this.get("countryId"));
-    }
-  })
+  item: belongsTo("item")
 });
