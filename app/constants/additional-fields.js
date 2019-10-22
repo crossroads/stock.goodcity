@@ -208,15 +208,6 @@ export default {
       addAble: false
     },
     {
-      label: "Standard",
-      name: "standard",
-      type: "text",
-      value: "standard",
-      autoComplete: true,
-      category: ["computer_accessory"],
-      addAble: true
-    },
-    {
       label: "Voltage",
       name: "voltage",
       type: "number",
