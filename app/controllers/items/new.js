@@ -56,6 +56,37 @@ export default GoodcityController.extend({
     );
   }),
 
+  insertFixedOptions: function(column) {
+    let package_details = this.get("packageDetails");
+    switch (column) {
+      case "frequency":
+        return ["50", "50/60 (Multi)", "60", "N/A", "Other"];
+        break;
+      case "voltage":
+        return [
+          "120V ~ (100-200V)",
+          "240V ~ (200-300V)",
+          "> 300v",
+          "Multi",
+          "NA",
+          "Other"
+        ];
+        break;
+      case "testStatus":
+        return [
+          "Maintenance (DO NOT USE)",
+          "Tested (DO NOT USE)",
+          "Untested (DO NOT USE)"
+        ];
+        break;
+      case "compTestStatus":
+        return ["Active", "Failure", "Obsolete", "Reserved", "Spares"];
+        break;
+      default:
+        return [...new Set(package_details.getEach(column).filter(Boolean))];
+    }
+  },
+
   fetchPackageDetails: Ember.computed("packageDetails", function() {
     if (this.get("showAdditionalFields")) {
       let package_details = this.get("packageDetails");
@@ -64,41 +95,7 @@ export default GoodcityController.extend({
         let columns = Object.keys(package_details.get("firstObject").toJSON());
         columns.map(column => {
           let columnData = [];
-          switch (column) {
-            case "frequency":
-              columnData = ["50", "50/60 (Multi)", "60", "N/A", "Other"];
-              break;
-            case "voltage":
-              columnData = [
-                "120V ~ (100-200V)",
-                "240V ~ (200-300V)",
-                "> 300v",
-                "Multi",
-                "NA",
-                "Other"
-              ];
-              break;
-            case "testStatus":
-              columnData = [
-                "Maintenance (DO NOT USE)",
-                "Tested (DO NOT USE)",
-                "Untested (DO NOT USE)"
-              ];
-              break;
-            case "compTestStatus":
-              columnData = [
-                "Active",
-                "Failure",
-                "Obsolete",
-                "Reserved",
-                "Spares"
-              ];
-              break;
-            default:
-              columnData = [
-                ...new Set(package_details.getEach(column).filter(Boolean))
-              ];
-          }
+          columnData = this.insertFixedOptions(column);
           subFormData[column] = columnData.map((_column, index) => {
             return {
               id: index + 1,
