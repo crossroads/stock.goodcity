@@ -355,22 +355,22 @@ workflows:
               - www_build
             filters:
               branches:
-                only: /^(master|live)$/
+                only: /^(master|live|GCW-2804-additional-fields-ui-with-details-page)$/
         - ember_cordova_build:
             requires:
               - test_cases
             filters:
               branches:
-                only: /^(master|live)$/
+                only: /^(master|live|GCW-2804-additional-fields-ui-with-details-page)$/
         - android_build_and_deploy:
             requires:
               - ember_cordova_build
             filters:
               branches:
-                only: /^(master|live)$/
+                only: /^(master|live|GCW-2804-additional-fields-ui-with-details-page)$/
         - ios_build_and_deploy:
             requires:
               - test_cases
             filters:
               branches:
-                only: /^(master|live)$/
+                only: /^(master|live|GCW-2804-additional-fields-ui-with-details-page)$/
