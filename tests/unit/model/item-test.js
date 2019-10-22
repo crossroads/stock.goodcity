@@ -12,11 +12,13 @@ moduleForModel("item", "Item Model", {
     "model:set_item",
     "model:packages_location",
     "model:orders_package",
-    "model:image"
+    "model:image",
+    "model:detail"
   ]
 });
 
 test("check attributes", function(assert) {
+  debugger;
   assert.expect(15);
   var model = this.subject();
   var notes = Object.keys(model.toJSON()).indexOf("notes") > -1;
@@ -425,7 +427,9 @@ test("check ordersPackagesWithStateDesignatedAndDispatched computed property", f
 });
 
 test("check availableQty computed property", function(assert) {
-  var model = this.subject({ quantity: 3 });
+  var model = this.subject({
+    quantity: 3
+  });
   assert.equal(model.get("availableQty"), 3);
 });
 
@@ -597,7 +601,9 @@ test("check availableQtyForMove computed property", function(assert) {
     packageLocation1,
     packageLocation2,
     packageLocation3;
-  model = this.subject({ receivedQuantity: 3 });
+  model = this.subject({
+    receivedQuantity: 3
+  });
   store = this.store();
 
   Ember.run(function() {
@@ -686,7 +692,10 @@ test("setImages: returns associated items imageUrlList", function(assert) {
   store = this.store();
 
   Ember.run(function() {
-    setItem = store.createRecord("setItem", { id: 1, description: "abc" });
+    setItem = store.createRecord("setItem", {
+      id: 1,
+      description: "abc"
+    });
     item = store.createRecord("item", {
       id: 1,
       quantity: 2,
