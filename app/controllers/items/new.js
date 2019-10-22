@@ -65,7 +65,7 @@ export default GoodcityController.extend({
         return [
           "120V ~ (100-200V)",
           "240V ~ (200-300V)",
-          "> 300v",
+          "> 300V",
           "Multi",
           "NA",
           "Other"
