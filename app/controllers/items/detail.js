@@ -13,6 +13,7 @@ export default GoodcityController.extend(singletonItemDispatchToGcOrder, {
   previousValue: "",
   showDispatchOverlay: false,
   autoDisplayOverlay: false,
+  countryArray: [],
   application: Ember.inject.controller(),
   messageBox: Ember.inject.service(),
   displayScanner: false,
@@ -99,6 +100,7 @@ export default GoodcityController.extend(singletonItemDispatchToGcOrder, {
   selectedValuesDisplay: Ember.computed("item.detail.{}", function() {
     let dataObj = {};
     let selectedValues = this.get("item.detail.data");
+    debugger;
     let selectedValuesArray = Object.keys(this.get("item.detail.data"));
 
     selectedValuesArray.map((data, index) => {

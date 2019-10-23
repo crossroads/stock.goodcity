@@ -2,13 +2,8 @@ import Ember from "ember";
 import AjaxPromise from "stock/utils/ajax-promise";
 import config from "../config/environment";
 import Inflector from "ember-inflector";
-import {
-  singularize,
-  pluralize
-} from "ember-inflector";
-const {
-  getOwner
-} = Ember;
+import { singularize, pluralize } from "ember-inflector";
+const { getOwner } = Ember;
 import _ from "lodash";
 
 export default Ember.TextField.extend({
@@ -31,7 +26,7 @@ export default Ember.TextField.extend({
   previousValue: "",
 
   focusOut() {
-    let detailType = this.get("detailType").toLowerCase();
+    let detailType = _.snakeCase(this.get("detailType")).toLowerCase();
     let apiEndpoint = pluralize(detailType);
     let detailId = this.get("detailId");
     var url = `/${apiEndpoint}/${detailId}`;
@@ -47,8 +42,8 @@ export default Ember.TextField.extend({
         .lookup("component:loading")
         .append();
       new AjaxPromise(url, "PUT", this.get("session.authToken"), {
-          [detailType]: packageDetailParams
-        })
+        [detailType]: packageDetailParams
+      })
         .then(data => {
           this.get("store").pushPayload(data);
         })
