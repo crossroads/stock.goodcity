@@ -1,5 +1,6 @@
 import AuthorizeRoute from "../authorize";
 import Ember from "ember";
+import _ from "lodash";
 
 export default AuthorizeRoute.extend({
   itemBackLinkPath: Ember.computed.localStorage(),
@@ -67,12 +68,20 @@ export default AuthorizeRoute.extend({
     this.set("itemBackLinkPath", path);
   },
 
-  setupController(controller, model) {
+  async setupController(controller, model) {
     this._super(controller, model);
     controller.set("showSetList", false);
     controller.set("callOrderObserver", false);
     controller.set("backLinkPath", this.get("itemBackLinkPath"));
     controller.set("active", true);
+    let detail_type = model.get("detailType");
+    if (detail_type) {
+      let details = await this.store.query(_.snakeCase(detail_type), {
+        distinct: "brand"
+      });
+      controller.set("packageDetails", details);
+      controller.set("showAdditionalFields", true);
+    }
   },
 
   resetController(controller, isExiting) {

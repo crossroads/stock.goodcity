@@ -3,12 +3,14 @@ import config from "../../config/environment";
 import singletonItemDispatchToGcOrder from "../../mixins/singleton_item_dispatch_to_gc_order";
 import GoodcityController from "../goodcity_controller";
 import additionalFields from "../../constants/additional-fields";
+import _ from "lodash";
 
 export default GoodcityController.extend(singletonItemDispatchToGcOrder, {
   isMobileApp: config.cordova.enabled,
   backLinkPath: "",
   item: Ember.computed.alias("model"),
   queryParams: ["showDispatchOverlay"],
+  previousValue: "",
   showDispatchOverlay: false,
   autoDisplayOverlay: false,
   application: Ember.inject.controller(),
@@ -36,20 +38,52 @@ export default GoodcityController.extend(singletonItemDispatchToGcOrder, {
     }
   }),
 
-  selectedValues: Ember.computed("item.detail", function() {
-    let dataObj = {};
-    let selectedValues = this.get("item.detail.data");
-    let selectedValuesArray = Object.keys(this.get("item.detail.data"));
+  insertFixedOptions: function(column) {
+    let package_details = this.get("packageDetails");
+    switch (column) {
+      case "frequency":
+        return ["50", "50/60 (Multi)", "60", "N/A", "Other"];
+      case "voltage":
+        return [
+          "120V ~ (100-200V)",
+          "240V ~ (200-300V)",
+          "> 300V",
+          "Multi",
+          "NA",
+          "Other"
+        ];
+      case "testStatus":
+        return [
+          "Maintenance (DO NOT USE)",
+          "Tested (DO NOT USE)",
+          "Untested (DO NOT USE)"
+        ];
+      case "compTestStatus":
+        return ["Active", "Failure", "Obsolete", "Reserved", "Spares"];
+      default:
+        return [...new Set(package_details.getEach(column).filter(Boolean))];
+    }
+  },
 
-    selectedValuesArray.map((data, index) => {
-      dataObj[data] = [
-        {
-          id: index + 1,
-          tag: selectedValues[data] || " ".repeat(15)
-        }
-      ];
-    });
-    return dataObj;
+  selectedValues: Ember.computed("packageDetails", function() {
+    if (this.get("showAdditionalFields")) {
+      let package_details = this.get("packageDetails");
+      if (package_details) {
+        let subFormData = {};
+        let columns = Object.keys(package_details.get("firstObject").toJSON());
+        columns.map(column => {
+          let columnData = [];
+          columnData = this.insertFixedOptions(column);
+          subFormData[column] = columnData.map((_column, index) => {
+            return {
+              id: index + 1,
+              tag: columnData[index] || " ".repeat(15)
+            };
+          });
+        });
+        return subFormData;
+      }
+    }
   }),
 
   selectedCountry: Ember.computed("item.detail", function() {
@@ -60,17 +94,6 @@ export default GoodcityController.extend(singletonItemDispatchToGcOrder, {
         nameEn: country.get("nameEn")
       };
     }
-  }),
-
-  countryArray: Ember.computed("item.detail", function() {
-    let country = this.get("item.detail.country");
-    let countryName = country ? country.get("nameEn") : " ".repeat(15);
-    return [
-      {
-        id: 1,
-        nameEn: countryName
-      }
-    ];
   }),
 
   selectedValuesDisplay: Ember.computed("item.detail.{}", function() {
@@ -197,6 +220,20 @@ export default GoodcityController.extend(singletonItemDispatchToGcOrder, {
     }
   ),
 
+  applyFilter: function() {
+    let searchText = this.get("searchText");
+    this.get("store")
+      .query("country", {
+        searchText
+      })
+      .then(countries => {
+        //Check the input has changed since the promise started
+        if (searchText === this.get("searchText")) {
+          this.set("countryArray", Ember.A(countries));
+        }
+      });
+  },
+
   actions: {
     /**
      * Called after a property is changed to push the updated
@@ -222,6 +259,8 @@ export default GoodcityController.extend(singletonItemDispatchToGcOrder, {
       this.toggleProperty("showSetList");
     },
 
+    countryValue(id, value) {},
+
     /**
      * Switches to the specified tab by navigating to the correct subroute
      *
@@ -234,6 +273,16 @@ export default GoodcityController.extend(singletonItemDispatchToGcOrder, {
     setFields(value) {
       this.set("fieldValues", value);
     },
+
+    onSearch(searchText) {
+      let searchTextLength = Ember.$.trim(searchText).length;
+      if (searchTextLength) {
+        this.set("searchText", searchText);
+        Ember.run.debounce(this, this.applyFilter, 500);
+      }
+    },
+
+    openDropDown(fieldName) {},
 
     /**
      * Move the currently viewed item to another location
