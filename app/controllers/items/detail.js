@@ -79,10 +79,10 @@ export default GoodcityController.extend(singletonItemDispatchToGcOrder, {
     let selectedValuesArray = Object.keys(this.get("item.detail.data"));
 
     selectedValuesArray.map((data, index) => {
-      return (dataObj[data] = {
+      dataObj[data] = {
         id: index + 1,
         tag: selectedValues[data] || "Please enter a value"
-      });
+      };
     });
     return dataObj;
   }),
