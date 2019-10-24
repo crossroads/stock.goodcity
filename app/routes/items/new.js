@@ -48,6 +48,14 @@ export default AuthorizeRoute.extend({
     }
   },
 
+  isAllowed(selectedSubform) {
+    return (
+      ["computer", "electrical", "computer_accessory"].indexOf(
+        selectedSubform
+      ) >= 0
+    );
+  },
+
   afterModel() {
     this.store.findAll("location", {
       reload: true
@@ -87,14 +95,12 @@ export default AuthorizeRoute.extend({
       let codeId = controller.get("codeId");
       if (codeId) {
         let selected = this.get("store").peekRecord("code", codeId);
-        if (
-          selected &&
-          ["computer", "electrical", "computer_accessory"].indexOf(
-            selected.get("subform")
-          ) >= 0
-        ) {
+        let selectedSubform = selected.get("subform");
+        if (selected && this.isAllowed(selectedSubform)) {
           controller.set("showAdditionalFields", true);
-          let details = await this.store.findAll(selected.get("subform"));
+          let details = await this.store.query(selectedSubform, {
+            distinct: "brand"
+          });
           controller.set("packageDetails", details);
         }
       }
