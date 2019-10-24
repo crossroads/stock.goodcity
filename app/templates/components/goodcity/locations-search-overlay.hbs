@@ -22,22 +22,33 @@
       <section class="main-section search_result">
         <div class="row search">
           <div class="small-12 columns">
-            {{#if displayResults}}
-              {{#infinite-list height="85vh" loadMore=(action "loadMoreLocations") as |res| }}
-                <ul class="list list-activity list-offer-items">
-                  {{#each res as |location|}}
-                    <div {{action 'selectLocation' location}} class="row underlined">
-                      <div class="small-6 columns building_name">
-                        {{location.building}}
-                      </div>
-                      <div class="small-6 columns">
-                        {{location.area}}
-                      </div>
+            <ul class="list list-activity list-offer-items">
+              {{#if showRecentlyUsed}}
+                {{#each recentlyUsedLocations as |location|}}
+                  <div {{action 'selectLocation' location}} class="row underlined">
+                    <div class="small-6 columns building_name">
+                      {{location.building}}
                     </div>
-                  {{/each}}
-                </ul>
-              {{/infinite-list}}
-            {{/if}}
+                    <div class="small-6 columns">
+                      {{location.area}}
+                    </div>
+                  </div>
+                {{/each}}
+              {{else if displayResults}}
+                {{#infinite-list height="85vh" loadMore=(action "loadMoreLocations") as |res| }}
+                    {{#each res as |location|}}
+                      <div {{action 'selectLocation' location}} class="row underlined">
+                        <div class="small-6 columns building_name">
+                          {{location.building}}
+                        </div>
+                        <div class="small-6 columns">
+                          {{location.area}}
+                        </div>
+                      </div>
+                    {{/each}}
+                {{/infinite-list}}
+              {{/if}}
+            </ul>
           </div>
         </div>
       </section>

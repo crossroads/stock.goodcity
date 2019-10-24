@@ -22,6 +22,15 @@ export default Ember.Component.extend(SearchMixin, {
     this.set("uuid", _.uniqueId("location_search_overlay_"));
   },
 
+  recentlyUsedLocations: Ember.computed("open", function() {
+    return this.get("store")
+      .peekAll("location")
+      .sortBy("recentlyUsedAt")
+      .slice(0, 10);
+  }),
+
+  showRecentlyUsed: Ember.computed.not("searchText"),
+
   actions: {
     cancel() {
       this.send("selectLocation", null);
