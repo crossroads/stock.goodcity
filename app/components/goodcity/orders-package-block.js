@@ -10,7 +10,8 @@ const ACTIONS_SETTINGS = {
     icon: "times-circle"
   },
   undispatch: {
-    icon: "reply"
+    icon: "reply",
+    params: ["location_id"]
   },
   redesignate: {
     icon: "shopping-basket",
@@ -57,12 +58,14 @@ export default Ember.Component.extend(AsyncMixin, {
   messageBox: Ember.inject.service(),
   i18n: Ember.inject.service(),
   designationService: Ember.inject.service(),
+  locationService: Ember.inject.service(),
   actionRunner: Ember.computed.alias("designationService"),
 
   init() {
     this._super(...arguments);
     this.set("paramGetters", {
       order_id: "selectOrder",
+      location_id: "selectLocation",
       quantity: "selectQuantity"
     });
   },
@@ -82,6 +85,18 @@ export default Ember.Component.extend(AsyncMixin, {
     });
 
     return order ? order.get("id") : CANCELLED;
+  },
+
+  /**
+   * Prompts the user to select a location, and returns its id
+   *
+   * CANCELLED is returned if the user closes the UI
+   *
+   * @returns {Promise<String>}
+   */
+  async selectLocation() {
+    const location = await this.get("locationService").userPickLocation();
+    return location ? location.get("id") : CANCELLED;
   },
 
   /**
@@ -138,6 +153,7 @@ export default Ember.Component.extend(AsyncMixin, {
   async runAction(actionName) {
     const params = await this.fulfillParams(actionName);
     const ordersPkg = this.get("orderPkg");
+    const itemId = ordersPkg.get("itemId");
 
     if (params === CANCELLED) {
       return;
@@ -147,6 +163,9 @@ export default Ember.Component.extend(AsyncMixin, {
       await this.runTask(
         this.get("actionRunner").execAction(ordersPkg, actionName, params)
       );
+
+      // fire & forget
+      this.get("store").findRecord("item", itemId, { reload: true });
     } catch (e) {
       this.onError(e);
     }

@@ -1,4 +1,4 @@
-<div class="cmp orders search-overlay">
+<div class="cmp locations search-overlay">
   {{#popup-overlay open=open}}
     <div class="main-container">
       <div class="row search-field">
@@ -11,7 +11,7 @@
             name="searchText"
             id=uuid
             placeholder=(t "search_min")
-            value=searchText }}
+            value=searchText}}
 
           {{#if hasSearchText}}
             <i class="pinned-right" {{action "clearSearch"}}>{{fa-icon 'times-circle' size='lg'}}</i>
@@ -19,15 +19,20 @@
         </div>
       </div>
 
-      <section class="main-section orders_search_result search_result">
+      <section class="main-section search_result">
         <div class="row search">
           <div class="small-12 columns">
             {{#if displayResults}}
-              {{#infinite-list height="85vh" loadMore=(action "loadMoreOrders") as |res| }}
+              {{#infinite-list height="85vh" loadMore=(action "loadMoreLocations") as |res| }}
                 <ul class="list list-activity list-offer-items">
-                  {{#each res as |order|}}
-                    <div {{action 'selectOrder' order}}>
-                      {{partial 'orders/order_block'}}
+                  {{#each res as |location|}}
+                    <div {{action 'selectLocation' location}} class="row underlined">
+                      <div class="small-6 columns building_name">
+                        {{location.building}}
+                      </div>
+                      <div class="small-6 columns">
+                        {{location.area}}
+                      </div>
                     </div>
                   {{/each}}
                 </ul>

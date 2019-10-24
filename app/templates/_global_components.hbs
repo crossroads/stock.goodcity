@@ -1,0 +1,16 @@
+{{!-- Service-backed components --}}
+
+{{#let-alias designationService as |s|}}
+  {{goodcity/orders-search-overlay
+    open=s.openOrderSearch
+    onSelect=s.onOrderSelected
+    searchProps=s.orderSearchProps
+  }}
+{{/let-alias}}
+
+{{#let-alias locationService as |s|}}
+  {{goodcity/locations-search-overlay
+    open=s.openLocationSearch
+    onSelect=s.onLocationSelected
+  }}
+{{/let-alias}}

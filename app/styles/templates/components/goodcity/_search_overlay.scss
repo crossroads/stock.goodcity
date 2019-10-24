@@ -1,4 +1,4 @@
-.cmp.orders-search-overlay {
+.cmp.search-overlay {
 
   .main-container {
     margin: 0 auto;
@@ -47,8 +47,16 @@
       }
     }
 
-    .orders_search_result {
+    .search_result {
       padding-top: 0px;
+
+      .row {
+        &.underlined {
+          border-bottom: 1px solid white;
+          padding-bottom: 1rem;
+          padding-top: 1rem;
+        }
+      }
     }
   }
 }
