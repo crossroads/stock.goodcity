@@ -320,7 +320,9 @@ export default GoodcityController.extend(singletonItemDispatchToGcOrder, {
 
     openDropDown() {
       let country = this.get("item.detail.country");
-      this.set("previousCountry", country.id);
+      if (country) {
+        this.set("previousCountry", country.id);
+      }
     },
 
     /**
