@@ -30,7 +30,6 @@ export default AuthorizeRoute.extend({
     let detail_id = model.get("detailId");
     if (detail_type) {
       await this.preLoadDetail(_.snakeCase(detail_type), detail_id);
-      // await this.preloadAllDetails(detail_type);
     }
     return model;
   },
@@ -119,14 +118,6 @@ export default AuthorizeRoute.extend({
       );
     }
   },
-
-  // async preloadAllDetails(detail_type) {
-  //   if (detail_type) {
-  //     return await this.store.findAll(detail_type.toLowerCase(), {
-  //       reload: true
-  //     });
-  //   }
-  // },
 
   /**
    * Loads an image if not available

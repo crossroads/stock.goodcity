@@ -2,8 +2,11 @@ import Ember from "ember";
 import config from "../../config/environment";
 import singletonItemDispatchToGcOrder from "../../mixins/singleton_item_dispatch_to_gc_order";
 import GoodcityController from "../goodcity_controller";
+import { singularize, pluralize } from "ember-inflector";
+import AjaxPromise from "stock/utils/ajax-promise";
 import additionalFields from "../../constants/additional-fields";
 import _ from "lodash";
+const { getOwner } = Ember;
 
 export default GoodcityController.extend(singletonItemDispatchToGcOrder, {
   isMobileApp: config.cordova.enabled,
@@ -14,6 +17,7 @@ export default GoodcityController.extend(singletonItemDispatchToGcOrder, {
   showDispatchOverlay: false,
   autoDisplayOverlay: false,
   countryArray: [],
+  previousCountry: [],
   application: Ember.inject.controller(),
   messageBox: Ember.inject.service(),
   displayScanner: false,
@@ -82,6 +86,7 @@ export default GoodcityController.extend(singletonItemDispatchToGcOrder, {
             };
           });
         });
+        console.log(subFormData, "hit");
         return subFormData;
       }
     }
@@ -91,7 +96,7 @@ export default GoodcityController.extend(singletonItemDispatchToGcOrder, {
     let country = this.get("item.detail.country");
     if (country) {
       return {
-        id: 1,
+        id: country.id,
         nameEn: country.get("nameEn")
       };
     }
@@ -261,7 +266,36 @@ export default GoodcityController.extend(singletonItemDispatchToGcOrder, {
       this.toggleProperty("showSetList");
     },
 
-    countryValue(id, value) {},
+    countryValue(value) {
+      let detailType = this.get("item.detailType").toLowerCase();
+      let apiEndpoint = pluralize(detailType);
+      let detailId = this.get("item.detail.id");
+      var url = `/${apiEndpoint}/${detailId}`;
+      let snakeCaseKey = "country_id";
+      console.log(url, "hit");
+      console.log(this.get("previousCountry"), value.id);
+      var _this = this;
+      var packageDetailParams = {
+        [snakeCaseKey]: parseInt(value.id) || ""
+      };
+      console.log(packageDetailParams);
+      if (this.get("previousCountry") !== value.id) {
+        var loadingView = getOwner(this)
+          .lookup("component:loading")
+          .append();
+        new AjaxPromise(url, "PUT", this.get("session.authToken"), {
+          [detailType]: packageDetailParams
+        })
+          .then(data => {
+            console.log(data, "data");
+            this.get("store").pushPayload(data);
+            console.log("hit");
+          })
+          .finally(() => {
+            loadingView.destroy();
+          });
+      }
+    },
 
     /**
      * Switches to the specified tab by navigating to the correct subroute
@@ -284,7 +318,10 @@ export default GoodcityController.extend(singletonItemDispatchToGcOrder, {
       }
     },
 
-    openDropDown(fieldName) {},
+    openDropDown() {
+      let country = this.get("item.detail.country");
+      this.set("previousCountry", country.id);
+    },
 
     /**
      * Move the currently viewed item to another location
