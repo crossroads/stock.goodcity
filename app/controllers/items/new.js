@@ -39,6 +39,7 @@ export default GoodcityController.extend({
     id: "B"
   },
   subFormData: {},
+  showAdditionalFields: false,
   invalidLocation: false,
   invalidScanResult: false,
   newUploadedImage: null,
@@ -47,14 +48,6 @@ export default GoodcityController.extend({
   imageKeys: Ember.computed.localStorage(),
 
   i18n: Ember.inject.service(),
-
-  showAdditionalFields: Ember.computed("code", function() {
-    return (
-      ["computer", "computer_accessory", "electrical"].indexOf(
-        this.get("code.subform")
-      ) > -1
-    );
-  }),
 
   insertFixedOptions: function(column) {
     let package_details = this.get("packageDetails");
