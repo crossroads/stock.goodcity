@@ -86,7 +86,6 @@ export default GoodcityController.extend(singletonItemDispatchToGcOrder, {
             };
           });
         });
-        console.log(subFormData, "hit");
         return subFormData;
       }
     }
@@ -102,10 +101,9 @@ export default GoodcityController.extend(singletonItemDispatchToGcOrder, {
     }
   }),
 
-  selectedValuesDisplay: Ember.computed("item.detail.{}", function() {
+  selectedValuesDisplay: Ember.computed("item.detail", function() {
     let dataObj = {};
     let selectedValues = this.get("item.detail.data");
-    debugger;
     let selectedValuesArray = Object.keys(this.get("item.detail.data"));
 
     selectedValuesArray.map((data, index) => {
@@ -272,13 +270,10 @@ export default GoodcityController.extend(singletonItemDispatchToGcOrder, {
       let detailId = this.get("item.detail.id");
       var url = `/${apiEndpoint}/${detailId}`;
       let snakeCaseKey = "country_id";
-      console.log(url, "hit");
-      console.log(this.get("previousCountry"), value.id);
       var _this = this;
       var packageDetailParams = {
         [snakeCaseKey]: parseInt(value.id) || ""
       };
-      console.log(packageDetailParams);
       if (this.get("previousCountry") !== value.id) {
         var loadingView = getOwner(this)
           .lookup("component:loading")
@@ -287,9 +282,7 @@ export default GoodcityController.extend(singletonItemDispatchToGcOrder, {
           [detailType]: packageDetailParams
         })
           .then(data => {
-            console.log(data, "data");
             this.get("store").pushPayload(data);
-            console.log("hit");
           })
           .finally(() => {
             loadingView.destroy();

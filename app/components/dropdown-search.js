@@ -1,13 +1,8 @@
 import Ember from "ember";
-import {
-  singularize,
-  pluralize
-} from "ember-inflector";
+import { singularize, pluralize } from "ember-inflector";
 import AjaxPromise from "stock/utils/ajax-promise";
 import _ from "lodash";
-const {
-  getOwner
-} = Ember;
+const { getOwner } = Ember;
 
 export default Ember.Component.extend({
   selected: [],
@@ -17,15 +12,15 @@ export default Ember.Component.extend({
   resourceType: Ember.computed.alias("packageDetails"),
   selectedData: Ember.computed.alias("selectedValue"),
 
-  selectedDataDisplay: Ember.computed("selectedValuesDisplay", function () {
+  selectedDataDisplay: Ember.computed("selectedValuesDisplay", function() {
     return this.get("selectedValuesDisplay");
   }),
 
-  displayLabel: Ember.computed("addAble", function () {
+  displayLabel: Ember.computed("addAble", function() {
     return this.get("addAble") ? "Add New Item" : "";
   }),
 
-  displayPage: Ember.computed("displayPage", function () {
+  displayPage: Ember.computed("displayPage", function() {
     return this.get("displayPage");
   }),
 
@@ -58,8 +53,6 @@ export default Ember.Component.extend({
         var packageDetailParams = {
           [snakeCaseKey]: value.tag || ""
         };
-        console.log(packageDetailParams);
-        console.log(this.get("previousValue"), "hit");
         if (
           this.valueChanged(
             packageDetailParams[snakeCaseKey],
@@ -70,11 +63,9 @@ export default Ember.Component.extend({
             .lookup("component:loading")
             .append();
           new AjaxPromise(url, "PUT", this.get("session.authToken"), {
-              [detailType]: packageDetailParams
-            })
+            [detailType]: packageDetailParams
+          })
             .then(data => {
-              console.log(data, "data");
-              debugger;
               this.get("store").pushPayload(data);
               let selectedValuesObj = {
                 ...this.get("selectedValuesDisplay")
@@ -84,7 +75,6 @@ export default Ember.Component.extend({
                 id: data.id,
                 tag: data[subformType][snakeCaseKey]
               };
-              console.log(selectedValuesObj);
               _this.set("selectedValuesDisplay", selectedValuesObj);
             })
             .finally(() => {
@@ -96,7 +86,6 @@ export default Ember.Component.extend({
 
     openDropDown(fieldName) {
       if (this.get("displayPage")) {
-        console.log(fieldName);
         this.set(
           "previousValue",
           this.get("selectedDataDisplay")[fieldName]["tag"] || ""

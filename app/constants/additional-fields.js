@@ -27,15 +27,6 @@ export default {
       addAble: false
     },
     {
-      label: "Serial Number",
-      name: "serialNumber",
-      type: "text",
-      value: "serialNumber",
-      autoComplete: false,
-      category: ["electrical"],
-      addAble: false
-    },
-    {
       label: "Country of origin",
       name: "country",
       type: "number",
@@ -200,6 +191,31 @@ export default {
       addAble: false
     },
     {
+      label: "Test Status",
+      name: "testStatus",
+      type: "text",
+      autoComplete: true,
+      category: ["electrical"],
+      addAble: false
+    },
+    {
+      label: "Frequency",
+      name: "frequency",
+      type: "number",
+      autoComplete: true,
+      category: ["electrical"],
+      addAble: false
+    },
+    {
+      label: "Serial Number",
+      name: "serialNumber",
+      type: "text",
+      value: "serialNumber",
+      autoComplete: false,
+      category: ["electrical"],
+      addAble: false
+    },
+    {
       label: "Power",
       name: "power",
       type: "text",
@@ -225,22 +241,6 @@ export default {
       value: "standard",
       category: ["electrical"],
       addAble: true
-    },
-    {
-      label: "Test Status",
-      name: "testStatus",
-      type: "text",
-      autoComplete: true,
-      category: ["electrical"],
-      addAble: false
-    },
-    {
-      label: "Frequency",
-      name: "frequency",
-      type: "number",
-      autoComplete: true,
-      category: ["electrical"],
-      addAble: false
     }
   ]
 };
