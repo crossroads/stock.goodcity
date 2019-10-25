@@ -147,9 +147,9 @@
             optionLabelKey="nameEn"
             on-change=(action "countryValue")
             selected=selectedCountry
+            prompt=""
             on-open=(action "openDropDown")
-            on-search=(action "onSearch")
-          prompt="Select an option"}}
+            on-search=(action "onSearch")}}
           <div class="dropdown-icon"> {{fa-icon 'chevron-down'}}</div>
         </div>
         {{else}}

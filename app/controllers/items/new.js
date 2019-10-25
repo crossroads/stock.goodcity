@@ -664,7 +664,6 @@ export default GoodcityController.extend({
     },
 
     saveItem() {
-      console.log(this.packageParams(), "hit");
       if (!window.navigator.onLine) {
         this.get("messageBox").alert(this.get("i18n").t("offline_error"));
         return false;

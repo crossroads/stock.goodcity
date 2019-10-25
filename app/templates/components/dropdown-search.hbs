@@ -6,7 +6,7 @@
     selected=(if displayPage (mut (get selectedDataDisplay content)) selected )
     addLabel= displayLabel
     isClearable=false
-    prompt="Select an option"
+    prompt=""
     on-change=(action "setSelected" content)
     on-add= (if addAble (action "addNew" content) "")
     on-open=(if addAble (action "openDropDown" content) "")

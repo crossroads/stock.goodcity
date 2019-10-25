@@ -110,7 +110,7 @@ export default GoodcityController.extend(singletonItemDispatchToGcOrder, {
     selectedValuesArray.map((data, index) => {
       dataObj[data] = {
         id: index + 1,
-        tag: selectedValues[data] || "Please enter a value"
+        tag: selectedValues[data]
       };
     });
     return dataObj;
