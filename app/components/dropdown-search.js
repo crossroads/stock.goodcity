@@ -1,6 +1,5 @@
 import Ember from "ember";
 import { singularize, pluralize } from "ember-inflector";
-import AjaxPromise from "stock/utils/ajax-promise";
 import _ from "lodash";
 const { getOwner } = Ember;
 
@@ -8,25 +7,16 @@ export default Ember.Component.extend({
   selected: [],
   previousValue: "",
   store: Ember.inject.service(),
+  subformDetailService: Ember.inject.service(),
 
   resourceType: Ember.computed.alias("packageDetails"),
   selectedData: Ember.computed.alias("selectedValue"),
 
-  selectedDataDisplay: Ember.computed("selectedValuesDisplay", function() {
-    return this.get("selectedValuesDisplay");
-  }),
+  selectedDataDisplay: Ember.computed.alias("selectedValuesDisplay"),
 
   displayLabel: Ember.computed("addAble", function() {
     return this.get("addAble") ? "Add New Item" : "";
   }),
-
-  displayPage: Ember.computed("displayPage", function() {
-    return this.get("displayPage");
-  }),
-
-  valueChanged(newValue, previousValue) {
-    return newValue !== previousValue;
-  },
 
   actions: {
     addNew(fieldName, text) {
@@ -41,7 +31,7 @@ export default Ember.Component.extend({
       this.send("setSelected", fieldName, newTag);
     },
 
-    setSelected(fieldName, value) {
+    async setSelected(fieldName, value) {
       this.get("onConfirm")(fieldName, value.tag);
       if (this.get("displayPage")) {
         let detailType = this.get("detailType").toLowerCase();
@@ -49,38 +39,28 @@ export default Ember.Component.extend({
         let detailId = this.get("detailId");
         var url = `/${apiEndpoint}/${detailId}`;
         let snakeCaseKey = _.snakeCase(fieldName);
-        var _this = this;
         var packageDetailParams = {
           [snakeCaseKey]: value.tag || ""
         };
-        if (
-          this.valueChanged(
-            packageDetailParams[snakeCaseKey],
-            this.get("previousValue")
-          )
-        ) {
-          var loadingView = getOwner(this)
-            .lookup("component:loading")
-            .append();
-          new AjaxPromise(url, "PUT", this.get("session.authToken"), {
-            [detailType]: packageDetailParams
-          })
-            .then(data => {
-              this.get("store").pushPayload(data);
-              let selectedValuesObj = {
-                ...this.get("selectedValuesDisplay")
-              };
-              let subformType = Object.keys(data)[0];
-              selectedValuesObj[snakeCaseKey] = {
-                id: data.id,
-                tag: data[subformType][snakeCaseKey]
-              };
-              _this.set("selectedValuesDisplay", selectedValuesObj);
-            })
-            .finally(() => {
-              loadingView.destroy();
-            });
-        }
+        let updateResponse = await this.get(
+          "subformDetailService"
+        ).updateRequest(
+          detailType,
+          apiEndpoint,
+          url,
+          snakeCaseKey,
+          packageDetailParams,
+          this.get("previousValue")
+        );
+        let selectedValuesObj = {
+          ...this.get("selectedValuesDisplay")
+        };
+        let subformType = Object.keys(updateResponse)[0];
+        selectedValuesObj[snakeCaseKey] = {
+          id: updateResponse.id,
+          tag: updateResponse[subformType][snakeCaseKey]
+        };
+        this.set("selectedValuesDisplay", selectedValuesObj);
       }
     },
 

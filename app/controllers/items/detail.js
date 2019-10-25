@@ -18,6 +18,7 @@ export default GoodcityController.extend(singletonItemDispatchToGcOrder, {
   autoDisplayOverlay: false,
   countryArray: [],
   previousCountry: [],
+  subformDetailService: Ember.inject.service(),
   application: Ember.inject.controller(),
   messageBox: Ember.inject.service(),
   displayScanner: false,
@@ -274,20 +275,14 @@ export default GoodcityController.extend(singletonItemDispatchToGcOrder, {
       var packageDetailParams = {
         [snakeCaseKey]: parseInt(value.id) || ""
       };
-      if (this.get("previousCountry") !== value.id) {
-        var loadingView = getOwner(this)
-          .lookup("component:loading")
-          .append();
-        new AjaxPromise(url, "PUT", this.get("session.authToken"), {
-          [detailType]: packageDetailParams
-        })
-          .then(data => {
-            this.get("store").pushPayload(data);
-          })
-          .finally(() => {
-            loadingView.destroy();
-          });
-      }
+      this.get("subformDetailService").updateRequest(
+        detailType,
+        apiEndpoint,
+        url,
+        snakeCaseKey,
+        packageDetailParams,
+        this.get("previousValue")
+      );
     },
 
     /**

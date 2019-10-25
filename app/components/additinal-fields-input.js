@@ -10,6 +10,7 @@ export default Ember.TextField.extend({
   tagName: "input",
   type: "text",
   isMobileApp: config.cordova.enabled,
+  subformDetailService: Ember.inject.service(),
   attributeBindings: [
     "name",
     "type",
@@ -31,26 +32,19 @@ export default Ember.TextField.extend({
     let detailId = this.get("detailId");
     var url = `/${apiEndpoint}/${detailId}`;
     var key = this.get("name");
+    let snakeCaseKey = _.snakeCase(key);
     var packageDetailParams = {
-      [_.snakeCase(key)]: this.get("value") || ""
+      [snakeCaseKey]: this.get("value") || ""
     };
     Ember.$(this.element).removeClass("inline-text-input");
-    if (
-      this.valueChanged(packageDetailParams[key], this.get("previousValue"))
-    ) {
-      var loadingView = getOwner(this)
-        .lookup("component:loading")
-        .append();
-      new AjaxPromise(url, "PUT", this.get("session.authToken"), {
-        [detailType]: packageDetailParams
-      })
-        .then(data => {
-          this.get("store").pushPayload(data);
-        })
-        .finally(() => {
-          loadingView.destroy();
-        });
-    }
+    this.get("subformDetailService").updateRequest(
+      detailType,
+      apiEndpoint,
+      url,
+      snakeCaseKey,
+      packageDetailParams,
+      this.get("previousValue")
+    );
   },
 
   valueChanged(newValue, previousValue) {
