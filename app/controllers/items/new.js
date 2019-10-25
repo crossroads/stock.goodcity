@@ -335,7 +335,10 @@ export default GoodcityController.extend({
       package_type_id: this.get("code.id"),
       state_event: "mark_received",
       packages_locations_attributes: {
-        0: { location_id: locationId, quantity: quantity }
+        0: {
+          location_id: locationId,
+          quantity: quantity
+        }
       },
       detail_attributes: detail_attributes
     };
@@ -661,6 +664,7 @@ export default GoodcityController.extend({
     },
 
     saveItem() {
+      console.log(this.packageParams(), "hit");
       if (!window.navigator.onLine) {
         this.get("messageBox").alert(this.get("i18n").t("offline_error"));
         return false;
@@ -672,7 +676,9 @@ export default GoodcityController.extend({
       } else {
         this.showLoadingSpinner();
         this.get("packageService")
-          .createPackage({ package: this.packageParams() })
+          .createPackage({
+            package: this.packageParams()
+          })
           .then(data => {
             if (this.get("isMultipleCountPrint")) {
               this.printBarcode(data.item.id);

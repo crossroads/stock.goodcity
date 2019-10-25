@@ -145,9 +145,11 @@
             content=countryArray
             sortBy="name"
             optionLabelKey="nameEn"
-            isClearable=false
+            on-change=(action "countryValue")
             selected=selectedCountry
-            prompt="Select an option"}}
+            on-open=(action "openDropDown")
+            on-search=(action "onSearch")
+          prompt="Select an option"}}
           <div class="dropdown-icon"> {{fa-icon 'chevron-down'}}</div>
         </div>
         {{else}}

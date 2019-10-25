@@ -141,11 +141,15 @@
     height: 1.8rem !important;
   }
 
-  .input-field-container {
-    float: none;
-    display: inline-block;
-    vertical-align: top;
-    width: 49.3%;
+  .additional-field-create {
+    margin-bottom: 4rem;
+
+    .input-field-container {
+      float: none;
+      display: inline-block;
+      vertical-align: top;
+      width: 49.3%;
+    }
   }
 
   textarea {
