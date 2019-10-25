@@ -17,16 +17,15 @@ export default GoodcityController.extend(singletonItemDispatchToGcOrder, {
   showDispatchOverlay: false,
   autoDisplayOverlay: false,
   countryArray: [],
-  previousCountry: [],
   subformDetailService: Ember.inject.service(),
   application: Ember.inject.controller(),
   messageBox: Ember.inject.service(),
   displayScanner: false,
+  insertFixedOption: Ember.inject.service(),
   designateFullSet: Ember.computed.localStorage(),
   callOrderObserver: false,
   showSetList: false,
   hideDetailsLink: true,
-
   currentRoute: Ember.computed.alias("application.currentPath"),
   pkg: Ember.computed.alias("model"),
   fields: additionalFields,
@@ -44,33 +43,6 @@ export default GoodcityController.extend(singletonItemDispatchToGcOrder, {
     }
   }),
 
-  insertFixedOptions: function(column) {
-    let package_details = this.get("packageDetails");
-    switch (column) {
-      case "frequency":
-        return ["50", "50/60 (Multi)", "60", "N/A", "Other"];
-      case "voltage":
-        return [
-          "120V ~ (100-200V)",
-          "240V ~ (200-300V)",
-          "> 300V",
-          "Multi",
-          "NA",
-          "Other"
-        ];
-      case "testStatus":
-        return [
-          "Maintenance (DO NOT USE)",
-          "Tested (DO NOT USE)",
-          "Untested (DO NOT USE)"
-        ];
-      case "compTestStatus":
-        return ["Active", "Failure", "Obsolete", "Reserved", "Spares"];
-      default:
-        return [...new Set(package_details.getEach(column).filter(Boolean))];
-    }
-  },
-
   selectedValues: Ember.computed("packageDetails", function() {
     if (this.get("showAdditionalFields")) {
       let package_details = this.get("packageDetails");
@@ -79,7 +51,10 @@ export default GoodcityController.extend(singletonItemDispatchToGcOrder, {
         let columns = Object.keys(package_details.get("firstObject").toJSON());
         columns.map(column => {
           let columnData = [];
-          columnData = this.insertFixedOptions(column);
+          columnData = this.get("insertFixedOption").fixedOptionDropDown(
+            column,
+            package_details
+          );
           subFormData[column] = columnData.map((_column, index) => {
             return {
               id: index + 1,
@@ -309,7 +284,7 @@ export default GoodcityController.extend(singletonItemDispatchToGcOrder, {
     openDropDown() {
       let country = this.get("item.detail.country");
       if (country) {
-        this.set("previousCountry", country.id);
+        this.set("previousValue", country.id);
       }
     },
 

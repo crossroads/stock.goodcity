@@ -39,6 +39,7 @@ export default GoodcityController.extend({
     id: "B"
   },
   subFormData: {},
+  insertFixedOption: Ember.inject.service(),
   showAdditionalFields: false,
   invalidLocation: false,
   invalidScanResult: false,
@@ -49,33 +50,6 @@ export default GoodcityController.extend({
 
   i18n: Ember.inject.service(),
 
-  insertFixedOptions: function(column) {
-    let package_details = this.get("packageDetails");
-    switch (column) {
-      case "frequency":
-        return ["50", "50/60 (Multi)", "60", "N/A", "Other"];
-      case "voltage":
-        return [
-          "120V ~ (100-200V)",
-          "240V ~ (200-300V)",
-          "> 300V",
-          "Multi",
-          "NA",
-          "Other"
-        ];
-      case "testStatus":
-        return [
-          "Maintenance (DO NOT USE)",
-          "Tested (DO NOT USE)",
-          "Untested (DO NOT USE)"
-        ];
-      case "compTestStatus":
-        return ["Active", "Failure", "Obsolete", "Reserved", "Spares"];
-      default:
-        return [...new Set(package_details.getEach(column).filter(Boolean))];
-    }
-  },
-
   fetchPackageDetails: Ember.computed("packageDetails", function() {
     if (this.get("showAdditionalFields")) {
       let package_details = this.get("packageDetails");
@@ -84,7 +58,10 @@ export default GoodcityController.extend({
         let columns = Object.keys(package_details.get("firstObject").toJSON());
         columns.map(column => {
           let columnData = [];
-          columnData = this.insertFixedOptions(column);
+          columnData = this.get("insertFixedOption").fixedOptionDropDown(
+            column,
+            package_details
+          );
           subFormData[column] = columnData.map((_column, index) => {
             return {
               id: index + 1,
