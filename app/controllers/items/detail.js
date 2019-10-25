@@ -246,7 +246,6 @@ export default GoodcityController.extend(singletonItemDispatchToGcOrder, {
       let detailId = this.get("item.detail.id");
       var url = `/${apiEndpoint}/${detailId}`;
       let snakeCaseKey = "country_id";
-      var _this = this;
       var packageDetailParams = {
         [snakeCaseKey]: parseInt(value.id) || ""
       };
