@@ -245,15 +245,14 @@ export default GoodcityController.extend(singletonItemDispatchToGcOrder, {
       let apiEndpoint = pluralize(detailType);
       let detailId = this.get("item.detail.id");
       var url = `/${apiEndpoint}/${detailId}`;
-      let snakeCaseKey = "country_id";
       var packageDetailParams = {
-        [snakeCaseKey]: parseInt(value.id) || ""
+        ["country_id"]: parseInt(value.id) || ""
       };
       this.get("subformDetailService").updateRequest(
         detailType,
         apiEndpoint,
         url,
-        snakeCaseKey,
+        "country_id",
         packageDetailParams,
         this.get("previousValue")
       );
