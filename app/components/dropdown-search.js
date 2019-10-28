@@ -45,11 +45,7 @@ export default Ember.Component.extend({
         let updateResponse = await this.get(
           "subformDetailService"
         ).updateRequest(
-          detailType,
-          apiEndpoint,
-          url,
-          snakeCaseKey,
-          packageDetailParams,
+          { detailType, url, snakeCaseKey, packageDetailParams },
           this.get("previousValue")
         );
         let selectedValuesObj = {
