@@ -42,12 +42,10 @@ export default Ember.Component.extend({
         var packageDetailParams = {
           [snakeCaseKey]: value.tag || ""
         };
+        let paramsObj = { detailType, url, snakeCaseKey, packageDetailParams };
         let updateResponse = await this.get(
           "subformDetailService"
-        ).updateRequest(
-          { detailType, url, snakeCaseKey, packageDetailParams },
-          this.get("previousValue")
-        );
+        ).updateRequest(paramsObj, this.get("previousValue"));
         let selectedValuesObj = { ...this.get("selectedValuesDisplay") };
         let subformType = Object.keys(updateResponse)[0];
         selectedValuesObj[snakeCaseKey] = {

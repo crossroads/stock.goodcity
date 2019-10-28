@@ -249,8 +249,9 @@ export default GoodcityController.extend(singletonItemDispatchToGcOrder, {
       var packageDetailParams = {
         [snakeCaseKey]: parseInt(value.id) || ""
       };
+      let paramsObj = { detailType, url, snakeCaseKey, packageDetailParams };
       this.get("subformDetailService").updateRequest(
-        { detailType, url, snakeCaseKey, packageDetailParams },
+        paramsObj,
         this.get("previousValue")
       );
     },
