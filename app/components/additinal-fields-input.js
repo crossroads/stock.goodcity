@@ -36,9 +36,10 @@ export default Ember.TextField.extend({
     var packageDetailParams = {
       [snakeCaseKey]: this.get("value") || ""
     };
+    let paramsObj = { detailType, url, snakeCaseKey, packageDetailParams };
     Ember.$(this.element).removeClass("inline-text-input");
     this.get("subformDetailService").updateRequest(
-      { detailType, url, snakeCaseKey, packageDetailParams },
+      paramsObj,
       this.get("previousValue")
     );
   },
