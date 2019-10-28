@@ -12,21 +12,24 @@ export default Ember.Service.extend({
     return newValue !== previousValue;
   },
 
-  updateRequest(
-    detailType,
-    apiEndpoint,
-    url,
-    snakeCaseKey,
-    packageDetailParams,
-    previousValue
-  ) {
-    if (this.valueChanged(packageDetailParams[snakeCaseKey], previousValue)) {
+  updateRequest(paramsObj, previousValue) {
+    if (
+      this.valueChanged(
+        paramsObj.packageDetailParams[paramsObj.snakeCaseKey],
+        previousValue
+      )
+    ) {
       var loadingView = getOwner(this)
         .lookup("component:loading")
         .append();
-      return new AjaxPromise(url, "PUT", this.get("session.authToken"), {
-        [detailType]: packageDetailParams
-      })
+      return new AjaxPromise(
+        paramsObj.url,
+        "PUT",
+        this.get("session.authToken"),
+        {
+          [paramsObj.detailType]: paramsObj.packageDetailParams
+        }
+      )
         .then(data => {
           this.get("store").pushPayload(data);
           return data;
