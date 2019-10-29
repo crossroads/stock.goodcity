@@ -211,20 +211,6 @@ export default GoodcityController.extend(
       }
     ),
 
-    applyFilter: function() {
-      let searchText = this.get("searchText");
-      this.get("store")
-        .query("country", {
-          searchText
-        })
-        .then(countries => {
-          //Check the input has changed since the promise started
-          if (searchText === this.get("searchText")) {
-            this.set("countryArray", Ember.A(countries));
-          }
-        });
-    },
-
     actions: {
       /**
        * Called after a property is changed to push the updated
