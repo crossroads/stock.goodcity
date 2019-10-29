@@ -17,7 +17,6 @@ export default GoodcityController.extend(SearchMixin, {
   dropDownValues: {},
   inputFieldValues: {},
   countryObj: {},
-  countryArray: [],
   countryValue: {},
   detail_attributes: {},
   scanLocationName: "",

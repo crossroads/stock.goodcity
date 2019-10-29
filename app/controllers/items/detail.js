@@ -20,7 +20,6 @@ export default GoodcityController.extend(
     previousValue: "",
     showDispatchOverlay: false,
     autoDisplayOverlay: false,
-    countryArray: [],
     subformDetailService: Ember.inject.service(),
     application: Ember.inject.controller(),
     messageBox: Ember.inject.service(),
@@ -245,12 +244,7 @@ export default GoodcityController.extend(
         var packageDetailParams = {
           [snakeCaseKey]: parseInt(value.id) || ""
         };
-        let paramsObj = {
-          detailType,
-          url,
-          snakeCaseKey,
-          packageDetailParams
-        };
+        let paramsObj = { detailType, url, snakeCaseKey, packageDetailParams };
         this.get("subformDetailService").updateRequest(
           paramsObj,
           this.get("previousValue")
