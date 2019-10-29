@@ -9,6 +9,7 @@
     color: white;
     padding: 0.2rem;
     display: none;
+    font-size: 0.9rem;
     padding-bottom: 0.25rem !important;
 
     @media #{$small-only} {
@@ -208,6 +209,7 @@
       padding-right: 1.5rem;
       margin-bottom: 0;
       height: 5rem !important;
+      vertical-align: top;
     }
 
     .remove-text {
@@ -344,7 +346,7 @@
 }
 
 .error-margin {
-  margin-top: -2%;
+ vertical-align: top;
 }
 
 .select-error-message {
@@ -359,6 +361,10 @@
   span {
     margin-left: 0.7rem;
     font-size: 0.9rem;
+
+    @media #{$small-only} {
+      font-size: 0.65rem;
+    }
   }
 
   @media #{$small-only} {
