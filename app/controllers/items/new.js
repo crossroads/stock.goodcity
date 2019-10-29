@@ -313,10 +313,7 @@ export default GoodcityController.extend(SearchMixin, {
       package_type_id: this.get("code.id"),
       state_event: "mark_received",
       packages_locations_attributes: {
-        0: {
-          location_id: locationId,
-          quantity: quantity
-        }
+        0: { location_id: locationId, quantity: quantity }
       },
       detail_attributes: detail_attributes
     };
@@ -635,9 +632,7 @@ export default GoodcityController.extend(SearchMixin, {
       } else {
         this.showLoadingSpinner();
         this.get("packageService")
-          .createPackage({
-            package: this.packageParams()
-          })
+          .createPackage({ package: this.packageParams() })
           .then(data => {
             if (this.get("isMultipleCountPrint")) {
               this.printBarcode(data.item.id);
