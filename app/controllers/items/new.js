@@ -5,8 +5,9 @@ import config from "../../config/environment";
 import additionalFields from "../../constants/additional-fields";
 import _ from "lodash";
 const { getOwner, A } = Ember;
+import SearchMixin from "stock/mixins/search_resource";
 
-export default GoodcityController.extend({
+export default GoodcityController.extend(SearchMixin, {
   queryParams: ["codeId", "locationId", "scanLocationName", "caseNumber"],
   codeId: "",
   locationId: "",
@@ -312,7 +313,10 @@ export default GoodcityController.extend({
       package_type_id: this.get("code.id"),
       state_event: "mark_received",
       packages_locations_attributes: {
-        0: { location_id: locationId, quantity: quantity }
+        0: {
+          location_id: locationId,
+          quantity: quantity
+        }
       },
       detail_attributes: detail_attributes
     };
@@ -427,20 +431,6 @@ export default GoodcityController.extend({
     }
   },
 
-  applyFilter: function() {
-    let searchText = this.get("searchText");
-    this.get("store")
-      .query("country", {
-        searchText
-      })
-      .then(countries => {
-        //Check the input has changed since the promise started
-        if (searchText === this.get("searchText")) {
-          this.set("countryArray", Ember.A(countries));
-        }
-      });
-  },
-
   clearAttributes() {
     this.set("detail_attributes", {});
     this.set("inputFieldValues", {});
@@ -484,11 +474,7 @@ export default GoodcityController.extend({
     },
 
     onSearch(searchText) {
-      let searchTextLength = Ember.$.trim(searchText).length;
-      if (searchTextLength) {
-        this.set("searchText", searchText);
-        Ember.run.debounce(this, this.applyFilter, 500);
-      }
+      this.onSearchCountry(searchText);
     },
 
     countryValue(value) {
@@ -649,7 +635,9 @@ export default GoodcityController.extend({
       } else {
         this.showLoadingSpinner();
         this.get("packageService")
-          .createPackage({ package: this.packageParams() })
+          .createPackage({
+            package: this.packageParams()
+          })
           .then(data => {
             if (this.get("isMultipleCountPrint")) {
               this.printBarcode(data.item.id);
