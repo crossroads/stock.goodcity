@@ -86,7 +86,6 @@ export default GoodcityController.extend(
       let dataObj = {};
       let selectedValues = this.get("item.detail.data");
       let selectedValuesArray = Object.keys(this.get("item.detail.data"));
-
       selectedValuesArray.map((data, index) => {
         dataObj[data] = {
           id: index + 1,
