@@ -243,18 +243,23 @@ export default GoodcityController.extend(
       },
 
       countryValue(value) {
-        let detailType = this.get("item.detailType").toLowerCase();
-        let apiEndpoint = pluralize(detailType);
-        let detailId = this.get("item.detail.id");
-        var url = `/${apiEndpoint}/${detailId}`;
-        let snakeCaseKey = "country_id";
-        var packageDetailParams = {
+        const detailType = this.get("item.detailType").toLowerCase();
+        const apiEndpoint = pluralize(detailType);
+        const detailId = this.get("item.detail.id");
+        const url = `/${apiEndpoint}/${detailId}`;
+        const snakeCaseKey = "country_id";
+        const packageDetailParams = {
           [snakeCaseKey]: parseInt(value.id) || ""
         };
-        let paramsObj = { detailType, url, snakeCaseKey, packageDetailParams };
+        const paramsObj = {
+          detailType,
+          url,
+          snakeCaseKey,
+          packageDetailParams
+        };
         this.get("subformDetailService").updateRequest(
           paramsObj,
-          this.get("previousValue")
+          ths.get("previousValue")
         );
       },
 

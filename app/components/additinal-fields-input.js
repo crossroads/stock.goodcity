@@ -27,25 +27,21 @@ export default Ember.TextField.extend({
   previousValue: "",
 
   focusOut() {
-    let detailType = _.snakeCase(this.get("detailType")).toLowerCase();
-    let apiEndpoint = pluralize(detailType);
-    let detailId = this.get("detailId");
-    var url = `/${apiEndpoint}/${detailId}`;
-    var key = this.get("name");
-    let snakeCaseKey = _.snakeCase(key);
-    var packageDetailParams = {
+    const detailType = _.snakeCase(this.get("detailType")).toLowerCase();
+    const apiEndpoint = pluralize(detailType);
+    const detailId = this.get("detailId");
+    const url = `/${apiEndpoint}/${detailId}`;
+    const key = this.get("name");
+    const snakeCaseKey = _.snakeCase(key);
+    const packageDetailParams = {
       [snakeCaseKey]: this.get("value") || ""
     };
-    let paramsObj = { detailType, url, snakeCaseKey, packageDetailParams };
+    const paramsObj = { detailType, url, snakeCaseKey, packageDetailParams };
     Ember.$(this.element).removeClass("inline-text-input");
     this.get("subformDetailService").updateRequest(
       paramsObj,
       this.get("previousValue")
     );
-  },
-
-  valueChanged(newValue, previousValue) {
-    return newValue !== previousValue;
   },
 
   focusIn() {
