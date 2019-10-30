@@ -7,6 +7,7 @@ import AjaxPromise from "stock/utils/ajax-promise";
 import additionalFields from "stock/constants/additional-fields";
 import SearchMixin from "stock/mixins/search_resource";
 import PackageDetailMixin from "stock/mixins/fetch_package_detail";
+import GradeMixin from "stock/mixins/grades_option";
 import _ from "lodash";
 const { getOwner } = Ember;
 
@@ -14,6 +15,7 @@ export default GoodcityController.extend(
   singletonItemDispatchToGcOrder,
   SearchMixin,
   PackageDetailMixin,
+  GradeMixin,
   {
     isMobileApp: config.cordova.enabled,
     backLinkPath: "",
@@ -114,14 +116,6 @@ export default GoodcityController.extend(
       return this.get("currentRoute")
         .split(".")
         .get("lastObject");
-    }),
-
-    grades: Ember.computed("item.grade", function() {
-      let grades = ["A", "B", "C", "D"];
-      return grades.map(key => ({
-        name: key,
-        id: key
-      }));
     }),
 
     conditions: Ember.computed(function() {
