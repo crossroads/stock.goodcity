@@ -18,6 +18,7 @@ export default GoodcityController.extend(
     item: Ember.computed.alias("model"),
     queryParams: ["showDispatchOverlay"],
     previousValue: "",
+    dataObjnew: null,
     showDispatchOverlay: false,
     autoDisplayOverlay: false,
     subformDetailService: Ember.inject.service(),
@@ -82,17 +83,24 @@ export default GoodcityController.extend(
       }
     }),
 
-    selectedValuesDisplay: Ember.computed("item.detail", function() {
-      let dataObj = {};
-      let selectedValues = this.get("item.detail.data");
-      let selectedValuesArray = Object.keys(this.get("item.detail.data"));
-      selectedValuesArray.map((data, index) => {
-        dataObj[data] = {
-          id: index + 1,
-          tag: selectedValues[data]
-        };
-      });
-      return dataObj;
+    selectedValuesDisplay: Ember.computed("item.detail", "dataObjnew", {
+      get(key) {
+        let dataObj = { ...this.get("dataObjnew") };
+        let selectedValues = this.get("item.detail.data");
+        let selectedValuesArray = Object.keys(this.get("item.detail.data"));
+        selectedValuesArray.map((data, index) => {
+          dataObj[data] = {
+            id: index + 1,
+            tag: selectedValues[data]
+          };
+        });
+        this.set("dataObjnew", { ...dataObj });
+        return { ...this.get("dataObjnew") };
+      },
+      set(key, value) {
+        this.set("dataObjnew", null);
+        return value;
+      }
     }),
 
     allowMove: Ember.computed(
