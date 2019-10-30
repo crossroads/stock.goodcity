@@ -44,7 +44,6 @@ export default Ember.Mixin.create({
   },
 
   onSearchTextChange: Ember.observer("searchText", function() {
-    const searchTextLength = this.get("searchText").length;
     if (isValidTextLength()) {
       this.reloadResults();
     }
