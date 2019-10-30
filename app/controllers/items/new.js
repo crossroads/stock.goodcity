@@ -6,8 +6,9 @@ import additionalFields from "../../constants/additional-fields";
 import _ from "lodash";
 const { getOwner, A } = Ember;
 import SearchMixin from "stock/mixins/search_resource";
+import PackageDetailMixin from "stock/mixins/fetch_package_detail";
 
-export default GoodcityController.extend(SearchMixin, {
+export default GoodcityController.extend(SearchMixin, PackageDetailMixin, {
   queryParams: ["codeId", "locationId", "scanLocationName", "caseNumber"],
   codeId: "",
   locationId: "",
