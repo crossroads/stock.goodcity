@@ -6,12 +6,14 @@ import { singularize, pluralize } from "ember-inflector";
 import AjaxPromise from "stock/utils/ajax-promise";
 import additionalFields from "stock/constants/additional-fields";
 import SearchMixin from "stock/mixins/search_resource";
+import PackageDetailMixin from "stock/mixins/fetch_package_detail";
 import _ from "lodash";
 const { getOwner } = Ember;
 
 export default GoodcityController.extend(
   singletonItemDispatchToGcOrder,
   SearchMixin,
+  PackageDetailMixin,
   {
     isMobileApp: config.cordova.enabled,
     backLinkPath: "",
