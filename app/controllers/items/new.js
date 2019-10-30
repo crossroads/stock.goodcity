@@ -428,10 +428,12 @@ export default GoodcityController.extend(SearchMixin, {
   },
 
   clearAttributes() {
-    this.set("detail_attributes", {});
-    this.set("inputFieldValues", {});
-    this.set("dropDownValues", {});
-    this.set("countryValue", {});
+    this.setProperties({
+      detail_attributes: {},
+      inputFieldValues: {},
+      dropDownValues: {},
+      countryValue: {}
+    });
   },
 
   actions: {
