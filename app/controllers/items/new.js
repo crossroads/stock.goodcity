@@ -6,8 +6,8 @@ import additionalFields from "../../constants/additional-fields";
 import _ from "lodash";
 const { getOwner, A } = Ember;
 import SearchMixin from "stock/mixins/search_resource";
-import PackageDetailMixin from "stock/mixins/fetch_package_detail";
 import GradeMixin from "stock/mixins/grades_option";
+import PackageDetailMixin from "stock/mixins/fetch_package_detail";
 
 export default GoodcityController.extend(
   SearchMixin,
