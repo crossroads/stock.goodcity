@@ -50,30 +50,6 @@ export default GoodcityController.extend(SearchMixin, {
 
   i18n: Ember.inject.service(),
 
-  fetchPackageDetails: Ember.computed("packageDetails", function() {
-    if (this.get("showAdditionalFields")) {
-      let package_details = this.get("packageDetails");
-      if (package_details) {
-        let subFormData = {};
-        let columns = Object.keys(package_details.get("firstObject").toJSON());
-        columns.map(column => {
-          let columnData = [];
-          columnData = this.get("insertFixedOption").fixedOptionDropDown(
-            column,
-            package_details
-          );
-          subFormData[column] = columnData.map((_column, index) => {
-            return {
-              id: index + 1,
-              tag: columnData[index]
-            };
-          });
-        });
-        return subFormData;
-      }
-    }
-  }),
-
   displayFields: Ember.computed("code", function() {
     let _this = this;
     if (this.get("showAdditionalFields")) {
