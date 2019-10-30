@@ -23,7 +23,8 @@ export default Ember.TextField.extend({
     "pattern"
   ],
   store: Ember.inject.service(),
-  classNameBindings: ["class"],
+  classNameBindings: ["inlineTextInput"],
+  inlineTextInput: false,
   previousValue: "",
 
   focusOut() {
@@ -42,6 +43,7 @@ export default Ember.TextField.extend({
       paramsObj,
       this.get("previousValue")
     );
+    this.set("inlineTextInput", false);
   },
 
   focusIn() {
@@ -49,7 +51,7 @@ export default Ember.TextField.extend({
   },
 
   addCssStyle() {
-    Ember.$(this.element).addClass("inline-text-input");
+    this.set("inlineTextInput", true);
     this.set("previousValue", this.get("value") || "");
   },
 
