@@ -4,7 +4,7 @@ import singletonItemDispatchToGcOrder from "../../mixins/singleton_item_dispatch
 import GoodcityController from "../goodcity_controller";
 import { singularize, pluralize } from "ember-inflector";
 import AjaxPromise from "stock/utils/ajax-promise";
-import additionalFields from "../../constants/additional-fields";
+import additionalFields from "stock/constants/additional-fields";
 import SearchMixin from "stock/mixins/search_resource";
 import _ from "lodash";
 const { getOwner } = Ember;
