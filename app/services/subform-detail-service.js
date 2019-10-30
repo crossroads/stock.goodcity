@@ -8,13 +8,13 @@ export default Ember.Service.extend({
   session: Ember.inject.service(),
   store: Ember.inject.service(),
 
-  valueChanged(newValue, previousValue) {
+  isValueChanged(newValue, previousValue) {
     return newValue !== previousValue;
   },
 
   updateRequest(paramsObj, previousValue) {
     if (
-      this.valueChanged(
+      this.isValueChanged(
         paramsObj.packageDetailParams[paramsObj.snakeCaseKey],
         previousValue
       )
