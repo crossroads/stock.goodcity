@@ -48,14 +48,20 @@ export default cloudinaryUrl.extend({
     "ordersPackages.[]",
     "ordersPackages.@each.state",
     function() {
+      // Warning: this assumes all items are singletones
       return (
         this.get("ordersPackages")
-          .rejectBy("state", "requested")
-          .rejectBy("state", "cancelled")
+          .filterBy("state", "designated")
           .get("length") > 0
       );
     }
   ),
+
+  isUnavailable: Ember.computed("isDesignated", "isDispatched", function() {
+    // It's unavailable if it's either designated or dispatched
+    // Warning: this assumes all items are singletones
+    return this.get("isDesignated") || this.get("isDispatched");
+  }),
 
   isDispatchedForQuantity: Ember.computed("ordersPackages.[]", function() {
     return this.get("ordersPackages").isAny("state", "dispatched");

@@ -24,7 +24,7 @@
         {{#link-to
           'items.search_order' item.id (query-params isSet=item.isSet partial_qty=1)
           tagName='button' class='button'
-          disabled=(if (is-or model.isDesignated model.isMultiQtyItem) true false)
+          disabled=(if (is-or model.isUnavailable model.isMultiQtyItem) true false)
           href=false
         }}
           {{fa-icon 'shopping-basket'}} {{t 'item.designate'}}
