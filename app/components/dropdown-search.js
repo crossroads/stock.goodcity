@@ -65,8 +65,6 @@ export default Ember.Component.extend({
           this.get("selectedDataDisplay")[fieldName]["tag"] || ""
         );
       }
-    },
-
-    closeDropDown() {}
+    }
   }
 });

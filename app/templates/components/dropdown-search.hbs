@@ -9,7 +9,6 @@
     prompt=""
     on-change=(action "setSelected" content)
     on-add= (if addAble (action "addNew" content) "")
-    on-open=(if addAble (action "openDropDown" content) "")
-    on-close=(if addAble (action "closeDropDown") "")}}
+    on-open=(if addAble (action "openDropDown" content) "")}}
   <div class="dropdown-icon"> {{fa-icon 'chevron-down'}}</div>
 </div>
