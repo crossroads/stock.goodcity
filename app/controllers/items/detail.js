@@ -229,7 +229,7 @@ export default GoodcityController.extend(
         };
         this.get("subformDetailService").updateRequest(
           paramsObj,
-          ths.get("previousValue")
+          this.get("previousValue")
         );
       },
 
