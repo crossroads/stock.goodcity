@@ -1,5 +1,5 @@
 import Ember from "ember";
-import config from "../config/environment";
+import config from "stock/config/environment";
 
 export default Ember.Component.extend({
   lightGallery: null,
