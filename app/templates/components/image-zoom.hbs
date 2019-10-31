@@ -1,5 +1,15 @@
-{{#if item.isSet}}
-  {{partial 'items/multiple_set_item_images'}}
+{{#if imageUrls.length}}
+  {{#slick-carousel class="ember-carousel" autoplay=true autoplaySpeed=2500 speed=500 swipeToSlide=true infinite=false  mobileFirst=true touchMove=true slidesToShow=1 slidesToScroll=1}}
+    {{#each imageUrls as |url|}}
+      <div data-src={{url}} class="imageZoom" >
+        {{#if isMobileApp}}
+          <img src={{url}} {{action "imageZoom" url}} class="profile slide-image"/>
+        {{else}}
+          <img src={{url}} class="profile"/>
+        {{/if}}
+      </div>
+    {{/each}}
+  {{/slick-carousel}}
 {{else}}
-  {{partial 'items/single_item_image'}}
+  {{partial 'items/no_image'}}
 {{/if}}

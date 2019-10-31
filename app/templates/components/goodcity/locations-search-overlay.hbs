@@ -1,0 +1,57 @@
+<div class="cmp locations search-overlay">
+  {{#popup-overlay open=open}}
+    <div class="main-container">
+      <div class="row search-field">
+        <div class="icon-holder small-2 columns">
+          <i {{action 'cancel'}} class="back_icon" aria-hidden="true">{{fa-icon 'angle-left' size='lg'}}</i>
+        </div>
+
+        <div class="input-holder small-10 columns">
+          {{focus-textfield
+            name="searchText"
+            id=uuid
+            placeholder=(t "search_min")
+            value=searchText}}
+
+          {{#if hasSearchText}}
+            <i class="pinned-right" {{action "clearSearch"}}>{{fa-icon 'times-circle' size='lg'}}</i>
+          {{/if}}
+        </div>
+      </div>
+
+      <section class="main-section search_result">
+        <div class="row search">
+          <div class="small-12 columns">
+            <ul class="list list-activity list-offer-items">
+              {{#if showRecentlyUsed}}
+                {{#each recentlyUsedLocations as |location|}}
+                  <div {{action 'selectLocation' location}} class="row underlined">
+                    <div class="small-6 columns building_name">
+                      {{location.building}}
+                    </div>
+                    <div class="small-6 columns">
+                      {{location.area}}
+                    </div>
+                  </div>
+                {{/each}}
+              {{else if displayResults}}
+                {{#infinite-list height="85vh" loadMore=(action "loadMoreLocations") as |res| }}
+                    {{#each res as |location|}}
+                      <div {{action 'selectLocation' location}} class="row underlined">
+                        <div class="small-6 columns building_name">
+                          {{location.building}}
+                        </div>
+                        <div class="small-6 columns">
+                          {{location.area}}
+                        </div>
+                      </div>
+                    {{/each}}
+                {{/infinite-list}}
+              {{/if}}
+            </ul>
+          </div>
+        </div>
+      </section>
+    </div>
+  {{/popup-overlay}}
+</div>

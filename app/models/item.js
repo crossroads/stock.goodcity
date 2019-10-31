@@ -37,12 +37,31 @@ export default cloudinaryUrl.extend({
   images: hasMany("image", { async: true }),
 
   isDispatched: Ember.computed.bool("sentOn"),
-  isDesignated: Ember.computed.bool("designation"),
   orderCode: Ember.computed.alias("designation.code"),
   updatedAt: attr("date"),
 
   imageUrl: Ember.computed.alias("image.imageUrl"),
   designateFullSet: Ember.computed.localStorage(),
+
+  isDesignated: Ember.computed(
+    "ordersPackages",
+    "ordersPackages.[]",
+    "ordersPackages.@each.state",
+    function() {
+      // Warning: this assumes all items are singletones
+      return (
+        this.get("ordersPackages")
+          .filterBy("state", "designated")
+          .get("length") > 0
+      );
+    }
+  ),
+
+  isUnavailable: Ember.computed("isDesignated", "isDispatched", function() {
+    // It's unavailable if it's either designated or dispatched
+    // Warning: this assumes all items are singletones
+    return this.get("isDesignated") || this.get("isDispatched");
+  }),
 
   isDispatchedForQuantity: Ember.computed("ordersPackages.[]", function() {
     return this.get("ordersPackages").isAny("state", "dispatched");
@@ -242,7 +261,10 @@ export default cloudinaryUrl.extend({
   packagesByState(state) {
     var received_quantity = this.get("receivedQuantity");
     var ordersPackages = this.get("ordersPackages").filterBy("state", state);
-    var totalQty = ordersPackages.reduce((qty, record) => qty + parseInt(record.get("quantity"), 10), 0);
+    var totalQty = ordersPackages.reduce(
+      (qty, record) => qty + parseInt(record.get("quantity"), 10),
+      0
+    );
 
     return totalQty === received_quantity;
   },
@@ -308,10 +330,11 @@ export default cloudinaryUrl.extend({
   ),
 
   hasMultiLocations: Ember.computed("packagesLocations.[]", function() {
-    return this.get("packagesLocations").length > 1;
+    return this.get("packagesLocations.length") > 1;
   }),
 
   firstAllLocationName: Ember.computed(
+    "packagesLocations.@each.location",
     "packagesLocations.[]",
     "packagesLocations",
     function() {

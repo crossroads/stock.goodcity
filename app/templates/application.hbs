@@ -16,10 +16,4 @@
 <div class="printer_message_block"></div>
 
 {{!-- Service-backed components --}}
-{{#let-alias designationService as |s|}}
-  {{goodcity/orders-search-overlay
-    open=s.openOrderSearch
-    onSelect=s.onOrderSelected
-    searchProps=s.orderSearchProps
-  }}
-{{/let-alias}}
+{{partial 'global_components'}}
