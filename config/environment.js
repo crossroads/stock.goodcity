@@ -73,7 +73,8 @@ module.exports = function(environment) {
         "purpose",
         "process_checklist",
         "identity_type",
-        "donor_condition"
+        "donor_condition",
+        "lookup"
       ],
       USER_DATA_TYPES: [
         "designation",
