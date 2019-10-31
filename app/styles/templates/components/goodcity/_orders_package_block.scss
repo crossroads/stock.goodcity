@@ -40,6 +40,13 @@
       svg {
         margin-right: 0.4em;
       }
+
+      .org-name {
+        max-width: 20rem;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
     }
   }
 }

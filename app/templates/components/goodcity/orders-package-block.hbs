@@ -14,11 +14,13 @@
       </div>
     </div>
     <div class="row">
-      {{#if orderPkg.designation.isGoodCityOrder}}
-        {{ orderPkg.designation.gcOrganisation.nameEn }}
-      {{else}}
-        {{ orderPkg.designation.organisation.name }}
-      {{/if}}
+      <div class="org-name">
+        {{#if orderPkg.designation.isGoodCityOrder}}
+          {{ orderPkg.designation.gcOrganisation.nameEn }}
+        {{else}}
+          {{ orderPkg.designation.organisation.name }}
+        {{/if}}
+      </div>
     </div>
   </div>
   <div class="columns small-1 sub-block">
