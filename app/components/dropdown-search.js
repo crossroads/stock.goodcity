@@ -8,12 +8,9 @@ export default Ember.Component.extend({
   previousValue: "",
   store: Ember.inject.service(),
   subformDetailService: Ember.inject.service(),
-
   resourceType: Ember.computed.alias("packageDetails"),
   selectedData: Ember.computed.alias("selectedValue"),
-
   selectedDataDisplay: Ember.computed.alias("selectedValuesDisplay"),
-
   displayLabel: Ember.computed("addAble", function() {
     return this.get("addAble") ? "Add New Item" : "";
   }),
