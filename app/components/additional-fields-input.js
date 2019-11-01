@@ -26,6 +26,7 @@ export default Ember.TextField.extend({
   focusOut() {
     this.get("onFocusOut")(
       this.get("value"),
+      "inputfield",
       this.get("name"),
       this.get("previousValue")
     );

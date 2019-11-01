@@ -257,19 +257,29 @@ export default GoodcityController.extend(
       },
 
       countryValue(value) {
-        this.send("updateFields", value);
+        this.send("updateFields", value, "country");
       },
 
-      updateFields(value, name, previousValue) {
+      updateFields(value, type, name, previousValue) {
         const detailType = _.snakeCase(
           this.get("item.detailType")
         ).toLowerCase();
+        let valueData = "";
         const apiEndpoint = pluralize(detailType);
         const detailId = this.get("item.detail.id");
         const url = `/${apiEndpoint}/${detailId}`;
         const snakeCaseKey = name ? _.snakeCase(name) : "country_id";
+        if (type == "inputfield") {
+          valueData = value;
+        } else if (type == "dropdown") {
+          valueData = value.tag;
+        } else if (type == "country") {
+          valueData = value.id;
+        } else {
+          valueData = "";
+        }
         const packageDetailParams = {
-          [snakeCaseKey]: name ? value : value.id || ""
+          [snakeCaseKey]: valueData
         };
         const paramsObj = {
           detailType,

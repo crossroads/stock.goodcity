@@ -30,23 +30,12 @@ export default Ember.Component.extend({
 
     async setSelected(fieldName, value) {
       if (this.get("displayPage")) {
-        const detailType = this.get("detailType").toLowerCase();
-        const apiEndpoint = pluralize(detailType);
-        const detailId = this.get("detailId");
-        const url = `/${apiEndpoint}/${detailId}`;
-        const snakeCaseKey = _.snakeCase(fieldName);
-        const packageDetailParams = {
-          [snakeCaseKey]: value.tag || ""
-        };
-        const paramsObj = {
-          detailType,
-          url,
-          snakeCaseKey,
-          packageDetailParams
-        };
-        const updateResponse = await this.get(
-          "subformDetailService"
-        ).updateRequest(paramsObj, this.get("previousValue"));
+        const updateResponse = await this.get("onSetValue")(
+          value,
+          "dropdown",
+          fieldName,
+          this.get("previousValue")
+        );
         let selectedValuesObj = {
           ...this.get("selectedValuesDisplay")
         };
