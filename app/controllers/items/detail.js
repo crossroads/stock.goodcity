@@ -169,15 +169,6 @@ export default GoodcityController.extend(
         .get("lastObject");
     }),
 
-    grades: Ember.computed("item.grade", function() {
-      return [
-        { name: "A", id: "A" },
-        { name: "B", id: "B" },
-        { name: "C", id: "C" },
-        { name: "D", id: "D" }
-      ];
-    }),
-
     conditions: Ember.computed(function() {
       return this.get("store").peekAll("donor_condition");
     }),
