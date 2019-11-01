@@ -14,14 +14,14 @@
         {{else if (is-equal fields.name 'country')}}
         <div class="dropdown-wrapper">
           {{searchable-select
-          content=countryArray
+          content=resultArray
           sortBy="name"
           optionLabelKey="nameEn"
           selected=selected
           on-change=(action "countryValue")
           isClearable=false
           prompt=""
-          on-search=(action "onSearch")}}
+          on-search=(action "onSearch" "country")}}
           <div class="dropdown-icon"> {{fa-icon 'chevron-down'}}</div>
         </div>
         {{else}}

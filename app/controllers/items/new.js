@@ -6,12 +6,14 @@ import additionalFields from "../../constants/additional-fields";
 import _ from "lodash";
 const { getOwner, A } = Ember;
 import SearchMixin from "stock/mixins/search_resource";
+import SearchOptionMixin from "stock/mixins/search_options";
 import PackageDetailMixin from "stock/mixins/fetch_package_detail";
 import GradeMixin from "stock/mixins/grades_option";
 
 export default GoodcityController.extend(
   SearchMixin,
   PackageDetailMixin,
+  SearchOptionMixin,
   GradeMixin,
   {
     queryParams: ["codeId", "locationId", "scanLocationName", "caseNumber"],
@@ -41,7 +43,10 @@ export default GoodcityController.extend(
     length: null,
     width: null,
     height: null,
-    selectedGrade: { name: "B", id: "B" },
+    selectedGrade: {
+      name: "B",
+      id: "B"
+    },
     invalidLocation: false,
     invalidScanResult: false,
     newUploadedImage: null,
@@ -168,11 +173,15 @@ export default GoodcityController.extend(
     }),
 
     isInvalidPrintCount: Ember.computed("labels", function() {
-      return this.isValidLabelRange({ startRange: 0 });
+      return this.isValidLabelRange({
+        startRange: 0
+      });
     }),
 
     isMultipleCountPrint: Ember.computed("labels", function() {
-      return this.isValidLabelRange({ startRange: 1 });
+      return this.isValidLabelRange({
+        startRange: 1
+      });
     }),
 
     isInvalidDimension: Ember.computed("length", "width", "height", function() {
@@ -267,7 +276,10 @@ export default GoodcityController.extend(
         package_type_id: this.get("code.id"),
         state_event: "mark_received",
         packages_locations_attributes: {
-          0: { location_id: locationId, quantity: quantity }
+          0: {
+            location_id: locationId,
+            quantity: quantity
+          }
         },
         detail_attributes: detail_attributes
       };
@@ -360,14 +372,20 @@ export default GoodcityController.extend(
       };
       let onError = error =>
         this.get("messageBox").alert("Scanning failed: " + error);
-      let options = { formats: "QR_CODE, CODE_128", orientation: "portrait" };
+      let options = {
+        formats: "QR_CODE, CODE_128",
+        orientation: "portrait"
+      };
       window.cordova.plugins.barcodeScanner.scan(onSuccess, onError, options);
     },
 
     printBarcode(packageId) {
       const labels = this.get("labels");
       this.get("packageService")
-        .printBarcode({ package_id: packageId, labels })
+        .printBarcode({
+          package_id: packageId,
+          labels
+        })
         .catch(error => {
           this.get("messageBox").alert(error.responseJSON.errors);
         });
@@ -485,7 +503,9 @@ export default GoodcityController.extend(
             "/images/delete_cloudinary_image",
             "PUT",
             this.get("session.authToken"),
-            { cloudinary_id: this.get("imageKeys") }
+            {
+              cloudinary_id: this.get("imageKeys")
+            }
           );
           this.set("imageKeys", "");
           this.set("newUploadedImage", null);
@@ -552,8 +572,8 @@ export default GoodcityController.extend(
         this.checkPermissionAndScan();
       },
 
-      onSearch(searchText) {
-        this.onSearchCountry(searchText);
+      onSearch(field, searchText) {
+        this.onSearchCountry(field, searchText);
       },
 
       countryValue(value) {

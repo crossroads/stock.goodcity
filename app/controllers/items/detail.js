@@ -279,8 +279,8 @@ export default GoodcityController.extend(
         this.set("fieldValues", value);
       },
 
-      onSearch(searchText) {
-        this.onSearchCountry(searchText);
+      onSearch(field, searchText) {
+        this.onSearchCountry(field, searchText);
       },
 
       openDropDown() {
@@ -302,7 +302,9 @@ export default GoodcityController.extend(
               "items.search_location",
               this.get("item.id"),
               {
-                queryParams: { isSet: true }
+                queryParams: {
+                  isSet: true
+                }
               }
             );
           } else {
@@ -312,7 +314,10 @@ export default GoodcityController.extend(
           }
         } else {
           this.transitionToRoute("items.search_location", this.get("item.id"), {
-            queryParams: { isSet: false, isPartialMove: false }
+            queryParams: {
+              isSet: false,
+              isPartialMove: false
+            }
           });
         }
       }
