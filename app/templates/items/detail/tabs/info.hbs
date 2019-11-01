@@ -149,7 +149,7 @@
       <div class="small-12 columns left input-fields">
         {{#form-control}}
         {{#if (is-and fields.autoComplete (is-not-equal fields.name 'country'))}}
-        {{dropdown-search addAble=fields.addAble displayPage=true selectedValuesDisplay=selectedValuesDisplay packageDetails=fetchPackageDetails content=fields.name onConfirm=(action 'setFields')
+        {{dropdown-search addAble=fields.addAble displayPage=true selectedValuesDisplay=selectedValuesDisplay packageDetails=fetchPackageDetails content=fields.name onSetValue=(action 'updateFields')
             detailType=item.detailType detailId=item.detail.id}}
         {{else if (is-equal fields.name 'country')}}
         <div class="dropdown-wrapper">
@@ -165,7 +165,7 @@
           <div class="dropdown-icon"> {{fa-icon 'chevron-down'}}</div>
         </div>
         {{else}}
-        {{additional-fields-input id=fields.name name=fields.name type="text" class="inline-input additional-input" value=(mut (get (get selectedValuesDisplay fields.name) 'tag')) item=item detailType=item.detailType detailId=item.detail.id}}
+        {{additional-fields-input id=fields.name name=fields.name type="text" class="inline-input additional-input" value=(mut (get (get selectedValuesDisplay fields.name) 'tag')) item=item detailType=item.detailType detailId=item.detail.id onFocusOut=(action 'updateFields')}}
         {{/if}}
         {{/form-control}}
       </div>

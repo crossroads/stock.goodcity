@@ -29,7 +29,6 @@ export default Ember.Component.extend({
     },
 
     async setSelected(fieldName, value) {
-      this.get("onConfirm")(fieldName, value.tag);
       if (this.get("displayPage")) {
         const detailType = this.get("detailType").toLowerCase();
         const apiEndpoint = pluralize(detailType);
@@ -57,6 +56,8 @@ export default Ember.Component.extend({
           tag: updateResponse[subformType][snakeCaseKey]
         };
         this.set("selectedValuesDisplay", selectedValuesObj);
+      } else {
+        this.get("onConfirm")(fieldName, value.tag);
       }
     },
 

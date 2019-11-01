@@ -7,7 +7,6 @@ export default Ember.TextField.extend({
   tagName: "input",
   type: "text",
   isMobileApp: config.cordova.enabled,
-  subformDetailService: Ember.inject.service(),
   attributeBindings: [
     "name",
     "type",
@@ -25,24 +24,9 @@ export default Ember.TextField.extend({
   previousValue: "",
 
   focusOut() {
-    const detailType = _.snakeCase(this.get("detailType")).toLowerCase();
-    const apiEndpoint = pluralize(detailType);
-    const detailId = this.get("detailId");
-    const url = `/${apiEndpoint}/${detailId}`;
-    const key = this.get("name");
-    const snakeCaseKey = _.snakeCase(key);
-    const packageDetailParams = {
-      [snakeCaseKey]: this.get("value") || ""
-    };
-    const paramsObj = {
-      detailType,
-      url,
-      snakeCaseKey,
-      packageDetailParams
-    };
-    Ember.$(this.element).removeClass("inline-text-input");
-    this.get("subformDetailService").updateRequest(
-      paramsObj,
+    this.get("onFocusOut")(
+      this.get("value"),
+      this.get("name"),
       this.get("previousValue")
     );
     this.set("inlineTextInput", false);

@@ -8,6 +8,7 @@ import additionalFields from "stock/constants/additional-fields";
 import SearchMixin from "stock/mixins/search_resource";
 import PackageDetailMixin from "stock/mixins/fetch_package_detail";
 import GradeMixin from "stock/mixins/grades_option";
+import SearchOptionMixin from "stock/mixins/search_options";
 import _ from "lodash";
 const { getOwner } = Ember;
 
@@ -15,6 +16,7 @@ export default GoodcityController.extend(
   singletonItemDispatchToGcOrder,
   SearchMixin,
   PackageDetailMixin,
+  SearchOptionMixin,
   GradeMixin,
   {
     isMobileApp: config.cordova.enabled,
@@ -255,13 +257,19 @@ export default GoodcityController.extend(
       },
 
       countryValue(value) {
-        const detailType = this.get("item.detailType").toLowerCase();
+        this.send("updateFields", value);
+      },
+
+      updateFields(value, name, previousValue) {
+        const detailType = _.snakeCase(
+          this.get("item.detailType")
+        ).toLowerCase();
         const apiEndpoint = pluralize(detailType);
         const detailId = this.get("item.detail.id");
         const url = `/${apiEndpoint}/${detailId}`;
-        const snakeCaseKey = "country_id";
+        const snakeCaseKey = name ? _.snakeCase(name) : "country_id";
         const packageDetailParams = {
-          [snakeCaseKey]: parseInt(value.id) || ""
+          [snakeCaseKey]: name ? value : value.id || ""
         };
         const paramsObj = {
           detailType,
@@ -269,14 +277,11 @@ export default GoodcityController.extend(
           snakeCaseKey,
           packageDetailParams
         };
-        this.get("subformDetailService").updateRequest(
+        let oldValue = name ? previousValue : this.get("previousValue");
+        return this.get("subformDetailService").updateRequest(
           paramsObj,
-          this.get("previousValue")
+          oldValue
         );
-      },
-
-      setFields(value) {
-        this.set("fieldValues", value);
       },
 
       onSearch(field, searchText) {
