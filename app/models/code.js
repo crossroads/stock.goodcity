@@ -12,6 +12,7 @@ export default Model.extend({
   goodcityRequests: hasMany("goodcity_request", { async: false }),
 
   defaultChildPackages: attr("string"),
+  subform: attr("string"),
   otherChildPackages: attr("string"),
 
   defaultChildPackagesList: function() {
@@ -31,6 +32,6 @@ export default Model.extend({
   _getPackages: function(model, packageNames) {
     var array = (packageNames || "").split(",");
     var allPackageTypes = model.store.peekAll("code");
-    return allPackageTypes.filter((pkg) => array.indexOf(pkg.get("code")) > -1);
+    return allPackageTypes.filter(pkg => array.indexOf(pkg.get("code")) > -1);
   }
 });

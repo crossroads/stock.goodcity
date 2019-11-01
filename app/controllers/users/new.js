@@ -69,7 +69,7 @@ export default Ember.Controller.extend({
         })
         .catch(xhr => {
           if (xhr.status === 422) {
-            this.get("messageBox").alert(xhr.responseJSON.errors);
+            this.get("messageBox").alert(xhr.responseJSON.errors[0].message);
           } else {
             throw xhr;
           }
