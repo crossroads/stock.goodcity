@@ -334,10 +334,10 @@ workflows:
       - test_cases:
           requires:
             - package_dependencies
-      - upload-coverage:
-          requires:
-            - package_dependencies
-            - test_cases
+          # - upload-coverage:
+          #     requires:
+          #       - package_dependencies
+          #       - test_cases
           filters:
             branches:
               only: /^(master|live|GCW-2804-support-additional-fields)$/
