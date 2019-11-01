@@ -23,6 +23,12 @@ export default cloudinaryUrl.extend({
   itemId: attr("string"),
   allowWebPublish: attr("boolean"),
 
+  detailId: attr("number"),
+  detailType: attr("string"),
+  detail: belongsTo("detail", {
+    polymorphic: true,
+    async: true
+  }),
   designationId: attr("string"),
   designation: belongsTo("designation", { async: true }),
   location: belongsTo("location", { async: false }),
