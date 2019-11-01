@@ -9,24 +9,6 @@ export default {
       addAble: true
     },
     {
-      label: "Model",
-      name: "model",
-      type: "text",
-      autoComplete: false,
-      value: "model",
-      category: ["computer", "computer_accessory", "electrical"],
-      addAble: false
-    },
-    {
-      label: "Serial Number",
-      name: "serialNum",
-      type: "text",
-      value: "serialNum",
-      autoComplete: false,
-      category: ["computer", "computer_accessory"],
-      addAble: false
-    },
-    {
       label: "Country of origin",
       name: "country",
       type: "number",
@@ -196,6 +178,24 @@ export default {
       type: "text",
       autoComplete: true,
       category: ["electrical"],
+      addAble: false
+    },
+    {
+      label: "Model",
+      name: "model",
+      type: "text",
+      autoComplete: false,
+      value: "model",
+      category: ["computer", "computer_accessory", "electrical"],
+      addAble: false
+    },
+    {
+      label: "Serial Number",
+      name: "serialNum",
+      type: "text",
+      value: "serialNum",
+      autoComplete: false,
+      category: ["computer", "computer_accessory"],
       addAble: false
     },
     {
