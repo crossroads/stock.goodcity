@@ -29,7 +29,7 @@ export default AuthorizeRoute.extend({
     let detailType = model.get("detailType");
     let detailId = model.get("detailId");
     if (detailType) {
-      await this.preLoadDetail(_.snakeCase(detailType), detailId);
+      await this.loadIfAbsent(_.snakeCase(detailType).toLowerCase(), detailId);
     }
     return model;
   },
@@ -99,21 +99,6 @@ export default AuthorizeRoute.extend({
   preloadImages(item) {
     const ids = item.getWithDefault("imageIds", []);
     return Ember.RSVP.all(ids.map(id => this.loadImage(id)));
-  },
-
-  // loads package subform detail
-  async preLoadDetail(detailType, detailId) {
-    if (detailType) {
-      return (
-        this.store.peekRecord(
-          _.snakeCase(detailType).toLowerCase(),
-          detailId
-        ) ||
-        this.store.findRecord(_.snakeCase(detailType).toLowerCase(), detailId, {
-          reload: true
-        })
-      );
-    }
   },
 
   /**
