@@ -48,11 +48,19 @@ export default AuthorizeRoute.extend({
     }
   },
 
+  isAllowed(selectedSubform) {
+    return (
+      ["computer", "electrical", "computer_accessory"].indexOf(
+        selectedSubform
+      ) >= 0
+    );
+  },
+
   afterModel() {
     this.store.findAll("location", { reload: true });
   },
 
-  setupController(controller, model) {
+  async setupController(controller, model) {
     this._super(controller, model);
 
     controller.set("inventoryNumber", this.get("inventoryNumber"));
@@ -76,6 +84,18 @@ export default AuthorizeRoute.extend({
         controller.set("selectedGrade", { name: "B", id: "B" });
         controller.set("selectedCondition", { name: "Used", id: "U" });
         controller.set("imageKeys", "");
+      }
+      let codeId = controller.get("codeId");
+      if (codeId) {
+        let selected = this.get("store").peekRecord("code", codeId);
+        let selectedSubform = selected.get("subform");
+        if (selected && this.isAllowed(selectedSubform)) {
+          controller.set("showAdditionalFields", true);
+          let details = await this.store.query(selectedSubform, {
+            distinct: "brand"
+          });
+          controller.set("packageDetails", details);
+        }
       }
       var imageKey = controller.get("imageKeys");
       if (

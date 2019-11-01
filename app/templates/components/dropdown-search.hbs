@@ -1,0 +1,14 @@
+<div class="dropdown-wrapper">
+  {{searchable-select
+    content=(mut (get resourceType content))
+    sortBy="name"
+    optionLabelKey="tag"
+    selected=(if displayPage (mut (get selectedDataDisplay content)) selected )
+    addLabel= displayLabel
+    isClearable=false
+    prompt=""
+    on-change=(action "setSelected" content)
+    on-add= (if addAble (action "addNew" content) "")
+    on-open=(if addAble (action "openDropDown" content) "")}}
+  <div class="dropdown-icon"> {{fa-icon 'chevron-down'}}</div>
+</div>
