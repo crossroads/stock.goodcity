@@ -93,7 +93,8 @@ module.exports = function(environment) {
         "goodcity_request",
         "donor_condition",
         "purpose",
-        "orders_process_checklist"
+        "orders_process_checklist",
+        "lookup"
       ]
     },
 

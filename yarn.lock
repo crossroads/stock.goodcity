@@ -4313,9 +4313,9 @@ cordova-lib@7.1.0:
     valid-identifier "0.0.1"
     xcode "^0.9.0"
 
-"cordova-lib@https://github.com/crossroads/goodcity-lib.git#master":
+"cordova-lib@https://github.com/crossroads/goodcity-lib.git#GCW-2804-helper-method-for-not-equal":
   version "0.0.0"
-  resolved "https://github.com/crossroads/goodcity-lib.git#82afec3e190b356793755f303d8006c4fa08eeac"
+  resolved "https://github.com/crossroads/goodcity-lib.git#16af04059b322c87b41bc9eb7c0c9289ea39c60b"
   dependencies:
     bower "^1.8.8"
     codeclimate-test-reporter "^0.5.0"

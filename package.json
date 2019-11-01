@@ -92,7 +92,7 @@
     "cloudinary-jquery-file-upload": "^2.2.0",
     "codeclimate-test-reporter": "^0.5.0",
     "cordova": "^7.1.0",
-    "cordova-lib": "https://github.com/crossroads/goodcity-lib.git#master",
+    "cordova-lib": "https://github.com/crossroads/goodcity-lib.git#GCW-2804-helper-method-for-not-equal",
     "cordova-update-config": "^1.0.2",
     "ember-cli-babel": "^5.1.10",
     "ember-cli-test-loader": "^1.1.0",
