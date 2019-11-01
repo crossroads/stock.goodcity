@@ -1,5 +1,5 @@
 import Ember from "ember";
-import config from "../config/environment";
+import config from "stock/config/environment";
 import { pluralize } from "ember-inflector";
 import _ from "lodash";
 
