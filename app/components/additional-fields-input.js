@@ -1,6 +1,6 @@
 import Ember from "ember";
 import config from "../config/environment";
-import pluralize from "ember-inflector";
+import { pluralize } from "ember-inflector";
 import _ from "lodash";
 
 export default Ember.TextField.extend({
