@@ -15,9 +15,13 @@
       <div class="row">
         <div class="columns small-4">{{t "item_details.type"}} </div>
         <div class="columns small-8 value">
-          {{#link-to 'items.search_code' item.id}}
+          {{#if isPackageTypeEditable}}
             {{input value=item.code.name class="item-type" disabled=true}}
-          {{/link-to}}
+          {{else}}
+            {{#link-to 'items.search_code' item.id}}
+              {{input value=item.code.name class="item-type" disabled=true}}
+            {{/link-to}}
+          {{/if}}
         </div>
       </div>
 
