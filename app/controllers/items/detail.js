@@ -2,6 +2,18 @@ import Ember from "ember";
 import config from "../../config/environment";
 import singletonItemDispatchToGcOrder from "../../mixins/singleton_item_dispatch_to_gc_order";
 import GoodcityController from "../goodcity_controller";
+import Ember from "ember";
+import config from "../../config/environment";
+import singletonItemDispatchToGcOrder from "../../mixins/singleton_item_dispatch_to_gc_order";
+import GoodcityController from "../goodcity_controller";
+import { singularize, pluralize } from "ember-inflector";
+import AjaxPromise from "stock/utils/ajax-promise";
+import additionalFields from "stock/constants/additional-fields";
+import SearchMixin from "stock/mixins/search_resource";
+import PackageDetailMixin from "stock/mixins/fetch_package_detail";
+import GradeMixin from "stock/mixins/grades_option";
+import _ from "lodash";
+const { getOwner } = Ember;
 
 export default GoodcityController.extend(singletonItemDispatchToGcOrder, {
   isMobileApp: config.cordova.enabled,
