@@ -111,15 +111,6 @@ export default GoodcityController.extend(
       );
     }),
 
-    grades: Ember.computed(function() {
-      return [
-        { name: "A", id: "A" },
-        { name: "B", id: "B" },
-        { name: "C", id: "C" },
-        { name: "D", id: "D" }
-      ];
-    }),
-
     description: Ember.computed("code", {
       get() {
         return this.get("code.name");
