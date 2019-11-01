@@ -1,5 +1,5 @@
 import attr from "ember-data/attr";
-import belongsTo from "ember-data/relationships";
+import { belongsTo } from "ember-data/relationships";
 import Detail from "./detail";
 
 export default Detail.extend({
