@@ -1,5 +1,6 @@
 import Ember from "ember";
 import ApiBaseService from "./api-base-service";
+import NavigationAwareness from "../mixins/navigation_aware";
 import _ from "lodash";
 
 /**
@@ -8,12 +9,16 @@ import _ from "lodash";
  * @description Find and pick locations
  *
  */
-export default ApiBaseService.extend({
+export default ApiBaseService.extend(NavigationAwareness, {
   store: Ember.inject.service(),
 
   init() {
     this._super(...arguments);
     this.set("openLocationSearch", false);
+  },
+
+  onNavigation() {
+    this.getWithDefault("onLocationSelected", _.noop)(null);
   },
 
   /**
@@ -31,6 +36,7 @@ export default ApiBaseService.extend({
     this.set("openLocationSearch", true);
     this.set("onLocationSelected", order => {
       this.set("onLocationSelected", _.noop);
+      this.set("openLocationSearch", false);
       deferred.resolve(order || null);
     });
 

@@ -12,7 +12,7 @@ const ALL_OPERATIONS = ["create", "update", "delete"];
 
 const UPDATE_STRATEGY = {
   RELOAD: (store, type, record) => {
-    store.findRecord(type, record.id);
+    store.findRecord(type, record.id, { reload: true });
   },
   MERGE: (store, type, record) => {
     store.pushPayload({ [type]: record });
