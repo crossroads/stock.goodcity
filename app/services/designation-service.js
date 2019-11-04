@@ -1,5 +1,6 @@
 import Ember from "ember";
 import ApiBaseService from "./api-base-service";
+import NavigationAwareness from "../mixins/navigation_aware";
 import _ from "lodash";
 
 function ID(modelOrId) {
@@ -21,7 +22,7 @@ function ID(modelOrId) {
  * <br> which mostly involves operations on the orders_package join table
  *
  */
-export default ApiBaseService.extend({
+export default ApiBaseService.extend(NavigationAwareness, {
   store: Ember.inject.service(),
 
   init() {
@@ -121,9 +122,14 @@ export default ApiBaseService.extend({
     this.set("openOrderSearch", true);
     this.set("onOrderSelected", order => {
       this.set("onOrderSelected", _.noop);
+      this.set("openOrderSearch", false);
       deferred.resolve(order || null);
     });
 
     return deferred.promise;
+  },
+
+  onNavigation() {
+    this.getWithDefault("onOrderSelected", _.noop)(null);
   }
 });
