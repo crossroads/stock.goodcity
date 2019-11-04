@@ -51,7 +51,7 @@ export default GoodcityController.extend(
     invalidScanResult: false,
     newUploadedImage: null,
     subFormData: {},
-    insertFixedOption: Ember.inject.service(),
+    setDropdownOption: Ember.inject.service(),
     showAdditionalFields: false,
     isAllowedToPublish: false,
 

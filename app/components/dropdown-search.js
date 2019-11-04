@@ -30,15 +30,17 @@ export default Ember.Component.extend({
 
     async setSelected(fieldName, value) {
       if (this.get("displayPage")) {
-        const updateResponse = await this.get("onSetValue")(
-          value,
-          "dropdown",
-          fieldName,
-          this.get("previousValue")
-        );
+        const config = {
+          value: value.tag,
+          name: fieldName,
+          previousValue: this.get("previousValue")
+        };
+        const snakeCaseKey = _.snakeCase(fieldName);
+        const updateResponse = await this.get("onSetValue")(config, "dropdown");
         let selectedValuesObj = {
           ...this.get("selectedValuesDisplay")
         };
+        debugger;
         const subformType = Object.keys(updateResponse)[0];
         selectedValuesObj[snakeCaseKey] = {
           id: updateResponse.id,

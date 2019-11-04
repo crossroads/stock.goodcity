@@ -31,7 +31,7 @@ export default GoodcityController.extend(
     application: Ember.inject.controller(),
     messageBox: Ember.inject.service(),
     displayScanner: false,
-    insertFixedOption: Ember.inject.service(),
+    setDropdownOption: Ember.inject.service(),
     designateFullSet: Ember.computed.localStorage(),
     callOrderObserver: false,
     showSetList: false,
@@ -257,29 +257,25 @@ export default GoodcityController.extend(
       },
 
       countryValue(value) {
-        this.send("updateFields", value, "country");
+        const config = {
+          value: value.id,
+          name: "country_id",
+          previousValue: this.get("previousValue")
+        };
+        this.send("updateFields", config, "country");
       },
 
-      updateFields(value, type, name, previousValue) {
+      updateFields(config, type) {
+        console.log(config, "config");
         const detailType = _.snakeCase(
           this.get("item.detailType")
         ).toLowerCase();
-        let valueData = "";
         const apiEndpoint = pluralize(detailType);
         const detailId = this.get("item.detail.id");
         const url = `/${apiEndpoint}/${detailId}`;
-        const snakeCaseKey = name ? _.snakeCase(name) : "country_id";
-        if (type == "inputfield") {
-          valueData = value;
-        } else if (type == "dropdown") {
-          valueData = value.tag;
-        } else if (type == "country") {
-          valueData = value.id;
-        } else {
-          valueData = "";
-        }
+        const snakeCaseKey = _.snakeCase(config.name);
         const packageDetailParams = {
-          [snakeCaseKey]: valueData
+          [snakeCaseKey]: config.value
         };
         const paramsObj = {
           detailType,
@@ -287,10 +283,9 @@ export default GoodcityController.extend(
           snakeCaseKey,
           packageDetailParams
         };
-        let oldValue = name ? previousValue : this.get("previousValue");
         return this.get("subformDetailService").updateRequest(
           paramsObj,
-          oldValue
+          config.previousValue
         );
       },
 
