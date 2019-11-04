@@ -164,8 +164,7 @@ export default Ember.Component.extend(AsyncMixin, {
         this.get("actionRunner").execAction(ordersPkg, actionName, params)
       );
 
-      // fire & forget
-      this.get("store").findRecord("item", itemId, { reload: true });
+      return this.get("store").findRecord("item", itemId, { reload: true });
     } catch (e) {
       this.onError(e);
     }
