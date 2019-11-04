@@ -6,7 +6,6 @@ export default Ember.Mixin.create({
   resultArray: [],
 
   onSearchCountry(field, searchText) {
-    console.log(field, searchText);
     let searchTextLength = Ember.$.trim(searchText).length;
     if (searchTextLength) {
       this.set("searchText", searchText);

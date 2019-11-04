@@ -266,7 +266,6 @@ export default GoodcityController.extend(
       },
 
       updateFields(config, type) {
-        console.log(config, "config");
         const detailType = _.snakeCase(
           this.get("item.detailType")
         ).toLowerCase();

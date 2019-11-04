@@ -40,7 +40,6 @@ export default Ember.Component.extend({
         let selectedValuesObj = {
           ...this.get("selectedValuesDisplay")
         };
-        debugger;
         const subformType = Object.keys(updateResponse)[0];
         selectedValuesObj[snakeCaseKey] = {
           id: updateResponse.id,
