@@ -1,6 +1,13 @@
 import Ember from "ember";
 import _ from "lodash";
 
+/**
+ * Adds navigation awareness to component/services
+ *
+ * It provides:
+ *    - A `currentRoute` property
+ *    - Support for an `onNavigation` callback
+ */
 export default Ember.Mixin.create({
   currentRoute: Ember.computed.alias("router.currentRouteName"),
 
