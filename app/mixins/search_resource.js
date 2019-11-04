@@ -44,12 +44,19 @@ export default Ember.Mixin.create({
   },
 
   onSearchTextChange: Ember.observer("searchText", function() {
-    if (this.get("searchText").length > this.get("minSearchTextLength")) {
-      this.rerenderOrShowNewResult();
+    if (isValidTextLength()) {
+      this.reloadResults();
     }
   }),
 
   // ----- Helpers ------
+  isValidTextLength() {
+    const searchTextLength = this.get("searchText").length;
+    return (
+      searchTextLength > this.get("minSearchTextLength") ||
+      searchTextLength === 0
+    );
+  },
 
   sanitizeString(str) {
     // these are the special characters '.,)(@_-' that are allowed for search
@@ -59,17 +66,6 @@ export default Ember.Mixin.create({
     // '\)' => will allow ')'
     str = str.replace(/[^a-z0-9áéíóúñü \.,\)\(@_-]/gim, "");
     return str.trim();
-  },
-
-  /**
-   * Rerequest or request new Search
-   **/
-  rerenderOrShowNewResult() {
-    if (this.get("autoLoad")) {
-      this.reloadResults();
-    } else {
-      this.showResults();
-    }
   },
 
   /**
