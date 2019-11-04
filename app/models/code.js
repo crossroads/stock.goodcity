@@ -6,10 +6,18 @@ export default Model.extend({
   name: attr("string"),
   code: attr("string"),
   otherTerms: attr("string"),
-  allow_pieces: attr("boolean", { defaultValue: false }),
-  visibleInSelects: attr("boolean", { defaultValue: false }),
-  location: belongsTo("location", { async: false }),
-  goodcityRequests: hasMany("goodcity_request", { async: false }),
+  allow_pieces: attr("boolean", {
+    defaultValue: false
+  }),
+  visibleInSelects: attr("boolean", {
+    defaultValue: false
+  }),
+  location: belongsTo("location", {
+    async: false
+  }),
+  goodcityRequests: hasMany("goodcity_request", {
+    async: false
+  }),
 
   defaultChildPackages: attr("string"),
   subform: attr("string"),

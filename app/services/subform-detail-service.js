@@ -1,10 +1,9 @@
 import Ember from "ember";
-import AjaxPromise from "./../utils/ajax-promise";
 import _ from "lodash";
 const { getOwner } = Ember;
+import ApiBaseService from "./api-base-service";
 
-export default Ember.Service.extend({
-  session: Ember.inject.service(),
+export default ApiBaseService.extend({
   store: Ember.inject.service(),
 
   isValueChanged(newValue, previousValue) {
@@ -21,14 +20,9 @@ export default Ember.Service.extend({
       var loadingView = getOwner(this)
         .lookup("component:loading")
         .append();
-      return new AjaxPromise(
-        paramsObj.url,
-        "PUT",
-        this.get("session.authToken"),
-        {
-          [paramsObj.detailType]: paramsObj.packageDetailParams
-        }
-      )
+      return this.PUT(paramsObj.url, {
+        [paramsObj.detailType]: paramsObj.packageDetailParams
+      })
         .then(data => {
           this.get("store").pushPayload(data);
           return data;

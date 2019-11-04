@@ -8,16 +8,6 @@ export default getOrderRoute.extend({
   organisationIdforHistoryRoute: null,
   currentRouteName: null,
 
-  loadIfAbsent(model, id) {
-    // note: using findRecord with reload:false will make a request regardless of whether the data is
-    // present or not. If it is present, it will return immediatly but still proceed to making the request
-    // which can result in weird race conditions later on. We use peek explicitely here to avoid this.
-    return (
-      this.store.peekRecord(model, id) ||
-      this.store.findRecord(model, id, { reload: true })
-    );
-  },
-
   setHistoryRoute(routeName, previousRoute) {
     if (
       routeName === "items.history" ||
@@ -73,7 +63,9 @@ export default getOrderRoute.extend({
 
     return Cache.exec(`designation:${id}`, () => {
       // We ensure that the order has been fully loaded at least once.
-      return store.findRecord(model, id, { reload: true });
+      return store.findRecord(model, id, {
+        reload: true
+      });
     }).then(() => {
       return this.loadIfAbsent(model, id);
     });

@@ -2,7 +2,7 @@ import Ember from "ember";
 import _ from "lodash";
 
 export default Ember.Mixin.create({
-  fetchPackageDetails: Ember.computed("packageDetails", function() {
+  subFormDetails: Ember.computed("packageDetails", function() {
     if (this.get("showAdditionalFields")) {
       let package_details = this.get("packageDetails");
       if (package_details) {
@@ -10,7 +10,7 @@ export default Ember.Mixin.create({
         let columns = Object.keys(package_details.get("firstObject").toJSON());
         columns.map(column => {
           let columnData = [];
-          columnData = this.get("insertFixedOption").fixedOptionDropDown(
+          columnData = this.get("setDropdownOption").setOptions(
             column,
             package_details
           );

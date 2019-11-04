@@ -7,6 +7,7 @@ import AjaxPromise from "stock/utils/ajax-promise";
 import additionalFields from "stock/constants/additional-fields";
 import SearchMixin from "stock/mixins/search_resource";
 import PackageDetailMixin from "stock/mixins/fetch_package_detail";
+import SearchOptionMixin from "stock/mixins/search_option";
 import GradeMixin from "stock/mixins/grades_option";
 import _ from "lodash";
 const { getOwner } = Ember;
@@ -15,6 +16,7 @@ export default GoodcityController.extend(
   singletonItemDispatchToGcOrder,
   SearchMixin,
   PackageDetailMixin,
+  SearchOptionMixin,
   GradeMixin,
   {
     isMobileApp: config.cordova.enabled,
@@ -28,8 +30,8 @@ export default GoodcityController.extend(
     subformDetailService: Ember.inject.service(),
     application: Ember.inject.controller(),
     messageBox: Ember.inject.service(),
+    setDropdownOption: Ember.inject.service(),
     displayScanner: false,
-    insertFixedOption: Ember.inject.service(),
     designateFullSet: Ember.computed.localStorage(),
     callOrderObserver: false,
     showSetList: false,
@@ -255,13 +257,24 @@ export default GoodcityController.extend(
       },
 
       countryValue(value) {
-        const detailType = this.get("item.detailType").toLowerCase();
+        const config = {
+          value: value.id,
+          name: "country_id",
+          previousValue: this.get("previousValue")
+        };
+        this.send("updateFields", config, "country");
+      },
+
+      updateFields(config, type) {
+        const detailType = _.snakeCase(
+          this.get("item.detailType")
+        ).toLowerCase();
         const apiEndpoint = pluralize(detailType);
         const detailId = this.get("item.detail.id");
         const url = `/${apiEndpoint}/${detailId}`;
-        const snakeCaseKey = "country_id";
+        const snakeCaseKey = _.snakeCase(config.name);
         const packageDetailParams = {
-          [snakeCaseKey]: parseInt(value.id) || ""
+          [snakeCaseKey]: config.value
         };
         const paramsObj = {
           detailType,
@@ -269,18 +282,14 @@ export default GoodcityController.extend(
           snakeCaseKey,
           packageDetailParams
         };
-        this.get("subformDetailService").updateRequest(
+        return this.get("subformDetailService").updateRequest(
           paramsObj,
-          this.get("previousValue")
+          config.previousValue
         );
       },
 
-      setFields(value) {
-        this.set("fieldValues", value);
-      },
-
-      onSearch(searchText) {
-        this.onSearchCountry(searchText);
+      onSearch(field, searchText) {
+        this.onSearchCountry(field, searchText);
       },
 
       openDropDown() {
@@ -302,7 +311,9 @@ export default GoodcityController.extend(
               "items.search_location",
               this.get("item.id"),
               {
-                queryParams: { isSet: true }
+                queryParams: {
+                  isSet: true
+                }
               }
             );
           } else {
@@ -312,7 +323,10 @@ export default GoodcityController.extend(
           }
         } else {
           this.transitionToRoute("items.search_location", this.get("item.id"), {
-            queryParams: { isSet: false, isPartialMove: false }
+            queryParams: {
+              isSet: false,
+              isPartialMove: false
+            }
           });
         }
       }
