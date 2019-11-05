@@ -48,7 +48,7 @@ export default AuthorizeRoute.extend({
     }
   },
 
-  isAllowed(selectedSubform) {
+  isSubformAllowed(selectedSubform) {
     return (
       ["computer", "electrical", "computer_accessory"].indexOf(
         selectedSubform
@@ -98,7 +98,7 @@ export default AuthorizeRoute.extend({
         let selected = this.get("store").peekRecord("code", codeId);
         if (selected) {
           let selectedSubform = selected.get("subform");
-          if (this.isAllowed(selectedSubform)) {
+          if (this.isSubformAllowed(selectedSubform)) {
             controller.set("showAdditionalFields", true);
             let details = await this.store.query(selectedSubform, {
               distinct: "brand"
