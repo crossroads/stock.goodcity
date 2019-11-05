@@ -137,32 +137,44 @@
   <hr>
   <div class="row additional-selected-values">
 
-    {{#each displayFields as |fields|}}
-    <div class="small-6 columns input-field-container disable">
+    {{#each displayFields as |field|}}
+    <div class="small-6 columns input-field-container">
       <div class="row">
         <div class="small-12 columns item-label">
-          {{fields.label}}
+          {{field.label}}
         </div>
-        <div class="small-12 columns left input-fields">
+        <div class="small-12 columns left">
           {{#form-control}}
-          {{#if (is-and fields.autoComplete (is-not-equal fields.name 'country'))}}
-          {{dropdown-search addAble=fields.addAble displayPage=true selectedValuesDisplay=selectedValuesDisplay packageDetails=fetchPackageDetails content=fields.name onConfirm=(action 'setFields')
+          {{#if (is-and field.autoComplete (is-not-equal field.name 'country'))}}
+          {{dropdown-search
+            addAble=field.addAble
+            displayPage=true
+            selectedValuesDisplay=selectedValuesDisplay
+            packageDetails=subFormDetails
+            content=field.name onSetValue=(action 'updateFields')
             detailType=item.detailType detailId=item.detail.id}}
-          {{else if (is-equal fields.name 'country')}}
+          {{else if (is-equal field.name 'country')}}
           <div class="dropdown-wrapper">
             {{searchable-select
-                content=countryArray
-                sortBy="name"
-                optionLabelKey="nameEn"
-                on-change=(action "setCountryValue")
-                selected=selectedCountry
-                prompt=""
-                on-open=(action "openDropDown")
-                on-search=(action "onSearch")}}
+              content=resultArray
+              sortBy="name"
+              optionLabelKey="nameEn"
+              on-change=(action "setCountryValue")
+              selected=selectedCountry
+              prompt=""
+              on-open=(action "openDropDown")
+              on-search=(action "onSearch" "country")}}
             <div class="dropdown-icon"> {{fa-icon 'chevron-down'}}</div>
           </div>
           {{else}}
-          {{additional-fields-input id=fields.name name=fields.name type="text" class="inline-input additional-input" value=(mut (get (get selectedValuesDisplay fields.name) 'tag')) item=item detailType=item.detailType detailId=item.detail.id}}
+          {{additional-fields-input
+            id=field.name
+            name=field.name
+            type="text"
+            class="inline-input additional-input"
+            value=(mut (get (get selectedValuesDisplay field.name) 'tag'))
+            item=item detailType=item.detailType
+            detailId=item.detail.id onFocusOut=(action 'updateFields')}}
           {{/if}}
           {{/form-control}}
         </div>

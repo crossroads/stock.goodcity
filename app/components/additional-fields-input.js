@@ -29,7 +29,7 @@ export default Ember.TextField.extend({
       name: this.get("name"),
       previousValue: this.get("previousValue")
     };
-    this.get("onFocusOut")(config, "inputfield");
+    this.get("onFocusOut")(config);
     this.set("inlineTextInput", false);
   },
 

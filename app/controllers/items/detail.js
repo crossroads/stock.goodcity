@@ -259,10 +259,10 @@ export default GoodcityController.extend(
           name: "country_id",
           previousValue: this.get("previousValue")
         };
-        this.send("updateFields", config, "country");
+        this.send("updateFields", config);
       },
 
-      updateFields(config, type) {
+      updateFields(config) {
         const detailType = _.snakeCase(
           this.get("item.detailType")
         ).toLowerCase();
@@ -283,40 +283,43 @@ export default GoodcityController.extend(
           paramsObj,
           config.previousValue
         );
-      }
-    },
+      },
 
-    onSearch(field, searchText) {
-      this.onSearchCountry(field, searchText);
-    },
-
-    openDropDown() {
-      let country = this.get("item.detail.country");
-      if (country) {
-        this.set("previousValue", country.id);
-      }
-    },
-
-    partialDesignateForSet() {
-      this.set("designateFullSet", true);
-      this.set("callOrderObserver", true);
-    },
-
-    moveItemSet() {
-      if (this.get("item.isSet")) {
-        if (this.get("item.setItem.canBeMoved")) {
-          this.transitionToRoute("items.search_location", this.get("item.id"), {
-            queryParams: { isSet: true }
-          });
-        } else {
-          this.get("messageBox").alert(
-            "One or more items from this set are part of box or pallet. You can only move it using Stockit."
-          );
+      openDropDown() {
+        let country = this.get("item.detail.country");
+        if (country) {
+          this.set("previousValue", country.id);
         }
-      } else {
-        this.transitionToRoute("items.search_location", this.get("item.id"), {
-          queryParams: { isSet: false, isPartialMove: false }
-        });
+      },
+      onSearch(field, searchText) {
+        this.onSearchCountry(field, searchText);
+      },
+
+      partialDesignateForSet() {
+        this.set("designateFullSet", true);
+        this.set("callOrderObserver", true);
+      },
+
+      moveItemSet() {
+        if (this.get("item.isSet")) {
+          if (this.get("item.setItem.canBeMoved")) {
+            this.transitionToRoute(
+              "items.search_location",
+              this.get("item.id"),
+              {
+                queryParams: { isSet: true }
+              }
+            );
+          } else {
+            this.get("messageBox").alert(
+              "One or more items from this set are part of box or pallet. You can only move it using Stockit."
+            );
+          }
+        } else {
+          this.transitionToRoute("items.search_location", this.get("item.id"), {
+            queryParams: { isSet: false, isPartialMove: false }
+          });
+        }
       }
     }
   }

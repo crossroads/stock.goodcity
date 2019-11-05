@@ -36,7 +36,7 @@ export default Ember.Component.extend({
           previousValue: this.get("previousValue")
         };
         const snakeCaseKey = _.snakeCase(fieldName);
-        const updateResponse = await this.get("onSetValue")(config, "dropdown");
+        const updateResponse = await this.get("onSetValue")(config);
         let selectedValuesObj = {
           ...this.get("selectedValuesDisplay")
         };
