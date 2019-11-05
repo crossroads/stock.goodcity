@@ -50,28 +50,6 @@ export default Ember.Mixin.create({
     }
   }),
 
-  onSearchCountry(searchText) {
-    let searchTextLength = Ember.$.trim(searchText).length;
-    if (searchTextLength) {
-      this.set("searchText", searchText);
-      Ember.run.debounce(this, this.applyFilter, 500);
-    }
-  },
-
-  applyFilter: function() {
-    let searchText = this.get("searchText");
-    this.get("store")
-      .query("country", {
-        searchText
-      })
-      .then(countries => {
-        //Check the input has changed since the promise started
-        if (searchText === this.get("searchText")) {
-          this.set("countryArray", Ember.A(countries));
-        }
-      });
-  },
-
   // ----- Helpers ------
   isValidTextLength() {
     const searchTextLength = this.get("searchText").length;
