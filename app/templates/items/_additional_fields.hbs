@@ -1,31 +1,37 @@
 <hr>
 <div class="row additional-field-create">
-
-  {{#each displayFields as |fields|}}
+  {{#each displayFields as |field|}}
   <div class="small-6 columns input-field-container">
     <div class="row">
       <div class="small-12 columns item-label">
-        {{fields.label}}
+        {{field.label}}
       </div>
       <div class="small-12 columns left">
         {{#form-control}}
-        {{#if (is-and fields.autoComplete (is-not-equal fields.name 'country')) }}
-        {{dropdown-search addAble=fields.addAble content=fields.name displayPage=false packageDetails=fetchPackageDetails onConfirm=(action 'setFields')}}
-        {{else if (is-equal fields.name 'country')}}
+        {{#if (is-and field.autoComplete (is-not-equal field.name 'country')) }}
+        {{dropdown-search
+          addAble=field.addAble
+          content=field.name
+          displayPage=false
+          packageDetails=subFormDetails
+          onConfirm=(action 'setFields')}}
+        {{else if (is-equal field.name 'country')}}
         <div class="dropdown-wrapper">
           {{searchable-select
-          content=countryArray
-          sortBy="name"
-          optionLabelKey="nameEn"
-          selected=selected
-          on-change=(action "countryValue")
-          isClearable=false
-          prompt=""
-          on-search=(action "onSearch")}}
+            content=resultArray
+            sortBy="name"
+            optionLabelKey="nameEn"
+            selected=selected
+            on-change=(action "setCountryValue")
+            isClearable=false
+            prompt=""
+            on-search=(action "onSearch" "country")}}
           <div class="dropdown-icon"> {{fa-icon 'chevron-down'}}</div>
         </div>
         {{else}}
-        {{input name=fields.name type=fields.type value=(mut (get inputFieldValues fields.value)) }}
+        {{input name=field.name
+          type=field.type
+          value=(mut (get inputFieldValues field.value)) }}
         {{/if}}
         {{/form-control}}
       </div>

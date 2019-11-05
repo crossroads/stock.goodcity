@@ -5,7 +5,7 @@ export default Ember.Service.extend({
   session: Ember.inject.service(),
   store: Ember.inject.service(),
 
-  fixedOptionDropDown(column, package_details) {
+  setOptions(column, package_details) {
     if (["frequency", "voltage", "testStatus"].indexOf(column) > -1) {
       return this.fetchLookups(`electrical_${_.snakeCase(column)}`);
     } else if (column === "compTestStatus") {

@@ -5,12 +5,12 @@ import config from "../../config/environment";
 import additionalFields from "../../constants/additional-fields";
 import _ from "lodash";
 const { getOwner, A } = Ember;
-import SearchMixin from "stock/mixins/search_resource";
+import SearchOptionMixin from "stock/mixins/search_option";
 import PackageDetailMixin from "stock/mixins/fetch_package_detail";
 import GradeMixin from "stock/mixins/grades_option";
 
 export default GoodcityController.extend(
-  SearchMixin,
+  SearchOptionMixin,
   PackageDetailMixin,
   GradeMixin,
   {
@@ -46,7 +46,7 @@ export default GoodcityController.extend(
     invalidScanResult: false,
     newUploadedImage: null,
     subFormData: {},
-    insertFixedOption: Ember.inject.service(),
+    setDropdownOption: Ember.inject.service(),
     showAdditionalFields: false,
     isAllowedToPublish: false,
 
@@ -552,11 +552,11 @@ export default GoodcityController.extend(
         this.checkPermissionAndScan();
       },
 
-      onSearch(searchText) {
-        this.onSearchCountry(searchText);
+      onSearch(field, searchText) {
+        this.onSearchCountry(field, searchText);
       },
 
-      countryValue(value) {
+      setCountryValue(value) {
         this.set("countryValue", {
           country_id: value.id
         });
