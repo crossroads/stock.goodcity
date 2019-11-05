@@ -26,10 +26,10 @@ export default AuthorizeRoute.extend({
       await Ember.RSVP.all(promises);
     }
 
-    let detail_type = model.get("detailType");
-    let detail_id = model.get("detailId");
-    if (detail_type) {
-      await this.preLoadDetail(_.snakeCase(detail_type), detail_id);
+    let detailType = model.get("detailType");
+    let detailId = model.get("detailId");
+    if (detailType) {
+      await this.loadIfAbsent(_.snakeCase(detailType).toLowerCase(), detailId);
     }
     return model;
   },
@@ -73,9 +73,9 @@ export default AuthorizeRoute.extend({
     controller.set("callOrderObserver", false);
     controller.set("backLinkPath", this.get("itemBackLinkPath"));
     controller.set("active", true);
-    let detail_type = model.get("detailType");
-    if (detail_type) {
-      let details = await this.store.query(_.snakeCase(detail_type), {
+    let detailType = model.get("detailType");
+    if (detailType) {
+      let details = await this.store.query(_.snakeCase(detailType), {
         distinct: "brand"
       });
       controller.set("packageDetails", details);
@@ -99,25 +99,6 @@ export default AuthorizeRoute.extend({
   preloadImages(item) {
     const ids = item.getWithDefault("imageIds", []);
     return Ember.RSVP.all(ids.map(id => this.loadImage(id)));
-  },
-
-  // loads package subform detail
-  async preLoadDetail(detail_type, detail_id) {
-    if (detail_type) {
-      return (
-        this.store.peekRecord(
-          _.snakeCase(detail_type).toLowerCase(),
-          detail_id
-        ) ||
-        this.store.findRecord(
-          _.snakeCase(detail_type).toLowerCase(),
-          detail_id,
-          {
-            reload: true
-          }
-        )
-      );
-    }
   },
 
   /**

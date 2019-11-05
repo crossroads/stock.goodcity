@@ -1,31 +1,44 @@
 <hr>
 <div class="row additional-field-create">
-
   {{#each displayFields as |fields|}}
-  <div class="small-6 columns input-field-container">
+  <div class="small-6 columns input-field-container disable">
     <div class="row">
       <div class="small-12 columns item-label">
         {{fields.label}}
       </div>
-      <div class="small-12 columns left">
+      <div class="small-12 columns left input-fields">
         {{#form-control}}
-        {{#if (is-and fields.autoComplete (is-not-equal fields.name 'country')) }}
-        {{dropdown-search addAble=fields.addAble content=fields.name displayPage=false packageDetails=fetchPackageDetails onConfirm=(action 'setFields')}}
+        {{#if (is-and fields.autoComplete (is-not-equal fields.name 'country'))}}
+        {{dropdown-search
+          addAble=fields.addAble
+          displayPage=true
+          selectedValuesDisplay=selectedValuesDisplay
+          packageDetails=subFormDetails
+          content=fields.name
+          onSetValue=(action 'updateFields')
+          detailType=item.detailType
+          detailId=item.detail.id}}
         {{else if (is-equal fields.name 'country')}}
         <div class="dropdown-wrapper">
           {{searchable-select
-          content=countryArray
-          sortBy="name"
-          optionLabelKey="nameEn"
-          selected=selected
-          on-change=(action "countryValue")
-          isClearable=false
-          prompt=""
-          on-search=(action "onSearch")}}
+            content=resultArray
+            sortBy="name"
+            optionLabelKey="nameEn"
+            on-change=(action "countryValue")
+            selected=selectedCountry
+            prompt=""
+            on-open=(action "openDropDown")
+            on-search=(action "onSearch" "country")}}
           <div class="dropdown-icon"> {{fa-icon 'chevron-down'}}</div>
         </div>
         {{else}}
-        {{input name=fields.name type=fields.type value=(mut (get inputFieldValues fields.value)) }}
+        {{additional-fields-input
+          id=fields.name name=fields.name
+          type="text" class="inline-input additional-input"
+          value=(mut (get (get selectedValuesDisplay fields.name) 'tag'))
+          item=item detailType=item.detailType
+          detailId=item.detail.id
+          onFocusOut=(action 'updateFields')}}
         {{/if}}
         {{/form-control}}
       </div>
