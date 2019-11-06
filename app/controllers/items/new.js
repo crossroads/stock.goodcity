@@ -564,7 +564,15 @@ export default GoodcityController.extend(
 
       setFields(fieldName, value) {
         let dropDownValues = this.get("dropDownValues");
-        dropDownValues[fieldName] = value;
+        if (
+          ["frequency", "voltage", "compTestStatus", "testStatus"].indexOf(
+            fieldName
+          ) >= 0
+        ) {
+          dropDownValues[`${fieldName}_id`] = value.id;
+        } else {
+          dropDownValues[fieldName] = value.tag;
+        }
         this.set("dropDownValues", dropDownValues);
       },
 

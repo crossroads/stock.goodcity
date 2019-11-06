@@ -104,6 +104,8 @@ export default AuthorizeRoute.extend({
               distinct: "brand"
             });
             controller.set("packageDetails", details);
+          } else {
+            controller.set("showAdditionalFields", false);
           }
         }
       }

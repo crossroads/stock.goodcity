@@ -1,5 +1,6 @@
 import Ember from "ember";
 import _ from "lodash";
+import apptUtils from "../utils/unique-array";
 
 export default Ember.Mixin.create({
   subFormDetails: Ember.computed("packageDetails", function() {
@@ -14,10 +15,11 @@ export default Ember.Mixin.create({
             column,
             package_details
           );
-          subFormData[column] = columnData.map((_column, index) => {
+          let uniqueArray = apptUtils.removeDuplicates(columnData, "tag");
+          subFormData[column] = uniqueArray.map((_column, index) => {
             return {
-              id: index + 1,
-              tag: columnData[index]
+              id: _column.id,
+              tag: _column.tag
             };
           });
         });

@@ -11,14 +11,31 @@ export default Ember.Service.extend({
     } else if (column === "compTestStatus") {
       return this.fetchLookups("comp_test_status");
     } else {
-      return [...new Set(package_details.getEach(column).filter(Boolean))];
+      let dataObj = [];
+      package_details.map(function(data) {
+        if (data.get(column)) {
+          dataObj.push({
+            id: data.id,
+            tag: data.get(column)
+          });
+        }
+      });
+      return dataObj;
     }
   },
 
   fetchLookups(lookupName) {
-    return this.get("store")
+    let lookupArray = [];
+    let lookupData = this.get("store")
       .peekAll("lookup")
-      .filterBy("name", lookupName)
-      .getEach("labelEn");
+      .filterBy("name", lookupName);
+    lookupData.map(lookup => {
+      let idAndLabel = lookup.getProperties("id", "labelEn");
+      lookupArray.push({
+        id: idAndLabel.id,
+        tag: idAndLabel.labelEn
+      });
+    });
+    return lookupArray;
   }
 });

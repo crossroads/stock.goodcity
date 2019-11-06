@@ -9,11 +9,16 @@ export default Ember.Component.extend({
   store: Ember.inject.service(),
   subformDetailService: Ember.inject.service(),
   resourceType: Ember.computed.alias("packageDetails"),
+  fixedDropdownArr: ["frequency", "voltage", "compTestStatus", "testStatus"],
   selectedData: Ember.computed.alias("selectedValue"),
   selectedDataDisplay: Ember.computed.alias("selectedValuesDisplay"),
   displayLabel: Ember.computed("addAble", function() {
     return this.get("addAble") ? "Add New Item" : "";
   }),
+
+  isfixedDropdown(fieldName) {
+    return this.get("fixedDropdownArr").indexOf(fieldName) >= 0;
+  },
 
   actions: {
     addNew(fieldName, text) {
@@ -30,32 +35,48 @@ export default Ember.Component.extend({
 
     async setSelected(fieldName, value) {
       if (this.get("displayPage")) {
+        let selectedValue = this.isfixedDropdown(fieldName)
+          ? value.id
+          : value.tag;
+        let selectedField = this.isfixedDropdown(fieldName)
+          ? `${fieldName}_id`
+          : fieldName;
+
         const config = {
-          value: value.tag,
-          name: fieldName,
+          value: selectedValue,
+          name: selectedField,
           previousValue: this.get("previousValue")
         };
-        const snakeCaseKey = _.snakeCase(fieldName);
+        const snakeCaseKey = this.isfixedDropdown(fieldName)
+          ? _.snakeCase(`${fieldName}_id`)
+          : _.snakeCase(fieldName);
         const updateResponse = await this.get("onSetValue")(config);
         let selectedValuesObj = {
           ...this.get("selectedValuesDisplay")
         };
         const subformType = Object.keys(updateResponse)[0];
-        selectedValuesObj[snakeCaseKey] = {
-          id: updateResponse.id,
-          tag: updateResponse[subformType][snakeCaseKey]
+        selectedValuesObj[fieldName] = {
+          id: this.isfixedDropdown(fieldName)
+            ? updateResponse[subformType][snakeCaseKey]
+            : updateResponse.id,
+          tag: this.isfixedDropdown(fieldName)
+            ? this.get("store")
+                .peekRecord("lookup", updateResponse[subformType][snakeCaseKey])
+                .get("labelEn")
+            : updateResponse[subformType][snakeCaseKey]
         };
         this.set("selectedValuesDisplay", selectedValuesObj);
       } else {
-        this.get("onConfirm")(fieldName, value.tag);
+        this.get("onConfirm")(fieldName, value);
       }
     },
 
     openDropDown(fieldName) {
       if (this.get("displayPage")) {
+        let params = this.isfixedDropdown(fieldName) ? "id" : "tag";
         this.set(
           "previousValue",
-          this.get("selectedDataDisplay")[fieldName]["tag"] || ""
+          this.get("selectedDataDisplay")[fieldName][params] || ""
         );
       }
     }

@@ -162,7 +162,7 @@ export default {
       type: "text",
       autoComplete: true,
       category: ["computer_accessory"],
-      addAble: false
+      addAble: true
     },
     {
       label: "Voltage",
