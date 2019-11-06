@@ -16,8 +16,8 @@ export default Ember.Mixin.create({
           );
           subFormData[column] = columnData.map((_column, index) => {
             return {
-              id: index + 1,
-              tag: columnData[index]
+              id: _column.id,
+              tag: _column.tag
             };
           });
         });

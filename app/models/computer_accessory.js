@@ -12,6 +12,7 @@ export default Detail.extend({
   size: attr("string"),
   interface: attr("string"),
   compVoltage: attr("string"),
-  compTestStatus: attr("string"),
+  compTestStatusId: attr("number"),
+  compTestStatus: belongsTo("lookup"),
   item: belongsTo("item")
 });
