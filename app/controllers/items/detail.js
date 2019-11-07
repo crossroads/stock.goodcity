@@ -76,10 +76,10 @@ export default GoodcityController.extend(
     },
 
     displayFields: Ember.computed("model.code", function() {
-      let subformName = this.get("model.code.subform");
-      if (this.isSubformAvailable(subformName) && this.isItemDetailPresent()) {
+      let subform = this.get("model.code.subform");
+      if (this.get("showAdditionalFields")) {
         return this.get("fields").additionalFields.filter(function(field) {
-          return field.category.includes(subformName);
+          return field.category.includes(subform);
         });
       }
     }),
@@ -96,7 +96,7 @@ export default GoodcityController.extend(
 
     selectedValuesDisplay: Ember.computed("item.detail", "dataObjnew", {
       get(key) {
-        if (!!this.isItemDetailPresent()) {
+        if (!this.get("showAdditionalFields")) {
           return false;
         }
 
@@ -171,8 +171,8 @@ export default GoodcityController.extend(
 
     showAdditionalFields: Ember.computed("model.code", function() {
       return (
-        this.isSubformAvailable(this.get("model.code.subform")) &&
-        this.isItemDetailPresent()
+        !!this.get("item.detail.data") &&
+        this.isSubformAvailable(this.get("model.code.subform"))
       );
     }),
 

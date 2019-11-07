@@ -79,7 +79,6 @@ export default AuthorizeRoute.extend({
         distinct: "brand"
       });
       controller.set("packageDetails", details);
-      controller.set("showAdditionalFields", true);
     }
   },
 

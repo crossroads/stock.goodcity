@@ -27,7 +27,7 @@
     <div class="row">
       <div class="columns small-4">{{t "item_details.type"}} </div>
       <div class="columns small-8 value">
-        {{#if isPackageTypeEditable}}
+        {{#if showAdditionalFields}}
         {{input value=item.code.name class="item-type" disabled=true}}
         {{else}}
         {{#link-to 'items.search_code' item.id}}
@@ -36,7 +36,6 @@
         {{/if}}
       </div>
     </div>
-
   </div>
   <div class="columns small-3">
     {{#link-to 'items.edit_images' item.id}}
@@ -45,7 +44,6 @@
   </div>
 </div>
 {{/toggle-item-options-list}}
-
 <div class="row detail-section">
   {{#toggle-item-options-list item=item}}
   <div class="columns small-12">
@@ -61,7 +59,6 @@
   </div>
   {{/toggle-item-options-list}}
 </div>
-
 {{#toggle-item-options-list item=item}}
 <div class="row detail-section">
   <div class="columns small-12">
@@ -105,13 +102,11 @@
         {{numeric-inline-input id=(concat 'qty' item.id) name="length" class="numeric-input item-length small-3" value=item.length maxlength="5" item=item}}
         <span><i aria-hidden="true">{{fa-icon 'times'}}</i></span>
       </div>
-
       <div class="columns small-3 value">
         W:
         {{numeric-inline-input id=(concat 'wth' item.id) name="width" class="numeric-input item-width small-3" value=item.width maxlength="5"  item=item}}
         <span><i aria-hidden="true">{{fa-icon 'times'}}</i></span>
       </div>
-
       <div class="columns small-3 value">
         H:
         {{numeric-inline-input id=(concat 'hgt' item.id) name="height" class="numeric-input item-height small-3" value=item.height maxlength="5" item=item}}
