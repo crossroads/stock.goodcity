@@ -4,10 +4,11 @@ import _ from "lodash";
 export default Ember.Mixin.create({
   searchText: "",
   resultArray: [],
+  minSearchTextLength: 3,
 
   onSearchCountry(field, searchText) {
     let searchTextLength = Ember.$.trim(searchText).length;
-    if (searchTextLength) {
+    if (searchTextLength >= this.get("minSearchTextLength")) {
       this.set("searchText", searchText);
       Ember.run.debounce(this, this.applyFilter, field, 500);
     }

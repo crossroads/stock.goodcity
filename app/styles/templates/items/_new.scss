@@ -47,8 +47,10 @@
 
     .Searchable-select__label {
       border-radius: 0;
-      padding: 0.34rem 1rem;
-      background: none;
+      padding: 0.34rem 1.1rem;
+      background-image: url(../assets/images/dropdown_icon.png);
+      background-repeat: no-repeat;
+      background-size: 1.2rem;
       min-height: 1.8rem;
       border: 1px solid $tabbar-menu-icon-color;
     }
@@ -155,6 +157,10 @@
       display: inline-block;
       vertical-align: top;
       width: 49.3%;
+
+      input {
+        padding: 0 1rem;
+      }
 
       @media (max-width:480px) {
         width: 100%;

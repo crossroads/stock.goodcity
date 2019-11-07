@@ -139,7 +139,7 @@ export default {
       addAble: false
     },
     {
-      label: "Mar  OS serial Num",
+      label: "Mar OS Serial Num",
       name: "marOsSerialNum",
       type: "text",
       value: "marOsSerialNum",

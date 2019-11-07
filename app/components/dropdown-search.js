@@ -35,19 +35,16 @@ export default Ember.Component.extend({
 
     async setSelected(fieldName, value) {
       if (this.get("displayPage")) {
-        let selectedValue = this.isfixedDropdown(fieldName)
-          ? value.id
-          : value.tag;
-        let selectedField = this.isfixedDropdown(fieldName)
-          ? `${fieldName}_id`
-          : fieldName;
+        const isfixedDropdown = this.isfixedDropdown(fieldName);
+        let selectedValue = isfixedDropdown ? value.id : value.tag;
+        let selectedField = isfixedDropdown ? `${fieldName}_id` : fieldName;
 
         const config = {
           value: selectedValue,
           name: selectedField,
           previousValue: this.get("previousValue")
         };
-        const snakeCaseKey = this.isfixedDropdown(fieldName)
+        const snakeCaseKey = isfixedDropdown
           ? _.snakeCase(`${fieldName}_id`)
           : _.snakeCase(fieldName);
         const updateResponse = await this.get("onSetValue")(config);
@@ -56,10 +53,10 @@ export default Ember.Component.extend({
         };
         const subformType = Object.keys(updateResponse)[0];
         selectedValuesObj[fieldName] = {
-          id: this.isfixedDropdown(fieldName)
+          id: isfixedDropdown
             ? updateResponse[subformType][snakeCaseKey]
             : updateResponse.id,
-          tag: this.isfixedDropdown(fieldName)
+          tag: isfixedDropdown
             ? this.get("store")
                 .peekRecord("lookup", updateResponse[subformType][snakeCaseKey])
                 .get("labelEn")
