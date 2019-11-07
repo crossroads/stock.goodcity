@@ -45,51 +45,44 @@ export default GoodcityController.extend(
       );
     },
 
-<<<<<<< HEAD
-  showPieces: Ember.computed.alias("model.code.allow_pieces"),
+    showPieces: Ember.computed.alias("model.code.allow_pieces"),
 
-  tabName: Ember.computed("currentRoute", function() {
-    return this.get("currentRoute")
-      .split(".")
-      .get("lastObject");
-  }),
+    tabName: Ember.computed("currentRoute", function() {
+      return this.get("currentRoute")
+        .split(".")
+        .get("lastObject");
+    }),
 
-  grades: Ember.computed("item.grade", function() {
-    return [
-      { name: "A", id: "A" },
-      { name: "B", id: "B" },
-      { name: "C", id: "C" },
-      { name: "D", id: "D" }
-    ];
-  }),
+    conditions: Ember.computed(function() {
+      return this.get("store").peekAll("donor_condition");
+    }),
 
-  conditions: Ember.computed(function() {
-    return this.get("store").peekAll("donor_condition");
-  }),
+    itemMarkedMissing: Ember.observer("item.inventoryNumber", function() {
+      if (
+        !this.get("item.inventoryNumber") &&
+        this.get("target").currentPath === "items.detail"
+      ) {
+        this.get("messageBox").alert(
+          "This item is not inventoried yet or has been marked as missing.",
+          () => {
+            this.transitionToRoute("items.index");
+          }
+        );
+      }
+    }),
 
-  itemMarkedMissing: Ember.observer("item.inventoryNumber", function() {
-    if (
-      !this.get("item.inventoryNumber") &&
-      this.get("target").currentPath === "items.detail"
-    ) {
-      this.get("messageBox").alert(
-        "This item is not inventoried yet or has been marked as missing.",
-        () => {
-          this.transitionToRoute("items.index");
-        }
-      );
-    }
-  }),
-=======
+    isItemDetailPresent() {
+      return !!this.get("item.detail.length");
+    },
+
     displayFields: Ember.computed("model.code", function() {
       let subformName = this.get("model.code.subform");
-      if (this.isSubformAvailable(subformName)) {
+      if (this.isSubformAvailable(subformName) && this.isItemDetailPresent()) {
         return this.get("fields").additionalFields.filter(function(field) {
           return field.category.includes(subformName);
         });
       }
     }),
->>>>>>> make changes to controllers for creating subform
 
     selectedCountry: Ember.computed("item.detail", function() {
       let country = this.get("item.detail.country");
@@ -103,12 +96,15 @@ export default GoodcityController.extend(
 
     selectedValuesDisplay: Ember.computed("item.detail", "dataObjnew", {
       get(key) {
+        if (!!this.isItemDetailPresent()) {
+          return false;
+        }
+
         let dataObj = {
           ...this.get("dataObjnew")
         };
         let selectedValues = this.get("item.detail.data");
-        let selectedValuesArray = Object.keys(this.get("item.detail.data"));
-        selectedValuesArray.map((data, index) => {
+        Object.keys(selectedValues).map((data, index) => {
           if (
             [
               "frequencyId",
@@ -173,9 +169,11 @@ export default GoodcityController.extend(
       }
     }),
 
-    isPackageTypeEditable: Ember.computed("model.code", function() {
-      let subformName = this.get("model.code.subform");
-      return this.isSubformAvailable(subformName);
+    showAdditionalFields: Ember.computed("model.code", function() {
+      return (
+        this.isSubformAvailable(this.get("model.code.subform")) &&
+        this.isItemDetailPresent()
+      );
     }),
 
     tabName: Ember.computed("currentRoute", function() {

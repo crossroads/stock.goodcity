@@ -11,6 +11,18 @@
         {{quantity-chooser item=item}}
         {{/if}}
       </div>
+      <div class="row">
+        <div class="columns small-4">{{t "item_details.type"}} </div>
+        <div class="columns small-8 value">
+          {{#if showAdditionalFields}}
+            {{input value=item.code.name class="item-type" disabled=true}}
+          {{else}}
+            {{#link-to 'items.search_code' item.id}}
+              {{input value=item.code.name class="item-type" disabled=true}}
+            {{/link-to}}
+          {{/if}}
+        </div>
+      </div>
     </div>
     <div class="row">
       <div class="columns small-4">{{t "item_details.type"}} </div>
@@ -137,9 +149,9 @@
   </div>
 </div>
 {{/toggle-item-options-list}}
-{{#if isPackageTypeEditable}}
-<hr>
-<div class="row additional-selected-values">
+{{#if showAdditionalFields}}
+  <hr>
+  <div class="row additional-selected-values">
 
   {{#each displayFields as |field|}}
   <div class="small-6 columns input-field-container">

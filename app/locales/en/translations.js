@@ -187,8 +187,6 @@ export default {
     online_orders_info: "Client ordered specific goods online",
     dispatch: "Dispatch",
     dispatch_info: "We will load into van and send to client",
-    online_orders: "Online Orders",
-    online_orders_info: "Client ordered specfic goods online",
     shipment: "Shipments",
     shipment_info:
       "Overseas organisation will have goods shipped to them from Crossroads' warehouse",
