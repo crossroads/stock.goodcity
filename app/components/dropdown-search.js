@@ -20,6 +20,33 @@ export default Ember.Component.extend({
     return this.get("fixedDropdownArr").indexOf(fieldName) >= 0;
   },
 
+  returnConfig(value, fieldName) {
+    const isfixedDropdown = this.isfixedDropdown(fieldName);
+    return {
+      value: isfixedDropdown ? value.id : value.tag,
+      name: isfixedDropdown ? `${fieldName}_id` : fieldName,
+      previousValue: this.get("previousValue")
+    };
+  },
+
+  returnsnakeCaseKey(fieldName) {
+    const isfixedDropdown = this.isfixedDropdown(fieldName);
+    return isfixedDropdown
+      ? _.snakeCase(`${fieldName}_id`)
+      : _.snakeCase(fieldName);
+  },
+
+  retunLabelEn(responseKey) {
+    return this.get("store")
+      .peekRecord("lookup", responseKey)
+      .get("labelEn");
+  },
+
+  returnTag(responseKey, fieldName) {
+    const isfixedDropdown = this.isfixedDropdown(fieldName);
+    return isfixedDropdown ? this.retunLabelEn(responseKey) : responseKey;
+  },
+
   actions: {
     addNew(fieldName, text) {
       let packageDetails = this.get("packageDetails");
@@ -36,31 +63,17 @@ export default Ember.Component.extend({
     async setSelected(fieldName, value) {
       if (this.get("displayPage")) {
         const isfixedDropdown = this.isfixedDropdown(fieldName);
-        let selectedValue = isfixedDropdown ? value.id : value.tag;
-        let selectedField = isfixedDropdown ? `${fieldName}_id` : fieldName;
-
-        const config = {
-          value: selectedValue,
-          name: selectedField,
-          previousValue: this.get("previousValue")
-        };
-        const snakeCaseKey = isfixedDropdown
-          ? _.snakeCase(`${fieldName}_id`)
-          : _.snakeCase(fieldName);
+        const config = this.returnConfig(value, fieldName);
+        const snakeCaseKey = this.returnsnakeCaseKey(fieldName);
         const updateResponse = await this.get("onSetValue")(config);
         let selectedValuesObj = {
           ...this.get("selectedValuesDisplay")
         };
         const subformType = Object.keys(updateResponse)[0];
+        let responseKey = updateResponse[subformType][snakeCaseKey];
         selectedValuesObj[fieldName] = {
-          id: isfixedDropdown
-            ? updateResponse[subformType][snakeCaseKey]
-            : updateResponse.id,
-          tag: isfixedDropdown
-            ? this.get("store")
-                .peekRecord("lookup", updateResponse[subformType][snakeCaseKey])
-                .get("labelEn")
-            : updateResponse[subformType][snakeCaseKey]
+          id: isfixedDropdown ? responseKey : updateResponse.id,
+          tag: this.returnTag(responseKey, fieldName)
         };
         this.set("selectedValuesDisplay", selectedValuesObj);
       } else {

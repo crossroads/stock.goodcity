@@ -34,7 +34,12 @@ export default GoodcityController.extend(
     showSetList: false,
     hideDetailsLink: true,
     fields: additionalFields,
-
+    fixedDropdownArr: [
+      "frequencyId",
+      "voltageId",
+      "compTestStatusId",
+      "testStatusId"
+    ],
     currentRoute: Ember.computed.alias("application.currentPath"),
     pkg: Ember.computed.alias("model"),
 
@@ -99,25 +104,16 @@ export default GoodcityController.extend(
         if (!this.get("showAdditionalFields")) {
           return false;
         }
-
         let dataObj = {
           ...this.get("dataObjnew")
         };
         let selectedValues = this.get("item.detail.data");
         Object.keys(selectedValues).map((data, index) => {
-          if (
-            [
-              "frequencyId",
-              "voltageId",
-              "compTestStatusId",
-              "testStatusId"
-            ].indexOf(data) >= 0
-          ) {
-            dataObj[`${data.substring(0, data.length - 2)}`] = {
+          if (this.get("fixedDropdownArr").indexOf(data) >= 0) {
+            let subformColumn = `${data.substring(0, data.length - 2)}`;
+            dataObj[subformColumn] = {
               id: this.get(`item.detail.${data}`),
-              tag: this.get(
-                `item.detail.${data.substring(0, data.length - 2)}.labelEn`
-              )
+              tag: this.get(`item.detail.${subformColumn}.labelEn`)
             };
           } else {
             dataObj[data] = {

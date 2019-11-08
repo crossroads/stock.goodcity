@@ -35,7 +35,7 @@ export default GoodcityController.extend(
     fields: additionalFields,
     weight: "",
     isSelectLocationPreviousRoute: Ember.computed.localStorage(),
-
+    fixedDropdownArr: ["frequency", "voltage", "compTestStatus", "testStatus"],
     quantity: 1,
     labels: 1,
     length: null,
@@ -49,9 +49,7 @@ export default GoodcityController.extend(
     setDropdownOption: Ember.inject.service(),
     showAdditionalFields: false,
     isAllowedToPublish: false,
-
     imageKeys: Ember.computed.localStorage(),
-
     i18n: Ember.inject.service(),
     packageService: Ember.inject.service(),
 
@@ -564,11 +562,7 @@ export default GoodcityController.extend(
 
       setFields(fieldName, value) {
         let dropDownValues = this.get("dropDownValues");
-        if (
-          ["frequency", "voltage", "compTestStatus", "testStatus"].indexOf(
-            fieldName
-          ) >= 0
-        ) {
+        if (this.get("fixedDropdownArr").indexOf(fieldName) >= 0) {
           dropDownValues[`${fieldName}_id`] = value.id;
         } else {
           dropDownValues[fieldName] = value.tag;

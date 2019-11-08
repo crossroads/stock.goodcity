@@ -6,6 +6,7 @@ import ApiBaseService from "./api-base-service";
 export default ApiBaseService.extend({
   session: Ember.inject.service(),
   store: Ember.inject.service(),
+  messageBox: Ember.inject.service(),
 
   isValueChanged(newValue, previousValue) {
     return newValue !== previousValue;
@@ -27,6 +28,13 @@ export default ApiBaseService.extend({
         .then(data => {
           this.get("store").pushPayload(data);
           return data;
+        })
+        .catch(xhr => {
+          if (xhr.status === 422) {
+            this.get("messageBox").alert(xhr.responseJSON.errors[0].message);
+          } else {
+            throw xhr;
+          }
         })
         .finally(() => {
           loadingView.destroy();
