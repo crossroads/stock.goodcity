@@ -373,4 +373,4 @@ workflows:
               - test_cases
             filters:
               branches:
-                only: /^(GCW-2874-fix-ios-staging-build|live)$/
+                only: /^(master|live)$/
