@@ -12,8 +12,43 @@ export default Ember.Component.extend({
   fixedDropdownArr: ["frequency", "voltage", "compTestStatus", "testStatus"],
   selectedData: Ember.computed.alias("selectedValue"),
   selectedDataDisplay: Ember.computed.alias("selectedValuesDisplay"),
+  fixedDropdownArr: ["frequency", "voltage", "compTestStatus", "testStatus"],
+  fixedDropdownArrId: [
+    "frequency_id",
+    "voltage_id",
+    "compTestStatus_id",
+    "testStatus_id"
+  ],
+
   displayLabel: Ember.computed("addAble", function() {
     return this.get("addAble") ? "Add New Item" : "";
+  }),
+
+  selectedOptionDisplay: Ember.computed("dropDownValues", function() {
+    let selectedValues = {
+      ...this.get("dropDownValues")
+    };
+    let dataObj = {};
+    Object.keys(selectedValues).map((data, index) => {
+      if (data != "country_id") {
+        if (this.get("fixedDropdownArrId").indexOf(data) >= 0) {
+          let field = `${data.substring(0, data.length - 3)}`;
+          let recordData = this.get("store")
+            .peekRecord("lookup", selectedValues[data])
+            .get("labelEn");
+          dataObj[field] = {
+            id: selectedValues[data],
+            tag: recordData
+          };
+        } else {
+          dataObj[data] = {
+            id: index + 1,
+            tag: selectedValues[data]
+          };
+        }
+      }
+    });
+    return dataObj;
   }),
 
   isfixedDropdown(fieldName) {
@@ -54,6 +89,11 @@ export default Ember.Component.extend({
         id: packageDetails[fieldName].length + 1,
         tag: text
       };
+      let dropDownValues = {
+        ...this.get("dropDownValues")
+      };
+      dropDownValues[fieldName] = text;
+      this.set("dropDownValues", dropDownValues);
       this.set("selected", newTag);
       packageDetails[fieldName].push(newTag);
       this.set("packageDetails", packageDetails);

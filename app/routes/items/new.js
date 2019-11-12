@@ -7,6 +7,7 @@ export default AuthorizeRoute.extend({
   newItemRequest: "",
   isSearchCodePreviousRoute: Ember.computed.localStorage(),
   isSelectLocationPreviousRoute: Ember.computed.localStorage(),
+  transitionFrom: "",
 
   packageService: Ember.inject.service(),
 
@@ -25,7 +26,13 @@ export default AuthorizeRoute.extend({
   beforeModel() {
     this._super(...arguments);
     var searchCodePreviousRoute = this.get("isSearchCodePreviousRoute");
-
+    var currentRouteName = this.controllerFor("application").get(
+      "currentRouteName"
+    );
+    var transitionFrom = this.modelFor(currentRouteName);
+    if (transitionFrom) {
+      this.set("transitionFrom", transitionFrom.modelName);
+    }
     if (searchCodePreviousRoute) {
       var newItemRequest = searchCodePreviousRoute ? true : false;
       this.set("newItemRequest", newItemRequest);
@@ -103,6 +110,13 @@ export default AuthorizeRoute.extend({
             let details = await this.store.query(selectedSubform, {
               distinct: "brand"
             });
+            if (this.get("transitionFrom") === "code") {
+              controller.setProperties({
+                dropDownValues: {},
+                countryValue: {},
+                selected: []
+              });
+            }
             controller.set("packageDetails", details);
           } else {
             controller.set("showAdditionalFields", false);
