@@ -42,12 +42,8 @@ export default GoodcityController.extend(singletonItemDispatchToGcOrder, {
     }
   ),
 
-  showPieces: Ember.computed("codeId", function() {
-    let codeId = this.get("codeId");
-    if (codeId) {
-      let selected = this.get("store").peekRecord("code", codeId);
-      return selected && selected.get("allow_pieces");
-    }
+  showPieces: Ember.computed("model.code", function() {
+    return this.get("model.code.allow_pieces");
   }),
 
   tabName: Ember.computed("currentRoute", function() {
