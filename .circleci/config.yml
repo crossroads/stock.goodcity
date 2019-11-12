@@ -340,7 +340,7 @@ workflows:
               - test_cases
             filters:
               branches:
-                only: /^(master|live|GCW-2804-support-additional-fields)$/
+                only: /^(master|live)$/
         - www_build:
             requires:
               - test_cases
