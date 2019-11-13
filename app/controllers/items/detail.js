@@ -42,14 +42,6 @@ export default GoodcityController.extend(
     ],
     currentRoute: Ember.computed.alias("application.currentPath"),
     pkg: Ember.computed.alias("model"),
-
-    isSubformAvailable(subformName) {
-      return (
-        ["computer", "electrical", "computer_accessory"].indexOf(subformName) >=
-        0
-      );
-    },
-
     showPieces: Ember.computed.alias("model.code.allow_pieces"),
 
     tabName: Ember.computed("currentRoute", function() {
@@ -146,7 +138,9 @@ export default GoodcityController.extend(
     showAdditionalFields: Ember.computed("model.code", function() {
       return (
         !!this.get("item.detail.data") &&
-        this.isSubformAvailable(this.get("model.code.subform"))
+        this.get("subformDetailService").isSubformAvailable(
+          this.get("model.code.subform")
+        )
       );
     }),
 

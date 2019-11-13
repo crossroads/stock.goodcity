@@ -8,6 +8,12 @@ export default ApiBaseService.extend({
   store: Ember.inject.service(),
   messageBox: Ember.inject.service(),
 
+  isSubformAvailable(subformName) {
+    return (
+      ["computer", "electrical", "computer_accessory"].indexOf(subformName) >= 0
+    );
+  },
+
   isValueChanged(newValue, previousValue) {
     return newValue !== previousValue;
   },
