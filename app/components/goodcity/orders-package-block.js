@@ -198,5 +198,11 @@ export default Ember.Component.extend(AsyncMixin, {
         })
       );
     }
-  )
+  ),
+
+  actions: {
+    redirectToOrderDetail: function(orderId) {
+      this.router.transitionTo("orders.detail", orderId);
+    }
+  }
 });
