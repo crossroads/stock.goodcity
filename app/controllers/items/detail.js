@@ -62,20 +62,6 @@ export default GoodcityController.extend(
       return this.get("store").peekAll("donor_condition");
     }),
 
-    itemMarkedMissing: Ember.observer("item.inventoryNumber", function() {
-      if (
-        !this.get("item.inventoryNumber") &&
-        this.get("target").currentPath === "items.detail"
-      ) {
-        this.get("messageBox").alert(
-          "This item is not inventoried yet or has been marked as missing.",
-          () => {
-            this.transitionToRoute("items.index");
-          }
-        );
-      }
-    }),
-
     isItemDetailPresent() {
       return !!this.get("item.detail.length");
     },
