@@ -641,9 +641,11 @@
   top: -0.1rem;
 }
 
-.weight-field {
-  float: left !important;
-  top: -0.1rem;
+.weight-pieces {
+  .weight, .pieces{
+    float: left !important;
+    top: 0.1rem;
+  }
 }
 
 .numeric-inline-input,
@@ -654,8 +656,8 @@
 
 .item-height,
 .item-width,
-.item-length,
-.item-weight {
+.item-length
+  {
   width: 70% !important;
   padding: 0.2rem !important;
   display: inline-block !important;

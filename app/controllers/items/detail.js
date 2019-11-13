@@ -157,14 +157,6 @@ export default GoodcityController.extend(
       }
     ),
 
-    showPieces: Ember.computed("codeId", function() {
-      let codeId = this.get("codeId");
-      if (codeId) {
-        let selected = this.get("store").peekRecord("code", codeId);
-        return selected && selected.get("allow_pieces");
-      }
-    }),
-
     showAdditionalFields: Ember.computed("model.code", function() {
       return (
         !!this.get("item.detail.data") &&

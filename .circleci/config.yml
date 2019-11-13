@@ -346,28 +346,28 @@ workflows:
               - test_cases
             filters:
               branches:
-                only: /^(master|live|GCW-2804-support-additional-fields)$/
+                only: /^(master|live)$/
         - www-deploy:
             requires:
               - www_build
             filters:
               branches:
-                only: /^(master|live|GCW-2804-support-additional-fields)$/
+                only: /^(master|live)$/
         - ember_cordova_build:
             requires:
               - test_cases
             filters:
               branches:
-                only: /^(master|live|GCW-2804-support-additional-fields)$/
+                only: /^(master|live)$/
         - android_build_and_deploy:
             requires:
               - ember_cordova_build
             filters:
               branches:
-                only: /^(master|live|GCW-2804-support-additional-fields)$/
+                only: /^(master|live)$/
         - ios_build_and_deploy:
             requires:
               - test_cases
             filters:
               branches:
-                only: /^(master|live|GCW-2804-support-additional-fields)$/
+                only: /^(master|live)$/
