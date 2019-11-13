@@ -3,7 +3,7 @@
     <div>{{fa-icon (orders-package-icon orderPkg.state) size='lg'}}</div>
     <div>{{orderPkg.quantity}}</div>
   </div>
-  <div class="columns small-9 sub-block main {{ orderPkg.designation.state }}">
+  <div class="columns small-9 sub-block main {{ orderPkg.designation.state }}" {{action 'redirectToOrderDetail' orderPkg.designation.id}}>
     <div class="row">
       <div class="columns small-11 text-align-left">
         {{fa-icon orderPkg.designation.transportIcon size='lg'}}

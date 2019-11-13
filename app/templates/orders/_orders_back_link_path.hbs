@@ -19,16 +19,11 @@
       <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-left'}}</i>
       <div>{{t "back"}}</div>
     {{/link-to}}
-  {{else if (is-or filterService.getOrderStateFilters.length filterService.getOrderTypeFilters.length)}}
-      {{#link-to "orders.index" (query-params isFiltered=true) classNames="back" }}
-        <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-left'}}</i>
-        <div>{{t "back"}}</div>
-      {{/link-to}}
   {{else}}
-    {{#link-to "orders.index" classNames="back" }}
+    {{#back-link}}
       <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-left'}}</i>
       <div>{{t "back"}}</div>
-    {{/link-to}}
+    {{/back-link}}
   {{/if}}
 </section>
 
