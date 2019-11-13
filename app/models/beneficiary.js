@@ -13,7 +13,7 @@ export default Model.extend({
   identityType: belongsTo('identityType', { async: false }),
 
   fullName: Ember.computed('firstName', 'lastName', function(){
-    return (this.get("title") + " " + this.get('firstName') + " " + this.get('lastName'));
+    return `${this.get("title")} ${this.get('firstName')} ${this.get('lastName')}`;
   }),
 
   mobileWithoutCountryCode: Ember.computed('mobile', function(){
@@ -22,6 +22,6 @@ export default Model.extend({
   }),
 
   fullNameWithoutTitle: Ember.computed('firstName', 'lastName', function(){
-    return this.get('firstName') + " " + this.get('lastName');
+    return `${this.get('firstName')} ${this.get('lastName')}`;
   }),
 });

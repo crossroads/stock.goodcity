@@ -21,8 +21,10 @@ export default AuthorizeRoute.extend({
       if(previousRoute.name === "orders.active_items") {
         this.set("orderId", previousRoute.params.order_id);
       }
+
       this.set('itemPreviousRoute', previousRoute.name);
       var routeName = previousRoute.name;
+
       if(routeName.indexOf("active_items")){
         path = routeName;
       }
@@ -51,4 +53,3 @@ export default AuthorizeRoute.extend({
     controller.set('selectedLocation', null);
   }
 });
-

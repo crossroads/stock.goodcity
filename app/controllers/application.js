@@ -5,6 +5,8 @@ export default Ember.Controller.extend({
   subscription: Ember.inject.service(),
   cordova: Ember.inject.service(),
   store: Ember.inject.service(),
+  designationService: Ember.inject.service(),
+  locationService: Ember.inject.service(),
   app_id: config.APP.ANDROID_APP_ID,
   ios_app_id: config.APP.APPLE_APP_ID,
   appTitle: config.APP.TITLE,

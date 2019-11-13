@@ -1,4 +1,4 @@
-.appointment-date{
+.appointment-date {
   .calender_icon {
     margin-right: 1.1rem;
     font-size: 1.1rem;
@@ -7,53 +7,68 @@
     float: right;
     margin-top: -3rem;
   }
+
   i.calendar_icon:before {
     position: absolute;
   }
-  .checkbox.form__control--error{
+
+  .checkbox.form__control--error {
     border-color: #f34d4f;
     background: #fddbdc;
   }
+
   .time_slots_radio_buttons {
+    display: inline-block;
+    position: relative;
+    border: 1px solid;
+    padding: .4rem;
+    margin-top: 1rem;
+    height: 2.7rem;
+    width: 32%;
+    margin-right: 2px;
+
+    input[type=radio] {
+      margin: 0;
       display: inline-block;
-      position: relative;
-      border: 1px solid;
-      padding: .4rem;
-      margin-top: 1rem;
-      height: 2.7rem;
-      width: 32%;
-      margin-right: 2px;
+      margin-left: 10px;
+      margin-top: 4% !important;
+      position: absolute;
+      height: 1.2rem;
+      width: 1.2rem;
+    }
 
-      input[type=radio] {
-        margin: 0 0 0 0px;
-        display: inline-block;
-        margin-left: 10px;
-        margin-top: 4% !important;
-        position: absolute;
-        height: 1.2rem;
-        width: 1.2rem;
-      }
+    .radio-label {
+      margin-top: -5%;
+    }
 
-      .radio-label {
-        margin-top: -5%;
-      }
+    label {
+      font-size: 0.8rem !important;
+      margin-top: 0.4rem !important;
+      margin-left: 3rem;
 
-      label {
-        font-size: 0.8rem !important;
-        margin-top: 0.4rem !important;
-        margin-left: 3rem;
-
-        @media #{$small-only} {
-          margin-left: 2rem;
-        }
+      @media #{$small-only} {
+        margin-left: 2rem;
       }
     }
+  }
 }
 
 .time_inputs {
-  .form__control--error > .pickadate{
-    border-color: #f34d4f;
-    background: #fddbdc;
+  .form__control--error {
+    &>.pickadate {
+      border-color: #f34d4f;
+      background: #fddbdc;
+      margin-bottom: 0;
+    }
+
+    .select-error-message {
+      display: block;
+      float: left;
+    }
+
+    .calender_icon {
+      margin-top: -2rem;
+    }
   }
 }
 

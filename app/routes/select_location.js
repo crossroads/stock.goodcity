@@ -7,7 +7,7 @@ export default AuthorizeRoute.extend({
   model() {
     this.set("isSelectLocationPreviousRoute", true);
     var recentlyUsedLocations = this.store.peekAll('location').filterBy('recentlyUsedAt');
-    return recentlyUsedLocations.length !== 0 ? recentlyUsedLocations :this.store.query('location', { recently_used: true });
+    return recentlyUsedLocations.length ? recentlyUsedLocations : this.store.query('location', { recently_used: true });
   },
 
   setupController(controller, model){

@@ -202,7 +202,7 @@ def mobile_provisioning_file
   file = if production_env?
       "GoodCityStock.mobileprovision"
     else
-      "GoodCity_Stock_Staging.mobileprovision"
+      "GoodCityStockStaging.mobileprovision"
     end
   File.join(prefix, file)
 end

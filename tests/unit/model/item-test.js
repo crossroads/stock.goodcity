@@ -107,16 +107,6 @@ test("Relationships with other models", function(assert) {
   assert.equal(relationshipWithImage.kind, "hasMany");
 });
 
-test("check available_qty computed property", function(assert) {
-  var model = this.subject();
-
-  Ember.run(function() {
-    model.set("available_qty", 2);
-  });
-
-  assert.equal(model.get("available_qty"), 2);
-});
-
 test("check validUndispatchedLocations computed property", function(assert) {
   assert.expect(2);
   var model,
@@ -688,12 +678,6 @@ test("check imageUrlList computed property", function(assert) {
     ]),
     0
   );
-});
-
-test("available_qty: Returns available qty", function(assert) {
-  assert.expect(1);
-  var model = this.subject({ id: 1, quantity: 2 });
-  assert.equal(model.get("available_qty"), 2);
 });
 
 test("setImages: returns associated items imageUrlList", function(assert) {

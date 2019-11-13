@@ -1,0 +1,62 @@
+.cmp.search-overlay {
+
+  .main-container {
+    margin: 0 auto;
+    max-width: 768px;
+
+    .search-field {
+      position: relative;
+      padding: 0;
+      background-color: $light-grey;
+      z-index: 1000;
+
+      .input-holder {
+        padding-right: 1rem;
+        input {
+          padding-left: 0.5rem;
+          width: 97.5%;
+          margin: 0.5rem;
+          border-radius: 0.25rem;
+
+          @media #{$small-only} {
+            width: 95%;
+          }
+        }
+      }
+
+      .icon-holder {
+        padding-top: 0.9rem;
+        padding-left: 0.9rem;
+        i {
+          font-size: 1.2rem;
+          cursor: pointer;
+          color: $body-font-color;
+
+          @media #{$small-only} {
+            font-size: 1.2rem;
+            padding: 0.5rem 0.5rem;
+            top: 0rem;
+          }
+        }
+      }
+
+      .pinned-right {
+        position: absolute;
+        top: 1.4rem;
+        right: 2rem;
+      }
+    }
+
+    .search_result {
+      padding-top: 0px;
+
+      .row {
+        &.underlined {
+          border-bottom: 1px solid white;
+          padding-bottom: 1rem;
+          padding-top: 1rem;
+        }
+      }
+    }
+  }
+}

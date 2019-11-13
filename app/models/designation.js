@@ -63,17 +63,9 @@ export default Model.extend({
     }
   ),
 
-  clientIdNumber: Ember.computed("beneficiary.identityNumber", function() {
-    return this.get("beneficiary.identityNumber");
-  }),
-
-  clientName: Ember.computed("beneficiary.fullName", function() {
-    return this.get("beneficiary.fullName");
-  }),
-
-  clientPhone: Ember.computed("beneficiary.phoneNumber", function() {
-    return this.get("beneficiary.phoneNumber");
-  }),
+  clientIdNumber: Ember.computed.alias("beneficiary.identityNumber"),
+  clientName: Ember.computed.alias("beneficiary.fullName"),
+  clientPhone: Ember.computed.alias("beneficiary.phoneNumber"),
 
   isEditAllowed: Ember.computed("state", function() {
     return !(this.get("isCancelled") || this.get("isClosed"));
@@ -81,10 +73,10 @@ export default Model.extend({
 
   isLocalOrder: Ember.computed("detailType", function() {
     return (
-      this.get("detailType") === "LocalOrder" ||
-      this.get("detailType") === "StockitLocalOrder"
+      ["LocalOrder", "StockitLocalOrder"].indexOf(this.get("detailType")) > -1
     );
   }),
+
   isGoodCityOrder: Ember.computed.equal("detailType", "GoodCity"),
 
   isAppointment: Ember.computed("bookingType", function() {
@@ -175,7 +167,7 @@ export default Model.extend({
     }
   ),
 
-  transportIcon: Ember.computed("orderTransport", function() {
+  transportIcon: Ember.computed("isAppointment", "isOnlineOrder", function() {
     if (this.get("isAppointment")) {
       return "warehouse";
     } else if (this.get("isOnlineOrder")) {

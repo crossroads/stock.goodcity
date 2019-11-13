@@ -1,0 +1,41 @@
+<div class="cmp orders search-overlay">
+  {{#popup-overlay open=open}}
+    <div class="main-container">
+      <div class="row search-field">
+        <div class="icon-holder small-2 columns">
+          <i {{action 'cancel'}} class="back_icon" aria-hidden="true">{{fa-icon 'times' size='lg'}}</i>
+        </div>
+
+        <div class="input-holder small-10 columns">
+          {{focus-textfield
+            name="searchText"
+            id=uuid
+            placeholder=(t "search_min")
+            value=searchText }}
+
+          {{#if hasSearchText}}
+            <i class="pinned-right" {{action "clearSearch"}}>{{fa-icon 'times-circle' size='lg'}}</i>
+          {{/if}}
+        </div>
+      </div>
+
+      <section class="main-section orders_search_result search_result">
+        <div class="row search">
+          <div class="small-12 columns">
+            {{#if displayResults}}
+              {{#infinite-list height="85vh" loadMore=(action "loadMoreOrders") as |res| }}
+                <ul class="list list-activity list-offer-items">
+                  {{#each res as |order|}}
+                    <div {{action 'selectOrder' order}}>
+                      {{partial 'orders/order_block'}}
+                    </div>
+                  {{/each}}
+                </ul>
+              {{/infinite-list}}
+            {{/if}}
+          </div>
+        </div>
+      </section>
+    </div>
+  {{/popup-overlay}}
+</div>

@@ -1,0 +1,52 @@
+.row.gc-orders-package-block {
+
+  width: 90vw;
+  max-width: 40rem;
+  margin-bottom: 1rem;
+
+  @media #{$medium-only} {
+    font-size: 0.8rem;
+  }
+  @media #{$large-only} {
+    font-size: 0.8rem;
+  }
+
+  .sub-block {
+    height: 6em;
+    color: white;
+
+    >div {
+      margin-bottom: 1em;
+    }
+
+    .side-drawer {
+      // padding: 1em;
+    }
+
+    &:first-child {
+      border-right: 0.2em solid #002352;
+    }
+
+    &.left {
+      padding: 1em;
+      background-color: #27436C;
+      text-align: center;
+    }
+
+    &.main {
+      @include auto-order-state-color('background-color');
+      padding: 1em;
+      padding-left: 1.5em;
+      svg {
+        margin-right: 0.4em;
+      }
+
+      .org-name {
+        max-width: 20rem;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+}

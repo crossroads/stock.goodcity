@@ -344,7 +344,8 @@ export default {
       people_count_warning: "您必須填寫一個數字於此欄",
       need_description: "需要的原因",
       need_description_info: "請簡單填寫為什麼需要這些物品",
-      description_warning: "此欄不能留空"
+      description_warning: "此欄不能留空",
+      error_message: "你需要選擇地區"
     },
     goods_details: {
       title: "物品資料",
@@ -373,7 +374,8 @@ export default {
         "如受惠者申請的物品體積龐大，請建議他／她帶備足夠人手以在十字路會提貨及到達目的地時卸貨。十字路會未能提供搬運工人，而聘用車輛司機協助搬運是需要額外收費的。",
       labor_confirmation: "我確認已清楚明白搬運工人的要求",
       date: "預約日期",
-      time: "預約時間"
+      time: "預約時間",
+      error_message: "你需要選擇約定日期"
     },
     booking_success: {
       success: "成功!",
@@ -445,7 +447,17 @@ export default {
     max_undesignate: "從: {{code}}<br/>數量: {{qty}}",
     already_dispatched: "所有被指派的物資已經被派送",
     multiple: "多項",
-    dispatch_message: "請確認你要派送此物資"
+    dispatch_message: "請確認你要派送此物資",
+    related_orders: "Related Orders"
+  },
+  orders_package: {
+    actions: {
+      edit_quantity: "Edit Qty",
+      cancel: "Cancel",
+      redesignate: "Redesignate",
+      dispatch: "Dispatch",
+      undispatch: "Undispatch"
+    }
   },
   designate: {
     modify_designation: "取消指派至訂單 {{code}}",

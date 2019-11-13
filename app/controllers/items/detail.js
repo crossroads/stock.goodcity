@@ -42,6 +42,8 @@ export default GoodcityController.extend(singletonItemDispatchToGcOrder, {
     }
   ),
 
+  showPieces: Ember.computed.alias("model.code.allow_pieces"),
+
   tabName: Ember.computed("currentRoute", function() {
     return this.get("currentRoute")
       .split(".")
@@ -108,6 +110,19 @@ export default GoodcityController.extend(singletonItemDispatchToGcOrder, {
       } else {
         return this.get("item.isDesignated") && !this.get("item.isDispatched");
       }
+    }
+  ),
+
+  sortedOrdersPackages: Ember.computed(
+    "model.ordersPackages.[]",
+    "model.ordersPackages.@each.state",
+    function() {
+      // Cancelled orders packages are moved to the bottom
+      const records = this.get("model.ordersPackages");
+      return [
+        ...records.rejectBy("state", "cancelled"),
+        ...records.filterBy("state", "cancelled")
+      ];
     }
   ),
 
