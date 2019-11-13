@@ -555,6 +555,13 @@ export default GoodcityController.extend(
       },
 
       setCountryValue(value) {
+        let CountryName = this.get("store")
+          .peekRecord("country", value.id)
+          .get("nameEn");
+        this.set("selected", {
+          id: value.id,
+          nameEn: CountryName
+        });
         this.set("countryValue", {
           country_id: value.id
         });

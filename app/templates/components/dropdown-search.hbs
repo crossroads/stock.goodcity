@@ -3,7 +3,7 @@
     content=(mut (get resourceType content))
     sortBy="name"
     optionLabelKey="tag"
-    selected=(if displayPage (mut (get selectedDataDisplay content)) selected )
+    selected=(if displayPage (mut (get selectedDataDisplay content)) (mut (get selectedOptionDisplay content)))
     addLabel= displayLabel
     isClearable=false
     prompt=""
