@@ -383,6 +383,13 @@ export default GoodcityController.extend(
       }
     },
 
+    showOfflineError() {
+      if (!window.navigator.onLine) {
+        this.get("messageBox").alert(this.get("i18n").t("offline_error"));
+        return false;
+      }
+    },
+
     actions: {
       //file upload
       triggerUpload() {
@@ -578,10 +585,7 @@ export default GoodcityController.extend(
       },
 
       saveItem() {
-        if (!window.navigator.onLine) {
-          this.get("messageBox").alert(this.get("i18n").t("offline_error"));
-          return false;
-        }
+        this.showOfflineError();
         window.localStorage.setItem("isSelectLocationPreviousRoute", false);
         this.set("isSearchCodePreviousRoute", false);
         if (this.isInValidConditions()) {

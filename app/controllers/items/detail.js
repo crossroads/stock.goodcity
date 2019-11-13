@@ -82,7 +82,6 @@ export default GoodcityController.extend(
         ...this.get("dataObjnew")
       };
       Object.keys(selectedValues).map((data, index) => {
-        console.log("hereer");
         if (this.get("fixedDropdownArr").indexOf(data) >= 0) {
           let subformColumn = `${data.substring(0, data.length - 2)}`;
           dataObj[subformColumn] = {
