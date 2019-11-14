@@ -54,12 +54,8 @@ export default GoodcityController.extend(
     packageService: Ember.inject.service(),
 
     displayFields: Ember.computed("code", function() {
-      let _this = this;
-      if (this.get("showAdditionalFields")) {
-        return this.get("fields").additionalFields.filter(function(field) {
-          return field.category.includes(_this.get("code.subform"));
-        });
-      }
+      let subform = this.get("code.subform");
+      return this.returnDisplayFields(subform);
     }),
 
     showPublishItemCheckBox: Ember.computed("quantity", function() {
@@ -383,6 +379,13 @@ export default GoodcityController.extend(
       }
     },
 
+    showOfflineError() {
+      if (!window.navigator.onLine) {
+        this.get("messageBox").alert(this.get("i18n").t("offline_error"));
+        return false;
+      }
+    },
+
     actions: {
       //file upload
       triggerUpload() {
@@ -578,10 +581,7 @@ export default GoodcityController.extend(
       },
 
       saveItem() {
-        if (!window.navigator.onLine) {
-          this.get("messageBox").alert(this.get("i18n").t("offline_error"));
-          return false;
-        }
+        this.showOfflineError();
         window.localStorage.setItem("isSelectLocationPreviousRoute", false);
         this.set("isSearchCodePreviousRoute", false);
         if (this.isInValidConditions()) {

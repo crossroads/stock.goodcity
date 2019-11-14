@@ -42,14 +42,6 @@ export default GoodcityController.extend(
     ],
     currentRoute: Ember.computed.alias("application.currentPath"),
     pkg: Ember.computed.alias("model"),
-
-    isSubformAvailable(subformName) {
-      return (
-        ["computer", "electrical", "computer_accessory"].indexOf(subformName) >=
-        0
-      );
-    },
-
     showPieces: Ember.computed.alias("model.code.allow_pieces"),
 
     tabName: Ember.computed("currentRoute", function() {
@@ -68,11 +60,7 @@ export default GoodcityController.extend(
 
     displayFields: Ember.computed("model.code", function() {
       let subform = this.get("model.code.subform");
-      if (this.get("showAdditionalFields")) {
-        return this.get("fields").additionalFields.filter(function(field) {
-          return field.category.includes(subform);
-        });
-      }
+      return this.returnDisplayFields(subform);
     }),
 
     selectedCountry: Ember.computed("item.detail", function() {
@@ -85,31 +73,36 @@ export default GoodcityController.extend(
       }
     }),
 
+    returnSelectedValues(selectedValues) {
+      let dataObj = {
+        ...this.get("dataObjnew")
+      };
+      Object.keys(selectedValues).map((data, index) => {
+        if (this.get("fixedDropdownArr").indexOf(data) >= 0) {
+          let subformColumn = `${data.substring(0, data.length - 2)}`;
+          dataObj[subformColumn] = {
+            id: this.get(`item.detail.${data}`),
+            tag: this.get(`item.detail.${subformColumn}.labelEn`)
+          };
+        } else {
+          dataObj[data] = {
+            id: index + 1,
+            tag: selectedValues[data]
+          };
+        }
+      });
+      return { ...dataObj };
+    },
+
     selectedValuesDisplay: Ember.computed("item.detail", "dataObjnew", {
       get(key) {
         if (!this.get("showAdditionalFields")) {
           return false;
         }
-        let dataObj = {
-          ...this.get("dataObjnew")
-        };
         let selectedValues = this.get("item.detail.data");
-        Object.keys(selectedValues).map((data, index) => {
-          if (this.get("fixedDropdownArr").indexOf(data) >= 0) {
-            let subformColumn = `${data.substring(0, data.length - 2)}`;
-            dataObj[subformColumn] = {
-              id: this.get(`item.detail.${data}`),
-              tag: this.get(`item.detail.${subformColumn}.labelEn`)
-            };
-          } else {
-            dataObj[data] = {
-              id: index + 1,
-              tag: selectedValues[data]
-            };
-          }
-        });
+        let returnData = this.returnSelectedValues(selectedValues);
         this.set("dataObjnew", {
-          ...dataObj
+          ...returnData
         });
         return {
           ...this.get("dataObjnew")
@@ -146,7 +139,9 @@ export default GoodcityController.extend(
     showAdditionalFields: Ember.computed("model.code", function() {
       return (
         !!this.get("item.detail.data") &&
-        this.isSubformAvailable(this.get("model.code.subform"))
+        this.get("subformDetailService").isSubformAvailable(
+          this.get("model.code.subform")
+        )
       );
     }),
 
