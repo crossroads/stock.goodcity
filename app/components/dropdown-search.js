@@ -2,16 +2,15 @@ import Ember from "ember";
 import { singularize, pluralize } from "ember-inflector";
 import _ from "lodash";
 const { getOwner } = Ember;
+import { translationMacro as t } from "ember-i18n";
 
 export default Ember.Component.extend({
   selected: [],
   previousValue: "",
+  i18n: Ember.inject.service(),
   store: Ember.inject.service(),
   subformDetailService: Ember.inject.service(),
   resourceType: Ember.computed.alias("packageDetails"),
-  fixedDropdownArr: ["frequency", "voltage", "compTestStatus", "testStatus"],
-  selectedData: Ember.computed.alias("selectedValue"),
-  selectedDataDisplay: Ember.computed.alias("selectedValuesDisplay"),
   fixedDropdownArr: ["frequency", "voltage", "compTestStatus", "testStatus"],
   fixedDropdownArrId: [
     "frequency_id",
@@ -19,9 +18,10 @@ export default Ember.Component.extend({
     "compTestStatus_id",
     "testStatus_id"
   ],
+  addItem: t("items.new.subform.add_item"),
 
   displayLabel: Ember.computed("addAble", function() {
-    return this.get("addAble") ? "Add New Item" : "";
+    return this.get("addAble") ? this.get("addItem") : "";
   }),
 
   selectedOptionDisplay: Ember.computed("dropDownValues", function() {
@@ -64,14 +64,14 @@ export default Ember.Component.extend({
     };
   },
 
-  returnsnakeCaseKey(fieldName) {
+  returnSnakeCaseKey(fieldName) {
     const isfixedDropdown = this.isfixedDropdown(fieldName);
     return isfixedDropdown
       ? _.snakeCase(`${fieldName}_id`)
       : _.snakeCase(fieldName);
   },
 
-  retunLabelEn(responseKey) {
+  returnLabelEn(responseKey) {
     return this.get("store")
       .peekRecord("lookup", responseKey)
       .get("labelEn");
@@ -79,32 +79,32 @@ export default Ember.Component.extend({
 
   returnTag(responseKey, fieldName) {
     const isfixedDropdown = this.isfixedDropdown(fieldName);
-    return isfixedDropdown ? this.retunLabelEn(responseKey) : responseKey;
+    return isfixedDropdown ? this.returnLabelEn(responseKey) : responseKey;
   },
 
   actions: {
-    addNew(fieldName, text) {
+    addNewField(name, text) {
       let packageDetails = this.get("packageDetails");
       const newTag = {
-        id: packageDetails[fieldName].length + 1,
+        id: packageDetails[name].length + 1,
         tag: text
       };
       let dropDownValues = {
         ...this.get("dropDownValues")
       };
-      dropDownValues[fieldName] = text;
+      dropDownValues[name] = text;
       this.set("dropDownValues", dropDownValues);
       this.set("selected", newTag);
-      packageDetails[fieldName].push(newTag);
+      packageDetails[name].push(newTag);
       this.set("packageDetails", packageDetails);
-      this.send("setSelected", fieldName, newTag);
+      this.send("setSelected", name, newTag);
     },
 
     async setSelected(fieldName, value) {
       if (this.get("displayPage")) {
         const isfixedDropdown = this.isfixedDropdown(fieldName);
         const config = this.returnConfig(value, fieldName);
-        const snakeCaseKey = this.returnsnakeCaseKey(fieldName);
+        const snakeCaseKey = this.returnSnakeCaseKey(fieldName);
         const updateResponse = await this.get("onSetValue")(config);
         let selectedValuesObj = {
           ...this.get("selectedValuesDisplay")
@@ -126,7 +126,7 @@ export default Ember.Component.extend({
         let params = this.isfixedDropdown(fieldName) ? "id" : "tag";
         this.set(
           "previousValue",
-          this.get("selectedDataDisplay")[fieldName][params] || ""
+          this.get("selectedValuesDisplay")[fieldName][params] || ""
         );
       }
     }

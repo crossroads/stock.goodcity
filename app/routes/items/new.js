@@ -94,10 +94,6 @@ export default AuthorizeRoute.extend({
           name: "B",
           id: "B"
         });
-        controller.set("selectedCondition", {
-          name: "Used",
-          id: "U"
-        });
         controller.set("imageKeys", "");
       }
       let codeId = controller.get("codeId");

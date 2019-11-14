@@ -19,7 +19,7 @@ export default GoodcityController.extend(
     isMobileApp: config.cordova.enabled,
     backLinkPath: "",
     previousValue: "",
-    dataObjnew: null,
+    subformDataObject: null,
     item: Ember.computed.alias("model"),
     queryParams: ["showDispatchOverlay"],
     showDispatchOverlay: false,
@@ -75,7 +75,7 @@ export default GoodcityController.extend(
 
     returnSelectedValues(selectedValues) {
       let dataObj = {
-        ...this.get("dataObjnew")
+        ...this.get("subformDataObject")
       };
       Object.keys(selectedValues).map((data, index) => {
         if (this.get("fixedDropdownArr").indexOf(data) >= 0) {
@@ -94,22 +94,20 @@ export default GoodcityController.extend(
       return { ...dataObj };
     },
 
-    selectedValuesDisplay: Ember.computed("item.detail", "dataObjnew", {
+    selectedValuesDisplay: Ember.computed("item.detail", "subformDataObject", {
       get(key) {
         if (!this.get("showAdditionalFields")) {
           return false;
         }
         let selectedValues = this.get("item.detail.data");
         let returnData = this.returnSelectedValues(selectedValues);
-        this.set("dataObjnew", {
+        this.set("subformDataObject", {
           ...returnData
         });
-        return {
-          ...this.get("dataObjnew")
-        };
+        return this.get("subformDataObject");
       },
       set(key, value) {
-        this.set("dataObjnew", null);
+        this.set("subformDataObject", null);
         return value;
       }
     }),

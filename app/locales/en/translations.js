@@ -684,6 +684,11 @@ export default {
       location: "Location*",
       inventory: "Inventory#",
       print: "& Print {{labels}}",
+      cancel_warning:
+        "You will lose all your data. Are you sure you want to cancel this item?",
+      subform: {
+        add_item: "Add new item"
+      },
       validation_errors: {
         blank_label: "Can't be blank",
         max_label: "Max 300",

@@ -4,6 +4,7 @@ import GoodcityController from "../goodcity_controller";
 import config from "../../config/environment";
 import additionalFields from "../../constants/additional-fields";
 import _ from "lodash";
+import { translationMacro as t } from "ember-i18n";
 const { getOwner, A } = Ember;
 import SearchOptionMixin from "stock/mixins/search_option";
 import PackageDetailMixin from "stock/mixins/fetch_package_detail";
@@ -52,6 +53,7 @@ export default GoodcityController.extend(
     imageKeys: Ember.computed.localStorage(),
     i18n: Ember.inject.service(),
     packageService: Ember.inject.service(),
+    cancelWarning: t("items.new.cancel_warning"),
 
     displayFields: Ember.computed("code", function() {
       let subform = this.get("code.subform");
@@ -495,7 +497,7 @@ export default GoodcityController.extend(
 
       cancelForm() {
         this.get("messageBox").custom(
-          "You will lose all your data. Are you sure you want to cancel this item?",
+          this.get("cancelWarning"),
           "Yes",
           () => {
             if (this.get("inventoryNumber")) {
