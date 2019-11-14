@@ -385,7 +385,7 @@ export default {
       labor_confirmation: "I confirm understanding of labor requirements.",
       date: "Appointment Date",
       time: "Appointment Time",
-      error_message: "You Must select the appointment date"
+      error_message: "You must select the appointment date"
     },
     booking_success: {
       success: "Success!",
