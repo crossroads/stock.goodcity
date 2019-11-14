@@ -10,12 +10,12 @@ $cancelled-state-color: #000000;
 $closed-state-color: #000000;
 
 $colors-by-state: (
-  "submitted": $submitted-state-color,
-  "processing": $processing-state-color,
-  "scheduled": $scheduled-state-color,
-  "dispatching": $dispatching-state-color,
-  "cancelled": $cancelled-state-color,
-  "closed": $closed-state-color
+  "state-submitted": $submitted-state-color,
+  "state-processing": $processing-state-color,
+  "state-awaiting_dispatch": $scheduled-state-color,
+  "state-dispatching": $dispatching-state-color,
+  "state-cancelled": $cancelled-state-color,
+  "state-closed": $closed-state-color
 );
 
 @mixin auto-order-state-color($prop : 'background-color') {
