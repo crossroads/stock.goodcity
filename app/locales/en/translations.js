@@ -187,8 +187,6 @@ export default {
     online_orders_info: "Client ordered specific goods online",
     dispatch: "Dispatch",
     dispatch_info: "We will load into van and send to client",
-    online_orders: "Online Orders",
-    online_orders_info: "Client ordered specfic goods online",
     shipment: "Shipments",
     shipment_info:
       "Overseas organisation will have goods shipped to them from Crossroads' warehouse",
@@ -686,6 +684,11 @@ export default {
       location: "Location*",
       inventory: "Inventory#",
       print: "& Print {{labels}}",
+      cancel_warning:
+        "You will lose all your data. Are you sure you want to cancel this item?",
+      subform: {
+        add_item: "Add new item"
+      },
       validation_errors: {
         blank_label: "Can't be blank",
         max_label: "Max 300",

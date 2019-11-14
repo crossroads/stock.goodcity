@@ -12,7 +12,8 @@ moduleForModel("item", "Item Model", {
     "model:set_item",
     "model:packages_location",
     "model:orders_package",
-    "model:image"
+    "model:image",
+    "model:detail"
   ]
 });
 

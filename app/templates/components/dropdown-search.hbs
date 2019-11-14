@@ -1,0 +1,13 @@
+<div class="dropdown-wrapper">
+  {{searchable-select
+    content=(mut (get resourceType content))
+    sortBy="name"
+    optionLabelKey="tag"
+    selected=(if displayPage (mut (get selectedValuesDisplay content)) (mut (get selectedOptionDisplay content)))
+    addLabel= displayLabel
+    isClearable=false
+    prompt=""
+    on-change=(action "setSelected" content)
+    on-add= (if addAble (action "addNewField" content) "")
+    on-open=(action "openDropDown" content)}}
+</div>

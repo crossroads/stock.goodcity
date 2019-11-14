@@ -29,6 +29,7 @@ export default Ember.Mixin.create({
   minSearchTextLength: 2,
   searchText: "",
   displayResults: false,
+  countryArray: [],
   searchProps: {
     shallow: true
   },
