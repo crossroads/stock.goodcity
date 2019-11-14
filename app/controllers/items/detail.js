@@ -60,11 +60,7 @@ export default GoodcityController.extend(
 
     displayFields: Ember.computed("model.code", function() {
       let subform = this.get("model.code.subform");
-      if (this.get("showAdditionalFields")) {
-        return this.get("fields").additionalFields.filter(function(field) {
-          return field.category.includes(subform);
-        });
-      }
+      return this.returnDisplayFields(subform);
     }),
 
     selectedCountry: Ember.computed("item.detail", function() {

@@ -54,12 +54,8 @@ export default GoodcityController.extend(
     packageService: Ember.inject.service(),
 
     displayFields: Ember.computed("code", function() {
-      let _this = this;
-      if (this.get("showAdditionalFields")) {
-        return this.get("fields").additionalFields.filter(function(field) {
-          return field.category.includes(_this.get("code.subform"));
-        });
-      }
+      let subform = this.get("code.subform");
+      return this.returnDisplayFields(subform);
     }),
 
     showPublishItemCheckBox: Ember.computed("quantity", function() {

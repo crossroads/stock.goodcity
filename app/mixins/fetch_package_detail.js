@@ -26,5 +26,13 @@ export default Ember.Mixin.create({
         return subFormData;
       }
     }
-  })
+  }),
+
+  returnDisplayFields: function(subform) {
+    if (this.get("showAdditionalFields")) {
+      return this.get("fields").additionalFields.filter(function(field) {
+        return field.category.includes(subform);
+      });
+    }
+  }
 });
