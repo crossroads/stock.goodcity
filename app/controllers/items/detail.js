@@ -44,12 +44,6 @@ export default GoodcityController.extend(
     pkg: Ember.computed.alias("model"),
     showPieces: Ember.computed.alias("model.code.allow_pieces"),
 
-    tabName: Ember.computed("currentRoute", function() {
-      return this.get("currentRoute")
-        .split(".")
-        .get("lastObject");
-    }),
-
     conditions: Ember.computed(function() {
       return this.get("store").peekAll("donor_condition");
     }),
