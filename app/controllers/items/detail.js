@@ -44,10 +44,6 @@ export default GoodcityController.extend(
     pkg: Ember.computed.alias("model"),
     showPieces: Ember.computed.alias("model.code.allow_pieces"),
 
-    conditions: Ember.computed(function() {
-      return this.get("store").peekAll("donor_condition");
-    }),
-
     isItemDetailPresent() {
       return !!this.get("item.detail.length");
     },
