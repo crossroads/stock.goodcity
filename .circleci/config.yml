@@ -326,50 +326,50 @@ jobs:
           working_directory: ~/code
 
 workflows:
-    version: 2
-    build_and_bundle:
-      jobs:
-        - checkout_code
-        - package_dependencies:
-            requires:
-              - checkout_code
-        - test_cases:
-            requires:
-              - package_dependencies
-        - upload-coverage:
-            requires:
-              - package_dependencies
-              - test_cases
-            filters:
-              branches:
-                only: /^(master|live)$/
-        - www_build:
-            requires:
-              - test_cases
-            filters:
-              branches:
-                only: /^(master|live)$/
-        - www-deploy:
-            requires:
-              - www_build
-            filters:
-              branches:
-                only: /^(master|live)$/
-        - ember_cordova_build:
-            requires:
-              - test_cases
-            filters:
-              branches:
-                only: /^(master|live)$/
-        - android_build_and_deploy:
-            requires:
-              - ember_cordova_build
-            filters:
-              branches:
-                only: /^(master|live)$/
-        - ios_build_and_deploy:
-            requires:
-              - test_cases
-            filters:
-              branches:
-                only: /^(master|live)$/
+  version: 2
+  build_and_bundle:
+    jobs:
+      - checkout_code
+      - package_dependencies:
+          requires:
+            - checkout_code
+      - test_cases:
+          requires:
+            - package_dependencies
+      - upload-coverage:
+          requires:
+            - package_dependencies
+            - test_cases
+          filters:
+            branches:
+              only: /^(master|live)$/
+      - www_build:
+          requires:
+            - test_cases
+          filters:
+            branches:
+              only: /^(master|live)$/
+      - www-deploy:
+          requires:
+            - www_build
+          filters:
+            branches:
+              only: /^(master|live)$/
+      - ember_cordova_build:
+          requires:
+            - test_cases
+          filters:
+            branches:
+              only: /^(master|live)$/
+      - android_build_and_deploy:
+          requires:
+            - ember_cordova_build
+          filters:
+            branches:
+              only: /^(master|live)$/
+      - ios_build_and_deploy:
+          requires:
+            - test_cases
+          filters:
+            branches:
+              only: /^(master|live)$/
