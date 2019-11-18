@@ -342,25 +342,25 @@ workflows:
             - test_cases
           filters:
             branches:
-              only: /^(master|live)$/
+              only: /^(master|live|GCW-2804-focus-text-filed-IE-Issue)$/
       - www_build:
           requires:
             - test_cases
           filters:
             branches:
-              only: /^(master|live)$/
+              only: /^(master|live|GCW-2804-focus-text-filed-IE-Issue)$/
       - www-deploy:
           requires:
             - www_build
           filters:
             branches:
-              only: /^(master|live)$/
+              only: /^(master|live|GCW-2804-focus-text-filed-IE-Issue)$/
       - ember_cordova_build:
           requires:
             - test_cases
           filters:
             branches:
-              only: /^(master|live)$/
+              only: /^(master|live|GCW-2804-focus-text-filed-IE-Issue)$/
       - android_build_and_deploy:
           requires:
             - ember_cordova_build
