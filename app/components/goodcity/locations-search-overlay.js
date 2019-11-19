@@ -31,6 +31,9 @@ export default Ember.Component.extend(SearchMixin, {
 
   showRecentlyUsed: Ember.computed.not("searchText"),
 
+  headerText: Ember.computed.alias("options.headerText"),
+  presetLocations: Ember.computed.alias("options.presetLocations"),
+
   actions: {
     cancel() {
       this.send("selectLocation", null);
@@ -40,6 +43,7 @@ export default Ember.Component.extend(SearchMixin, {
     selectLocation(location) {
       this.getWithDefault("onSelect", _.noop)(location);
       this.set("open", false);
+      this.set("searchText", "");
     },
 
     loadMoreLocations(pageNo) {

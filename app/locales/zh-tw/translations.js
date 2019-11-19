@@ -562,7 +562,11 @@ export default {
   },
   select_location: {
     back: "Back",
-    recent_used_locations: "Recently Used Locations"
+    recent_used_locations: "Recently Used Locations",
+    pick_from_location: "Where would you like to move FROM ?",
+    pick_to_location: "Where would you like to move INTO ?",
+    moving_item_to: "Moving this item to ",
+    quantity_input: "Input the quantity to move "
   },
 
   footer: {

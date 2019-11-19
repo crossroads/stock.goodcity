@@ -68,6 +68,8 @@ module.exports = function(environment) {
       NAMESPACE: "api/v1",
       HK_COUNTRY_CODE: "+852",
 
+      ALLOW_PARTIAL_OPERATIONS: false,
+
       PRELOAD_TYPES: [
         "booking_type",
         "purpose",

@@ -17,7 +17,9 @@ export default Ember.Route.extend(preloadDataMixin, {
   _loadDataStore: function() {
     return this.preloadData()
       .catch(error => {
-        let isZeroStatus = error.status === 0 || (error.errors && error.errors[0].status === "0");
+        let isZeroStatus =
+          error.status === 0 ||
+          (error.errors && error.errors[0].status === "0");
         if (isZeroStatus) {
           this.transitionTo("offline");
         } else {
@@ -37,7 +39,9 @@ export default Ember.Route.extend(preloadDataMixin, {
     var storageHandler = function(object) {
       let currentPath = window.location.href;
       let authToken = window.localStorage.getItem("authToken");
-      let isLoginPath = currentPath.indexOf("login") >= 0 || currentPath.indexOf("authenticate") >= 0;
+      let isLoginPath =
+        currentPath.indexOf("login") >= 0 ||
+        currentPath.indexOf("authenticate") >= 0;
 
       if (!authToken && !isLoginPath) {
         object.session.clear();
@@ -58,6 +62,10 @@ export default Ember.Route.extend(preloadDataMixin, {
   },
 
   getErrorMessage(reason) {
+    if (reason.message) {
+      return reason.message;
+    }
+
     const status = _.get(reason, "errors[0].detail.status");
     const defaultMessage = this.get("i18n").t("unexpected_error");
 
