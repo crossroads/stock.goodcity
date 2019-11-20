@@ -41,20 +41,6 @@ export default AuthorizeRoute.extend({
     }
   },
 
-  model() {
-    if (
-      !this.controller ||
-      !this.controller.get("inventoryNumber") ||
-      !this.inventoryNumber
-    ) {
-      return this.get("packageService")
-        .generateInventoryNumber()
-        .then(data => {
-          this.set("inventoryNumber", data.inventory_number);
-        });
-    }
-  },
-
   isSubformAllowed(selectedSubform) {
     return (
       ["computer", "electrical", "computer_accessory"].indexOf(
@@ -71,11 +57,10 @@ export default AuthorizeRoute.extend({
 
   async setupController(controller, model) {
     this._super(controller, model);
-
-    controller.set("inventoryNumber", this.get("inventoryNumber"));
-    controller.set("displayInventoryOptions", false);
-    controller.set("autoGenerateInventory", true);
-    controller.set("inputInventory", false);
+    const store = this.get("store");
+    if (!controller.get("inventoryNumber")) {
+      controller.send("autoGenerateInventoryNumber");
+    }
     controller.set("invalidLocation", false);
     controller.set("invalidScanResult", false);
     controller.set("labels", 1);
@@ -98,12 +83,12 @@ export default AuthorizeRoute.extend({
       }
       let codeId = controller.get("codeId");
       if (codeId) {
-        let selected = this.get("store").peekRecord("code", codeId);
+        let selected = store.peekRecord("code", codeId);
         if (selected) {
           let selectedSubform = selected.get("subform");
           if (this.isSubformAllowed(selectedSubform)) {
             controller.set("showAdditionalFields", true);
-            let details = await this.store.query(selectedSubform, {
+            let details = await store.query(selectedSubform, {
               distinct: "brand"
             });
             controller.set("packageDetails", details);
@@ -119,13 +104,13 @@ export default AuthorizeRoute.extend({
         imageKey.length &&
         window.localStorage.isSelectLocationPreviousRoute === "true"
       ) {
-        var image = this.get("store")
+        var image = store
           .peekAll("image")
           .filterBy("cloudinaryId", imageKey)
           .get("firstObject");
         image =
           image ||
-          this.get("store").createRecord("image", {
+          store.createRecord("image", {
             cloudinaryId: imageKey,
             favourite: true
           });
