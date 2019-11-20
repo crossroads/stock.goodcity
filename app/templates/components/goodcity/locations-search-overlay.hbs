@@ -31,7 +31,7 @@
               {{#if presetLocations}}
                 {{#each presetLocations as |location|}}
                   <div {{action 'selectLocation' location}} class="row underlined">
-                    <div class="small-6 columns building_name">
+                    <div class="small-6 columns">
                       {{location.building}}
                     </div>
                     <div class="small-6 columns">
@@ -42,7 +42,7 @@
               {{else if showRecentlyUsed}}
                 {{#each recentlyUsedLocations as |location|}}
                   <div {{action 'selectLocation' location}} class="row underlined">
-                    <div class="small-6 columns building_name">
+                    <div class="small-6 columns">
                       {{location.building}}
                     </div>
                     <div class="small-6 columns">
@@ -54,7 +54,7 @@
                 {{#infinite-list height="85vh" loadMore=(action "loadMoreLocations") as |res| }}
                     {{#each res as |location|}}
                       <div {{action 'selectLocation' location}} class="row underlined">
-                        <div class="small-6 columns building_name">
+                        <div class="small-6 columns">
                           {{location.building}}
                         </div>
                         <div class="small-6 columns">

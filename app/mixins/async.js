@@ -41,7 +41,7 @@ export default Ember.Mixin.create({
 
   showLoadingSpinner() {
     Ember.run(() => {
-      if (!this.__loadingView) {
+      if (!this.__loadingView && !Ember.testing) {
         this.__loadingView = getOwner(this)
           .factoryFor("component:loading")
           .create()
@@ -52,7 +52,7 @@ export default Ember.Mixin.create({
 
   hideLoadingSpinner() {
     Ember.run(() => {
-      if (this.__loadingView) {
+      if (this.__loadingView && !Ember.testing) {
         this.__loadingView.destroy();
         this.__loadingView = null;
       }

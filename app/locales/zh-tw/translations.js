@@ -428,6 +428,7 @@ export default {
     }
   },
   item: {
+    order_fulfilment: "訂單",
     edit: "修改",
     designate: "指派",
     designate_partial: "指派部分物資",

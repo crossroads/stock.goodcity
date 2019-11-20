@@ -121,8 +121,8 @@ export default Ember.Mixin.create(AsyncMixin, {
     },
 
     completeMove(quantity) {
-      this.runTask(async () => {
-        await this.get("locationService").movePackage(this.get("moveTarget"), {
+      this.runTask(() => {
+        return this.get("locationService").movePackage(this.get("moveTarget"), {
           from: this.get("moveFrom"),
           to: this.get("moveTo"),
           quantity: this.get("moveQty")

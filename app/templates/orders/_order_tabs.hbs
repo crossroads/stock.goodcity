@@ -19,15 +19,15 @@
         {{/if}}
 
         {{#if isActiveGoods}}
-          {{#link-to 'orders.items_list' model.id tagName="dd" classNames="small-3 medium-3 columns active text-center"}}
-            {{#link-to 'orders.items_list' model.id}}
+          {{#link-to 'orders.active_items' model.id tagName="dd" classNames="small-3 medium-3 columns active text-center"}}
+            {{#link-to 'orders.active_items' model.id}}
               <i class="item-menu">{{fa-icon 'shopping-basket'}}</i>
               <div>{{t "order_tabs.goods"}}</div>
             {{/link-to}}
           {{/link-to}}
         {{else}}
-          {{#link-to 'orders.items_list' model.id tagName="dd" classNames="small-3 medium-3 columns text-center"}}
-            {{#link-to 'orders.items_list' model.id}}
+          {{#link-to 'orders.active_items' model.id tagName="dd" classNames="small-3 medium-3 columns text-center"}}
+            {{#link-to 'orders.active_items' model.id}}
               <i class="item-menu">{{fa-icon 'shopping-basket'}}</i>
               <div>{{t "order_tabs.goods"}}</div>
             {{/link-to}}

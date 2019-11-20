@@ -6,7 +6,6 @@ export default Ember.Controller.extend(SearchMixin, {
   queryParams: ["searchInput", "itemSetId"],
   itemSetId: null,
   isMobileApp: config.cordova.enabled,
-  displayItemOptions: false,
   displayItemOptionsList: true,
   searchModelName: "item",
   requestOptions: {

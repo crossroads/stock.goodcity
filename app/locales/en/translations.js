@@ -440,8 +440,9 @@ export default {
     }
   },
   item: {
+    order_fulfilment: "Orders",
     edit: "edit",
-    designate: "designate",
+    designate: "Designate",
     designate_partial: "Designate",
     partial_designate: "partial designate",
     dispatch: "dispatch",
