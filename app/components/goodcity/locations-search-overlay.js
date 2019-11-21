@@ -1,6 +1,8 @@
 import Ember from "ember";
 import _ from "lodash";
+import SingletonComponent from "../base/global";
 import SearchMixin from "stock/mixins/search_resource";
+import { stagerred } from "../../utils/async";
 
 /**
  * An overlay that pops up from the bottom of the screen, allowing the user
@@ -11,15 +13,14 @@ import SearchMixin from "stock/mixins/search_resource";
  * @property {boolean} open whether the popup is visible or not
  * @property {function} onSelect callback triggered when an order is selected
  */
-export default Ember.Component.extend(SearchMixin, {
+export default SingletonComponent.extend(SearchMixin, {
   searchProps: {},
   autoLoad: true,
   store: Ember.inject.service(),
   perPage: 10,
 
   init() {
-    this._super(...arguments);
-    this.set("uuid", _.uniqueId("location_search_overlay_"));
+    this._super("location-search-overlay");
   },
 
   recentlyUsedLocations: Ember.computed("open", function() {
@@ -40,10 +41,14 @@ export default Ember.Component.extend(SearchMixin, {
       this.set("searchText", "");
     },
 
-    selectLocation(location) {
-      this.getWithDefault("onSelect", _.noop)(location);
+    async selectLocation(location) {
+      const callback = this.getWithDefault("onSelect", _.noop);
+
       this.set("open", false);
       this.set("searchText", "");
+
+      // Delay the return a little bit for the animation to start
+      stagerred(location).then(callback);
     },
 
     loadMoreLocations(pageNo) {

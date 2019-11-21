@@ -9,7 +9,7 @@
         <div class="input-holder small-10 columns">
           {{focus-textfield
             name="searchText"
-            id=uuid
+            id="location_search_overlay_input"
             placeholder=(t "search_min")
             value=searchText}}
 
@@ -27,7 +27,7 @@
         {{/if}}
         <div class="row search">
           <div class="small-12 columns">
-            <ul class="list list-activity list-offer-items">
+            <ul class="list list-activity">
               {{#if presetLocations}}
                 {{#each presetLocations as |location|}}
                   <div {{action 'selectLocation' location}} class="row underlined">

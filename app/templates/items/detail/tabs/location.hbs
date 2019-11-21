@@ -9,7 +9,7 @@
       <div class="columns small-4">&nbsp;{{ pkgLocation.location.area }}</div>
       <div class="columns small-2">&nbsp;{{ pkgLocation.quantity }}</div>
       <div class="columns small-2">
-        <div class="light-button" {{action 'beginMove' model pkgLocation.location}}>{{t 'item.move' }}</div>
+        <div class="light-button move-button" {{action 'beginMove' model pkgLocation.location}}>{{t 'item.move' }}</div>
       </div>
       <div class="columns small-2"></div>
     </div>
@@ -27,7 +27,7 @@
     {{#message-box
         btn1Text=(t "item.move") btn1Callback=(action "completeMove")
         btn2Text=(t "cancel") btn2Callback=(action "cancelMove")
-        isVisible=true classNames="popup-overlay move-action"
+        isVisible=true classNames="modal-overlay move-confirmation"
       }}
         <p>{{fa-icon 'people-carry'}} {{t 'select_location.moving_item_to' }} {{moveTo.name}}</p>
 

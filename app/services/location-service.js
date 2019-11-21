@@ -2,7 +2,6 @@ import Ember from "ember";
 import ApiBaseService from "./api-base-service";
 import NavigationAwareness from "../mixins/navigation_aware";
 import _ from "lodash";
-import { stagerred } from "../utils/async";
 import { toID } from "../utils/helpers";
 
 /**
@@ -49,12 +48,14 @@ export default ApiBaseService.extend(NavigationAwareness, {
   userPickLocation(opts = {}) {
     const deferred = Ember.RSVP.defer();
 
-    this.set("locationSearchOptions", opts);
-    this.set("openLocationSearch", true);
-    this.set("onLocationSelected", order => {
-      this.set("onLocationSelected", _.noop);
-      this.set("openLocationSearch", false);
-      deferred.resolve(stagerred(order || null));
+    Ember.run(() => {
+      this.set("locationSearchOptions", opts);
+      this.set("openLocationSearch", true);
+      this.set("onLocationSelected", order => {
+        this.set("onLocationSelected", _.noop);
+        this.set("openLocationSearch", false);
+        deferred.resolve(order || null);
+      });
     });
 
     return deferred.promise;
