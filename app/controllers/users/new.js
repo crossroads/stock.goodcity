@@ -25,12 +25,16 @@ export default Ember.Controller.extend({
     this.set("preferredPhone", "");
   },
 
+  formatMobileNumber() {
+    const mobile = this.get("mobilePhone");
+    return mobile.length
+      ? config.APP.HK_COUNTRY_CODE + this.get("mobilePhone")
+      : mobile;
+  },
+
   getRequestParams() {
     const preferredPhoneValue = this.get("preferredPhone");
-    const mobilePhoneValue = this.get("mobilePhone");
-    const mobilePhone =
-      mobilePhoneValue.length &&
-      `${config.APP.HK_COUNTRY_CODE}${mobilePhoneValue}`;
+    const mobilePhone = this.formatMobileNumber();
     const preferredPhone = preferredPhoneValue.length && preferredPhoneValue;
     const params = {
       organisation_id: this.get("organisationId"),
