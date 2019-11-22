@@ -25,7 +25,7 @@ export default {
       addAble: true
     },
     {
-      label: "Cpu",
+      label: "CPU",
       name: "cpu",
       type: "text",
       autoComplete: true,
@@ -41,7 +41,7 @@ export default {
       addAble: false
     },
     {
-      label: "Ram",
+      label: "RAM",
       name: "ram",
       type: "text",
       autoComplete: true,
@@ -81,7 +81,7 @@ export default {
       addAble: true
     },
     {
-      label: "Lan",
+      label: "LAN",
       name: "lan",
       type: "text",
       autoComplete: true,
@@ -97,7 +97,7 @@ export default {
       addAble: true
     },
     {
-      label: "Usb",
+      label: "USB",
       name: "usb",
       type: "text",
       autoComplete: true,
