@@ -47,6 +47,7 @@ export default GoodcityController.extend(
     invalidScanResult: false,
     newUploadedImage: null,
     subFormData: {},
+    disableSubmit: false,
     setDropdownOption: Ember.inject.service(),
     showAdditionalFields: false,
     isAllowedToPublish: false,
@@ -84,6 +85,10 @@ export default GoodcityController.extend(
       } else {
         this.set("invalidScanResult", false);
       }
+    }),
+
+    toggleSubmitButton: Ember.computed("disableSubmit", function() {
+      return this.get("disableSubmit") ? true : false;
     }),
 
     validateLocation: Ember.observer("location", function() {
@@ -480,6 +485,22 @@ export default GoodcityController.extend(
             code: this.get("inventoryNumber")
           })
           .then(() => this.hideLoadingSpinner());
+      },
+
+      inputActionEventTrigger(fieldName, value) {
+        this.set("disableSubmit", false);
+        if (
+          fieldName == "marOsSerialNum" ||
+          fieldName == "marMsOfficeSerialNum"
+        ) {
+          let length = value.length;
+          console.log(length, "hierfet");
+          if (length && length < 14) {
+            this.set("disableSubmit", true);
+          } else if (length && length >= 14) {
+            this.set("disableSubmit", false);
+          }
+        }
       },
 
       deleteUnusedImage() {
