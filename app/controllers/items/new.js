@@ -35,6 +35,7 @@ export default GoodcityController.extend(
     isSearchCodePreviousRoute: Ember.computed.localStorage(),
     fields: additionalFields,
     weight: "",
+    maxinputfieldlength: 14,
     isSelectLocationPreviousRoute: Ember.computed.localStorage(),
     fixedDropdownArr: ["frequency", "voltage", "compTestStatus", "testStatus"],
     quantity: 1,
@@ -495,9 +496,9 @@ export default GoodcityController.extend(
         ) {
           let length = value.length;
           console.log(length, "hierfet");
-          if (length && length < 14) {
+          if (length && length < this.get("maxinputfieldlength")) {
             this.set("disableSubmit", true);
-          } else if (length && length >= 14) {
+          } else if (length && length >= this.get("maxinputfieldlength")) {
             this.set("disableSubmit", false);
           }
         }
