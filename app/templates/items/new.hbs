@@ -237,7 +237,7 @@
     </div>
 
     <div class="small-6 columns">
-      <button {{action 'submit' target=form}} class="button expand" disabled={{toggleSubmitButton}}>
+      <button {{action 'submit' target=form}} class="button expand" disabled={{disableSubmit}}>
         {{t "save"}}
         {{#if isMultipleCountPrint}}
           {{t "items.new.print" labels=printLabelCount}}<i class='fa fa-print'></i>

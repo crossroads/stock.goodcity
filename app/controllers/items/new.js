@@ -88,10 +88,6 @@ export default GoodcityController.extend(
       }
     }),
 
-    toggleSubmitButton: Ember.computed("disableSubmit", function() {
-      return this.get("disableSubmit") ? true : false;
-    }),
-
     validateLocation: Ember.observer("location", function() {
       if (!this.get("location")) {
         this.set("invalidLocation", false);
