@@ -1,11 +1,12 @@
 import Ember from "ember";
 import config from "../config/environment";
 import preloadDataMixin from "../mixins/preload_data";
+import AsyncMixin from "../mixins/async";
 import _ from "lodash";
 
 const { getOwner } = Ember;
 
-export default Ember.Route.extend(preloadDataMixin, {
+export default Ember.Route.extend(AsyncMixin, preloadDataMixin, {
   i18n: Ember.inject.service(),
   isErrPopUpAlreadyShown: false,
   isItemUnavailable: false,
@@ -59,32 +60,6 @@ export default Ember.Route.extend(preloadDataMixin, {
       },
       false
     );
-  },
-
-  getErrorMessage(reason) {
-    if (reason.message) {
-      return reason.message;
-    }
-
-    const status = _.get(reason, "errors[0].detail.status");
-    const defaultMessage = this.get("i18n").t("unexpected_error");
-
-    if (status === 422) {
-      return _.get(reason, "errors[0].detail.message", defaultMessage);
-    }
-
-    return defaultMessage;
-  },
-
-  showErrorPopup(reason) {
-    this.get("logger").error(reason);
-
-    if (!this.get("isErrPopUpAlreadyShown")) {
-      this.set("isErrPopUpAlreadyShown", true);
-      this.get("messageBox").alert(this.getErrorMessage(reason), () => {
-        this.set("isErrPopUpAlreadyShown", false);
-      });
-    }
   },
 
   showItemIsNotAvailable() {

@@ -1,6 +1,6 @@
 import Ember from "ember";
 import config from "stock/config/environment";
-import AsyncMixin from "./async";
+import AsyncMixin, { ERROR_STRATEGIES } from "./async";
 import _ from "lodash";
 
 const ALLOW_PARTIAL_QTY = config.APP.ALLOW_PARTIAL_OPERATIONS;
@@ -127,7 +127,9 @@ export default Ember.Mixin.create(AsyncMixin, {
           to: this.get("moveTo"),
           quantity: this.get("moveQty")
         });
-      }).finally(() => this.clearMoveParams());
+      }, ERROR_STRATEGIES.MODAL).finally(() => {
+        this.clearMoveParams();
+      });
     },
 
     async cancelMove() {
