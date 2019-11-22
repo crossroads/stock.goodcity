@@ -37,9 +37,10 @@ export default Ember.TextField.extend({
   },
 
   didInsertElement() {
-    var routes = this.router.router.currentHandlerInfos;
-    var currentRoute = routes.pop();
-    var isIndexRoute = currentRoute.name === "items.index" ? true : false;
+    let routes = this.router.router.currentHandlerInfos;
+    let currentRoute = routes && routes.pop();
+    let isIndexRoute =
+      currentRoute && currentRoute.name === "items.index" ? true : false;
     if (this.get("hasRecentDesignations") && isIndexRoute) {
       var recentlyUsedDesignations = this.get("store").query("designation", {
         shallow: true,
