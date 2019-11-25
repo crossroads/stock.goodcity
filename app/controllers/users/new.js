@@ -27,9 +27,9 @@ export default Ember.Controller.extend({
 
   formatMobileNumber() {
     const mobile = this.get("mobilePhone");
-    return mobile.length
-      ? config.APP.HK_COUNTRY_CODE + this.get("mobilePhone")
-      : mobile;
+    if (mobile.length) {
+      return config.APP.HK_COUNTRY_CODE + mobile;
+    }
   },
 
   getRequestParams() {
