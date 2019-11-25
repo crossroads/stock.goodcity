@@ -9,7 +9,7 @@
   text-align: center;
   height: 4.5rem;
   font-size: 1.5vw;
-  color:#DFE0E7;
+  color: #DFE0E7;
   border: 1.5px solid #27436C;
 
   .order_title {
@@ -18,7 +18,7 @@
   }
 
   i {
-    margin-top:25px;
+    margin-top: 25px;
     font-size: 1.1rem;
     color: #FFFFFF;
   }
@@ -33,11 +33,14 @@
   }
 
   @media screen and (max-width: 350px) {
-    .order_count span, i {
+
+    .order_count span,
+    i {
       font-size: 5vw;
     }
   }
 }
+
 .recent_orders {
   padding-left: 3%;
   padding-right: 3%;
@@ -46,8 +49,8 @@
 }
 
 .counts {
-  height:75vh;
-  overflow-x:scroll;
+  height: 75vh;
+  overflow-x: scroll;
 }
 
 .order_header {
@@ -61,10 +64,12 @@
     font-size: 0.62rem;
   }
 
-  .order_code  {
+  .order_code {
     text-align: right;
   }
-  .order_transport, .order_code {
+
+  .order_transport,
+  .order_code {
     color: white;
     white-space: nowrap;
     font-weight: 700;
@@ -106,15 +111,26 @@
   padding: 5%;
 
   i {
-    margin-top:10px !important;
+    margin-top: 10px !important;
     color: #FFFFFF;
   }
 }
 
-.processing { background-color:#ED4C4E; }
-.awaiting_dispatch { background-color:#6FAB4A; }
-.submitted { background-color:#438BCA; }
-.dispatching { background-color:#021C41; }
+.processing {
+  background-color: #ED4C4E;
+}
+
+.awaiting_dispatch {
+  background-color: #6FAB4A;
+}
+
+.submitted {
+  background-color: #438BCA;
+}
+
+.dispatching {
+  background-color: #021C41;
+}
 
 .footer {
   background-color: $dark-blue;
@@ -127,6 +143,7 @@
 
   .navigation_menus {
     position: relative;
+
     .small-block-grid-5 {
       li:not(:last-child) {
         width: 22%;

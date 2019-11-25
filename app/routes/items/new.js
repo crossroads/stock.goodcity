@@ -7,6 +7,7 @@ export default AuthorizeRoute.extend({
   newItemRequest: "",
   isSearchCodePreviousRoute: Ember.computed.localStorage(),
   isSelectLocationPreviousRoute: Ember.computed.localStorage(),
+  transitionFrom: "",
 
   packageService: Ember.inject.service(),
 
@@ -25,7 +26,13 @@ export default AuthorizeRoute.extend({
   beforeModel() {
     this._super(...arguments);
     var searchCodePreviousRoute = this.get("isSearchCodePreviousRoute");
-
+    var currentRouteName = this.controllerFor("application").get(
+      "currentRouteName"
+    );
+    var transitionFrom = this.modelFor(currentRouteName);
+    if (transitionFrom) {
+      this.set("transitionFrom", transitionFrom.modelName);
+    }
     if (searchCodePreviousRoute) {
       var newItemRequest = searchCodePreviousRoute ? true : false;
       this.set("newItemRequest", newItemRequest);
@@ -48,11 +55,21 @@ export default AuthorizeRoute.extend({
     }
   },
 
-  afterModel() {
-    this.store.findAll("location", { reload: true });
+  isSubformAllowed(selectedSubform) {
+    return (
+      ["computer", "electrical", "computer_accessory"].indexOf(
+        selectedSubform
+      ) >= 0
+    );
   },
 
-  setupController(controller, model) {
+  afterModel() {
+    this.store.findAll("location", {
+      reload: true
+    });
+  },
+
+  async setupController(controller, model) {
     this._super(controller, model);
 
     controller.set("inventoryNumber", this.get("inventoryNumber"));
@@ -73,10 +90,36 @@ export default AuthorizeRoute.extend({
         controller.set("length", null);
         controller.set("width", null);
         controller.set("height", null);
-        controller.set("selectedGrade", { name: "B", id: "B" });
-        controller.set("selectedCondition", { name: "Used", id: "U" });
+        controller.set("selectedGrade", {
+          name: "B",
+          id: "B"
+        });
         controller.set("imageKeys", "");
       }
+      let codeId = controller.get("codeId");
+      if (codeId) {
+        let selected = this.get("store").peekRecord("code", codeId);
+        if (selected) {
+          let selectedSubform = selected.get("subform");
+          if (this.isSubformAllowed(selectedSubform)) {
+            controller.set("showAdditionalFields", true);
+            let details = await this.store.query(selectedSubform, {
+              distinct: "brand"
+            });
+            if (this.get("transitionFrom") === "code") {
+              controller.setProperties({
+                dropDownValues: {},
+                countryValue: {},
+                selected: []
+              });
+            }
+            controller.set("packageDetails", details);
+          } else {
+            controller.set("showAdditionalFields", false);
+          }
+        }
+      }
+
       var imageKey = controller.get("imageKeys");
       if (
         imageKey &&

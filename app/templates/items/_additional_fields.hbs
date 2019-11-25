@@ -1,0 +1,42 @@
+<hr>
+<div class="row additional-field-create">
+  {{#each displayFields as |field|}}
+  <div class="small-6 columns input-field-container">
+    <div class="row">
+      <div class="small-12 columns item-label">
+        {{field.label}}
+      </div>
+      <div class="small-12 columns left">
+        {{#form-control}}
+        {{#if (is-and field.autoComplete (is-not-equal field.name 'country')) }}
+        {{dropdown-search
+          addAble=field.addAble
+          content=field.name
+          displayPage=false
+          dropDownValues=dropDownValues
+          countryValue=countryValue
+          packageDetails=subFormDetails
+          onConfirm=(action 'setFields')}}
+        {{else if (is-equal field.name 'country')}}
+        <div class="dropdown-wrapper">
+          {{searchable-select
+            content=resultArray
+            sortBy="name"
+            optionLabelKey="nameEn"
+            selected=selected
+            on-change=(action "setCountryValue")
+            isClearable=false
+            prompt=""
+            on-search=(action "onSearch" "country")}}
+        </div>
+        {{else}}
+        {{input name=field.name
+          type=field.type
+          value=(mut (get inputFieldValues field.value)) }}
+        {{/if}}
+        {{/form-control}}
+      </div>
+    </div>
+  </div>
+  {{/each}}
+</div>

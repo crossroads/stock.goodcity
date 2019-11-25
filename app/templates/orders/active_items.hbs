@@ -24,11 +24,11 @@
   {{/unless}}
 
   {{#each canceledItemsList as |ordersPackage|}}
-    {{partial "orders/cancelled_orders_packages"}}
+    {{goodcity/orders-package-block orderPkg=ordersPackage packageView=true}}
   {{/each}}
 
   {{#each itemsList as |ordersPackage|}}
-    {{partial "orders/orders_packages"}}
+    {{goodcity/orders-package-block orderPkg=ordersPackage packageView=true}}
   {{/each}}
 
   <div class="row show_more" >

@@ -1,5 +1,4 @@
 .new-item-section {
-
   [type="checkbox"]:not(:checked),
   [type="checkbox"]:checked {
     position: initial !important;
@@ -37,6 +36,50 @@
 
     @media #{$small-only} {
       margin-right: 0rem !important;
+    }
+  }
+
+  .dropdown-wrapper {
+    .Searchable-select__menu {
+      z-index: 110;
+    }
+
+    .Searchable-select__label {
+      max-height: 1.8rem;
+      border-radius: 0;
+      padding: 0.2rem 0.5rem;
+      background-image: url(../assets/images/dropdown_icon.png);
+      background-repeat: no-repeat;
+      background-size: 1.2rem;
+      min-height: 1.8rem;
+      border: 1px solid $tabbar-menu-icon-color;
+      font-size: 1.125rem;
+      line-height: 1.4rem;
+
+      @media #{$small-only} {
+        font-size: 0.8rem;
+      }
+    }
+
+    .dropdown-icon {
+      position: absolute;
+      top: 50%;
+      -o-transform: translateY(-50%);
+      -webkit-transform: translateY(-50%);
+      -ms-transform: translateY(-50%);
+      -moz-transform: translateY(-50%);
+      transform: translateY(-50%);
+      right: 7%;
+    }
+
+    .Searchable-select__options-list {
+      li {
+        padding: 0.6rem 1.2rem;
+
+        .Searchable-select__icon {
+          display: none;
+        }
+      }
     }
   }
 
@@ -112,6 +155,25 @@
     height: 1.8rem !important;
   }
 
+  .additional-field-create {
+    margin-bottom: 4rem;
+
+    .input-field-container {
+      float: none;
+      display: inline-block;
+      vertical-align: top;
+      width: 49.3%;
+
+      input {
+        padding: 0 0.5rem;
+      }
+
+      @media (max-width: 480px) {
+        width: 100%;
+      }
+    }
+  }
+
   textarea {
     margin: 0;
     max-width: 100%;
@@ -131,7 +193,6 @@
   }
 
   .image-box-row {
-
     input,
     .input-error {
       width: 89%;
@@ -211,7 +272,7 @@
 .location-icon {
   position: absolute;
   right: 1rem;
-  top: 0.30rem;
+  top: 0.3rem;
   color: #a3aab6;
 
   @media #{$small-only} {
@@ -294,14 +355,14 @@
   left: 0px;
   background-color: rgba(0, 0, 0, 0.5);
 
-  >div {
+  > div {
     position: fixed;
     top: 50%;
     left: 0px;
     width: 100%;
     margin-top: -20px;
     text-align: center;
-    font-size: 2.0em;
+    font-size: 2em;
     color: white;
   }
 }

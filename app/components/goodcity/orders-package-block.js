@@ -201,8 +201,20 @@ export default Ember.Component.extend(AsyncMixin, {
   ),
 
   actions: {
-    redirectToOrderDetail: function(orderId) {
+    redirectToOrderDetail(orderId) {
       this.router.transitionTo("orders.detail", orderId);
+    },
+
+    redirectToItemDetails(itemId) {
+      this.router.transitionTo("items.detail", itemId);
+    },
+
+    redirectToDetails() {
+      if (this.get("packageView")) {
+        this.send("redirectToItemDetails", this.get("orderPkg.item.id"));
+      } else {
+        this.send("redirectToOrderDetail", this.get("orderPkg.designation.id"));
+      }
     }
   }
 });

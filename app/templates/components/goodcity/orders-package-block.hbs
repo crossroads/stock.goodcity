@@ -1,27 +1,43 @@
-<div class="row gc-orders-package-block">
+<div class="row gc-orders-package-block state-{{orderPkg.state}}">
   <div class="columns small-2 sub-block left">
     <div>{{fa-icon (orders-package-icon orderPkg.state) size='lg'}}</div>
     <div>{{orderPkg.quantity}}</div>
   </div>
-  <div class="columns small-9 sub-block main {{ orderPkg.designation.state }}" {{action 'redirectToOrderDetail' orderPkg.designation.id}}>
-    <div class="row">
-      <div class="columns small-11 text-align-left">
-        {{fa-icon orderPkg.designation.transportIcon size='lg'}}
-        {{ orderPkg.designation.code }}
+  <div class="columns small-9 sub-block main state-{{ orderPkg.designation.state }} {{unless packageView 'state-color'}}" {{action 'redirectToDetails'}}>
+    {{#if packageView}}
+      <div class="row">
+        <div class="columns small-10">
+          <div class="text-block">
+            <div class="line">{{fa-icon 'tag' size='lg'}} {{ orderPkg.item.inventoryNumber }}</div>
+            <div class="line">{{ orderPkg.item.notes }}</div>
+          </div>
+        </div>
+        <div class="columns small-2 no-padding">
+          <div class="thumbnail" style="background-image: url({{orderPkg.item.thumbImageUrl}})"></div>
+        </div>
       </div>
-      <div class="columns small-1 text-align-left">
-        {{fa-icon orderPkg.designation.stateIcon size='lg'}}
+    {{else}}
+      <div class="text-block">
+        <div class="row">
+          <div class="columns small-11 text-align-left">
+            {{fa-icon orderPkg.designation.transportIcon size='lg'}}
+            {{ orderPkg.designation.code }}
+          </div>
+          <div class="columns small-1 text-align-left">
+            {{fa-icon orderPkg.designation.stateIcon size='lg'}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="org-name">
+            {{#if orderPkg.designation.isGoodCityOrder}}
+              {{ orderPkg.designation.gcOrganisation.nameEn }}
+            {{else}}
+              {{ orderPkg.designation.organisation.name }}
+            {{/if}}
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="org-name">
-        {{#if orderPkg.designation.isGoodCityOrder}}
-          {{ orderPkg.designation.gcOrganisation.nameEn }}
-        {{else}}
-          {{ orderPkg.designation.organisation.name }}
-        {{/if}}
-      </div>
-    </div>
+    {{/if}}
   </div>
   <div class="columns small-1 sub-block">
     {{action-drawer actionList=actionList}}
