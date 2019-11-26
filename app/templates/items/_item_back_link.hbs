@@ -2,24 +2,24 @@
   {{#link-to backLinkPath item.id classNames="back"}}
     <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-left'}}</i>
     <div class="back_text">
-      <i>{{fa-icon 'tag'}}</i>
       {{item.inventoryNumber}}
+      <i>{{fa-icon 'tag'}}</i>
     </div>
   {{/link-to}}
 {{else if (is-equal backLinkPath 'orders.active_items')}}
   {{#link-to backLinkPath orderIdForOrderDetail class="back"}}
     <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-left'}}</i>
     <div class="back_text">
-      <i>{{fa-icon 'tag'}}</i>
       {{item.inventoryNumber}}
+      <i>{{fa-icon 'tag'}}</i>
     </div>
   {{/link-to}}
 {{else}}
-  {{#back-link}}
+  {{#link-to backLinkPath class="back"}}
     <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-left'}}</i>
     <div class="back_text">
-      <i>{{fa-icon 'tag'}}</i>
       {{item.inventoryNumber}}
+      <i>{{fa-icon 'tag'}}</i>
     </div>
-  {{/back-link}}
+  {{/link-to}}
 {{/if}}

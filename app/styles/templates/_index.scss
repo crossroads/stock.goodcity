@@ -7,10 +7,10 @@
 
 .order_detail {
   text-align: center;
-  height: 4.5rem;
+  padding-bottom: 0.8rem;
   font-size: 1.5vw;
-  color: #DFE0E7;
-  border: 1.5px solid #27436C;
+  color: #dfe0e7;
+  border: 1.5px solid #27436c;
 
   .order_title {
     padding-top: 5px;
@@ -20,12 +20,12 @@
   i {
     margin-top: 25px;
     font-size: 1.1rem;
-    color: #FFFFFF;
+    color: #ffffff;
   }
 
   span {
     font-size: 1.2rem;
-    color: #FFFFFF;
+    color: #ffffff;
   }
 
   @media #{$small-only} {
@@ -33,7 +33,6 @@
   }
 
   @media screen and (max-width: 350px) {
-
     .order_count span,
     i {
       font-size: 5vw;
@@ -56,7 +55,7 @@
 .order_header {
   margin-bottom: 1rem !important;
   padding-top: 0;
-  border: 2px solid #27436C;
+  border: 2px solid #27436c;
   height: 4rem;
   line-height: 4rem;
 
@@ -103,33 +102,31 @@
       text-align: center;
     }
   }
-
 }
 
 .priority_details {
-  height: 3rem;
-  padding: 5%;
+  padding: 6%;
 
   i {
     margin-top: 10px !important;
-    color: #FFFFFF;
+    color: #ffffff;
   }
 }
 
 .processing {
-  background-color: #ED4C4E;
+  background-color: #ed4c4e;
 }
 
 .awaiting_dispatch {
-  background-color: #6FAB4A;
+  background-color: #6fab4a;
 }
 
 .submitted {
-  background-color: #438BCA;
+  background-color: #438bca;
 }
 
 .dispatching {
-  background-color: #021C41;
+  background-color: #021c41;
 }
 
 .footer {
