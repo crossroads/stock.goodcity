@@ -29,16 +29,9 @@ Router.map(function() {
     });
     this.route("history", { path: "/:item_id/history" });
     this.route("edit_images", { path: "/:item_id/edit_images" });
-    this.route("search_location", { path: "/:item_id/search_location" });
     this.route("search_order", { path: "/:item_id/search_order" });
     this.route("search_code", { path: "/:item_id/search_code" });
-    this.route("partial_designate", { path: "/:item_id/partial_designate" });
-    this.route("partial_undesignate", {
-      path: "/:item_id/partial_undesignate"
-    });
-    this.route("modify_designation", { path: "/:item_id/modify_designation" });
     this.route("partial_dispatch", { path: "/:item_id/partial_dispatch" });
-    this.route("partial_move", { path: "/:item_id/partial_move" });
   });
 
   this.route("orders", function() {
@@ -49,7 +42,6 @@ Router.map(function() {
     this.route("add_request", { path: "/:order_id/add_request" });
     this.route("search_code", { path: "/:order_id/search_code" });
     this.route("request_items", { path: "/:order_id/request_items" });
-    this.route("items_list", { path: "/:order_id/items_list" });
     this.route("active_items", { path: "/:order_id/active_items" });
     this.route("requested_items", { path: "/:order_id/requested_items" });
     this.route("conversation", { path: "/:order_id/conversation" });

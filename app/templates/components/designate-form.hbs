@@ -111,7 +111,7 @@
                 <i>{{fa-icon 'exclamation-triangle'}}</i>
               </div>
               <div>
-                {{#link-to 'orders.items_list' designationDetails.orderId classNames='warning_link_to'}}
+                {{#link-to 'orders.active_items' designationDetails.orderId classNames='warning_link_to'}}
                   {{t "designate.item_already_designated" orderCode=designationDetails.orderCode}}
                 {{/link-to}}
               </div>
@@ -132,7 +132,7 @@
           <i>{{fa-icon 'exclamation-triangle'}}</i>
         </div>
         <div>
-          {{#link-to 'orders.items_list' dispatchedItemOrder.id classNames='warning_link_to'}}
+          {{#link-to 'orders.active_items' dispatchedItemOrder.id classNames='warning_link_to'}}
             {{t "designate.item_dispatched" orderCode=dispatchedItemOrder.code}}
           {{/link-to}}
         </div>

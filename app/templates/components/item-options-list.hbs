@@ -3,59 +3,25 @@
 </div>
 
 <div class="receive-item-options {{item.id}} {{if hidden 'hidden'}} {{if item.isSet 'set-options'}}">
-  <div class="{{unless item.isSingletonItem 'disabled'}} {{if item.hasAllPackagesDispatched 'disabled'}}">
-    {{#if item.isSingletonItem}}
-      {{#link-to 'items.search_location' item.id (query-params isPartialMove=true pkgsLocationId=item.packagesLocations.firstObject.id skipScreenForSingletonItem=true) tagName='div' href=false}}
-        <i class="item-menu">{{fa-icon 'map-marker-alt' size="2x"}}</i><br />
-        {{t "item.move"}}
-      {{/link-to}}
-    {{else}}
-      {{#link-to 'items.partial_move' item.id tagName='div' href=false}}
-        <i class="item-menu">{{fa-icon 'map-marker-alt' size="2x"}}</i><br />
-        {{t "item.move"}}
-      {{/link-to}}
-    {{/if}}
+  <div>
+    {{#link-to 'items.detail.location' item.id tagName='div' href=false}}
+      <i class="item-menu">{{fa-icon 'map-marker-alt' size="2x"}}</i><br />
+      {{t "item.move"}}
+    {{/link-to}}
   </div>
 
-  <div class="{{unless item.isSingletonItem 'disabled'}}">
-    {{#if (is-or item.designationId item.hasOneDispatchedPackage)}}
-      {{#link-to 'items.search_order' item.id tagName='div' href=false}}
-        <i class="item-menu">{{fa-icon 'shopping-basket' size="2x"}}</i><br />
-        {{t "item.designate"}}
-      {{/link-to}}
-    {{else if item.isSingletonItem}}
-      {{#link-to 'items.search_order' item.id (query-params isSet=item.isSet partial_qty=1) tagName='div' href=false}}
-        <i class="item-menu">{{fa-icon 'shopping-basket' size="2x"}}</i><br />
-        {{t "item.designate"}}
-      {{/link-to}}
-    {{else}}
-      {{#link-to 'items.partial_designate' item.id tagName='div' href=false}}
-        <i class="item-menu" {{action 'partialDesignateForSet'}}>{{fa-icon 'shopping-basket' size="2x"}}</i><br />
-        {{t "item.designate"}}
-      {{/link-to}}
-    {{/if}}
+  <div>
+    {{#link-to 'items.detail.publishing' item.id tagName='div' href=false}}
+      <i class="item-menu">{{fa-icon 'shopping-basket' size="2x"}}</i><br />
+      {{t "item.designate"}}
+    {{/link-to}}
   </div>
 
-  <div class="{{unless item.isSingletonItem 'disabled'}}">
-    {{#unless item.dispatchedOrdersPackages.length}}
-      {{#if (is-and item.isSingletonItem item.designation.isGoodCityOrder)}}
-        <div>
-          <a href="#" {{action 'dispatchOrdersPackagePopUp' item item.firstDesignatedOrdersPackage.id}} >
-            <i class="item-menu">{{fa-icon 'ship' size="2x"}}</i><br />
-            {{t "item.dispatch"}}
-          </a>
-        </div>
-      {{else}}
-        {{#link-to 'items.partial_dispatch' item.id (query-params orderPackageId=item.firstDesignatedOrdersPackage.id) tagName='div' href=false}}
-          <i class="item-menu">{{fa-icon 'ship' size="2x"}}</i><br />
-          {{t "item.dispatch"}}
-        {{/link-to}}
-      {{/if}}
-    {{else}}
-      <div class="undispatch-item-icon">
-        {{undispatch-item item=item package=item.dispatchedOrdersPackages.firstObject}}
-      </div>
-    {{/unless}}
+  <div>
+    {{#link-to 'items.detail.publishing' item.id tagName='div' href=false}}
+      <i class="item-menu">{{fa-icon 'shopping-basket' size="2x"}}</i><br />
+      {{t "item.order_fulfilment"}}
+    {{/link-to}}
   </div>
 
   {{#print-label item=item closeList=(action 'toggle' true)}}

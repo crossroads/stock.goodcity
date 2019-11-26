@@ -8,7 +8,6 @@ const { getOwner } = Ember;
 export default GoodcityController.extend({
   backLinkPath: "",
   displayAllItems: false,
-  displayItemOptions: true,
   isMobileApp: config.cordova.enabled,
   order: Ember.computed.alias("model"),
   hasUnreadMessages: Ember.computed("order", function() {

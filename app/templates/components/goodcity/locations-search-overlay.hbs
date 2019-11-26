@@ -9,7 +9,7 @@
         <div class="input-holder small-10 columns">
           {{focus-textfield
             name="searchText"
-            id=uuid
+            id="location_search_overlay_input"
             placeholder=(t "search_min")
             value=searchText}}
 
@@ -20,13 +20,29 @@
       </div>
 
       <section class="main-section search_result">
+        {{#if headerText}}
+          <div class="row header-text">
+            <h2>{{ headerText }}</h2>
+          </div>
+        {{/if}}
         <div class="row search">
           <div class="small-12 columns">
-            <ul class="list list-activity list-offer-items">
-              {{#if showRecentlyUsed}}
+            <ul class="list list-activity">
+              {{#if presetLocations}}
+                {{#each presetLocations as |location|}}
+                  <div {{action 'selectLocation' location}} class="row underlined">
+                    <div class="small-6 columns">
+                      {{location.building}}
+                    </div>
+                    <div class="small-6 columns">
+                      {{location.area}}
+                    </div>
+                  </div>
+                {{/each}}
+              {{else if showRecentlyUsed}}
                 {{#each recentlyUsedLocations as |location|}}
                   <div {{action 'selectLocation' location}} class="row underlined">
-                    <div class="small-6 columns building_name">
+                    <div class="small-6 columns">
                       {{location.building}}
                     </div>
                     <div class="small-6 columns">
@@ -38,7 +54,7 @@
                 {{#infinite-list height="85vh" loadMore=(action "loadMoreLocations") as |res| }}
                     {{#each res as |location|}}
                       <div {{action 'selectLocation' location}} class="row underlined">
-                        <div class="small-6 columns building_name">
+                        <div class="small-6 columns">
                           {{location.building}}
                         </div>
                         <div class="small-6 columns">

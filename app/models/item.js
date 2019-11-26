@@ -360,6 +360,14 @@ export default cloudinaryUrl.extend({
     return this.get("ordersPackages.firstObject");
   }),
 
+  locations: Ember.computed(
+    "packagesLocations.[]",
+    "packagesLocations.@each.location",
+    function() {
+      return this.get("packagesLocations").mapBy("location");
+    }
+  ),
+
   packagesLocationsList: Ember.computed(
     "packagesLocations.[]",
     "packagesLocations.@each.location",

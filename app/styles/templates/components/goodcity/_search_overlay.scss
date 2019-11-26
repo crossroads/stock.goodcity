@@ -4,6 +4,13 @@
     margin: 0 auto;
     max-width: 768px;
 
+    .header-text {
+      width: 100%;
+      text-align: center;
+      background-color: rgba(255,255,255,0.1);
+      padding: 1rem;
+    }
+
     .search-field {
       position: relative;
       padding: 0;

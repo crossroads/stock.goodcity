@@ -29,13 +29,6 @@
                     <i aria-hidden="true">{{fa-icon 'shopping-basket'}}</i>
                   </span>
                 {{/link-to}}
-              {{else}}
-                {{!-- Disabling partial quantity designate --}}
-                {{!-- {{#link-to 'items.partial_designate' model.id (query-params isSet=model.isSet) tagName='span' href=false}}
-                  <span class="no-avatar" {{action 'partialDesignateForSet'}}>
-                    <i aria-hidden="true">{{fa-icon 'shopping-basket'}}</i>
-                  </span>
-                {{/link-to}} --}}
               {{/if}}
             {{/if}}
           {{/if}}
@@ -50,13 +43,6 @@
                     <i class="item-menu">{{fa-icon 'ship'}}</i>
                   </a>
                 </div>
-              {{else}}
-                {{!-- Disabling partial quantity dispatch --}}
-                {{!-- {{#link-to 'items.partial_dispatch' item.id (query-params orderPackageId=model.firstDesignatedOrdersPackage.id) tagName='div' href=false}}
-                  <span class="no-avatar">
-                    <i aria-hidden="true">{{fa-icon 'ship'}}</i>
-                  </span>
-                {{/link-to}} --}}
               {{/if}}
             </div>
           {{/if}}
