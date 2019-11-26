@@ -79,11 +79,11 @@ export default SearchCode.extend({
     })
       .then(data => {
         this.get("store").pushPayload(data);
+        this.transitionToRoute("items.detail", item.id);
       })
       .finally(() => {
         loadingView.destroy();
       });
-    this.transitionToRoute("items.detail", item);
   },
 
   actions: {
