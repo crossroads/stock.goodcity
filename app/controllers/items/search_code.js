@@ -52,14 +52,7 @@ export default SearchCode.extend({
             this.assignNewType(newPkgType);
           });
         } else {
-          new AjaxPromise(
-            this.getDetailURL(),
-            "DELETE",
-            this.get("session.authToken")
-          ).then(() => {
-            // PUT request of new packageType
-            this.assignNewType(newPkgType);
-          });
+          this.assignNewType(newPkgType);
         }
       }
     );
@@ -74,8 +67,8 @@ export default SearchCode.extend({
     const url = `/packages/${item.get("id")}`;
     const packageParams = {
       package_type_id: type.get("id"),
-      detail_id: null,
-      detail_type: null
+      detail_attributes: {},
+      detail_type: _.capitalize(type.get("subform"))
     };
 
     const loadingView = getOwner(this)
