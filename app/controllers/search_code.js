@@ -2,8 +2,9 @@ import Ember from "ember";
 import { translationMacro as t } from "ember-i18n";
 import AjaxPromise from "stock/utils/ajax-promise";
 import AsyncMixin, { ERROR_STRATEGIES } from "../mixins/async";
+import GoodcityController from "./goodcity_controller";
 
-export default Ember.Controller.extend(AsyncMixin, {
+export default GoodcityController.extend(AsyncMixin, {
   queryParams: ["backToNewItem", "orderId", "changeCode", "reqId"],
   reqId: null,
   backToNewItem: false,

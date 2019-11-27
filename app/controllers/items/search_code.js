@@ -1,15 +1,13 @@
 import Ember from "ember";
 import SearchCode from "../search_code";
-import AjaxPromise from "stock/utils/ajax-promise";
-import { pluralize } from "ember-inflector";
-import _ from "lodash";
-const { getOwner } = Ember;
+import capitalize from "lodash/capitalize";
 
 export default SearchCode.extend({
   item: null,
   inlineDescription: true,
   store: Ember.inject.service(),
   messageBox: Ember.inject.service(),
+  packageService: Ember.inject.service(),
 
   allPackageTypes: Ember.computed("fetchMoreResult", "item.isSet", function() {
     if (this.get("item.isSet")) {
@@ -19,40 +17,33 @@ export default SearchCode.extend({
     }
   }),
 
-  getDetailURL() {
-    const detailType = _.snakeCase(this.get("item.detailType")).toLowerCase();
-    const apiEndpoint = pluralize(detailType);
-    const detailId = this.get("item.detail.id");
-    return `/${apiEndpoint}/${detailId}`;
+  deleteAndAssignNew(packageType) {
+    const item = this.get("item");
+    const detailType = item.get("detailType");
+    const detailId = item.get("detail.id");
+    this.showLoadingSpinner();
+    this.get("packageService")
+      .deletePackage(detailType, detailId)
+      .then(() => {
+        this.assignNew(packageType);
+      });
   },
 
-  packageTypeSelectWarning(newPkgType) {
-    const item = this.get("item");
-    const pkgType = item.get("code");
-    const packageName = pkgType.get("name");
-    const newPackage = newPkgType.get("name");
+  warnAndAssignNew(pkgType) {
+    const existingPkgType = this.get("item.code");
+    const packageName = existingPkgType.get("name");
+    const newPackageName = pkgType.get("name");
 
     this.get("messageBox").custom(
-      `If you change to ${newPackage} some details related to ${packageName} will no longer be valid. These details will be deleted.`,
+      `If you change to ${newPackageName} some details related to ${packageName} will no longer be valid. These details will be deleted.`,
       "Not Now",
       null,
       "Continue",
       () => {
-        if (
-          this.isSubformPackage(pkgType) &&
-          this.isSubformPackage(newPkgType)
-        ) {
-          //first delete subform
-          new AjaxPromise(
-            this.getDetailURL(),
-            "DELETE",
-            this.get("session.authToken")
-          ).then(() => {
-            // PUT request of new packageType
-            this.assignNewType(newPkgType);
-          });
+        if (this.isSubformPackage(pkgType)) {
+          this.deleteAndAssignNew(pkgType);
         } else {
-          this.assignNewType(newPkgType);
+          this.assignNew(pkgType, { delete_detail_id: true });
         }
       }
     );
@@ -62,27 +53,32 @@ export default SearchCode.extend({
     return !!packageType.get("subform");
   },
 
-  assignNewType(type) {
+  hasExistingPackageSubform() {
+    const code = this.get("item.code");
+    return this.isSubformPackage(code);
+  },
+
+  assignNew(type, { delete_detail_id = false } = {}) {
     const item = this.get("item");
     const url = `/packages/${item.get("id")}`;
     const packageParams = {
       package_type_id: type.get("id"),
-      detail_attributes: {},
-      detail_type: _.capitalize(type.get("subform"))
+      detail_type: capitalize(type.get("subform"))
     };
-
-    const loadingView = getOwner(this)
-      .lookup("component:loading")
-      .append();
-    new AjaxPromise(url, "PUT", this.get("session.authToken"), {
-      package: packageParams
-    })
+    if (delete_detail_id) {
+      packageParams.detail_id = null;
+    }
+    this.showLoadingSpinner();
+    this.get("packageService")
+      .updatePackage(item.id, {
+        package: packageParams
+      })
       .then(data => {
         this.get("store").pushPayload(data);
         this.transitionToRoute("items.detail", item.id);
       })
       .finally(() => {
-        loadingView.destroy();
+        this.hideLoadingSpinner();
       });
   },
 
@@ -93,24 +89,12 @@ export default SearchCode.extend({
       this.transitionToRoute("items.detail", this.get("item"));
     },
 
-    assignItemLabel(type) {
-      this.isSubformPackage(type);
-      this.packageTypeSelectWarning(type);
-      // var item = this.get("item");
-      // var url = `/packages/${item.get('id')}`;
-      // var key = 'package_type_id';
-      // var packageParams = {};
-      // packageParams[key] = type.get('id');
-
-      // var loadingView = getOwner(this).lookup('component:loading').append();
-      // new AjaxPromise(url, "PUT", this.get('session.authToken'), { package: packageParams })
-      //   .then(data => {
-      //     this.get("store").pushPayload(data);
-      //   })
-      //   .finally(() => {
-      //     loadingView.destroy();
-      //   });
-      // this.transitionToRoute("items.detail", item);
+    assignItemLabel(pkgType) {
+      if (this.hasExistingPackageSubform()) {
+        this.warnAndAssignNew(pkgType);
+      } else {
+        this.assignNew(pkgType);
+      }
     }
   }
 });
