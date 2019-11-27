@@ -386,6 +386,29 @@ export default GoodcityController.extend(
       }
     },
 
+    createPackage() {
+      this.get("packageService")
+        .createPackage({
+          package: this.packageParams()
+        })
+        .then(data => {
+          if (this.get("isMultipleCountPrint")) {
+            this.printBarcode(data.item.id);
+          }
+          this.updateStoreAndSaveImage(data);
+          this.clearAttributes();
+          this.replaceRoute("items.detail", data.item.id);
+        })
+        .catch(response => {
+          this.showError(
+            response.responseJSON && response.responseJSON.errors[0]
+          );
+        })
+        .finally(() => {
+          this.hideLoadingSpinner();
+        });
+    },
+
     actions: {
       //file upload
       triggerUpload() {
@@ -588,26 +611,7 @@ export default GoodcityController.extend(
           return false;
         } else {
           this.showLoadingSpinner();
-          this.get("packageService")
-            .createPackage({
-              package: this.packageParams()
-            })
-            .then(data => {
-              if (this.get("isMultipleCountPrint")) {
-                this.printBarcode(data.item.id);
-              }
-              this.updateStoreAndSaveImage(data);
-              this.clearAttributes();
-              this.replaceRoute("items.detail", data.item.id);
-            })
-            .catch(response => {
-              this.showError(
-                response.responseJSON && response.responseJSON.errors[0]
-              );
-            })
-            .finally(() => {
-              this.hideLoadingSpinner();
-            });
+          this.createPackage();
         }
       }
     }
