@@ -27,7 +27,7 @@ export default cloudinaryUrl.extend({
   detailType: attr("string"),
   detail: belongsTo("detail", {
     polymorphic: true,
-    async: true
+    async: false
   }),
   designationId: attr("string"),
   designation: belongsTo("designation", { async: true }),

@@ -274,7 +274,9 @@ export default GoodcityController.extend(
         detail_attributes: {},
         inputFieldValues: {},
         dropDownValues: {},
-        countryValue: {}
+        countryValue: {},
+        locationId: "",
+        inventoryNumber: ""
       });
     },
 
@@ -293,10 +295,6 @@ export default GoodcityController.extend(
         });
         image.save();
       }
-      this.set("locationId", "");
-      this.set("inventoryNumber", "");
-      this.hideLoadingSpinner();
-      this.replaceRoute("items.detail", data.item.id);
     },
 
     hasIncompleteConditions() {
@@ -600,10 +598,15 @@ export default GoodcityController.extend(
               }
               this.updateStoreAndSaveImage(data);
               this.clearAttributes();
+              this.replaceRoute("items.detail", data.item.id);
             })
             .catch(response => {
-              this.showLoadingSpinner();
-              this.get("messageBox").alert(response.responseJSON.errors[0]);
+              this.showError(
+                response.responseJSON && response.responseJSON.errors[0]
+              );
+            })
+            .finally(() => {
+              this.hideLoadingSpinner();
             });
         }
       }
