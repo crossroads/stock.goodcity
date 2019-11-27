@@ -274,7 +274,9 @@ export default GoodcityController.extend(
         detail_attributes: {},
         inputFieldValues: {},
         dropDownValues: {},
-        countryValue: {}
+        countryValue: {},
+        locationId: "",
+        inventoryNumber: ""
       });
     },
 
@@ -293,10 +295,6 @@ export default GoodcityController.extend(
         });
         image.save();
       }
-      this.set("locationId", "");
-      this.set("inventoryNumber", "");
-      this.hideLoadingSpinner();
-      this.replaceRoute("items.detail", data.item.id);
     },
 
     hasIncompleteConditions() {
@@ -386,6 +384,29 @@ export default GoodcityController.extend(
         this.get("messageBox").alert(this.get("i18n").t("offline_error"));
         return false;
       }
+    },
+
+    createPackage() {
+      this.get("packageService")
+        .createPackage({
+          package: this.packageParams()
+        })
+        .then(data => {
+          if (this.get("isMultipleCountPrint")) {
+            this.printBarcode(data.item.id);
+          }
+          this.updateStoreAndSaveImage(data);
+          this.clearAttributes();
+          this.replaceRoute("items.detail", data.item.id);
+        })
+        .catch(response => {
+          this.showError(
+            response.responseJSON && response.responseJSON.errors[0]
+          );
+        })
+        .finally(() => {
+          this.hideLoadingSpinner();
+        });
     },
 
     actions: {
@@ -590,21 +611,7 @@ export default GoodcityController.extend(
           return false;
         } else {
           this.showLoadingSpinner();
-          this.get("packageService")
-            .createPackage({
-              package: this.packageParams()
-            })
-            .then(data => {
-              if (this.get("isMultipleCountPrint")) {
-                this.printBarcode(data.item.id);
-              }
-              this.updateStoreAndSaveImage(data);
-              this.clearAttributes();
-            })
-            .catch(response => {
-              this.showLoadingSpinner();
-              this.get("messageBox").alert(response.responseJSON.errors[0]);
-            });
+          this.createPackage();
         }
       }
     }
