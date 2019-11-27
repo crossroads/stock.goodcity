@@ -1,9 +1,9 @@
-<div class="row fixed_search_header search-box ui items-search">
-  <div class="small-3 large-3 columns ">
+<div class="row fixed_search_header search-box ui items-search search-order">
+  <div class="small-3 large-3 columns back-button">
     {{partial 'items/item_back_link'}}
   </div>
 
-  <div class="small-9 large-9 columns">
+  <div class="small-9 large-9 columns search-wrapper">
     {{focus-textfield
       name="searchText"
       id="searchText"
@@ -24,7 +24,6 @@
           {{partial 'loading'}}
         </div>
       {{else}}
-
         {{#if filteredResults}}
           <ul class="list list-activity list-offer-items">
             {{#each filteredResults as |order|}}
@@ -34,27 +33,26 @@
             {{/each}}
           </ul>
 
-          {{#infinity-loader}}
-          {{/infinity-loader}}
+        {{#infinity-loader}}
+        {{/infinity-loader}}
 
-        {{else if hasNoResults}}
-          <div class='no_result'>{{t "no_search_results"}}</div>
-        {{else if recentlyUsedDesignations}}
+      {{else if hasNoResults}}
+        <div class='no_result'>{{t "no_search_results"}}</div>
+      {{else if recentlyUsedDesignations}}
+        <div class="recent_locations">{{t 'search_order.recent'}}</div>
 
-          <div class="recent_locations">{{t 'search_order.recent'}}</div>
+        <ul class="list list-activity list-offer-items">
+          {{#each recentlyUsedDesignations as |order|}}
+            <a {{action "setOrder" order}}>
+              {{partial 'orders/order_block'}}
+            </a>
+          {{/each}}
+        </ul>
 
-          <ul class="list list-activity list-offer-items">
-            {{#each recentlyUsedDesignations as |order|}}
-              <a {{action "setOrder" order}}>
-                {{partial 'orders/order_block'}}
-              </a>
-            {{/each}}
-          </ul>
-
-        {{/if}}
       {{/if}}
-    </div>
+    {{/if}}
   </div>
+</div>
 
 </section>
 

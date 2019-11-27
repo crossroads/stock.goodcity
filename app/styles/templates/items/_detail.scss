@@ -250,7 +250,7 @@
     z-index: 99;
 
     .back_link {
-      top: 0.95rem;
+      top: 0.5rem;
       margin-left: 0.5rem;
       font-size: 2rem;
       position: absolute;
@@ -260,6 +260,16 @@
       z-index: 1;
 
       i {
+        position: absolute;
+        font-weight: bolder;
+        color: black;
+        height: 1.2rem;
+        width: 1.2rem;
+        font-size: 2rem;
+        line-height: 1.7rem;
+        left: 0.1rem;
+        bottom: 38%;
+
         @media #{$small-only} {
           margin: 0.35rem 0 0 -0.9rem;
           width: 2rem;
@@ -269,22 +279,6 @@
           bottom: -4%;
         }
 
-        position: absolute;
-        font-weight: bolder;
-        color: black;
-        height: 1.2rem;
-        width: 1.2rem;
-        font-size: 2rem;
-        line-height: 1.7rem;
-        left: 0.1rem;
-
-        @media #{$large-only} {
-          bottom: 33%;
-        }
-
-        @media #{$medium-only} {
-          bottom: 33%;
-        }
       }
 
       @media #{$medium-only} {
