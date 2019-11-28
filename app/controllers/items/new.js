@@ -54,7 +54,20 @@ export default GoodcityController.extend(
     i18n: Ember.inject.service(),
     packageService: Ember.inject.service(),
     cancelWarning: t("items.new.cancel_warning"),
-
+    printers: [
+      {
+        id: 1,
+        tag: "B31-A12"
+      },
+      {
+        id: 2,
+        tag: "A31-K12"
+      }
+    ],
+    selectedPrinter: {
+      id: 1,
+      tag: "B31-A12"
+    },
     displayFields: Ember.computed("code", function() {
       let subform = this.get("code.subform");
       return this.returnDisplayFields(subform);

@@ -191,58 +191,73 @@
     {{partial "items/additional_fields"}}
   {{/if}}
 
-  <hr>
-  <div class="row">
-    <div class="small-3 columns item-label">{{t "items.new.labels"}}</div>
-    <div class="small-3 columns">
-      {{input type="number" id="labels" name="labels" value=labels placeholder="labels" maxlength="3" pattern="\d{1,8}"}}
-      {{#if isInvalidaLabelCount}}
-        <div id="label-empty-err" class='input-error show-validation'>
-          {{t "items.new.validation_errors.blank_label"}}
-        </div>
-      {{/if}}
-      {{#unless isInvalidPrintCount}}
-        <div id="max-val-err" class='input-error show-validation'>
-          {{t "items.new.validation_errors.max_label"}}
-        </div>
-      {{/unless}}
-    </div>
-    <div class="small-2 columns item-label">
-      {{t "items.new.inventory"}}
-    </div>
-    <div class="small-4 columns inventory-number">
-      {{#if inputInventory}}
-        {{input value=inventoryNumber}}
-      {{else}}
-        {{inventoryNumber}}
-      {{/if}}
-      {{partial "items/inventory_options"}}
-    </div>
-  </div>
-
-  {{#if showPublishItemCheckBox}}
+  <div class="form-footer">
     <div class="row">
-      <div class="small-3 columns item-label">
-        <label for="publishItem">{{t "items.new.publish"}}</label>
-      </div>
-      <div class="small-1 columns publish">
-        {{input type="checkbox" id="publishItem" checked=isAllowedToPublish}}
-      </div>
-    </div>
-  {{/if}}
-
-  <div class="row">
-    <div class="small-6 columns">
-      <a {{action 'cancelForm'}} class="button secondary expand">{{t "cancel"}}</a>
-    </div>
-
-    <div class="small-6 columns">
-      <a {{action 'submit' target=form}} class="button expand">
-        {{t "save"}}
-        {{#if isMultipleCountPrint}}
-          {{t "items.new.print" labels=printLabelCount}}<i class='fa fa-print'></i>
+      <div class="small-3 columns item-label">{{t "items.new.labels"}}</div>
+      <div class="small-3 columns">
+        {{input type="number" id="labels" name="labels" value=labels placeholder="labels" maxlength="3" pattern="\d{1,8}"}}
+        {{#if isInvalidaLabelCount}}
+          <div id="label-empty-err" class='input-error show-validation'>
+            {{t "items.new.validation_errors.blank_label"}}
+          </div>
         {{/if}}
-      </a>
+        {{#unless isInvalidPrintCount}}
+          <div id="max-val-err" class='input-error show-validation'>
+            {{t "items.new.validation_errors.max_label"}}
+          </div>
+        {{/unless}}
+      </div>
+      <div class="small-2 columns item-label">
+        {{t "items.new.inventory"}}
+      </div>
+      <div class="small-4 columns inventory-number">
+        {{#if inputInventory}}
+          {{input value=inventoryNumber}}
+        {{else}}
+          {{inventoryNumber}}
+        {{/if}}
+        {{partial "items/inventory_options"}}
+      </div>
+    </div>
+    <div class="row">
+      {{#if showPublishItemCheckBox}}
+        <div class="small-3 columns item-label">
+          <label for="publishItem">{{t "items.new.publish"}}</label>
+        </div>
+        <div class="small-3 columns publish">
+          {{input type="checkbox" id="publishItem" checked=isAllowedToPublish}}
+        </div>
+       {{/if}}
+        <div class="small-2 columns item-label">
+          <label>{{t "items.new.printer"}}</label>
+        </div>
+        <div class="small-3 columns printer-dropdown">
+          <div class="dropdown-wrap">
+            {{searchable-select
+              content=printers
+              selected=selectedPrinter
+              sortBy="name"
+              prompt="Select"
+              optionLabelKey="tag"
+              isClearable=false
+            }}
+          </div>
+        </div>
+    </div>
+
+    <div class="row">
+      <div class="small-6 columns">
+        <a {{action 'cancelForm'}} class="button secondary expand">{{t "cancel"}}</a>
+      </div>
+
+      <div class="small-6 columns">
+        <a {{action 'submit' target=form}} class="button expand">
+          {{t "save"}}
+          {{#if isMultipleCountPrint}}
+            {{t "items.new.print" labels=printLabelCount}}<i class='fa fa-print'></i>
+          {{/if}}
+        </a>
+      </div>
     </div>
   </div>
 
