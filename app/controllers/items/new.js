@@ -53,9 +53,10 @@ export default GoodcityController.extend(
     isAllowedToPublish: false,
     imageKeys: Ember.computed.localStorage(),
     i18n: Ember.inject.service(),
+    session: Ember.inject.service(),
     packageService: Ember.inject.service(),
+    printerService: Ember.inject.service(),
     cancelWarning: t("items.new.cancel_warning"),
-
     displayFields: Ember.computed("code", function() {
       let subform = this.get("code.subform");
       return this.returnDisplayFields(subform);
@@ -69,6 +70,20 @@ export default GoodcityController.extend(
     locale: function(str) {
       return this.get("i18n").t(str);
     },
+
+    allAvailablePrinters: Ember.computed(function() {
+      return this.get("printerService").allAvailablePrinters();
+    }),
+
+    selectedPrinterDisplay: Ember.computed("selectedPrinterId", function() {
+      const printerId = this.get("selectedPrinterId");
+      if (printerId) {
+        const printer = this.store.peekRecord("printer", printerId);
+        return { name: printer.get("name"), id: printer.id };
+      } else {
+        return this.get("allAvailablePrinters")[0];
+      }
+    }),
 
     setLocation: Ember.observer("scanLocationName", function() {
       var scanInput = this.get("scanLocationName");
@@ -364,8 +379,12 @@ export default GoodcityController.extend(
 
     printBarcode(packageId) {
       const labels = this.get("labels");
-      this.get("packageService")
-        .printBarcode({ package_id: packageId, labels })
+      return this.get("packageService")
+        .printBarcode({
+          package_id: packageId,
+          labels,
+          printer_id: this.get("selectedPrinterId")
+        })
         .catch(error => {
           this.get("messageBox").alert(error.responseJSON.errors);
         });
@@ -597,6 +616,12 @@ export default GoodcityController.extend(
         this.set("countryValue", {
           country_id: value.id
         });
+      },
+
+      setPrinterValue(value) {
+        const printerId = value.id;
+        this.set("selectedPrinterId", printerId);
+        this.get("printerService").updateUserDefaultPrinter(printerId);
       },
 
       setFields(fieldName, value) {

@@ -674,6 +674,7 @@ export default {
       location: "Location*",
       inventory: "Inventory#",
       print: "& Print {{labels}}",
+      printer: "Printer",
       cancel_warning:
         "You will lose all your data. Are you sure you want to cancel this item?",
       subform: {

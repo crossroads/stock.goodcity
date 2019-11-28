@@ -10,6 +10,9 @@ export default AuthorizeRoute.extend({
   transitionFrom: "",
 
   packageService: Ember.inject.service(),
+  printerService: Ember.inject.service(),
+  session: Ember.inject.service(),
+  store: Ember.inject.service(),
 
   queryParams: {
     codeId: {
@@ -67,6 +70,20 @@ export default AuthorizeRoute.extend({
     this.store.findAll("location", {
       reload: true
     });
+  },
+
+  setupPrinterId(controller) {
+    let allAvailablePrinters = this.get(
+      "printerService"
+    ).allAvailablePrinters();
+    let user = this.get("session.loggedInUser");
+    if (user.get("printerId")) {
+      controller.set("selectedPrinterId", user.get("printerId"));
+    } else {
+      let firstPrinterId = allAvailablePrinters[0].id;
+      this.get("printerService").updateUserDefaultPrinter(firstPrinterId);
+      controller.set("selectedPrinterId", firstPrinterId);
+    }
   },
 
   async setupController(controller, model) {
@@ -135,5 +152,6 @@ export default AuthorizeRoute.extend({
       }
       window.localStorage.setItem("isSelectLocationPreviousRoute", false);
     }
+    this.setupPrinterId(controller);
   }
 });
