@@ -149,7 +149,7 @@
   input,
   select {
     padding: 0 0.5rem;
-    background: #002352 !important;
+    background-color: $dark-blue !important;
     border: 1px solid $tabbar-menu-icon-color !important;
     color: white;
     height: 1.8rem !important;
@@ -266,6 +266,44 @@
   .weight,
   .publish {
     float: left !important;
+  }
+
+  .form-footer {
+    margin-top: 15px;
+    padding-top: 10px;
+    border-top: 1px solid $tabbar-menu-icon-color;
+
+    .row {
+      margin-bottom: 15px;
+
+      .printer-dropdown {
+        float: left;
+
+        .dropdown-wrap {
+          .select {
+            select {
+              background-image: url(../assets/images/dropdown_icon.png);
+              background-repeat: no-repeat;
+              background-size: 1.2rem;
+              background-position: 95%;
+              font-size: 0.8rem;
+              background-color: $dark-blue;
+            }
+
+            &:after {
+              content: none;
+            }
+          }
+        }
+      }
+
+      .publish {
+        input {
+          height: auto !important;
+          font-size: 2rem;
+        }
+      }
+    }
   }
 }
 
