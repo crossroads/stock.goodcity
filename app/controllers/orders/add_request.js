@@ -50,7 +50,7 @@ export default Ember.Controller.extend(AsyncMixin, {
   },
 
   back() {
-    window.history.back();
+    Ember.run(() => window.history.back());
   },
 
   actions: {
@@ -68,7 +68,7 @@ export default Ember.Controller.extend(AsyncMixin, {
         return false;
       }
 
-      return this.runTask(async () => {
+      this.runTask(async () => {
         const data = await new AjaxPromise(
           "/goodcity_requests",
           "POST",
@@ -85,7 +85,7 @@ export default Ember.Controller.extend(AsyncMixin, {
         "Are you sure you want to cancel this request?",
         "Yes",
         () => {
-          this.transitionToRoute("orders.requested_items", this.get("orderId"));
+          this.replaceWith("orders.requested_items", this.get("orderId"));
         },
         "No"
       );

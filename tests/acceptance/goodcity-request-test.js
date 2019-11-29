@@ -11,7 +11,7 @@ import MockUtils from "../helpers/mock-utils";
 import FactoryGuy from "ember-data-factory-guy";
 import { mockFindAll } from "ember-data-factory-guy";
 
-var App, designation1, request, code;
+var App, designation1, request, code, requestCreated;
 
 module("Acceptance: Goodcity Request test", {
   beforeEach: function() {
@@ -20,6 +20,8 @@ module("Acceptance: Goodcity Request test", {
     MockUtils.startSession();
     MockUtils.mockDefault();
     MockUtils.mockEmpty("order_transport");
+
+    requestCreated = false;
 
     designation1 = FactoryGuy.make("designation", {
       state: "processing",
@@ -44,8 +46,9 @@ module("Acceptance: Goodcity Request test", {
       url: "/api/v1/goodcity_request*",
       type: "POST",
       status: 201,
-      responseText: {
-        goodcity_requests: [request.toJSON({ includeId: true })]
+      response: () => {
+        requestCreated = true;
+        return { goodcity_requests: [request.toJSON({ includeId: true })] };
       }
     });
     mockFindAll("designation").returns({
@@ -120,7 +123,7 @@ test("Add a request to order", function(assert) {
   });
 
   andThen(function() {
-    assert.equal(currentPath(), "orders.requested_items");
+    assert.equal(requestCreated, true);
   });
 });
 

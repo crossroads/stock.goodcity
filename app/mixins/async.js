@@ -12,6 +12,7 @@ export const ERROR_STRATEGIES = {
 export default Ember.Mixin.create({
   logger: Ember.inject.service(),
   messageBox: Ember.inject.service(),
+  i18n: Ember.inject.service(),
 
   ERROR_STRATEGIES,
 
