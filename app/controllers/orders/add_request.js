@@ -85,7 +85,7 @@ export default Ember.Controller.extend(AsyncMixin, {
         "Are you sure you want to cancel this request?",
         "Yes",
         () => {
-          this.replaceWith("orders.requested_items", this.get("orderId"));
+          this.replaceRoute("orders.requested_items", this.get("orderId"));
         },
         "No"
       );
