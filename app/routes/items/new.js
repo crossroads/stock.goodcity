@@ -1,5 +1,4 @@
 import AuthorizeRoute from "./../authorize";
-import AjaxPromise from "stock/utils/ajax-promise";
 import Ember from "ember";
 
 export default AuthorizeRoute.extend({

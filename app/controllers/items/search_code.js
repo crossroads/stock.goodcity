@@ -8,6 +8,7 @@ export default SearchCode.extend({
   store: Ember.inject.service(),
   messageBox: Ember.inject.service(),
   packageService: Ember.inject.service(),
+  i18n: Ember.inject.service(),
 
   allPackageTypes: Ember.computed("fetchMoreResult", "item.isSet", function() {
     if (this.get("item.isSet")) {
@@ -33,17 +34,21 @@ export default SearchCode.extend({
     const existingPkgType = this.get("item.code");
     const packageName = existingPkgType.get("name");
     const newPackageName = pkgType.get("name");
+    const translation = this.get("i18n");
 
     this.get("messageBox").custom(
-      `If you change to ${newPackageName} some details related to ${packageName} will no longer be valid. These details will be deleted.`,
-      "Not Now",
+      translation.t("items.new.subform.delete_subform_waring", {
+        newPackageName,
+        packageName
+      }),
+      translation.t("not_now"),
       null,
-      "Continue",
+      translation.t("continue"),
       () => {
         if (this.isSubformPackage(pkgType)) {
           this.deleteAndAssignNew(pkgType);
         } else {
-          this.assignNew(pkgType, { delete_detail_id: true });
+          this.assignNew(pkgType, { deleteDetailId: true });
         }
       }
     );
@@ -58,14 +63,16 @@ export default SearchCode.extend({
     return this.isSubformPackage(code);
   },
 
-  assignNew(type, { delete_detail_id = false } = {}) {
+  assignNew(type, { deleteDetailId = false } = {}) {
     const item = this.get("item");
     const url = `/packages/${item.get("id")}`;
     const packageParams = {
-      package_type_id: type.get("id"),
-      detail_type: capitalize(type.get("subform"))
+      package_type_id: type.get("id")
     };
-    if (delete_detail_id) {
+    if (!this.isSamePackage(type)) {
+      packageParams.detail_type = capitalize(type.get("subform"));
+    }
+    if (deleteDetailId) {
       packageParams.detail_id = null;
     }
     this.showLoadingSpinner();
@@ -82,6 +89,11 @@ export default SearchCode.extend({
       });
   },
 
+  isSamePackage(type) {
+    const existingPkgTypeSubform = this.get("item.code.subform");
+    return type.get("subform") == existingPkgTypeSubform;
+  },
+
   actions: {
     cancelSearch() {
       Ember.$("#searchText").blur();
@@ -90,7 +102,7 @@ export default SearchCode.extend({
     },
 
     assignItemLabel(pkgType) {
-      if (this.hasExistingPackageSubform()) {
+      if (this.hasExistingPackageSubform() && !this.isSamePackage(pkgType)) {
         this.warnAndAssignNew(pkgType);
       } else {
         this.assignNew(pkgType);
