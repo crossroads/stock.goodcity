@@ -106,13 +106,6 @@ export default AuthorizeRoute.extend({
             let details = await this.store.query(selectedSubform, {
               distinct: "brand"
             });
-            if (this.get("transitionFrom") === "code") {
-              controller.setProperties({
-                dropDownValues: {},
-                countryValue: {},
-                selected: []
-              });
-            }
             controller.set("packageDetails", details);
           } else {
             controller.set("showAdditionalFields", false);
