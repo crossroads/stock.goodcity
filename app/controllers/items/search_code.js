@@ -26,7 +26,11 @@ export default SearchCode.extend({
     this.get("packageService")
       .deletePackage(detailType, detailId)
       .then(() => {
-        this.assignNew(packageType);
+        if (this.isSubformPackage(packageType)) {
+          this.assignNew(packageType);
+        } else {
+          this.assignNew(packageType, { deleteDetailId: true });
+        }
       });
   },
 
@@ -45,11 +49,7 @@ export default SearchCode.extend({
       null,
       translation.t("continue"),
       () => {
-        if (this.isSubformPackage(pkgType)) {
-          this.deleteAndAssignNew(pkgType);
-        } else {
-          this.assignNew(pkgType, { deleteDetailId: true });
-        }
+        this.deleteAndAssignNew(pkgType);
       }
     );
   },
