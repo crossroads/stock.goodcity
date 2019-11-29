@@ -18,7 +18,7 @@
       </div>
     {{else}}
       <div class="text-block">
-        <div class="row">
+        <div class="row line">
           <div class="columns small-11 text-align-left">
             {{fa-icon orderPkg.designation.transportIcon size='lg'}}
             {{ orderPkg.designation.code }}
@@ -27,7 +27,7 @@
             {{fa-icon orderPkg.designation.stateIcon size='lg'}}
           </div>
         </div>
-        <div class="row">
+        <div class="row line">
           <div class="org-name">
             {{#if orderPkg.designation.isGoodCityOrder}}
               {{ orderPkg.designation.gcOrganisation.nameEn }}
