@@ -1,9 +1,9 @@
 <div class="row fixed_search_header search-box ui items-search">
   <div class="small-3 large-3 columns ">
-    {{#link-to 'orders.detail' model classNames="back"}}
+    {{#back-link}}
       <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-left'}}</i>
       <div class="back_text">{{model.code}}</div>
-    {{/link-to}}
+    {{/back-link}}
   </div>
   <div class="columns {{if isMobileApp 'small-7 large-9' 'small-9 large-9'}} ">
     {{focus-textfield
@@ -30,7 +30,7 @@
       {{#if displayResults}}
         {{#infinite-list height="85vh" loadMore=(action "loadMoreItems") as |items| }}
           {{#each items as |item|}}
-            {{#designate-form order=model item=item autoDisplayOverlay=autoDisplayOverlay displaySetItems=(action "displaySetItems" item)}}
+            {{#designate-form order=model item=item autoDisplayOverlay=autoDisplayOverlay displaySetItems=(action "displaySetItems" item) navigationAction=(action (back-action)) }}
               {{partial 'orders/item_block'}}
             {{/designate-form}}
           {{/each}}

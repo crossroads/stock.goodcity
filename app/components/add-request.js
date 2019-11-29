@@ -54,7 +54,7 @@ export default Ember.Component.extend({
     },
 
     searchPackageType(reqId, orderId) {
-      this.get("router").transitionTo("order.search_code", orderId, {
+      this.get("router").replaceWith("order.search_code", orderId, {
         queryParams: { reqId: reqId }
       });
     },

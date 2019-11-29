@@ -1,9 +1,10 @@
 import Ember from "ember";
-import AjaxPromise from 'stock/utils/ajax-promise';
+import AjaxPromise from "stock/utils/ajax-promise";
+import AsyncMixin, { ERROR_STRATEGIES } from "../../mixins/async";
 const { getOwner } = Ember;
 
-export default Ember.Controller.extend({
-  queryParams: ['orderId', 'packageTypeId'],
+export default Ember.Controller.extend(AsyncMixin, {
+  queryParams: ["orderId", "packageTypeId"],
   packageTypeId: null,
   orderId: null,
   quantity: 1,
@@ -21,7 +22,7 @@ export default Ember.Controller.extend({
   parentCodeName: Ember.computed("packageTypeId", function() {
     var selected = "";
     var codeId = this.get("packageTypeId");
-    if(codeId.length) {
+    if (codeId.length) {
       selected = this.get("store").peekRecord("code", codeId);
       return selected && selected.get("name");
     }
@@ -41,11 +42,15 @@ export default Ember.Controller.extend({
   },
 
   isOnline() {
-    if(!window.navigator.onLine){
+    if (!window.navigator.onLine) {
       this.get("messageBox").alert(this.get("i18n").t("offline_error"));
       return false;
     }
     return true;
+  },
+
+  back() {
+    Ember.run(() => window.history.back());
   },
 
   actions: {
@@ -54,24 +59,25 @@ export default Ember.Controller.extend({
     },
 
     saveRequest() {
-      if(!this.isOnline()) { return false; }
-      var _this = this, loadingView;
-      if(_this.get("quantity").toString().trim().length === 0) {
+      if (
+        !this.isOnline() ||
+        this.get("quantity")
+          .toString()
+          .trim().length === 0
+      ) {
         return false;
-      } else {
-        loadingView = getOwner(this).lookup('component:loading').append();
-        new AjaxPromise("/goodcity_requests", "POST", this.get('session.authToken'), this.getRequestParams())
-          .then(data => {
-            this.get("store").pushPayload(data);
-          })
-          .catch(response => {
-            _this.get("messageBox").alert(response.responseJSON.errors[0]);
-          })
-          .finally(() => {
-            this.transitionToRoute('orders.requested_items', this.get("orderId"));
-            loadingView.destroy();
-          });
       }
+
+      this.runTask(async () => {
+        const data = await new AjaxPromise(
+          "/goodcity_requests",
+          "POST",
+          this.get("session.authToken"),
+          this.getRequestParams()
+        );
+        this.get("store").pushPayload(data);
+        this.back();
+      }, ERROR_STRATEGIES.MODAL);
     },
 
     cancelRequest() {
@@ -79,9 +85,10 @@ export default Ember.Controller.extend({
         "Are you sure you want to cancel this request?",
         "Yes",
         () => {
-          this.transitionToRoute("orders.requested_items", this.get("orderId"));
+          this.replaceWith("orders.requested_items", this.get("orderId"));
         },
-        "No");
-    },
+        "No"
+      );
+    }
   }
 });

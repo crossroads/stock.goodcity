@@ -270,7 +270,7 @@ export default Ember.Component.extend({
     return new AjaxPromise(url, "PUT", this.get("session.authToken"), params)
       .then(responseData => {
         this.get("store").pushPayload(responseData);
-        this.get("router").transitionTo("orders.detail", order);
+        this.exit(() => this.get("router").replaceWith("orders.detail", order));
       })
       .catch(xhr => {
         if (xhr.status === 422) {
@@ -280,6 +280,10 @@ export default Ember.Component.extend({
       .finally(() => {
         this.hideLoadingSpinner();
       });
+  },
+
+  exit(fallbackBehaviour) {
+    this.getWithDefault("navigationAction", fallbackBehaviour)();
   },
 
   actions: {
@@ -361,19 +365,21 @@ export default Ember.Component.extend({
         .then(data => {
           this.get("store").pushPayload(data);
           if (item.get("isSet")) {
-            this.get("router").transitionTo("items.index");
+            this.exit(() => this.get("router").replaceWith("items.index"));
           } else if (showAllSetItems) {
             this.sendAction("displaySetItems");
           } else {
             this.hideLoadingSpinner();
-            this.get("router").transitionTo("orders.active_items", orderId);
+            this.exit(() =>
+              this.get("router").replaceWith("orders.active_items", orderId)
+            );
           }
         })
         .catch(error => {
           if (error.status === 422) {
             var errors = Ember.$.parseJSON(error.responseText).errors;
             this.get("messageBox").alert(errors, () => {
-              this.get("router").transitionTo("items.index");
+              this.exit(() => this.get("router").replaceWith("items.index"));
             });
           }
         })
