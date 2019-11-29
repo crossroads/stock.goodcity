@@ -132,12 +132,15 @@ export default GoodcityController.extend(
     },
 
     showPiecesInput: Ember.computed("codeId", function() {
-      this.clearSubformAttributes();
       let codeId = this.get("codeId");
       if (codeId) {
         let selected = this.get("store").peekRecord("code", codeId);
         return selected && selected.get("allow_pieces");
       }
+    }),
+
+    emptySubformAttributes: Ember.observer("codeId", function() {
+      this.clearSubformAttributes();
     }),
 
     parentCodeName: Ember.computed("codeId", function() {
