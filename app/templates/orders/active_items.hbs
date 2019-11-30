@@ -23,11 +23,11 @@
     </div>
   {{/unless}}
 
-  {{#each canceledItemsList as |ordersPackage|}}
+  {{#each itemsList as |ordersPackage|}}
     {{goodcity/orders-package-block orderPkg=ordersPackage packageView=true}}
   {{/each}}
 
-  {{#each itemsList as |ordersPackage|}}
+  {{#each canceledItemsList as |ordersPackage|}}
     {{goodcity/orders-package-block orderPkg=ordersPackage packageView=true}}
   {{/each}}
 

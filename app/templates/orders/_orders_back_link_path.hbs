@@ -4,18 +4,8 @@
       <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-left'}}</i>
       <div>{{t "back"}}</div>
     {{/link-to}}
-  {{else if (is-and itemIdforHistoryRoute (is-equal backLinkPath "items.partial_undesignate"))}}
-    {{#link-to "items.partial_undesignate" itemIdforHistoryRoute classNames="back" }}
-      <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-left'}}</i>
-      <div>{{t "back"}}</div>
-    {{/link-to}}
   {{else if (is-and organisationIdforHistoryRoute (is-equal backLinkPath "organisations.orders"))}}
     {{#link-to "organisations.orders" organisationIdforHistoryRoute classNames="back" }}
-      <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-left'}}</i>
-      <div>{{t "back"}}</div>
-    {{/link-to}}
-  {{else if (is-equal backLinkPath "items.partial_dispatch")}}
-    {{#link-to "orders.index" classNames="back" }}
       <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-left'}}</i>
       <div>{{t "back"}}</div>
     {{/link-to}}

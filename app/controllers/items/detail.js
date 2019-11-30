@@ -1,5 +1,5 @@
 import Ember from "ember";
-import config from "../../config/environment";
+import config from "stock/config/environment";
 import singletonItemDispatchToGcOrder from "../../mixins/singleton_item_dispatch_to_gc_order";
 import GoodcityController from "../goodcity_controller";
 import { pluralize } from "ember-inflector";
@@ -7,6 +7,7 @@ import additionalFields from "stock/constants/additional-fields";
 import SearchOptionMixin from "stock/mixins/search_option";
 import PackageDetailMixin from "stock/mixins/fetch_package_detail";
 import GradeMixin from "stock/mixins/grades_option";
+import MoveActions from "stock/mixins/move_actions";
 import _ from "lodash";
 const { getOwner } = Ember;
 
@@ -15,6 +16,7 @@ export default GoodcityController.extend(
   SearchOptionMixin,
   PackageDetailMixin,
   GradeMixin,
+  MoveActions,
   {
     isMobileApp: config.cordova.enabled,
     backLinkPath: "",
@@ -28,6 +30,7 @@ export default GoodcityController.extend(
     application: Ember.inject.controller(),
     messageBox: Ember.inject.service(),
     setDropdownOption: Ember.inject.service(),
+    locationService: Ember.inject.service(),
     displayScanner: false,
     designateFullSet: Ember.computed.localStorage(),
     callOrderObserver: false,
@@ -101,17 +104,6 @@ export default GoodcityController.extend(
         return value;
       }
     }),
-
-    allowMove: Ember.computed(
-      "model.isSingletonItem",
-      "model.availableQtyForMove",
-      function() {
-        return (
-          this.get("model.isSingletonItem") &&
-          this.get("model.availableQtyForMove") > 0
-        );
-      }
-    ),
 
     allowPublish: Ember.computed(
       "model.isSingletonItem",
@@ -242,25 +234,6 @@ export default GoodcityController.extend(
         this.replaceRoute(`items.detail.${tabName}`);
       },
 
-      /**
-       * Move the currently viewed item to another location
-       * It is configured to act as a singleton (isSet: false),
-       * and apply the move exclusively to the current item.
-       * The other items of the set should not be affected by it.
-       *
-       * Note: temporary until we handle per-item per-location partial move
-       */
-      moveFullPackageQty() {
-        this.transitionToRoute("items.search_location", this.get("item.id"), {
-          queryParams: {
-            isSet: false,
-            isPartialMove: true,
-            pkgsLocationId: this.get("item.packagesLocations.firstObject.id"),
-            skipScreenForSingletonItem: true
-          }
-        });
-      },
-
       setCountryValue(value) {
         const config = {
           value: value.id,
@@ -306,28 +279,6 @@ export default GoodcityController.extend(
       partialDesignateForSet() {
         this.set("designateFullSet", true);
         this.set("callOrderObserver", true);
-      },
-
-      moveItemSet() {
-        if (this.get("item.isSet")) {
-          if (this.get("item.setItem.canBeMoved")) {
-            this.transitionToRoute(
-              "items.search_location",
-              this.get("item.id"),
-              {
-                queryParams: { isSet: true }
-              }
-            );
-          } else {
-            this.get("messageBox").alert(
-              "One or more items from this set are part of box or pallet. You can only move it using Stockit."
-            );
-          }
-        } else {
-          this.transitionToRoute("items.search_location", this.get("item.id"), {
-            queryParams: { isSet: false, isPartialMove: false }
-          });
-        }
       }
     }
   }

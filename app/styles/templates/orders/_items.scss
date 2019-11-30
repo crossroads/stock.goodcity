@@ -1,5 +1,4 @@
 .items-search {
-
   .scan-button {
     button {
       background: none;
@@ -55,11 +54,13 @@
       vertical-align: baseline;
     }
 
-    .fa-tag {
-      font-size: inherit;
-      position: initial;
-      padding: 0;
-      color: #a3aab6;
+    i {
+      .fa-tag {
+        font-size: inherit;
+        position: initial;
+        padding: 0;
+        color: #a3aab6;
+      }
     }
   }
 
@@ -85,4 +86,3 @@
   text-align: center;
   color: white;
 }
-

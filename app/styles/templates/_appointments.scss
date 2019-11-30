@@ -7,6 +7,11 @@
   }
 
   .bar {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
     height: $bar-height;
     line-height: $bar-height;
     text-align: center;
@@ -19,7 +24,7 @@
     &.notes {
       text-align: left;
       .warning {
-        color: #E25956;
+        color: #e25956;
       }
     }
   }
@@ -93,10 +98,10 @@
     }
 
     .delete-btn i.fa {
-      color: #E25956;
+      color: #e25956;
     }
 
-    // Buttons 
+    // Buttons
 
     .add-slot-btn {
       $btn-height: 2rem;
@@ -104,9 +109,7 @@
       max-width: 9rem;
       height: $btn-height;
       line-height: $btn-height;
-      margin-top: ($bar-height - $btn-height) / 2
+      margin-top: ($bar-height - $btn-height) / 2;
     }
-
-
   }
 }

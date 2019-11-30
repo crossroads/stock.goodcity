@@ -1,22 +1,33 @@
-import Ember from 'ember';
-import SearchCode from '../search_code';
+import Ember from "ember";
+import SearchCode from "../search_code";
 
 export default SearchCode.extend({
+  back() {
+    window.history.back();
+  },
+
   actions: {
     cancelSearch() {
       Ember.$("#searchText").blur();
       this.send("clearSearch", true);
-      this.transitionToRoute("orders.requested_items", this.get("orderId"));
+      this.back();
     },
 
-    addRequest(packageType) {
-      var requestId = this.get("reqId");
-      var changeCode = this.get("changeCode");
-      if(requestId && changeCode) {
-        this.send("updateRequestCode", packageType, requestId);
+    async addRequest(packageType) {
+      const requestId = this.get("reqId");
+      const changeCode = this.get("changeCode");
+
+      if (requestId && changeCode) {
+        await this.updateRequestCode(packageType, requestId);
+        this.back();
       } else {
-        var orderId = this.get("orderId");
-        this.transitionToRoute('orders.add_request', orderId, { queryParams: { orderId: orderId, packageTypeId: packageType.id } });
+        const orderId = this.get("orderId");
+        this.replaceRoute("orders.add_request", orderId, {
+          queryParams: {
+            orderId: orderId,
+            packageTypeId: packageType.id
+          }
+        });
       }
     }
   }

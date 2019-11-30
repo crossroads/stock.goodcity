@@ -1,11 +1,12 @@
 import Ember from "ember";
 import config from "../config/environment";
 import preloadDataMixin from "../mixins/preload_data";
+import AsyncMixin from "../mixins/async";
 import _ from "lodash";
 
 const { getOwner } = Ember;
 
-export default Ember.Route.extend(preloadDataMixin, {
+export default Ember.Route.extend(AsyncMixin, preloadDataMixin, {
   i18n: Ember.inject.service(),
   isErrPopUpAlreadyShown: false,
   isItemUnavailable: false,
@@ -17,7 +18,9 @@ export default Ember.Route.extend(preloadDataMixin, {
   _loadDataStore: function() {
     return this.preloadData()
       .catch(error => {
-        let isZeroStatus = error.status === 0 || (error.errors && error.errors[0].status === "0");
+        let isZeroStatus =
+          error.status === 0 ||
+          (error.errors && error.errors[0].status === "0");
         if (isZeroStatus) {
           this.transitionTo("offline");
         } else {
@@ -37,7 +40,9 @@ export default Ember.Route.extend(preloadDataMixin, {
     var storageHandler = function(object) {
       let currentPath = window.location.href;
       let authToken = window.localStorage.getItem("authToken");
-      let isLoginPath = currentPath.indexOf("login") >= 0 || currentPath.indexOf("authenticate") >= 0;
+      let isLoginPath =
+        currentPath.indexOf("login") >= 0 ||
+        currentPath.indexOf("authenticate") >= 0;
 
       if (!authToken && !isLoginPath) {
         object.session.clear();
@@ -55,28 +60,6 @@ export default Ember.Route.extend(preloadDataMixin, {
       },
       false
     );
-  },
-
-  getErrorMessage(reason) {
-    const status = _.get(reason, "errors[0].detail.status");
-    const defaultMessage = this.get("i18n").t("unexpected_error");
-
-    if (status === 422) {
-      return _.get(reason, "errors[0].detail.message", defaultMessage);
-    }
-
-    return defaultMessage;
-  },
-
-  showErrorPopup(reason) {
-    this.get("logger").error(reason);
-
-    if (!this.get("isErrPopUpAlreadyShown")) {
-      this.set("isErrPopUpAlreadyShown", true);
-      this.get("messageBox").alert(this.getErrorMessage(reason), () => {
-        this.set("isErrPopUpAlreadyShown", false);
-      });
-    }
   },
 
   showItemIsNotAvailable() {
@@ -155,7 +138,7 @@ export default Ember.Route.extend(preloadDataMixin, {
         this.get("logger").error(reason);
         this.get("messageBox").alert(this.get("i18n").t("QuotaExceededError"));
       } else if (reason.name === "NotFoundError" && reason.code === 8) {
-        return false;
+        return true;
       } else if (status === 401) {
         this.redirectToLogin();
       } else {

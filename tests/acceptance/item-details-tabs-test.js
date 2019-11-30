@@ -8,19 +8,19 @@ import "../factories/location";
 import FactoryGuy from "ember-data-factory-guy";
 import { mockFindAll } from "ember-data-factory-guy";
 import MockUtils from "../helpers/mock-utils";
+import { stub } from "../helpers/stub";
 
-let App, pkg, designationService, execAction, actionsRan;
+let App, pkg, designationService, locationService, destLocation;
 
 module("Acceptance: Item details tabs", {
   beforeEach: function() {
     App = startApp({}, 2);
 
-    actionsRan = [];
     designationService = App.__container__.lookup("service:designationService");
-    execAction = designationService.execAction;
-    designationService.execAction = async (_, name) => {
-      actionsRan.push(name);
-    };
+    locationService = App.__container__.lookup("service:locationService");
+
+    stub(designationService, "execAction");
+    stub(locationService, "movePackage");
 
     MockUtils.startSession();
     MockUtils.mockEmptyPreload();
@@ -31,8 +31,11 @@ module("Acceptance: Item details tabs", {
     MockUtils.mockEmpty("purpose");
 
     let location = FactoryGuy.make("location");
+    let location2 = FactoryGuy.make("location");
     let designation = FactoryGuy.make("designation");
     let bookingType = FactoryGuy.make("booking_type");
+
+    destLocation = location2;
     pkg = FactoryGuy.make("item", {
       id: 50,
       state: "submitted",
@@ -68,7 +71,9 @@ module("Acceptance: Item details tabs", {
       json: { designations: [designation.toJSON({ includeId: true })] }
     });
     mockFindAll("location").returns({
-      json: { locations: [location.toJSON({ includeId: true })] }
+      json: {
+        locations: [location, location2].map(l => l.toJSON({ includeId: true }))
+      }
     });
     mockFindAll("packages_location").returns({
       json: {
@@ -81,7 +86,9 @@ module("Acceptance: Item details tabs", {
       status: 200,
       responseText: {
         items: [pkg.toJSON({ includeId: true })],
-        locations: [location.toJSON({ includeId: true })],
+        locations: [location, location2].map(l =>
+          l.toJSON({ includeId: true })
+        ),
         packages_locations: [packagesLocation.toJSON({ includeId: true })],
         orders_packages: [ordersPackage.toJSON({ includeId: true })]
       }
@@ -100,7 +107,8 @@ module("Acceptance: Item details tabs", {
     });
   },
   afterEach: function() {
-    designationService.execAction = execAction; // restore
+    designationService.execAction.restore();
+    locationService.movePackage.restore();
     MockUtils.closeSession();
     Ember.run(App, "destroy");
   }
@@ -196,6 +204,54 @@ test("Location tab content", function(assert) {
   });
 });
 
+test("Location tab: moving the package", function(assert) {
+  click(".item_details_screen .tab-container .tab.location");
+
+  const overlayIsOpen = () => {
+    return $("#location-search-overlay .popup-overlay").hasClass("open");
+  };
+
+  andThen(() => {
+    const moveButton = $(".content-row:not(.italic) .move-button");
+    const pkgLocation = pkg.get("packagesLocations.firstObject");
+    const location = pkgLocation.get("location");
+
+    assert.equal(moveButton.length, 1); // only one location
+    assert.equal(overlayIsOpen(), false);
+
+    andThen(() => click(moveButton));
+
+    andThen(() => {
+      assert.equal(overlayIsOpen(), true);
+      click($("#location-search-overlay .list-activity .row").last());
+    });
+
+    andThen(() => {
+      const moveModal = $(".move-confirmation");
+
+      assert.equal(overlayIsOpen(), false);
+      assert.equal(moveModal.length, 1);
+
+      const moveButton = moveModal
+        .find(".button")
+        .toArray()
+        .filter(b => $(b).text() == "Move");
+      click(moveButton);
+    });
+
+    andThen(() => {
+      assert.equal(locationService.movePackage.invocations.length, 1);
+
+      const args = locationService.movePackage.invocations[0];
+
+      assert.equal(args[0], pkg);
+      assert.equal(args[1]["from"], location);
+      assert.equal(args[1]["to"], destLocation);
+      assert.equal(args[1]["quantity"], 1);
+    });
+  });
+});
+
 test("Publishing tab content", function(assert) {
   assert.equal(currentPath(), "items.detail.info");
 
@@ -259,17 +315,21 @@ test("Publishing tab orders_packages blocks", function(assert) {
         "Dispatch"
       );
 
+      const actionsRan = () => {
+        return designationService.execAction.invocations.map(args => args[1]);
+      };
+
       Ember.run(() => {
-        assert.equal(actionsRan.length, 0);
+        assert.equal(actionsRan().length, 0);
         actions.eq(0).click();
         Ember.run.next(() => {
-          assert.equal(actionsRan.length, 1);
-          assert.equal(actionsRan[0], "cancel");
+          assert.equal(actionsRan().length, 1);
+          assert.equal(actionsRan()[0], "cancel");
           actions.eq(1).click();
           Ember.run.later(() => {
-            assert.equal(actionsRan.length, 2);
-            assert.equal(actionsRan[0], "cancel");
-            assert.equal(actionsRan[1], "dispatch");
+            assert.equal(actionsRan().length, 2);
+            assert.equal(actionsRan()[0], "cancel");
+            assert.equal(actionsRan()[1], "dispatch");
           });
         });
       });

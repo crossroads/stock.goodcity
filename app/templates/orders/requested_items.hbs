@@ -12,7 +12,9 @@
   {{#unless (is-or (is-or model.isInactive model.isCancelled) model.isClosed)}}
     <div class="row add_item_button">
       <div class="small-12 columns">
-        {{#link-to "orders.search_code" model.id (query-params orderId=model.id searchInput="" changeCode=false) id="requestbtn" class="button expand"}}{{t "order_details.add_request_to_order"}}{{/link-to}}
+        {{#link-to "orders.search_code" model.id (query-params orderId=model.id searchInput="" changeCode=false) id="requestbtn" class="button expand"}}
+          {{t "order_details.add_request_to_order"}}
+        {{/link-to}}
       </div>
     </div>
   {{/unless}}

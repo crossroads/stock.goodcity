@@ -27,7 +27,7 @@ export default cloudinaryUrl.extend({
   detailType: attr("string"),
   detail: belongsTo("detail", {
     polymorphic: true,
-    async: true
+    async: false
   }),
   designationId: attr("string"),
   designation: belongsTo("designation", { async: true }),
@@ -359,6 +359,14 @@ export default cloudinaryUrl.extend({
   firstOrdersPackage: Ember.computed("ordersPackages.[]", function() {
     return this.get("ordersPackages.firstObject");
   }),
+
+  locations: Ember.computed(
+    "packagesLocations.[]",
+    "packagesLocations.@each.location",
+    function() {
+      return this.get("packagesLocations").mapBy("location");
+    }
+  ),
 
   packagesLocationsList: Ember.computed(
     "packagesLocations.[]",
