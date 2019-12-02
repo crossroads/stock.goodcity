@@ -75,8 +75,8 @@ export default GoodcityController.extend(
         let tag = printer.get("location").get("name");
         printerArr.push({ id: printer.get("id"), tag: tag });
       });
-
       this.set("selectedPrinter", printerArr[0]);
+      this.set("printerValue", printerArr[0].id);
       return printerArr;
     }),
 
@@ -369,10 +369,14 @@ export default GoodcityController.extend(
       window.cordova.plugins.barcodeScanner.scan(onSuccess, onError, options);
     },
 
-    printBarcode(packageId) {
+    printBarcode(packageId, printerValue) {
       const labels = this.get("labels");
       this.get("packageService")
-        .printBarcode({ package_id: packageId, labels })
+        .printBarcode({
+          package_id: packageId,
+          labels,
+          printer_id: printerValue
+        })
         .catch(error => {
           this.get("messageBox").alert(error.responseJSON.errors);
         });
@@ -404,7 +408,7 @@ export default GoodcityController.extend(
         })
         .then(data => {
           if (this.get("isMultipleCountPrint")) {
-            this.printBarcode(data.item.id);
+            this.printBarcode(data.item.id, this.get("printerValue"));
           }
           this.updateStoreAndSaveImage(data);
           this.clearSubformAttributes();
@@ -604,6 +608,10 @@ export default GoodcityController.extend(
         this.set("countryValue", {
           country_id: value.id
         });
+      },
+
+      setPrinterValue(value) {
+        this.set("printerValue", value.id);
       },
 
       setFields(fieldName, value) {
