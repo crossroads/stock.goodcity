@@ -54,20 +54,7 @@ export default GoodcityController.extend(
     i18n: Ember.inject.service(),
     packageService: Ember.inject.service(),
     cancelWarning: t("items.new.cancel_warning"),
-    printers: [
-      {
-        id: 1,
-        tag: "B31-A12"
-      },
-      {
-        id: 2,
-        tag: "A31-K12"
-      }
-    ],
-    selectedPrinter: {
-      id: 1,
-      tag: "B31-A12"
-    },
+    selectedPrinter: [],
     displayFields: Ember.computed("code", function() {
       let subform = this.get("code.subform");
       return this.returnDisplayFields(subform);
@@ -81,6 +68,17 @@ export default GoodcityController.extend(
     locale: function(str) {
       return this.get("i18n").t(str);
     },
+
+    printerData: Ember.computed("avaibalePrinter", function() {
+      let printerArr = [];
+      this.get("avaibalePrinter").map(printer => {
+        let tag = printer.get("location").get("name");
+        printerArr.push({ id: printer.get("id"), tag: tag });
+      });
+
+      this.set("selectedPrinter", printerArr[0]);
+      return printerArr;
+    }),
 
     setLocation: Ember.observer("scanLocationName", function() {
       var scanInput = this.get("scanLocationName");
