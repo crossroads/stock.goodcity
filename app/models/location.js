@@ -8,7 +8,6 @@ export default Model.extend({
   building: attr("string"),
   createdAt: attr("date"),
   recentlyUsedAt: attr("date"),
-  printer: belongsTo("printer"),
   items: hasMany("item", { async: false }),
   package_locations: hasMany("location", { async: false }),
 
