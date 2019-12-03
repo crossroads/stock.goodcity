@@ -72,7 +72,7 @@ export default GoodcityController.extend(
     printerData: Ember.computed("avaibalePrinter", function() {
       let printerArr = [];
       this.get("avaibalePrinter").map(printer => {
-        let tag = printer.get("location").get("name");
+        let tag = printer.get("name");
         printerArr.push({ id: printer.get("id"), tag: tag });
       });
       this.set("selectedPrinter", printerArr[0]);
