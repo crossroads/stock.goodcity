@@ -69,9 +69,9 @@ export default GoodcityController.extend(
       return this.get("i18n").t(str);
     },
 
-    printerData: Ember.computed("avaibalePrinter", function() {
+    printerData: Ember.computed("availablePrinter", function() {
       let printerArr = [];
-      this.get("avaibalePrinter").map(printer => {
+      this.get("availablePrinter").map(printer => {
         let tag = printer.get("name");
         printerArr.push({ id: printer.get("id"), tag: tag });
       });
@@ -83,7 +83,6 @@ export default GoodcityController.extend(
           id: userPrinter.id,
           tag: userPrinter.get("name")
         });
-        this.set("printerValue", userPrinter.id);
       }
       return printerArr;
     }),
@@ -416,7 +415,7 @@ export default GoodcityController.extend(
         })
         .then(data => {
           if (this.get("isMultipleCountPrint")) {
-            this.printBarcode(data.item.id, this.get("printerValue"));
+            this.printBarcode(data.item.id, this.get("selectedPrinter").id);
           }
           this.updateStoreAndSaveImage(data);
           this.clearSubformAttributes();
@@ -619,7 +618,6 @@ export default GoodcityController.extend(
       },
 
       setPrinterValue(value) {
-        this.set("printerValue", value.id);
         let printerName = this.get("store").peekRecord("printer", value.id);
         this.set("selectedPrinter", {
           id: value.id,
