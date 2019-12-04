@@ -52,7 +52,11 @@ export default SearchCode.extend({
   },
 
   isSubformPackage(packageType) {
-    return !!packageType.get("subform");
+    return (
+      ["computer", "computer_accessory", "electrical"].indexOf(
+        packageType.get("subform")
+      ) >= 0
+    );
   },
 
   hasExistingPackageSubform() {

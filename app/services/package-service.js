@@ -23,5 +23,12 @@ export default ApiBaseService.extend({
     return this.PUT(`/packages/${pkgId}`, pkgParams).then(data => {
       this.get("store").pushPayload(data);
     });
+  },
+
+  getCloudinaryImage(imageId) {
+    return this.get("store")
+      .peekAll("image")
+      .filterBy("cloudinaryId", imageId)
+      .get("firstObject");
   }
 });
