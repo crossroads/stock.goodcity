@@ -69,11 +69,11 @@ export default GoodcityController.extend(
       return this.get("i18n").t(str);
     },
 
-    printerData: Ember.computed("availablePrinter", function() {
-      let printerArr = [];
-      this.get("availablePrinter").map(printer => {
+    allAvailablePrinter: Ember.computed("availablePrinters", function() {
+      let printers = [];
+      this.get("availablePrinters").map(printer => {
         let tag = printer.get("name");
-        printerArr.push({ id: printer.get("id"), tag: tag });
+        printers.push({ id: printer.get("id"), tag: tag });
       });
       let userPrinter = this.store
         .peekRecord("user", this.session.get("currentUser.id"))
@@ -84,7 +84,7 @@ export default GoodcityController.extend(
           tag: userPrinter.get("name")
         });
       }
-      return printerArr;
+      return printers;
     }),
 
     setLocation: Ember.observer("scanLocationName", function() {
@@ -376,13 +376,13 @@ export default GoodcityController.extend(
       window.cordova.plugins.barcodeScanner.scan(onSuccess, onError, options);
     },
 
-    printBarcode(packageId, printerValue) {
+    printBarcode(packageId) {
       const labels = this.get("labels");
       return this.get("packageService")
         .printBarcode({
           package_id: packageId,
           labels,
-          printer_id: printerValue
+          printer_id: this.get("selectedPrinter").id
         })
         .catch(error => {
           this.get("messageBox").alert(error.responseJSON.errors);
@@ -415,7 +415,7 @@ export default GoodcityController.extend(
         })
         .then(data => {
           if (this.get("isMultipleCountPrint")) {
-            this.printBarcode(data.item.id, this.get("selectedPrinter").id);
+            this.printBarcode(data.item.id);
           }
           this.updateStoreAndSaveImage(data);
           this.clearSubformAttributes();
@@ -618,10 +618,11 @@ export default GoodcityController.extend(
       },
 
       setPrinterValue(value) {
-        let printerName = this.get("store").peekRecord("printer", value.id);
         this.set("selectedPrinter", {
           id: value.id,
-          tag: printerName.get("name")
+          tag: this.get("store")
+            .peekRecord("printer", value.id)
+            .get("name")
         });
       },
 
