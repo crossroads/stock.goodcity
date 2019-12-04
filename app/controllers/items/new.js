@@ -52,7 +52,9 @@ export default GoodcityController.extend(
     isAllowedToPublish: false,
     imageKeys: Ember.computed.localStorage(),
     i18n: Ember.inject.service(),
+    session: Ember.inject.service(),
     packageService: Ember.inject.service(),
+    printerService: Ember.inject.service(),
     cancelWarning: t("items.new.cancel_warning"),
     selectedPrinter: [],
     displayFields: Ember.computed("code", function() {
@@ -69,22 +71,15 @@ export default GoodcityController.extend(
       return this.get("i18n").t(str);
     },
 
-    allAvailablePrinter: Ember.computed("availablePrinters", function() {
-      let printers = [];
-      this.get("availablePrinters").map(printer => {
-        let tag = printer.get("name");
-        printers.push({ id: printer.get("id"), tag: tag });
-      });
-      let userPrinter = this.store
-        .peekRecord("user", this.session.get("currentUser.id"))
-        .get("printer");
+    allAvailablePrinter: Ember.computed(function() {
+      let userPrinter = this.get("session").userDefaultPrinter();
       if (userPrinter) {
         this.set("selectedPrinter", {
           id: userPrinter.id,
           tag: userPrinter.get("name")
         });
       }
-      return printers;
+      return this.get("printerService").allAvailablePrinter();
     }),
 
     setLocation: Ember.observer("scanLocationName", function() {

@@ -17,6 +17,11 @@ export default Ember.Service.extend({
     return store.peekAll("user_profile").get("firstObject") || null;
   }).volatile(),
 
+  userDefaultPrinter: function() {
+    var store = this.get("store");
+    return store.peekRecord("user", this.get("currentUser.id")).get("printer");
+  },
+
   clear: function() {
     this.set("authToken", null);
     this.set("language", null);
