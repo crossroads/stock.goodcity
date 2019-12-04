@@ -8,6 +8,7 @@ export default SearchCode.extend({
   store: Ember.inject.service(),
   messageBox: Ember.inject.service(),
   packageService: Ember.inject.service(),
+  subformDetailService: Ember.inject.service(),
   i18n: Ember.inject.service(),
 
   allPackageTypes: Ember.computed("fetchMoreResult", "item.isSet", function() {
@@ -18,20 +19,16 @@ export default SearchCode.extend({
     }
   }),
 
-  deleteAndAssignNew(packageType) {
+  async deleteAndAssignNew(packageType) {
     const item = this.get("item");
-    const detailType = item.get("detailType");
-    const detailId = item.get("detail.id");
-    this.showLoadingSpinner();
-    this.get("packageService")
-      .deletePackage(detailType, detailId)
-      .then(() => {
-        if (this.isSubformPackage(packageType)) {
-          this.assignNew(packageType);
-        } else {
-          this.assignNew(packageType, { deleteDetailId: true });
-        }
-      });
+    const type = item.get("detailType");
+    const detailId = item.get("detailId");
+    await this.runTask(
+      this.get("subformDetailService").deleteDetailType(type, detailId)
+    );
+    return this.assignNew(packageType, {
+      deleteDetailId: !this.isSubformPackage(packageType)
+    });
   },
 
   warnAndAssignNew(pkgType) {
@@ -63,7 +60,7 @@ export default SearchCode.extend({
     return this.isSubformPackage(code);
   },
 
-  assignNew(type, { deleteDetailId = false } = {}) {
+  async assignNew(type, { deleteDetailId = false } = {}) {
     const item = this.get("item");
     const url = `/packages/${item.get("id")}`;
     const packageParams = {
@@ -75,18 +72,12 @@ export default SearchCode.extend({
     if (deleteDetailId) {
       packageParams.detail_id = null;
     }
-    this.showLoadingSpinner();
-    this.get("packageService")
-      .updatePackage(item.id, {
+    await this.runTask(
+      this.get("packageService").updatePackage(item.id, {
         package: packageParams
       })
-      .then(data => {
-        this.get("store").pushPayload(data);
-        this.transitionToRoute("items.detail", item.id);
-      })
-      .finally(() => {
-        this.hideLoadingSpinner();
-      });
+    );
+    this.transitionToRoute("items.detail", item.id);
   },
 
   isSamePackage(type) {

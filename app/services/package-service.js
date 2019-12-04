@@ -1,8 +1,8 @@
 import ApiBaseService from "./api-base-service";
-import { pluralize } from "ember-inflector";
-import snakeCase from "lodash/snakeCase";
 
 export default ApiBaseService.extend({
+  store: Ember.inject.service(),
+
   generateInventoryNumber() {
     return this.POST(`/inventory_numbers`);
   },
@@ -20,11 +20,8 @@ export default ApiBaseService.extend({
   },
 
   updatePackage(pkgId, pkgParams) {
-    return this.PUT(`/packages/${pkgId}`, pkgParams);
-  },
-
-  deletePackage(detailType, detailId) {
-    const apiEndpoint = pluralize(snakeCase(detailType).toLowerCase());
-    return this.DELETE(`/${apiEndpoint}/${detailId}`);
+    return this.PUT(`/packages/${pkgId}`, pkgParams).then(data => {
+      this.get("store").pushPayload(data);
+    });
   }
 });
