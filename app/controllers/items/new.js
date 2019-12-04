@@ -56,7 +56,6 @@ export default GoodcityController.extend(
     packageService: Ember.inject.service(),
     printerService: Ember.inject.service(),
     cancelWarning: t("items.new.cancel_warning"),
-    selectedPrinter: [],
     displayFields: Ember.computed("code", function() {
       let subform = this.get("code.subform");
       return this.returnDisplayFields(subform);
@@ -72,14 +71,20 @@ export default GoodcityController.extend(
     },
 
     allAvailablePrinter: Ember.computed(function() {
-      let userPrinter = this.get("session").userDefaultPrinter();
-      if (userPrinter) {
-        this.set("selectedPrinter", {
-          id: userPrinter.id,
-          tag: userPrinter.get("name")
-        });
-      }
       return this.get("printerService").allAvailablePrinter();
+    }),
+
+    selectedPrinterDisplay: Ember.computed({
+      get(key) {
+        let userPrinter = this.get("session").userDefaultPrinter();
+        if (!userPrinter) {
+          return [];
+        }
+        return { id: userPrinter.id, tag: userPrinter.get("name") };
+      },
+      set(key, value) {
+        return value;
+      }
     }),
 
     setLocation: Ember.observer("scanLocationName", function() {
@@ -377,7 +382,7 @@ export default GoodcityController.extend(
         .printBarcode({
           package_id: packageId,
           labels,
-          printer_id: this.get("selectedPrinter").id
+          printer_id: this.get("selectedPrinterDisplay").id
         })
         .catch(error => {
           this.get("messageBox").alert(error.responseJSON.errors);
@@ -613,7 +618,7 @@ export default GoodcityController.extend(
       },
 
       setPrinterValue(value) {
-        this.set("selectedPrinter", {
+        this.set("selectedPrinterDisplay", {
           id: value.id,
           tag: this.get("store")
             .peekRecord("printer", value.id)
