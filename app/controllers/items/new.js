@@ -75,8 +75,16 @@ export default GoodcityController.extend(
         let tag = printer.get("name");
         printerArr.push({ id: printer.get("id"), tag: tag });
       });
-      this.set("selectedPrinter", printerArr[0]);
-      this.set("printerValue", printerArr[0].id);
+      let userPrinter = this.store
+        .peekRecord("user", this.session.get("currentUser.id"))
+        .get("printer");
+      if (userPrinter) {
+        this.set("selectedPrinter", {
+          id: userPrinter.id,
+          tag: userPrinter.get("name")
+        });
+        this.set("printerValue", userPrinter.id);
+      }
       return printerArr;
     }),
 
@@ -371,7 +379,7 @@ export default GoodcityController.extend(
 
     printBarcode(packageId, printerValue) {
       const labels = this.get("labels");
-      this.get("packageService")
+      return this.get("packageService")
         .printBarcode({
           package_id: packageId,
           labels,
@@ -612,6 +620,11 @@ export default GoodcityController.extend(
 
       setPrinterValue(value) {
         this.set("printerValue", value.id);
+        let printerName = this.get("store").peekRecord("printer", value.id);
+        this.set("selectedPrinter", {
+          id: value.id,
+          tag: printerName.get("name")
+        });
       },
 
       setFields(fieldName, value) {

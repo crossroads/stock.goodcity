@@ -1,6 +1,6 @@
 import attr from "ember-data/attr";
 import Ember from "ember";
-import { hasMany } from "ember-data/relationships";
+import { hasMany, belongsTo } from "ember-data/relationships";
 import Addressable from "./addressable";
 
 export default Addressable.extend({
@@ -13,6 +13,8 @@ export default Addressable.extend({
   lastConnected: attr("date"),
   lastDisconnected: attr("date"),
   i18n: Ember.inject.service(),
+  printerId: attr("number"),
+  printer: belongsTo("printer", { async: false }),
 
   // permission:  belongsTo('permission', { async: false }),
   // image:       belongsTo('image', { async: false }),
