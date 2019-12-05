@@ -2,7 +2,7 @@ import Ember from "ember";
 
 export default Ember.Service.extend({
   store: Ember.inject.service(),
-  allAvailablePrinter() {
+  allAvailablePrinters() {
     let availablePrinters = this.get("store").peekAll("printer");
     let printers = [];
     availablePrinters.map(printer => {

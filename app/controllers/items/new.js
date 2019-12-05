@@ -70,15 +70,15 @@ export default GoodcityController.extend(
       return this.get("i18n").t(str);
     },
 
-    allAvailablePrinter: Ember.computed(function() {
-      return this.get("printerService").allAvailablePrinter();
+    allAvailablePrinters: Ember.computed(function() {
+      return this.get("printerService").allAvailablePrinters();
     }),
 
     selectedPrinterDisplay: Ember.computed({
       get(key) {
         let userPrinter = this.get("session").userDefaultPrinter();
         if (!userPrinter) {
-          return [];
+          return;
         }
         return { id: userPrinter.id, tag: userPrinter.get("name") };
       },

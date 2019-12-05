@@ -18,8 +18,9 @@ export default Ember.Service.extend({
   }).volatile(),
 
   userDefaultPrinter: function() {
-    const store = this.get("store");
-    return store.peekRecord("user", this.get("currentUser.id")).get("printer");
+    return this.get("store")
+      .peekRecord("user", this.get("currentUser.id"))
+      .get("printer");
   },
 
   clear: function() {
