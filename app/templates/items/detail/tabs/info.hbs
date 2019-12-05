@@ -14,7 +14,7 @@
       <div class="row">
         <div class="columns small-4">{{t "item_details.type"}} </div>
         <div class="columns small-8 value">
-          {{#link-to 'items.search_code' item.id}}
+          {{#link-to 'items.assign_subform' item.id}}
             {{input value=item.code.name class="item-type" disabled=true}}
           {{/link-to}}
         </div>
@@ -24,10 +24,10 @@
       <div class="columns small-4">{{t "item_details.type"}} </div>
       <div class="columns small-8 value">
         {{#if showAdditionalFields}}
-        {{input value=item.code.name class="item-type" disabled=true}}
+          {{input value=item.code.name class="item-type" disabled=true}}
         {{else}}
-        {{#link-to 'items.search_code' item.id}}
-        {{input value=item.code.name class="item-type" disabled=true}}
+        {{#link-to 'items.assign_subform' item.id}}
+          {{input value=item.code.name class="item-type" disabled=true}}
         {{/link-to}}
         {{/if}}
       </div>
