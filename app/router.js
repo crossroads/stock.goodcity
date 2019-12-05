@@ -30,7 +30,7 @@ Router.map(function() {
     this.route("history", { path: "/:item_id/history" });
     this.route("edit_images", { path: "/:item_id/edit_images" });
     this.route("search_order", { path: "/:item_id/search_order" });
-    this.route("assign_subform", { path: "/:item_id/assign_subform" });
+    this.route("select_code", { path: "/:item_id/select_code" });
     this.route("partial_dispatch", { path: "/:item_id/partial_dispatch" });
   });
 
