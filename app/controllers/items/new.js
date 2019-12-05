@@ -26,7 +26,6 @@ export default GoodcityController.extend(
     selected: [],
     countryObj: {},
     countryValue: {},
-    detail_attributes: {},
     scanLocationName: "",
     displayInventoryOptions: false,
     autoGenerateInventory: true,
@@ -118,17 +117,16 @@ export default GoodcityController.extend(
     }),
 
     fetchDetailAttributes() {
-      let detail_attributes = {};
+      let detailAttributes = {};
       let attributes = {
         ...this.get("inputFieldValues"),
         ...this.get("dropDownValues"),
         ...this.get("countryValue")
       };
       Object.keys(attributes).forEach(key => {
-        detail_attributes[_.snakeCase(key)] = attributes[key];
+        detailAttributes[_.snakeCase(key)] = attributes[key];
       });
-      this.set("detail_attributes", detail_attributes);
-      return this.get("detail_attributes");
+      return detailAttributes;
     },
 
     showPiecesInput: Ember.computed("codeId", function() {
@@ -249,7 +247,7 @@ export default GoodcityController.extend(
     packageParams() {
       const locationId = this.get("location.id");
       const quantity = this.get("quantity");
-      const detail_attributes = this.fetchDetailAttributes();
+      const detailAttributes = this.fetchDetailAttributes();
       return {
         quantity: quantity,
         allow_web_publish: this.get("isAllowedToPublish"),
@@ -270,13 +268,12 @@ export default GoodcityController.extend(
         packages_locations_attributes: {
           0: { location_id: locationId, quantity: quantity }
         },
-        detail_attributes: detail_attributes
+        detail_attributes: detailAttributes
       };
     },
 
     clearSubformAttributes() {
       this.setProperties({
-        detail_attributes: {},
         inputFieldValues: {},
         dropDownValues: {},
         countryValue: {},
@@ -320,16 +317,15 @@ export default GoodcityController.extend(
     },
 
     checkPermissionAndScan() {
-      let _this = this;
       let permissions = window.cordova.plugins.permissions;
       let permissionError = () => {
         let error_message = this.get("i18n").t("camera_scan.permission_error");
-        _this.get("messageBox").alert(error_message);
+        this.get("messageBox").alert(error_message);
       };
       let permissionSuccess = status => {
         //after requesting check for permission then, permit to scan
         if (status.hasPermission) {
-          _this.scan();
+          this.scan();
         } else {
           permissionError();
         }
@@ -337,7 +333,7 @@ export default GoodcityController.extend(
       permissions.hasPermission(permissions.CAMERA, function(status) {
         //check permission here
         if (status.hasPermission) {
-          _this.scan();
+          this.scan();
         } else {
           //request permission here
           permissions.requestPermission(

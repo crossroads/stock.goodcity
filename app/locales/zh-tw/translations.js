@@ -677,7 +677,9 @@ export default {
       cancel_warning:
         "You will lose all your data. Are you sure you want to cancel this item?",
       subform: {
-        add_item: "Add new item"
+        add_item: "Add new item",
+        delete_subform_waring:
+          "If you change to {{newPackageName}} some details related to {{packageName}} will no longer be valid. These details will be deleted."
       },
       validation_errors: {
         blank_label: "Can't be blank",

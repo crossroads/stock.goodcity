@@ -2,6 +2,8 @@ import Ember from "ember";
 import _ from "lodash";
 const { getOwner } = Ember;
 import ApiBaseService from "./api-base-service";
+import { pluralize } from "ember-inflector";
+import snakeCase from "lodash/snakeCase";
 
 export default ApiBaseService.extend({
   session: Ember.inject.service(),
@@ -50,5 +52,10 @@ export default ApiBaseService.extend({
     ) {
       return this.updateRequestAction(paramsObj);
     }
+  },
+
+  deleteDetailType(type, detailId) {
+    const apiEndpoint = pluralize(snakeCase(type).toLowerCase());
+    return this.DELETE(`/${apiEndpoint}/${detailId}`);
   }
 });
