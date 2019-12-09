@@ -17,6 +17,7 @@ export default Ember.Component.extend(SearchMixin, {
   filter: "",
   searchText: "",
   fetchMoreResult: true,
+  isSearchCodePreviousRoute: Ember.computed.localStorage(),
 
   init() {
     this._super("package-search-overlay");
@@ -107,6 +108,16 @@ export default Ember.Component.extend(SearchMixin, {
 
     selectOrder(order) {},
 
-    loadMoreOrders(pageNo) {}
+    loadMoreOrders(pageNo) {},
+
+    assignItemLabel(type) {
+      this.set("open", false);
+      this.set("isSearchCodePreviousRoute", true);
+      if (type) {
+        this.get("router").replaceWith("items.new", {
+          queryParams: { codeId: type.id }
+        });
+      }
+    }
   }
 });
