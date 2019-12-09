@@ -15,3 +15,9 @@
     options=s.locationSearchOptions
   }}
 {{/let-alias}}
+
+{{#let-alias packageService as |s|}}
+  {{goodcity/package-search-overlay
+    open=s.openPackageSearch
+  }}
+{{/let-alias}}

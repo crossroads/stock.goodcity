@@ -14,9 +14,9 @@
   <div class="small-12 columns">
     <ul class="list list-activity menu-list">
       {{!-- {{#unless isMobileApp}} --}}
-        <li class="menu-list">
-          {{language-switcher}}
-        </li>
+      <li class="menu-list">
+        {{language-switcher}}
+      </li>
       {{!-- {{/unless}} --}}
       <li class="menu-list">
         <a href="#" class="menu-list-anchor" {{action 'logMeOut'}}>
@@ -35,6 +35,16 @@
           {{fa-icon 'plus-circle' size="lg"}}&nbsp;&nbsp;{{t "add_inventory_item"}}
         {{/link-to}}
       </li>
+      <li class="menu-list">
+        <span href="#" class="menu-list-anchor" {{action 'createPallet'}}>
+          {{fa-icon 'pallet' size="lg"}}&nbsp;&nbsp;{{t "create_new_pallet"}}
+        </span>
+      </li>
+      <li class="menu-list">
+        <span href="#" class="menu-list-anchor" {{action 'createBox'}}>
+          {{fa-icon 'box-open' size="lg"}}&nbsp;&nbsp;{{t "create_new_box"}}
+        </span>
+      </li>
       {{#if (is-or session.currentUser.canManageAppointments getCurrentUser.canManageAppointments)}}
         <li class="menu-list">
           {{#link-to 'appointments' class='appointments-link menu-list-anchor'}}
@@ -52,4 +62,3 @@
 </div>
 
 {{partial "sticky_footer"}}
-

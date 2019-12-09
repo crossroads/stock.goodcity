@@ -3,6 +3,11 @@ import ApiBaseService from "./api-base-service";
 export default ApiBaseService.extend({
   store: Ember.inject.service(),
 
+  init() {
+    this._super(...arguments);
+    this.set("openPackageSearch", false);
+  },
+
   generateInventoryNumber() {
     return this.POST(`/inventory_numbers`);
   },
@@ -30,5 +35,11 @@ export default ApiBaseService.extend({
       .peekAll("image")
       .filterBy("cloudinaryId", imageId)
       .get("firstObject");
+  },
+
+  userPickPackage() {
+    Ember.run(() => {
+      this.set("openPackageSearch", true);
+    });
   }
 });

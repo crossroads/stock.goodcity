@@ -23,7 +23,7 @@ const ALLOW_PARTIAL_QTY = config.APP.ALLOW_PARTIAL_OPERATIONS;
  */
 export default Ember.Mixin.create(AsyncMixin, {
   locationService: Ember.inject.service(),
-
+  packageService: Ember.inject.service(),
   editableQty: ALLOW_PARTIAL_QTY,
 
   moveQty: Ember.computed(
@@ -134,6 +134,10 @@ export default Ember.Mixin.create(AsyncMixin, {
 
     async cancelMove() {
       this.clearMoveParams();
+    },
+
+    createBox() {
+      this.get("packageService").userPickPackage();
     }
   }
 });
