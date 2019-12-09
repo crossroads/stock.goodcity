@@ -21,21 +21,28 @@ import _ from "lodash";
  */
 export default Ember.Mixin.create(AsyncMixin, {
   locationService: Ember.inject.service(),
-  settings: Ember.inject.service(),
+  packageService: Ember.inject.service(),
+  editableQty: ALLOW_PARTIAL_QTY,
 
-  editableQty: Ember.computed.alias("settings.allowPartialOperations"),
+  moveQty: Ember.computed(
+    "_moveQty",
+    "moveFrom",
+    "moveTarget",
+    "moveTarget.packagesLocations.@each.quantity",
+    {
+      get(k) {
+        return this.get("_moveQty");
+      },
+      set(k, value) {
+        const total = this.quantityAtSource();
+        const qty = Number(value);
 
-  moveQty: Ember.computed("_moveQty", {
-    get(k) {
-      return this.get("_moveQty");
-    },
-    set(k, value) {
-      const allowPartial = this.get("settings.allowPartialOperations");
-      const total = this.quantityAtSource();
-      const qty = Number(value);
+        if (!ALLOW_PARTIAL_QTY && qty > 0 && qty !== total) {
+          throw new Error("Partial quantity is not permitted");
+        }
 
-      if (!allowPartial && qty > 0 && qty !== total) {
-        throw new Error("Partial quantity is not permitted");
+        this.set("_moveQty", qty);
+        return qty;
       }
 
       this.set("_moveQty", qty);
@@ -128,6 +135,10 @@ export default Ember.Mixin.create(AsyncMixin, {
 
     async cancelMove() {
       this.clearMoveParams();
+    },
+
+    createBox() {
+      this.get("packageService").userPickPackage();
     }
   }
 });

@@ -41,6 +41,8 @@ export default {
   discard_changes: "Discard changes",
   manage_charity_users: "Manage charity users",
   add_inventory_item: "Add Item to Inventory",
+  create_new_box: "Create New Box",
+  create_new_pallet: "Create New Pallet",
   manage_inventory: "Manage Appointment Quotas",
   new_order: "Create New Order",
   full_name: "{{firstName}} {{lastName}}",
