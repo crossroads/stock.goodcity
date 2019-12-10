@@ -39,6 +39,7 @@ export default {
   discard_changes: "棄置變更",
   manage_charity_users: "Manage charity users",
   add_inventory_item: "將物品加入倉存",
+  create_new_item: "Create New Item",
   create_new_box: "Create New Box",
   create_new_pallet: "Create New Pallet",
   manage_inventory: "管理預約限額",
