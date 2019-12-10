@@ -29,18 +29,23 @@
           {{/link-to}}
         </li>
       {{/if}}
-      <li class="menu-list">
+      {{!-- <li class="menu-list">
         {{#link-to 'search_code' (query-params backToNewItem=false) class='menu-list-anchor inventory'}}
           {{fa-icon 'plus-circle' size="lg"}}&nbsp;&nbsp;{{t "add_inventory_item"}}
         {{/link-to}}
+      </li> --}}
+      <li class="menu-list">
+        <span href="#" class="menu-list-anchor" {{action 'createInventory' "Package"}}>
+          {{fa-icon 'pallet' size="lg"}}&nbsp;&nbsp;Create new item
+        </span>
       </li>
       <li class="menu-list">
-        <span href="#" class="menu-list-anchor" {{action 'createPallet'}}>
+        <span href="#" class="menu-list-anchor" {{action 'createInventory' "Pallet"}}>
           {{fa-icon 'pallet' size="lg"}}&nbsp;&nbsp;{{t "create_new_pallet"}}
         </span>
       </li>
       <li class="menu-list">
-        <span href="#" class="menu-list-anchor" {{action 'createBox'}}>
+        <span href="#" class="menu-list-anchor" {{action 'createInventory' "Box"}}>
           {{fa-icon 'box-open' size="lg"}}&nbsp;&nbsp;{{t "create_new_box"}}
         </span>
       </li>
