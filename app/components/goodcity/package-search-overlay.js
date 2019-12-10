@@ -17,6 +17,7 @@ export default Ember.Component.extend(SearchMixin, {
   filter: "",
   searchText: "",
   fetchMoreResult: true,
+  storageType: null,
   isSearchCodePreviousRoute: Ember.computed.localStorage(),
 
   init() {
@@ -115,7 +116,7 @@ export default Ember.Component.extend(SearchMixin, {
       this.set("isSearchCodePreviousRoute", true);
       if (type) {
         this.get("router").replaceWith("items.new", {
-          queryParams: { codeId: type.id }
+          queryParams: { codeId: type.id, storageType: this.get("storageType") }
         });
       }
     }

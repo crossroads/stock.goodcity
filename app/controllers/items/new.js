@@ -15,7 +15,13 @@ export default GoodcityController.extend(
   PackageDetailMixin,
   GradeMixin,
   {
-    queryParams: ["codeId", "locationId", "scanLocationName", "caseNumber"],
+    queryParams: [
+      "codeId",
+      "locationId",
+      "scanLocationName",
+      "caseNumber",
+      "storageType"
+    ],
     codeId: "",
     locationId: "",
     inventoryNumber: "",
@@ -280,6 +286,7 @@ export default GoodcityController.extend(
         location_id: locationId,
         package_type_id: this.get("code.id"),
         state_event: "mark_received",
+        storage_type: this.get("storageType"),
         packages_locations_attributes: {
           0: { location_id: locationId, quantity: quantity }
         },

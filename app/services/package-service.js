@@ -37,9 +37,10 @@ export default ApiBaseService.extend({
       .get("firstObject");
   },
 
-  userPickPackage() {
+  userPickPackage(storageType) {
     Ember.run(() => {
       this.set("openPackageSearch", true);
+      this.set("storageType", storageType);
     });
   }
 });
