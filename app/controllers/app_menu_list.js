@@ -2,9 +2,9 @@ import Ember from "ember";
 import config from "../config/environment";
 const { getOwner } = Ember;
 import AjaxPromise from "stock/utils/ajax-promise";
-import MoveActions from "stock/mixins/move_actions";
+import createInventroyAction from "stock/mixins/create_Inventory";
 
-export default Ember.Controller.extend(MoveActions, {
+export default Ember.Controller.extend(createInventroyAction, {
   application: Ember.inject.controller(),
   isMobileApp: config.cordova.enabled,
   stockAppVersion: Ember.computed(function() {

@@ -67,6 +67,18 @@ export default GoodcityController.extend(
       return this.returnDisplayFields(subform);
     }),
 
+    pageTitle: Ember.computed("storageType", "parentCodeName", function() {
+      return this.get("isBoxOrPallet")
+        ? `New ${this.get("storageType")} - ${this.get("parentCodeName")}`
+        : `Add - ${this.get("parentCodeName")}`;
+    }),
+
+    isBoxOrPallet: Ember.computed("storageType", function() {
+      return (
+        this.get("storageType") == "Box" || this.get("storageType") == "Pallet"
+      );
+    }),
+
     showPublishItemCheckBox: Ember.computed("quantity", function() {
       this.set("isAllowedToPublish", false);
       return +this.get("quantity") === 1;
@@ -130,6 +142,9 @@ export default GoodcityController.extend(
 
     description: Ember.computed("code", {
       get() {
+        if (this.get("isBoxOrPallet")) {
+          return `${this.get("storageType")} of ${this.get("code.name")}`;
+        }
         return this.get("code.name");
       },
       set(key, value) {

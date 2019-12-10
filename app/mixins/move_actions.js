@@ -135,13 +135,6 @@ export default Ember.Mixin.create(AsyncMixin, {
 
     async cancelMove() {
       this.clearMoveParams();
-    },
-
-    // this method will be generic and called everytime when
-    // user clicks on create item/box/pallet
-    // we'll be passing the type from the link itself.
-    createInventory(type) {
-      this.get("packageService").userPickPackage(type);
     }
   }
 });
