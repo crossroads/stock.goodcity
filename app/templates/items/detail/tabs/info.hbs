@@ -95,34 +95,34 @@
         H:
         {{numeric-inline-input id=(concat 'hgt' item.id) name="height" class="numeric-input item-height small-3" value=item.height maxlength="5" item=item}}
       </div>
-      <div class="row weight-pieces">
-        <div class="columns small-3">
-          <span class='input_text'>{{t 'item_details.weight'}}</span>
-        </div>
-        <div class="columns small-3 value weight">
-          {{numeric-inline-input
-                id=(concat 'wgt' item.id)
-                name="weight"
-                class="numeric-input"
-                value=item.weight
-                maxlength="9"
-                item=item}}
-        </div>
-        {{#if showPieces}}
-        <div class="columns small-3">
-          <span class='input_text'>{{t 'item_details.pieces'}}</span>
-        </div>
-        <div class="columns small-3 value pieces">
-          {{numeric-inline-input
-                id=(concat 'pcs' item.id)
-                name="pieces"
-                class="numeric-input"
-                value=item.pieces
-                maxlength="9"
-                item=item}}
-        </div>
-        {{/if}}
+    </div>
+    <div class="row weight-pieces">
+      <div class="columns small-3">
+        <span class='input_text'>{{t 'item_details.weight'}}</span>
       </div>
+      <div class="columns small-3 value weight">
+        {{numeric-inline-input
+              id=(concat 'wgt' item.id)
+              name="weight"
+              class="numeric-input"
+              value=item.weight
+              maxlength="9"
+              item=item}}
+      </div>
+      {{#if showPieces}}
+      <div class="columns small-3">
+        <span class='input_text'>{{t 'item_details.pieces'}}</span>
+      </div>
+      <div class="columns small-3 value pieces">
+        {{numeric-inline-input
+              id=(concat 'pcs' item.id)
+              name="pieces"
+              class="numeric-input"
+              value=item.pieces
+              maxlength="9"
+              item=item}}
+      </div>
+      {{/if}}
     </div>
   </div>
 </div>
