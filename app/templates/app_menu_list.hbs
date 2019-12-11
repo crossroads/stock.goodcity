@@ -29,21 +29,13 @@
           {{/link-to}}
         </li>
       {{/if}}
-      <li class="menu-list">
-        <span href="#" class="menu-list-anchor" {{action 'createInventory' "Pallet"}}>
-          {{fa-icon 'pallet' size="lg"}}&nbsp;&nbsp;{{t "create_new_pallet"}}
-        </span>
-      </li>
-      <li class="menu-list">
-        <span href="#" class="menu-list-anchor" {{action 'createInventory' "Box"}}>
-          {{fa-icon 'box-open' size="lg"}}&nbsp;&nbsp;{{t "create_new_box"}}
-        </span>
-      </li>
-      <li class="menu-list">
-        <span href="#" class="menu-list-anchor" {{action 'createInventory' "Package"}}>
-          {{fa-icon 'tag' size="lg"}}&nbsp;&nbsp;{{t "create_new_item"}}
-        </span>
-      </li>
+      {{#each storageTypes as |storageType|}}
+        <li class="menu-list">
+          <span href="#" class="menu-list-anchor" {{action 'createInventory' storageType.name}}>
+            {{fa-icon storageType.icon size="lg"}}&nbsp;&nbsp;{{t storageType.translation}}
+          </span>
+        </li>
+      {{/each}}
       {{#if (is-or session.currentUser.canManageAppointments getCurrentUser.canManageAppointments)}}
         <li class="menu-list">
           {{#link-to 'appointments' class='appointments-link menu-list-anchor'}}

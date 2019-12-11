@@ -67,14 +67,14 @@ export default GoodcityController.extend(
       return this.returnDisplayFields(subform);
     }),
 
+    isBoxOrPallet: Ember.computed("storageType", function() {
+      return ["Box", "Pallet"].indexOf(this.get("storageType")) >= -1;
+    }),
+
     pageTitle: Ember.computed("storageType", "parentCodeName", function() {
       return this.get("isBoxOrPallet")
         ? `New ${this.get("storageType")} - ${this.get("parentCodeName")}`
         : `Add - ${this.get("parentCodeName")}`;
-    }),
-
-    isBoxOrPallet: Ember.computed("storageType", function() {
-      return ["Box", "Pallet"].indexOf(this.get("storageType")) >= -1;
     }),
 
     showPublishItemCheckBox: Ember.computed("quantity", function() {

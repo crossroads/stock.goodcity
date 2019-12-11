@@ -29,13 +29,14 @@ export default Ember.Component.extend(SearchMixin, {
   }),
 
   filteredPackageTypes: Ember.computed("allPackageTypes", function() {
+    const pkgTypes = this.get("allPackageTypes");
     switch (this.get("storageType")) {
       case "Box":
-        return this.get("allPackageTypes").filterBy("allow_box", true);
+        return pkgTypes.filterBy("allow_box", true);
       case "Pallet":
-        return this.get("allPackageTypes").filterBy("allow_pallet", true);
+        return pkgTypes.filterBy("allow_pallet", true);
       default:
-        return this.get("allPackageTypes");
+        return pkgTypes;
     }
   }),
 

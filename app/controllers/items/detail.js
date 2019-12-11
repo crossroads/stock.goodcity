@@ -8,6 +8,7 @@ import PackageDetailMixin from "stock/mixins/fetch_package_detail";
 import GradeMixin from "stock/mixins/grades_option";
 import MoveActions from "stock/mixins/move_actions";
 import DesignationActions from "stock/mixins/designation_actions";
+import StorageTypes from "stock/mixins/storage-type";
 import _ from "lodash";
 
 export default GoodcityController.extend(
@@ -16,6 +17,7 @@ export default GoodcityController.extend(
   GradeMixin,
   MoveActions,
   DesignationActions,
+  StorageTypes,
   {
     isMobileApp: config.cordova.enabled,
     backLinkPath: "",
@@ -200,17 +202,6 @@ export default GoodcityController.extend(
         ];
       }
     ),
-
-    storageTypeIcon: Ember.computed("item", function() {
-      switch (this.get("item.storageType.name")) {
-        case "Box":
-          return "box-open";
-        case "Pallet":
-          return "pallet";
-        default:
-          return "tag";
-      }
-    }),
 
     actions: {
       /**
