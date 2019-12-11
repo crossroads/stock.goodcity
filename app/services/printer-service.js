@@ -7,7 +7,7 @@ export default Ember.Service.extend({
     let printers = [];
     availablePrinters.map(printer => {
       let tag = printer.get("name");
-      printers.push({ id: printer.get("id"), tag: tag });
+      printers.push({ name: tag, id: printer.get("id") });
     });
     return printers;
   }

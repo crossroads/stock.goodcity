@@ -80,7 +80,7 @@ export default GoodcityController.extend(
         if (!userPrinter) {
           return;
         }
-        return { id: userPrinter.id, tag: userPrinter.get("name") };
+        return { name: userPrinter.get("name"), id: userPrinter.id };
       },
       set(key, value) {
         return value;
@@ -618,6 +618,7 @@ export default GoodcityController.extend(
       },
 
       setPrinterValue(value) {
+        console.log(this);
         this.set("selectedPrinterDisplay", {
           id: value.id,
           tag: this.get("store")
