@@ -74,9 +74,7 @@ export default GoodcityController.extend(
     }),
 
     isBoxOrPallet: Ember.computed("storageType", function() {
-      return (
-        this.get("storageType") == "Box" || this.get("storageType") == "Pallet"
-      );
+      return ["Box", "Pallet"].indexOf(this.get("storageType")) >= -1;
     }),
 
     showPublishItemCheckBox: Ember.computed("quantity", function() {

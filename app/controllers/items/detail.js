@@ -201,6 +201,17 @@ export default GoodcityController.extend(
       }
     ),
 
+    storageTypeIcon: Ember.computed("item", function() {
+      switch (this.get("item.storageType.name")) {
+        case "Box":
+          return "box-open";
+        case "Pallet":
+          return "pallet";
+        default:
+          return "tag";
+      }
+    }),
+
     actions: {
       /**
        * Called after a property is changed to push the updated

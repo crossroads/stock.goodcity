@@ -21,11 +21,22 @@ export default Ember.Component.extend(SearchMixin, {
   isSearchCodePreviousRoute: Ember.computed.localStorage(),
 
   init() {
-    this._super("package-search-overlay");
+    this._super("code-search-overlay");
   },
 
   allPackageTypes: Ember.computed("open", function() {
     return this.get("store").peekAll("code");
+  }),
+
+  filteredPackageTypes: Ember.computed("allPackageTypes", function() {
+    switch (this.get("storageType")) {
+      case "Box":
+        return this.get("allPackageTypes").filterBy("allow_box", true);
+      case "Pallet":
+        return this.get("allPackageTypes").filterBy("allow_pallet", true);
+      default:
+        return this.get("allPackageTypes");
+    }
   }),
 
   hasSearchText: Ember.computed("searchText", function() {
@@ -77,13 +88,14 @@ export default Ember.Component.extend(SearchMixin, {
     "fetchMoreResult",
     "allPackageTypes.[]",
     function() {
+      let packageTypes = this.get("filteredPackageTypes");
       var filter = Ember.$.trim(this.get("filter").toLowerCase());
       var types = [];
       var matchFilter = value =>
         (value || "").toLowerCase().indexOf(filter) !== -1;
 
       if (filter.length > 0) {
-        this.get("allPackageTypes").forEach(function(type) {
+        packageTypes.forEach(function(type) {
           if (
             matchFilter(type.get("name")) ||
             matchFilter(type.get("otherTerms"))
@@ -93,7 +105,7 @@ export default Ember.Component.extend(SearchMixin, {
         });
         Ember.run.later(this, this.highlight);
       } else {
-        types = types.concat(this.get("allPackageTypes").toArray());
+        types = types.concat(packageTypes.toArray());
         this.clearHiglight();
       }
 
@@ -106,10 +118,6 @@ export default Ember.Component.extend(SearchMixin, {
       this.set("searchText", "");
       this.set("open", false);
     },
-
-    selectOrder(order) {},
-
-    loadMoreOrders(pageNo) {},
 
     assignItemLabel(type) {
       this.set("open", false);
