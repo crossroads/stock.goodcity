@@ -620,10 +620,10 @@ export default GoodcityController.extend(
       setPrinterValue(value) {
         console.log(this);
         this.set("selectedPrinterDisplay", {
-          id: value.id,
-          tag: this.get("store")
+          name: this.get("store")
             .peekRecord("printer", value.id)
-            .get("name")
+            .get("name"),
+          id: value.id
         });
       },
 
