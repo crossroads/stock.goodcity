@@ -118,7 +118,7 @@ jobs:
       - restore-cache: *restore-yarn-cache
       - restore-cache: *restore-bower-cache
       - run:
-        command: npm rebuild node-sass
+          command: npm rebuild node-sass
       - run:
           name: Ember build
           command: |
