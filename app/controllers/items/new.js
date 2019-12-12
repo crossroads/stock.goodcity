@@ -74,7 +74,7 @@ export default GoodcityController.extend(
       return this.get("printerService").allAvailablePrinters();
     }),
 
-    selectedPrinterDisplay: Ember.computed({
+    selectedPrinterDisplay: Ember.computed("inventoryNumber", {
       get(key) {
         let userPrinter = this.get("session").userDefaultPrinter();
         if (!userPrinter) {
@@ -432,6 +432,19 @@ export default GoodcityController.extend(
         });
     },
 
+    updateUserDefaultPrinter(printerId) {
+      let userRecord = this.store.peekRecord(
+        "user",
+        this.get("session.currentUser.id")
+      );
+      new AjaxPromise(
+        `/users/${this.get("session.currentUser.id")}`,
+        "PUT",
+        this.get("session.authToken"),
+        { user: { printer_id: printerId } }
+      ).then(data => this.get("store").pushPayload(data));
+    },
+
     actions: {
       //file upload
       triggerUpload() {
@@ -618,13 +631,14 @@ export default GoodcityController.extend(
       },
 
       setPrinterValue(value) {
-        console.log(this);
+        let printerId = value.id;
         this.set("selectedPrinterDisplay", {
           name: this.get("store")
-            .peekRecord("printer", value.id)
+            .peekRecord("printer", printerId)
             .get("name"),
-          id: value.id
+          id: printerId
         });
+        this.updateUserDefaultPrinter(printerId);
       },
 
       setFields(fieldName, value) {
