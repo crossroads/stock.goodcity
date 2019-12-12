@@ -3,7 +3,7 @@
 var EmberApp = require("ember-cli/lib/broccoli/ember-app");
 var webRelease =
   process.env.EMBER_CLI_CORDOVA === "0" &&
-  ["production", "staging"].indexOf(process.env.EMBER_ENV) !== -1;
+  ["production", "staging", "preview"].indexOf(process.env.ENVIRONMENT) !== -1;
 
 module.exports = function(defaults) {
   var app = new EmberApp(defaults, {
