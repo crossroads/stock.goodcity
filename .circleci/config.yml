@@ -118,26 +118,25 @@ jobs:
       - restore-cache: *restore-yarn-cache
       - restore-cache: *restore-bower-cache
       - run:
-          name: Setup Environment variables
+        command: npm rebuild node-sass
+      - run:
+          name: Ember build
           command: |
             case "$CIRCLE_BRANCH" in
               master)
-                echo 'export ENVIRONMENT=staging' >> $BASH_ENV
+                ENVIRONMENT=staging
                 ;;
               preview)
-                echo 'export ENVIRONMENT=preview' >> $BASH_ENV
+                ENVIRONMENT=preview
                 ;;
               live)
-                echo 'export ENVIRONMENT=production' >> $BASH_ENV
+                ENVIRONMENT=production
                 ;;
               *)
                 echo 'Unexpected branch deployment. Choose master|preview|live'
                 exit 1
             esac
             echo "Building for ENVIRONMENT: ${ENVIRONMENT}"
-      - run:
-          command: |
-            npm rebuild node-sass
             EMBER_CLI_CORDOVA=0 ENVIRONMENT=${ENVIRONMENT} yarn run ember build --environment=production
       - run: mv dist/ dist-www
       - persist_to_workspace:
