@@ -760,7 +760,8 @@ export default {
       "增加{{state}}的數量到{{totalQty}} 對於{{orderCode}}! ({{qty}} 原本{{designatedState}})",
     designate_to: "Designate this package to:",
     designate_entire: " 指定全數",
-    designate_part: "指定部份"
+    designate_part: "指定部份",
+    quantity_input: "Quantity to designate"
   },
   "dispatch-form": {
     confirmation: " 您必須勾選確認方格才可繼續",
