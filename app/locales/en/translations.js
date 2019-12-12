@@ -742,8 +742,6 @@ export default {
   },
   partial_dispatch: {
     dispatch_to: "{{inventoryNumber}}: Dispatch to  {{orderCode}}",
-    available_quantity:
-      " Where are <b> {{availableQtyForMove}} items</b> being dispatched from?",
     qty: "Qty:",
     total_to_dispatch: "Total to dispatch (must = {{qty}})",
     dispatch: "Dispatch"
@@ -770,9 +768,10 @@ export default {
       "Increases {{state}} quantity to {{totalQty}} for {{designationCode}}! ({{qty}} previously {{pkgState}} - item {{inventoryNumber}})",
     warning_text_without_link:
       "Increases {{state}} quantity to {{totalQty}} for {{orderCode}}! ({{qty}} previously {{designatedState}})",
-    designate_to: "Designate this set of items to {{orderCode}}",
+    designate_to: "Designate this package to:",
     designate_entire: "Designates entire quantity.",
-    designate_part: "Designates only part of set."
+    designate_part: "Designates only part of set.",
+    quantity_input: "Quantity to designate"
   },
   "dispatch-form": {
     confirmation: "You must tick the confirmation box to proceed.",

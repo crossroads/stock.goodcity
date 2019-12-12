@@ -245,7 +245,7 @@ test("check orderPackagesMoreThenZeroQty computed property", function(assert) {
   assert.equal(orderPackagesMoreThenZeroQtyIds.get("length"), 2);
 });
 
-test("check dispatchedItemCount computed property", function(assert) {
+test("check dispatchedQuantity computed property", function(assert) {
   var model, store, ordersPackage1, ordersPackage2, ordersPackage3;
   model = this.subject();
   store = this.store();
@@ -271,7 +271,7 @@ test("check dispatchedItemCount computed property", function(assert) {
       .pushObjects([ordersPackage1, ordersPackage2, ordersPackage3]);
   });
 
-  assert.equal(model.get("dispatchedItemCount"), 2);
+  assert.equal(model.get("dispatchedQuantity"), 3);
 });
 
 test("check cancelledItemCount computed property", function(assert) {
@@ -300,7 +300,7 @@ test("check cancelledItemCount computed property", function(assert) {
       .pushObjects([ordersPackage1, ordersPackage2, ordersPackage3]);
   });
 
-  assert.equal(model.get("cancelledItemCount"), 2);
+  assert.equal(model.get("cancelledItemCount"), 3);
 });
 
 test("check desinatedAndDisaptchedItemPackages computed property", function(assert) {
@@ -423,11 +423,6 @@ test("check ordersPackagesWithStateDesignatedAndDispatched computed property", f
     ]),
     0
   );
-});
-
-test("check availableQty computed property", function(assert) {
-  var model = this.subject({ quantity: 3 });
-  assert.equal(model.get("availableQty"), 3);
 });
 
 test("check hasSingleAndDispatchLocation computed property", function(assert) {
@@ -587,57 +582,6 @@ test("check packagesLocationsList computed property", function(assert) {
     ]),
     0
   );
-});
-
-test("check availableQtyForMove computed property", function(assert) {
-  var model,
-    store,
-    location1,
-    location2,
-    location3,
-    packageLocation1,
-    packageLocation2,
-    packageLocation3;
-  model = this.subject({ receivedQuantity: 3 });
-  store = this.store();
-
-  Ember.run(function() {
-    location1 = store.createRecord("location", {
-      id: 1,
-      building: "11",
-      area: "A"
-    });
-    location2 = store.createRecord("location", {
-      id: 2,
-      building: "Dispatched",
-      area: "B"
-    });
-    location3 = store.createRecord("location", {
-      id: 3,
-      building: "33",
-      area: "C"
-    });
-    packageLocation1 = store.createRecord("packagesLocation", {
-      id: 1,
-      quantity: 1,
-      location: location1
-    });
-    packageLocation2 = store.createRecord("packagesLocation", {
-      id: 2,
-      quantity: 1,
-      location: location2
-    });
-    packageLocation3 = store.createRecord("packagesLocation", {
-      id: 3,
-      quantity: 1,
-      location: location3
-    });
-    model
-      .get("packagesLocations")
-      .pushObjects([packageLocation1, packageLocation2, packageLocation3]);
-  });
-
-  assert.equal(model.get("availableQtyForMove"), 2);
 });
 
 test("check imageUrlList computed property", function(assert) {

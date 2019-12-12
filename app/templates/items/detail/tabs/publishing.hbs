@@ -21,14 +21,9 @@
         }}
       </div>
       <div class="small-6 columns">
-        {{#link-to
-          'items.search_order' item.id (query-params isSet=item.isSet partial_qty=1)
-          tagName='button' class='button'
-          disabled=(if (is-or model.isUnavailable model.isMultiQtyItem) true false)
-          href=false
-        }}
+        <button class="button" disabled={{if model.isUnavailable true false}} {{action 'beginDesignation' model}}>
           {{fa-icon 'shopping-basket'}} {{t 'item.designate'}}
-        {{/link-to}}
+        </button>
       </div>
     </div>
   </div>
@@ -60,4 +55,15 @@
       </div>
     {{/each}}
   </div>
+
+  {{#if readyToDesignate}}
+    {{goodcity/designate-form
+      quantity=designationQty
+      editableQty=editableQty
+      confirmAction=(action "completeDesignation")
+      cancelAction=(action "cancelDesignation")
+      order=designationTargetOrder
+      maxQuantity=designatableQuantity
+    }}
+  {{/if}}
 </div>

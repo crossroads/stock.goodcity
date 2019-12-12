@@ -1,6 +1,5 @@
 import Ember from "ember";
 import config from "stock/config/environment";
-import singletonItemDispatchToGcOrder from "../../mixins/singleton_item_dispatch_to_gc_order";
 import GoodcityController from "../goodcity_controller";
 import { pluralize } from "ember-inflector";
 import additionalFields from "stock/constants/additional-fields";
@@ -8,15 +7,15 @@ import SearchOptionMixin from "stock/mixins/search_option";
 import PackageDetailMixin from "stock/mixins/fetch_package_detail";
 import GradeMixin from "stock/mixins/grades_option";
 import MoveActions from "stock/mixins/move_actions";
+import DesignationActions from "stock/mixins/designation_actions";
 import _ from "lodash";
-const { getOwner } = Ember;
 
 export default GoodcityController.extend(
-  singletonItemDispatchToGcOrder,
   SearchOptionMixin,
   PackageDetailMixin,
   GradeMixin,
   MoveActions,
+  DesignationActions,
   {
     isMobileApp: config.cordova.enabled,
     backLinkPath: "",
@@ -30,7 +29,8 @@ export default GoodcityController.extend(
     application: Ember.inject.controller(),
     messageBox: Ember.inject.service(),
     setDropdownOption: Ember.inject.service(),
-    locationService: Ember.inject.service(),
+    designationService: Ember.inject.service(),
+    settings: Ember.inject.service(),
     displayScanner: false,
     designateFullSet: Ember.computed.localStorage(),
     callOrderObserver: false,
@@ -109,10 +109,11 @@ export default GoodcityController.extend(
       "model.isSingletonItem",
       "model.availableQty",
       function() {
-        return (
-          this.get("model.isSingletonItem") &&
-          this.get("model.availableQty") > 0
-        );
+        const qty = this.get("model.availableQty");
+        if (this.get("settings.onlyPublishSingletons")) {
+          return qty === 1;
+        }
+        return qty > 0;
       }
     ),
 
@@ -274,11 +275,6 @@ export default GoodcityController.extend(
       },
       onSearch(field, searchText) {
         this.onSearchCountry(field, searchText);
-      },
-
-      partialDesignateForSet() {
-        this.set("designateFullSet", true);
-        this.set("callOrderObserver", true);
       }
     }
   }

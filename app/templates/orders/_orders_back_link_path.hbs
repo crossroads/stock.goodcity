@@ -1,20 +1,8 @@
 <section class="left-small">
-  {{#if (is-and itemIdforHistoryRoute (is-equal backLinkPath "items.history"))}}
-    {{#link-to "items.history" itemIdforHistoryRoute classNames="back" }}
-      <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-left'}}</i>
-      <div>{{t "back"}}</div>
-    {{/link-to}}
-  {{else if (is-and organisationIdforHistoryRoute (is-equal backLinkPath "organisations.orders"))}}
-    {{#link-to "organisations.orders" organisationIdforHistoryRoute classNames="back" }}
-      <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-left'}}</i>
-      <div>{{t "back"}}</div>
-    {{/link-to}}
-  {{else}}
-    {{#back-link}}
-      <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-left'}}</i>
-      <div>{{t "back"}}</div>
-    {{/back-link}}
-  {{/if}}
+  {{#back-link}}
+    <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-left'}}</i>
+    <div>{{t "back"}}</div>
+  {{/back-link}}
 </section>
 
 <section class="middle tab-bar-section">

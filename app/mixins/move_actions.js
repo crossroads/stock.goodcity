@@ -3,8 +3,6 @@ import config from "stock/config/environment";
 import AsyncMixin, { ERROR_STRATEGIES } from "./async";
 import _ from "lodash";
 
-const ALLOW_PARTIAL_QTY = config.APP.ALLOW_PARTIAL_OPERATIONS;
-
 /**
  * Adds the following properties:
  *
@@ -23,31 +21,27 @@ const ALLOW_PARTIAL_QTY = config.APP.ALLOW_PARTIAL_OPERATIONS;
  */
 export default Ember.Mixin.create(AsyncMixin, {
   locationService: Ember.inject.service(),
+  settings: Ember.inject.service(),
 
-  editableQty: ALLOW_PARTIAL_QTY,
+  editableQty: Ember.computed.alias("settings.allowPartialOperations"),
 
-  moveQty: Ember.computed(
-    "_moveQty",
-    "moveFrom",
-    "moveTarget",
-    "moveTarget.packagesLocations.@each.quantity",
-    {
-      get(k) {
-        return this.get("_moveQty");
-      },
-      set(k, value) {
-        const total = this.quantityAtSource();
-        const qty = Number(value);
+  moveQty: Ember.computed("_moveQty", {
+    get(k) {
+      return this.get("_moveQty");
+    },
+    set(k, value) {
+      const allowPartial = this.get("settings.allowPartialOperations");
+      const total = this.quantityAtSource();
+      const qty = Number(value);
 
-        if (!ALLOW_PARTIAL_QTY && qty > 0 && qty !== total) {
-          throw new Error("Partial quantity is not permitted");
-        }
-
-        this.set("_moveQty", qty);
-        return qty;
+      if (!allowPartial && qty > 0 && qty !== total) {
+        throw new Error("Partial quantity is not permitted");
       }
+
+      this.set("_moveQty", qty);
+      return qty;
     }
-  ),
+  }),
 
   async resolveLocation(loc, opts = {}) {
     const i18n = this.get("i18n");
@@ -120,7 +114,7 @@ export default Ember.Mixin.create(AsyncMixin, {
       }
     },
 
-    completeMove(quantity) {
+    completeMove() {
       this.runTask(() => {
         return this.get("locationService").movePackage(this.get("moveTarget"), {
           from: this.get("moveFrom"),

@@ -24,7 +24,7 @@
           {{#if model.quantity}}
             {{#if (is-not model.isSet)}}
               {{#if model.isSingletonItem}}
-                {{#link-to 'items.search_order' model.id (query-params isSet=model.isSet partial_qty=1) tagName='span' href=false}}
+                {{#link-to 'items.detail.publishing' model.id tagName='span' href=false}}
                   <span class="no-avatar">
                     <i aria-hidden="true">{{fa-icon 'shopping-basket'}}</i>
                   </span>

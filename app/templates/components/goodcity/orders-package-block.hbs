@@ -42,4 +42,15 @@
   <div class="columns small-1 sub-block">
     {{action-drawer actionList=actionList}}
   </div>
+
+  {{#if showQuantityInput}}
+    {{goodcity/designate-form
+      quantity=designationQty
+      editableQty=editableQty
+      confirmAction=completeQtyInput
+      cancelAction=cancelQtyInput
+      order=designationTargetOrder
+      maxQuantity=maxQuantity
+    }}
+  {{/if}}
 </div>

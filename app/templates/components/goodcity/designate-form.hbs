@@ -1,0 +1,17 @@
+{{#message-box
+    btn1Text=(t "item.designate") btn1Callback=confirmAction
+    btn2Text=(t "cancel") btn2Callback=cancelAction
+    isVisible=true classNames="modal-overlay operation-confirmation orders_search_result"
+  }}
+    <p>{{fa-icon 'shopping-basket'}} {{t 'designate_form.designate_to' }}</p>
+
+    {{partial 'orders/order_block'}}
+
+    <div>
+      <p>
+        {{t 'designate_form.quantity_input'}}
+        {{input type="number" min="1" max="{{maxQuantity}}" value=quantity disabled=(unless editableQty true) class="qty-input"}}
+        / {{ maxQuantity }}
+      </p>
+    </div>
+{{/message-box}}
