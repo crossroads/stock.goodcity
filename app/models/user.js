@@ -15,10 +15,6 @@ export default Addressable.extend({
   i18n: Ember.inject.service(),
   printerId: attr("number"),
   printer: belongsTo("printer", { async: false }),
-
-  // permission:  belongsTo('permission', { async: false }),
-  // image:       belongsTo('image', { async: false }),
-
   userRoles: hasMany("userRoles", {
     async: false
   }),
