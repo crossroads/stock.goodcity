@@ -22,6 +22,17 @@ export default Ember.Component.extend(SearchMixin, {
     this.set("uuid", _.uniqueId("orders_search_overlay_"));
   },
 
+  noInput: Ember.computed.not("searchText"),
+
+  showRecentlyUsed: Ember.computed.and("noInput", "open"),
+
+  recentlyUsedOrders: Ember.computed("open", function() {
+    return this.get("store")
+      .peekAll("designation")
+      .sortBy("recentlyUsedAt")
+      .slice(0, 10);
+  }),
+
   actions: {
     cancel() {
       this.send("selectOrder", null);

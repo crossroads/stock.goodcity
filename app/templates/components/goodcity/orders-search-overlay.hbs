@@ -22,17 +22,23 @@
       <section class="main-section orders_search_result search_result">
         <div class="row search">
           <div class="small-12 columns">
-            {{#if displayResults}}
-              {{#infinite-list height="85vh" loadMore=(action "loadMoreOrders") as |res| }}
-                <ul class="list list-activity list-offer-items">
+            <ul class="list list-activity list-offer-items">
+              {{#if showRecentlyUsed}}
+                {{#each recentlyUsedOrders as |order|}}
+                  <div {{action 'selectOrder' order}}>
+                      {{partial 'orders/order_block'}}
+                    </div>
+                {{/each}}
+              {{else if displayResults}}
+                {{#infinite-list height="85vh" loadMore=(action "loadMoreOrders") as |res| }}
                   {{#each res as |order|}}
                     <div {{action 'selectOrder' order}}>
                       {{partial 'orders/order_block'}}
                     </div>
                   {{/each}}
-                </ul>
-              {{/infinite-list}}
-            {{/if}}
+                {{/infinite-list}}
+              {{/if}}
+            </ul>
           </div>
         </div>
       </section>

@@ -727,8 +727,6 @@ export default {
   },
   partial_dispatch: {
     dispatch_to: "{{inventoryNumber}}: Dispatch to  {{orderCode}}",
-    available_quantity:
-      " Where are <b> {{availableQtyForMove}} items</b> being dispatched from?",
     qty: "Qty:",
     total_to_dispatch: "Total to dispatch (must = {{qty}})",
     dispatch: "Dispatch"
@@ -760,9 +758,10 @@ export default {
       "增加{{state}}的數量到{{totalQty}} 對於{{designationCode}}! ({{qty}} 原本{{pkgState}}-物件{{inventory number}})",
     warning_text_without_link:
       "增加{{state}}的數量到{{totalQty}} 對於{{orderCode}}! ({{qty}} 原本{{designatedState}})",
-    designate_to: "指定這組物件到{{orderCode}}",
+    designate_to: "Designate this package to:",
     designate_entire: " 指定全數",
-    designate_part: "指定部份"
+    designate_part: "指定部份",
+    quantity_input: "Quantity to designate"
   },
   "dispatch-form": {
     confirmation: " 您必須勾選確認方格才可繼續",

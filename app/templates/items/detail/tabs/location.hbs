@@ -27,7 +27,7 @@
     {{#message-box
         btn1Text=(t "item.move") btn1Callback=(action "completeMove")
         btn2Text=(t "cancel") btn2Callback=(action "cancelMove")
-        isVisible=true classNames="modal-overlay move-confirmation"
+        isVisible=true classNames="modal-overlay operation-confirmation move-confirmation"
       }}
         <p>{{fa-icon 'people-carry'}} {{t 'select_location.moving_item_to' }} {{moveTo.name}}</p>
 

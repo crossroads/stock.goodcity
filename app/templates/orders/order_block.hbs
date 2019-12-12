@@ -1,6 +1,6 @@
 <li class="order_block">
 
-    <div class="row order_header">
+    <div class="row order_block_header">
 
       <div class="small-4 columns order_transport">
         <i>{{fa-icon order.transportIcon}}{{fa-icon 'lg'}}</i> {{ order.transportLabel }}
@@ -25,10 +25,10 @@
 
           {{#if (is-and order.orderTransport order.orderTransport.scheduledAt)}}
             <div class="row">
-              <div class="small-4 columns field">
+              <div class="small-6 columns field">
                 {{ t "order.due_date" }}
               </div>
-              <div class="small-8 columns value">
+              <div class="small-6 columns value">
                 {{  display-datetime order.orderTransport.scheduledAt format="dddd Do MMMM hh:mm a" }}
               </div>
             </div>
@@ -36,10 +36,10 @@
 
           {{#if order.createdBy}}
             <div class="row">
-              <div class="small-4 columns field">
+              <div class="small-6 columns field">
                 {{ t "order.submitted_by" }}
               </div>
-              <div class="small-8 columns value">
+              <div class="small-6 columns value">
                 {{ order.createdBy.firstName }} {{ order.createdBy.lastName }}
               </div>
             </div>
@@ -47,10 +47,10 @@
 
           {{#if (is-or order.gcOrganisationId or order.organisationId)}}
             <div class="row">
-              <div class="small-4 columns field">
+              <div class="small-6 columns field">
                 {{ t "organisation_title" }}
               </div>
-              <div class="small-8 columns value">
+              <div class="small-6 columns value">
                 {{ if order.isGoodCityOrder order.gcOrganisation.nameEn order.organisation.name }}
               </div>
             </div>
@@ -58,10 +58,10 @@
 
           {{#if order.stockitContact}}
             <div class="row">
-              <div class="small-4 columns field">
+              <div class="small-6 columns field">
                 {{ t "order.submitted_for_client" }}
               </div>
-              <div class="small-8 columns value">
+              <div class="small-6 columns value">
                 {{order.stockitContact.fullName}}
               </div>
             </div>
@@ -69,10 +69,10 @@
 
           {{#if (is-or order.designatedOrdersPackages.length order.dispatchedOrdersPackages.length)}}
             <div class="row order_process_summary">
-              <div class="small-4 columns field">
+              <div class="small-6 columns field">
                 {{ t "order.process_summary" }}
               </div>
-              <div class="small-8 columns value">
+              <div class="small-6 columns value">
                 <span>{{order.designatedOrdersPackages.length}} <i>{{fa-icon 'shopping-basket'}}</i></span>
                 <span>{{order.dispatchedOrdersPackages.length}} <i>{{fa-icon 'ship'}}</i></span>
               </div>

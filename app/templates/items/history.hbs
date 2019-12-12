@@ -26,7 +26,7 @@
       </div>
       {{#each model.setItem.designatedAndDispatchedOrdersPackages as |ordersPackage|}}
         <div class="row {{ordersPackage.state}}">
-          {{#link-to 'orders.detail' ordersPackage.designation.id href=false}}
+          {{#link-to 'orders.active_items' ordersPackage.designation.id href=false}}
             <div class="columns small-4 medium-4 large-4">
               {{#if (is-equal ordersPackage.state "designated")}}
                 <i>{{fa-icon 'shopping-basket'}}</i>
@@ -63,7 +63,7 @@
     </div>
     {{#each model.ordersPackagesWithStateDesignatedAndDispatched as |ordersPackage|}}
       <div class="row {{ordersPackage.state}}">
-        {{#link-to 'orders.detail' ordersPackage.designation.id href=false}}
+        {{#link-to 'orders.active_items' ordersPackage.designation.id href=false}}
           <div class="columns small-4 medium-4 large-4">
             {{#if (is-equal ordersPackage.state "designated")}}
               <i>{{fa-icon 'shopping-basket'}}</i>

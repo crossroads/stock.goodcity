@@ -68,15 +68,14 @@ module.exports = function(environment) {
       NAMESPACE: "api/v1",
       HK_COUNTRY_CODE: "+852",
 
-      ALLOW_PARTIAL_OPERATIONS: false,
-
       PRELOAD_TYPES: [
         "booking_type",
         "purpose",
         "process_checklist",
         "identity_type",
         "donor_condition",
-        "lookup"
+        "lookup",
+        "goodcity_setting"
       ],
       USER_DATA_TYPES: [
         "designation",

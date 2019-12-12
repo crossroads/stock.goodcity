@@ -3,11 +3,11 @@
   <div class="row dispatch_details {{if (is-equal ordersPackage.state 'dispatched') 'dispatched'}} {{if (is-equal ordersPackage.state 'designated') 'designated'}} {{if (is-greater ordersPackage.item.designatedItemCount 1) 'designated'}}">
     <div class="small-3 columns">
       {{#if (is-equal ordersPackage.state 'dispatched')}}
-        {{#link-to 'orders.detail' ordersPackage.item.designation.id tagName='span' href=false}}
+        {{#link-to 'orders.active_items' ordersPackage.item.designation.id tagName='span' href=false}}
           <i>{{fa-icon 'ship'}}</i> {{capitalize-string ordersPackage.state}}
         {{/link-to}}
       {{else if (is-equal ordersPackage.state 'designated')}}
-        {{#link-to 'orders.detail' ordersPackage.item.designation.id tagName='span' href=false}}
+        {{#link-to 'orders.active_items' ordersPackage.item.designation.id tagName='span' href=false}}
           <i>{{fa-icon 'shopping-basket'}}</i> {{capitalize-string ordersPackage.state}}
         {{/link-to}}
       {{else}}
