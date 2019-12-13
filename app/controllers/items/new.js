@@ -43,6 +43,7 @@ export default GoodcityController.extend(
     width: null,
     height: null,
     selectedGrade: { name: "B", id: "B" },
+    selectedPrinterId: Ember.computed.oneWay("session.userDefaultPrinter.id"),
     invalidLocation: false,
     invalidScanResult: false,
     newUploadedImage: null,
@@ -74,17 +75,10 @@ export default GoodcityController.extend(
       return this.get("printerService").allAvailablePrinters();
     }),
 
-    selectedPrinterDisplay: Ember.computed("inventoryNumber", {
-      get(key) {
-        let userPrinter = this.get("session").userDefaultPrinter();
-        if (!userPrinter) {
-          return;
-        }
-        return { name: userPrinter.get("name"), id: userPrinter.id };
-      },
-      set(key, value) {
-        return value;
-      }
+    selectedPrinterDisplay: Ember.computed("selectedPrinterId", function() {
+      const printerId = this.get("selectedPrinterId");
+      const printer = this.store.peekRecord("printer", printerId);
+      return { name: printer.get("name"), id: printer.id };
     }),
 
     setLocation: Ember.observer("scanLocationName", function() {
@@ -433,10 +427,6 @@ export default GoodcityController.extend(
     },
 
     updateUserDefaultPrinter(printerId) {
-      let userRecord = this.store.peekRecord(
-        "user",
-        this.get("session.currentUser.id")
-      );
       new AjaxPromise(
         `/users/${this.get("session.currentUser.id")}`,
         "PUT",
@@ -632,12 +622,7 @@ export default GoodcityController.extend(
 
       setPrinterValue(value) {
         let printerId = value.id;
-        this.set("selectedPrinterDisplay", {
-          name: this.get("store")
-            .peekRecord("printer", printerId)
-            .get("name"),
-          id: printerId
-        });
+        this.set("selectedPrinterId", printerId);
         this.updateUserDefaultPrinter(printerId);
       },
 
