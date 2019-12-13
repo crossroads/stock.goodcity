@@ -112,6 +112,7 @@
 
             .text-holder {
               white-space: nowrap;
+              font-size: 1rem;
               text-overflow: ellipsis;
               overflow: hidden;
             }
@@ -351,14 +352,6 @@
     .value {
       color: $white;
       font-size: 0.7rem !important;
-    }
-
-    .description {
-      padding-left: 1.1rem !important;
-
-      @media #{$small-only} {
-        padding-left: 0.9rem;
-      }
     }
 
     .item_options_component {
@@ -699,7 +692,7 @@
 
     .tab {
       padding: 0.7rem;
-      font-size: 0.7em;
+      font-size: 1rem;
     }
 
     .selected {

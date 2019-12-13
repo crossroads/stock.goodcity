@@ -140,6 +140,10 @@ export default GoodcityController.extend(
       );
     }),
 
+    listTabSelected: Ember.computed("tabName", function() {
+      return ["list", "info"].indexOf(this.get("tabName")) > -1;
+    }),
+
     storageTypeName: Ember.computed("item", function() {
       let storageType = this.get("item.storageType");
       if (storageType) {

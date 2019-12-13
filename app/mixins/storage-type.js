@@ -4,14 +4,14 @@ export default Ember.Mixin.create({
   storageTypes: Ember.computed(function() {
     return [
       {
-        name: "Box",
-        icon: "box-open",
-        translation: "create_new_box"
-      },
-      {
         name: "Pallet",
         icon: "pallet",
         translation: "create_new_pallet"
+      },
+      {
+        name: "Box",
+        icon: "box-open",
+        translation: "create_new_box"
       },
       {
         name: "Package",
