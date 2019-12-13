@@ -200,19 +200,31 @@ jobs:
     <<: *defaults
     environment:
       JOBS: 1
-      EMBER_CLI_CORDOVA: "1"
     steps:
       - restore-cache: *restore-repo-cache
       - restore-cache: *restore-yarn-cache
       - restore-cache: *restore-bower-cache
       - run:
-          name: Setup Environment variables
-          command: echo 'export STAGING=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo false; else echo true; fi)' >> $BASH_ENV
+          command: npm rebuild node-sass
       - run:
+          name: Ember build
           command: |
-            npm rebuild node-sass
-            echo "Building for staging (true/false): $STAGING"
-            yarn run ember build --environment=production
+            case "$CIRCLE_BRANCH" in
+              master)
+                ENVIRONMENT=staging
+                ;;
+              preview)
+                ENVIRONMENT=preview
+                ;;
+              live)
+                ENVIRONMENT=production
+                ;;
+              *)
+                echo 'Unexpected branch deployment. Choose master|preview|live'
+                exit 1
+            esac
+            echo "Building for ENVIRONMENT: ${ENVIRONMENT}"
+            EMBER_CLI_CORDOVA=1 ENVIRONMENT=${ENVIRONMENT} yarn run ember build --environment=production
       - run: mv dist/ cordova/www
       - persist_to_workspace:
           root: .
