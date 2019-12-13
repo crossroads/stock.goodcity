@@ -426,15 +426,6 @@ export default GoodcityController.extend(
         });
     },
 
-    updateUserDefaultPrinter(printerId) {
-      new AjaxPromise(
-        `/users/${this.get("session.currentUser.id")}`,
-        "PUT",
-        this.get("session.authToken"),
-        { user: { printer_id: printerId } }
-      ).then(data => this.get("store").pushPayload(data));
-    },
-
     actions: {
       //file upload
       triggerUpload() {
@@ -623,7 +614,7 @@ export default GoodcityController.extend(
       setPrinterValue(value) {
         let printerId = value.id;
         this.set("selectedPrinterId", printerId);
-        this.updateUserDefaultPrinter(printerId);
+        this.get("printerService").updateUserDefaultPrinter(printerId);
       },
 
       setFields(fieldName, value) {
