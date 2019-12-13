@@ -690,3 +690,27 @@
 .non-clickable-set-move {
   pointer-events: none;
 }
+
+.item_details_screen {
+  .box-pallet-tabs {
+    border-bottom: 1px solid;
+    margin-bottom: 2rem;
+    text-align: center;
+
+    .tab {
+      padding: 0.7rem;
+      font-size: 0.7em;
+    }
+
+    .selected {
+      border-bottom: 2px solid;
+    }
+  }
+  .add-item{
+    button {
+      padding-right: 4em;
+      padding-left: 4em;
+    }
+  }
+}
+

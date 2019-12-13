@@ -1,0 +1,10 @@
+<div class="row">
+  <div class="row box-pallet-tabs">
+    <div {{action 'openTab' 'list'}} class="tab list small-6 columns {{if (is-equal tabName 'list') 'selected'}}">
+      <span>Box Content</span>
+    </div>
+    <div {{action 'openTab' 'detail_content'}} class="tab detail_content small-6 columns {{if (is-equal tabName 'detail_content') 'selected'}}">
+      <span>Box details</span>
+    </div>
+  </div>
+</div>

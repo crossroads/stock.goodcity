@@ -24,6 +24,8 @@ Router.map(function() {
     this.route("detail", { path: "/:item_id" }, function() {
       // Detail tabs :
       this.route("info", { path: "/" });
+      this.route("list");
+      this.route("detail_content");
       this.route("location");
       this.route("publishing");
     });

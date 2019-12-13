@@ -134,6 +134,23 @@ export default GoodcityController.extend(
         .get("lastObject");
     }),
 
+    infoTabSelected: Ember.computed("tabName", function() {
+      return (
+        ["list", "detail_content", "info"].indexOf(this.get("tabName")) > -1
+      );
+    }),
+
+    storageTypeName: Ember.computed("item", function() {
+      let storageType = this.get("item.storageType");
+      if (storageType) {
+        return storageType.get("name");
+      }
+    }),
+
+    isBoxOrPallet: Ember.computed("item", function() {
+      return ["Box", "Pallet"].indexOf(this.get("storageTypeName")) > -1;
+    }),
+
     conditions: Ember.computed(function() {
       return this.get("store").peekAll("donor_condition");
     }),
