@@ -299,7 +299,6 @@ jobs:
     environment:
       EMBER_CLI_CORDOVA: "1"
       CIRCLE_ARTIFACTS: /Users/distiller/code/cordova/platforms/ios/build/device
-
     steps:
       - checkout
       - restore-cache: *restore-ios-yarn-cache
@@ -311,15 +310,33 @@ jobs:
       - run:
           name: Setup Environment variables
           command: |
-            echo 'export STAGING=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo false; else echo true; fi)' >> $BASH_ENV
-            echo 'export ENVIRONMENT=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo production; else echo staging; fi)' >> $BASH_ENV
-            echo 'export PROVISIONING_PROFILE=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo 'GoodCityStock.mobileprovision'; else echo 'GoodCityStockStaging.mobileprovision'; fi)' >> $BASH_ENV
-            echo 'export CERTIFICATE=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo 'Goodcity_2020.p12'; else echo 'GoodCity_2020_Development.p12'; fi)' >> $BASH_ENV
+            case "$CIRCLE_BRANCH" in
+              master)
+                echo 'export ENVIRONMENT=staging' >> $BASH_ENV
+                echo 'export CERTIFICATE=GoodCity_2020_Development.p12' >> $BASH_ENV
+                echo 'export PROVISIONING_PROFILE=GoodCityStockStaging.mobileprovision' >> $BASH_ENV
+                ;;
+              preview)
+                echo 'export ENVIRONMENT=preview' >> $BASH_ENV
+                echo 'export CERTIFICATE=GoodCity_2020_Development.p12' >> $BASH_ENV
+                echo 'export PROVISIONING_PROFILE=GoodCityStockStaging.mobileprovision' >> $BASH_ENV
+                ;;
+              live)
+                echo 'export ENVIRONMENT=production' >> $BASH_ENV
+                echo 'export CERTIFICATE=Goodcity_2020.p12' >> $BASH_ENV
+                echo 'export PROVISIONING_PROFILE=GoodCityStock.mobileprovision' >> $BASH_ENV
+                ;;
+              *)
+                echo 'Unexpected branch deployment. Choose master|preview|live'
+                exit 1
+            esac
       - run:
+          command: npm rebuild node-sass
+      - run:
+          name: Ember build
           command: |
-            npm rebuild node-sass
-            echo "Building for staging (true/false): $STAGING"
-            yarn run ember build --environment=production
+            echo "Building for ENVIRONMENT: ${ENVIRONMENT}"
+            EMBER_CLI_CORDOVA=1 ENVIRONMENT=${ENVIRONMENT} yarn run ember build --environment=production
       - run: mv dist/ cordova/www
       - persist_to_workspace:
           root: .
