@@ -2,6 +2,7 @@
 const pkgJson = require("../package.json");
 
 module.exports = function(environment) {
+  environment = process.env.ENVIRONMENT || environment
   var ENV = {
     modulePrefix: "stock",
     environment: environment,
@@ -148,6 +149,7 @@ module.exports = function(environment) {
   }
 
   if (environment === "production") {
+    if (!process.env.ENVIRONMENT) throw('Please pass an appropriate ENVIRONMENT=(staging|preview|production) param.')
     ENV.APP.API_HOST_URL = "https://api.goodcity.hk";
     ENV.APP.SOCKETIO_WEBSERVICE_URL = "https://socket.goodcity.hk:81/goodcity";
     ENV.cordova.FcmSenderId = "551756918176";
@@ -163,8 +165,7 @@ module.exports = function(environment) {
     ].join(" ");
   }
 
-  if ((process.env.staging || process.env.STAGING) === "true") {
-    ENV.staging = true;
+  if (environment === "staging") {
     ENV.cordova.FcmSenderId = "535052654081";
     ENV.APP.API_HOST_URL = "https://api-staging.goodcity.hk";
     ENV.APP.SOCKETIO_WEBSERVICE_URL =
@@ -178,8 +179,22 @@ module.exports = function(environment) {
       "ws://socket-staging.goodcity.hk:81",
       "wss://socket-staging.goodcity.hk:81"
     ].join(" ");
-  } else {
-    ENV.staging = false;
+  }
+  
+  if (environment === "preview") {
+    ENV.cordova.FcmSenderId = "535052654081";
+    ENV.APP.API_HOST_URL = "https://api-preview.goodcity.hk";
+    ENV.APP.SOCKETIO_WEBSERVICE_URL =
+      "https://socket-preview.goodcity.hk:81/goodcity";
+    ENV.contentSecurityPolicy["connect-src"] = [
+      "https://api-preview.goodcity.hk",
+      "https://errbit.crossroads.org.hk",
+      "https://api.rollbar.com",
+      "https://sentry.io",
+      "https://socket-preview.goodcity.hk:81",
+      "ws://socket-preview.goodcity.hk:81",
+      "wss://socket-preview.goodcity.hk:81"
+    ].join(" ");
   }
 
   ENV.APP.SERVER_PATH = ENV.APP.API_HOST_URL + "/" + ENV.APP.NAMESPACE;

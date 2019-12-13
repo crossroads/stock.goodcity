@@ -113,19 +113,31 @@ jobs:
     <<: *defaults
     environment:
       JOBS: 1
-      EMBER_CLI_CORDOVA: "0"
     steps:
       - restore-cache: *restore-repo-cache
       - restore-cache: *restore-yarn-cache
       - restore-cache: *restore-bower-cache
       - run:
-          name: Setup Environment variables
-          command: echo 'export STAGING=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo false; else echo true; fi)' >> $BASH_ENV
+          command: npm rebuild node-sass
       - run:
+          name: Ember build
           command: |
-            npm rebuild node-sass
-            echo "Building for staging (true/false): $STAGING"
-            yarn run ember build --environment=production
+            case "$CIRCLE_BRANCH" in
+              master)
+                ENVIRONMENT=staging
+                ;;
+              preview)
+                ENVIRONMENT=preview
+                ;;
+              live)
+                ENVIRONMENT=production
+                ;;
+              *)
+                echo 'Unexpected branch deployment. Choose master|preview|live'
+                exit 1
+            esac
+            echo "Building for ENVIRONMENT: ${ENVIRONMENT}"
+            EMBER_CLI_CORDOVA=0 ENVIRONMENT=${ENVIRONMENT} yarn run ember build --environment=production
       - run: mv dist/ dist-www
       - persist_to_workspace:
           root: .
@@ -141,27 +153,47 @@ jobs:
       - restore-cache: *restore-bundle-cache
       - run: bundle check --path=vendor/bundle || bundle install --deployment --jobs=4 --retry=3
       - save-cache: *save-bundle-cache
-      - run:
-          name: Setup Environment variables
-          command: |
-            echo 'export ASSET_HOST_URL=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo "https://stock.goodcity.hk/assets"; else echo "https://stock-staging.goodcity.hk/assets"; fi)' >> $BASH_ENV
-            echo 'export APP_VERSION=$(jq -r ".version" package.json)' >> $BASH_ENV
       - attach_workspace:
           at: ~/code
       - run: mv dist-www/ dist
       - run:
-          name: Get source map url with grep
-          command: echo 'export SOURCE_MAP_WITH_VARIABLE_NAME=$(grep sourceMappingURL dist/assets/stock-*.js)' >> $BASH_ENV
-      - run:
-          name: Remove unnecessary characters form source map
-          command: echo 'export SOURCE_MAP=$(eval echo $SOURCE_MAP_WITH_VARIABLE_NAME | cut -c22-100)' >> $BASH_ENV
-      - run:
-          name: Setup Environment
-          command: echo 'export ENVIRONMENT=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo production; else echo staging; fi)' >> $BASH_ENV
-      - run: bundle exec cap $ENVIRONMENT deploy:upload
+          name: Upload to www server
+          command: |
+            case "$CIRCLE_BRANCH" in
+              master)
+                STAGE=staging
+                ;;
+              preview)
+                STAGE=preview
+                ;;
+              live)
+                STAGE=production
+                ;;
+              *)
+                echo 'Unexpected branch deployment. Choose master|preview|live'
+                exit 1
+            esac
+            bundle exec cap $STAGE deploy:upload
       - run:
           name: Upload Source Map to Rollbar
           command: |
+            APP_VERSION=$(jq -r ".version" package.json)
+            SOURCE_MAP_WITH_VARIABLE_NAME=$(grep sourceMappingURL dist/assets/stock-*.js)
+            SOURCE_MAP=$(eval echo $SOURCE_MAP_WITH_VARIABLE_NAME | cut -c22-100)
+            case "$CIRCLE_BRANCH" in
+              master)
+                ASSET_HOST_URL=https://stock-staging.goodcity.hk/assets
+                ;;
+              preview)
+                ASSET_HOST_URL=https://stock-preview.goodcity.hk/assets
+                ;;
+              live)
+                ASSET_HOST_URL=https://stock.goodcity.hk/assets
+                ;;
+              *)
+                echo 'Unexpected branch deployment. Choose master|preview|live'
+                exit 1
+            esac
             curl https://api.rollbar.com/api/1/sourcemap/download -F access_token="${ROLLBAR_KEY}" -F version="${APP_VERSION}" -F minified_url=$ASSET_HOST_URL/$SOURCE_MAP
 
   ember_cordova_build:
@@ -348,13 +380,13 @@ workflows:
             - test_cases
           filters:
             branches:
-              only: /^(master|live)$/
+              only: /^(master|live|preview)$/
       - www-deploy:
           requires:
             - www_build
           filters:
             branches:
-              only: /^(master|live)$/
+              only: /^(master|live|preview)$/
       - ember_cordova_build:
           requires:
             - test_cases
