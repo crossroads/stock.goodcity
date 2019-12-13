@@ -6,10 +6,9 @@ export default Ember.Service.extend({
   session: Ember.inject.service(),
 
   allAvailablePrinters() {
-    let availablePrinters = this.get("store").peekAll("printer");
-    return availablePrinters.map(printer =>
-      printer.getProperties("name", "id")
-    );
+    return this.get("store")
+      .peekAll("printer")
+      .map(printer => printer.getProperties("name", "id"));
   },
   updateUserDefaultPrinter(printerId) {
     new AjaxPromise(

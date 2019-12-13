@@ -612,7 +612,7 @@ export default GoodcityController.extend(
       },
 
       setPrinterValue(value) {
-        let printerId = value.id;
+        const printerId = value.id;
         this.set("selectedPrinterId", printerId);
         this.get("printerService").updateUserDefaultPrinter(printerId);
       },
