@@ -8,6 +8,7 @@ import storageType from "stock/mixins/storage-type";
 export default Ember.Controller.extend(createInventroyAction, storageType, {
   application: Ember.inject.controller(),
   isMobileApp: config.cordova.enabled,
+  settings: Ember.inject.service(),
   stockAppVersion: Ember.computed(function() {
     return config.cordova.enabled ? config.APP.VERSION : null;
   }),

@@ -48,6 +48,7 @@ export default GoodcityController.extend(
     currentRoute: Ember.computed.alias("application.currentPath"),
     pkg: Ember.computed.alias("model"),
     showPieces: Ember.computed.alias("model.code.allow_pieces"),
+    settings: Ember.inject.service(),
 
     isItemDetailPresent() {
       return !!this.get("item.detail.length");

@@ -36,7 +36,8 @@ export default Ember.Service.extend({
   defaults: {
     "stock.allow_partial_operations": false,
     "stock.only_publish_singletons": true,
-    "stock.only_designate_singletons": true
+    "stock.only_designate_singletons": true,
+    "stock.enable_box_pallet_creation": false
   },
 
   allowPartialOperations: Ember.computed(function() {
@@ -49,6 +50,10 @@ export default Ember.Service.extend({
 
   onlyPublishSingletons: Ember.computed(function() {
     return this.readBoolean("stock.only_publish_singletons");
+  }),
+
+  disableBoxPalletCreation: Ember.computed(function() {
+    return !this.readBoolean("stock.enable_box_pallet_creation");
   }),
 
   // ---- Access methods

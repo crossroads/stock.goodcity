@@ -30,10 +30,13 @@
         </li>
       {{/if}}
       {{#each storageTypes as |storageType|}}
-        <li class="menu-list">
-          <span href="#" class="menu-list-anchor" {{action 'createInventory' storageType.name}}>
+        <li class="menu-list {{if storageType.disable 'disable'}}">
+          <a href="#" class="menu-list-anchor {{if storageType.disable 'disable'}}" {{action 'createInventory' storageType.name}} disabled={{storageType.disable}}>
             {{fa-icon storageType.icon size="lg"}}&nbsp;&nbsp;{{t storageType.translation}}
-          </span>
+          {{!-- {{#if storageType.disable}}
+            (Disabled)
+          {{/if}} --}}
+          </a>
         </li>
       {{/each}}
       {{#if (is-or session.currentUser.canManageAppointments getCurrentUser.canManageAppointments)}}
