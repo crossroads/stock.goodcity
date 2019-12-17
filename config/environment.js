@@ -76,7 +76,8 @@ module.exports = function(environment) {
         "identity_type",
         "donor_condition",
         "lookup",
-        "goodcity_setting"
+        "goodcity_setting",
+        "printer"
       ],
       USER_DATA_TYPES: [
         "designation",
