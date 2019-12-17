@@ -43,7 +43,6 @@ export default GoodcityController.extend(
     width: null,
     height: null,
     selectedGrade: { name: "B", id: "B" },
-    selectedPrinterId: Ember.computed.oneWay("session.userDefaultPrinter.id"),
     invalidLocation: false,
     invalidScanResult: false,
     newUploadedImage: null,
@@ -380,7 +379,7 @@ export default GoodcityController.extend(
         .printBarcode({
           package_id: packageId,
           labels,
-          printer_id: this.get("selectedPrinterDisplay").id
+          printer_id: this.get("selectedPrinterId")
         })
         .catch(error => {
           this.get("messageBox").alert(error.responseJSON.errors);
