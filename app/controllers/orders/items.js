@@ -6,6 +6,7 @@ import SearchMixin from "stock/mixins/search_resource";
 export default Ember.Controller.extend(SearchMixin, {
   queryParams: ["searchInput"],
   hideDetailsLink: true,
+  settings: Ember.inject.service(),
 
   orderId: Ember.computed.alias("model.id"),
   isMobileApp: config.cordova.enabled,
@@ -23,7 +24,7 @@ export default Ember.Controller.extend(SearchMixin, {
   getFilterQuery() {
     return {
       stockRequest: true,
-      restrictMultiQuantity: true
+      restrictMultiQuantity: this.get("settings.onlyDesignateSingletons")
     };
   },
 

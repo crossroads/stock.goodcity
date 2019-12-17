@@ -35,11 +35,16 @@ export default Ember.Service.extend({
    */
   defaults: {
     "stock.allow_partial_operations": false,
-    "stock.only_publish_singletons": true
+    "stock.only_publish_singletons": true,
+    "stock.only_designate_singletons": true
   },
 
   allowPartialOperations: Ember.computed(function() {
     return this.readBoolean("stock.allow_partial_operations");
+  }),
+
+  onlyDesignateSingletons: Ember.computed(function() {
+    return this.readBoolean("stock.only_designate_singletons");
   }),
 
   onlyPublishSingletons: Ember.computed(function() {

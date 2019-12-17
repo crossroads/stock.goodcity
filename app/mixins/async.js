@@ -3,6 +3,11 @@ import _ from "lodash";
 
 const { getOwner } = Ember;
 
+const getString = (obj, path) => {
+  const val = _.get(obj, path);
+  return val && _.isString(val) ? val : null;
+};
+
 export const ERROR_STRATEGIES = {
   IGNORE: 1,
   MODAL: 2,
@@ -50,9 +55,14 @@ export default Ember.Mixin.create({
   __toErrorMessage(reason) {
     const defaultMessage = this.get("i18n").t("unexpected_error");
 
+    if (reason && reason.responseJSON) {
+      reason = reason.responseJSON;
+    }
+
     return (
-      _.get(reason, "message") ||
-      _.get(reason, "errors[0].detail.message") ||
+      getString(reason, "error") ||
+      getString(reason, "message") ||
+      getString(reason, "errors[0].detail.message") ||
       defaultMessage
     );
   },

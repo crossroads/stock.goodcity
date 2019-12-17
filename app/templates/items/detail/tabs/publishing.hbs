@@ -21,9 +21,11 @@
         }}
       </div>
       <div class="small-6 columns">
-        <button class="button" disabled={{if model.isUnavailable true false}} {{action 'beginDesignation' model}}>
-          {{fa-icon 'shopping-basket'}} {{t 'item.designate'}}
-        </button>
+        {{#goodcity/designate-link pkg=item}}
+          <button class="button">
+            {{fa-icon 'shopping-basket'}} {{t 'item.designate'}}
+          </button>
+        {{/goodcity/designate-link}}
       </div>
     </div>
   </div>
@@ -55,15 +57,4 @@
       </div>
     {{/each}}
   </div>
-
-  {{#if readyToDesignate}}
-    {{goodcity/designate-form
-      quantity=designationQty
-      editableQty=editableQty
-      confirmAction=(action "completeDesignation")
-      cancelAction=(action "cancelDesignation")
-      order=designationTargetOrder
-      maxQuantity=designatableQuantity
-    }}
-  {{/if}}
 </div>
