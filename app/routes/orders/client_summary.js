@@ -1,10 +1,3 @@
-import detail from './detail';
+import detail from "./detail";
 
-export default detail.extend({
-  setupController(controller, model){
-    if(controller) {
-      this._super(controller, model);
-      controller.set('isActiveSummary', true);
-    }
-  }
-});
+export default detail.extend({});
