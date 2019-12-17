@@ -54,6 +54,10 @@ export default GoodcityController.extend(
       return !!this.get("item.detail.length");
     },
 
+    disableBoxPalletItemAddition: Ember.computed("model", function() {
+      return this.get("settings.disableBoxPalletItemAddition");
+    }),
+
     displayFields: Ember.computed("model.code", function() {
       let subform = this.get("model.code.subform");
       return this.returnDisplayFields(subform);
