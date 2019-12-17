@@ -68,7 +68,7 @@ export default GoodcityController.extend(
     }),
 
     isBoxOrPallet: Ember.computed("storageType", function() {
-      return ["Box", "Pallet"].indexOf(this.get("storageType")) >= -1;
+      return ["Box", "Pallet"].indexOf(this.get("storageType")) > -1;
     }),
 
     pageTitle: Ember.computed("storageType", "parentCodeName", function() {
