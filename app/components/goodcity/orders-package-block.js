@@ -175,7 +175,7 @@ export default Ember.Component.extend(AsyncMixin, {
     }
 
     try {
-      this.set("drawerOpened", false);
+      Ember.run(() => this.set("drawerOpened", false));
 
       await this.runTask(
         this.get("actionRunner").execAction(ordersPkg, actionName, params)
