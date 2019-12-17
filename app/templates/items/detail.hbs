@@ -1,13 +1,13 @@
 <section class="main-section item_details_screen">
   <div class="search">
     <div class="row profile_container">
-      {{#link-to "items.index" tagName='span' href=false}}
+      {{#back-link}}
         <div class="click-action-zone">
           <div class="back_link no-avatar">
             <i aria-hidden="true">{{fa-icon 'angle-left'}}</i>
           </div>
         </div>
-      {{/link-to}}
+      {{/back-link}}
       <div id="itemImage">
         {{image-zoom item=model}}
         <div class="image-overlay {{if showSetList 'opaque' 'transparent' }}">
