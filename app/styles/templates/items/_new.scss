@@ -278,7 +278,6 @@
 
       .printer-dropdown {
         float: left;
-
         .dropdown-wrap {
           .select {
             select {
@@ -288,12 +287,19 @@
               background-position: 95%;
               font-size: 0.8rem;
               background-color: $dark-blue;
+              height: 1.5rem !important;
             }
 
             &:after {
               content: none;
             }
           }
+        }
+      }
+
+      label {
+        @media #{$small-only} {
+          font-size: 0.7rem;
         }
       }
 
