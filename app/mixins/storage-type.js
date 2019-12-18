@@ -26,7 +26,7 @@ export default Ember.Mixin.create({
   }),
 
   storageTypeIcon: Ember.computed("item", function() {
-    switch (this.get("item.storageType.name")) {
+    switch (this.get("storageTypeName")) {
       case "Box":
         return "box-open";
       case "Pallet":
