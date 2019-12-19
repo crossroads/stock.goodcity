@@ -3,82 +3,72 @@
     <h1 class="title">{{t "items.new.add"}} - {{parentCodeName}}</h1>
   </section>
 </nav>
-
 <section class="main-section new-item-section ui">
-
   {{#validatable-form onSubmit=(action 'saveItem') as |form|}}
-
-  <div class="row image-box-row">
-
-    <a {{action "triggerUpload"}} class="{{unless isReady 'disabled'}}">
-      <span class="image-box">
-      {{#if newUploadedImage}}
-        <img  src={{newUploadedImage.thumbImageUrl}} class="thumb"/>
-      {{else}}
-        <i aria-hidden="true">{{fa-icon 'camera'}}</i><br />
-        {{t "items.new.add_images"}}
-      {{/if}}
-      </span>
-    </a>
-    {{cloudinary-upload ready="uploadReady" progress="uploadProgress"
+    <div class="row image-box-row">
+      <a {{action "triggerUpload"}} class="{{unless isReady 'disabled'}}">
+        <span class="image-box">
+          {{#if newUploadedImage}}
+            <img src={{newUploadedImage.thumbImageUrl}} class="thumb" />
+          {{else}}
+            <i aria-hidden="true">{{fa-icon 'camera'}}</i><br />
+            {{t "items.new.add_images"}}
+          {{/if}}
+        </span>
+      </a>
+      {{cloudinary-upload ready="uploadReady" progress="uploadProgress"
       always="uploadComplete" done="uploadSuccess" submit="uploadStart"}}
-
-    <div class="small-12 columns">
-
-      <div class="row">
-        <div class="small-3 columns item-label">
-          {{t "items.new.quantity"}}
+      <div class="small-12 columns">
+        <div class="row">
+          <div class="small-3 columns item-label">
+            {{t "items.new.quantity"}}
+          </div>
+          <div class="small-7 large-8 columns left">
+            {{#form-control}}
+              {{numeric-input id='qty' name="qty" value=quantity maxlength="8" required='true' pattern="\d{1,8}"}}
+              <div class='input-error'>{{t "items.new.validation_errors.quantity"}}</div>
+            {{/form-control}}
+          </div>
         </div>
-        <div class="small-7 large-8 columns left">
-          {{#form-control}}
-            {{numeric-input id='qty' name="qty" value=quantity maxlength="8" required='true' pattern="\d{1,8}"}}
-            <div class='input-error'>{{t "items.new.validation_errors.quantity"}}</div>
-          {{/form-control}}
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="small-3 columns item-label">
-          {{t "items.new.type"}}
-        </div>
-        <div class="small-7 large-8 columns left">
-          {{input value=code.name disabled=true}}
+        <div class="row">
+          <div class="small-3 columns item-label">
+            {{t "items.new.type"}}
+          </div>
+          <div class="small-7 large-8 columns left">
+            {{input value=code.name disabled=true}}
+          </div>
         </div>
       </div>
     </div>
-
-  </div>
-
-  <div class="row">
-    <div class="small-3 columns item-label">
-      {{t "items.new.description"}}
+    <div class="row">
+      <div class="small-3 columns item-label">
+        {{t "items.new.description"}}
+      </div>
+      <div class="small-9 columns description-block">
+        {{#form-control}}
+          <i class="remove-text" aria-hidden="true" {{action "clearDescription"}}>{{fa-icon 'times-circle'}}</i>
+          {{auto-resize-textarea data-autoresize=true name="description" value=description required="required" pattern=".*\S.*" id="description"}}
+          <div class='input-error'>{{t 'items.new.validation_errors.description'}}</div>
+        {{/form-control}}
+      </div>
     </div>
-    <div class="small-9 columns description-block">
-      {{#form-control}}
-        <i class="remove-text" aria-hidden="true" {{action "clearDescription"}}>{{fa-icon 'times-circle'}}</i>
-        {{auto-resize-textarea data-autoresize=true name="description" value=description required="required" pattern=".*\S.*" id="description"}}
-        <div class='input-error'>{{t 'items.new.validation_errors.description'}}</div>
-      {{/form-control}}
-    </div>
-  </div>
-
-  <div class="row quality-row">
-    <div class="small-3 columns item-label">
-      {{t "items.new.quality"}}
-    </div>
-    <div class="small-4 columns">
-      <span class='input_text'>{{t "items.new.grade"}}</span>
-      {{select-list
+    <div class="row quality-row">
+      <div class="small-3 columns item-label">
+        {{t "items.new.quality"}}
+      </div>
+      <div class="small-4 columns">
+        <span class='input_text'>{{t "items.new.grade"}}</span>
+        {{select-list
         content=grades
         on-change=(action (mut selectedGrade))
         selectedValue=selectedGrade
         value=selectedGrade
         selectArrow=true
         classNames='grade' }}
-    </div>
-    <div class="small-5 columns">
-      <span class='input_text'>{{t "items.new.condition"}}</span>
-      {{select-list
+      </div>
+      <div class="small-5 columns">
+        <span class='input_text'>{{t "items.new.condition"}}</span>
+        {{select-list
         content=conditions
         on-change=(action (mut defaultCondition))
         selectedValue=defaultCondition
@@ -86,167 +76,162 @@
         value=defaultCondition
         classNames='condition'
         idNames='condition-select' }}
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="small-3 columns item-label">
-      {{t "items.new.donation"}}
-    </div>
-    <div class="{{if isMobileApp 'small-7 large-8' 'small-9'}} columns">
-      {{#form-control}}
-      {{input type='text' value=caseNumber pattern="(CAS\-\d{5})|\d{5}"}}
-      <div class='input-error'>{{t "items.new.validation_errors.donation"}}</div>
-      {{/form-control}}
-    </div>
-    {{#if isMobileApp}}
-    <div class="small-2 large-1 columns scan-icon">
-      {{barcode-scanner route="items.new" paramName="caseNumber"}}
-    </div>
-    {{/if}}
-  </div>
-
-
-  <div class="row">
-    <div class="small-3 columns item-label">
-      {{t "items.new.location"}}
-    </div>
-
-    <div class="{{if isMobileApp 'small-7 large-8' 'small-9'}} columns">
-      {{#link-to "select_location" replace=true}}
-      <div class="{{if (is-or invalidLocation invalidScanResult) 'ember-view form__control form__control--error'}}"
-        id="inventory_location">
-        <i class="location-icon" aria-hidden="true">{{fa-icon 'map-marker-alt'}}</i>
-        {{input value=locationName disabled=true required='true'}}
-        <div class='input-error'>
-          {{#if invalidScanResult}}
-            {{t "items.new.validation_errors.invalid_location"}}
-          {{else}}
-            {{t "items.new.validation_errors.blank_location"}}
-          {{/if}}
-        </div>
-      </div>
-      {{/link-to}}
-    </div>
-
-    {{#if isMobileApp}}
-    <div class="small-2 large-1 columns scan-icon">
-      {{barcode-scanner route="items.new" paramName="scanLocationName"}}
-    </div>
-    {{/if}}
-  </div>
-
-
-  <div class="row dimension-row">
-    <div class="small-3 columns item-label">
-      {{t "items.new.size"}}
-    </div>
-    <div class="columns small-3 value length">
-      <span class='input_text'>L :</span>
-      {{numeric-input name="length" id='length' value=length maxlength="8" pattern="[1-9][0-9]{0,7}"}}
-      <span><i aria-hidden="true">{{fa-icon 'times'}}</i></span>
-    </div>
-
-    <div class="columns small-3 value width">
-      <span class='input_text'>W :</span>
-      {{numeric-input name="width" id='width' value=width maxlength="5" pattern="[1-9][0-9]{0,4}"}}
-      <span><i aria-hidden="true">{{fa-icon 'times'}}</i></span>
-    </div>
-
-    <div class="columns small-3 value height">
-      <span class='input_text'>H :</span>
-      {{numeric-input name="height" id='height' value=height maxlength="5" pattern="[1-9][0-9]{0,4}"}}
-    </div>
-    {{#if isInvalidDimension}}
-    <div class="row">
-      <div class="small-3 columns item-label"></div>
-      <div id="max-val-err" class='small-9 columns input-error show-validation'>
-        {{t "items.new.validation_errors.invalid_dimensions"}}
       </div>
     </div>
-    {{/if}}
-  </div>
-
-  <div class="row">
-    <div class="small-3 columns item-label">
-      {{t "items.new.weight"}}
-    </div>
-
-    <div class="small-3 columns weight">
-      {{numeric-input name="weight" id='weight' value=weight maxlength="10" pattern="[1-9]{0,5}"}}
-    </div>
-
-    {{#if showPiecesInput}}
-      <div class="small-3 columns item-label" align="right">
-        {{t "items.new.pieces"}}
-      </div>
-
-      <div class="small-3 columns pieces">
-        {{numeric-input name="pieces" id='pieces' value=pieces maxlength="10" pattern="[1-9]{0,5}"}}
-      </div>
-    {{/if}}
-  </div>
-
-  {{#if showAdditionalFields}}
-  {{partial "items/additional_fields"}}
-  {{/if}}
-
-  <hr>
-  <div class="row">
-    <div class="small-3 columns item-label">{{t "items.new.labels"}}</div>
-    <div class="small-3 columns">
-      {{input type="number" id="labels" name="labels" value=labels placeholder="labels" maxlength="3" pattern="\d{1,8}"}}
-      {{#if isInvalidaLabelCount}}
-        <div id="label-empty-err" class='input-error show-validation'>
-          {{t "items.new.validation_errors.blank_label"}}
-        </div>
-      {{/if}}
-      {{#unless isInvalidPrintCount}}
-        <div id="max-val-err" class='input-error show-validation'>
-          {{t "items.new.validation_errors.max_label"}}
-        </div>
-      {{/unless}}
-    </div>
-    <div class="small-2 columns item-label">
-      {{t "items.new.inventory"}}
-    </div>
-    <div class="small-4 columns inventory-number">
-      {{#if inputInventory}}
-        {{input value=inventoryNumber}}
-      {{else}}
-        {{inventoryNumber}}
-      {{/if}}
-      {{partial "items/inventory_options"}}
-    </div>
-  </div>
-
-  {{#if showPublishItemCheckBox}}
     <div class="row">
       <div class="small-3 columns item-label">
-        <label for="publishItem">{{t "items.new.publish"}}</label>
+        {{t "items.new.donation"}}
       </div>
-      <div class="small-1 columns publish">
-        {{input type="checkbox" id="publishItem" checked=isAllowedToPublish}}
+      <div class="{{if isMobileApp 'small-7 large-8' 'small-9'}} columns">
+        {{#form-control}}
+          {{input type='text' value=caseNumber pattern="(CAS\-\d{5})|\d{5}"}}
+          <div class='input-error'>{{t "items.new.validation_errors.donation"}}</div>
+        {{/form-control}}
       </div>
+      {{#if isMobileApp}}
+        <div class="small-2 large-1 columns scan-icon">
+          {{barcode-scanner route="items.new" paramName="caseNumber"}}
+        </div>
+      {{/if}}
     </div>
-  {{/if}}
-
-  <div class="row">
-    <div class="small-6 columns">
-      <a {{action 'cancelForm'}} class="button secondary expand">{{t "cancel"}}</a>
+    <div class="row">
+      <div class="small-3 columns item-label">
+        {{t "items.new.location"}}
+      </div>
+      <div class="{{if isMobileApp 'small-7 large-8' 'small-9'}} columns">
+        {{#link-to "select_location" replace=true}}
+          <div class="{{if (is-or invalidLocation invalidScanResult) 'ember-view form__control form__control--error'}}"
+            id="inventory_location">
+            <i class="location-icon" aria-hidden="true">{{fa-icon 'map-marker-alt'}}</i>
+            {{input value=locationName disabled=true required='true'}}
+            <div class='input-error'>
+              {{#if invalidScanResult}}
+                {{t "items.new.validation_errors.invalid_location"}}
+              {{else}}
+                {{t "items.new.validation_errors.blank_location"}}
+              {{/if}}
+            </div>
+          </div>
+        {{/link-to}}
+      </div>
+      {{#if isMobileApp}}
+        <div class="small-2 large-1 columns scan-icon">
+          {{barcode-scanner route="items.new" paramName="scanLocationName"}}
+        </div>
+      {{/if}}
     </div>
-
-    <div class="small-6 columns">
-      <a {{action 'submit' target=form}} class="button expand">
-        {{t "save"}}
-        {{#if isMultipleCountPrint}}
-          {{t "items.new.print" labels=printLabelCount}}<i class='fa fa-print'></i>
+    <div class="row dimension-row">
+      <div class="small-3 columns item-label">
+        {{t "items.new.size"}}
+      </div>
+      <div class="columns small-3 value length">
+        <span class='input_text'>L :</span>
+        {{numeric-input name="length" id='length' value=length maxlength="8" pattern="[1-9][0-9]{0,7}"}}
+        <span><i aria-hidden="true">{{fa-icon 'times'}}</i></span>
+      </div>
+      <div class="columns small-3 value width">
+        <span class='input_text'>W :</span>
+        {{numeric-input name="width" id='width' value=width maxlength="5" pattern="[1-9][0-9]{0,4}"}}
+        <span><i aria-hidden="true">{{fa-icon 'times'}}</i></span>
+      </div>
+      <div class="columns small-3 value height">
+        <span class='input_text'>H :</span>
+        {{numeric-input name="height" id='height' value=height maxlength="5" pattern="[1-9][0-9]{0,4}"}}
+      </div>
+      {{#if isInvalidDimension}}
+        <div class="row">
+          <div class="small-3 columns item-label"></div>
+          <div id="max-val-err" class='small-9 columns input-error show-validation'>
+            {{t "items.new.validation_errors.invalid_dimensions"}}
+          </div>
+        </div>
+      {{/if}}
+    </div>
+    <div class="row">
+      <div class="small-3 columns item-label">
+        {{t "items.new.weight"}}
+      </div>
+      <div class="small-3 columns weight">
+        {{numeric-input name="weight" id='weight' value=weight maxlength="10" pattern="[1-9]{0,5}"}}
+      </div>
+      {{#if showPiecesInput}}
+        <div class="small-3 columns item-label" align="right">
+          {{t "items.new.pieces"}}
+        </div>
+        <div class="small-3 columns pieces">
+          {{numeric-input name="pieces" id='pieces' value=pieces maxlength="10" pattern="[1-9]{0,5}"}}
+        </div>
+      {{/if}}
+    </div>
+    {{#if showAdditionalFields}}
+      {{partial "items/additional_fields"}}
+    {{/if}}
+    <div class="form-footer">
+      <div class="row">
+        <div class="small-3 columns item-label">{{t "items.new.labels"}}</div>
+        <div class="small-3 columns">
+          {{input type="number" id="labels" name="labels" value=labels placeholder="labels" maxlength="3" pattern="\d{1,8}"}}
+          {{#if isInvalidaLabelCount}}
+            <div id="label-empty-err" class='input-error show-validation'>
+              {{t "items.new.validation_errors.blank_label"}}
+            </div>
+          {{/if}}
+          {{#unless isInvalidPrintCount}}
+            <div id="max-val-err" class='input-error show-validation'>
+              {{t "items.new.validation_errors.max_label"}}
+            </div>
+          {{/unless}}
+        </div>
+        <div class="small-2 columns item-label">
+          {{t "items.new.inventory"}}
+        </div>
+        <div class="small-4 columns inventory-number">
+          {{#if inputInventory}}
+            {{input value=inventoryNumber}}
+          {{else}}
+            {{inventoryNumber}}
+          {{/if}}
+          {{partial "items/inventory_options"}}
+        </div>
+      </div>
+      <div class="row">
+        {{#if showPublishItemCheckBox}}
+          <div class="small-3 columns item-label">
+            <label for="publishItem">{{t "items.new.publish"}}</label>
+          </div>
+          <div class="small-3 columns publish">
+            {{input type="checkbox" id="publishItem" checked=isAllowedToPublish}}
+          </div>
         {{/if}}
-      </a>
+        <div class="small-2 columns item-label">
+          <label>{{t "items.new.printer"}}</label>
+        </div>
+        <div class="small-4 columns printer-dropdown">
+          <div class="dropdown-wrap">
+            {{select-list
+              content=allAvailablePrinters
+              on-change=(action "setPrinterValue")
+              selectedValue=selectedPrinterDisplay
+              value=selectedPrinterDisplay
+              selectArrow=true
+            }}
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="small-6 columns">
+          <a {{action 'cancelForm'}} class="button secondary expand">{{t "cancel"}}</a>
+        </div>
+        <div class="small-6 columns">
+          <a {{action 'submit' target=form}} class="button expand">
+            {{t "save"}}
+            {{#if isMultipleCountPrint}}
+              {{t "items.new.print" labels=printLabelCount}}<i class='fa fa-print'></i>
+            {{/if}}
+          </a>
+        </div>
+      </div>
     </div>
-  </div>
-
   {{/validatable-form}}
 </section>
-
 {{partial "loading_image"}}
