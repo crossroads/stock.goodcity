@@ -80,8 +80,6 @@ export default GoodcityController.extend(
       if (printerId) {
         const printer = this.store.peekRecord("printer", printerId);
         return { name: printer.get("name"), id: printer.id };
-      } else {
-        return this.get("allAvailablePrinters")[0];
       }
     }),
 
