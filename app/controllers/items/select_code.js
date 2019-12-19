@@ -23,9 +23,11 @@ export default SearchCode.extend({
     const item = this.get("item");
     const type = item.get("detailType");
     const detailId = item.get("detailId");
-    await this.runTask(
-      this.get("subformDetailService").deleteDetailType(type, detailId)
-    );
+    if (type) {
+      await this.runTask(
+        this.get("subformDetailService").deleteDetailType(type, detailId)
+      );
+    }
     return this.assignNew(packageType, {
       deleteDetailId: !this.isSubformPackage(packageType)
     });
