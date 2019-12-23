@@ -4,6 +4,20 @@
 .cmp.action-drawer {
   height: 6em;
   width: calc(90vw - 2rem);
+
+  &.small {
+    width: 16.5rem;
+    height: 3rem;
+
+    svg {
+      display: none;
+    }
+
+    .action-holder .action {
+      padding-top: 0.5rem;
+    }
+  }
+
   max-width: 37rem;
   background-color: black;
 

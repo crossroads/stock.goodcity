@@ -1,6 +1,7 @@
 .row.gc-orders-package-block {
 
   width: 90vw;
+
   max-width: 40rem;
   margin-bottom: 1rem;
 
@@ -14,6 +15,24 @@
   &.state-cancelled {
     .sub-block.left {
       background-color: black;
+    }
+  }
+
+  &.small {
+    width: 18rem;
+    .sub-block {
+      height: 3em;
+      &.left .pkg-icon {
+        display: none;
+      }
+
+      .line:not(:first-child) {
+        display: none;
+      }
+
+      .order-icon {
+        float: left;
+      }
     }
   }
 

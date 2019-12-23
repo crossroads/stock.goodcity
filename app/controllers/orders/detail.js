@@ -23,12 +23,18 @@ export default GoodcityController.extend({
   i18n: Ember.inject.service(),
   placeHolderDate: null,
   appReview: Ember.inject.service(),
+  application: Ember.inject.controller(),
   isOrderProcessRestarted: false,
-  isActiveGoods: false,
-  isActiveSummary: false,
   scheduleChangePopupVisible: false,
   filterService: Ember.inject.service(),
   processingChecklist: Ember.inject.service(),
+  currentRoute: Ember.computed.alias("application.currentPath"),
+
+  tabName: Ember.computed("currentRoute", function() {
+    return this.get("currentRoute")
+      .split(".")
+      .get("lastObject");
+  }),
 
   scheduleTimeSlots: Ember.computed(function() {
     let buildSlot = (hours, minutes) => {

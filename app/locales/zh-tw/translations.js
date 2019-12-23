@@ -34,6 +34,7 @@ export default {
   not_now: "稍後",
   incomplete_form: "請填寫必需填寫之項目以繼續下一步",
   continue: "繼續",
+  show: "Show",
   save_changes: "儲存變更",
   discard: "棄置",
   discard_changes: "棄置變更",
@@ -762,11 +763,11 @@ export default {
     designate_to: "Designate this package to:",
     designate_entire: " 指定全數",
     designate_part: "指定部份",
-    quantity_input: "Quantity to designate"
-  },
-  "dispatch-form": {
-    confirmation: " 您必須勾選確認方格才可繼續",
-    dispatch_multipart: " 派送多部份至{{orderCode}}",
-    dispatch_entire: "派送全部數量"
+    quantity_input: "Quantity to designate",
+    already_fully_designated: "The remaining quantity is already designated.",
+    already_fully_designated_to:
+      "The remaining quantity is designated to {{orderCode}}.",
+    confirm_undesignation: "Are you sure you wish to undesignate ?",
+    click_to_undesignate: "Click here to undesignate"
   }
 };
