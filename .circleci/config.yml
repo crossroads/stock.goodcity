@@ -409,13 +409,13 @@ workflows:
             - package_dependencies
           filters:
             branches:
-              only: /^(master|live|ember-upgrade)$/
+              only: /^(master|live|preview)$/
       - www-deploy:
           requires:
             - www_build
           filters:
             branches:
-              only: /^(master|live|ember-upgrade)$/
+              only: /^(master|live|preview)$/
       - ember_cordova_build:
           requires:
             - package_dependencies
