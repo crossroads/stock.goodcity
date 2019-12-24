@@ -11,6 +11,7 @@ export default GoodcityController.extend(SearchMixin, {
   isMobileApp: config.cordova.enabled,
   order: Ember.computed.alias("model"),
   orderId: Ember.computed.alias("model.id"),
+  showCancellationReason: false,
   hasUnreadMessages: Ember.computed("order", function() {
     return this.get("order.hasUnreadMessages");
   }),
@@ -169,7 +170,8 @@ export default GoodcityController.extend(SearchMixin, {
           this.send("dispatchLaterModel", order, actionName);
           break;
         case "cancel":
-          this.send("promptCancelOrderModel", order, actionName);
+          // this.send("promptCancelOrderModel", order, actionName);
+          this.set("showCancellationReason", true);
           break;
         case "close":
           this.send("promptCloseOrderModel", order, actionName);
