@@ -43,7 +43,7 @@ export default Ember.Controller.extend(AsyncMixin, {
 
   isOnline() {
     if (!window.navigator.onLine) {
-      this.get("messageBox").alert(this.get("i18n").t("offline_error"));
+      this.get("messageBox").alert(this.get("intl").t("offline_error"));
       return false;
     }
     return true;

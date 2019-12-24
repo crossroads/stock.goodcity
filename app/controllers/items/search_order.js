@@ -2,8 +2,7 @@ import Ember from "ember";
 import searchModule from "../search_module";
 
 export default searchModule.extend({
-
-  queryParams: ['isSet', 'showDispatchOverlay', 'partial_qty'],
+  queryParams: ["isSet", "showDispatchOverlay", "partial_qty"],
   isSet: null,
   showDispatchOverlay: false,
   toDesignateItem: true,
@@ -13,10 +12,13 @@ export default searchModule.extend({
   searchModelName: "designation",
   minSearchTextLength: 2,
   messageBox: Ember.inject.service(),
-  i18n: Ember.inject.service(),
+  intl: Ember.inject.service(),
 
   sortProperties: ["recentlyUsedAt:desc"],
-  recentlyUsedDesignations: Ember.computed.sort("model.designations", "sortProperties"),
+  recentlyUsedDesignations: Ember.computed.sort(
+    "model.designations",
+    "sortProperties"
+  ),
 
   displayUserPrompt: false,
   showAllSetItems: false,
@@ -26,15 +28,20 @@ export default searchModule.extend({
   excludeAssociations: true,
 
   actions: {
-
     setOrder(order) {
       var _this = this;
       //Don't allow to designate if Order is of type "GoodCity" and is in cancelled or closed state
-      if(order && order.get("isGoodCityOrder") && (order.get("isCancelled") || order.get("isClosed"))) {
+      if (
+        order &&
+        order.get("isGoodCityOrder") &&
+        (order.get("isCancelled") || order.get("isClosed"))
+      ) {
         _this.get("messageBox").alert(
-          _this.get("i18n").t("order_details.cannot_designate_to_gc_order", () => {
-            return false;
-          })
+          _this
+            .get("intl")
+            .t("order_details.cannot_designate_to_gc_order", () => {
+              return false;
+            })
         );
       } else {
         this.set("order", order);

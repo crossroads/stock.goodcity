@@ -2,10 +2,10 @@ import config from "../../config/environment";
 import Ember from "ember";
 const { getOwner } = Ember;
 import AjaxPromise from "stock/utils/ajax-promise";
-import { translationMacro as t } from "ember-i18n";
+import { translationMacro as t } from "ember-intl";
 
 export default Ember.Controller.extend({
-  i18n: Ember.inject.service(),
+  intl: Ember.inject.service(),
   phoneNumberPlaceholder: t("organisation.user.phone_number"),
   fNamePlaceholder: t("organisation.user.john"),
   lNamePlaceholder: t("organisation.user.doe"),

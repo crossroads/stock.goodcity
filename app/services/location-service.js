@@ -12,7 +12,7 @@ import { toID } from "../utils/helpers";
  */
 export default ApiBaseService.extend(NavigationAwareness, {
   store: Ember.inject.service(),
-  i18n: Ember.inject.service(),
+  intl: Ember.inject.service(),
 
   init() {
     this._super(...arguments);

@@ -2,12 +2,12 @@ import Ember from "ember";
 import { singularize, pluralize } from "ember-inflector";
 import _ from "lodash";
 const { getOwner } = Ember;
-import { translationMacro as t } from "ember-i18n";
+import { translationMacro as t } from "ember-intl";
 
 export default Ember.Component.extend({
   selected: [],
   previousValue: "",
-  i18n: Ember.inject.service(),
+  intl: Ember.inject.service(),
   store: Ember.inject.service(),
   subformDetailService: Ember.inject.service(),
   resourceType: Ember.computed.alias("packageDetails"),

@@ -22,7 +22,7 @@ export default GoodcityController.extend({
   organisationIdforHistoryRoute: null,
   store: Ember.inject.service(),
   messageBox: Ember.inject.service(),
-  i18n: Ember.inject.service(),
+  intl: Ember.inject.service(),
   placeHolderDate: null,
   appReview: Ember.inject.service(),
   isOrderProcessRestarted: false,
@@ -121,12 +121,12 @@ export default GoodcityController.extend({
   genericCustomPopUp(message, button1text, button2text, btn1Callback) {
     var _this = this;
     _this.get("messageBox").custom(
-      _this.get("i18n").t(message),
-      _this.get("i18n").t(button1text),
+      _this.get("intl").t(message),
+      _this.get("intl").t(button1text),
       () => {
         btn1Callback();
       },
-      _this.get("i18n").t(button2text),
+      _this.get("intl").t(button2text),
       () => {
         this.send("toggleDisplayOptions");
       }
@@ -135,7 +135,7 @@ export default GoodcityController.extend({
 
   genericAlertPopUp(message, btn1Callback = _.noop) {
     var _this = this;
-    this.get("messageBox").alert(_this.get("i18n").t(message), () => {
+    this.get("messageBox").alert(_this.get("intl").t(message), () => {
       btn1Callback();
     });
   },

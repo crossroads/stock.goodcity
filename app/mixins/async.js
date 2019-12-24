@@ -12,7 +12,7 @@ export const ERROR_STRATEGIES = {
 export default Ember.Mixin.create({
   logger: Ember.inject.service(),
   messageBox: Ember.inject.service(),
-  i18n: Ember.inject.service(),
+  intl: Ember.inject.service(),
 
   ERROR_STRATEGIES,
 
@@ -48,7 +48,7 @@ export default Ember.Mixin.create({
   },
 
   __toErrorMessage(reason) {
-    const defaultMessage = this.get("i18n").t("unexpected_error");
+    const defaultMessage = this.get("intl").t("unexpected_error");
 
     return (
       _.get(reason, "message") ||
@@ -109,7 +109,7 @@ export default Ember.Mixin.create({
     });
   },
 
-  i18nAlert(key, cb) {
-    this.get("messageBox").alert(this.get("i18n").t(key), cb);
+  intlAlert(key, cb) {
+    this.get("messageBox").alert(this.get("intl").t(key), cb);
   }
 });

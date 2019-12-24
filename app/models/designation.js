@@ -4,7 +4,7 @@ import attr from "ember-data/attr";
 import { belongsTo, hasMany } from "ember-data/relationships";
 
 export default Model.extend({
-  i18n: Ember.inject.service(),
+  intl: Ember.inject.service(),
   utilityMethods: Ember.inject.service(),
 
   status: attr("string"),
@@ -137,10 +137,10 @@ export default Model.extend({
   appointmentTransportLabel: Ember.computed(
     "orderTransport.transportType",
     function() {
-      let i18n = this.get("i18n");
+      let intl = this.get("intl");
       return this.get("orderTransport.transportType") === "self"
-        ? i18n.t("order.appointment.self_vehicle")
-        : i18n.t("order.appointment.hire_vehicle");
+        ? intl.t("order.appointment.self_vehicle")
+        : intl.t("order.appointment.hire_vehicle");
     }
   ),
 
@@ -179,7 +179,7 @@ export default Model.extend({
 
   transportLabel: Ember.computed("stateText", "orderTransport", function() {
     const key = this.get("stateText") || "unknown_transport";
-    return this.get("i18n").t(`order_transports.${key}`);
+    return this.get("intl").t(`order_transports.${key}`);
   }),
 
   transportKey: Ember.computed("orderTransport.transportType", function() {

@@ -1,7 +1,7 @@
 import Ember from "ember";
-import AjaxPromise from 'stock/utils/ajax-promise';
-import config from '../../config/environment';
-import { task } from 'ember-concurrency';
+import AjaxPromise from "stock/utils/ajax-promise";
+import config from "../../config/environment";
+import { task } from "ember-concurrency";
 
 const { getOwner } = Ember;
 
@@ -9,14 +9,14 @@ export default Ember.Controller.extend({
   queryParams: ["prevPath"],
   prevPath: null,
   isMobileApp: config.cordova.enabled,
-  i18n: Ember.inject.service(),
+  intl: Ember.inject.service(),
   order: Ember.computed.alias("model.orderUserOrganisation.order"),
   beneficiary: Ember.computed.alias("model.beneficiary"),
   purposes: Ember.computed.alias("model.purposes"),
 
   firstName: Ember.computed("beneficiary", {
     get() {
-      return this.returnBeneficaryType('firstName');
+      return this.returnBeneficaryType("firstName");
     },
     set(key, value) {
       return value;
@@ -25,7 +25,7 @@ export default Ember.Controller.extend({
 
   lastName: Ember.computed("beneficiary", {
     get() {
-      return this.returnBeneficaryType('lastName');
+      return this.returnBeneficaryType("lastName");
     },
     set(key, value) {
       return value;
@@ -34,7 +34,7 @@ export default Ember.Controller.extend({
 
   identityNumber: Ember.computed("beneficiary", {
     get() {
-      return this.returnBeneficaryType('identityNumber');
+      return this.returnBeneficaryType("identityNumber");
     },
     set(key, value) {
       return value;
@@ -42,14 +42,14 @@ export default Ember.Controller.extend({
   }),
 
   returnBeneficaryType(type) {
-    let beneficiary = this.get('beneficiary');
+    let beneficiary = this.get("beneficiary");
     return beneficiary && beneficiary.get(type);
   },
 
   mobilePhone: Ember.computed("beneficiary", {
     get() {
-      let beneficiary = this.get('beneficiary');
-      let phoneNumber = beneficiary && beneficiary.get('phoneNumber').slice(4);
+      let beneficiary = this.get("beneficiary");
+      let phoneNumber = beneficiary && beneficiary.get("phoneNumber").slice(4);
       return phoneNumber;
     },
     set(key, value) {
@@ -57,10 +57,13 @@ export default Ember.Controller.extend({
     }
   }),
 
-  selectedId: Ember.computed('beneficiary.identityTypeId', {
+  selectedId: Ember.computed("beneficiary.identityTypeId", {
     get() {
-      let beneficiary = this.get('beneficiary');
-      let selectedId = beneficiary && beneficiary.get('identityTypeId') === 2 ? "abcl" : "hkId";
+      let beneficiary = this.get("beneficiary");
+      let selectedId =
+        beneficiary && beneficiary.get("identityTypeId") === 2
+          ? "abcl"
+          : "hkId";
       return selectedId;
     },
     set(key, value) {
@@ -68,13 +71,14 @@ export default Ember.Controller.extend({
     }
   }),
 
-  selectedPurposeId: Ember.computed('order', {
+  selectedPurposeId: Ember.computed("order", {
     get() {
-      let orderPurpose = this.get('order.ordersPurposes').get('firstObject');
-      let prevPath = this.get('prevPath');
-      return (prevPath === "client_summary") ?
-        "client" :
-        (orderPurpose && orderPurpose.get('purpose.identifier')) || 'organisation';
+      let orderPurpose = this.get("order.ordersPurposes").get("firstObject");
+      let prevPath = this.get("prevPath");
+      return prevPath === "client_summary"
+        ? "client"
+        : (orderPurpose && orderPurpose.get("purpose.identifier")) ||
+            "organisation";
     },
     set(key, value) {
       return value;
@@ -84,12 +88,12 @@ export default Ember.Controller.extend({
   isClientSelected: Ember.computed.equal("selectedPurposeId", "client"),
   isHkIdSelected: Ember.computed.equal("selectedId", "hkId"),
 
-  mobile: Ember.computed('mobilePhone', function(){
-    return config.APP.HK_COUNTRY_CODE + this.get('mobilePhone');
+  mobile: Ember.computed("mobilePhone", function() {
+    return config.APP.HK_COUNTRY_CODE + this.get("mobilePhone");
   }),
 
   titles: Ember.computed(function() {
-    let translation = this.get("i18n");
+    let intl = this.get("intl");
     let mr = translation.t("order.user_title.mr");
     let mrs = translation.t("order.user_title.mrs");
     let miss = translation.t("order.user_title.miss");
@@ -103,96 +107,124 @@ export default Ember.Controller.extend({
     ];
   }),
 
-  beneficiaryParams(){
-    let title = Ember.$("select#title option").toArray().filter((title) => title.selected === true)[0].value;
+  beneficiaryParams() {
+    let title = Ember.$("select#title option")
+      .toArray()
+      .filter(title => title.selected === true)[0].value;
     var beneficieryParams = {
-      first_name: this.get('firstName'),
-      last_name: this.get('lastName'),
+      first_name: this.get("firstName"),
+      last_name: this.get("lastName"),
       title: title,
-      identity_number: this.get('identityNumber'),
-      phone_number: this.get('mobile'),
-      order_id: this.get('order.id'),
-      identity_type_id: this.identityTypeId(),
+      identity_number: this.get("identityNumber"),
+      phone_number: this.get("mobile"),
+      order_id: this.get("order.id"),
+      identity_type_id: this.identityTypeId()
     };
     return beneficieryParams;
   },
 
-  identityTypeId(){
-    return this.get('selectedId') === 'hkId' ? 1 : 2;
+  identityTypeId() {
+    return this.get("selectedId") === "hkId" ? 1 : 2;
   },
 
   actionType(isOrganisation, beneficiaryId) {
     let actionType;
     if (isOrganisation && beneficiaryId) {
-      actionType = 'DELETE';
+      actionType = "DELETE";
     } else if (!isOrganisation && beneficiaryId) {
-      actionType = 'PUT';
+      actionType = "PUT";
     } else if (!isOrganisation && !beneficiaryId) {
-      actionType = 'POST';
+      actionType = "POST";
     } else {
       actionType = null;
     }
     return actionType;
   },
 
-  editOrder: task(function * (orderParams, isOrganisation) {
-    let orderId = this.get('order.id');
-    let beneficiaryId = this.get('beneficiary.id');
+  editOrder: task(function*(orderParams, isOrganisation) {
+    let orderId = this.get("order.id");
+    let beneficiaryId = this.get("beneficiary.id");
     let store = this.store;
-    let url = beneficiaryId ? "/beneficiaries/" + beneficiaryId : "/beneficiaries";
+    let url = beneficiaryId
+      ? "/beneficiaries/" + beneficiaryId
+      : "/beneficiaries";
     let actionType = this.actionType(isOrganisation, beneficiaryId);
-    let beneficiary = beneficiaryId && store.peekRecord('beneficiary', beneficiaryId);
-    let loadingView = getOwner(this).lookup('component:loading').append();
-    let beneficiaryParams = (["PUT", "POST"].indexOf(actionType) > -1) ?  { beneficiary: this.beneficiaryParams(), order_id: orderId } : {};
+    let beneficiary =
+      beneficiaryId && store.peekRecord("beneficiary", beneficiaryId);
+    let loadingView = getOwner(this)
+      .lookup("component:loading")
+      .append();
+    let beneficiaryParams =
+      ["PUT", "POST"].indexOf(actionType) > -1
+        ? { beneficiary: this.beneficiaryParams(), order_id: orderId }
+        : {};
     var beneficiaryResponse;
 
     if (actionType) {
-      beneficiaryResponse = yield new AjaxPromise(url, actionType, this.get('session.authToken'), beneficiaryParams);
-      orderParams['beneficiary_id'] = beneficiaryResponse.beneficiary ? beneficiaryResponse.beneficiary.id : null;
+      beneficiaryResponse = yield new AjaxPromise(
+        url,
+        actionType,
+        this.get("session.authToken"),
+        beneficiaryParams
+      );
+      orderParams["beneficiary_id"] = beneficiaryResponse.beneficiary
+        ? beneficiaryResponse.beneficiary.id
+        : null;
     }
 
-    let orderResponse = yield new AjaxPromise('/orders/' + orderId, 'PUT', this.get('session.authToken'), { order: orderParams });
+    let orderResponse = yield new AjaxPromise(
+      "/orders/" + orderId,
+      "PUT",
+      this.get("session.authToken"),
+      { order: orderParams }
+    );
     store.pushPayload(orderResponse);
 
-    if(beneficiary && actionType === "DELETE") {
+    if (beneficiary && actionType === "DELETE") {
       store.unloadRecord(beneficiary);
-      this.send('redirectToGoodsDetails');
+      this.send("redirectToGoodsDetails");
     } else {
       store.pushPayload(beneficiaryResponse);
-      this.send('redirectToGoodsDetails');
+      this.send("redirectToGoodsDetails");
     }
     loadingView.destroy();
   }),
 
   actions: {
-    saveClientDetails(){
+    saveClientDetails() {
       let orderParams;
-      let clientInfo = this.get('selectedPurposeId');
-      let purposeId = this.get('purposes').filterBy('identifier', clientInfo).get('firstObject.id');
+      let clientInfo = this.get("selectedPurposeId");
+      let purposeId = this.get("purposes")
+        .filterBy("identifier", clientInfo)
+        .get("firstObject.id");
 
-      const isForOrganisation = clientInfo === 'organisation';
-      orderParams = isForOrganisation ? {
-          'purpose_ids': [purposeId],
-          'beneficiary_id': null
-        } : {
-          'purpose_ids': [purposeId]
-        };
-      this.get('editOrder').perform(orderParams, isForOrganisation);
+      const isForOrganisation = clientInfo === "organisation";
+      orderParams = isForOrganisation
+        ? {
+            purpose_ids: [purposeId],
+            beneficiary_id: null
+          }
+        : {
+            purpose_ids: [purposeId]
+          };
+      this.get("editOrder").perform(orderParams, isForOrganisation);
     },
 
     redirectToGoodsDetails() {
       let orderId = this.get("order.id");
       const prevPath = this.get("prevPath");
-      if(prevPath && prevPath === "client_summary") {
+      if (prevPath && prevPath === "client_summary") {
         this.send("redirectToClientSummary");
       } else {
-        this.transitionToRoute('order.goods_details', orderId, { queryParams: { fromClientInformation: true }});
+        this.transitionToRoute("order.goods_details", orderId, {
+          queryParams: { fromClientInformation: true }
+        });
       }
     },
 
     redirectToClientSummary() {
       let orderId = this.get("order.id");
-      this.transitionToRoute('orders.client_summary', orderId);
+      this.transitionToRoute("orders.client_summary", orderId);
     }
   }
 });

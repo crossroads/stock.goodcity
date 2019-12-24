@@ -4,7 +4,7 @@ import GoodcityController from "../goodcity_controller";
 import config from "../../config/environment";
 import additionalFields from "../../constants/additional-fields";
 import _ from "lodash";
-import { translationMacro as t } from "ember-i18n";
+import { translationMacro as t } from "ember-intl";
 const { getOwner, A } = Ember;
 import SearchOptionMixin from "stock/mixins/search_option";
 import PackageDetailMixin from "stock/mixins/fetch_package_detail";
@@ -52,7 +52,7 @@ export default GoodcityController.extend(
     showAdditionalFields: false,
     isAllowedToPublish: false,
     imageKeys: Ember.computed.localStorage(),
-    i18n: Ember.inject.service(),
+    intl: Ember.inject.service(),
     packageService: Ember.inject.service(),
     cancelWarning: t("items.new.cancel_warning"),
 
@@ -67,7 +67,7 @@ export default GoodcityController.extend(
     }),
 
     locale: function(str) {
-      return this.get("i18n").t(str);
+      return this.get("intl").t(str);
     },
 
     setLocation: Ember.observer("scanLocationName", function() {
@@ -323,7 +323,7 @@ export default GoodcityController.extend(
       let _this = this;
       let permissions = window.cordova.plugins.permissions;
       let permissionError = () => {
-        let error_message = this.get("i18n").t("camera_scan.permission_error");
+        let error_message = this.get("intl").t("camera_scan.permission_error");
         _this.get("messageBox").alert(error_message);
       };
       let permissionSuccess = status => {
@@ -385,7 +385,7 @@ export default GoodcityController.extend(
 
     showOfflineError() {
       if (!window.navigator.onLine) {
-        this.get("messageBox").alert(this.get("i18n").t("offline_error"));
+        this.get("messageBox").alert(this.get("intl").t("offline_error"));
         return false;
       }
     },

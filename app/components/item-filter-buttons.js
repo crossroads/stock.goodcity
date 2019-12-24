@@ -2,7 +2,7 @@ import Ember from "ember";
 import _ from "lodash";
 
 export default Ember.Component.extend({
-  i18n: Ember.inject.service(),
+  intl: Ember.inject.service(),
   filterService: Ember.inject.service(),
 
   itemStateFilters: Ember.computed.alias("filterService.itemStateFilters"),
