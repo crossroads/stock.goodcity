@@ -16,6 +16,22 @@
   }
 }
 
+.cancellation_reason {
+  .custom_radio_buttons {
+    input[type='radio'] {
+      display: block;
+      margin-bottom: 0;
+      margin-top: 2%;
+    }
+
+    label {
+      color: black;
+      margin-left: 5%;
+      margin-top: -8%;
+    }
+  }
+}
+
 .beneficiary-inline-input {
   margin-bottom: 0 !important;
   color: #a3aab6 !important;

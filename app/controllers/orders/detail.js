@@ -10,6 +10,7 @@ export default GoodcityController.extend({
   displayAllItems: false,
   isMobileApp: config.cordova.enabled,
   order: Ember.computed.alias("model"),
+  showCancellationReason: false,
   hasUnreadMessages: Ember.computed("order", function() {
     return this.get("order.hasUnreadMessages");
   }),
@@ -227,7 +228,8 @@ export default GoodcityController.extend({
           this.send("dispatchLaterModel", order, actionName);
           break;
         case "cancel":
-          this.send("promptCancelOrderModel", order, actionName);
+          // this.send("promptCancelOrderModel", order, actionName);
+          this.set("showCancellationReason", true);
           break;
         case "close":
           this.send("promptCloseOrderModel", order, actionName);
