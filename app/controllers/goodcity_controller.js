@@ -1,6 +1,9 @@
-import Ember from 'ember';
-import RSVP from 'rsvp';
-import _ from 'lodash';
+import { getOwner } from "@ember/application";
+import { inject as service } from "@ember/service";
+import Controller from "@ember/controller";
+import Ember from "ember";
+import RSVP from "rsvp";
+import _ from "lodash";
 
 /**
  * Generic controller base. Should hopefully help avoid re-writing code in the future
@@ -10,12 +13,11 @@ import _ from 'lodash';
  *  - CRUD methods for controlling records
  *
  */
-export default Ember.Controller.extend({
-
+export default Controller.extend({
   // ---- Services
 
-  messageBox: Ember.inject.service(),
-  i18n: Ember.inject.service(),
+  messageBox: service(),
+  i18n: service(),
 
   init() {
     this._super();
@@ -28,7 +30,9 @@ export default Ember.Controller.extend({
       return;
     }
     if (!this.loadingView) {
-      this.loadingView = Ember.getOwner(this).lookup('component:loading').append();
+      this.loadingView = getOwner(this)
+        .lookup("component:loading")
+        .append();
     }
   },
 
@@ -43,38 +47,45 @@ export default Ember.Controller.extend({
   },
 
   showError(message, cb) {
-    this.get("messageBox").alert(message || this.get("i18n").t("unexpected_error"), cb);
+    this.get("messageBox").alert(
+      message || this.get("i18n").t("unexpected_error"),
+      cb
+    );
   },
 
   onError(response = {}) {
-    const errors = _.map(response.errors, (err) => _.isString(err) ? err : err.detail);
+    const errors = _.map(response.errors, err =>
+      _.isString(err) ? err : err.detail
+    );
     this.showError(errors[0]);
   },
 
   // ---- CRUD
 
   createRecord(modelName, payload) {
-    const newRecord = this.get('store').createRecord(modelName, payload);
+    const newRecord = this.get("store").createRecord(modelName, payload);
     this.showLoadingSpinner();
-    return newRecord.save()
+    return newRecord
+      .save()
       .catch(r => {
         this.onError(r);
       })
-      .then(() => this.hideLoadingSpinner()); 
+      .then(() => this.hideLoadingSpinner());
   },
 
   updateRecord(record, updates = {}, opts = {}) {
     _.each(updates, (v, k) => record.set(k, v));
     this.showLoadingSpinner();
-    return record.save()
+    return record
+      .save()
       .then(() => {
-        _.get(opts, 'onSuccess', _.noop)();
+        _.get(opts, "onSuccess", _.noop)();
       })
       .catch(e => {
         if (!opts.noRollback) {
           record.rollbackAttributes();
         }
-        _.get(opts, 'onFailure', _.noop)(e);
+        _.get(opts, "onFailure", _.noop)(e);
         this.onError(e);
       })
       .finally(() => this.hideLoadingSpinner());
@@ -90,5 +101,4 @@ export default Ember.Controller.extend({
   back() {
     history.back();
   }
-
 });

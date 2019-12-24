@@ -1,14 +1,17 @@
+import { debounce } from "@ember/runloop";
+import { alias } from "@ember/object/computed";
+import { inject as service } from "@ember/service";
+import Controller from "@ember/controller";
 import config from "../../config/environment";
-import Ember from "ember";
 import _ from "lodash";
 import SearchMixin from "stock/mixins/search_resource";
 
-export default Ember.Controller.extend(SearchMixin, {
+export default Controller.extend(SearchMixin, {
   queryParams: ["searchInput"],
   hideDetailsLink: true,
-  settings: Ember.inject.service(),
+  settings: service(),
 
-  orderId: Ember.computed.alias("model.id"),
+  orderId: alias("model.id"),
   isMobileApp: config.cordova.enabled,
   autoDisplayOverlay: false,
 
@@ -52,7 +55,7 @@ export default Ember.Controller.extend(SearchMixin, {
 
     displaySetItems(item) {
       this.set("itemSetId", item.get("itemId"));
-      Ember.run.debounce(this, this.applyFilter, 0);
+      debounce(this, this.applyFilter, 0);
     }
   }
 });

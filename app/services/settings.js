@@ -1,4 +1,5 @@
-import Ember from "ember";
+import { computed } from "@ember/object";
+import Service, { inject as service } from "@ember/service";
 import _ from "lodash";
 
 const NOT_EMPTY = val => val && val.length > 0;
@@ -12,8 +13,8 @@ const TO_BOOL = val => {
   return Boolean(val);
 };
 
-export default Ember.Service.extend({
-  store: Ember.inject.service(),
+export default Service.extend({
+  store: service(),
 
   /**
    *
@@ -39,15 +40,15 @@ export default Ember.Service.extend({
     "stock.only_designate_singletons": true
   },
 
-  allowPartialOperations: Ember.computed(function() {
+  allowPartialOperations: computed(function() {
     return this.readBoolean("stock.allow_partial_operations");
   }),
 
-  onlyDesignateSingletons: Ember.computed(function() {
+  onlyDesignateSingletons: computed(function() {
     return this.readBoolean("stock.only_designate_singletons");
   }),
 
-  onlyPublishSingletons: Ember.computed(function() {
+  onlyPublishSingletons: computed(function() {
     return this.readBoolean("stock.only_publish_singletons");
   }),
 

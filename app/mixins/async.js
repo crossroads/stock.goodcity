@@ -1,7 +1,10 @@
+import { run } from "@ember/runloop";
+import { resolve, reject } from "rsvp";
+import { inject as service } from "@ember/service";
+import Mixin from "@ember/object/mixin";
+import { getOwner } from "@ember/application";
 import Ember from "ember";
 import _ from "lodash";
-
-const { getOwner } = Ember;
 
 const getString = (obj, path) => {
   const val = _.get(obj, path);
@@ -14,10 +17,10 @@ export const ERROR_STRATEGIES = {
   RAISE: 3
 };
 
-export default Ember.Mixin.create({
-  logger: Ember.inject.service(),
-  messageBox: Ember.inject.service(),
-  i18n: Ember.inject.service(),
+export default Mixin.create({
+  logger: service(),
+  messageBox: service(),
+  i18n: service(),
 
   ERROR_STRATEGIES,
 
@@ -39,12 +42,12 @@ export default Ember.Mixin.create({
 
   __run(task) {
     const res = typeof task === "function" ? task() : task;
-    return Ember.RSVP.resolve(res);
+    return resolve(res);
   },
 
   __handleError(err, errorStrategy = ERROR_STRATEGIES.RAISE) {
     if (errorStrategy === ERROR_STRATEGIES.RAISE) {
-      return Ember.RSVP.reject(err);
+      return reject(err);
     }
 
     if (errorStrategy === ERROR_STRATEGIES.MODAL) {
@@ -87,7 +90,7 @@ export default Ember.Mixin.create({
   },
 
   showLoadingSpinner() {
-    Ember.run(() => {
+    run(() => {
       if (!this.__loadingView && !Ember.testing) {
         this.__loadingView = getOwner(this)
           .factoryFor("component:loading")
@@ -98,7 +101,7 @@ export default Ember.Mixin.create({
   },
 
   hideLoadingSpinner() {
-    Ember.run(() => {
+    run(() => {
       if (this.__loadingView && !Ember.testing) {
         this.__loadingView.destroy();
         this.__loadingView = null;

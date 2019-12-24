@@ -1,29 +1,33 @@
-import Ember from "ember";
+import { later } from "@ember/runloop";
+import $ from "jquery";
+import { computed } from "@ember/object";
+import { empty, sort } from "@ember/object/computed";
+import { inject as service } from "@ember/service";
 import config from "../../config/environment";
 import detail from "./detail";
 
 export default detail.extend({
-  store: Ember.inject.service(),
-  subscription: Ember.inject.service(),
-  messagesUtil: Ember.inject.service("messages"),
+  store: service(),
+  subscription: service(),
+  messagesUtil: service("messages"),
   body: "",
   isPrivate: false,
   backLinkPath: "",
   isMobileApp: config.cordova.enabled,
   itemIdforHistoryRoute: null,
   organisationIdforHistoryRoute: null,
-  i18n: Ember.inject.service(),
+  i18n: service(),
   sortProperties: ["createdAt: asc"],
   model: null,
-  noMessage: Ember.computed.empty("model.messages"),
+  noMessage: empty("model.messages"),
 
-  displayChatNote: Ember.computed("noMessage", "disabled", function() {
+  displayChatNote: computed("noMessage", "disabled", function() {
     return this.get("noMessage") && !this.get("disabled");
   }),
 
-  sortedMessages: Ember.computed.sort("model.messages", "sortProperties"),
+  sortedMessages: sort("model.messages", "sortProperties"),
 
-  groupedMessages: Ember.computed("sortedMessages", function() {
+  groupedMessages: computed("sortedMessages", function() {
     this.autoScroll();
     return this.groupBy(this.get("sortedMessages"), "createdDate");
   }),
@@ -89,16 +93,16 @@ export default detail.extend({
 
     this.get("messagesUtil").markRead(message);
 
-    if (!Ember.$(".message-textbar").length) {
+    if (!$(".message-textbar").length) {
       return;
     }
 
-    let scrollOffset = Ember.$(document).height();
+    let scrollOffset = $(document).height();
     let screenHeight = document.documentElement.clientHeight;
     let pageHeight = document.documentElement.scrollHeight;
 
     if (pageHeight > screenHeight) {
-      Ember.run.later(this, function() {
+      later(this, function() {
         window.scrollTo(0, scrollOffset);
       });
     }
@@ -106,7 +110,7 @@ export default detail.extend({
 
   actions: {
     sendMessage() {
-      Ember.$("textarea").trigger("blur");
+      $("textarea").trigger("blur");
       var values = this.getProperties("body");
       values.designation = this.get("model");
       values.createdAt = new Date();

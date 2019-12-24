@@ -1,8 +1,10 @@
-import Ember from "ember";
+import { computed } from "@ember/object";
+import { inject as service } from "@ember/service";
+import Controller from "@ember/controller";
 
-export default Ember.Controller.extend({
-  subscription: Ember.inject.service(),
-  model: Ember.computed({
+export default Controller.extend({
+  subscription: service(),
+  model: computed({
     get() {
       return [];
     },
@@ -11,7 +13,7 @@ export default Ember.Controller.extend({
     }
   }),
 
-  nextNotification: Ember.computed("model.[]", function() {
+  nextNotification: computed("model.[]", function() {
     //retrieveNotification is not implemented here because it needs to call itself
     return this.retrieveNotification();
   }),

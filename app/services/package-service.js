@@ -1,7 +1,8 @@
+import { inject as service } from "@ember/service";
 import ApiBaseService from "./api-base-service";
 
 export default ApiBaseService.extend({
-  store: Ember.inject.service(),
+  store: service(),
 
   generateInventoryNumber() {
     return this.POST(`/inventory_numbers`);

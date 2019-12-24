@@ -1,12 +1,14 @@
+import { all } from "rsvp";
+import { inject as service } from "@ember/service";
+import { computed } from "@ember/object";
 import AuthorizeRoute from "../authorize";
-import Ember from "ember";
 import _ from "lodash";
 
 export default AuthorizeRoute.extend({
-  itemBackLinkPath: Ember.computed.localStorage(),
+  itemBackLinkPath: computed.localStorage(),
   transition: null,
-  messageBox: Ember.inject.service(),
-  i18n: Ember.inject.service(),
+  messageBox: service(),
+  i18n: service(),
 
   queryParams: {
     showDispatchOverlay: false
@@ -23,7 +25,7 @@ export default AuthorizeRoute.extend({
         .mapBy("id")
         .map(id => this.loadItemWithImages(id));
 
-      await Ember.RSVP.all(promises);
+      await all(promises);
     }
 
     let detailType = model.get("detailType");
@@ -97,7 +99,7 @@ export default AuthorizeRoute.extend({
    */
   preloadImages(item) {
     const ids = item.getWithDefault("imageIds", []);
-    return Ember.RSVP.all(ids.map(id => this.loadImage(id)));
+    return all(ids.map(id => this.loadImage(id)));
   },
 
   /**

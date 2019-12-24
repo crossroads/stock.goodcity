@@ -1,11 +1,14 @@
-import Ember from "ember";
+import $ from "jquery";
+import { scheduleOnce } from "@ember/runloop";
+import { computed } from "@ember/object";
+import TextField from "@ember/component/text-field";
 import _ from "lodash";
 
 function isValidDate(d) {
   return d && d instanceof Date && !isNaN(d);
 }
 
-export default Ember.TextField.extend({
+export default TextField.extend({
   tagName: "input",
   classNames: "pickadate",
   attributeBindings: [
@@ -18,7 +21,7 @@ export default Ember.TextField.extend({
     "placeholder"
   ],
 
-  model: Ember.computed({
+  model: computed({
     get(k) {
       return this.get("_model");
     },
@@ -35,8 +38,8 @@ export default Ember.TextField.extend({
   didInsertElement() {
     const cmp = this;
 
-    Ember.run.scheduleOnce("afterRender", this, function() {
-      Ember.$(this.element).pickadate({
+    scheduleOnce("afterRender", this, function() {
+      $(this.element).pickadate({
         format: "ddd mmm d",
         monthsFull: moment.months(),
         monthsShort: moment.monthsShort(),
@@ -47,7 +50,7 @@ export default Ember.TextField.extend({
 
         onClose: function() {
           const picker = this;
-          Ember.$(document.activeElement).blur();
+          $(document.activeElement).blur();
 
           const date = picker.get("select") && picker.get("select").obj;
 

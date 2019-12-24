@@ -1,4 +1,4 @@
-import Ember from "ember";
+import { helper as buildHelper } from "@ember/component/helper";
 
 /**
  * Returns an array
@@ -10,6 +10,6 @@ import Ember from "ember";
  * }}
  *
  */
-export default Ember.Helper.helper(function(args) {
+export default buildHelper(function(args) {
   return args;
 });

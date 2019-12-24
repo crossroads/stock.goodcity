@@ -1,11 +1,13 @@
-import Ember from 'ember'; // jshint ignore:line
-import orderUserOrganisation from './order_user_organisation';
+import { hash } from "rsvp"; // jshint ignore:line
+import orderUserOrganisation from "./order_user_organisation";
 
 export default orderUserOrganisation.extend({
   /* jshint ignore:start */
   async model() {
-    let { order, organisation, user, organisationsUser } = await this._super(...arguments);
-    return Ember.RSVP.hash({
+    let { order, organisation, user, organisationsUser } = await this._super(
+      ...arguments
+    );
+    return hash({
       order,
       organisation,
       user,
@@ -16,10 +18,10 @@ export default orderUserOrganisation.extend({
 
   setupController() {
     this._super(...arguments);
-    this.controllerFor('application').set('showSidebar', false);
+    this.controllerFor("application").set("showSidebar", false);
   },
 
-  deactivate(){
-    this.controllerFor('application').set('showSidebar', true);
+  deactivate() {
+    this.controllerFor("application").set("showSidebar", true);
   }
 });

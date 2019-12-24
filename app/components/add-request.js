@@ -1,23 +1,26 @@
-import Ember from "ember";
-const { getOwner } = Ember;
+import { on } from "@ember/object/evented";
+import { computed } from "@ember/object";
+import { inject as service } from "@ember/service";
+import Component from "@ember/component";
+import { getOwner } from "@ember/application";
 import AjaxPromise from "stock/utils/ajax-promise";
 
-export default Ember.Component.extend({
+export default Component.extend({
   layoutName: null,
   isGCRequest: null,
 
-  store: Ember.inject.service(),
-  messageBox: Ember.inject.service(),
-  i18n: Ember.inject.service(),
+  store: service(),
+  messageBox: service(),
+  i18n: service(),
   request: null,
   num: null,
   order: null,
 
-  packageTypeName: Ember.computed("request.code.name", function() {
+  packageTypeName: computed("request.code.name", function() {
     return this.get("request.code.name");
   }),
 
-  onInit: Ember.on("init", function() {
+  onInit: on("init", function() {
     if (this.get("isGCRequest")) {
       this.set("layoutName", "components/appointment-add-request");
     } else {

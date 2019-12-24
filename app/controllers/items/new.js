@@ -1,11 +1,16 @@
-import Ember from "ember";
+import { later } from "@ember/runloop";
+import $ from "jquery";
+import { inject as service } from "@ember/service";
+import { computed, observer } from "@ember/object";
+import { alias } from "@ember/object/computed";
+import { getOwner } from "@ember/application";
+import { A } from "@ember/array";
 import AjaxPromise from "stock/utils/ajax-promise";
 import GoodcityController from "../goodcity_controller";
 import config from "../../config/environment";
 import additionalFields from "../../constants/additional-fields";
 import _ from "lodash";
 import { translationMacro as t } from "ember-i18n";
-const { getOwner, A } = Ember;
 import SearchOptionMixin from "stock/mixins/search_option";
 import PackageDetailMixin from "stock/mixins/fetch_package_detail";
 import GradeMixin from "stock/mixins/grades_option";
@@ -30,12 +35,12 @@ export default GoodcityController.extend(
     displayInventoryOptions: false,
     autoGenerateInventory: true,
     inputInventory: false,
-    locationName: Ember.computed.alias("location.displayName"),
+    locationName: alias("location.displayName"),
     caseNumber: "",
-    isSearchCodePreviousRoute: Ember.computed.localStorage(),
+    isSearchCodePreviousRoute: computed.localStorage(),
     fields: additionalFields,
     weight: "",
-    isSelectLocationPreviousRoute: Ember.computed.localStorage(),
+    isSelectLocationPreviousRoute: computed.localStorage(),
     fixedDropdownArr: ["frequency", "voltage", "compTestStatus", "testStatus"],
     quantity: 1,
     labels: 1,
@@ -47,21 +52,21 @@ export default GoodcityController.extend(
     invalidScanResult: false,
     newUploadedImage: null,
     subFormData: {},
-    setDropdownOption: Ember.inject.service(),
+    setDropdownOption: service(),
     showAdditionalFields: false,
     isAllowedToPublish: false,
-    imageKeys: Ember.computed.localStorage(),
-    i18n: Ember.inject.service(),
-    session: Ember.inject.service(),
-    packageService: Ember.inject.service(),
-    printerService: Ember.inject.service(),
+    imageKeys: computed.localStorage(),
+    i18n: service(),
+    session: service(),
+    packageService: service(),
+    printerService: service(),
     cancelWarning: t("items.new.cancel_warning"),
-    displayFields: Ember.computed("code", function() {
+    displayFields: computed("code", function() {
       let subform = this.get("code.subform");
       return this.returnDisplayFields(subform);
     }),
 
-    showPublishItemCheckBox: Ember.computed("quantity", function() {
+    showPublishItemCheckBox: computed("quantity", function() {
       this.set("isAllowedToPublish", false);
       return +this.get("quantity") === 1;
     }),
@@ -70,11 +75,11 @@ export default GoodcityController.extend(
       return this.get("i18n").t(str);
     },
 
-    allAvailablePrinters: Ember.computed(function() {
+    allAvailablePrinters: computed(function() {
       return this.get("printerService").allAvailablePrinters();
     }),
 
-    selectedPrinterDisplay: Ember.computed("selectedPrinterId", function() {
+    selectedPrinterDisplay: computed("selectedPrinterId", function() {
       const printerId = this.get("selectedPrinterId");
       if (printerId) {
         const printer = this.store.peekRecord("printer", printerId);
@@ -84,7 +89,7 @@ export default GoodcityController.extend(
       }
     }),
 
-    setLocation: Ember.observer("scanLocationName", function() {
+    setLocation: observer("scanLocationName", function() {
       var scanInput = this.get("scanLocationName");
       if (scanInput) {
         var results = this.get("store")
@@ -101,20 +106,20 @@ export default GoodcityController.extend(
       }
     }),
 
-    validateLocation: Ember.observer("location", function() {
+    validateLocation: observer("location", function() {
       if (!this.get("location")) {
         this.set("invalidLocation", false);
       }
     }),
 
     isMobileApp: config.cordova.enabled,
-    messageBox: Ember.inject.service(),
+    messageBox: service(),
 
-    conditions: Ember.computed(function() {
+    conditions: computed(function() {
       return this.get("store").peekAll("donor_condition");
     }),
 
-    defaultCondition: Ember.computed(function() {
+    defaultCondition: computed(function() {
       const conditions = this.get("conditions");
       return (
         conditions.filterBy("name", "Lightly Used").get("firstObject") ||
@@ -122,7 +127,7 @@ export default GoodcityController.extend(
       );
     }),
 
-    description: Ember.computed("code", {
+    description: computed("code", {
       get() {
         return this.get("code.name");
       },
@@ -144,7 +149,7 @@ export default GoodcityController.extend(
       return detailAttributes;
     },
 
-    showPiecesInput: Ember.computed("codeId", function() {
+    showPiecesInput: computed("codeId", function() {
       let codeId = this.get("codeId");
       if (codeId) {
         let selected = this.get("store").peekRecord("code", codeId);
@@ -152,11 +157,11 @@ export default GoodcityController.extend(
       }
     }),
 
-    emptySubformAttributes: Ember.observer("codeId", function() {
+    emptySubformAttributes: observer("codeId", function() {
       this.clearSubformAttributes();
     }),
 
-    parentCodeName: Ember.computed("codeId", function() {
+    parentCodeName: computed("codeId", function() {
       var selected = "";
       var codeId = this.get("codeId");
       if (codeId.length) {
@@ -166,7 +171,7 @@ export default GoodcityController.extend(
       return selected;
     }),
 
-    code: Ember.computed("codeId", function() {
+    code: computed("codeId", function() {
       var selected = "";
       var codeId = this.get("codeId");
       if (codeId.length) {
@@ -176,20 +181,20 @@ export default GoodcityController.extend(
       return selected;
     }),
 
-    isInvalidaLabelCount: Ember.computed("labels", function() {
+    isInvalidaLabelCount: computed("labels", function() {
       const labelCount = this.get("labels");
       return !labelCount || Number(labelCount) < 0;
     }),
 
-    isInvalidPrintCount: Ember.computed("labels", function() {
+    isInvalidPrintCount: computed("labels", function() {
       return this.isValidLabelRange({ startRange: 0 });
     }),
 
-    isMultipleCountPrint: Ember.computed("labels", function() {
+    isMultipleCountPrint: computed("labels", function() {
       return this.isValidLabelRange({ startRange: 1 });
     }),
 
-    isInvalidDimension: Ember.computed("length", "width", "height", function() {
+    isInvalidDimension: computed("length", "width", "height", function() {
       const length = this.get("length");
       const width = this.get("width");
       const height = this.get("height");
@@ -200,11 +205,11 @@ export default GoodcityController.extend(
       return _.inRange(dimensionsCount, 1, 3);
     }),
 
-    printLabelCount: Ember.computed("labels", function() {
+    printLabelCount: computed("labels", function() {
       return Number(this.get("labels"));
     }),
 
-    location: Ember.computed("codeId", "locationId", {
+    location: computed("codeId", "locationId", {
       get() {
         var location;
         var locationId = this.get("locationId");
@@ -439,11 +444,11 @@ export default GoodcityController.extend(
               console.log(path);
               var dataURL = "data:image/jpg;base64," + path;
 
-              Ember.$("input[type='file']").fileupload(
+              $("input[type='file']").fileupload(
                 "option",
                 "formData"
               ).file = dataURL;
-              Ember.$("input[type='file']").fileupload("add", {
+              $("input[type='file']").fileupload("add", {
                 files: [dataURL]
               });
             };
@@ -455,11 +460,11 @@ export default GoodcityController.extend(
           if (navigator.userAgent.match(/iemobile/i)) {
             //don't know why but on windows phone need to click twice in quick succession
             //for dialog to appear
-            Ember.$("input[type='file']")
+            $("input[type='file']")
               .click()
               .click();
           } else {
-            Ember.$("input[type='file']").trigger("click");
+            $("input[type='file']").trigger("click");
           }
         }
       },
@@ -471,7 +476,7 @@ export default GoodcityController.extend(
       uploadStart(e, data) {
         this.send("deleteUnusedImage");
         this.set("uploadedFileDate", data);
-        Ember.$(".loading-image-indicator").show();
+        $(".loading-image-indicator").show();
         this.set("loadingPercentage", "Image Uploading ");
       },
 
@@ -491,7 +496,7 @@ export default GoodcityController.extend(
       uploadComplete(e) {
         e.target.disabled = false; // enable image-selection
         this.set("uploadedFileDate", null);
-        Ember.$(".loading-image-indicator.hide_image_loading").hide();
+        $(".loading-image-indicator.hide_image_loading").hide();
         this.set("loadingPercentage", "Image Uploading ");
       },
 
@@ -550,7 +555,7 @@ export default GoodcityController.extend(
             this.send("deleteUnusedImage");
             this.set("locationId", "");
             this.set("codeId", "");
-            Ember.run.later(
+            later(
               this,
               function() {
                 this.replaceRoute("/");

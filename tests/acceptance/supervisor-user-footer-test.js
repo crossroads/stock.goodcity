@@ -1,4 +1,4 @@
-import Ember from "ember";
+import { run } from "@ember/runloop";
 import { module, test } from "qunit";
 import startApp from "../helpers/start-app";
 import MockUtils from "../helpers/mock-utils";
@@ -36,7 +36,7 @@ module("Acceptance: Supervisor footer", {
   },
   afterEach: function() {
     MockUtils.closeSession();
-    Ember.run(App, "destroy");
+    run(App, "destroy");
   }
 });
 

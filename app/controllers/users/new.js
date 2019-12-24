@@ -1,11 +1,14 @@
+import { later } from "@ember/runloop";
+import { alias } from "@ember/object/computed";
+import { inject as service } from "@ember/service";
+import Controller from "@ember/controller";
+import { getOwner } from "@ember/application";
 import config from "../../config/environment";
-import Ember from "ember";
-const { getOwner } = Ember;
 import AjaxPromise from "stock/utils/ajax-promise";
 import { translationMacro as t } from "ember-i18n";
 
-export default Ember.Controller.extend({
-  i18n: Ember.inject.service(),
+export default Controller.extend({
+  i18n: service(),
   phoneNumberPlaceholder: t("organisation.user.phone_number"),
   fNamePlaceholder: t("organisation.user.john"),
   lNamePlaceholder: t("organisation.user.doe"),
@@ -13,8 +16,8 @@ export default Ember.Controller.extend({
   positionPlaceholder: t("organisation.user.position_in_organisation"),
   mobilePhone: "",
   preferredPhone: "",
-  organisationId: Ember.computed.alias("model.id"),
-  messageBox: Ember.inject.service(),
+  organisationId: alias("model.id"),
+  messageBox: service(),
 
   clearFormData() {
     this.set("firstName", "");
@@ -86,7 +89,7 @@ export default Ember.Controller.extend({
         "You will lose all your data. Are you sure you want to cancel this item?",
         "Yes",
         () => {
-          Ember.run.later(
+          later(
             this,
             function() {
               this.transitionToRoute(

@@ -1,4 +1,4 @@
-import Ember from "ember";
+import { resolve, reject } from "rsvp";
 import _ from "lodash";
 
 let CACHE_IDS = [];
@@ -30,16 +30,16 @@ export default {
    */
   exec(cacheId, func, scope = null, ...args) {
     if (_.includes(CACHE_IDS, cacheId)) {
-      return Ember.RSVP.resolve();
+      return resolve();
     }
 
     CACHE_IDS.push(cacheId);
 
-    return Ember.RSVP.resolve(func.apply(scope, args))
+    return resolve(func.apply(scope, args))
       .then(_.noop)
       .catch(e => {
         _.pull(CACHE_IDS, cacheId);
-        return Ember.RSVP.reject(e);
+        return reject(e);
       });
   }
 };

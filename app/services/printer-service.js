@@ -1,9 +1,9 @@
-import Ember from "ember";
+import Service, { inject as service } from "@ember/service";
 import AjaxPromise from "stock/utils/ajax-promise";
 
-export default Ember.Service.extend({
-  store: Ember.inject.service(),
-  session: Ember.inject.service(),
+export default Service.extend({
+  store: service(),
+  session: service(),
 
   allAvailablePrinters() {
     return this.get("store")

@@ -1,6 +1,5 @@
 import Cache from "../../utils/cache";
 import getOrderRoute from "./get_order";
-import Ember from "ember";
 
 export default getOrderRoute.extend({
   currentRouteName: null,

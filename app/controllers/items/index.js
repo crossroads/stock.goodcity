@@ -1,8 +1,10 @@
+import { observer } from "@ember/object";
+import Controller from "@ember/controller";
 import config from "../../config/environment";
 import _ from "lodash";
 import SearchMixin from "stock/mixins/search_resource";
 
-export default Ember.Controller.extend(SearchMixin, {
+export default Controller.extend(SearchMixin, {
   queryParams: ["searchInput", "itemSetId"],
   itemSetId: null,
   isMobileApp: config.cordova.enabled,
@@ -21,7 +23,7 @@ export default Ember.Controller.extend(SearchMixin, {
    **/
   perPage: 25,
 
-  scannedItem: Ember.observer("searchInput", function() {
+  scannedItem: observer("searchInput", function() {
     const searchInput = this.get("searchInput") || "";
     const sanitizeString = this.sanitizeString(searchInput);
     if (sanitizeString) {
@@ -41,7 +43,7 @@ export default Ember.Controller.extend(SearchMixin, {
     };
   },
 
-  onItemSetIdChange: Ember.observer("itemSetId", function() {
+  onItemSetIdChange: observer("itemSetId", function() {
     // wait before applying the filter
     if (this.get("itemSetId")) {
       this.reloadResults();

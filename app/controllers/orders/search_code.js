@@ -1,4 +1,4 @@
-import Ember from "ember";
+import $ from "jquery";
 import SearchCode from "../search_code";
 
 export default SearchCode.extend({
@@ -8,7 +8,7 @@ export default SearchCode.extend({
 
   actions: {
     cancelSearch() {
-      Ember.$("#searchText").blur();
+      $("#searchText").blur();
       this.send("clearSearch", true);
       this.back();
     },

@@ -1,4 +1,4 @@
-import Ember from "ember";
+import Component from "@ember/component";
 
 /**
  * Small helper component allowing to rename variables within the .hbs file
@@ -11,7 +11,7 @@ import Ember from "ember";
  *    <div> because it's very {{short}} </div
  * {{/let-alias}}
  */
-const AliasComponent = Ember.Component.extend();
+const AliasComponent = Component.extend();
 
 AliasComponent.reopenClass({
   positionalParams: ["value"]

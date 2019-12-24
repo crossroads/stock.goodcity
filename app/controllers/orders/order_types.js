@@ -1,5 +1,6 @@
+import { getOwner } from "@ember/application";
+import { computed } from "@ember/object";
 import detail from "./detail";
-import Ember from "ember";
 import _ from "lodash";
 
 const EMPTY_OPTION = {
@@ -13,7 +14,7 @@ export default detail.extend({
     showCallToAction: true
   },
 
-  showCallToAction: Ember.computed(
+  showCallToAction: computed(
     "model",
     "stickyNote.showCallToAction",
     function() {
@@ -22,7 +23,7 @@ export default detail.extend({
     }
   ),
 
-  checklist: Ember.computed(
+  checklist: computed(
     "model.bookingTypeId",
     "model.ordersProcessChecklistIds",
     function() {
@@ -36,16 +37,13 @@ export default detail.extend({
     }
   ),
 
-  scheduledAtStringPlaceholder: Ember.computed(
-    "selectedScheduleDate",
-    function() {
-      let date = this.get("selectedScheduleDate");
-      if (!date) {
-        return this.get("i18n").t("order_details.logistics.pick_date");
-      }
-      return date.toDateString().replace(/\d{4}$/, "");
+  scheduledAtStringPlaceholder: computed("selectedScheduleDate", function() {
+    let date = this.get("selectedScheduleDate");
+    if (!date) {
+      return this.get("i18n").t("order_details.logistics.pick_date");
     }
-  ),
+    return date.toDateString().replace(/\d{4}$/, "");
+  }),
 
   /**
    * Creates an action that modifies the property of the record passed as argument
@@ -173,7 +171,7 @@ export default detail.extend({
     };
   },
 
-  logisticDataRows: Ember.computed(
+  logisticDataRows: computed(
     "model",
     "model.orderTransport.scheduledAt",
     function() {
@@ -191,7 +189,7 @@ export default detail.extend({
     toggleCheckbox(processChecklistRecord) {
       let checklistService = this.get("processingChecklist");
       let order = this.get("model");
-      let loadingView = Ember.getOwner(this)
+      let loadingView = getOwner(this)
         .lookup("component:loading")
         .append();
 

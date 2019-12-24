@@ -1,17 +1,19 @@
-import Ember from "ember";
+import $ from "jquery";
+import { computed } from "@ember/object";
+import { inject as service } from "@ember/service";
 import SearchCode from "../search_code";
 import capitalize from "lodash/capitalize";
 
 export default SearchCode.extend({
   item: null,
   inlineDescription: true,
-  store: Ember.inject.service(),
-  messageBox: Ember.inject.service(),
-  packageService: Ember.inject.service(),
-  subformDetailService: Ember.inject.service(),
-  i18n: Ember.inject.service(),
+  store: service(),
+  messageBox: service(),
+  packageService: service(),
+  subformDetailService: service(),
+  i18n: service(),
 
-  allPackageTypes: Ember.computed("fetchMoreResult", "item.isSet", function() {
+  allPackageTypes: computed("fetchMoreResult", "item.isSet", function() {
     if (this.get("item.isSet")) {
       return this.get("item.setItem.code").allChildPackagesList();
     } else {
@@ -91,7 +93,7 @@ export default SearchCode.extend({
 
   actions: {
     cancelSearch() {
-      Ember.$("#searchText").blur();
+      $("#searchText").blur();
       this.send("clearSearch", true);
       this.transitionToRoute("items.detail", this.get("item"));
     },

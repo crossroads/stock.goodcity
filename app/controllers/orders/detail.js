@@ -1,42 +1,45 @@
-import Ember from "ember";
+import { inject as controller } from "@ember/controller";
+import { inject as service } from "@ember/service";
+import { computed, observer } from "@ember/object";
+import { alias } from "@ember/object/computed";
+import { getOwner } from "@ember/application";
 import config from "../../config/environment";
 import AjaxPromise from "stock/utils/ajax-promise";
 import GoodcityController from "../goodcity_controller";
 import _ from "lodash";
-const { getOwner } = Ember;
 
 export default GoodcityController.extend({
   backLinkPath: "",
   displayAllItems: false,
   isMobileApp: config.cordova.enabled,
-  order: Ember.computed.alias("model"),
-  hasUnreadMessages: Ember.computed("order", function() {
+  order: alias("model"),
+  hasUnreadMessages: computed("order", function() {
     return this.get("order.hasUnreadMessages");
   }),
 
-  unreadMessagesCount: Ember.computed("order", function() {
+  unreadMessagesCount: computed("order", function() {
     return this.get("order.unreadMessagesCount");
   }),
 
-  store: Ember.inject.service(),
-  messageBox: Ember.inject.service(),
-  i18n: Ember.inject.service(),
+  store: service(),
+  messageBox: service(),
+  i18n: service(),
   placeHolderDate: null,
-  appReview: Ember.inject.service(),
-  application: Ember.inject.controller(),
+  appReview: service(),
+  application: controller(),
   isOrderProcessRestarted: false,
   scheduleChangePopupVisible: false,
-  filterService: Ember.inject.service(),
-  processingChecklist: Ember.inject.service(),
-  currentRoute: Ember.computed.alias("application.currentPath"),
+  filterService: service(),
+  processingChecklist: service(),
+  currentRoute: alias("application.currentPath"),
 
-  tabName: Ember.computed("currentRoute", function() {
+  tabName: computed("currentRoute", function() {
     return this.get("currentRoute")
       .split(".")
       .get("lastObject");
   }),
 
-  scheduleTimeSlots: Ember.computed(function() {
+  scheduleTimeSlots: computed(function() {
     let buildSlot = (hours, minutes) => {
       const key = this.formatTimeSlot(hours, minutes);
       return { name: key, id: key, hours, minutes };
@@ -45,7 +48,7 @@ export default GoodcityController.extend({
     return _.flatten(slots);
   }),
 
-  displayOrderOptions: Ember.computed({
+  displayOrderOptions: computed({
     get: function() {
       return false;
     },
@@ -54,7 +57,7 @@ export default GoodcityController.extend({
     }
   }),
 
-  ordersPackagesLengthMoreThenThree: Ember.observer(
+  ordersPackagesLengthMoreThenThree: observer(
     "model.ordersPackages",
     function() {
       var ordersPackages = this.get("model.ordersPackages");
@@ -69,7 +72,7 @@ export default GoodcityController.extend({
     }
   ),
 
-  itemsList: Ember.computed(
+  itemsList: computed(
     "model.items",
     "displayAllItems",
     "model.ordersPackages",
@@ -86,7 +89,7 @@ export default GoodcityController.extend({
     }
   ),
 
-  canceledItemsList: Ember.computed(
+  canceledItemsList: computed(
     "model.items",
     "displayAllItems",
     "model.ordersPackages",
@@ -102,7 +105,7 @@ export default GoodcityController.extend({
     }
   ),
 
-  ordersPkgLength: Ember.computed(
+  ordersPkgLength: computed(
     "model.items",
     "displayAllItems",
     "model.ordersPackages",

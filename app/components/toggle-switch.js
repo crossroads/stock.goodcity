@@ -1,4 +1,5 @@
-import Ember from "ember";
+import { next } from "@ember/runloop";
+import Component from "@ember/component";
 import _ from "lodash";
 
 /**
@@ -13,14 +14,14 @@ import _ from "lodash";
  * <br> to the checkbox
  *
  */
-export default Ember.Component.extend({
+export default Component.extend({
   attributeBindings: ["value"],
   disabled: false,
 
   init() {
     this._super(...arguments);
     this.addObserver("value", () => {
-      Ember.run.next(() => {
+      next(() => {
         const val = this.get("value");
         this.getWithDefault("after-change", _.noop)(val);
       });

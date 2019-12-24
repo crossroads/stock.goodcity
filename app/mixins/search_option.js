@@ -1,12 +1,15 @@
-import Ember from "ember";
+import { A } from "@ember/array";
+import { debounce } from "@ember/runloop";
+import $ from "jquery";
+import Mixin from "@ember/object/mixin";
 import _ from "lodash";
 
-export default Ember.Mixin.create({
+export default Mixin.create({
   searchText: "",
   resultArray: [],
   onSearchCountry(field, searchText) {
-    this.set("searchText", Ember.$.trim(searchText));
-    Ember.run.debounce(this, this.applyFilter, field, 500);
+    this.set("searchText", $.trim(searchText));
+    debounce(this, this.applyFilter, field, 500);
   },
 
   applyFilter: function(field) {
@@ -19,7 +22,7 @@ export default Ember.Mixin.create({
       .then(data => {
         //Check the input has changed since the promise started
         if (searchText === this.get("searchText")) {
-          this.set("resultArray", Ember.A(data));
+          this.set("resultArray", A(data));
         }
       });
   }

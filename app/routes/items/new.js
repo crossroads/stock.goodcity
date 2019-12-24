@@ -1,16 +1,17 @@
+import { inject as service } from "@ember/service";
+import { computed } from "@ember/object";
 import AuthorizeRoute from "./../authorize";
-import Ember from "ember";
 
 export default AuthorizeRoute.extend({
   inventoryNumber: "",
   newItemRequest: "",
-  isSearchCodePreviousRoute: Ember.computed.localStorage(),
-  isSelectLocationPreviousRoute: Ember.computed.localStorage(),
+  isSearchCodePreviousRoute: computed.localStorage(),
+  isSelectLocationPreviousRoute: computed.localStorage(),
   transitionFrom: "",
-  packageService: Ember.inject.service(),
-  printerService: Ember.inject.service(),
-  session: Ember.inject.service(),
-  store: Ember.inject.service(),
+  packageService: service(),
+  printerService: service(),
+  session: service(),
+  store: service(),
 
   queryParams: {
     codeId: {

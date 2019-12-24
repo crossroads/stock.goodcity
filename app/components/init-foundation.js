@@ -1,10 +1,11 @@
-import Ember from 'ember';
+import { computed } from "@ember/object";
+import Component from "@ember/component";
 
-export default Ember.Component.extend({
+export default Component.extend({
   foundation: null,
 
-  currentClassName: Ember.computed("className", function(){
-    return this.get("className") ? `.${this.get('className')}` : document;
+  currentClassName: computed("className", function() {
+    return this.get("className") ? `.${this.get("className")}` : document;
   }),
 
   didInsertElement() {

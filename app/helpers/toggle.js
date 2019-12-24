@@ -1,4 +1,5 @@
-import Ember from "ember";
+import { set, get } from "@ember/object";
+import { helper as buildHelper } from "@ember/component/helper";
 
 /**
  * A toggle action builder
@@ -13,8 +14,8 @@ import Ember from "ember";
  * @param {String} propName the name of the property to toggle
  * @returns {Function} the action that toggles the property
  */
-export default Ember.Helper.helper(function([self, propName]) {
+export default buildHelper(function([self, propName]) {
   return function() {
-    Ember.set(self, propName, !Ember.get(self, propName));
+    set(self, propName, !get(self, propName));
   };
 });

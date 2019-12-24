@@ -1,9 +1,10 @@
-import Ember from "ember";
+import { inject as service } from "@ember/service";
+import Controller, { inject as controller } from "@ember/controller";
 import { STATE_FILTERS } from "../services/filter-service";
 
-export default Ember.Controller.extend({
-  application: Ember.inject.controller(),
-  filterService: Ember.inject.service(),
+export default Controller.extend({
+  application: controller(),
+  filterService: service(),
 
   actions: {
     logMeOut() {

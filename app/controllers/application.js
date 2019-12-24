@@ -1,21 +1,23 @@
-import Ember from "ember";
+import { on } from "@ember/object/evented";
+import { inject as service } from "@ember/service";
+import Controller, { inject as controller } from "@ember/controller";
 import config from "../config/environment";
 
-export default Ember.Controller.extend({
-  subscription: Ember.inject.service(),
-  cordova: Ember.inject.service(),
-  store: Ember.inject.service(),
-  designationService: Ember.inject.service(),
-  locationService: Ember.inject.service(),
+export default Controller.extend({
+  subscription: service(),
+  cordova: service(),
+  store: service(),
+  designationService: service(),
+  locationService: service(),
   app_id: config.APP.ANDROID_APP_ID,
   ios_app_id: config.APP.APPLE_APP_ID,
   appTitle: config.APP.TITLE,
   bannerImage: config.APP.BANNER_IMAGE,
   bannerReopenDays: config.BANNER_REOPEN_DAYS,
   isMobileApp: config.cordova.enabled,
-  notifications: Ember.inject.controller(),
+  notifications: controller(),
 
-  initSubscription: Ember.on("init", function() {
+  initSubscription: on("init", function() {
     this.get("subscription").wire();
     if (this.get("isMobileApp") && cordova.platformId === "android") {
       // jshint ignore:line

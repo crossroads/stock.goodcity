@@ -1,18 +1,21 @@
-import Ember from "ember";
+import $ from "jquery";
+import { computed } from "@ember/object";
+import { alias } from "@ember/object/computed";
+import Controller from "@ember/controller";
+import { getOwner } from "@ember/application";
 import AjaxPromise from "stock/utils/ajax-promise";
 import config from "../../config/environment";
-const { getOwner } = Ember;
 
-export default Ember.Controller.extend({
-  order: Ember.computed.alias("model.orderUserOrganisation.order"),
-  orderTransport: Ember.computed.alias("model.orderTransport"),
+export default Controller.extend({
+  order: alias("model.orderUserOrganisation.order"),
+  orderTransport: alias("model.orderTransport"),
   selectedId: null,
   selectedTimeId: null,
   selectedDate: null,
   timeSlotNotSelected: false,
   isMobileApp: config.cordova.enabled,
 
-  timeSlots: Ember.computed("selectedDate", function() {
+  timeSlots: computed("selectedDate", function() {
     var selectedDate = this.get("selectedDate");
     if (selectedDate) {
       var timeSlots = this.get(
@@ -38,7 +41,7 @@ export default Ember.Controller.extend({
 
   actions: {
     saveTransportDetails() {
-      const isTimeSlotSelected = Ember.$(".time-slots input")
+      const isTimeSlotSelected = $(".time-slots input")
         .toArray()
         .filter(radioButton => radioButton.checked === true).length;
       if (isTimeSlotSelected) {

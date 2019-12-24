@@ -1,27 +1,29 @@
-import Ember from "ember";
+import $ from "jquery";
+import { computed } from "@ember/object";
+import Component from "@ember/component";
 
-export default Ember.Component.extend({
+export default Component.extend({
   hidden: true,
   item: null,
-  designateFullSet: Ember.computed.localStorage(),
+  designateFullSet: computed.localStorage(),
 
   toggleItemClass() {
     var item = this.get("item");
-    Ember.$(".receive-item-options." + item.id).toggleClass("hidden");
-    Ember.$(".options-link-open." + item.id).toggleClass("hidden");
+    $(".receive-item-options." + item.id).toggleClass("hidden");
+    $(".options-link-open." + item.id).toggleClass("hidden");
   },
 
   actions: {
     toggle(value) {
       this.set("hidden", value);
       var item = this.get("item");
-      var itemOptionsLink = Ember.$(".options-link-open." + item.id)[0];
-      var optionsLink = Ember.$(".options-link-open.hidden");
+      var itemOptionsLink = $(".options-link-open." + item.id)[0];
+      var optionsLink = $(".options-link-open.hidden");
       if (optionsLink.length) {
-        Ember.$(".receive-item-options")
+        $(".receive-item-options")
           .not(".hidden")
           .toggleClass("hidden");
-        Ember.$(".options-link-open.hidden").toggleClass("hidden");
+        $(".options-link-open.hidden").toggleClass("hidden");
         //this.toggleItemClass();
         return false;
       } else if (itemOptionsLink) {

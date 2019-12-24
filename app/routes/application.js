@@ -1,19 +1,22 @@
+import $ from "jquery";
+import { inject as service } from "@ember/service";
+import { later } from "@ember/runloop";
+import Route from "@ember/routing/route";
+import { getOwner } from "@ember/application";
 import Ember from "ember";
 import config from "../config/environment";
 import preloadDataMixin from "../mixins/preload_data";
 import AsyncMixin from "../mixins/async";
 import _ from "lodash";
 
-const { getOwner } = Ember;
-
-export default Ember.Route.extend(AsyncMixin, preloadDataMixin, {
-  i18n: Ember.inject.service(),
+export default Route.extend(AsyncMixin, preloadDataMixin, {
+  i18n: service(),
   isErrPopUpAlreadyShown: false,
   isItemUnavailable: false,
   isLoginPopUpAlreadyShown: false,
-  logger: Ember.inject.service(),
-  messageBox: Ember.inject.service(),
-  cordova: Ember.inject.service(),
+  logger: service(),
+  messageBox: service(),
+  cordova: service(),
 
   _loadDataStore: function() {
     return this.preloadData()
@@ -160,13 +163,23 @@ export default Ember.Route.extend(AsyncMixin, preloadDataMixin, {
 
   actions: {
     loading() {
-      if (config.environment !== "test") {
-        Ember.$(".loading-indicator").remove();
-        var view = getOwner(this)
+      if (!this.loadingView) {
+        this.loadingView = getOwner(this)
           .lookup("component:loading")
           .append();
-        this.router.one("didTransition", view, "destroy");
       }
+    },
+
+    didTransition() {
+      // Without later() it causes double render error
+      // as we're trying to render a page and remove loading
+      // indicator at a same time
+      later(() => {
+        if (this.loadingView) {
+          this.loadingView.destroy();
+          this.loadingView = null;
+        }
+      }, 100);
     },
 
     error(reason) {

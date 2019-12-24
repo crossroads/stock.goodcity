@@ -1,4 +1,5 @@
-import Ember from "ember";
+import $ from "jquery";
+import { run } from "@ember/runloop";
 import { module, test } from "qunit";
 import startApp from "../helpers/start-app";
 import "../factories/orders_package";
@@ -150,7 +151,7 @@ module("Acceptance: Order summary", {
   },
   afterEach: function() {
     MockUtils.closeSession();
-    Ember.run(App, "destroy");
+    run(App, "destroy");
   }
 });
 
@@ -194,7 +195,7 @@ test("Order summary detail", function(assert) {
     organisation_user.get("preferredContactNumber")
   );
   assert.equal(
-    Ember.$("#submitted_count")
+    $("#submitted_count")
       .text()
       .trim(),
     orders_count.submitted

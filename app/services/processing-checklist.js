@@ -1,4 +1,5 @@
-import Ember from "ember";
+import { resolve } from "rsvp";
+import Service, { inject as service } from "@ember/service";
 import DS from "ember-data";
 import AjaxPromise from "./../utils/ajax-promise";
 
@@ -9,9 +10,9 @@ function ID(recordOrId) {
   return recordOrId; // id
 }
 
-export default Ember.Service.extend({
-  store: Ember.inject.service(),
-  session: Ember.inject.service(),
+export default Service.extend({
+  store: service(),
+  session: service(),
 
   getChecklistForOrder(o) {
     return this.getChecklistForBookingType(o.get("bookingTypeId"));
@@ -49,7 +50,7 @@ export default Ember.Service.extend({
 
   checkItem(order, item) {
     if (this.itemChecked(order, item)) {
-      return Ember.RSVP.resolve(true);
+      return resolve(true);
     }
 
     return this.putPayload(order, {
