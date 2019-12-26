@@ -6,7 +6,7 @@ export default AuthorizeRoute.extend({
   itemBackLinkPath: Ember.computed.localStorage(),
   transition: null,
   messageBox: Ember.inject.service(),
-  i18n: Ember.inject.service(),
+  intl: Ember.inject.service(),
 
   queryParams: {
     showDispatchOverlay: false
@@ -38,7 +38,7 @@ export default AuthorizeRoute.extend({
     if (!model.get("inventoryNumber")) {
       this.get("transition").abort();
       this.get("messageBox").alert(
-        this.get("i18n").t("item_details.not_inventorized_or_missing"),
+        this.get("intl").t("item_details.not_inventorized_or_missing"),
         () => {
           this.transitionTo("items.index");
         }

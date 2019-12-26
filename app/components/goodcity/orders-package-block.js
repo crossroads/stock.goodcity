@@ -48,7 +48,7 @@ const CANCELLED = {};
 export default Ember.Component.extend(AsyncMixin, {
   store: Ember.inject.service(),
   messageBox: Ember.inject.service(),
-  i18n: Ember.inject.service(),
+  intl: Ember.inject.service(),
   designationService: Ember.inject.service(),
   locationService: Ember.inject.service(),
   settings: Ember.inject.service(),
@@ -152,7 +152,7 @@ export default Ember.Component.extend(AsyncMixin, {
   // --- EXECUTION
 
   onError(reason) {
-    const defaultMessage = this.get("i18n").t("unexpected_error");
+    const defaultMessage = this.get("intl").t("unexpected_error");
     const message = _.get(
       reason,
       "responseJSON.errors[0].message",
@@ -190,7 +190,7 @@ export default Ember.Component.extend(AsyncMixin, {
   // --- MENU
 
   labelFor(actionName) {
-    return this.get("i18n").t(`orders_package.actions.${actionName}`);
+    return this.get("intl").t(`orders_package.actions.${actionName}`);
   },
 
   iconFor(actionName) {

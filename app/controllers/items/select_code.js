@@ -9,7 +9,7 @@ export default SearchCode.extend({
   messageBox: Ember.inject.service(),
   packageService: Ember.inject.service(),
   subformDetailService: Ember.inject.service(),
-  i18n: Ember.inject.service(),
+  intl: Ember.inject.service(),
 
   allPackageTypes: Ember.computed("fetchMoreResult", "item.isSet", function() {
     if (this.get("item.isSet")) {
@@ -35,7 +35,7 @@ export default SearchCode.extend({
     const existingPkgType = this.get("item.code");
     const packageName = existingPkgType.get("name");
     const newPackageName = pkgType.get("name");
-    const translation = this.get("i18n");
+    const intl = this.get("intl");
 
     this.get("messageBox").custom(
       translation.t("items.new.subform.delete_subform_waring", {

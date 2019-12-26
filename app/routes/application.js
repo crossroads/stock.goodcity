@@ -7,7 +7,7 @@ import _ from "lodash";
 const { getOwner } = Ember;
 
 export default Ember.Route.extend(AsyncMixin, preloadDataMixin, {
-  i18n: Ember.inject.service(),
+  intl: Ember.inject.service(),
   isErrPopUpAlreadyShown: false,
   isItemUnavailable: false,
   isLoginPopUpAlreadyShown: false,
@@ -85,7 +85,7 @@ export default Ember.Route.extend(AsyncMixin, preloadDataMixin, {
     try {
       localStorage.test = "isSafariPrivateBrowser";
     } catch (e) {
-      this.get("messageBox").alert(this.get("i18n").t("QuotaExceededError"));
+      this.get("messageBox").alert(this.get("intl").t("QuotaExceededError"));
     }
 
     localStorage.removeItem("test");
@@ -98,7 +98,7 @@ export default Ember.Route.extend(AsyncMixin, preloadDataMixin, {
     language = this.session.get("language") || "en";
     this.set("session.language", language);
     moment.locale(language);
-    this.set("i18n.locale", language);
+    this.set("intl.locale", language);
 
     Ember.onerror = window.onerror = error => {
       if (error.errors && error.errors[0] && error.errors[0].status === "401") {
@@ -130,13 +130,13 @@ export default Ember.Route.extend(AsyncMixin, preloadDataMixin, {
       }
 
       if (!window.navigator.onLine) {
-        this.get("messageBox").alert(this.get("i18n").t("offline_error"));
+        this.get("messageBox").alert(this.get("intl").t("offline_error"));
         if (!reason.isAdapterError) {
           this.get("logger").error(reason);
         }
       } else if (reason.name === "QuotaExceededError") {
         this.get("logger").error(reason);
-        this.get("messageBox").alert(this.get("i18n").t("QuotaExceededError"));
+        this.get("messageBox").alert(this.get("intl").t("QuotaExceededError"));
       } else if (reason.name === "NotFoundError" && reason.code === 8) {
         return true;
       } else if (status === 401) {

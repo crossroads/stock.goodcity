@@ -27,7 +27,7 @@ export default Ember.Component.extend({
   toggleOverlay: null,
   isSet: null,
   store: Ember.inject.service(),
-  i18n: Ember.inject.service(),
+  intl: Ember.inject.service(),
   designatedOnce: true,
   orderPackageId: null,
   alreadyShown: true,

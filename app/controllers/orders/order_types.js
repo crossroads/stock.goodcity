@@ -41,7 +41,7 @@ export default detail.extend({
     function() {
       let date = this.get("selectedScheduleDate");
       if (!date) {
-        return this.get("i18n").t("order_details.logistics.pick_date");
+        return this.get("intl").t("order_details.logistics.pick_date");
       }
       return date.toDateString().replace(/\d{4}$/, "");
     }
@@ -83,7 +83,7 @@ export default detail.extend({
   makeScheduleRow() {
     const order = this.get("model");
     return {
-      label: this.get("i18n").t("order_details.logistics.scheduled"),
+      label: this.get("intl").t("order_details.logistics.scheduled"),
       text: moment
         .tz(order.get("orderTransport.scheduledAt"), "Asia/Hong_Kong")
         .format("dddd Do MMMM hh:mm a"),
@@ -100,7 +100,7 @@ export default detail.extend({
     const order = this.get("model");
     const options = this.buildOptions("booking_type", "displayName");
     return {
-      label: this.get("i18n").t("order_details.logistics.type"),
+      label: this.get("intl").t("order_details.logistics.type"),
       action: this.propertyMutator(order, "bookingType"),
       icon: "tv",
       name: "type",
@@ -119,10 +119,10 @@ export default detail.extend({
     const options = ["self", "ggv"].map((t, i) => ({
       id: i,
       value: t,
-      name: this.get("i18n").t(`order_details.logistics.vehicle.${t}`)
+      name: this.get("intl").t(`order_details.logistics.vehicle.${t}`)
     }));
     return {
-      label: this.get("i18n").t("order_details.logistics.transport_type"),
+      label: this.get("intl").t("order_details.logistics.transport_type"),
       action: this.propertyMutator(transport, "transportType"),
       icon: "file-invoice-dollar",
       name: "transport_type",
@@ -142,7 +142,7 @@ export default detail.extend({
     }).sortBy("name");
 
     return {
-      label: this.get("i18n").t("order_details.logistics.destination"),
+      label: this.get("intl").t("order_details.logistics.destination"),
       action: this.propertyMutator(order, "district"),
       icon: "",
       name: "district",
@@ -161,7 +161,7 @@ export default detail.extend({
       allowEmpty: true
     });
     return {
-      label: this.get("i18n").t("order_details.logistics.vehicle_type"),
+      label: this.get("intl").t("order_details.logistics.vehicle_type"),
       action: this.propertyMutator(orderTransport, "gogovanTransport"),
       icon: "",
       name: "vehicle",

@@ -20,7 +20,7 @@ function isChecked(filter) {
 // ---Component
 
 export default Ember.Component.extend({
-  i18n: Ember.inject.service(),
+  intl: Ember.inject.service(),
   filterService: Ember.inject.service(),
   stateFilters: ["in_stock", "designated", "dispatched"],
   publishFilters: ["published_and_private", "published", "private"],

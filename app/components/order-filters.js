@@ -40,7 +40,7 @@ const UNKNOWN = "unknown";
 // --- Component
 
 export default Ember.Component.extend({
-  i18n: Ember.inject.service(),
+  intl: Ember.inject.service(),
   filterService: Ember.inject.service(),
 
   selectedTimeRange: {

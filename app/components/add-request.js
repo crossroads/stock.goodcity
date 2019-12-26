@@ -8,7 +8,7 @@ export default Ember.Component.extend({
 
   store: Ember.inject.service(),
   messageBox: Ember.inject.service(),
-  i18n: Ember.inject.service(),
+  intl: Ember.inject.service(),
   request: null,
   num: null,
   order: null,
@@ -27,13 +27,13 @@ export default Ember.Component.extend({
 
   actions: {
     deleteRequest(reqId) {
-      var i18n = this.get("i18n");
+      var intl = this.get("intl");
       let orderCode = this.get("order.code");
       this.get("messageBox").custom(
-        i18n.t("order.request.remove_req", { orderCode: orderCode }),
-        i18n.t("order.request.remove"),
+        intl.t("order.request.remove_req", { orderCode: orderCode }),
+        intl.t("order.request.remove"),
         () => this.send("removeRequest", reqId),
-        i18n.t("not_now")
+        intl.t("not_now")
       );
     },
 

@@ -12,7 +12,7 @@ export default Addressable.extend({
   organisations_users_ids: attr(),
   lastConnected: attr("date"),
   lastDisconnected: attr("date"),
-  i18n: Ember.inject.service(),
+  intl: Ember.inject.service(),
   printerId: attr("number"),
   printer: belongsTo("printer", { async: false }),
   userRoles: hasMany("userRoles", {
@@ -51,13 +51,13 @@ export default Addressable.extend({
     "lastConnected",
     "lastDisconnected",
     function() {
-      const i18n = this.get("i18n");
+      const intl = this.get("intl");
       if (!this.get("lastConnected") && !this.get("lastDisconnected")) {
-        return i18n.t("online_status.not_connected");
+        return intl.t("online_status.not_connected");
       } else if (this.get("lastDisconnected") > this.get("lastConnected")) {
         return false;
       } else if (this.get("lastDisconnected") < this.get("lastConnected")) {
-        return i18n.t("online_status.online");
+        return intl.t("online_status.online");
       }
     }
   )

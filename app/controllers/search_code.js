@@ -1,5 +1,5 @@
 import Ember from "ember";
-import { translationMacro as t } from "ember-i18n";
+import { translationMacro as t } from "ember-intl";
 import AjaxPromise from "stock/utils/ajax-promise";
 import AsyncMixin, { ERROR_STRATEGIES } from "../mixins/async";
 import GoodcityController from "./goodcity_controller";
@@ -14,7 +14,7 @@ export default GoodcityController.extend(AsyncMixin, {
   searchText: "",
   fetchMoreResult: true,
   searchPlaceholder: t("search.placeholder"),
-  i18n: Ember.inject.service(),
+  intl: Ember.inject.service(),
   isSearchCodePreviousRoute: Ember.computed.localStorage(),
 
   allPackageTypes: Ember.computed("fetchMoreResult", function() {

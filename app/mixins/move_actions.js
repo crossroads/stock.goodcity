@@ -44,13 +44,13 @@ export default Ember.Mixin.create(AsyncMixin, {
   }),
 
   async resolveLocation(loc, opts = {}) {
-    const i18n = this.get("i18n");
+    const intl = this.get("intl");
 
     if (loc) {
       return loc;
     }
     const { queryText = "", presetLocations } = opts;
-    const text = i18n.exists(queryText) ? i18n.t(queryText) : queryText;
+    const text = intl.exists(queryText) ? intl.t(queryText) : queryText;
 
     return this.get("locationService").userPickLocation({
       headerText: text,

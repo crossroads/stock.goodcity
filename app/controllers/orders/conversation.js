@@ -12,7 +12,7 @@ export default detail.extend({
   isMobileApp: config.cordova.enabled,
   itemIdforHistoryRoute: null,
   organisationIdforHistoryRoute: null,
-  i18n: Ember.inject.service(),
+  intl: Ember.inject.service(),
   sortProperties: ["createdAt: asc"],
   model: null,
   noMessage: Ember.computed.empty("model.messages"),

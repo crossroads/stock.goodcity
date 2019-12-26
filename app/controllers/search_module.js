@@ -32,7 +32,7 @@ export default GoodcityController.extend(InfinityRoute, {
     }
   }),
 
-  i18n: Ember.inject.service(),
+  intl: Ember.inject.service(),
   store: Ember.inject.service(),
   isLoading: false,
   hasNoResults: false,
