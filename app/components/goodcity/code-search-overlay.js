@@ -30,14 +30,11 @@ export default Ember.Component.extend(SearchMixin, {
 
   filteredPackageTypes: Ember.computed("allPackageTypes", function() {
     const pkgTypes = this.get("allPackageTypes");
-    switch (this.get("storageType")) {
-      case "Box":
-        return pkgTypes.filterBy("allow_box", true);
-      case "Pallet":
-        return pkgTypes.filterBy("allow_pallet", true);
-      default:
-        return pkgTypes;
+    const storageType = this.get("storageType");
+    if (["Box", "Pallet"].indexOf(storageType) > -1) {
+      return pkgTypes.filterBy(`allow_${storageType.toLowerCase()}`, true);
     }
+    return pkgTypes;
   }),
 
   hasSearchText: Ember.computed("searchText", function() {

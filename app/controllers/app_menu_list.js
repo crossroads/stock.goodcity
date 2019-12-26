@@ -1,5 +1,5 @@
 import Ember from "ember";
-import config from "../config/environment";
+import config from "stock/config/environment";
 const { getOwner } = Ember;
 import AjaxPromise from "stock/utils/ajax-promise";
 import createInventroyAction from "stock/mixins/create_Inventory";

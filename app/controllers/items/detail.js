@@ -139,7 +139,7 @@ export default GoodcityController.extend(
         .get("lastObject");
     }),
 
-    infoTabSelected: Ember.computed("tabName", function() {
+    selectInfoTab: Ember.computed("tabName", function() {
       return (
         ["storage_detail", "storage_content", "info"].indexOf(
           this.get("tabName")
@@ -153,9 +153,7 @@ export default GoodcityController.extend(
 
     storageTypeName: Ember.computed("item", function() {
       let storageType = this.get("item.storageType");
-      if (storageType) {
-        return storageType.get("name");
-      }
+      return storageType && storageType.get("name");
     }),
 
     isBoxOrPallet: Ember.computed("item", function() {
