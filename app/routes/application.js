@@ -3,6 +3,7 @@ import config from "../config/environment";
 import preloadDataMixin from "../mixins/preload_data";
 import AsyncMixin from "../mixins/async";
 import _ from "lodash";
+import { translationMacro as t } from "ember-intl";
 
 const { getOwner } = Ember;
 
@@ -14,6 +15,8 @@ export default Ember.Route.extend(AsyncMixin, preloadDataMixin, {
   logger: Ember.inject.service(),
   messageBox: Ember.inject.service(),
   cordova: Ember.inject.service(),
+  offlineError: t("offline_error"),
+  QuotaExceededError: t("QuotaExceededError"),
 
   _loadDataStore: function() {
     return this.preloadData()
@@ -85,9 +88,8 @@ export default Ember.Route.extend(AsyncMixin, preloadDataMixin, {
     try {
       localStorage.test = "isSafariPrivateBrowser";
     } catch (e) {
-      this.get("messageBox").alert(this.get("intl").t("QuotaExceededError"));
+      this.get("messageBox").alert(this.get("QuotaExceededError"));
     }
-
     localStorage.removeItem("test");
     var language;
 
@@ -98,7 +100,8 @@ export default Ember.Route.extend(AsyncMixin, preloadDataMixin, {
     language = this.session.get("language") || "en";
     this.set("session.language", language);
     moment.locale(language);
-    this.set("intl.locale", language);
+    let intl = this.get("intl");
+    intl.setLocale(language);
 
     Ember.onerror = window.onerror = error => {
       if (error.errors && error.errors[0] && error.errors[0].status === "401") {
@@ -130,13 +133,13 @@ export default Ember.Route.extend(AsyncMixin, preloadDataMixin, {
       }
 
       if (!window.navigator.onLine) {
-        this.get("messageBox").alert(this.get("intl").t("offline_error"));
+        this.get("messageBox").alert(this.get("offlineError"));
         if (!reason.isAdapterError) {
           this.get("logger").error(reason);
         }
       } else if (reason.name === "QuotaExceededError") {
         this.get("logger").error(reason);
-        this.get("messageBox").alert(this.get("intl").t("QuotaExceededError"));
+        this.get("messageBox").alert(this.get("QuotaExceededError"));
       } else if (reason.name === "NotFoundError" && reason.code === 8) {
         return true;
       } else if (status === 401) {

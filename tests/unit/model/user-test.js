@@ -3,7 +3,7 @@ import Ember from "ember";
 
 moduleForModel("user", "User Model", {
   needs: [
-    "service:i18n",
+    "service:intl",
     "model:permission",
     "model:user",
     "model:address",
