@@ -2,7 +2,7 @@
 const pkgJson = require("../package.json");
 
 module.exports = function(environment) {
-  environment = process.env.ENVIRONMENT || environment
+  environment = process.env.ENVIRONMENT || environment;
   var ENV = {
     modulePrefix: "stock",
     environment: environment,
@@ -78,6 +78,7 @@ module.exports = function(environment) {
         "lookup",
         "goodcity_setting"
       ],
+      PRELOAD_QUERY_STOCK_TYPES: ["code", "cancellation_reason"],
       USER_DATA_TYPES: [
         "designation",
         "item",
@@ -149,7 +150,8 @@ module.exports = function(environment) {
   }
 
   if (environment === "production") {
-    if (!process.env.ENVIRONMENT) throw('Please pass an appropriate ENVIRONMENT=(staging|preview|production) param.')
+    if (!process.env.ENVIRONMENT)
+      throw "Please pass an appropriate ENVIRONMENT=(staging|preview|production) param.";
     ENV.APP.API_HOST_URL = "https://api.goodcity.hk";
     ENV.APP.SOCKETIO_WEBSERVICE_URL = "https://socket.goodcity.hk:81/goodcity";
     ENV.cordova.FcmSenderId = "551756918176";
@@ -180,7 +182,7 @@ module.exports = function(environment) {
       "wss://socket-staging.goodcity.hk:81"
     ].join(" ");
   }
-  
+
   if (environment === "preview") {
     ENV.cordova.FcmSenderId = "535052654081";
     ENV.APP.API_HOST_URL = "https://api-preview.goodcity.hk";
