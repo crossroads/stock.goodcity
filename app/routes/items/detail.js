@@ -51,7 +51,7 @@ export default AuthorizeRoute.extend({
   beforeModel(transition) {
     this._super(...arguments);
     this.set("transition", transition);
-    var previousRoutes = this.router.router.currentHandlerInfos;
+    var previousRoutes = this.router._routerMicrolib.currentHandlerInfos;
     var previousRoute = previousRoutes && previousRoutes.pop();
     var path = "items.index";
 
