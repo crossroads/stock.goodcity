@@ -34,6 +34,7 @@ export default Model.extend({
   beneficiaryId: attr("number"),
   staffNote: attr("string"),
 
+  cancellationReason: belongsTo("cancellation_reason", { async: false }),
   beneficiary: belongsTo("beneficiary", { async: false }),
   stockitContact: belongsTo("stockit_contact", { async: false }),
   organisation: belongsTo("organisation", { async: false }),
