@@ -1,6 +1,6 @@
 {{#message-box btn1Text="Not Now"  btn2Text="Cancel Order" btn2Callback=(action "cancelOrder") isVisible=showCancellationReason classNames="popupOverlay cancellation_reason"}}
   <p>This will remove any items from the order and cancel the order</p>
-  <strong>Cancellation Reasons</strong>
+  <strong class="title">Cancellation Reasons</strong>
   {{#each cancellationReasons as |reason|}}
     <div class="custom_radio_buttons ">
     {{radio-button
