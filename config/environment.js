@@ -74,6 +74,7 @@ module.exports = function(environment) {
         "goodcity_setting",
         "printer"
       ],
+      PRELOAD_QUERY_STOCK_TYPES: ["code", "cancellation_reason"],
       USER_DATA_TYPES: [
         "designation",
         "item",

@@ -19,10 +19,16 @@ export default Ember.Mixin.create({
           this.notifyPropertyChange("session.currentUser");
         })
       );
-      promises = promises.concat(this.store.query("code", { stock: true }));
+      promises = promises.concat(this.queryResourcesForStock());
       promises = promises.concat(retrieve(config.APP.PRELOAD_TYPES));
     }
 
     return Ember.RSVP.all(promises);
+  },
+
+  queryResourcesForStock() {
+    return config.APP.PRELOAD_QUERY_STOCK_TYPES.map(type =>
+      this.store.query(type, { stock: true })
+    );
   }
 });
