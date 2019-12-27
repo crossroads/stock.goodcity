@@ -5,9 +5,12 @@ import GoodcityController from "../goodcity_controller";
 import SearchMixin from "stock/mixins/search_resource";
 import _ from "lodash";
 const { getOwner } = Ember;
+import AsyncMixin from "../../mixins/async";
 
-export default GoodcityController.extend(SearchMixin, {
+export default GoodcityController.extend(AsyncMixin, SearchMixin, {
   backLinkPath: "",
+  displayAllItems: false,
+  cancellationReason: [],
   isMobileApp: config.cordova.enabled,
   order: Ember.computed.alias("model"),
   orderId: Ember.computed.alias("model.id"),
@@ -37,6 +40,7 @@ export default GoodcityController.extend(SearchMixin, {
       .split(".")
       .get("lastObject");
   }),
+  orderService: Ember.inject.service(),
 
   scheduleTimeSlots: Ember.computed(function() {
     let buildSlot = (hours, minutes) => {
@@ -100,6 +104,14 @@ export default GoodcityController.extend(SearchMixin, {
   },
 
   actions: {
+    cancelOrder() {
+      this.send("changeOrderState", this.get("order"), {
+        transition: "cancel",
+        cancellation_reason_id: this.get("cancellationReasonId"),
+        cancel_reason: this.get("otherCancellationReason")
+      });
+    },
+
     openSchedulePopup() {
       const scheduledAt = this.get("model.orderTransport.scheduledAt");
       try {
@@ -152,10 +164,10 @@ export default GoodcityController.extend(SearchMixin, {
     updateOrder(order, actionName) {
       switch (actionName) {
         case "messagePopUp":
-          this.send("changeOrderState", order, "cancel");
+          this.send("changeOrderState", order, { transition: "cancel" });
           break;
         case "start_processing":
-          this.send("changeOrderState", order, actionName);
+          this.send("changeOrderState", order, { transition: actionName });
           break;
         case "resubmit":
           this.send("promptResubmitModel", order, actionName);
@@ -210,7 +222,7 @@ export default GoodcityController.extend(SearchMixin, {
           "order.dispatch_later",
           "not_now",
           function() {
-            _this.send("changeOrderState", order, actionName);
+            _this.send("changeOrderState", order, { transition: actionName });
           }
         );
       }
@@ -223,7 +235,7 @@ export default GoodcityController.extend(SearchMixin, {
         "order.resubmit",
         "not_now",
         function() {
-          _this.send("changeOrderState", order, actionName);
+          _this.send("changeOrderState", order, { transition: actionName });
         }
       );
     },
@@ -235,7 +247,7 @@ export default GoodcityController.extend(SearchMixin, {
         "order.reopen_order",
         "not_now",
         function() {
-          _this.send("changeOrderState", order, actionName);
+          _this.send("changeOrderState", order, { transition: actionName });
         }
       );
     },
@@ -262,7 +274,7 @@ export default GoodcityController.extend(SearchMixin, {
           "not_now",
           function() {
             _this.set("isOrderProcessRestarted", true);
-            _this.send("changeOrderState", order, actionName);
+            _this.send("changeOrderState", order, { transition: actionName });
           }
         );
       }
@@ -276,7 +288,7 @@ export default GoodcityController.extend(SearchMixin, {
           "order.cancel_order",
           "not_now",
           function() {
-            _this.send("changeOrderState", order, actionName);
+            _this.send("changeOrderState", order, { transition: actionName });
           }
         );
       } else {
@@ -295,7 +307,7 @@ export default GoodcityController.extend(SearchMixin, {
           "order.close_order",
           "not_now",
           function() {
-            _this.send("changeOrderState", order, actionName);
+            _this.send("changeOrderState", order, { transition: actionName });
           }
         );
       } else {
@@ -306,28 +318,31 @@ export default GoodcityController.extend(SearchMixin, {
       }
     },
 
-    changeOrderState(order, transition) {
-      var url = `/orders/${order.id}/transition`;
-      var loadingView = getOwner(this)
-        .lookup("component:loading")
-        .append();
-      new AjaxPromise(url, "PUT", this.get("session.authToken"), {
-        transition: transition
-      })
-        .then(data => {
-          if ("transition" === "restart_process") {
-            this.set("isOrderProcessRestarted", false);
-          }
-          this.send("toggleDisplayOptions");
-          data["designation"] = data["order"];
-          this.get("store").pushPayload(data);
-        })
-        .finally(() => {
-          loadingView.destroy();
-          if (transition === "close") {
-            this.get("appReview").promptReviewModal(true);
-          }
-        });
+    changeOrderState(order, params) {
+      // var url = `/orders/${order.id}/transition`;
+      // var loadingView = getOwner(this)
+      //   .lookup("component:loading")
+      //   .append();
+      // new AjaxPromise(url, "PUT", this.get("session.authToken"), {
+      //   transition: transition
+      // })
+      this.runTask(
+        this.get("orderService")
+          .changeOrderState(order, params)
+          .then(data => {
+            if ("transition" === "restart_process") {
+              this.set("isOrderProcessRestarted", false);
+            }
+            this.send("toggleDisplayOptions");
+            data["designation"] = data["order"];
+            this.get("store").pushPayload(data);
+          })
+          .finally(() => {
+            if (params.transition === "close") {
+              this.get("appReview").promptReviewModal(true);
+            }
+          })
+      );
     }
   }
 });
