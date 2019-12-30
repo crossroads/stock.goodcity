@@ -37,7 +37,7 @@ export default ApiBaseService.extend({
       .get("firstObject");
   },
 
-  userPickPackage(storageType) {
+  createInventory(storageType) {
     Ember.run(() => {
       this.set("openPackageSearch", true);
       this.set("storageType", storageType);
