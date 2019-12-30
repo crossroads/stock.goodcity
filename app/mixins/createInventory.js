@@ -3,8 +3,6 @@ import config from "stock/config/environment";
 import AsyncMixin, { ERROR_STRATEGIES } from "./async";
 import _ from "lodash";
 
-const ALLOW_PARTIAL_QTY = config.APP.ALLOW_PARTIAL_OPERATIONS;
-
 export default Ember.Mixin.create(AsyncMixin, {
   packageService: Ember.inject.service(),
 

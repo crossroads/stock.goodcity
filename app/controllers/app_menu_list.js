@@ -2,10 +2,10 @@ import Ember from "ember";
 import config from "stock/config/environment";
 const { getOwner } = Ember;
 import AjaxPromise from "stock/utils/ajax-promise";
-import createInventroyAction from "stock/mixins/create_Inventory";
+import createInventory from "stock/mixins/createInventory";
 import storageType from "stock/mixins/storage-type";
 
-export default Ember.Controller.extend(createInventroyAction, storageType, {
+export default Ember.Controller.extend(createInventory, storageType, {
   application: Ember.inject.controller(),
   isMobileApp: config.cordova.enabled,
   settings: Ember.inject.service(),
