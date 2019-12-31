@@ -8,6 +8,7 @@ import PackageDetailMixin from "stock/mixins/fetch_package_detail";
 import GradeMixin from "stock/mixins/grades_option";
 import MoveActions from "stock/mixins/move_actions";
 import DesignationActions from "stock/mixins/designation_actions";
+import StorageTypes from "stock/mixins/storage-type";
 import _ from "lodash";
 
 export default GoodcityController.extend(
@@ -16,6 +17,7 @@ export default GoodcityController.extend(
   GradeMixin,
   MoveActions,
   DesignationActions,
+  StorageTypes,
   {
     isMobileApp: config.cordova.enabled,
     backLinkPath: "",
@@ -46,10 +48,15 @@ export default GoodcityController.extend(
     currentRoute: Ember.computed.alias("application.currentPath"),
     pkg: Ember.computed.alias("model"),
     showPieces: Ember.computed.alias("model.code.allow_pieces"),
+    settings: Ember.inject.service(),
 
     isItemDetailPresent() {
       return !!this.get("item.detail.length");
     },
+
+    disableBoxPalletItemAddition: Ember.computed("model", function() {
+      return this.get("settings.disableBoxPalletItemAddition");
+    }),
 
     displayFields: Ember.computed("model.code", function() {
       let subform = this.get("model.code.subform");
@@ -130,6 +137,27 @@ export default GoodcityController.extend(
       return this.get("currentRoute")
         .split(".")
         .get("lastObject");
+    }),
+
+    selectInfoTab: Ember.computed("tabName", function() {
+      return (
+        ["storage_detail", "storage_content", "info"].indexOf(
+          this.get("tabName")
+        ) > -1
+      );
+    }),
+
+    listTabSelected: Ember.computed("tabName", function() {
+      return ["storage_content", "info"].indexOf(this.get("tabName")) > -1;
+    }),
+
+    storageTypeName: Ember.computed("item", function() {
+      let storageType = this.get("item.storageType");
+      return storageType && storageType.get("name");
+    }),
+
+    isBoxOrPallet: Ember.computed("item", function() {
+      return ["Box", "Pallet"].indexOf(this.get("storageTypeName")) > -1;
     }),
 
     conditions: Ember.computed(function() {

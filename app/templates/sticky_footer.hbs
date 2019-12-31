@@ -9,22 +9,22 @@
           {{/link-to}}
 
           {{#if (is-and filterService.getOrderState.length filterService.getOrderType.length)}}
-            {{#link-to 'orders' (query-params preload=true) tagName='li' href=false}}
+            {{#link-to 'orders' (query-params preload=true) tagName='li' class="orders" href=false}}
               <i>{{fa-icon 'shopping-basket'}}</i>{{t "index.orders"}}
             {{/link-to}}
           {{else}}
-            {{#link-to 'orders' tagName='li' href=false}}
+            {{#link-to 'orders' tagName='li' class="orders" href=false}}
               <i>{{fa-icon 'shopping-basket'}}</i>{{t "index.orders"}}
             {{/link-to}}
           {{/if}}
 
-          {{#link-to 'items' tagName='li' href=false}}
+          {{#link-to 'items' tagName='li' class="items" href=false}}
             <i>{{fa-icon 'cube'}}</i>{{t "index.items"}}
           {{/link-to}}
 
           {{!-- <li><i>{{fa-icon 'qrcode'}}</i>{{t "index.goto"}}</li> --}}
 
-          {{#link-to 'app_menu_list' tagName='li' href=false}}
+          {{#link-to 'app_menu_list' tagName='li' class="menu" href=false}}
             <i>{{fa-icon 'bars'}}</i> {{t "footer.menu"}}
           {{/link-to}}
         </ul>

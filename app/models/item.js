@@ -42,6 +42,11 @@ export default cloudinaryUrl.extend({
   setItem: belongsTo("set_item", { async: false }),
   packagesLocations: hasMany("packages_location", { async: true }),
 
+  storageTypeId: attr("number"),
+  storageType: belongsTo("storage_type", {
+    async: true
+  }),
+
   ordersPackages: hasMany("ordersPackages", { async: true }),
   imageIds: attr(),
   images: hasMany("image", { async: true }),

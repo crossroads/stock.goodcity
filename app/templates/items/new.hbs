@@ -1,6 +1,6 @@
 <nav class="tab-bar new-item-nav">
   <section class="tab-bar-section">
-    <h1 class="title">{{t "items.new.add"}} - {{parentCodeName}}</h1>
+    <h1 class="title">{{pageTitle}}</h1>
   </section>
 </nav>
 <section class="main-section new-item-section ui">
@@ -25,7 +25,7 @@
           </div>
           <div class="small-7 large-8 columns left">
             {{#form-control}}
-              {{numeric-input id='qty' name="qty" value=quantity maxlength="8" required='true' pattern="\d{1,8}"}}
+              {{numeric-input id='qty' name="qty" value=quantity maxlength="8" required='true' pattern="\d{1,8}" disabled=isBoxOrPallet}}
               <div class='input-error'>{{t "items.new.validation_errors.quantity"}}</div>
             {{/form-control}}
           </div>

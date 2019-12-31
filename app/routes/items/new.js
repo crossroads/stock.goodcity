@@ -21,6 +21,9 @@ export default AuthorizeRoute.extend({
     },
     scanLocationName: {
       replace: true
+    },
+    storageType: {
+      replace: true
     }
   },
 
