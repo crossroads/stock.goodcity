@@ -1,4 +1,5 @@
 import Ember from "ember";
+import _ from "lodash";
 import { module, test } from "qunit";
 import startApp from "../helpers/start-app";
 import "../factories/user";
@@ -8,7 +9,7 @@ import FactoryGuy from "ember-data-factory-guy";
 import { mockFindAll } from "ember-data-factory-guy";
 import MockUtils from "../helpers/mock-utils";
 
-var App, hk_user, non_hk_user, bookingType;
+var App, hk_user, non_hk_user, bookingType, codes;
 
 module("Acceptance: Login", {
   beforeEach: function() {
@@ -21,6 +22,7 @@ module("Acceptance: Login", {
     let location = FactoryGuy.make("location");
     let designation = FactoryGuy.make("designation");
     bookingType = FactoryGuy.make("booking_type");
+    codes = FactoryGuy.make("code");
     mockFindAll("designation").returns({
       json: { designations: [designation.toJSON({ includeId: true })] }
     });
@@ -30,7 +32,10 @@ module("Acceptance: Login", {
     mockFindAll("booking_type").returns({
       json: { booking_types: [bookingType.toJSON({ includeId: true })] }
     });
-
+    MockUtils.mockWithRecords(
+      "cancellation_reason",
+      _(3).times(() => FactoryGuy.make("cancellation_reason"))
+    );
     hk_user = FactoryGuy.make("with_hk_mobile");
     non_hk_user = FactoryGuy.make("with_non_hk_mobile");
     window.localStorage.removeItem("authToken");
@@ -100,6 +105,13 @@ test("User is able to enter sms code and confirm and redirected to Home page and
       priority_dispatching: 1,
       priority_processing: 2,
       priority_awaiting_dispatch: 1
+    }
+  });
+
+  $.mockjax({
+    url: "/api/v1/package_typ*",
+    responseText: {
+      codes: [codes.toJSON({ includeId: true })]
     }
   });
 
