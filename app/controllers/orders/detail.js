@@ -63,14 +63,19 @@ export default GoodcityController.extend(AsyncMixin, SearchMixin, {
     return this.store.peekAll("cancellation_reason");
   }),
 
-  cancellationReasonId: Ember.computed({
-    get() {
-      const cancellationReasons = this.get("cancellationReasons");
-      return cancellationReasons.get("firstObject.id");
-    },
-    set(key, value) {
-      return value;
-    }
+  cancellationReasonId: Ember.computed(function() {
+    return this.get("cancellationReasons.firstObject.id");
+  }),
+
+  isOtherCancellationReason: Ember.computed("cancellationReasonId", function() {
+    const selectedCancelledReason = this.store.peekRecord(
+      "cancellation_reason",
+      this.get("cancellationReasonId")
+    );
+    return (
+      selectedCancelledReason.get("name") ===
+      this.get("i18n").t("order_cancellation_reason.other").string
+    );
   }),
 
   ordersPackagesLengthMoreThenThree: Ember.observer(
@@ -266,7 +271,6 @@ export default GoodcityController.extend(AsyncMixin, SearchMixin, {
           this.send("dispatchLaterModel", order, actionName);
           break;
         case "cancel":
-          // this.send("promptCancelOrderModel", order, actionName);
           this.set("showCancellationReason", true);
           break;
         case "close":
