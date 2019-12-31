@@ -191,7 +191,6 @@ export default GoodcityController.extend(AsyncMixin, SearchMixin, {
       if (this.get("otherCancellationReason")) {
         params.cancel_reason = this.get("otherCancellationReason");
       }
-
       this.runTask(
         this.get("orderService")
           .changeOrderState(this.get("order"), params)
