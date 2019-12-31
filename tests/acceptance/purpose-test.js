@@ -1,4 +1,5 @@
 import Ember from "ember";
+import _ from "lodash";
 import { module, test } from "qunit";
 import startApp from "../helpers/start-app";
 import "../factories/beneficiary";
@@ -33,6 +34,10 @@ module("Acceptance: Order Client summary", {
     }).toJSON({ includeId: true });
 
     MockUtils.mockWithRecords("designation", [designation]);
+    MockUtils.mockWithRecords(
+      "cancellation_reason",
+      _(3).times(() => FactoryGuy.make("cancellation_reason"))
+    );
 
     visit("/orders/" + designation.id + "/client_summary");
   },
