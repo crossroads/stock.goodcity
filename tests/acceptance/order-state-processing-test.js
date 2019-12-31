@@ -1,4 +1,5 @@
 import Ember from "ember";
+import _ from "lodash";
 import { module, test } from "qunit";
 import startApp from "../helpers/start-app";
 import "../factories/orders_package";
@@ -122,6 +123,10 @@ module("Acceptance: Order State processing", {
         ]
       }
     });
+    MockUtils.mockWithRecords(
+      "cancellation_reason",
+      _(3).times(() => FactoryGuy.make("cancellation_reason"))
+    );
   },
   afterEach: function() {
     MockUtils.closeSession();

@@ -1,4 +1,5 @@
 import Ember from "ember";
+import _ from "lodash";
 import { module, test } from "qunit";
 import startApp from "../helpers/start-app";
 import "../factories/orders_package";
@@ -107,6 +108,12 @@ module("Acceptance: Order summary", {
         ]
       }
     });
+
+    MockUtils.mockWithRecords(
+      "cancellation_reason",
+      _(3).times(() => FactoryGuy.make("cancellation_reason"))
+    );
+
     mockFindAll("designation").returns({
       json: {
         designations: [
