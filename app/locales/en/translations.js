@@ -68,6 +68,11 @@ export default {
     online: "Online",
     not_connected: "Not Connected"
   },
+  order_cancellation_reason: {
+    warning: "This will remove any items from the order and cancel the order",
+    title: "Cancellation Reasons",
+    other: "Other"
+  },
   order_client_summary: {
     remove_client_title: "Remove Client",
     remove_client_info: "Remove client/beneficiary",
