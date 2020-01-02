@@ -31,7 +31,7 @@
   }
 
   .row {
-    margin-top: 0.5rem !important;
+    margin-top: 0.5rem;
     position: relative;
 
     @media #{$small-only} {
@@ -237,6 +237,10 @@
       height: 4.1rem;
       width: 5rem;
     }
+  }
+
+  .error-message {
+    margin-top: 0;
   }
 
   .scan-icon i {
