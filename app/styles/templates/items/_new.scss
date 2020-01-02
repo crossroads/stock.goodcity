@@ -39,6 +39,13 @@
     }
   }
 
+  form {
+    .quantity,
+    .type {
+      margin-top: 0.5rem;
+    }
+  }
+
   .dropdown-wrapper {
     .Searchable-select__menu {
       z-index: 110;
