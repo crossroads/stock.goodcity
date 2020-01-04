@@ -2,7 +2,7 @@
 const pkgJson = require("../package.json");
 
 module.exports = function(environment) {
-  environment = process.env.ENVIRONMENT || environment
+  environment = process.env.ENVIRONMENT || environment || "development";
   var ENV = {
     modulePrefix: "stock",
     environment: environment,
@@ -10,21 +10,15 @@ module.exports = function(environment) {
     defaultLocationType: "auto",
 
     emberRollbarClient: {
-      enabled: environment !== "test" && environment !== "development",
       accessToken: "cc46e2e6402f4106a8ba71fe9752d69a",
       verbose: true,
       ignoredMessages: ["TransitionAborted"],
       payload: {
+        environment: environment,
         client: {
           javascript: {
-            source_map_enabled: true, //this is now true by default
-            code_version: require("child_process")
-              .execSync("git rev-parse HEAD")
-              .toString()
-              .trim(),
             // Optionally have Rollbar guess which frames the error was thrown from
             // when the browser does not provide line and column numbers.
-            environment: environment,
             guess_uncaught_frames: false
           }
         }
@@ -149,7 +143,8 @@ module.exports = function(environment) {
   }
 
   if (environment === "production") {
-    if (!process.env.ENVIRONMENT) throw('Please pass an appropriate ENVIRONMENT=(staging|preview|production) param.')
+    if (!process.env.ENVIRONMENT)
+      throw "Please pass an appropriate ENVIRONMENT=(staging|preview|production) param.";
     ENV.APP.API_HOST_URL = "https://api.goodcity.hk";
     ENV.APP.SOCKETIO_WEBSERVICE_URL = "https://socket.goodcity.hk:81/goodcity";
     ENV.cordova.FcmSenderId = "551756918176";
@@ -180,7 +175,7 @@ module.exports = function(environment) {
       "wss://socket-staging.goodcity.hk:81"
     ].join(" ");
   }
-  
+
   if (environment === "preview") {
     ENV.cordova.FcmSenderId = "535052654081";
     ENV.APP.API_HOST_URL = "https://api-preview.goodcity.hk";
@@ -198,6 +193,5 @@ module.exports = function(environment) {
   }
 
   ENV.APP.SERVER_PATH = ENV.APP.API_HOST_URL + "/" + ENV.APP.NAMESPACE;
-
   return ENV;
 };
