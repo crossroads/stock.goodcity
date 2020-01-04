@@ -30,9 +30,9 @@
       {{#if displayResults}}
         {{#infinite-list height="85vh" loadMore=(action "loadMoreItems") as |items| }}
           {{#each items as |item|}}
-            {{#designate-form order=model item=item autoDisplayOverlay=autoDisplayOverlay displaySetItems=(action "displaySetItems" item) navigationAction=(action (back-action)) }}
+            {{#goodcity/designate-link order=model pkg=item}}
               {{partial 'orders/item_block'}}
-            {{/designate-form}}
+            {{/goodcity/designate-link}}
           {{/each}}
         {{/infinite-list}}
       {{else}}
@@ -40,5 +40,4 @@
       {{/if}}
     </div>
   </div>
-
 </section>

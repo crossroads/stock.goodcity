@@ -26,13 +26,35 @@ export default Ember.Mixin.create(AsyncMixin, {
 
   clearDesignationParams() {
     this.set("readyToDesignate", false);
-    this.set("movdesignationQtyeQty", 0);
+    this.set("designatableQuantity", 0);
     this.set("designationTargetPackage", null);
     this.set("designationTargetOrder", null);
+    this.set("designationQty", 0);
+  },
+
+  computeDesignationQuantities() {
+    const pkg = this.get("designationTargetPackage");
+    const order = this.get("designationTargetOrder");
+
+    if (!order || !pkg) {
+      this.set("designatableQuantity", 0);
+      this.set("designationQty", 0);
+      return;
+    }
+
+    const maxQuantity =
+      pkg.get("availableQty") + this.alreadyDesignatedQuantity(pkg, order);
+
+    this.set("designatableQuantity", maxQuantity);
+    if (!this.get("designationQty")) {
+      this.set("designationQty", maxQuantity);
+    }
   },
 
   alreadyDesignatedQuantity(pkg, order) {
-    const ordPkg = pkg.get("ordersPackages").findBy("orderId", order.get("id"));
+    const ordPkg = pkg.get("ordersPackages").find(op => {
+      return parseInt(op.get("orderId")) === parseInt(order.get("id"));
+    });
     return ordPkg ? ordPkg.get("quantity") : 0;
   },
 
@@ -45,18 +67,21 @@ export default Ember.Mixin.create(AsyncMixin, {
     });
   },
 
+  onDesignationsChange: Ember.observer(
+    "designationTargetPackage.ordersPackages.[]",
+    "designationTargetPackage.ordersPackages.@each.{state,quantity}",
+    function() {
+      this.computeDesignationQuantities();
+    }
+  ),
+
   actions: {
     beginDesignation(pkg, order) {
       this.resolveOrder(order).then(target => {
         if (target) {
-          const maxQuantity =
-            pkg.get("availableQty") +
-            this.alreadyDesignatedQuantity(pkg, target);
-
-          this.set("designatableQuantity", maxQuantity);
           this.set("designationTargetPackage", pkg);
           this.set("designationTargetOrder", target);
-          this.set("designationQty", maxQuantity);
+          this.computeDesignationQuantities();
           this.set("readyToDesignate", true);
         }
       });

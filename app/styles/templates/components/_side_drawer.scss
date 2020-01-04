@@ -7,6 +7,14 @@
   width: 2em;
   position: relative;
 
+  &.small {
+    height: 3rem;
+    line-height: 3em;
+    .arrow-icon-holder {
+      padding-left: 0.5rem;
+    }
+  }
+
   &.hidden {
     .arrow-icon-holder {
       pointer-events: none;

@@ -9,14 +9,13 @@
     {{/if}}
   </section>
 </nav>
-
 <div class="row search">
   <div class="small-12 columns">
     <ul class="list list-activity menu-list">
       {{!-- {{#unless isMobileApp}} --}}
-        <li class="menu-list">
-          {{language-switcher}}
-        </li>
+      <li class="menu-list">
+        {{language-switcher}}
+      </li>
       {{!-- {{/unless}} --}}
       <li class="menu-list">
         <a href="#" class="menu-list-anchor" {{action 'logMeOut'}}>
@@ -30,11 +29,13 @@
           {{/link-to}}
         </li>
       {{/if}}
-      <li class="menu-list">
-        {{#link-to 'search_code' (query-params backToNewItem=false) class='menu-list-anchor inventory'}}
-          {{fa-icon 'plus-circle' size="lg"}}&nbsp;&nbsp;{{t "add_inventory_item"}}
-        {{/link-to}}
-      </li>
+      {{#each storageTypes as |storageType|}}
+        <li class="menu-list {{if storageType.disable 'disable'}}">
+          <a href="#" class="menu-list-anchor {{if storageType.disable 'disable'}}" {{action 'createInventory' storageType.name target=packageService}} disabled={{storageType.disable}}>
+            {{fa-icon storageType.icon size="lg"}}&nbsp;&nbsp;{{t storageType.translation}}
+          </a>
+        </li>
+      {{/each}}
       {{#if (is-or session.currentUser.canManageAppointments getCurrentUser.canManageAppointments)}}
         <li class="menu-list">
           {{#link-to 'appointments' class='appointments-link menu-list-anchor'}}
@@ -50,6 +51,4 @@
     </ul>
   </div>
 </div>
-
 {{partial "sticky_footer"}}
-

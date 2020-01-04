@@ -55,6 +55,7 @@ export default Ember.Component.extend(AsyncMixin, {
   actionRunner: Ember.computed.alias("designationService"),
 
   editableQty: Ember.computed.alias("settings.allowPartialOperations"),
+  drawerOpened: false,
 
   init() {
     this._super(...arguments);
@@ -174,6 +175,8 @@ export default Ember.Component.extend(AsyncMixin, {
     }
 
     try {
+      Ember.run(() => this.set("drawerOpened", false));
+
       await this.runTask(
         this.get("actionRunner").execAction(ordersPkg, actionName, params)
       );
@@ -199,14 +202,21 @@ export default Ember.Component.extend(AsyncMixin, {
     "orderPkg.allowedActions.@each",
     "orderPkg.allowedActions.[]",
     function() {
-      return this.getWithDefault("orderPkg.allowedActions", []).map(
-        ({ name, enabled }) => ({
+      const filter = ({ name }) => {
+        if (this.get("actionsFilter")) {
+          return this.get("actionsFilter").includes(name);
+        }
+        return true;
+      };
+
+      return this.getWithDefault("orderPkg.allowedActions", [])
+        .filter(filter)
+        .map(({ name, enabled }) => ({
           label: this.labelFor(name),
           icon: this.iconFor(name),
           enabled: enabled,
           trigger: this.runAction.bind(this, name)
-        })
-      );
+        }));
     }
   ),
 

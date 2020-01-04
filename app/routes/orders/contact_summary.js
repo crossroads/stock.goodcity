@@ -18,7 +18,6 @@ export default detail.extend({
     if (controller) {
       controller.set("model", model.order);
       controller.set("ordersCount", model.usersOrdersCount);
-      controller.set("isActiveSummary", true);
     }
   }
 });

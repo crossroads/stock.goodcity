@@ -70,7 +70,8 @@ module.exports = function(environment) {
         "identity_type",
         "donor_condition",
         "lookup",
-        "goodcity_setting"
+        "goodcity_setting",
+        "printer"
       ],
       USER_DATA_TYPES: [
         "designation",
@@ -106,11 +107,11 @@ module.exports = function(environment) {
   };
 
   if (environment === "development") {
-    ENV.APP.API_HOST_URL = "http://localhost:3000";
+    ENV.APP.API_HOST_URL = "http://localhost:4000";
     ENV.APP.SOCKETIO_WEBSERVICE_URL = "http://localhost:1337/goodcity";
     ENV.cordova.FcmSenderId = "535052654081";
     ENV.contentSecurityPolicy["connect-src"] = [
-      "http://localhost:3000",
+      "http://localhost:4000",
       "https://api.cloudinary.com",
       "http://localhost:4203",
       "http://localhost:1337",

@@ -10,7 +10,8 @@ moduleForModel("user", "User Model", {
     "model:user-role",
     "model:role",
     "model:organisation",
-    "model:organisations-user"
+    "model:organisations-user",
+    "model:printer"
   ]
 });
 
