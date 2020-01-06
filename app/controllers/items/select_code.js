@@ -72,7 +72,10 @@ export default SearchCode.extend({
     const packageParams = {
       package_type_id: type.get("id")
     };
-    if (!this.isSamePackage(type)) {
+    if (
+      !this.isSamePackage(type) ||
+      (!item.get("detailId") && this.isSubformPackage(type))
+    ) {
       packageParams.detail_type = capitalize(type.get("subform"));
     }
     if (deleteDetailId) {
