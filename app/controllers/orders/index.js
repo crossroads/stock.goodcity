@@ -3,13 +3,17 @@ import _ from "lodash";
 import { STATE_FILTERS } from "../../services/filter-service";
 import SearchMixin from "stock/mixins/search_resource";
 
+/**
+ * @module Controllers/orders/OrdersSearchController
+ * @augments ember/Controller
+ */
 export default Ember.Controller.extend(SearchMixin, {
   /**
-   * @type {Boolean}, expected in SearchMixin
+   * @property {Boolean} SearchMixin configuration
    **/
   autoLoad: true,
   /**
-   * @type {Number}, perPage in response
+   * @property {Number} SearchMixin configuration, perPage in response
    **/
   perPage: 25,
 
@@ -43,6 +47,13 @@ export default Ember.Controller.extend(SearchMixin, {
   },
 
   actions: {
+    /**
+     * Load the next page of the list
+     *
+     * @memberof OrdersSearchController
+     * @param {number} pageNo the page to load
+     * @returns {Promise<Order[]>}
+     */
     loadMoreOrders(pageNo) {
       const params = this.trimQuery(
         _.merge(

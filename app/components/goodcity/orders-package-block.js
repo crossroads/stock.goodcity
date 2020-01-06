@@ -29,20 +29,22 @@ const CANCELLED = {};
 /**
  * UI Component representing an orders_package
  *
- * --------------------------------------------------------
- * | op_state  |   order_code         order_state |    <  |
- * |           |                                  |  <    |
- * | qty       |   organisation                   |    <  |
- * --------------------------------------------------------
+ *  --------------------------------------------------------
+ *  | op_state  |   order_code         order_state |    <  |
+ *  |           |                                  |  <    |
+ *  | qty       |   organisation                   |    <  |
+ *  --------------------------------------------------------
  *
- * It provides a drawer from the right side which is populated
- * with the actions provided by the backend
+ * @module Components/goodcity/orders-package-block
+ * @augments ember/Component
+ * @param {Model} orderPkg the orders_package to display
+ * @description
+ * <br> It provides a drawer from the right side which is populated
+ * <br> with the actions provided by the backend
+ * <br>
+ * <br> Clicking on an action will run it on the API side
  *
- * Clicking on an action will run it on the API side
- *
- * @property {Model} orderPkg the orders_package to display
- *
- * Usage:
+ * @example
  *  {{goodcity/orders-package-block orderPkg=orderPkg }}
  */
 export default Ember.Component.extend(AsyncMixin, {
@@ -73,6 +75,7 @@ export default Ember.Component.extend(AsyncMixin, {
    *
    * CANCELLED is returned if the user closes the UI
    *
+   * @private
    * @returns {Promise<String>}
    */
   async selectOrder() {
@@ -88,6 +91,7 @@ export default Ember.Component.extend(AsyncMixin, {
    *
    * CANCELLED is returned if the user closes the UI
    *
+   * @private
    * @returns {Promise<String>}
    */
   async selectLocation() {
@@ -101,6 +105,7 @@ export default Ember.Component.extend(AsyncMixin, {
    *
    * CANCELLED is returned if the user closes the UI
    *
+   * @private
    * @returns {Promise<number>}
    */
   selectQuantity() {
@@ -132,6 +137,11 @@ export default Ember.Component.extend(AsyncMixin, {
    * to successfully
    *
    * CANCELLED if the user did not provide the
+   *
+   * @private
+   * @memberof OrdersPackageBlock
+   * @param {string} actionName the action being run
+   * @returns the options to send to the api
    */
   async fulfillParams(actionName) {
     const paramNames = _.get(ACTIONS_SETTINGS, `${actionName}.params`, []);
@@ -164,6 +174,10 @@ export default Ember.Component.extend(AsyncMixin, {
   /**
    * Runs the desired action
    *
+   * @memberof OrdersPackageBlock
+   * @private
+   * @param {string} actionName the action to run
+   * @returns {Promise<Package>} the updated package
    */
   async runAction(actionName) {
     const params = await this.fulfillParams(actionName);

@@ -13,6 +13,8 @@ function ID(modelOrId) {
 /**
  * Designation Service
  *
+ * @module Services/DesignationService
+ * @augments Services/ApiBaseService
  * @description Control of designation of packages to orders
  * <br> Notes:
  * <br> * Stock currently use the 'designation' model, which in reality is
@@ -64,10 +66,14 @@ export default ApiBaseService.extend(NavigationAwareness, {
    * Shorthand for execAction(..., 'dispatch')
    *
    * @param {String|Model} ordersPackage
+   * @param {object} params
+   * @param {string|Model} params.from_location the location to dispatch from
    * @returns {Promise<Model>}
    */
-  dispatch(ordersPackage) {
-    return this.execAction(ordersPackage, "dispatch");
+  dispatch(ordersPackage, { from_location }) {
+    return this.execAction(ordersPackage, "dispatch", {
+      location_id: ID(from_location)
+    });
   },
 
   /**
