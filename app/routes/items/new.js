@@ -79,7 +79,7 @@ export default AuthorizeRoute.extend({
     this.initializeController();
 
     if (this.get("newItemRequest")) {
-      this.initializeDimensions();
+      this.initializeAttributes();
       this.manageSubformDetails();
       this.setUpPackageImage();
       window.localStorage.setItem("isSelectLocationPreviousRoute", false);
@@ -133,7 +133,7 @@ export default AuthorizeRoute.extend({
     }
   },
 
-  initializeDimensions() {
+  initializeAttributes() {
     const controller = this.controller;
     this.set("newItemRequest", false);
     controller.set("quantity", 1);
@@ -144,6 +144,8 @@ export default AuthorizeRoute.extend({
       controller.set("length", null);
       controller.set("width", null);
       controller.set("height", null);
+      controller.set("weight", null);
+      controller.set("pieces", null);
       controller.set("selectedGrade", {
         name: "B",
         id: "B"
