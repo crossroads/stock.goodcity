@@ -23,9 +23,11 @@ export default SearchCode.extend({
     const item = this.get("item");
     const type = item.get("detailType");
     const detailId = item.get("detailId");
-    await this.runTask(
-      this.get("subformDetailService").deleteDetailType(type, detailId)
-    );
+    if (type) {
+      await this.runTask(
+        this.get("subformDetailService").deleteDetailType(type, detailId)
+      );
+    }
     return this.assignNew(packageType, {
       deleteDetailId: !this.isSubformPackage(packageType)
     });
@@ -70,7 +72,10 @@ export default SearchCode.extend({
     const packageParams = {
       package_type_id: type.get("id")
     };
-    if (!this.isSamePackage(type)) {
+    if (
+      !this.isSamePackage(type) ||
+      (!item.get("detailId") && this.isSubformPackage(type))
+    ) {
       packageParams.detail_type = capitalize(type.get("subform"));
     }
     if (deleteDetailId) {

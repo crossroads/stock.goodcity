@@ -71,7 +71,7 @@ export default GoodcityController.extend(
           nameEn: country.get("nameEn")
         };
       }
-    }),
+    }).volatile(),
 
     returnSelectedValues(selectedValues) {
       let dataObj = {
