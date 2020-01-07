@@ -17,7 +17,7 @@ export default Ember.Service.extend({
     return store.peekAll("user_profile").get("firstObject") || null;
   }).volatile(),
 
-  loggedInUser: Ember.computed(function() {
+  loggedInUser: Ember.computed("currentUser.id", function() {
     return this.get("store").peekRecord("user", this.get("currentUser.id"));
   }),
 

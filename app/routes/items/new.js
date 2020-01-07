@@ -150,5 +150,6 @@ export default AuthorizeRoute.extend({
       });
       controller.set("imageKeys", "");
     }
+    this.setupPrinterId(controller);
   }
 });
