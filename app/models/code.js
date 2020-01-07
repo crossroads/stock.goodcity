@@ -7,6 +7,8 @@ export default Model.extend({
   code: attr("string"),
   otherTerms: attr("string"),
   allow_pieces: attr("boolean", { defaultValue: false }),
+  allow_box: attr("boolean"),
+  allow_pallet: attr("boolean"),
   visibleInSelects: attr("boolean", { defaultValue: false }),
   location: belongsTo("location", { async: false }),
   goodcityRequests: hasMany("goodcity_request", { async: false }),

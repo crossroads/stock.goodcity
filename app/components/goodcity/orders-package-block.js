@@ -1,6 +1,7 @@
 import Ember from "ember";
 import _ from "lodash";
 import AsyncMixin from "../../mixins/async";
+import { ACTIVE_ORDER_STATES } from "../../constants/states";
 
 const ACTIONS_SETTINGS = {
   dispatch: {
@@ -22,15 +23,6 @@ const ACTIONS_SETTINGS = {
     params: ["quantity"]
   }
 };
-
-const ACTIVE_ORDER_STATES = [
-  "submitted",
-  "processing",
-  "awaiting_dispatch",
-  "dispatching"
-];
-
-const FORCE_DISABLE = ["edit_quantity"];
 
 const CANCELLED = {};
 
@@ -59,7 +51,11 @@ export default Ember.Component.extend(AsyncMixin, {
   i18n: Ember.inject.service(),
   designationService: Ember.inject.service(),
   locationService: Ember.inject.service(),
+  settings: Ember.inject.service(),
   actionRunner: Ember.computed.alias("designationService"),
+
+  editableQty: Ember.computed.alias("settings.allowPartialOperations"),
+  drawerOpened: false,
 
   init() {
     this._super(...arguments);
@@ -105,11 +101,30 @@ export default Ember.Component.extend(AsyncMixin, {
    *
    * CANCELLED is returned if the user closes the UI
    *
-   * @todo
    * @returns {Promise<number>}
    */
-  async selectQuantity() {
-    throw new Error("Not implemennted");
+  selectQuantity() {
+    const deferred = Ember.RSVP.defer();
+    const maxQuantity =
+      this.get("orderPkg.quantity") + this.get("orderPkg.item.availableQty");
+
+    this.set(
+      "designationQty",
+      this.get("editableQty") ? maxQuantity : this.get("orderPkg.quantity")
+    );
+    this.set("designationTargetOrder", this.get("orderPkg.designation"));
+    this.set("maxQuantity", maxQuantity);
+    this.set("showQuantityInput", true);
+
+    const answer = fn => () => {
+      deferred.resolve(fn());
+      this.set("showQuantityInput", false);
+    };
+
+    this.set("completeQtyInput", answer(() => this.get("designationQty")));
+    this.set("cancelQtyInput", answer(() => CANCELLED));
+
+    return deferred.promise;
   },
 
   /**
@@ -160,6 +175,8 @@ export default Ember.Component.extend(AsyncMixin, {
     }
 
     try {
+      Ember.run(() => this.set("drawerOpened", false));
+
       await this.runTask(
         this.get("actionRunner").execAction(ordersPkg, actionName, params)
       );
@@ -180,29 +197,32 @@ export default Ember.Component.extend(AsyncMixin, {
     return _.get(ACTIONS_SETTINGS, `${actionName}.icon`, []);
   },
 
-  isDisabled(actionName) {
-    return FORCE_DISABLE.includes(actionName);
-  },
-
   actionList: Ember.computed(
     "orderPkg.id",
     "orderPkg.allowedActions.@each",
     "orderPkg.allowedActions.[]",
     function() {
-      return this.getWithDefault("orderPkg.allowedActions", []).map(
-        ({ name, enabled }) => ({
+      const filter = ({ name }) => {
+        if (this.get("actionsFilter")) {
+          return this.get("actionsFilter").includes(name);
+        }
+        return true;
+      };
+
+      return this.getWithDefault("orderPkg.allowedActions", [])
+        .filter(filter)
+        .map(({ name, enabled }) => ({
           label: this.labelFor(name),
           icon: this.iconFor(name),
-          enabled: this.isDisabled(name) ? false : enabled,
+          enabled: enabled,
           trigger: this.runAction.bind(this, name)
-        })
-      );
+        }));
     }
   ),
 
   actions: {
     redirectToOrderDetail(orderId) {
-      this.router.transitionTo("orders.detail", orderId);
+      this.router.transitionTo("orders.active_items", orderId);
     },
 
     redirectToItemDetails(itemId) {

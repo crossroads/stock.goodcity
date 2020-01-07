@@ -34,11 +34,14 @@ export default {
   not_now: "稍後",
   incomplete_form: "請填寫必需填寫之項目以繼續下一步",
   continue: "繼續",
+  show: "Show",
   save_changes: "儲存變更",
   discard: "棄置",
   discard_changes: "棄置變更",
   manage_charity_users: "Manage charity users",
-  add_inventory_item: "將物品加入倉存",
+  create_new_item: "Create New Item",
+  create_new_box: "Create New Box",
+  create_new_pallet: "Create New Pallet",
   manage_inventory: "管理預約限額",
   new_order: "建立新的訂單",
   full_name: "{{firstName}} {{lastName}}",
@@ -678,7 +681,9 @@ export default {
       cancel_warning:
         "You will lose all your data. Are you sure you want to cancel this item?",
       subform: {
-        add_item: "Add new item"
+        add_item: "Add new item",
+        delete_subform_waring:
+          "If you change to {{newPackageName}} some details related to {{packageName}} will no longer be valid. These details will be deleted."
       },
       validation_errors: {
         blank_label: "Can't be blank",
@@ -726,8 +731,6 @@ export default {
   },
   partial_dispatch: {
     dispatch_to: "{{inventoryNumber}}: Dispatch to  {{orderCode}}",
-    available_quantity:
-      " Where are <b> {{availableQtyForMove}} items</b> being dispatched from?",
     qty: "Qty:",
     total_to_dispatch: "Total to dispatch (must = {{qty}})",
     dispatch: "Dispatch"
@@ -759,13 +762,14 @@ export default {
       "增加{{state}}的數量到{{totalQty}} 對於{{designationCode}}! ({{qty}} 原本{{pkgState}}-物件{{inventory number}})",
     warning_text_without_link:
       "增加{{state}}的數量到{{totalQty}} 對於{{orderCode}}! ({{qty}} 原本{{designatedState}})",
-    designate_to: "指定這組物件到{{orderCode}}",
+    designate_to: "Designate this package to:",
     designate_entire: " 指定全數",
-    designate_part: "指定部份"
-  },
-  "dispatch-form": {
-    confirmation: " 您必須勾選確認方格才可繼續",
-    dispatch_multipart: " 派送多部份至{{orderCode}}",
-    dispatch_entire: "派送全部數量"
+    designate_part: "指定部份",
+    quantity_input: "Quantity to designate",
+    already_fully_designated: "The remaining quantity is already designated.",
+    already_fully_designated_to:
+      "The remaining quantity is designated to {{orderCode}}.",
+    confirm_undesignation: "Are you sure you wish to undesignate ?",
+    click_to_undesignate: "Click here to undesignate"
   }
 };

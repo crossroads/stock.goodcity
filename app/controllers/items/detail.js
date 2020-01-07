@@ -1,6 +1,5 @@
 import Ember from "ember";
 import config from "stock/config/environment";
-import singletonItemDispatchToGcOrder from "../../mixins/singleton_item_dispatch_to_gc_order";
 import GoodcityController from "../goodcity_controller";
 import { pluralize } from "ember-inflector";
 import additionalFields from "stock/constants/additional-fields";
@@ -8,15 +7,17 @@ import SearchOptionMixin from "stock/mixins/search_option";
 import PackageDetailMixin from "stock/mixins/fetch_package_detail";
 import GradeMixin from "stock/mixins/grades_option";
 import MoveActions from "stock/mixins/move_actions";
+import DesignationActions from "stock/mixins/designation_actions";
+import StorageTypes from "stock/mixins/storage-type";
 import _ from "lodash";
-const { getOwner } = Ember;
 
 export default GoodcityController.extend(
-  singletonItemDispatchToGcOrder,
   SearchOptionMixin,
   PackageDetailMixin,
   GradeMixin,
   MoveActions,
+  DesignationActions,
+  StorageTypes,
   {
     isMobileApp: config.cordova.enabled,
     backLinkPath: "",
@@ -30,7 +31,8 @@ export default GoodcityController.extend(
     application: Ember.inject.controller(),
     messageBox: Ember.inject.service(),
     setDropdownOption: Ember.inject.service(),
-    locationService: Ember.inject.service(),
+    designationService: Ember.inject.service(),
+    settings: Ember.inject.service(),
     displayScanner: false,
     designateFullSet: Ember.computed.localStorage(),
     callOrderObserver: false,
@@ -46,10 +48,15 @@ export default GoodcityController.extend(
     currentRoute: Ember.computed.alias("application.currentPath"),
     pkg: Ember.computed.alias("model"),
     showPieces: Ember.computed.alias("model.code.allow_pieces"),
+    settings: Ember.inject.service(),
 
     isItemDetailPresent() {
       return !!this.get("item.detail.length");
     },
+
+    disableBoxPalletItemAddition: Ember.computed("model", function() {
+      return this.get("settings.disableBoxPalletItemAddition");
+    }),
 
     displayFields: Ember.computed("model.code", function() {
       let subform = this.get("model.code.subform");
@@ -64,7 +71,7 @@ export default GoodcityController.extend(
           nameEn: country.get("nameEn")
         };
       }
-    }),
+    }).volatile(),
 
     returnSelectedValues(selectedValues) {
       let dataObj = {
@@ -109,10 +116,11 @@ export default GoodcityController.extend(
       "model.isSingletonItem",
       "model.availableQty",
       function() {
-        return (
-          this.get("model.isSingletonItem") &&
-          this.get("model.availableQty") > 0
-        );
+        const qty = this.get("model.availableQty");
+        if (this.get("settings.onlyPublishSingletons")) {
+          return qty === 1;
+        }
+        return qty > 0;
       }
     ),
 
@@ -129,6 +137,27 @@ export default GoodcityController.extend(
       return this.get("currentRoute")
         .split(".")
         .get("lastObject");
+    }),
+
+    selectInfoTab: Ember.computed("tabName", function() {
+      return (
+        ["storage_detail", "storage_content", "info"].indexOf(
+          this.get("tabName")
+        ) > -1
+      );
+    }),
+
+    listTabSelected: Ember.computed("tabName", function() {
+      return ["storage_content", "info"].indexOf(this.get("tabName")) > -1;
+    }),
+
+    storageTypeName: Ember.computed("item", function() {
+      let storageType = this.get("item.storageType");
+      return storageType && storageType.get("name");
+    }),
+
+    isBoxOrPallet: Ember.computed("item", function() {
+      return ["Box", "Pallet"].indexOf(this.get("storageTypeName")) > -1;
     }),
 
     conditions: Ember.computed(function() {
@@ -274,11 +303,6 @@ export default GoodcityController.extend(
       },
       onSearch(field, searchText) {
         this.onSearchCountry(field, searchText);
-      },
-
-      partialDesignateForSet() {
-        this.set("designateFullSet", true);
-        this.set("callOrderObserver", true);
       }
     }
   }

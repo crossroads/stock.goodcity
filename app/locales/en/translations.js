@@ -35,11 +35,14 @@ export default {
   not_now: "Not Now",
   incomplete_form: "Please fill in the required fields to continue",
   continue: "Continue",
+  show: "Show",
   save_changes: "Save changes",
   discard: "Discard",
   discard_changes: "Discard changes",
   manage_charity_users: "Manage charity users",
-  add_inventory_item: "Add Item to Inventory",
+  create_new_item: "Create New Item",
+  create_new_box: "Create New Box",
+  create_new_pallet: "Create New Pallet",
   manage_inventory: "Manage Appointment Quotas",
   new_order: "Create New Order",
   full_name: "{{firstName}} {{lastName}}",
@@ -693,7 +696,9 @@ export default {
       cancel_warning:
         "You will lose all your data. Are you sure you want to cancel this item?",
       subform: {
-        add_item: "Add new item"
+        add_item: "Add new item",
+        delete_subform_waring:
+          "If you change to {{newPackageName}} some details related to {{packageName}} will no longer be valid. These details will be deleted."
       },
       validation_errors: {
         blank_label: "Can't be blank",
@@ -741,8 +746,6 @@ export default {
   },
   partial_dispatch: {
     dispatch_to: "{{inventoryNumber}}: Dispatch to  {{orderCode}}",
-    available_quantity:
-      " Where are <b> {{availableQtyForMove}} items</b> being dispatched from?",
     qty: "Qty:",
     total_to_dispatch: "Total to dispatch (must = {{qty}})",
     dispatch: "Dispatch"
@@ -769,13 +772,14 @@ export default {
       "Increases {{state}} quantity to {{totalQty}} for {{designationCode}}! ({{qty}} previously {{pkgState}} - item {{inventoryNumber}})",
     warning_text_without_link:
       "Increases {{state}} quantity to {{totalQty}} for {{orderCode}}! ({{qty}} previously {{designatedState}})",
-    designate_to: "Designate this set of items to {{orderCode}}",
+    designate_to: "Designate this package to:",
     designate_entire: "Designates entire quantity.",
-    designate_part: "Designates only part of set."
-  },
-  "dispatch-form": {
-    confirmation: "You must tick the confirmation box to proceed.",
-    dispatch_multipart: "Dispatch multi-part set to {{orderCode}}",
-    dispatch_entire: "Dispatches entire quantity."
+    designate_part: "Designates only part of set.",
+    quantity_input: "Quantity to designate",
+    already_fully_designated: "The remaining quantity is already designated.",
+    already_fully_designated_to:
+      "The remaining quantity is designated to {{orderCode}}.",
+    confirm_undesignation: "Are you sure you wish to undesignate ?",
+    click_to_undesignate: "Click here to undesignate"
   }
 };

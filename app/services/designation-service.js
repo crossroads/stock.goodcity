@@ -108,6 +108,27 @@ export default ApiBaseService.extend(NavigationAwareness, {
   },
 
   /**
+   * Designate a quantity of a package to an order
+   *
+   * @param {String|Model} pkg The package to designate
+   * @param {String|Model} order The order to designate to
+   * @param {Number} quantity The quantity to designate
+   * @returns {Promise<Model>}
+   */
+  async designate(pkg, { order, quantity }) {
+    const id = ID(pkg);
+    const url = `/packages/${id}/designate`;
+
+    const data = await this.PUT(url, {
+      order_id: ID(order),
+      quantity: quantity
+    });
+
+    this.get("store").pushPayload(data);
+    return this.get("store").peekRecord("package", id);
+  },
+
+  /**
    * Triggers the order selection popup, and resolves the promise
    * once an order has been selected.
    *

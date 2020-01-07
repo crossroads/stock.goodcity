@@ -21,14 +21,11 @@
         }}
       </div>
       <div class="small-6 columns">
-        {{#link-to
-          'items.search_order' item.id (query-params isSet=item.isSet partial_qty=1)
-          tagName='button' class='button'
-          disabled=(if (is-or model.isUnavailable model.isMultiQtyItem) true false)
-          href=false
-        }}
-          {{fa-icon 'shopping-basket'}} {{t 'item.designate'}}
-        {{/link-to}}
+        {{#goodcity/designate-link pkg=item}}
+          <button class="button">
+            {{fa-icon 'shopping-basket'}} {{t 'item.designate'}}
+          </button>
+        {{/goodcity/designate-link}}
       </div>
     </div>
   </div>

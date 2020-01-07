@@ -24,13 +24,14 @@ Router.map(function() {
     this.route("detail", { path: "/:item_id" }, function() {
       // Detail tabs :
       this.route("info", { path: "/" });
+      this.route("storage_content");
+      this.route("storage_detail");
       this.route("location");
       this.route("publishing");
     });
     this.route("history", { path: "/:item_id/history" });
     this.route("edit_images", { path: "/:item_id/edit_images" });
-    this.route("search_order", { path: "/:item_id/search_order" });
-    this.route("search_code", { path: "/:item_id/search_code" });
+    this.route("select_code", { path: "/:item_id/select_code" });
     this.route("partial_dispatch", { path: "/:item_id/partial_dispatch" });
   });
 

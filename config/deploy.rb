@@ -10,7 +10,7 @@ namespace :deploy do
     run_locally do
       env = {"EMBER_CLI_CORDOVA" => "0"}
       env["APP_SHA"] = `git rev-parse --short #{fetch(:branch)}`.strip
-      env["staging"] = "true" if fetch(:stage) == :staging
+      env["ENVIRONMENT"] = "#{fetch(:stage)}"
       system(env, "ember build --environment=production")
     end
   end

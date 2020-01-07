@@ -49,7 +49,7 @@ test("Menu icon stay visible after switching tab from orders to item", function(
   andThen(function() {
     assert.equal(currentPath(), "items.index");
     assert.equal(
-      $("ul.list li:last")
+      $("ul.list li.menu")
         .text()
         .trim(),
       "Menu"

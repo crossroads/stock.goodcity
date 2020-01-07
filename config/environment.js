@@ -2,6 +2,7 @@
 const pkgJson = require("../package.json");
 
 module.exports = function(environment) {
+  environment = process.env.ENVIRONMENT || environment || "development";
   var ENV = {
     modulePrefix: "stock",
     environment: environment,
@@ -14,16 +15,11 @@ module.exports = function(environment) {
       verbose: true,
       ignoredMessages: ["TransitionAborted"],
       payload: {
+        environment: environment,
         client: {
           javascript: {
-            source_map_enabled: true, //this is now true by default
-            code_version: require("child_process")
-              .execSync("git rev-parse HEAD")
-              .toString()
-              .trim(),
             // Optionally have Rollbar guess which frames the error was thrown from
             // when the browser does not provide line and column numbers.
-            environment: environment,
             guess_uncaught_frames: false
           }
         }
@@ -68,8 +64,6 @@ module.exports = function(environment) {
       NAMESPACE: "api/v1",
       HK_COUNTRY_CODE: "+852",
 
-      ALLOW_PARTIAL_OPERATIONS: false,
-
       PRELOAD_TYPES: [
         "booking_type",
         "purpose",
@@ -77,6 +71,7 @@ module.exports = function(environment) {
         "identity_type",
         "donor_condition",
         "lookup",
+        "goodcity_setting",
         "printer"
       ],
       USER_DATA_TYPES: [
@@ -113,11 +108,11 @@ module.exports = function(environment) {
   };
 
   if (environment === "development") {
-    ENV.APP.API_HOST_URL = "http://localhost:3000";
+    ENV.APP.API_HOST_URL = "http://localhost:4000";
     ENV.APP.SOCKETIO_WEBSERVICE_URL = "http://localhost:1337/goodcity";
     ENV.cordova.FcmSenderId = "535052654081";
     ENV.contentSecurityPolicy["connect-src"] = [
-      "http://localhost:3000",
+      "http://localhost:4000",
       "https://api.cloudinary.com",
       "http://localhost:4203",
       "http://localhost:1337",
@@ -150,6 +145,8 @@ module.exports = function(environment) {
   }
 
   if (environment === "production") {
+    if (!process.env.ENVIRONMENT)
+      throw "Please pass an appropriate ENVIRONMENT=(staging|preview|production) param.";
     ENV.APP.API_HOST_URL = "https://api.goodcity.hk";
     ENV.APP.SOCKETIO_WEBSERVICE_URL = "https://socket.goodcity.hk:81/goodcity";
     ENV.cordova.FcmSenderId = "551756918176";
@@ -165,8 +162,7 @@ module.exports = function(environment) {
     ].join(" ");
   }
 
-  if ((process.env.staging || process.env.STAGING) === "true") {
-    ENV.staging = true;
+  if (environment === "staging") {
     ENV.cordova.FcmSenderId = "535052654081";
     ENV.APP.API_HOST_URL = "https://api-staging.goodcity.hk";
     ENV.APP.SOCKETIO_WEBSERVICE_URL =
@@ -180,11 +176,24 @@ module.exports = function(environment) {
       "ws://socket-staging.goodcity.hk:81",
       "wss://socket-staging.goodcity.hk:81"
     ].join(" ");
-  } else {
-    ENV.staging = false;
+  }
+
+  if (environment === "preview") {
+    ENV.cordova.FcmSenderId = "535052654081";
+    ENV.APP.API_HOST_URL = "https://api-preview.goodcity.hk";
+    ENV.APP.SOCKETIO_WEBSERVICE_URL =
+      "https://socket-preview.goodcity.hk:81/goodcity";
+    ENV.contentSecurityPolicy["connect-src"] = [
+      "https://api-preview.goodcity.hk",
+      "https://errbit.crossroads.org.hk",
+      "https://api.rollbar.com",
+      "https://sentry.io",
+      "https://socket-preview.goodcity.hk:81",
+      "ws://socket-preview.goodcity.hk:81",
+      "wss://socket-preview.goodcity.hk:81"
+    ].join(" ");
   }
 
   ENV.APP.SERVER_PATH = ENV.APP.API_HOST_URL + "/" + ENV.APP.NAMESPACE;
-
   return ENV;
 };

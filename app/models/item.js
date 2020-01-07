@@ -3,6 +3,10 @@ import { belongsTo, hasMany } from "ember-data/relationships";
 import Ember from "ember";
 import cloudinaryUrl from "./cloudinary_url";
 
+function SUM(ordersPkgs) {
+  return ordersPkgs.mapBy("quantity").reduce((total, qty) => total + qty, 0);
+}
+
 export default cloudinaryUrl.extend({
   notes: attr("string"),
   grade: attr("string"),
@@ -38,6 +42,11 @@ export default cloudinaryUrl.extend({
   setItem: belongsTo("set_item", { async: false }),
   packagesLocations: hasMany("packages_location", { async: true }),
 
+  storageTypeId: attr("number"),
+  storageType: belongsTo("storage_type", {
+    async: true
+  }),
+
   ordersPackages: hasMany("ordersPackages", { async: true }),
   imageIds: attr(),
   images: hasMany("image", { async: true }),
@@ -63,12 +72,6 @@ export default cloudinaryUrl.extend({
     }
   ),
 
-  isUnavailable: Ember.computed("isDesignated", "isDispatched", function() {
-    // It's unavailable if it's either designated or dispatched
-    // Warning: this assumes all items are singletones
-    return this.get("isDesignated") || this.get("isDispatched");
-  }),
-
   isDispatchedForQuantity: Ember.computed("ordersPackages.[]", function() {
     return this.get("ordersPackages").isAny("state", "dispatched");
   }),
@@ -80,7 +83,24 @@ export default cloudinaryUrl.extend({
     }
   ),
 
-  availableQty: Ember.computed.alias("quantity"),
+  lockedQty: Ember.computed(
+    "ordersPackages",
+    "ordersPackages.[]",
+    "ordersPackages.@each.state",
+    function() {
+      return SUM(this.get("ordersPackages").rejectBy("state", "cancelled"));
+    }
+  ),
+
+  availableQty: Ember.computed("lockedQty", "receivedQuantity", function() {
+    return this.get("receivedQuantity") - this.get("lockedQty");
+  }),
+
+  isAvailable: Ember.computed("availableQty", function() {
+    return this.get("availableQty") > 0;
+  }),
+
+  isUnavailable: Ember.computed.not("isAvailable"),
 
   thumbImageUrl: Ember.computed(
     "favouriteImage.{angle,cloudinaryId}",
@@ -126,16 +146,13 @@ export default cloudinaryUrl.extend({
     }
   ),
 
-  onHandQty: Ember.computed("ordersPackages.@each.quantity", function() {
-    var totalQty = 0;
-    this.get("ordersPackages")
-      .filterBy("state", "designated")
-      .filterBy("quantity")
-      .forEach(record => {
-        totalQty += record.get("quantity");
-      });
-    return totalQty + this.get("quantity");
-  }),
+  onHandQty: Ember.computed(
+    "receivedQuantity",
+    "dispatchedQuantity",
+    function() {
+      return this.get("receivedQuantity") - this.get("dispatchedQuantity");
+    }
+  ),
 
   designatedItemCount: Ember.computed(
     "ordersPackages.@each.quantity",
@@ -163,17 +180,17 @@ export default cloudinaryUrl.extend({
     }
   ),
 
-  dispatchedItemCount: Ember.computed(
+  dispatchedQuantity: Ember.computed(
     "ordersPackages.@each.quantity",
     function() {
-      return this.get("ordersPackages").filterBy("state", "dispatched").length;
+      return SUM(this.get("ordersPackages").filterBy("state", "dispatched"));
     }
   ),
 
   cancelledItemCount: Ember.computed(
     "ordersPackages.@each.quantity",
     function() {
-      return this.get("ordersPackages").filterBy("state", "cancelled").length;
+      return SUM(this.get("ordersPackages").filterBy("state", "cancelled"));
     }
   ),
 
@@ -377,16 +394,6 @@ export default cloudinaryUrl.extend({
         .uniq();
     }
   ),
-
-  availableQtyForMove: Ember.computed("packagesLocations.[]", function() {
-    var quantityToMove = this.get("receivedQuantity");
-    this.get("packagesLocations").forEach(packages_location => {
-      if (packages_location.get("location.building") === "Dispatched") {
-        quantityToMove -= packages_location.get("quantity");
-      }
-    });
-    return quantityToMove;
-  }),
 
   imageUrlList: Ember.computed(
     "images",

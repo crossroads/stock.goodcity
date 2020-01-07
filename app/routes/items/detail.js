@@ -59,7 +59,7 @@ export default AuthorizeRoute.extend({
         path = this.get("itemBackLinkPath") || path;
       } else if (
         routeName.indexOf("items") > -1 ||
-        routeName === "orders.detail"
+        routeName === "orders.active_items"
       ) {
         path = routeName;
       }

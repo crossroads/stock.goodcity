@@ -1,6 +1,6 @@
-import Ember from 'ember';
-import config from '../config/environment'; 
-import AjaxPromise from '../utils/ajax-promise';
+import Ember from "ember";
+import config from "../config/environment";
+import AjaxPromise from "../utils/ajax-promise";
 
 export default Ember.Mixin.create({
   preloadData: function() {
@@ -9,13 +9,17 @@ export default Ember.Mixin.create({
 
     if (this.get("session.authToken")) {
       promises.push(
-        new AjaxPromise("/auth/current_user_profile", "GET", this.session.get("authToken"))
-          .then(data => {
-            this.store.pushPayload(data);
-            this.store.pushPayload({ user: data.user_profile });
-            this.notifyPropertyChange("session.currentUser");
-          })
+        new AjaxPromise(
+          "/auth/current_user_profile",
+          "GET",
+          this.session.get("authToken")
+        ).then(data => {
+          this.store.pushPayload(data);
+          this.store.pushPayload({ user: data.user_profile });
+          this.notifyPropertyChange("session.currentUser");
+        })
       );
+      promises = promises.concat(this.store.query("code", { stock: true }));
       promises = promises.concat(retrieve(config.APP.PRELOAD_TYPES));
     }
 

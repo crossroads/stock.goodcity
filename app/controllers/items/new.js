@@ -15,7 +15,13 @@ export default GoodcityController.extend(
   PackageDetailMixin,
   GradeMixin,
   {
-    queryParams: ["codeId", "locationId", "scanLocationName", "caseNumber"],
+    queryParams: [
+      "codeId",
+      "locationId",
+      "scanLocationName",
+      "caseNumber",
+      "storageType"
+    ],
     codeId: "",
     locationId: "",
     inventoryNumber: "",
@@ -26,7 +32,6 @@ export default GoodcityController.extend(
     selected: [],
     countryObj: {},
     countryValue: {},
-    detail_attributes: {},
     scanLocationName: "",
     displayInventoryOptions: false,
     autoGenerateInventory: true,
@@ -62,6 +67,16 @@ export default GoodcityController.extend(
       return this.returnDisplayFields(subform);
     }),
 
+    isBoxOrPallet: Ember.computed("storageType", function() {
+      return ["Box", "Pallet"].indexOf(this.get("storageType")) > -1;
+    }),
+
+    pageTitle: Ember.computed("storageType", "parentCodeName", function() {
+      return this.get("isBoxOrPallet")
+        ? `New ${this.get("storageType")} - ${this.get("parentCodeName")}`
+        : `Add - ${this.get("parentCodeName")}`;
+    }),
+
     showPublishItemCheckBox: Ember.computed("quantity", function() {
       this.set("isAllowedToPublish", false);
       return +this.get("quantity") === 1;
@@ -80,6 +95,8 @@ export default GoodcityController.extend(
       if (printerId) {
         const printer = this.store.peekRecord("printer", printerId);
         return { name: printer.get("name"), id: printer.id };
+      } else {
+        return this.get("allAvailablePrinters")[0];
       }
     }),
 
@@ -123,6 +140,9 @@ export default GoodcityController.extend(
 
     description: Ember.computed("code", {
       get() {
+        if (this.get("isBoxOrPallet")) {
+          return `${this.get("storageType")} of ${this.get("code.name")}`;
+        }
         return this.get("code.name");
       },
       set(key, value) {
@@ -131,17 +151,16 @@ export default GoodcityController.extend(
     }),
 
     fetchDetailAttributes() {
-      let detail_attributes = {};
+      let detailAttributes = {};
       let attributes = {
         ...this.get("inputFieldValues"),
         ...this.get("dropDownValues"),
         ...this.get("countryValue")
       };
       Object.keys(attributes).forEach(key => {
-        detail_attributes[_.snakeCase(key)] = attributes[key];
+        detailAttributes[_.snakeCase(key)] = attributes[key];
       });
-      this.set("detail_attributes", detail_attributes);
-      return this.get("detail_attributes");
+      return detailAttributes;
     },
 
     showPiecesInput: Ember.computed("codeId", function() {
@@ -262,7 +281,7 @@ export default GoodcityController.extend(
     packageParams() {
       const locationId = this.get("location.id");
       const quantity = this.get("quantity");
-      const detail_attributes = this.fetchDetailAttributes();
+      const detailAttributes = this.fetchDetailAttributes();
       return {
         quantity: quantity,
         allow_web_publish: this.get("isAllowedToPublish"),
@@ -280,16 +299,16 @@ export default GoodcityController.extend(
         location_id: locationId,
         package_type_id: this.get("code.id"),
         state_event: "mark_received",
+        storage_type: this.get("storageType"),
         packages_locations_attributes: {
           0: { location_id: locationId, quantity: quantity }
         },
-        detail_attributes: detail_attributes
+        detail_attributes: detailAttributes
       };
     },
 
     clearSubformAttributes() {
       this.setProperties({
-        detail_attributes: {},
         inputFieldValues: {},
         dropDownValues: {},
         countryValue: {},
@@ -333,16 +352,15 @@ export default GoodcityController.extend(
     },
 
     checkPermissionAndScan() {
-      let _this = this;
       let permissions = window.cordova.plugins.permissions;
       let permissionError = () => {
         let error_message = this.get("i18n").t("camera_scan.permission_error");
-        _this.get("messageBox").alert(error_message);
+        this.get("messageBox").alert(error_message);
       };
       let permissionSuccess = status => {
         //after requesting check for permission then, permit to scan
         if (status.hasPermission) {
-          _this.scan();
+          this.scan();
         } else {
           permissionError();
         }
@@ -350,7 +368,7 @@ export default GoodcityController.extend(
       permissions.hasPermission(permissions.CAMERA, function(status) {
         //check permission here
         if (status.hasPermission) {
-          _this.scan();
+          this.scan();
         } else {
           //request permission here
           permissions.requestPermission(

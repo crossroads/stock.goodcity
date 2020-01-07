@@ -1,6 +1,6 @@
-<div class="row gc-orders-package-block state-{{orderPkg.state}}">
+<div class="row gc-orders-package-block state-{{orderPkg.state}} {{if small 'small'}}">
   <div class="columns small-2 sub-block left">
-    <div>{{fa-icon (orders-package-icon orderPkg.state) size='lg'}}</div>
+    <div class="pkg-icon">{{fa-icon (orders-package-icon orderPkg.state) size='lg'}}</div>
     <div>{{orderPkg.quantity}}</div>
   </div>
   <div class="columns small-9 sub-block main state-{{ orderPkg.designation.state }} {{unless packageView 'state-color'}}" {{action 'redirectToDetails'}}>
@@ -19,11 +19,11 @@
     {{else}}
       <div class="text-block">
         <div class="row line">
-          <div class="columns small-11 text-align-left">
+          <div class="columns small-10 text-align-left">
             {{fa-icon orderPkg.designation.transportIcon size='lg'}}
             {{ orderPkg.designation.code }}
           </div>
-          <div class="columns small-1 text-align-left">
+          <div class="order-icon columns small-1 text-align-left">
             {{fa-icon orderPkg.designation.stateIcon size='lg'}}
           </div>
         </div>
@@ -40,6 +40,18 @@
     {{/if}}
   </div>
   <div class="columns small-1 sub-block">
-    {{action-drawer actionList=actionList}}
+    {{action-drawer isOpen=drawerOpened actionList=actionList small=small}}
   </div>
+
+  {{#if showQuantityInput}}
+    {{goodcity/designate-form
+      quantity=designationQty
+      editableQty=editableQty
+      confirmAction=completeQtyInput
+      cancelAction=cancelQtyInput
+      order=designationTargetOrder
+      pkg=designationTargetPackage
+      maxQuantity=maxQuantity
+    }}
+  {{/if}}
 </div>
