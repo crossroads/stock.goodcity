@@ -10,6 +10,7 @@ module.exports = function(environment) {
     defaultLocationType: "auto",
 
     emberRollbarClient: {
+      enabled: environment !== "test" && environment !== "development",
       accessToken: "cc46e2e6402f4106a8ba71fe9752d69a",
       verbose: true,
       ignoredMessages: ["TransitionAborted"],
