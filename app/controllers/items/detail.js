@@ -33,6 +33,7 @@ export default GoodcityController.extend(
     setDropdownOption: Ember.inject.service(),
     designationService: Ember.inject.service(),
     settings: Ember.inject.service(),
+    packageService: Ember.inject.service(),
     displayScanner: false,
     designateFullSet: Ember.computed.localStorage(),
     callOrderObserver: false,

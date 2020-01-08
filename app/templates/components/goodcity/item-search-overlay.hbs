@@ -1,0 +1,44 @@
+<div class="item-search small-9 columns" align="center">
+  {{#popup-overlay open=open}}
+    <div class="row fixed_search_header search-box ui items-search">
+      <div class="small-3 large-3 columns ">
+        <i class="back_icon" aria-hidden="true" {{ action 'cancel' }}>{{fa-icon 'angle-left'}}</i>
+      </div>
+      <div class="columns {{if isMobileApp 'small-7 large-9' 'small-9 large-9'}} ">
+        {{focus-textfield
+          name="search-text"
+          id="search-text"
+          placeholder=(t "search_min")
+          value=searchText }}
+
+        {{#if hasSearchText}}
+        <i {{action "clearSearch"}}>{{fa-icon 'times-circle'}}</i>
+        {{/if}}
+      </div>
+
+      {{#if isMobileApp}}
+      <div class="small-2 large-1 columns scan-button">
+        {{scan-barcode-button record=model route="orders.items"}}
+      </div>
+      {{/if}}
+    </div>
+
+    <section class="main-section items_search_result">
+      <div class="row search">
+        <div class="small-12 columns">
+          {{#if displayResults}}
+          {{#infinite-list height="85vh" loadMore=(action "loadMoreItems") as |items| }}
+          {{#each items as |item|}}
+          {{#goodcity/designate-link order=model pkg=item}}
+          {{partial 'orders/item_block'}}
+          {{/goodcity/designate-link}}
+          {{/each}}
+          {{/infinite-list}}
+          {{else}}
+          <div class='no_result'>{{t "no_search_results"}}</div>
+          {{/if}}
+        </div>
+      </div>
+    </section>
+  {{/popup-overlay}}
+</div>
