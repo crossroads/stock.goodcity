@@ -22,3 +22,9 @@
     storageType=s.storageType
   }}
 {{/let-alias}}
+
+{{#let-alias packageService as |s|}}
+  {{goodcity/item-search-overlay
+    open=s.openItemSearch
+  }}
+{{/let-alias}}

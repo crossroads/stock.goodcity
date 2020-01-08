@@ -6,6 +6,7 @@ export default ApiBaseService.extend({
   init() {
     this._super(...arguments);
     this.set("openPackageSearch", false);
+    this.set("openItemSearch", false);
   },
 
   generateInventoryNumber() {
@@ -41,6 +42,12 @@ export default ApiBaseService.extend({
     Ember.run(() => {
       this.set("openPackageSearch", true);
       this.set("storageType", storageType);
+    });
+  },
+
+  openItemsSearch() {
+    Ember.run(() => {
+      this.set("openItemSearch", true);
     });
   }
 });
