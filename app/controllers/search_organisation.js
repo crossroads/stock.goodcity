@@ -1,7 +1,6 @@
 import Ember from "ember";
-import searchModule from "./search_module";
 
-export default searchModule.extend({
+export default Ember.Controller.extend({
   minSearchTextLength: 3,
   displayResults: false,
 
@@ -23,7 +22,7 @@ export default searchModule.extend({
   actions: {
     cancelSearch() {
       Ember.$("#searchText").blur();
-      this.send("clearSearch", true);
+      this.set("searchText", "");
       this.transitionToRoute("app_menu_list");
     },
 
