@@ -19,7 +19,7 @@ export default Ember.Component.extend(SearchMixin, {
   perPage: 10,
 
   init() {
-    // this._super(...arguments);
+    this._super(...arguments);
     this._super("item-search-overlay");
     this.set("uuid", _.uniqueId("item_search_overlay_"));
   },
@@ -34,13 +34,14 @@ export default Ember.Component.extend(SearchMixin, {
     },
 
     selectItem(item) {
-      const params = {
-        item_id: item.id,
-        task: "pack"
-      };
-      this.get("packageService").addRemoveItem(this.get("entity.id"), params);
-      this.getWithDefault("onSelect", _.noop)(item);
-      this.set("open", false);
+      if (item) {
+        const params = {
+          item_id: item.id,
+          task: "pack"
+        };
+        this.get("packageService").addRemoveItem(this.get("entity.id"), params);
+        this.set("open", false);
+      }
     },
 
     loadMoreItems(pageNo) {
