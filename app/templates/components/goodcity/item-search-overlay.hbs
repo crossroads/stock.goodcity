@@ -2,7 +2,7 @@
   {{#popup-overlay open=open}}
     <div class="row fixed_search_header search-box ui items-search">
       <div class="small-3 large-3 columns ">
-        <i class="back_icon" aria-hidden="true" {{ action 'cancel' }}>{{fa-icon 'angle-left'}}</i>
+        <i class="back_icon" aria-hidden="true" {{ action 'cancel' }}>{{fa-icon 'angle-left' size='2x'}}</i>
       </div>
       <div class="columns {{if isMobileApp 'small-7 large-9' 'small-9 large-9'}} ">
         {{focus-textfield
@@ -15,12 +15,6 @@
         <i {{action "clearSearch"}}>{{fa-icon 'times-circle'}}</i>
         {{/if}}
       </div>
-
-      {{#if isMobileApp}}
-      <div class="small-2 large-1 columns scan-button">
-        {{scan-barcode-button record=model route="orders.items"}}
-      </div>
-      {{/if}}
     </div>
 
     <section class="main-section items_search_result">
@@ -29,9 +23,17 @@
           {{#if displayResults}}
           {{#infinite-list height="85vh" loadMore=(action "loadMoreItems") as |items| }}
           {{#each items as |item|}}
-          {{#goodcity/designate-link order=model pkg=item}}
-          {{partial 'orders/item_block'}}
-          {{/goodcity/designate-link}}
+            <div class="item" {{action 'selectItem' item}}>
+              <div class="row">
+                {{partial "items/item_status_bar"}}
+                <div class="row other_details item_details">
+                  <div class="small-3 large-2 columns image">
+                    <img src={{item.thumbImageUrl}} class="thumb" alt="" />
+                  </div>
+                  {{partial 'items/item_description'}}
+                </div>
+              </div>
+            </div>
           {{/each}}
           {{/infinite-list}}
           {{else}}

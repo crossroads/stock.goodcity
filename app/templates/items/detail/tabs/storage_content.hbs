@@ -1,7 +1,12 @@
 {{partial 'items/detail/tabs/_sub_tabs' }}
 
 <div class="row">
-  <div class="small-12 columns add-item" align="center">
-    <button class="button expand" {{action 'openItemsSearch' target=packageService}} disabled={{disableBoxPalletItemAddition}}>Add item to {{storageTypeName}}</button>
+  <div class="large-12 medium-9 small-9 columns add-item" align="center">
+    <button class="button expand" {{action 'openItemsSearch' item target=packageService}} disabled={{disableBoxPalletItemAddition}}>Add item to {{storageTypeName}}</button>
   </div>
+  {{#if isMobileApp}}
+    <div class="small-2 medium-2 large-2 columns scan-button">
+      {{scan-barcode-button record=model route="items"}}
+    </div>
+  {{/if}}
 </div>
