@@ -7,6 +7,7 @@ export default ApiBaseService.extend({
     this._super(...arguments);
     this.set("openPackageSearch", false);
     this.set("openItemSearch", false);
+    this.set("entity", null);
   },
 
   generateInventoryNumber() {
@@ -45,9 +46,16 @@ export default ApiBaseService.extend({
     });
   },
 
-  openItemsSearch() {
+  openItemsSearch(item) {
     Ember.run(() => {
       this.set("openItemSearch", true);
+      this.set("entity", item);
+    });
+  },
+
+  addRemoveItem(pkgId, params) {
+    this.PUT(`/packages/${pkgId}/perform_action`, params).then(data => {
+      this.get("store").pushPayload(data);
     });
   }
 });

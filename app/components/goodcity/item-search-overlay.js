@@ -34,12 +34,16 @@ export default Ember.Component.extend(SearchMixin, {
     },
 
     selectItem(item) {
+      const params = {
+        item_id: item.id,
+        task: "pack"
+      };
+      this.get("packageService").addRemoveItem(this.get("entity.id"), params);
       this.getWithDefault("onSelect", _.noop)(item);
       this.set("open", false);
     },
 
     loadMoreItems(pageNo) {
-      debugger;
       const params = this.trimQuery(
         _.merge({}, this.getSearchQuery(), this.getPaginationQuery(pageNo))
       );
