@@ -2,10 +2,11 @@ import Ember from "ember";
 import config from "../../config/environment";
 import AjaxPromise from "stock/utils/ajax-promise";
 import GoodcityController from "../goodcity_controller";
+import SearchMixin from "stock/mixins/search_resource";
 import _ from "lodash";
 const { getOwner } = Ember;
 
-export default GoodcityController.extend({
+export default GoodcityController.extend(SearchMixin, {
   backLinkPath: "",
   displayAllItems: false,
   isMobileApp: config.cordova.enabled,
@@ -69,38 +70,11 @@ export default GoodcityController.extend({
     }
   ),
 
-  itemsList: Ember.computed(
-    "model.items",
-    "displayAllItems",
-    "model.ordersPackages",
-    "model.ordersPackages.@each.quantity",
-    "model.ordersPackages.@each.state",
-    function() {
-      var ordersPackages = this.get("model.ordersPackages")
-        .rejectBy("state", "requested")
-        .rejectBy("state", "cancelled")
-        .rejectBy("state", null);
-      return this.get("displayAllItems")
-        ? ordersPackages
-        : ordersPackages.slice(0, 3);
-    }
-  ),
-
-  canceledItemsList: Ember.computed(
-    "model.items",
-    "displayAllItems",
-    "model.ordersPackages",
-    "model.ordersPackages.@each.quantity",
-    "model.ordersPackages.@each.state",
-    function() {
-      var ordersPackages = this.get("model.ordersPackages")
-        .filterBy("state", "cancelled")
-        .rejectBy("state", null);
-      return this.get("displayAllItems")
-        ? ordersPackages
-        : ordersPackages.slice(0, 3);
-    }
-  ),
+  autoLoad: true,
+  /**
+   * @type {Number}, perPage in response
+   **/
+  perPage: 15,
 
   ordersPkgLength: Ember.computed(
     "model.items",
@@ -158,7 +132,35 @@ export default GoodcityController.extend({
     return !order.get("ordersPackages").filterBy("state", "dispatched").length;
   },
 
+  ordersId() {
+    return {
+      order_id: 20698
+    };
+  },
+
   actions: {
+    loadOrdersPackages(pageNo) {
+      const params = this.trimQuery(
+        _.merge(
+          { slug: "get_orders_op" },
+          this.ordersId(),
+          this.getPaginationQuery(pageNo)
+        )
+      );
+      //  return new AjaxPromise("/orders_packages/get_orders_op", "GET", this.get("session.authToken"), params).then((orders_packages)=>{
+      //    debugger;
+      //   return orders_packages.orders_packages;
+      // })
+      // let adapter = this.store.adapterFor("application");
+      // const url = adapter.buildURL("orders_packages") + "/get_orders_op";
+      // return adapter.ajax(url, "GET", params);
+      return this.get("store")
+        .query("orders_package", params)
+        .then(results => {
+          return results;
+        });
+    },
+
     openSchedulePopup() {
       const scheduledAt = this.get("model.orderTransport.scheduledAt");
       try {
