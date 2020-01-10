@@ -4,7 +4,6 @@
     <div>{{orderPkg.quantity}}</div>
   </div>
   <div class="columns small-9 sub-block main state-{{ orderPkg.designation.state }} {{unless packageView 'state-color'}}" {{action 'redirectToDetails'}}>
-    {{log orderPkg.designation}}
     {{#if packageView}}
       <div class="row">
         <div class="columns small-10">

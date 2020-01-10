@@ -24,7 +24,7 @@
   {{/unless}}
 
   {{#if displayResults}}
-    {{#infinite-list height="70vh" loadMore=(action "loadOrdersPackages") as |op| }}
+    {{#infinite-list height="60vh" loadMore=(action "loadOrdersPackages") as |op| }}
       {{#each op as |ordersPackage|}}
         {{goodcity/orders-package-block orderPkg=ordersPackage packageView=true}}
       {{/each}}

@@ -13,7 +13,7 @@ export default Model.extend({
   state: attr("string"),
   allowedActions: attr(),
 
-  item: belongsTo("item", { async: true }),
+  item: belongsTo("item", { async: false }),
   designation: belongsTo("designation", { async: true }),
   isDispatched: Ember.computed.bool("sentOn"),
 
@@ -22,7 +22,7 @@ export default Model.extend({
   isCancelled: Ember.computed.equal("state", "cancelled"),
 
   availableQty: Ember.computed.alias("quantity"),
-  isSingleQuantity: Ember.computed.equal('quantity', 1),
+  isSingleQuantity: Ember.computed.equal("quantity", 1),
 
   qtyToModify: Ember.computed("quantity", "item.quantity", function() {
     return this.get("quantity") + this.get("item.quantity");
@@ -31,5 +31,4 @@ export default Model.extend({
   orderCode: Ember.computed("designation", function() {
     return this.get("designation.code");
   })
-
 });
