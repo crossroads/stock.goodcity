@@ -7,6 +7,11 @@ import _ from "lodash";
 const { getOwner } = Ember;
 
 export default GoodcityController.extend(SearchMixin, {
+  autoLoad: true,
+  /**
+   * @type {Number}, perPage in response
+   **/
+  perPage: 25,
   backLinkPath: "",
   displayAllItems: false,
   isMobileApp: config.cordova.enabled,
@@ -69,12 +74,6 @@ export default GoodcityController.extend(SearchMixin, {
         : this.set("displayAllItems", true);
     }
   ),
-
-  autoLoad: true,
-  /**
-   * @type {Number}, perPage in response
-   **/
-  perPage: 15,
 
   ordersPkgLength: Ember.computed(
     "model.items",
@@ -147,18 +146,9 @@ export default GoodcityController.extend(SearchMixin, {
           this.getPaginationQuery(pageNo)
         )
       );
-      //  return new AjaxPromise("/orders_packages/get_orders_op", "GET", this.get("session.authToken"), params).then((orders_packages)=>{
-      //    debugger;
-      //   return orders_packages.orders_packages;
-      // })
-      // let adapter = this.store.adapterFor("application");
-      // const url = adapter.buildURL("orders_packages") + "/get_orders_op";
-      // return adapter.ajax(url, "GET", params);
       return this.get("store")
         .query("orders_package", params)
-        .then(results => {
-          return results;
-        });
+        .then(results => results);
     },
 
     openSchedulePopup() {
