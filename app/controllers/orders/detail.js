@@ -16,6 +16,7 @@ export default GoodcityController.extend(SearchMixin, {
   displayAllItems: false,
   isMobileApp: config.cordova.enabled,
   order: Ember.computed.alias("model"),
+  orderId: Ember.computed.alias("model.id"),
   hasUnreadMessages: Ember.computed("order", function() {
     return this.get("order.hasUnreadMessages");
   }),
@@ -131,18 +132,11 @@ export default GoodcityController.extend(SearchMixin, {
     return !order.get("ordersPackages").filterBy("state", "dispatched").length;
   },
 
-  ordersId() {
-    return {
-      order_id: 20698
-    };
-  },
-
   actions: {
     loadOrdersPackages(pageNo) {
       const params = this.trimQuery(
         _.merge(
-          { slug: "get_orders_op" },
-          this.ordersId(),
+          { order_id: this.get("orderId") },
           this.getPaginationQuery(pageNo)
         )
       );
