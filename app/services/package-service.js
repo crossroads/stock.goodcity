@@ -57,5 +57,13 @@ export default ApiBaseService.extend({
     this.PUT(`/packages/${pkgId}/perform_action`, params).then(data => {
       this.get("store").pushPayload(data);
     });
+  },
+
+  fetchAssociatedPackages(boxPalletId) {
+    return this.GET(`/packages/${boxPalletId}/fetch_associated_packages`).then(
+      data => {
+        return data.packages;
+      }
+    );
   }
 });

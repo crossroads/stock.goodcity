@@ -49,7 +49,6 @@ export default GoodcityController.extend(
     currentRoute: Ember.computed.alias("application.currentPath"),
     pkg: Ember.computed.alias("model"),
     showPieces: Ember.computed.alias("model.code.allow_pieces"),
-    settings: Ember.inject.service(),
 
     isItemDetailPresent() {
       return !!this.get("item.detail.length");
@@ -152,13 +151,23 @@ export default GoodcityController.extend(
       return ["storage_content", "info"].indexOf(this.get("tabName")) > -1;
     }),
 
-    storageTypeName: Ember.computed("item", function() {
-      let storageType = this.get("item.storageType");
-      return storageType && storageType.get("name");
-    }),
-
     isBoxOrPallet: Ember.computed("item", function() {
       return ["Box", "Pallet"].indexOf(this.get("storageTypeName")) > -1;
+    }),
+
+    fetchAssociatedPackages(boxPalletId) {
+      return this.get("packageService").fetchAssociatedPackages(boxPalletId);
+    },
+
+    associatedPackages: Ember.computed("item", function() {
+      if (this.get("isBoxOrPallet")) {
+        let ObjectPromiseProxy = Ember.ObjectProxy.extend(
+          Ember.PromiseProxyMixin
+        );
+        return ObjectPromiseProxy.create({
+          promise: this.fetchAssociatedPackages(this.get("item.id"))
+        });
+      }
     }),
 
     conditions: Ember.computed(function() {
