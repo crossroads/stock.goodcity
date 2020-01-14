@@ -38,10 +38,8 @@ export default TextField.extend({
   },
 
   didInsertElement() {
-    let routes = this.router.router && this.router.router.currentHandlerInfos;
-    let currentRoute = routes && routes.pop();
-    let isIndexRoute =
-      currentRoute && currentRoute.name === "items.index" ? true : false;
+    let currentRouteName = this.router.currentRouteName;
+    let isIndexRoute = currentRouteName === "items.index" ? true : false;
     if (this.get("hasRecentDesignations") && isIndexRoute) {
       var recentlyUsedDesignations = this.get("store").query("designation", {
         shallow: true,
