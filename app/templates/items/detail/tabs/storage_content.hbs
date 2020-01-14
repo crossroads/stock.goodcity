@@ -9,4 +9,17 @@
       {{scan-barcode-button record=model route="items"}}
     </div>
   {{/if}}
+
+  <div class="row">
+    {{debugger}}
+    {{#if associatedPackages.isFulfilled}}
+      {{#each associatedPackages as |pkg|}}
+        <div class="row">
+          <p>{{pkg.notes}}</p>
+        </div>
+      {{/each}}
+    {{else}}
+      Fetching stats...
+    {{/if}}
+  </div>
 </div>
