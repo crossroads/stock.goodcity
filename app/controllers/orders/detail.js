@@ -184,16 +184,15 @@ export default GoodcityController.extend(AsyncMixin, SearchMixin, {
 
   actions: {
     cancelOrder() {
-      const params = {
-        transition: "cancel",
+      const reason = {
         cancellation_reason_id: this.get("cancellationReasonId")
       };
       if (this.get("otherCancellationReason")) {
-        params.cancel_reason = this.get("otherCancellationReason");
+        reason.cancel_reason = this.get("otherCancellationReason");
       }
       this.runTask(
         this.get("orderService")
-          .changeOrderState(this.get("order"), params)
+          .cancelOrder(this.get("order"), reason)
           .then(() => {
             this.send("toggleDisplayOptions");
           })
@@ -408,7 +407,7 @@ export default GoodcityController.extend(AsyncMixin, SearchMixin, {
     changeOrderState(order, transition) {
       this.runTask(
         this.get("orderService")
-          .changeOrderState(order, { transition: transition })
+          .changeOrderState(order, transition)
           .then(data => {
             if (transition === "restart_process") {
               this.set("isOrderProcessRestarted", false);
