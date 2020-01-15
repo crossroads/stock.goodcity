@@ -8,9 +8,9 @@ const { getOwner } = Ember;
 
 export default GoodcityController.extend(SearchMixin, {
   autoLoad: true,
-  /**
+  /*
    * @type {Number}, perPage in response
-   **/
+   */
   perPage: 25,
   backLinkPath: "",
   displayAllItems: false,
@@ -140,9 +140,7 @@ export default GoodcityController.extend(SearchMixin, {
           this.getPaginationQuery(pageNo)
         )
       );
-      return this.get("store")
-        .query("orders_package", params)
-        .then(results => results);
+      return this.get("store").query("orders_package", params);
     },
 
     openSchedulePopup() {
