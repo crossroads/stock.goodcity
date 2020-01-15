@@ -50,6 +50,16 @@ Make use of the many generators for code, try `ember help generate` for more det
 
 Specify what it takes to deploy your app.
 
+### Documentation
+
+Re-usable mixins/components/services of the project have been documented with JSDoc comments.
+Documentation can be generated using the following commands :
+
+```bash
+$> yarn document # generates a 'documentation' folder
+$> open documentation/index.html # view the documentation in your browser
+```
+
 ## Further Reading / Useful Links
 
 * [ember.js](http://emberjs.com/)
