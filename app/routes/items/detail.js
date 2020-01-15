@@ -94,6 +94,7 @@ export default AuthorizeRoute.extend({
    * Loads all the images of an item (cached)
    *
    * @param {Item} item the selected item
+   * @private
    */
   preloadImages(item) {
     const ids = item.getWithDefault("imageIds", []);
@@ -103,6 +104,7 @@ export default AuthorizeRoute.extend({
   /**
    * Loads an image if not available
    *
+   * @private
    * @param {String} id the image id
    * @returns {Image} the image record
    */
@@ -118,6 +120,7 @@ export default AuthorizeRoute.extend({
    * Loads an item with its images
    * Shorthand for loadItem(id, { loadImages: true })
    *
+   * @private
    * @param {String} id the item id
    * @returns {Item} the item record
    */
@@ -129,6 +132,7 @@ export default AuthorizeRoute.extend({
    * Loads an item
    * Uses the reload:false option to prevent background loads
    *
+   * @private
    * @param {String} id the item id
    * @param {Object} opts load options
    * @param {Boolean} opts.loadImages if set to true, will also load the images

@@ -49,6 +49,7 @@ export default detail.extend({
 
   /**
    * Creates an action that modifies the property of the record passed as argument
+   * @ignore
    */
   propertyMutator(model, property) {
     return ({ value }) => {
@@ -58,6 +59,7 @@ export default detail.extend({
 
   /**
    * Transforms a modelName into a list of options for a <select>
+   * @ignore
    */
   buildOptions(modelName, namer, opts = {}) {
     if (_.isString(namer)) {
@@ -77,7 +79,7 @@ export default detail.extend({
     return res;
   },
 
-  /**
+  /*
    * SCHEDULE ROW
    */
   makeScheduleRow() {
@@ -93,7 +95,7 @@ export default detail.extend({
     };
   },
 
-  /**
+  /*
    * TYPE ROW
    */
   makeTypeRow() {
@@ -110,7 +112,7 @@ export default detail.extend({
     };
   },
 
-  /**
+  /*
    * TRANSPORT TYPE
    */
   makeTransportRow() {
@@ -132,7 +134,7 @@ export default detail.extend({
     };
   },
 
-  /**
+  /*
    * DISTRICT
    */
   makeDistrictRow() {
@@ -152,7 +154,7 @@ export default detail.extend({
     };
   },
 
-  /**
+  /*
    * VEHICLE
    */
   makeVehicleRow() {

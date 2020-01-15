@@ -2,24 +2,20 @@ import Ember from "ember";
 import _ from "lodash";
 
 /**
- * Search mixin has utilities to implement Searching.
+ * SearchMixin
  *
- * Configuring the search(property to be declared in controller where this mixin is used):
- *  -  @property {Number} `perPage`: number of results in response.
- *  -  @property {Boolean} `autoLoad`: to query on model as soon we land on the page.
-
- * Requirements:
- *  - This controllers sets and unsets `displayResults`
- *  - call `on()` and `off()` from calling page route for auto initial load of the records and cleaning the record.
- *    Example:
- *     setupController() {
- *       controller.on()
- *     },
- *     resetController(controller) {
- *       controller.off()
- *     }
+ * @mixin SearchMixin
+ * @property {Number} `perPage`: number of results in response. <br>
+ * @property {Boolean} `autoLoad`: to query on model as soon we land on the page
+ * @description utilities to implement searching
+ *
+ * <br> Requirements:
+ * <br>  - This controllers sets and unsets `displayResults`
+ * <br>  - call `on()` and `off()` from calling page route for auto initial load of the records and cleaning the record.
+ * <br>    Example:
+ * <br>     setupController() { controller.on() },
+ * <br>     resetController(controller) { controller.off() }
  **/
-
 export default Ember.Mixin.create({
   // ----- Services -----
   filterService: Ember.inject.service(),
@@ -71,6 +67,9 @@ export default Ember.Mixin.create({
 
   /**
    * Hide existing result and make request
+   *
+   * @instance
+   * @memberof SearchMixin
    **/
   reloadResults() {
     this.hideResults();
@@ -78,7 +77,10 @@ export default Ember.Mixin.create({
   },
 
   /**
-   * Hide existing result
+   * Hide existing results
+   *
+   * @instance
+   * @memberof SearchMixin
    **/
   hideResults() {
     Ember.run(() => {
@@ -87,7 +89,10 @@ export default Ember.Mixin.create({
   },
 
   /**
-   * Initiate fetch request
+   * Triggers the initial fetch request and shows the results
+   *
+   * @instance
+   * @memberof SearchMixin
    **/
   showResults() {
     Ember.run(() => {
@@ -97,7 +102,11 @@ export default Ember.Mixin.create({
 
   /**
    * Returns pagination query Object with per_page and pageNo
+   *
+   * @instance
+   * @memberof SearchMixin
    * @param {pageNo} pageNo to query
+   * @returns {object} the pagination query parameters
    **/
   getPaginationQuery(pageNo) {
     return {
@@ -108,6 +117,10 @@ export default Ember.Mixin.create({
 
   /**
    * Returns searchText to be query
+   *
+   * @instance
+   * @memberof SearchMixin
+   * @returns {object} the search parameters
    **/
   getSearchQuery() {
     return {
@@ -118,6 +131,11 @@ export default Ember.Mixin.create({
 
   /**
    * Remove undefined values from query Object
+   *
+   * @instance
+   * @memberof SearchMixin
+   * @param {object} query the query object
+   * @returns {object} the trimmed object
    **/
   trimQuery(query) {
     // Remove any undefined values

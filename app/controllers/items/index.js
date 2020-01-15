@@ -2,6 +2,10 @@ import config from "../../config/environment";
 import _ from "lodash";
 import SearchMixin from "stock/mixins/search_resource";
 
+/**
+ * @module Controllers/items/ItemsSearchController
+ * @augments ember/Controller
+ */
 export default Ember.Controller.extend(SearchMixin, {
   queryParams: ["searchInput", "itemSetId"],
   itemSetId: null,
@@ -13,11 +17,11 @@ export default Ember.Controller.extend(SearchMixin, {
   },
 
   /**
-   * @type {Boolean}, expected in SearchMixin
+   * @property {Boolean} SearchMixin configuration
    **/
   autoLoad: true,
   /**
-   * @type {Number}, perPage in response
+   * @property {Number} SearchMixin configuration, perPage in response
    **/
   perPage: 25,
 
@@ -49,6 +53,12 @@ export default Ember.Controller.extend(SearchMixin, {
   }),
 
   actions: {
+    /**
+     * Load the next page of the list
+     *
+     * @param {number} pageNo the page to load
+     * @returns {Promise<Model[]>}
+     */
     loadMoreItems(pageNo) {
       const params = this.trimQuery(
         _.merge(

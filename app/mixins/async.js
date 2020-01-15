@@ -8,9 +8,26 @@ const getString = (obj, path) => {
   return val && _.isString(val) ? val : null;
 };
 
+/**
+ * AsyncMixin
+ *
+ * @description utilities to run asynchronous tasks with spinner and error management features
+ * @mixin AsyncMixin
+ *
+ **/
+
+/**
+ * @enum {number}
+ * @readonly
+ * @memberof AsyncMixin
+ * @static
+ */
 export const ERROR_STRATEGIES = {
+  /** Will ignore errors */
   IGNORE: 1,
+  /** Will display the error message in a modal */
   MODAL: 2,
+  /** Will let the error go through */
   RAISE: 3
 };
 
@@ -72,6 +89,8 @@ export default Ember.Mixin.create({
   /**
    * Runs the asynchronous task, showing and hiding loading spinners accordingly
    *
+   * @memberof AsyncMixin
+   * @instance
    * @param {Promise|Function} task the job to run
    * @param {number} [errorStrategy] an indicator of how to handle the error
    */
