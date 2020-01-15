@@ -156,6 +156,17 @@ export default ApiBaseService.extend(NavigationAwareness, {
     return deferred.promise;
   },
 
+  getOrder(orderId) {
+    const params = {
+      include_packages: false,
+      include_order: true,
+      include_orders_packages: false
+    };
+    return this.GET(`/designations/${orderId}`, params).then(order => {
+      this.get("store").pushPayload(order);
+    });
+  },
+
   onNavigation() {
     this.getWithDefault("onOrderSelected", _.noop)(null);
   }

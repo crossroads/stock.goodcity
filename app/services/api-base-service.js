@@ -1,4 +1,5 @@
 import Ember from "ember";
+import _ from "lodash";
 import AjaxPromise from "./../utils/ajax-promise";
 
 /**
@@ -6,6 +7,16 @@ import AjaxPromise from "./../utils/ajax-promise";
  * @augments ember/Service
  * @description Base service class providing handy methods for API based services
  */
+
+function urlWithParams(url, params) {
+  if (!params) {
+    return url;
+  }
+  const paramStr = _.map(params, (value, key) => `${key}=${value}`).join("&");
+  const separator = /\?/.test(url) ? "&" : "?";
+  return `${url}${separator}${paramStr}`;
+}
+
 export default Ember.Service.extend({
   // ----- Services -----
   session: Ember.inject.service(),
@@ -32,7 +43,7 @@ export default Ember.Service.extend({
   GET(url, opts = {}) {
     const { authorizedRequest = true } = opts;
     return this._request(
-      url,
+      urlWithParams(url, opts),
       {
         action: "GET"
       },
