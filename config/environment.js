@@ -72,9 +72,9 @@ module.exports = function(environment) {
         "donor_condition",
         "lookup",
         "goodcity_setting",
-        "printer"
+        "printer",
+        "cancellation_reason"
       ],
-      PRELOAD_QUERY_STOCK_TYPES: ["code", "cancellation_reason"],
       USER_DATA_TYPES: [
         "designation",
         "item",
