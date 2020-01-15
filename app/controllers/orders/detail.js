@@ -192,10 +192,6 @@ export default GoodcityController.extend(SearchMixin, {
       this.toggleProperty("displayOrderOptions");
     },
 
-    displayAllItems() {
-      this.set("displayAllItems", true);
-    },
-
     updateOrder(order, actionName) {
       switch (actionName) {
         case "messagePopUp":
