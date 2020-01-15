@@ -1,21 +1,27 @@
-import Ember from "ember";
+import { not } from "@ember/object/computed";
+import { computed } from "@ember/object";
+import { inject as service } from "@ember/service";
 import Model from "ember-data/model";
 import attr from "ember-data/attr";
 
 export default Model.extend({
-  i18n: Ember.inject.service(),
+  i18n: service(),
   nameEn: attr("string"),
   nameZh: attr("string"),
   identifier: attr("string"),
 
-  isAppointment: Ember.computed("identifier", function() {
-    const name = this.get('identifier') && this.get('identifier').toLowerCase();
+  isAppointment: computed("identifier", function() {
+    const name = this.get("identifier") && this.get("identifier").toLowerCase();
     return name === "appointment";
   }),
 
-  isOnlineOrder: Ember.computed.not('isAppointment'),
+  isOnlineOrder: not("isAppointment"),
 
-  displayName: Ember.computed('isAppointment', function () {
-    return this.get('i18n').t(`order_transports.${this.get('isAppointment') ? 'appointment' : 'online_order' }`);
+  displayName: computed("isAppointment", function() {
+    return this.get("i18n").t(
+      `order_transports.${
+        this.get("isAppointment") ? "appointment" : "online_order"
+      }`
+    );
   })
 });

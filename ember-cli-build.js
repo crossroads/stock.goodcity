@@ -11,6 +11,9 @@ module.exports = function(defaults) {
       enabled: true,
       extensions: ["js"]
     },
+    babel: {
+      plugins: ["transform-object-rest-spread"]
+    },
     minifyJS: {
       options: {
         exclude: ["**/*.js"]

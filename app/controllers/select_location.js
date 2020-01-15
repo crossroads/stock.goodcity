@@ -1,11 +1,11 @@
-import Ember from "ember";
+import { sort } from "@ember/object/computed";
 import searchModule from "./search_module";
 
 export default searchModule.extend({
   searchModelName: "location",
 
   sortProperties: ["createdAt:desc"],
-  recentlyUsedLocations: Ember.computed.sort("model", "sortProperties"),
+  recentlyUsedLocations: sort("model", "sortProperties"),
 
   actions: {
     setLocation(location) {

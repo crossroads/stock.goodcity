@@ -1,4 +1,5 @@
-import Ember from "ember";
+import $ from "jquery";
+import { run } from "@ember/runloop";
 import { module, test } from "qunit";
 import startApp from "../helpers/start-app";
 import "../factories/orders_package";
@@ -64,7 +65,7 @@ module("Acceptance: Order search list", {
     MockUtils.closeSession();
 
     // Stop the app
-    Ember.run(App, "destroy");
+    run(App, "destroy");
   }
 });
 
@@ -79,25 +80,17 @@ function searchOrders(assert) {
       "orders.index",
       "Should be on the order listing page"
     );
-    assert.equal(
-      Ember.$("#searchText").length,
-      1,
-      "Should have an input field"
-    );
+    assert.equal($("#searchText").length, 1, "Should have an input field");
     fillIn("#searchText", designation.get("code"));
   });
 
   andThen(function() {
     assert.equal(
-      Ember.$(".loading_screen").length,
+      $(".loading_screen").length,
       0,
       "Should hide the loading screen"
     );
-    assert.equal(
-      Ember.$(".order_block").length,
-      1,
-      "Should have one item displayed"
-    );
+    assert.equal($(".order_block").length, 1, "Should have one item displayed");
   });
 }
 
@@ -109,7 +102,7 @@ test("Clicking on an order should redirect to the order details page", function(
   searchOrders(assert);
 
   andThen(() => {
-    click(Ember.$(".order_block")[0]);
+    click($(".order_block")[0]);
   });
 
   andThen(() => {
@@ -159,7 +152,7 @@ test("Clearing existing filters should retrigger the search", function(assert) {
 
   let getRequestSent = false;
 
-  Ember.run(() => {
+  run(() => {
     filterService.set("orderStateFilters", ["submitted"]);
   });
 

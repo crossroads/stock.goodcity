@@ -1,55 +1,60 @@
-import Ember from 'ember';
+import { once } from "@ember/runloop";
+import { observer } from "@ember/object";
+import $ from "jquery";
+import TextArea from "@ember/component/text-area";
 
-export default Ember.TextArea.extend({
+export default TextArea.extend({
   tagName: "textarea",
   attributeBindings: ["disabled"],
-  classNames: 'message-bar',
+  classNames: "message-bar",
   disabled: false,
 
-  didDestroyElement: function (){
-    Ember.$('body').css({'overflow-x':'hidden'});
+  didDestroyElement: function() {
+    $("body").css({ "overflow-x": "hidden" });
   },
 
-  autoScroll: function(){
+  autoScroll: function() {
     window.scrollTo(0, document.body.scrollHeight);
   },
 
-  didInsertElement: function(){
-    Ember.$('body').css({'overflow-x':'unset'});
+  didInsertElement: function() {
+    $("body").css({ "overflow-x": "unset" });
     // scrolling down to bottom of page
     this.autoScroll();
   },
 
-  handleReturnAndAutoscroll: function(){
+  handleReturnAndAutoscroll: function() {
     var _this = this;
     var textarea = _this.element;
-    Ember.$(textarea)
+    $(textarea)
       .css({
-        'height': 'auto',
-        'overflow-y': 'hidden'
+        height: "auto",
+        "overflow-y": "hidden"
       })
       .height(textarea.scrollHeight - 15);
 
-      // scroll to bottom if message typed and restrict if blank message is sent
-      if (_this.get('value') !== "") {
-        Ember.$('.message-bar').parent().removeClass('has-error');
-        _this.autoScroll();
-      }
+    // scroll to bottom if message typed and restrict if blank message is sent
+    if (_this.get("value") !== "") {
+      $(".message-bar")
+        .parent()
+        .removeClass("has-error");
+      _this.autoScroll();
+    }
   },
 
-  valueChanged: Ember.observer('value', function () {
+  valueChanged: observer("value", function() {
     var _this = this;
     var textarea = _this.element;
 
     if (textarea) {
-      Ember.run.once(function () {
+      once(function() {
         // auto-resize height of textarea $('textarea')[0].
         if (textarea.scrollHeight < 120) {
           _this.handleReturnAndAutoscroll();
-        } else{
-          Ember.$(textarea).css({ 'height': 'auto', 'overflow-y': 'auto' });
+        } else {
+          $(textarea).css({ height: "auto", "overflow-y": "auto" });
         }
       });
     }
-  }),
+  })
 });

@@ -1,11 +1,14 @@
-import Ember from "ember";
+import { computed } from "@ember/object";
+import { inject as service } from "@ember/service";
+import Component from "@ember/component";
+import $ from "jquery";
 import _ from "lodash";
 import { TYPE_FILTERS, STATE_FILTERS } from "../services/filter-service";
 
 // --- Helpers
 
 function setFilter(filter, val) {
-  Ember.$(`#${filter}`)[0].checked = val;
+  $(`#${filter}`)[0].checked = val;
 }
 
 function checkFilter(filter) {
@@ -17,7 +20,7 @@ function uncheckFilter(filter) {
 }
 
 function isChecked(filter) {
-  return Ember.$(`#${filter}`)[0].checked;
+  return $(`#${filter}`)[0].checked;
 }
 
 function startOfDay(date) {
@@ -39,9 +42,9 @@ const UNKNOWN = "unknown";
 
 // --- Component
 
-export default Ember.Component.extend({
-  i18n: Ember.inject.service(),
-  filterService: Ember.inject.service(),
+export default Component.extend({
+  i18n: service(),
+  filterService: service(),
 
   selectedTimeRange: {
     preset: "",
@@ -49,24 +52,24 @@ export default Ember.Component.extend({
     before: null
   },
 
-  presetTimeKeys: Ember.computed(function() {
+  presetTimeKeys: computed(function() {
     return _.keys(this.get("filterService.orderTimeRangePresets"));
   }),
 
-  allOrderStateFilters: Ember.computed(function() {
+  allOrderStateFilters: computed(function() {
     return _.values(STATE_FILTERS);
   }),
 
-  allOrderTypeFilters: Ember.computed(function() {
+  allOrderTypeFilters: computed(function() {
     return _.values(TYPE_FILTERS);
   }),
 
-  orderStateFilters: Ember.computed("allOrderStateFilters.[]", function() {
+  orderStateFilters: computed("allOrderStateFilters.[]", function() {
     // Separate out "showPriority" filter as it has some different css properties than others
     return _.without(this.get("allOrderStateFilters"), STATE_FILTERS.PRIORITY);
   }),
 
-  filterContext: Ember.computed(
+  filterContext: computed(
     "applyStateFilter",
     "applyTimeFilter",
     "applyTypeFilter",

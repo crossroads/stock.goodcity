@@ -1,4 +1,4 @@
-import Ember from "ember";
+import { helper as buildHelper } from "@ember/component/helper";
 import { STATE_FILTERS } from "../services/filter-service";
 
 const {
@@ -11,7 +11,7 @@ const {
   CANCELLED
 } = STATE_FILTERS;
 
-export default Ember.Helper.helper(function(state) {
+export default buildHelper(function(state) {
   switch (state[0]) {
     case PRIORITY:
       return "exclamation-triangle";

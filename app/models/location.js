@@ -1,4 +1,4 @@
-import Ember from "ember";
+import { computed } from "@ember/object";
 import Model from "ember-data/model";
 import { hasMany, belongsTo } from "ember-data/relationships";
 import attr from "ember-data/attr";
@@ -11,13 +11,13 @@ export default Model.extend({
   items: hasMany("item", { async: false }),
   package_locations: hasMany("location", { async: false }),
 
-  name: Ember.computed("area", "building", function() {
+  name: computed("area", "building", function() {
     var area = this.get("area");
     var building = this.get("building");
     return area ? `${building}-${area}` : building;
   }),
 
-  displayName: Ember.computed("area", "building", function() {
+  displayName: computed("area", "building", function() {
     var area = this.get("area");
     var building = this.get("building");
     return area ? `${building}${area}` : building;

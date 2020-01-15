@@ -1,28 +1,27 @@
-import { test, moduleFor } from 'ember-qunit';
-import startApp from '../helpers/start-app';
-import Ember from 'ember';
+import { run } from "@ember/runloop";
+import { test, moduleFor } from "ember-qunit";
+import startApp from "../helpers/start-app";
 
 var App;
 
-moduleFor('controller:orders.detail', 'orders.detail controller', {
+moduleFor("controller:orders.detail", "orders.detail controller", {
   beforeEach: function() {
     App = startApp({}, 2);
   },
   afterEach: function() {
-    Ember.run(App, 'destroy');
+    run(App, "destroy");
   }
 });
 
-test('calling displayAllItems action displays all item', function(assert) {
+test("calling displayAllItems action displays all item", function(assert) {
   assert.expect(2);
 
   // get the controller instance
   var ctrl = this.subject();
 
-  assert.equal(ctrl.get('displayAllItems'), false);
+  assert.equal(ctrl.get("displayAllItems"), false);
 
-  ctrl.send('displayAllItems');
+  ctrl.send("displayAllItems");
 
-  assert.equal(ctrl.get('displayAllItems'), true);
+  assert.equal(ctrl.get("displayAllItems"), true);
 });
-

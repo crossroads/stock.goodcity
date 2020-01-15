@@ -1,16 +1,19 @@
-import Ember from "ember";
+import { computed } from "@ember/object";
+import { alias } from "@ember/object/computed";
+import { inject as service } from "@ember/service";
+import Component from "@ember/component";
+import { getOwner } from "@ember/application";
 import { singularize, pluralize } from "ember-inflector";
 import _ from "lodash";
-const { getOwner } = Ember;
 import { translationMacro as t } from "ember-i18n";
 
-export default Ember.Component.extend({
+export default Component.extend({
   selected: [],
   previousValue: "",
-  i18n: Ember.inject.service(),
-  store: Ember.inject.service(),
-  subformDetailService: Ember.inject.service(),
-  resourceType: Ember.computed.alias("packageDetails"),
+  i18n: service(),
+  store: service(),
+  subformDetailService: service(),
+  resourceType: alias("packageDetails"),
   fixedDropdownArr: ["frequency", "voltage", "compTestStatus", "testStatus"],
   fixedDropdownArrId: [
     "frequency_id",
@@ -20,11 +23,11 @@ export default Ember.Component.extend({
   ],
   addItem: t("items.new.subform.add_item"),
 
-  displayLabel: Ember.computed("addAble", function() {
+  displayLabel: computed("addAble", function() {
     return this.get("addAble") ? this.get("addItem") : "";
   }),
 
-  selectedOptionDisplay: Ember.computed("dropDownValues", function() {
+  selectedOptionDisplay: computed("dropDownValues", function() {
     let selectedValues = {
       ...this.get("dropDownValues")
     };

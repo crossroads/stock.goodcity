@@ -1,12 +1,15 @@
-import Ember from "ember";
+import { resolve } from "rsvp";
+import { debounce } from "@ember/runloop";
+import { computed, observer } from "@ember/object";
+import { inject as service } from "@ember/service";
 import _ from "lodash";
 import InfinityRoute from "ember-infinity/mixins/route";
 import GoodcityController from "./goodcity_controller";
 
 export default GoodcityController.extend(InfinityRoute, {
-  filterService: Ember.inject.service(),
-  utilityMethods: Ember.inject.service(),
-  getCurrentUser: Ember.computed(function() {
+  filterService: service(),
+  utilityMethods: service(),
+  getCurrentUser: computed(function() {
     var store = this.get("store");
     var currentUser = store.peekAll("user_profile").get("firstObject") || null;
     return currentUser;
@@ -22,7 +25,7 @@ export default GoodcityController.extend(InfinityRoute, {
     return str.trim();
   },
 
-  searchText: Ember.computed("searchInput", {
+  searchText: computed("searchInput", {
     get() {
       return this.get("searchInput") || "";
     },
@@ -32,8 +35,8 @@ export default GoodcityController.extend(InfinityRoute, {
     }
   }),
 
-  i18n: Ember.inject.service(),
-  store: Ember.inject.service(),
+  i18n: service(),
+  store: service(),
   isLoading: false,
   hasNoResults: false,
   itemSetId: null,
@@ -45,19 +48,19 @@ export default GoodcityController.extend(InfinityRoute, {
   requestOptions: {},
   modelPath: "filteredResults",
 
-  hasSearchText: Ember.computed("searchText", function() {
+  hasSearchText: computed("searchText", function() {
     return !!this.get("searchText");
   }),
 
-  canSearch: Ember.computed("searchText", function() {
+  canSearch: computed("searchText", function() {
     return this.get("searchText").length > this.get("minSearchTextLength");
   }),
 
-  onSearchTextChange: Ember.observer("searchText", function() {
+  onSearchTextChange: observer("searchText", function() {
     // wait before applying the filter
     if (this.get("canSearch")) {
       this.set("itemSetId", null);
-      Ember.run.debounce(this, this.applyFilter, 500);
+      debounce(this, this.applyFilter, 500);
     } else {
       this.set(this.get("modelPath"), []);
     }
@@ -81,7 +84,7 @@ export default GoodcityController.extend(InfinityRoute, {
   },
 
   onFilterChange() {
-    Ember.run.debounce(this, this.reloadResults, 500);
+    debounce(this, this.reloadResults, 500);
   },
 
   reloadResults() {
@@ -126,7 +129,7 @@ export default GoodcityController.extend(InfinityRoute, {
         this.buildQueryParamMap()
       )
         .then(data => {
-          return Ember.RSVP.resolve(this.afterSearch(data)).then(() => data);
+          return resolve(this.afterSearch(data)).then(() => data);
         })
         .then(data => {
           if (force || this.get("searchText") === data.meta.search) {

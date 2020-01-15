@@ -1,11 +1,13 @@
-import Ember from "ember";
+import Evented from "@ember/object/evented";
+import Service, { inject as service } from "@ember/service";
+import { computed } from "@ember/object";
 import _ from "lodash";
 import timeRanges from "../utils/time-ranges";
 
 // --- Helpers
 
 const PERSISTENT_VAR = function(propName, defaultValue, deserializeMap = {}) {
-  return Ember.computed({
+  return computed({
     get() {
       const data = this.get("localStorage").read(propName, defaultValue);
       for (let key in deserializeMap) {
@@ -42,8 +44,8 @@ export const TYPE_FILTERS = {
 
 // --- Service
 
-export default Ember.Service.extend(Ember.Evented, {
-  localStorage: Ember.inject.service(),
+export default Service.extend(Evented, {
+  localStorage: service(),
 
   orderStateFilters: PERSISTENT_VAR("orderStateFilters", []),
 
@@ -84,7 +86,7 @@ export default Ember.Service.extend(Ember.Evented, {
     this.clearOrderTimeFilters();
   },
 
-  hasOrderFilters: Ember.computed(
+  hasOrderFilters: computed(
     "orderStateFilters",
     "orderTypeFilters",
     "_orderTimeSettings",
@@ -110,7 +112,7 @@ export default Ember.Service.extend(Ember.Evented, {
     }
   ),
 
-  orderTimeRangePresets: Ember.computed(function() {
+  orderTimeRangePresets: computed(function() {
     return timeRanges;
   }).volatile(),
 
@@ -141,7 +143,7 @@ export default Ember.Service.extend(Ember.Evented, {
    *
    * @param {String|Object} range A time range OR a preset name
    */
-  orderTimeRange: Ember.computed(function() {
+  orderTimeRange: computed(function() {
     const { preset = "", after = null, before = null } = this.get(
       "_orderTimeSettings"
     );

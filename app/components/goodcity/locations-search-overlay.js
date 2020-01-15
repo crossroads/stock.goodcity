@@ -1,4 +1,6 @@
-import Ember from "ember";
+import { not, alias } from "@ember/object/computed";
+import { computed } from "@ember/object";
+import { inject as service } from "@ember/service";
 import _ from "lodash";
 import SingletonComponent from "../base/global";
 import SearchMixin from "stock/mixins/search_resource";
@@ -16,24 +18,24 @@ import { stagerred } from "../../utils/async";
 export default SingletonComponent.extend(SearchMixin, {
   searchProps: {},
   autoLoad: true,
-  store: Ember.inject.service(),
+  store: service(),
   perPage: 10,
 
   init() {
     this._super("location-search-overlay");
   },
 
-  recentlyUsedLocations: Ember.computed("open", function() {
+  recentlyUsedLocations: computed("open", function() {
     return this.get("store")
       .peekAll("location")
       .sortBy("recentlyUsedAt")
       .slice(0, 10);
   }),
 
-  showRecentlyUsed: Ember.computed.not("searchText"),
+  showRecentlyUsed: not("searchText"),
 
-  headerText: Ember.computed.alias("options.headerText"),
-  presetLocations: Ember.computed.alias("options.presetLocations"),
+  headerText: alias("options.headerText"),
+  presetLocations: alias("options.presetLocations"),
 
   actions: {
     cancel() {

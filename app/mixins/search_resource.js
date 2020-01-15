@@ -1,4 +1,7 @@
-import Ember from "ember";
+import { debounce, run } from "@ember/runloop";
+import { observer } from "@ember/object";
+import { inject as service } from "@ember/service";
+import Mixin from "@ember/object/mixin";
 import _ from "lodash";
 
 /**
@@ -20,10 +23,10 @@ import _ from "lodash";
  *     }
  **/
 
-export default Ember.Mixin.create({
+export default Mixin.create({
   // ----- Services -----
-  filterService: Ember.inject.service(),
-  utilityMethods: Ember.inject.service(),
+  filterService: service(),
+  utilityMethods: service(),
 
   // ----- Arguments -----
   minSearchTextLength: 2,
@@ -44,7 +47,7 @@ export default Ember.Mixin.create({
     this.get("filterService").off("change", this, this.reloadResults);
   },
 
-  onSearchTextChange: Ember.observer("searchText", function() {
+  onSearchTextChange: observer("searchText", function() {
     if (this.isValidTextLength()) {
       this.reloadResults();
     }
@@ -74,14 +77,14 @@ export default Ember.Mixin.create({
    **/
   reloadResults() {
     this.hideResults();
-    Ember.run.debounce(this, this.showResults, 500);
+    debounce(this, this.showResults, 500);
   },
 
   /**
    * Hide existing result
    **/
   hideResults() {
-    Ember.run(() => {
+    run(() => {
       this.set("displayResults", false);
     });
   },
@@ -90,7 +93,7 @@ export default Ember.Mixin.create({
    * Initiate fetch request
    **/
   showResults() {
-    Ember.run(() => {
+    run(() => {
       this.set("displayResults", true);
     });
   },

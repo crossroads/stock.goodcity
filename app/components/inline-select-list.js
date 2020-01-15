@@ -1,12 +1,13 @@
-import Ember from "ember";
+import { computed } from "@ember/object";
+import { inject as service } from "@ember/service";
+import { getOwner } from "@ember/application";
 import SelectList from "./select-list";
-const { getOwner } = Ember;
 
 export default SelectList.extend({
   layoutName: "components/select-list",
-  store: Ember.inject.service(),
+  store: service(),
 
-  selectedValue: Ember.computed("name", "item.grade", function() {
+  selectedValue: computed("name", "item.grade", function() {
     const name = this.get("name");
     const val = this.get(`item.${name}`);
 

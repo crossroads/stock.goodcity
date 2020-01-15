@@ -1,4 +1,4 @@
-import Ember from "ember";
+import { helper as buildHelper } from "@ember/component/helper";
 
 /**
  * Creates an action which backs to the previous page
@@ -11,7 +11,7 @@ import Ember from "ember";
  *
  * @returns {Function} the back action
  */
-export default Ember.Helper.helper(function([self, propName]) {
+export default buildHelper(function([self, propName]) {
   return function() {
     window.history.back();
   };

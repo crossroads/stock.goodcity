@@ -1,4 +1,8 @@
-import Ember from "ember";
+import { debounce, later } from "@ember/runloop";
+import $ from "jquery";
+import { computed, observer } from "@ember/object";
+import { inject as service } from "@ember/service";
+import Component from "@ember/component";
 import _ from "lodash";
 import SearchMixin from "stock/mixins/search_resource";
 
@@ -11,24 +15,24 @@ import SearchMixin from "stock/mixins/search_resource";
  * @property {boolean} open whether the popup is visible or not
  * @property {function} onSelect callback triggered when an order is selected
  */
-export default Ember.Component.extend(SearchMixin, {
+export default Component.extend(SearchMixin, {
   fetchMoreResult: true,
-  store: Ember.inject.service(),
+  store: service(),
   filter: "",
   searchText: "",
   fetchMoreResult: true,
   storageType: null,
-  isSearchCodePreviousRoute: Ember.computed.localStorage(),
+  isSearchCodePreviousRoute: computed.localStorage(),
 
   init() {
     this._super("code-search-overlay");
   },
 
-  allPackageTypes: Ember.computed("open", function() {
+  allPackageTypes: computed("open", function() {
     return this.get("store").peekAll("code");
   }),
 
-  filteredPackageTypes: Ember.computed("allPackageTypes", function() {
+  filteredPackageTypes: computed("allPackageTypes", function() {
     const pkgTypes = this.get("allPackageTypes");
     const storageType = this.get("storageType");
     if (["Box", "Pallet"].indexOf(storageType) > -1) {
@@ -37,17 +41,17 @@ export default Ember.Component.extend(SearchMixin, {
     return pkgTypes;
   }),
 
-  hasSearchText: Ember.computed("searchText", function() {
-    return Ember.$.trim(this.get("searchText")).length;
+  hasSearchText: computed("searchText", function() {
+    return $.trim(this.get("searchText")).length;
   }),
 
-  hasFilter: Ember.computed("filter", function() {
-    return Ember.$.trim(this.get("filter")).length;
+  hasFilter: computed("filter", function() {
+    return $.trim(this.get("filter")).length;
   }),
 
-  onSearchTextChange: Ember.observer("searchText", function() {
+  onSearchTextChange: observer("searchText", function() {
     // wait before applying the filter
-    Ember.run.debounce(this, this.applyFilter, 500);
+    debounce(this, this.applyFilter, 500);
   }),
 
   applyFilter: function() {
@@ -56,16 +60,16 @@ export default Ember.Component.extend(SearchMixin, {
   },
 
   clearHiglight() {
-    Ember.$("em").replaceWith(function() {
+    $("em").replaceWith(function() {
       return this.innerHTML;
     });
   },
 
   highlight() {
-    var string = Ember.$.trim(this.get("filter").toLowerCase());
+    var string = $.trim(this.get("filter").toLowerCase());
     this.clearHiglight();
-    Ember.$(".codes_results li div").each(function() {
-      var text = Ember.$(this).text();
+    $(".codes_results li div").each(function() {
+      var text = $(this).text();
       if (text.toLowerCase().indexOf(string.toLowerCase()) > -1) {
         var matchStart = text
           .toLowerCase()
@@ -74,20 +78,18 @@ export default Ember.Component.extend(SearchMixin, {
         var beforeMatch = text.slice(0, matchStart);
         var matchText = text.slice(matchStart, matchEnd + 1);
         var afterMatch = text.slice(matchEnd + 1);
-        Ember.$(this).html(
-          beforeMatch + "<em>" + matchText + "</em>" + afterMatch
-        );
+        $(this).html(beforeMatch + "<em>" + matchText + "</em>" + afterMatch);
       }
     });
   },
 
-  filteredResults: Ember.computed(
+  filteredResults: computed(
     "filter",
     "fetchMoreResult",
     "allPackageTypes.[]",
     function() {
       let packageTypes = this.get("filteredPackageTypes");
-      var filter = Ember.$.trim(this.get("filter").toLowerCase());
+      var filter = $.trim(this.get("filter").toLowerCase());
       var types = [];
       var matchFilter = value =>
         (value || "").toLowerCase().indexOf(filter) !== -1;
@@ -101,7 +103,7 @@ export default Ember.Component.extend(SearchMixin, {
             types.push(type);
           }
         });
-        Ember.run.later(this, this.highlight);
+        later(this, this.highlight);
       } else {
         types = types.concat(packageTypes.toArray());
         this.clearHiglight();

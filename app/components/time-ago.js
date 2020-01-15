@@ -1,12 +1,13 @@
-import Ember from 'ember';
+import { computed } from "@ember/object";
+import Component from "@ember/component";
 
-export default Ember.Component.extend({
-  time: Ember.computed(function() {
+export default Component.extend({
+  time: computed(function() {
     var timeValue = this.attrs.timeValue.value || new Date();
     return timeValue.toISOString();
   }),
 
-  timeDisplay: Ember.computed(function() {
+  timeDisplay: computed(function() {
     var timeValue = this.attrs.timeValue.value || new Date();
     return moment(timeValue).fromNow(true);
   })

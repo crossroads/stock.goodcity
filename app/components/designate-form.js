@@ -1,10 +1,14 @@
+import $ from "jquery";
+import { inject as service } from "@ember/service";
+import { computed, observer } from "@ember/object";
+import Component from "@ember/component";
+import { getOwner } from "@ember/application";
 import Ember from "ember";
 import AjaxPromise from "stock/utils/ajax-promise";
 import _ from "lodash";
-const { getOwner } = Ember;
 import config from "../config/environment";
 
-export default Ember.Component.extend({
+export default Component.extend({
   displayUserPrompt: false,
   displayAlertOverlay: false,
   showAllSetItems: false,
@@ -18,7 +22,7 @@ export default Ember.Component.extend({
   reDesignateDispatchAlertPopUp: false,
   totalPartialDesignatedItems: 0,
   designatedRecord: null,
-  designateFullSet: Ember.computed.localStorage(),
+  designateFullSet: computed.localStorage(),
   env: config.APP.environment,
   dispatchedItemOrder: "",
 
@@ -26,15 +30,15 @@ export default Ember.Component.extend({
   item: null,
   toggleOverlay: null,
   isSet: null,
-  store: Ember.inject.service(),
-  i18n: Ember.inject.service(),
+  store: service(),
+  i18n: service(),
   designatedOnce: true,
   orderPackageId: null,
   alreadyShown: true,
   hasCancelledState: false,
-  messageBox: Ember.inject.service(),
+  messageBox: service(),
 
-  returnsDesignateFullSet: Ember.computed("item.setItem.items", function() {
+  returnsDesignateFullSet: computed("item.setItem.items", function() {
     if (this.get("env") === "test") {
       return false;
     }
@@ -44,7 +48,7 @@ export default Ember.Component.extend({
     return !window.localStorage.getItem("designateFullSet").includes(false);
   }),
 
-  overridesDesignation: Ember.computed(
+  overridesDesignation: computed(
     "item.setItem.designationList.[]",
     "order",
     function() {
@@ -74,7 +78,7 @@ export default Ember.Component.extend({
     }
   ),
 
-  triggerOrderClick: Ember.observer("order", "toggleOverlay", function() {
+  triggerOrderClick: observer("order", "toggleOverlay", function() {
     this.set("hasCancelledState", false);
     this.set(
       "partial_quantity",
@@ -89,21 +93,21 @@ export default Ember.Component.extend({
         .get("callOrderObserver")
     ) {
       this.send("displayDesignateOverlay");
-      Ember.$(".popupOverlay #messageBox").addClass("makeScrollable");
+      $(".popupOverlay #messageBox").addClass("makeScrollable");
     }
   }),
 
-  isDesignatedToCurrentOrder: Ember.computed("order", "item", function() {
+  isDesignatedToCurrentOrder: computed("order", "item", function() {
     return this.get("order.items").findBy("id", this.get("item.id"));
   }),
 
-  triggerItemClick: Ember.observer("autoDisplayOverlay", function() {
+  triggerItemClick: observer("autoDisplayOverlay", function() {
     if (this.get("autoDisplayOverlay")) {
       this.send("displayDesignateOverlay");
     }
   }),
 
-  cancelledState: Ember.computed("order", "item", function() {
+  cancelledState: computed("order", "item", function() {
     this.set("hasCancelledState", false);
     var item = this.get("item");
     var order = this.get("order");
@@ -124,61 +128,57 @@ export default Ember.Component.extend({
     return this.get("hasCancelledState");
   }),
 
-  isDesignatedToCurrentPartialOrder: Ember.computed(
-    "order",
-    "item",
-    function() {
-      var total = 0;
-      var alreadyPartiallyDesignated = false;
-      this.set("partiallyDesignatedPopUp", false);
-      this.set("partialDesignatedConfirmationPopUp", false);
-      this.set("hasCancelledState", false);
-      var order = this.get("order");
-      var item = this.get("item");
-      var designatedSetOrdersPackages = [];
-      if (item.get("isSet")) {
-        item.get("setItem.items").forEach(pkg => {
-          pkg.get("ordersPackages").forEach(record => {
-            if (
-              record.get("state") !== "cancelled" &&
-              record.get("itemId") === parseInt(item.id, 10) &&
-              record.get("designationId") === parseInt(order.id, 10)
-            ) {
-              alreadyPartiallyDesignated = true;
-              this.set("orderPackageId", record.get("id"));
-              designatedSetOrdersPackages.push(record);
-              if (!this.get("designateFullSet")) {
-                this.set("designatedRecord", record);
-                this.set("totalPartialDesignatedItems", record.get("quantity"));
-              }
-            }
-          });
-        });
-        this.set("designatedSetOrdersPackages", designatedSetOrdersPackages);
-        return alreadyPartiallyDesignated;
-      } else {
-        this.get("store")
-          .peekAll("orders_package")
-          .filterBy("itemId", parseInt(item.id, 10))
-          .forEach(record => {
-            if (
-              record.get("quantity") &&
-              record.get("itemId") === parseInt(item.id, 10) &&
-              record.get("designationId") === parseInt(order.id, 10)
-            ) {
-              total += record.get("quantity");
+  isDesignatedToCurrentPartialOrder: computed("order", "item", function() {
+    var total = 0;
+    var alreadyPartiallyDesignated = false;
+    this.set("partiallyDesignatedPopUp", false);
+    this.set("partialDesignatedConfirmationPopUp", false);
+    this.set("hasCancelledState", false);
+    var order = this.get("order");
+    var item = this.get("item");
+    var designatedSetOrdersPackages = [];
+    if (item.get("isSet")) {
+      item.get("setItem.items").forEach(pkg => {
+        pkg.get("ordersPackages").forEach(record => {
+          if (
+            record.get("state") !== "cancelled" &&
+            record.get("itemId") === parseInt(item.id, 10) &&
+            record.get("designationId") === parseInt(order.id, 10)
+          ) {
+            alreadyPartiallyDesignated = true;
+            this.set("orderPackageId", record.get("id"));
+            designatedSetOrdersPackages.push(record);
+            if (!this.get("designateFullSet")) {
               this.set("designatedRecord", record);
-              alreadyPartiallyDesignated = true;
-              this.set("orderPackageId", record.get("id"));
+              this.set("totalPartialDesignatedItems", record.get("quantity"));
             }
-          });
-        this.set("totalPartialDesignatedItems", total);
-        return alreadyPartiallyDesignated;
-      }
+          }
+        });
+      });
+      this.set("designatedSetOrdersPackages", designatedSetOrdersPackages);
+      return alreadyPartiallyDesignated;
+    } else {
+      this.get("store")
+        .peekAll("orders_package")
+        .filterBy("itemId", parseInt(item.id, 10))
+        .forEach(record => {
+          if (
+            record.get("quantity") &&
+            record.get("itemId") === parseInt(item.id, 10) &&
+            record.get("designationId") === parseInt(order.id, 10)
+          ) {
+            total += record.get("quantity");
+            this.set("designatedRecord", record);
+            alreadyPartiallyDesignated = true;
+            this.set("orderPackageId", record.get("id"));
+          }
+        });
+      this.set("totalPartialDesignatedItems", total);
+      return alreadyPartiallyDesignated;
     }
-  ),
+  }),
 
-  isDispatched: Ember.computed("order", "item", function() {
+  isDispatched: computed("order", "item", function() {
     let item = this.get("item");
     if (item.get("hasOneDispatchedPackage")) {
       this.set("dispatchedItemOrder", item.get("designation"));
@@ -186,7 +186,7 @@ export default Ember.Component.extend({
     }
   }),
 
-  designationDetails: Ember.computed("item", function() {
+  designationDetails: computed("item", function() {
     let item = this.get("item");
     let itemStatus = {};
     return {
@@ -215,7 +215,7 @@ export default Ember.Component.extend({
       return;
     }
     if (!this.loadingView) {
-      this.loadingView = Ember.getOwner(this)
+      this.loadingView = getOwner(this)
         .lookup("component:loading")
         .append();
     }
@@ -377,7 +377,7 @@ export default Ember.Component.extend({
         })
         .catch(error => {
           if (error.status === 422) {
-            var errors = Ember.$.parseJSON(error.responseText).errors;
+            var errors = $.parseJSON(error.responseText).errors;
             this.get("messageBox").alert(errors, () => {
               this.exit(() => this.get("router").replaceWith("items.index"));
             });

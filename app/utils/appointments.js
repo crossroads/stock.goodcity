@@ -1,3 +1,4 @@
+import EmberObject from "@ember/object";
 import Cache from "./cache";
 import _ from "lodash";
 
@@ -15,7 +16,7 @@ export default {
   /* Pairs composed of a record and it's select-able timeslot */
   makeSelectableList(models) {
     return models.map(r => {
-      return Ember.Object.create({
+      return EmberObject.create({
         record: r,
         timeslot: this.getTimeSlotOf(r)
       });

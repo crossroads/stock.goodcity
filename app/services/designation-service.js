@@ -1,4 +1,5 @@
-import Ember from "ember";
+import { defer } from "rsvp";
+import { inject as service } from "@ember/service";
 import ApiBaseService from "./api-base-service";
 import NavigationAwareness from "../mixins/navigation_aware";
 import _ from "lodash";
@@ -23,7 +24,7 @@ function ID(modelOrId) {
  *
  */
 export default ApiBaseService.extend(NavigationAwareness, {
-  store: Ember.inject.service(),
+  store: service(),
 
   init() {
     this._super(...arguments);
@@ -137,7 +138,7 @@ export default ApiBaseService.extend(NavigationAwareness, {
    * @returns {Promise<Model>}
    */
   userPickOrder(filters = {}) {
-    const deferred = Ember.RSVP.defer();
+    const deferred = defer();
 
     this.set("orderSearchProps", filters);
     this.set("openOrderSearch", true);

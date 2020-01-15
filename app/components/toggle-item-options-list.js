@@ -1,16 +1,17 @@
-import Ember from 'ember';
+import $ from "jquery";
+import Component from "@ember/component";
 
-export default Ember.Component.extend({
-
+export default Component.extend({
   click() {
-    var itemOptionsLink = Ember.$('.options-link-open.hidden');
-    if(itemOptionsLink.length) {
-      Ember.$('.receive-item-options').not('.hidden').toggleClass('hidden');
-      Ember.$('.options-link-open.hidden').toggleClass('hidden');
+    var itemOptionsLink = $(".options-link-open.hidden");
+    if (itemOptionsLink.length) {
+      $(".receive-item-options")
+        .not(".hidden")
+        .toggleClass("hidden");
+      $(".options-link-open.hidden").toggleClass("hidden");
       return false;
     } else {
       return true;
     }
   }
 });
-

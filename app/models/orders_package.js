@@ -1,4 +1,5 @@
-import Ember from "ember";
+import { computed } from "@ember/object";
+import { bool, equal, alias } from "@ember/object/computed";
 import Model from "ember-data/model";
 import attr from "ember-data/attr";
 import { belongsTo } from "ember-data/relationships";
@@ -15,21 +16,20 @@ export default Model.extend({
 
   item: belongsTo("item", { async: true }),
   designation: belongsTo("designation", { async: true }),
-  isDispatched: Ember.computed.bool("sentOn"),
+  isDispatched: bool("sentOn"),
 
-  isRequested: Ember.computed.equal("state", "requested"),
-  isDesignated: Ember.computed.equal("state", "designated"),
-  isCancelled: Ember.computed.equal("state", "cancelled"),
+  isRequested: equal("state", "requested"),
+  isDesignated: equal("state", "designated"),
+  isCancelled: equal("state", "cancelled"),
 
-  availableQty: Ember.computed.alias("quantity"),
-  isSingleQuantity: Ember.computed.equal('quantity', 1),
+  availableQty: alias("quantity"),
+  isSingleQuantity: equal("quantity", 1),
 
-  qtyToModify: Ember.computed("quantity", "item.quantity", function() {
+  qtyToModify: computed("quantity", "item.quantity", function() {
     return this.get("quantity") + this.get("item.quantity");
   }),
 
-  orderCode: Ember.computed("designation", function() {
+  orderCode: computed("designation", function() {
     return this.get("designation.code");
   })
-
 });

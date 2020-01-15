@@ -1,7 +1,7 @@
-import Ember from "ember";
+import { helper as buildHelper } from "@ember/component/helper";
 
-export default Ember.Helper.helper(function(type) {
-switch (type[0]) {
+export default buildHelper(function(type) {
+  switch (type[0]) {
     case "in_stock":
       return "th-list";
     case "designated":

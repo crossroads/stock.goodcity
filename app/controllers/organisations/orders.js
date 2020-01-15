@@ -1,6 +1,7 @@
-import Ember from "ember";
+import { alias } from "@ember/object/computed";
+import Controller from "@ember/controller";
 
-export default Ember.Controller.extend({
+export default Controller.extend({
   gcOrganisationUsers: null,
-  filteredResults: Ember.computed.alias('model.designations')
+  filteredResults: alias("model.designations")
 });

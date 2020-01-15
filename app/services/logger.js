@@ -1,19 +1,25 @@
-import Ember from "ember";
+import Service, { inject as service } from "@ember/service";
 import config from "../config/environment";
 
-export default Ember.Service.extend({
-  session: Ember.inject.service(),
-  rollbar: Ember.inject.service(),
+export default Service.extend({
+  session: service(),
+  rollbar: service(),
 
   notifyErrorCollector(reason) {
     var currentUser = this.get("session.currentUser");
     var userName = currentUser.get("fullName");
     var userId = currentUser.get("id");
-    var error = reason instanceof Error || typeof reason !== "object" ?
-        reason : JSON.stringify(reason);
+    var error =
+      reason instanceof Error || typeof reason !== "object"
+        ? reason
+        : JSON.stringify(reason);
     var environment = config.environment;
-    this.set('rollbar.currentUser', currentUser);
-    this.get('rollbar').error(error, { id: userId, username: userName, environment: environment});
+    this.set("rollbar.currentUser", currentUser);
+    this.get("rollbar").error(error, {
+      id: userId,
+      username: userName,
+      environment: environment
+    });
   },
 
   error(reason) {

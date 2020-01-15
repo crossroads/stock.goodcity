@@ -1,4 +1,5 @@
-import Ember from "ember";
+import $ from "jquery";
+import { run } from "@ember/runloop";
 import _ from "lodash";
 import startApp from "../helpers/start-app";
 import { module, test } from "qunit";
@@ -61,7 +62,7 @@ module("Acceptance: Dashboard", {
   },
   afterEach: function() {
     MockUtils.closeSession();
-    Ember.run(App, "destroy");
+    run(App, "destroy");
   }
 });
 
@@ -71,7 +72,7 @@ test("Order fulfilment user can view dashboard element", function(assert) {
   visit("/");
   andThen(function() {
     assert.equal(currentURL(), "/");
-    assert.equal(Ember.$(".recent_orders").length, 2);
+    assert.equal($(".recent_orders").length, 2);
   });
 });
 
@@ -147,7 +148,7 @@ test("Clicking order type redirects to order page with order type list populated
   visit("/");
   andThen(function() {
     assert.equal(currentURL(), "/");
-    click(Ember.$(".submitted")[0]);
+    click($(".submitted")[0]);
     andThen(function() {
       assert.equal(currentURL(), "/orders");
     });
@@ -158,11 +159,11 @@ test("Clicking order type redirects to order page and selects filter of clicked 
   visit("/");
   andThen(function() {
     assert.equal(currentURL(), "/");
-    click(Ember.$(".submitted")[0]);
+    click($(".submitted")[0]);
     andThen(function() {
       assert.equal(currentURL(), "/orders");
       assert.equal(
-        Ember.$("#order-state-filter")
+        $("#order-state-filter")
           .text()
           .trim(),
         "Submitted"

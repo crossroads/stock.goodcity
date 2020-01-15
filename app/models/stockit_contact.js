@@ -1,16 +1,17 @@
-import Ember from 'ember';
-import Model from 'ember-data/model';
-import attr from 'ember-data/attr';
+import { computed } from "@ember/object";
+import { or } from "@ember/object/computed";
+import Model from "ember-data/model";
+import attr from "ember-data/attr";
 
 export default Model.extend({
-  firstName:         attr('string'),
-  lastName:          attr('string'),
-  phoneNumber:       attr('string'),
-  mobilePhoneNumber:       attr('string'),
+  firstName: attr("string"),
+  lastName: attr("string"),
+  phoneNumber: attr("string"),
+  mobilePhoneNumber: attr("string"),
 
-  displayNumber: Ember.computed.or("mobilePhoneNumber", "phoneNumber"),
+  displayNumber: or("mobilePhoneNumber", "phoneNumber"),
 
-  fullName: Ember.computed("firstName", "lastName", function() {
-    return `${this.get('firstName')} ${this.get('lastName')}`;
+  fullName: computed("firstName", "lastName", function() {
+    return `${this.get("firstName")} ${this.get("lastName")}`;
   })
 });
