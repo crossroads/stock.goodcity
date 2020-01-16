@@ -34,7 +34,7 @@ export default GoodcityController.extend(
     designationService: Ember.inject.service(),
     settings: Ember.inject.service(),
     displayScanner: false,
-    // designateFullSet: Ember.computed.localStorage(),
+    designateFullSet: Ember.computed.localStorage(),
     callOrderObserver: false,
     showSetList: false,
     hideDetailsLink: true,
