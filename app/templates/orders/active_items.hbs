@@ -23,20 +23,11 @@
     </div>
   {{/unless}}
 
-  {{#each itemsList as |ordersPackage|}}
-    {{goodcity/orders-package-block orderPkg=ordersPackage packageView=true}}
-  {{/each}}
-
-  {{#each canceledItemsList as |ordersPackage|}}
-    {{goodcity/orders-package-block orderPkg=ordersPackage packageView=true}}
-  {{/each}}
-
-  <div class="row show_more" >
-    {{#unless displayAllItems}}
-      <div class="small-12 columns" {{action "displayAllItems"}}>
-        {{t "order_details.show_more_items"}} <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-down'}}</i>
-      </div>
-    {{/unless}}
-  </div>
-
+  {{#if displayResults}}
+    {{#infinite-list height="60vh" loadMore=(action "loadOrdersPackages") as |op| }}
+      {{#each op as |ordersPackage|}}
+        {{goodcity/orders-package-block orderPkg=ordersPackage packageView=true}}
+      {{/each}}
+    {{/infinite-list}}
+  {{/if}}
 </section>
