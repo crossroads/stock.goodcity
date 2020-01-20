@@ -12,6 +12,7 @@ export default GoodcityController.extend(SearchMixin, {
    * @type {Number}, perPage in response
    */
   perPage: 25,
+  ordersPkgLength: 0,
   backLinkPath: "",
   displayAllItems: false,
   isMobileApp: config.cordova.enabled,
@@ -76,19 +77,6 @@ export default GoodcityController.extend(SearchMixin, {
     }
   ),
 
-  ordersPkgLength: Ember.computed(
-    "model.items",
-    "displayAllItems",
-    "model.ordersPackages",
-    "model.ordersPackages.@each.quantity",
-    "model.ordersPackages.@each.state",
-    function() {
-      return this.get("model.ordersPackages")
-        .rejectBy("state", "requested")
-        .rejectBy("state", null).length;
-    }
-  ),
-
   formatTimeSlot(hours, minutes) {
     return moment()
       .set("hour", hours)
@@ -140,7 +128,12 @@ export default GoodcityController.extend(SearchMixin, {
           this.getPaginationQuery(pageNo)
         )
       );
-      return this.get("store").query("orders_package", params);
+      return this.get("store")
+        .query("orders_package", params)
+        .then(ordersPkgs => {
+          this.set("ordersPkgLength", ordersPkgs.meta.orders_packages_count);
+          return ordersPkgs;
+        });
     },
 
     openSchedulePopup() {
