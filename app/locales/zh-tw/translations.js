@@ -71,9 +71,9 @@ export default {
     not_connected: "並未連線"
   },
   order_cancellation_reason: {
-    warning: "This will remove any items from the order and cancel the order",
-    title: "Cancellation Reasons",
-    other: "Other"
+    warning: "此動作將移除訂單內的所有物品並取消訂單",
+    title: "取消訂單的原因",
+    other: "取消訂單的原因"
   },
   order_client_summary: {
     remove_client_title: "移除受惠者",
