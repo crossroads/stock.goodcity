@@ -1,6 +1,6 @@
 {
   "name": "stock",
-  "version": "0.17.9",
+  "version": "0.18.0",
   "private": true,
   "directories": {
     "doc": "doc",
@@ -10,7 +10,8 @@
     "start": "EMBER_CLI_CORDOVA=0 ember serve --port 4203 --live-reload-port 35732",
     "build": "EMBER_CLI_CORDOVA=0 ember build",
     "test": "EMBER_CLI_CORDOVA=0 ember test --server --test-port 7359",
-    "test:ci": "EMBER_CLI_CORDOVA=0 ember-pretty-test"
+    "test:ci": "EMBER_CLI_CORDOVA=0 ember-pretty-test",
+    "document": "jsdoc -c jsdoc.conf.json -r -d documentation"
   },
   "husky": {
     "hooks": {
@@ -79,6 +80,7 @@
     "express": "^4.14.0",
     "glob": "^4.5.3",
     "husky": "^1.2.0",
+    "jsdoc": "^3.6.3",
     "lint-staged": "^8.1.0",
     "loader.js": "^4.0.11",
     "morgan": "^1.7.0",

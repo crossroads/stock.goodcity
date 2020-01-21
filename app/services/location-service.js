@@ -7,6 +7,8 @@ import { toID } from "../utils/helpers";
 /**
  * Location Service
  *
+ * @module Services/LocationService
+ * @augments Services/ApiBaseService
  * @description Find and pick locations
  *
  */
@@ -23,6 +25,16 @@ export default ApiBaseService.extend(NavigationAwareness, {
     this.getWithDefault("onLocationSelected", _.noop)(null);
   },
 
+  /**
+   * Moves a package to the specified location
+   *
+   * @param {Package} pkg the package to move
+   * @param {object} opts the move properties
+   * @param {Location|string} opts.from the source location or its id
+   * @param {Location|string} opts.to the destination location or its id
+   * @param {quantity} opts.to the quantity to move
+   * @returns {Promise<Model>}
+   */
   async movePackage(pkg, opts = {}) {
     const { from, to, quantity } = opts;
 
@@ -43,6 +55,7 @@ export default ApiBaseService.extend(NavigationAwareness, {
    *
    * null is returned if the user closes the UI
    *
+   * @param {object} opts searcg iotuibs
    * @returns {Promise<Model>}
    */
   userPickLocation(opts = {}) {

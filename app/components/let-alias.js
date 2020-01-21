@@ -1,9 +1,9 @@
 import Ember from "ember";
 
 /**
- * Small helper component allowing to rename variables within the .hbs file
- *
- * Usage:
+ * @module Components/let-alias
+ * @description Small helper component allowing to rename variables within the .hbs file
+ * @example
  *
  * {{#let-alias model.someReallyLongPropertyName as |short| }}
  *    <div> This is {{short}} </div>

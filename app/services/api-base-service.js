@@ -1,5 +1,21 @@
 import Ember from "ember";
+import _ from "lodash";
 import AjaxPromise from "./../utils/ajax-promise";
+
+/**
+ * @module Services/ApiBaseService
+ * @augments ember/Service
+ * @description Base service class providing handy methods for API based services
+ */
+
+function urlWithParams(url, params) {
+  if (!params) {
+    return url;
+  }
+  const paramStr = _.map(params, (value, key) => `${key}=${value}`).join("&");
+  const separator = /\?/.test(url) ? "&" : "?";
+  return `${url}${separator}${paramStr}`;
+}
 
 export default Ember.Service.extend({
   // ----- Services -----
@@ -17,14 +33,17 @@ export default Ember.Service.extend({
   },
 
   // ----- CRUD ACTIONS -----
+
   /**
-    authorizedRequest is optional parameter to be be sent during request.
-    By default requests are authorized
-  **/
+   * @param {string} url the endpoint to fetch
+   * @param {object} [options]
+   * @param {boolean} [options.authorizedRequest] auth token presence (default=true)
+   * @returns {Promise<any>}
+   */
   GET(url, opts = {}) {
     const { authorizedRequest = true } = opts;
     return this._request(
-      url,
+      urlWithParams(url, opts),
       {
         action: "GET"
       },
@@ -32,6 +51,13 @@ export default Ember.Service.extend({
     );
   },
 
+  /**
+   * @param {string} url the endpoint to post to
+   * @param {object} body the post payload
+   * @param {object} [options]
+   * @param {boolean} [options.authorizedRequest] auth token presence (default=true)
+   * @returns {Promise<any>}
+   */
   POST(url, body, opts = {}) {
     const { authorizedRequest = true } = opts;
     return this._request(
@@ -44,6 +70,13 @@ export default Ember.Service.extend({
     );
   },
 
+  /**
+   * @param {string} url the endpoint to put to
+   * @param {object} body the data payload
+   * @param {object} [options]
+   * @param {boolean} [options.authorizedRequest] auth token presence (default=true)
+   * @returns {Promise<any>}
+   */
   PUT(url, body, opts = {}) {
     const { authorizedRequest = true } = opts;
     return this._request(
@@ -56,6 +89,12 @@ export default Ember.Service.extend({
     );
   },
 
+  /**
+   * @param {string} url the endpoint to delete
+   * @param {object} [options]
+   * @param {boolean} [options.authorizedRequest] auth token presence (default=true)
+   * @returns {Promise<any>}
+   */
   DELETE(url, opts = {}) {
     const { authorizedRequest = true } = opts;
     return this._request(

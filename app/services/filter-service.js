@@ -42,6 +42,13 @@ export const TYPE_FILTERS = {
 
 // --- Service
 
+/**
+ * Filter service
+ *
+ * @module Services/FilterService
+ * @augments ember/Services
+ * @description Controls local data related to list filtering
+ */
 export default Ember.Service.extend(Ember.Evented, {
   localStorage: Ember.inject.service(),
 
@@ -118,6 +125,7 @@ export default Ember.Service.extend(Ember.Evented, {
    * Saves the time range filter for order search
    *
    * @param {String|Object} range A time range OR a preset name
+   * @memberof FilterService
    */
   setOrderTimeRange(range) {
     if (_.isString(range)) {
@@ -139,7 +147,7 @@ export default Ember.Service.extend(Ember.Evented, {
    * If a preset was previously selected, it will be re-computed based
    * on the current time.
    *
-   * @param {String|Object} range A time range OR a preset name
+   * @property {String|Object} range A time range OR a preset name
    */
   orderTimeRange: Ember.computed(function() {
     const { preset = "", after = null, before = null } = this.get(

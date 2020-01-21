@@ -7,6 +7,12 @@ function SUM(ordersPkgs) {
   return ordersPkgs.mapBy("quantity").reduce((total, qty) => total + qty, 0);
 }
 
+/**
+ * @module Models/Item
+ * @description maps to the 'Package' table
+ * @augments ember/Model
+ *
+ */
 export default cloudinaryUrl.extend({
   notes: attr("string"),
   grade: attr("string"),
@@ -430,7 +436,8 @@ export default cloudinaryUrl.extend({
   }),
 
   /**
-   * Returns the other packages that are part of the same set
+   * @instance
+   * @property {Item[]} siblings the other packages that are part of the same set
    */
   siblings: Ember.computed("isSet", "setItems.items.[]", function() {
     if (!this.get("isSet")) {
