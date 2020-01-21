@@ -7,12 +7,6 @@ import _ from "lodash";
 const { getOwner } = Ember;
 
 export default GoodcityController.extend(SearchMixin, {
-  autoLoad: true,
-  /*
-   * @type {Number}, perPage in response
-   */
-  perPage: 25,
-  ordersPkgLength: 0,
   backLinkPath: "",
   displayAllItems: false,
   isMobileApp: config.cordova.enabled,
@@ -121,21 +115,6 @@ export default GoodcityController.extend(SearchMixin, {
   },
 
   actions: {
-    loadOrdersPackages(pageNo) {
-      const params = this.trimQuery(
-        _.merge(
-          { order_id: this.get("orderId") },
-          this.getPaginationQuery(pageNo)
-        )
-      );
-      return this.get("store")
-        .query("orders_package", params)
-        .then(ordersPkgs => {
-          this.set("ordersPkgLength", ordersPkgs.meta.orders_packages_count);
-          return ordersPkgs;
-        });
-    },
-
     openSchedulePopup() {
       const scheduledAt = this.get("model.orderTransport.scheduledAt");
       try {
