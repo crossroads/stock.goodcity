@@ -8,26 +8,25 @@ $header-height: 3em;
     padding-left: 0;
     padding-right: 0;
 
-
     .order_process_summary .value {
-      >span {
+      > span {
         margin-right: 0.7em;
       }
     }
-
 
     // ------------
     // HEADER
     // ------------
 
     .order_block_header {
-      background-color: #384F72;
+      background-color: #384f72;
       padding-left: 1em;
       padding-top: 0;
       height: $header-height;
       line-height: $header-height;
 
-      .order_transport, .order_code {
+      .order_transport,
+      .order_code {
         @include ellipsis();
         color: white;
 
@@ -40,7 +39,7 @@ $header-height: 3em;
       .order_state {
         text-transform: capitalize;
 
-        >div {
+        > div {
           float: right;
         }
 
@@ -57,7 +56,8 @@ $header-height: 3em;
           &.submitted {
             background-color: $submitted-state-color;
           }
-          &.scheduled, &.awaiting_dispatch {
+          &.scheduled,
+          &.awaiting_dispatch {
             background-color: $scheduled-state-color;
           }
           &.cancelled {
@@ -74,7 +74,6 @@ $header-height: 3em;
           }
         }
       }
-
     }
 
     // ------------
@@ -82,7 +81,6 @@ $header-height: 3em;
     // ------------
 
     .order_body {
-
       padding-top: 1em;
       background-color: $goodcity-bg;
 
@@ -112,7 +110,9 @@ $header-height: 3em;
     }
   }
 
-
+  .infinite-list-container {
+    overflow-y: auto !important;
+  }
 }
 
 .absolute {
