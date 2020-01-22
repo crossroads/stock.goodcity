@@ -152,22 +152,7 @@ export default GoodcityController.extend(
     }),
 
     isBoxOrPallet: Ember.computed("item", function() {
-      return ["Box", "Pallet"].indexOf(this.get("storageTypeName")) > -1;
-    }),
-
-    fetchAssociatedPackages(boxPalletId) {
-      return this.get("packageService").fetchAssociatedPackages(boxPalletId);
-    },
-
-    associatedPackages: Ember.computed("item", function() {
-      if (this.get("isBoxOrPallet")) {
-        let ObjectPromiseProxy = Ember.ObjectProxy.extend(
-          Ember.PromiseProxyMixin
-        );
-        return ObjectPromiseProxy.create({
-          promise: this.fetchAssociatedPackages(this.get("item.id"))
-        });
-      }
+      return ["Box", "Pallet"].indexOf(this.get("item.storageTypeName")) > -1;
     }),
 
     conditions: Ember.computed(function() {
@@ -264,6 +249,13 @@ export default GoodcityController.extend(
         this.toggleProperty("showSetList");
       },
 
+      fetchAssociatedPackages() {
+        return this.get("packageService")
+          .fetchAssociatedPackages(this.get("item.id"))
+          .then(data => {
+            this.set("associatedPackages", data.packages);
+          });
+      },
       /**
        * Switches to the specified tab by navigating to the correct subroute
        *

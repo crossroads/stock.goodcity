@@ -64,6 +64,10 @@ export default cloudinaryUrl.extend({
   imageUrl: Ember.computed.alias("image.imageUrl"),
   designateFullSet: Ember.computed.localStorage(),
 
+  storageTypeName: Ember.computed("storageTypeId", function() {
+    return this.get("storageType.name");
+  }),
+
   isDesignated: Ember.computed(
     "ordersPackages",
     "ordersPackages.[]",

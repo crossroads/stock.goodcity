@@ -2,24 +2,24 @@
 
 <div class="row">
   <div class="large-12 medium-9 small-9 columns add-item" align="center">
-    <button class="button expand" {{action 'openItemsSearch' item target=packageService}} disabled={{disableBoxPalletItemAddition}}>Add item to {{storageTypeName}}</button>
+    <button class="button expand" {{action 'openItemsSearch' item target=packageService}} disabled={{disableBoxPalletItemAddition}}>Add item to {{item.storageTypeName}}</button>
   </div>
   {{#if isMobileApp}}
     <div class="small-2 medium-2 large-2 columns scan-button">
       {{scan-barcode-button record=model route="items"}}
     </div>
   {{/if}}
+</div>
 
-  <div class="row">
-    {{debugger}}
-    {{#if associatedPackages.isFulfilled}}
-      {{#each associatedPackages as |pkg|}}
-        <div class="row">
-          <p>{{pkg.notes}}</p>
-        </div>
-      {{/each}}
-    {{else}}
-      Fetching stats...
-    {{/if}}
-  </div>
+{{#each associatedPackages as |pkg|}}
+  <p>{{pkg.notes}}</p>
+{{/each}}
+
+<div class="row">
+  {{goodcity/item-search-overlay
+    open=packageService.openItemSearch
+    entity=packageService.entity
+    onConfirm=(action 'fetchAssociatedPackages')
+    setAssociatedPackages= setAssociatedPackages
+  }}
 </div>
