@@ -122,10 +122,11 @@ export default Ember.Mixin.create({
    * @memberof SearchMixin
    * @returns {object} the search parameters
    **/
-  getSearchQuery() {
+  getSearchQuery(filter = undefined) {
     return {
       searchText: this.get("searchText"),
-      ...this.get("searchProps")
+      ...this.get("searchProps"),
+      filter_box_pallet: filter
     };
   },
 

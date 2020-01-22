@@ -16,6 +16,7 @@ export default Ember.Component.extend(SearchMixin, {
   autoLoad: true,
   store: Ember.inject.service(),
   packageService: Ember.inject.service(),
+  messageBox: Ember.inject.service(),
   perPage: 10,
 
   init() {
@@ -29,24 +30,35 @@ export default Ember.Component.extend(SearchMixin, {
   actions: {
     cancel() {
       this.set("searchText", "");
-      this.send("selectItem", null);
       this.set("open", false);
     },
 
-    selectItem(item) {
+    selectItemWithQuanity(item) {
       if (item) {
         const params = {
           item_id: item.id,
           task: "pack"
         };
         this.get("packageService").addRemoveItem(this.get("entity.id"), params);
-        this.set("open", false);
       }
+      this.set("open", false);
+      this.sendAction("onConfirm");
+    },
+
+    showMessagePopup(item) {
+      this.get("messageBox").custom(
+        `Add you sure you want to add this item to ${this.get(
+          "entity.storageTypeName"
+        )}?`,
+        `Add to ${this.get("entity.storageTypeName")}`,
+        () => this.send("selectItemWithQuanity", item),
+        "Not Now"
+      );
     },
 
     loadMoreItems(pageNo) {
       const params = this.trimQuery(
-        _.merge({}, this.getSearchQuery(), this.getPaginationQuery(pageNo))
+        _.merge({}, this.getSearchQuery(true), this.getPaginationQuery(pageNo))
       );
 
       return this.get("store").query("item", params);

@@ -69,17 +69,12 @@ export default AuthorizeRoute.extend({
   },
 
   async setupController(controller, model) {
-    let storageType = this.store.peekRecord(
-      "storageType",
-      model.get("storageTypeId")
-    );
-    let storageTypeName = storageType && storageType.get("name");
     this._super(controller, model);
     controller.set("showSetList", false);
     controller.set("callOrderObserver", false);
     controller.set("backLinkPath", this.get("itemBackLinkPath"));
     controller.set("active", true);
-    controller.set("storageTypeName", storageTypeName);
+    controller.send("fetchAssociatedPackages");
     let detailType = model.get("detailType");
     if (detailType) {
       let details = await this.store.query(_.snakeCase(detailType), {

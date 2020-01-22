@@ -60,10 +60,6 @@ export default ApiBaseService.extend({
   },
 
   fetchAssociatedPackages(boxPalletId) {
-    return this.GET(`/packages/${boxPalletId}/fetch_associated_packages`).then(
-      data => {
-        return data.packages;
-      }
-    );
+    return this.GET(`/packages/${boxPalletId}/fetch_associated_packages`);
   }
 });
