@@ -249,13 +249,36 @@ export default GoodcityController.extend(
         this.toggleProperty("showSetList");
       },
 
+      /**
+       * Removes an item from a box/pallet
+       * @param { Item } pkg The package we wish to remove from the box/pallet
+       */
+      unpackItem(pkg) {
+        if (pkg) {
+          const params = {
+            item_id: pkg.id,
+            task: "unpack"
+          };
+          this.get("packageService").addRemoveItem(this.get("item.id"), params);
+        }
+        this.send("fetchAssociatedPackages");
+      },
+
+      /**
+       * Fetches all the assoicated packages to a box/pallet
+       */
       fetchAssociatedPackages() {
+        this.showLoadingSpinner();
         return this.get("packageService")
           .fetchAssociatedPackages(this.get("item.id"))
           .then(data => {
             this.set("associatedPackages", data.packages);
+          })
+          .finally(() => {
+            this.hideLoadingSpinner();
           });
       },
+
       /**
        * Switches to the specified tab by navigating to the correct subroute
        *
