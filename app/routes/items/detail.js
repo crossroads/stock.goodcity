@@ -74,7 +74,9 @@ export default AuthorizeRoute.extend({
     controller.set("callOrderObserver", false);
     controller.set("backLinkPath", this.get("itemBackLinkPath"));
     controller.set("active", true);
-    controller.send("fetchAssociatedPackages");
+    if (["Box", "Pallet"].indexOf(model.get("storageTypeName")) >= 0) {
+      controller.send("fetchAssociatedPackages");
+    }
     let detailType = model.get("detailType");
     if (detailType) {
       let details = await this.store.query(_.snakeCase(detailType), {

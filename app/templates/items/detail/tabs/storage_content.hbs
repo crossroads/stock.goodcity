@@ -12,10 +12,15 @@
 </div>
 
 {{#each associatedPackages as |pkg|}}
-  <p>{{pkg.notes}}</p>
+  <div class="added-item-block">
+    <p>{{pkg.notes}}
+      <span action {{action 'unpackItem' pkg}}>Remove</span>
+    </p>
+  </div>
 {{/each}}
 
-<div class="row">
+
+<div class="row item-search-overlay">
   {{goodcity/item-search-overlay
     open=packageService.openItemSearch
     entity=packageService.entity
