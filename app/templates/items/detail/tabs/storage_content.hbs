@@ -1,8 +1,8 @@
 {{partial 'items/detail/tabs/_sub_tabs' }}
-
 <div class="row">
   <div class="large-12 medium-9 small-9 columns add-item" align="center">
-    <button class="button expand" {{action 'openItemsSearch' item target=packageService}} disabled={{disableBoxPalletItemAddition}}>Add item to {{item.storageTypeName}}</button>
+    <button class="button expand" {{action 'openItemsSearch' item target=packageService}}
+      disabled={{disableBoxPalletItemAddition}}>Add item to {{item.storageTypeName}}</button>
   </div>
   {{#if isMobileApp}}
     <div class="small-2 medium-2 large-2 columns scan-button">
@@ -10,16 +10,39 @@
     </div>
   {{/if}}
 </div>
-
-{{#each associatedPackages as |pkg|}}
-  <div class="added-item-block">
-    <p>{{pkg.notes}}
-      <span action {{action 'unpackItem' pkg}}>Remove</span>
-    </p>
+<div class="row">
+  <div class="small-12 columns">
+    <ul class="added-item-block">
+      {{log associatedPackages}}
+      {{#each associatedPackages as |pkg|}}
+        <li class="added-item-list">
+          <div class="row">
+            <div class="small-3 medium-2 columns">
+              <img
+                src="https://res.cloudinary.com/ddoadcjjl/image/upload/c_fill,fl_progressive,h_120,w_120/v1578358694/oucouicorabocztqbyb1.jpg"
+                class="" />
+            </div>
+            <div class="small-7 medium-8 columns details">
+              <div class="content">
+                <span>{{fa-icon storageTypeIcon }}{{pkg.inventory_number}}</span>
+              </div>
+              <div class="content">
+                <span>1x Rice cooker orange</span>
+              </div>
+              <div class="content">
+                {{pkg.notes}}
+              </div>
+            </div>
+            <div class="small-2 columns close">
+              <div action {{action 'unpackItem' pkg}}>
+                {{fa-icon 'times-circle' size="lg"}} <span>Remove</span></div>
+            </div>
+          </div>
+        </li>
+      {{/each}}
+    </ul>
   </div>
-{{/each}}
-
-
+</div>
 <div class="row item-search-overlay">
   {{goodcity/item-search-overlay
     open=packageService.openItemSearch
