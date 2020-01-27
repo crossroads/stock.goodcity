@@ -194,3 +194,30 @@
     }
   }
 }
+
+.search-section {
+  margin: 0 auto;
+  max-width: 768px;
+
+  .fixed_search_header_item {
+    max-width: inherit;
+    width: 100%;
+    margin: inherit;
+
+    .icon-holder {
+      padding-top: 0.45rem;
+    }
+
+    .input-holder {
+      float: left;
+
+      input {
+        margin-left: 0;
+      }
+    }
+  }
+
+  .row {
+    margin: 0;
+  }
+}
