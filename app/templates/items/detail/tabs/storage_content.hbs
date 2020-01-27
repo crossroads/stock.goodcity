@@ -13,21 +13,18 @@
 <div class="row">
   <div class="small-12 columns">
     <ul class="added-item-block">
-      {{log associatedPackages}}
       {{#each associatedPackages as |pkg|}}
         <li class="added-item-list">
           <div class="row">
             <div class="small-3 medium-2 columns">
-              <img
-                src="https://res.cloudinary.com/ddoadcjjl/image/upload/c_fill,fl_progressive,h_120,w_120/v1578358694/oucouicorabocztqbyb1.jpg"
-                class="" />
+              <img src={{item.thumbImageUrl}} class="thumb" />
             </div>
             <div class="small-7 medium-8 columns details">
               <div class="content">
-                <span>{{fa-icon storageTypeIcon }}{{pkg.inventory_number}}</span>
+                <span>{{fa-icon storageTypeIcon }}&nbsp;&nbsp;&nbsp;{{pkg.inventory_number}}</span>
               </div>
               <div class="content">
-                <span>1x Rice cooker orange</span>
+                <span>1x {{pkg.notes}}</span>
               </div>
               <div class="content">
                 {{pkg.notes}}

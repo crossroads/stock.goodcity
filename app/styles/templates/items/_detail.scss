@@ -701,15 +701,22 @@
   }
 }
 
+.added-item-block::-webkit-scrollbar {
+  width: 0 !important
+}
+
 .added-item-block {
+  -ms-overflow-style: none;
+  overflow: -moz-scrollbars-none;
   list-style-type: none;
   margin-left: 0;
-
+  height: 50vh;
+  overflow: scroll;
   li {
     padding: 0;
     border: 1px solid $light-text-color;
     border-width: thin;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
 
     .row {
       margin: 0;
@@ -721,7 +728,18 @@
         margin-left: 0.5rem;
 
         .content {
-          margin-bottom: 0.5rem;
+          @media #{$small-only} {
+            margin-top: 3px;
+          }
+          font-size: 0.8em;
+
+          @media #{$large-only} {
+            margin-bottom: 0.5rem;
+          }
+
+          @media #{$medium-only} {
+            margin-bottom: 0.5rem;
+          }
 
           span {
             svg {
@@ -734,8 +752,10 @@
 
       .close {
         text-align: center;
+        margin-bottom: 5px;
         span {
           display: block;
+          font-size: 0.8em;
         }
       }
     }
