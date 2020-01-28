@@ -44,6 +44,10 @@ export default SingletonComponent.extend(SearchMixin, {
     async selectLocation(location) {
       const callback = this.getWithDefault("onSelect", _.noop);
 
+      if (this.get("selectedLocation")) {
+        this.get("selectedLocation")(location);
+      }
+
       this.set("open", false);
       this.set("searchText", "");
 

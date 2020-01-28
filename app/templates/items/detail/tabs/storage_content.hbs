@@ -16,10 +16,10 @@
       {{#each associatedPackages as |pkg|}}
         <li class="added-item-list">
           <div class="row">
-            <div class="small-3 medium-2 columns">
+            <div class="small-2 medium-2 columns">
               <img src={{item.thumbImageUrl}} class="thumb" />
             </div>
-            <div class="small-7 medium-8 columns details">
+            <div class="small-8 medium-8 columns details">
               <div class="content">
                 <span>{{fa-icon storageTypeIcon }}&nbsp;&nbsp;&nbsp;{{pkg.inventory_number}}</span>
               </div>
@@ -31,7 +31,7 @@
               </div>
             </div>
             <div class="small-2 columns close">
-              <div action {{action 'unpackItem' pkg}}>
+              <div {{action 'openLocationSearch' pkg}}>
                 {{fa-icon 'times-circle' size="lg"}} <span>Remove</span></div>
             </div>
           </div>
@@ -40,11 +40,16 @@
     </ul>
   </div>
 </div>
+
 <div class="row item-search-overlay">
   {{goodcity/item-search-overlay
     open=packageService.openItemSearch
     entity=packageService.entity
     onConfirm=(action 'fetchAssociatedPackages')
-    setAssociatedPackages= setAssociatedPackages
   }}
 </div>
+
+{{goodcity/locations-search-overlay
+  open=openLocationSearch
+  selectedLocation=(action 'selectLocationAndUnpackItem')
+}}

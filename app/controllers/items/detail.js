@@ -22,6 +22,8 @@ export default GoodcityController.extend(
     isMobileApp: config.cordova.enabled,
     backLinkPath: "",
     previousValue: "",
+    openLocationSearch: false,
+    removableItem: null,
     subformDataObject: null,
     item: Ember.computed.alias("model"),
     queryParams: ["showDispatchOverlay"],
@@ -34,6 +36,7 @@ export default GoodcityController.extend(
     designationService: Ember.inject.service(),
     settings: Ember.inject.service(),
     packageService: Ember.inject.service(),
+    locationService: Ember.inject.service(),
     displayScanner: false,
     designateFullSet: Ember.computed.localStorage(),
     callOrderObserver: false,
@@ -224,6 +227,14 @@ export default GoodcityController.extend(
       }
     ),
 
+    updatePackageLocation(item, params) {
+      return this.get("locationService").movePackage(item, {
+        from: this.get("item.location_id"),
+        to: params.location_id,
+        quantity: item.quantity
+      });
+    },
+
     actions: {
       /**
        * Called after a property is changed to push the updated
@@ -253,13 +264,20 @@ export default GoodcityController.extend(
        * Removes an item from a box/pallet
        * @param { Item } pkg The package we wish to remove from the box/pallet
        */
-      unpackItem(pkg) {
-        if (pkg) {
+      selectLocationAndUnpackItem(location) {
+        let item = this.get("removableItem");
+        if (!location) {
+          return false;
+        }
+        if (item) {
           const params = {
-            item_id: pkg.id,
+            item_id: item.id,
+            location_id: location.id,
             task: "unpack"
           };
+          this.updatePackageLocation(item, params);
           this.get("packageService").addRemoveItem(this.get("item.id"), params);
+          this.set("openLocationSearch", false);
         }
         this.send("fetchAssociatedPackages");
       },
@@ -279,6 +297,10 @@ export default GoodcityController.extend(
           });
       },
 
+      openLocationSearch(item) {
+        this.set("openLocationSearch", true);
+        this.set("removableItem", item);
+      },
       /**
        * Switches to the specified tab by navigating to the correct subroute
        *
