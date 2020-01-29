@@ -70,9 +70,10 @@ export default ApiBaseService.extend(NavigationAwareness, {
    * @param {string|Model} params.from_location the location to dispatch from
    * @returns {Promise<Model>}
    */
-  dispatch(ordersPackage, { from_location }) {
+  dispatch(ordersPackage, { from_location, quantity }) {
     return this.execAction(ordersPackage, "dispatch", {
-      location_id: ID(from_location)
+      location_id: ID(from_location),
+      quantity: Number(quantity)
     });
   },
 

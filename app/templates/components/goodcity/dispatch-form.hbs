@@ -1,0 +1,39 @@
+{{#popup-overlay open=open}}
+  <div class="dispatch-form">
+    <div class="order-preview">
+      {{#if open}}
+        {{goodcity/orders-package-block orderPkg=orderPkg packageView=false readOnly=true}}
+      {{/if}}
+    </div>
+
+    <div class="form-container">
+      <div class="title">{{fa-icon 'paper-plane'}} {{t 'item.dispatch'}}</div>
+      <div class="infos">
+        <div class="info-row">
+          <div class="key">Item</div>
+          <div class="value">{{fa-icon 'tag'}} {{orderPkg.item.inventoryNumber}}</div>
+        </div>
+        <div class="info-row">
+          <div class="key">To Order</div>
+          <div class="value">{{fa-icon 'desktop'}} {{orderPkg.designation.code}}</div>
+        </div>
+        <div class="info-row">
+          <div class="key">From Location</div>
+          <div class="value clickable" {{action selectLocationAction}}>{{fa-icon 'map-marker-alt'}} {{location.displayName}}</div>
+        </div>
+        <div class="info-row">
+          <div class="key">Quantity</div>
+          <div class="value">
+            {{input type="number" value=quantity disabled=(unless editableQty true) class="qty-input" change=(clamp this 'quantity' 1 maxQuantity) }}
+          </div>
+          <div class="sub-text">Max: {{maxQuantity}}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="button-container">
+      <div class="button light" {{action cancelDispatchAction}}>Cancel</div>
+      <div class="button" {{action completeDispatchAction}}>Dispatch ({{ quantity }})</div>
+    </div>
+  </div>
+{{/popup-overlay}}

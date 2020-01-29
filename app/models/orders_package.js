@@ -9,6 +9,7 @@ export default Model.extend({
   itemId: attr("number"),
   designationId: attr("number"),
   quantity: attr("number"),
+  dispatchedQuantity: attr("number"),
   sentOn: attr("date"),
   state: attr("string"),
   allowedActions: attr(),
@@ -24,11 +25,25 @@ export default Model.extend({
   availableQty: Ember.computed.alias("quantity"),
   isSingleQuantity: Ember.computed.equal("quantity", 1),
 
+  undispatchedQty: Ember.computed("quantity", "dispatchedQuantity", function() {
+    return this.get("quantity") - this.get("dispatchedQuantity");
+  }),
+
   qtyToModify: Ember.computed("quantity", "item.quantity", function() {
     return this.get("quantity") + this.get("item.quantity");
   }),
 
   orderCode: Ember.computed("designation", function() {
     return this.get("designation.code");
-  })
+  }),
+
+  partiallyDispatched: Ember.computed(
+    "undispatchedQty",
+    "dispatchedQuantity",
+    function() {
+      return (
+        this.get("undispatchedQty") > 0 && this.get("dispatchedQuantity") > 0
+      );
+    }
+  )
 });
