@@ -22,7 +22,7 @@
             {{#if displayResults}}
               {{#infinite-list height="85vh" loadMore=(action "loadMoreItems") as |items| }}
                 {{#each items as |item|}}
-                  <div class="item" {{action 'showMessagePopup' item}}>
+                  <div class="item" {{action 'selectItem' item}}>
                     <div class="row">
                       {{partial "items/item_status_bar"}}
                       <div class="row other_details item_details">

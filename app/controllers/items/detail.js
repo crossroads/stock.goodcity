@@ -23,6 +23,8 @@ export default GoodcityController.extend(
     backLinkPath: "",
     previousValue: "",
     openLocationSearch: false,
+    openAddItemOverlay: false,
+    addableItem: null,
     removableItem: null,
     subformDataObject: null,
     item: Ember.computed.alias("model"),
@@ -227,14 +229,6 @@ export default GoodcityController.extend(
       }
     ),
 
-    updatePackageLocation(item, params) {
-      return this.get("locationService").movePackage(item, {
-        from: this.get("item.location_id"),
-        to: params.location_id,
-        quantity: item.quantity
-      });
-    },
-
     actions: {
       /**
        * Called after a property is changed to push the updated
@@ -275,7 +269,6 @@ export default GoodcityController.extend(
             location_id: location.id,
             task: "unpack"
           };
-          this.updatePackageLocation(item, params);
           this.get("packageService").addRemoveItem(this.get("item.id"), params);
           this.set("openLocationSearch", false);
         }
@@ -301,6 +294,12 @@ export default GoodcityController.extend(
         this.set("openLocationSearch", true);
         this.set("removableItem", item);
       },
+
+      openAddItemOverlay(item) {
+        this.set("openAddItemOverlay", true);
+        this.set("addableItem", item);
+      },
+
       /**
        * Switches to the specified tab by navigating to the correct subroute
        *
