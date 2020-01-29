@@ -1,5 +1,5 @@
+import { computed } from "@ember/object";
 import AuthorizeRoute from "./../authorize";
-import Ember from "ember";
 import AjaxPromise from "stock/utils/ajax-promise"; //jshint ignore:line
 import _ from "lodash";
 
@@ -9,8 +9,8 @@ export default AuthorizeRoute.extend({
     searchInput: ""
   },
 
-  designateFullSet: Ember.computed.localStorage(),
-  partial_qnty: Ember.computed.localStorage(),
+  designateFullSet: computed.localStorage(),
+  partial_qnty: computed.localStorage(),
 
   previousPage(transition) {
     const prevPage = _.last(_.get(transition, "router.currentHandlerInfos"));

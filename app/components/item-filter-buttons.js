@@ -1,19 +1,20 @@
-import Ember from "ember";
+import { computed } from "@ember/object";
+import { alias } from "@ember/object/computed";
+import { inject as service } from "@ember/service";
+import Component from "@ember/component";
 import _ from "lodash";
 
-export default Ember.Component.extend({
-  i18n: Ember.inject.service(),
-  filterService: Ember.inject.service(),
+export default Component.extend({
+  i18n: service(),
+  filterService: service(),
 
-  itemStateFilters: Ember.computed.alias("filterService.itemStateFilters"),
-  hasStateFilters: Ember.computed("itemStateFilters", function() {
+  itemStateFilters: alias("filterService.itemStateFilters"),
+  hasStateFilters: computed("itemStateFilters", function() {
     return this.get("itemStateFilters").length > 0;
   }),
 
-  itemLocationFilters: Ember.computed.alias(
-    "filterService.itemLocationFilters"
-  ),
-  hasLocationFilters: Ember.computed("itemLocationFilters", function() {
+  itemLocationFilters: alias("filterService.itemLocationFilters"),
+  hasLocationFilters: computed("itemLocationFilters", function() {
     return !!this.get("itemLocationFilters");
   }),
 

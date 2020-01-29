@@ -1,5 +1,6 @@
+import { inject as service } from "@ember/service";
+import { sort } from "@ember/object/computed";
 import searchModule from "./search_module";
-import Ember from "ember";
 
 export default searchModule.extend({
   searchModelName: "location",
@@ -8,9 +9,9 @@ export default searchModule.extend({
   applyLocationFilter: null,
   unloadAll: true,
   sortProperties: ["building", "area"],
-  sortedLocations: Ember.computed.sort("model", "sortProperties"),
-  recentlyUsedLocations: Ember.computed.sort("model", "sortProperties"),
-  filterService: Ember.inject.service(),
+  sortedLocations: sort("model", "sortProperties"),
+  recentlyUsedLocations: sort("model", "sortProperties"),
+  filterService: service(),
   paginationOpts() {
     return {
       perPage: 25,

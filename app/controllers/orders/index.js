@@ -1,4 +1,4 @@
-import Ember from "ember";
+import Controller from "@ember/controller";
 import _ from "lodash";
 import { STATE_FILTERS } from "../../services/filter-service";
 import SearchMixin from "stock/mixins/search_resource";
@@ -7,7 +7,7 @@ import SearchMixin from "stock/mixins/search_resource";
  * @module Controllers/orders/OrdersSearchController
  * @augments ember/Controller
  */
-export default Ember.Controller.extend(SearchMixin, {
+export default Controller.extend(SearchMixin, {
   /**
    * @property {Boolean} SearchMixin configuration
    **/

@@ -1,4 +1,6 @@
-import Ember from "ember";
+import $ from "jquery";
+import { debounce } from "@ember/runloop";
+import { observer } from "@ember/object";
 import searchModule from "./../search_module";
 import AjaxPromise from "stock/utils/ajax-promise";
 
@@ -7,9 +9,9 @@ export default searchModule.extend({
   queryParams: ["prevPath"],
   prevPath: null,
 
-  onSearchTextChange: Ember.observer("searchText", function() {
+  onSearchTextChange: observer("searchText", function() {
     if (this.get("searchText").length) {
-      Ember.run.debounce(this, this.applyFilter, 500);
+      debounce(this, this.applyFilter, 500);
     } else {
       this.set("filteredResults", []);
     }
@@ -54,7 +56,7 @@ export default searchModule.extend({
 
   actions: {
     cancelSearch() {
-      Ember.$("#searchText").blur();
+      $("#searchText").blur();
       this.send("clearSearch", true);
       this.transitionToRoute("app_menu_list");
     },

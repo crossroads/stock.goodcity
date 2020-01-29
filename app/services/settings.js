@@ -1,4 +1,5 @@
-import Ember from "ember";
+import { computed } from "@ember/object";
+import Service, { inject as service } from "@ember/service";
 import _ from "lodash";
 
 const NOT_EMPTY = val => val && val.length > 0;
@@ -17,8 +18,8 @@ const TO_BOOL = val => {
  * @augments ember/Service
  * @description Settings are loaded from the API in order to configure the behaviour of the app remotely.
  */
-export default Ember.Service.extend({
-  store: Ember.inject.service(),
+export default Service.extend({
+  store: service(),
 
   /**
    * @property {object} defaults Local pre-configured values
@@ -43,35 +44,35 @@ export default Ember.Service.extend({
   /**
    * @property {Computed<boolean>} allowPartialOperations whether partial operations are allowed
    */
-  allowPartialOperations: Ember.computed(function() {
+  allowPartialOperations: computed(function() {
     return this.readBoolean("stock.allow_partial_operations");
   }),
 
   /**
    * @property {Computed<boolean>} onlyDesignateSingletons prevents multi-qty items from being designated
    */
-  onlyDesignateSingletons: Ember.computed(function() {
+  onlyDesignateSingletons: computed(function() {
     return this.readBoolean("stock.only_designate_singletons");
   }),
 
   /**
    * @property {Computed<boolean>} onlyPublishSingletons prevents multi-qty items from being published
    */
-  onlyPublishSingletons: Ember.computed(function() {
+  onlyPublishSingletons: computed(function() {
     return this.readBoolean("stock.only_publish_singletons");
   }),
 
   /**
    * @property {Computed<boolean>} disableBoxPalletCreation disables box pallet creation
    */
-  disableBoxPalletCreation: Ember.computed(function() {
+  disableBoxPalletCreation: computed(function() {
     return !this.readBoolean("stock.enable_box_pallet_creation");
   }),
 
   /**
    * @property {Computed<boolean>} disableBoxPalletItemAddition disables box pallet addition
    */
-  disableBoxPalletItemAddition: Ember.computed(function() {
+  disableBoxPalletItemAddition: computed(function() {
     return !this.readBoolean("stock.allow_box_pallet_item_addition");
   }),
 

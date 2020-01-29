@@ -1,5 +1,6 @@
+import { run } from "@ember/runloop";
+import { get } from "@ember/object";
 import { test, moduleForModel } from "ember-qunit";
-import Ember from "ember";
 
 moduleForModel("user", "User Model", {
   needs: [
@@ -32,7 +33,7 @@ test("check attributes", function(assert) {
 test("Relationships with other models", function(assert) {
   assert.expect(2);
   var User = this.store().modelFor("user");
-  var relationshipWithUserRoles = Ember.get(User, "relationshipsByName").get(
+  var relationshipWithUserRoles = get(User, "relationshipsByName").get(
     "userRoles"
   );
 
@@ -42,7 +43,7 @@ test("Relationships with other models", function(assert) {
 
 test("check displayNumber computedProperty", function(assert) {
   var model = this.subject();
-  Ember.run(function() {
+  run(function() {
     model.set("firstName", "David");
     model.set("lastName", "Dara");
   });

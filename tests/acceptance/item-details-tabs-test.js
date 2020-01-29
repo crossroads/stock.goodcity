@@ -1,4 +1,4 @@
-import Ember from "ember";
+import { run, next, later } from "@ember/runloop";
 import { module, test } from "qunit";
 import startApp from "../helpers/start-app";
 import "../factories/orders_package";
@@ -110,7 +110,7 @@ module("Acceptance: Item details tabs", {
     designationService.execAction.restore();
     locationService.movePackage.restore();
     MockUtils.closeSession();
-    Ember.run(App, "destroy");
+    run(App, "destroy");
   }
 });
 
@@ -319,14 +319,14 @@ test("Publishing tab orders_packages blocks", function(assert) {
         return designationService.execAction.invocations.map(args => args[1]);
       };
 
-      Ember.run(() => {
+      run(() => {
         assert.equal(actionsRan().length, 0);
         actions.eq(0).click();
-        Ember.run.next(() => {
+        next(() => {
           assert.equal(actionsRan().length, 1);
           assert.equal(actionsRan()[0], "cancel");
           actions.eq(1).click();
-          Ember.run.later(() => {
+          later(() => {
             assert.equal(actionsRan().length, 2);
             assert.equal(actionsRan()[0], "cancel");
             assert.equal(actionsRan()[1], "dispatch");

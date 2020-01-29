@@ -1,19 +1,21 @@
-import Ember from "ember";
+import { computed } from "@ember/object";
+import { inject as service } from "@ember/service";
+import Controller, { inject as controller } from "@ember/controller";
+import { getOwner } from "@ember/application";
 import config from "stock/config/environment";
-const { getOwner } = Ember;
 import AjaxPromise from "stock/utils/ajax-promise";
 import storageType from "stock/mixins/storage-type";
 
-export default Ember.Controller.extend(storageType, {
-  application: Ember.inject.controller(),
+export default Controller.extend(storageType, {
+  application: controller(),
   isMobileApp: config.cordova.enabled,
-  settings: Ember.inject.service(),
-  packageService: Ember.inject.service(),
-  stockAppVersion: Ember.computed(function() {
+  settings: service(),
+  packageService: service(),
+  stockAppVersion: computed(function() {
     return config.cordova.enabled ? config.APP.VERSION : null;
   }),
 
-  getCurrentUser: Ember.computed(function() {
+  getCurrentUser: computed(function() {
     var store = this.get("store");
     var currentUser = store.peekAll("user_profile").get("firstObject") || null;
     return currentUser;

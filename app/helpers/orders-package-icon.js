@@ -1,4 +1,4 @@
-import Ember from "ember";
+import { helper as buildHelper } from "@ember/component/helper";
 
 /**
  * Returns the icon based on the ordersPackage's state
@@ -10,7 +10,7 @@ import Ember from "ember";
  * @param {String} state the orders package state
  * @returns {String}
  */
-export default Ember.Helper.helper(function([state]) {
+export default buildHelper(function([state]) {
   return {
     cancelled: "ban",
     designated: "shopping-basket",

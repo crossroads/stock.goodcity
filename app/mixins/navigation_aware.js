@@ -1,4 +1,6 @@
-import Ember from "ember";
+import { observer } from "@ember/object";
+import { alias } from "@ember/object/computed";
+import Mixin from "@ember/object/mixin";
 import _ from "lodash";
 
 /**
@@ -8,10 +10,10 @@ import _ from "lodash";
  *    - A `currentRoute` property
  *    - Support for an `onNavigation` callback
  */
-export default Ember.Mixin.create({
-  currentRoute: Ember.computed.alias("router.currentRouteName"),
+export default Mixin.create({
+  currentRoute: alias("router.currentRouteName"),
 
-  routeObserver: Ember.observer("currentRoute", function() {
+  routeObserver: observer("currentRoute", function() {
     const handler = this.getWithDefault("onNavigation", _.noop);
     handler.call(this, this.get("currentRoute"));
   })

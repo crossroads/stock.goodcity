@@ -1,46 +1,45 @@
-import Ember from "ember";
+import $ from "jquery";
+import { observer, computed } from "@ember/object";
+import { inject as service } from "@ember/service";
+import TextField from "@ember/component/text-field";
 
-export default Ember.TextField.extend({
+export default TextField.extend({
   tagName: "input",
   type: "text",
   attributeBindings: ["name", "id", "value", "placeholder"],
-  cordova: Ember.inject.service(),
-  store: Ember.inject.service(),
+  cordova: service(),
+  store: service(),
   hasRecentDesignations: true,
 
-  triggerAutofocus: Ember.observer("value", function() {
+  triggerAutofocus: observer("value", function() {
     if (this.get("value").length === 0) {
       this.$().focus();
     }
   }),
 
-  hasFixedInputHeader: Ember.computed(function() {
-    return (
-      this.get("cordova").isIOS() && Ember.$(".fixed_search_header").length > 0
-    );
+  hasFixedInputHeader: computed(function() {
+    return this.get("cordova").isIOS() && $(".fixed_search_header").length > 0;
   }),
 
   scrollToStart() {
-    Ember.$(".fixed_search_header").addClass("absolute");
-    Ember.$(".footer").addClass("absolute_footer");
-    Ember.$(".search").addClass("no-padding");
+    $(".fixed_search_header").addClass("absolute");
+    $(".footer").addClass("absolute_footer");
+    $(".search").addClass("no-padding");
 
     document.body.scrollTop = document.documentElement.scrollTop = 0;
   },
 
   focusOut() {
     if (this.get("hasFixedInputHeader")) {
-      Ember.$(".fixed_search_header").removeClass("absolute");
-      Ember.$(".footer").removeClass("absolute_footer");
-      Ember.$(".search").removeClass("no-padding");
+      $(".fixed_search_header").removeClass("absolute");
+      $(".footer").removeClass("absolute_footer");
+      $(".search").removeClass("no-padding");
     }
   },
 
   didInsertElement() {
-    let routes = this.router.router.currentHandlerInfos;
-    let currentRoute = routes && routes.pop();
-    let isIndexRoute =
-      currentRoute && currentRoute.name === "items.index" ? true : false;
+    let currentRouteName = this.router.currentRouteName;
+    let isIndexRoute = currentRouteName === "items.index" ? true : false;
     if (this.get("hasRecentDesignations") && isIndexRoute) {
       var recentlyUsedDesignations = this.get("store").query("designation", {
         shallow: true,

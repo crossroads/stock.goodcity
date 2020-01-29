@@ -1,25 +1,31 @@
-import Ember from 'ember';
-const { getOwner } = Ember;
+import { inject as service } from "@ember/service";
+import Route from "@ember/routing/route";
+import { getOwner } from "@ember/application";
 
-export default Ember.Route.extend({
-  cordova: Ember.inject.service(),
+export default Route.extend({
+  cordova: service(),
 
   loadOrRedirectUser() {
-    if(!this.get('session.currentUser')){
-      getOwner(this).lookup("route:application")._loadDataStore();
-    } else{
-      if (this.session.get('isLoggedIn')) {
+    if (!this.get("session.currentUser")) {
+      getOwner(this)
+        .lookup("route:application")
+        ._loadDataStore();
+    } else {
+      if (this.session.get("isLoggedIn")) {
         this.get("cordova").appLoad();
       }
-      this.transitionTo('/');
+      this.transitionTo("/");
     }
   },
 
   beforeModel() {
-    if (window.localStorage.getItem("authToken") && this.session.get('isLoggedIn')) {
+    if (
+      window.localStorage.getItem("authToken") &&
+      this.session.get("isLoggedIn")
+    ) {
       this.loadOrRedirectUser();
     } else {
-      this.transitionTo('login');
+      this.transitionTo("login");
     }
   }
 });

@@ -1,8 +1,8 @@
+import { inject as service } from "@ember/service";
 import AuthorizeRoute from "./../authorize";
-import Ember from "ember";
 
 export default AuthorizeRoute.extend({
-  designationService: Ember.inject.service(),
+  designationService: service(),
   currentRouteName: null,
 
   model(params) {

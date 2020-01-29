@@ -1,10 +1,12 @@
-import Ember from "ember";
+import { equal } from "@ember/object/computed";
+import { computed } from "@ember/object";
+import { inject as service } from "@ember/service";
 import DS from "ember-data";
 var attr = DS.attr,
   belongsTo = DS.belongsTo;
 
 export default DS.Model.extend({
-  session: Ember.inject.service(),
+  session: service(),
   body: attr("string"),
   isPrivate: attr("boolean"),
   createdAt: attr("date"),
@@ -19,18 +21,18 @@ export default DS.Model.extend({
   designationId: attr(),
   designation: belongsTo("designation", { async: false }),
 
-  myMessage: Ember.computed("sender", function() {
+  myMessage: computed("sender", function() {
     return this.get("sender.id") === this.get("session.currentUser.id");
   }),
 
-  isMessage: Ember.computed("this", function() {
+  isMessage: computed("this", function() {
     return true;
   }),
 
-  createdDate: Ember.computed("createdAt", function() {
+  createdDate: computed("createdAt", function() {
     return new Date(this.get("createdAt")).toDateString();
   }),
 
-  isRead: Ember.computed.equal("state", "read"),
-  isUnread: Ember.computed.equal("state", "unread")
+  isRead: equal("state", "read"),
+  isUnread: equal("state", "unread")
 });

@@ -1,4 +1,9 @@
-import Ember from "ember";
+import { computed } from "@ember/object";
+import { run } from "@ember/runloop";
+import { defer } from "rsvp";
+import { alias } from "@ember/object/computed";
+import { inject as service } from "@ember/service";
+import Component from "@ember/component";
 import _ from "lodash";
 import AsyncMixin from "../../mixins/async";
 import { ACTIVE_ORDER_STATES } from "../../constants/states";
@@ -47,16 +52,16 @@ const CANCELLED = {};
  * @example
  *  {{goodcity/orders-package-block orderPkg=orderPkg }}
  */
-export default Ember.Component.extend(AsyncMixin, {
-  store: Ember.inject.service(),
-  messageBox: Ember.inject.service(),
-  i18n: Ember.inject.service(),
-  designationService: Ember.inject.service(),
-  locationService: Ember.inject.service(),
-  settings: Ember.inject.service(),
-  actionRunner: Ember.computed.alias("designationService"),
+export default Component.extend(AsyncMixin, {
+  store: service(),
+  messageBox: service(),
+  i18n: service(),
+  designationService: service(),
+  locationService: service(),
+  settings: service(),
+  actionRunner: alias("designationService"),
 
-  editableQty: Ember.computed.alias("settings.allowPartialOperations"),
+  editableQty: alias("settings.allowPartialOperations"),
   drawerOpened: false,
 
   init() {
@@ -109,7 +114,7 @@ export default Ember.Component.extend(AsyncMixin, {
    * @returns {Promise<number>}
    */
   selectQuantity() {
-    const deferred = Ember.RSVP.defer();
+    const deferred = defer();
     const maxQuantity =
       this.get("orderPkg.quantity") + this.get("orderPkg.item.availableQty");
 
@@ -126,8 +131,14 @@ export default Ember.Component.extend(AsyncMixin, {
       this.set("showQuantityInput", false);
     };
 
-    this.set("completeQtyInput", answer(() => this.get("designationQty")));
-    this.set("cancelQtyInput", answer(() => CANCELLED));
+    this.set(
+      "completeQtyInput",
+      answer(() => this.get("designationQty"))
+    );
+    this.set(
+      "cancelQtyInput",
+      answer(() => CANCELLED)
+    );
 
     return deferred.promise;
   },
@@ -189,7 +200,7 @@ export default Ember.Component.extend(AsyncMixin, {
     }
 
     try {
-      Ember.run(() => this.set("drawerOpened", false));
+      run(() => this.set("drawerOpened", false));
 
       await this.runTask(
         this.get("actionRunner").execAction(ordersPkg, actionName, params)
@@ -211,7 +222,7 @@ export default Ember.Component.extend(AsyncMixin, {
     return _.get(ACTIONS_SETTINGS, `${actionName}.icon`, []);
   },
 
-  actionList: Ember.computed(
+  actionList: computed(
     "orderPkg.id",
     "orderPkg.allowedActions.@each",
     "orderPkg.allowedActions.[]",

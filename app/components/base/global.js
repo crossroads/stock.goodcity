@@ -1,4 +1,4 @@
-import Ember from "ember";
+import Component from "@ember/component";
 
 const REFS = {};
 
@@ -8,7 +8,7 @@ const REFS = {};
  * This type of component cannot be instanciated more than once
  *
  */
-export default Ember.Component.extend({
+export default Component.extend({
   init(name) {
     this._super();
     this.set("name", name);

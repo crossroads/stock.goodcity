@@ -1,8 +1,10 @@
-import Ember from "ember";
+import { computed } from "@ember/object";
+import { inject as service } from "@ember/service";
+import Mixin from "@ember/object/mixin";
 
-export default Ember.Mixin.create({
-  settings: Ember.inject.service(),
-  storageTypes: Ember.computed(function() {
+export default Mixin.create({
+  settings: service(),
+  storageTypes: computed(function() {
     return [
       {
         name: "Pallet",
@@ -25,7 +27,7 @@ export default Ember.Mixin.create({
     ];
   }),
 
-  storageTypeIcon: Ember.computed("item", function() {
+  storageTypeIcon: computed("item", function() {
     switch (this.get("storageTypeName")) {
       case "Box":
         return "box-open";

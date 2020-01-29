@@ -1,4 +1,7 @@
-import Ember from "ember";
+import { computed } from "@ember/object";
+import { alias } from "@ember/object/computed";
+import { inject as service } from "@ember/service";
+import Mixin from "@ember/object/mixin";
 import config from "stock/config/environment";
 import AsyncMixin, { ERROR_STRATEGIES } from "./async";
 import _ from "lodash";
@@ -19,13 +22,13 @@ import _ from "lodash";
  * - completeMove()
  * - cancelMove()
  */
-export default Ember.Mixin.create(AsyncMixin, {
-  locationService: Ember.inject.service(),
-  settings: Ember.inject.service(),
+export default Mixin.create(AsyncMixin, {
+  locationService: service(),
+  settings: service(),
 
-  editableQty: Ember.computed.alias("settings.allowPartialOperations"),
+  editableQty: alias("settings.allowPartialOperations"),
 
-  moveQty: Ember.computed("_moveQty", {
+  moveQty: computed("_moveQty", {
     get(k) {
       return this.get("_moveQty");
     },

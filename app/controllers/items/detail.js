@@ -1,4 +1,8 @@
-import Ember from "ember";
+import { debounce } from "@ember/runloop";
+import { computed, observer } from "@ember/object";
+import { inject as controller } from "@ember/controller";
+import { inject as service } from "@ember/service";
+import { alias } from "@ember/object/computed";
 import config from "stock/config/environment";
 import GoodcityController from "../goodcity_controller";
 import { pluralize } from "ember-inflector";
@@ -23,18 +27,18 @@ export default GoodcityController.extend(
     backLinkPath: "",
     previousValue: "",
     subformDataObject: null,
-    item: Ember.computed.alias("model"),
+    item: alias("model"),
     queryParams: ["showDispatchOverlay"],
     showDispatchOverlay: false,
     autoDisplayOverlay: false,
-    subformDetailService: Ember.inject.service(),
-    application: Ember.inject.controller(),
-    messageBox: Ember.inject.service(),
-    setDropdownOption: Ember.inject.service(),
-    designationService: Ember.inject.service(),
-    settings: Ember.inject.service(),
+    subformDetailService: service(),
+    application: controller(),
+    messageBox: service(),
+    setDropdownOption: service(),
+    designationService: service(),
+    settings: service(),
     displayScanner: false,
-    designateFullSet: Ember.computed.localStorage(),
+    designateFullSet: computed.localStorage(),
     callOrderObserver: false,
     showSetList: false,
     hideDetailsLink: true,
@@ -45,25 +49,25 @@ export default GoodcityController.extend(
       "compTestStatusId",
       "testStatusId"
     ],
-    currentRoute: Ember.computed.alias("application.currentPath"),
-    pkg: Ember.computed.alias("model"),
-    showPieces: Ember.computed.alias("model.code.allow_pieces"),
-    settings: Ember.inject.service(),
+    currentRoute: alias("application.currentPath"),
+    pkg: alias("model"),
+    showPieces: alias("model.code.allow_pieces"),
+    settings: service(),
 
     isItemDetailPresent() {
       return !!this.get("item.detail.length");
     },
 
-    disableBoxPalletItemAddition: Ember.computed("model", function() {
+    disableBoxPalletItemAddition: computed("model", function() {
       return this.get("settings.disableBoxPalletItemAddition");
     }),
 
-    displayFields: Ember.computed("model.code", function() {
+    displayFields: computed("model.code", function() {
       let subform = this.get("model.code.subform");
       return this.returnDisplayFields(subform);
     }),
 
-    selectedCountry: Ember.computed("item.detail", function() {
+    selectedCountry: computed("item.detail", function() {
       let country = this.get("item.detail.country");
       if (country) {
         return {
@@ -94,7 +98,7 @@ export default GoodcityController.extend(
       return { ...dataObj };
     },
 
-    selectedValuesDisplay: Ember.computed("item.detail", "subformDataObject", {
+    selectedValuesDisplay: computed("item.detail", "subformDataObject", {
       get(key) {
         if (!this.get("showAdditionalFields")) {
           return false;
@@ -112,7 +116,7 @@ export default GoodcityController.extend(
       }
     }),
 
-    allowPublish: Ember.computed(
+    allowPublish: computed(
       "model.isSingletonItem",
       "model.availableQty",
       function() {
@@ -124,7 +128,7 @@ export default GoodcityController.extend(
       }
     ),
 
-    showAdditionalFields: Ember.computed("model.code", function() {
+    showAdditionalFields: computed("model.code", function() {
       return (
         !!this.get("item.detail.data") &&
         this.get("subformDetailService").isSubformAvailable(
@@ -133,13 +137,13 @@ export default GoodcityController.extend(
       );
     }),
 
-    tabName: Ember.computed("currentRoute", function() {
+    tabName: computed("currentRoute", function() {
       return this.get("currentRoute")
         .split(".")
         .get("lastObject");
     }),
 
-    selectInfoTab: Ember.computed("tabName", function() {
+    selectInfoTab: computed("tabName", function() {
       return (
         ["storage_detail", "storage_content", "info"].indexOf(
           this.get("tabName")
@@ -147,24 +151,24 @@ export default GoodcityController.extend(
       );
     }),
 
-    listTabSelected: Ember.computed("tabName", function() {
+    listTabSelected: computed("tabName", function() {
       return ["storage_content", "info"].indexOf(this.get("tabName")) > -1;
     }),
 
-    storageTypeName: Ember.computed("item", function() {
+    storageTypeName: computed("item", function() {
       let storageType = this.get("item.storageType");
       return storageType && storageType.get("name");
     }),
 
-    isBoxOrPallet: Ember.computed("item", function() {
+    isBoxOrPallet: computed("item", function() {
       return ["Box", "Pallet"].indexOf(this.get("storageTypeName")) > -1;
     }),
 
-    conditions: Ember.computed(function() {
+    conditions: computed(function() {
       return this.get("store").peekAll("donor_condition");
     }),
 
-    itemMarkedMissing: Ember.observer("item.inventoryNumber", function() {
+    itemMarkedMissing: observer("item.inventoryNumber", function() {
       if (
         !this.get("item.inventoryNumber") &&
         this.get("target").currentPath === "items.detail"
@@ -178,8 +182,8 @@ export default GoodcityController.extend(
       }
     }),
 
-    performDispatch: Ember.observer("showDispatchOverlay", function() {
-      Ember.run.debounce(this, this.updateAutoDisplayOverlay, 100);
+    performDispatch: observer("showDispatchOverlay", function() {
+      debounce(this, this.updateAutoDisplayOverlay, 100);
     }),
 
     updateAutoDisplayOverlay() {
@@ -188,7 +192,7 @@ export default GoodcityController.extend(
       }
     },
 
-    allDispatched: Ember.computed(
+    allDispatched: computed(
       "item.{isDispatched,isSet,setItem.items.@each.isDispatched}",
       function() {
         if (this.get("item.isSet")) {
@@ -199,7 +203,7 @@ export default GoodcityController.extend(
       }
     ),
 
-    hasDesignation: Ember.computed(
+    hasDesignation: computed(
       "item.{isDesignated,isSet,setItem.items.@each.isDesignated}",
       function() {
         if (this.get("item.isSet")) {
@@ -216,7 +220,7 @@ export default GoodcityController.extend(
       }
     ),
 
-    sortedOrdersPackages: Ember.computed(
+    sortedOrdersPackages: computed(
       "model.ordersPackages.[]",
       "model.ordersPackages.@each.state",
       function() {

@@ -1,4 +1,9 @@
-import Ember from "ember";
+import $ from "jquery";
+import { bind } from "@ember/runloop";
+import { computed, observer } from "@ember/object";
+import { alias } from "@ember/object/computed";
+import Evented from "@ember/object/evented";
+import Service, { inject as service } from "@ember/service";
 import _ from "lodash";
 import config from "../config/environment";
 
@@ -26,18 +31,18 @@ const UPDATE_STRATEGY = {
  * Subscription service
  *
  */
-export default Ember.Service.extend(Ember.Evented, {
-  messagesUtil: Ember.inject.service("messages"),
-  session: Ember.inject.service(),
-  store: Ember.inject.service(),
+export default Service.extend(Evented, {
+  messagesUtil: service("messages"),
+  session: service(),
+  store: service(),
   socket: null,
   lastOnline: Date.now(),
   deviceTtl: 0,
-  deviceId: Ember.computed.alias("session.deviceId"),
+  deviceId: alias("session.deviceId"),
   status: {
     online: false
   },
-  connectUrl: Ember.computed("session.authToken", "deviceId", function() {
+  connectUrl: computed("session.authToken", "deviceId", function() {
     return (
       config.APP.SOCKETIO_WEBSERVICE_URL +
       `?token=${encodeURIComponent(this.get("session.authToken"))}` +
@@ -84,7 +89,7 @@ export default Ember.Service.extend(Ember.Evented, {
   // -----------
   // Watch
   // -----------
-  updateStatus: Ember.observer("socket", function() {
+  updateStatus: observer("socket", function() {
     var socket = this.get("socket");
     var online = navigator.connection
       ? navigator.connection.type !== "none"
@@ -94,7 +99,7 @@ export default Ember.Service.extend(Ember.Evented, {
   }),
 
   // resync if offline longer than deviceTtl
-  checkdeviceTTL: Ember.observer("status.online", function() {
+  checkdeviceTTL: observer("status.online", function() {
     let online = this.get("status.online");
     let deviceTtl = this.get("deviceTtl");
 
@@ -114,7 +119,7 @@ export default Ember.Service.extend(Ember.Evented, {
   // -----------
 
   init() {
-    var updateStatus = Ember.run.bind(this, this.updateStatus);
+    var updateStatus = bind(this, this.updateStatus);
     window.addEventListener("online", updateStatus);
     window.addEventListener("offline", updateStatus);
   },
@@ -128,7 +133,7 @@ export default Ember.Service.extend(Ember.Evented, {
   },
 
   setup() {
-    let updateStatus = Ember.run.bind(this, this.updateStatus);
+    let updateStatus = bind(this, this.updateStatus);
     let socket = io(this.get("connectUrl"), {
       autoConnect: false,
       forceNew: true
@@ -139,15 +144,15 @@ export default Ember.Service.extend(Ember.Evented, {
       updateStatus();
       socket.io.engine.on("upgrade", updateStatus);
     });
-    socket.on("notification", Ember.run.bind(this, this.notification));
+    socket.on("notification", bind(this, this.notification));
     socket.on("disconnect", updateStatus);
-    socket.on("error", Ember.run.bind(this, this.error));
-    socket.on("update_store", Ember.run.bind(this, this.update_store));
-    socket.on("_batch", Ember.run.bind(this, this.batch));
-    socket.on("_resync", Ember.run.bind(this, this.resync));
+    socket.on("error", bind(this, this.error));
+    socket.on("update_store", bind(this, this.update_store));
+    socket.on("_batch", bind(this, this.batch));
+    socket.on("_resync", bind(this, this.resync));
     socket.on(
       "_settings",
-      Ember.run.bind(this, function(settings) {
+      bind(this, function(settings) {
         this.set("deviceTtl", settings.device_ttl);
         this.set("lastOnline", Date.now());
       })
@@ -187,7 +192,7 @@ export default Ember.Service.extend(Ember.Evented, {
     let { item: payload, operation, sender, device_id: deviceId } = data;
     let rawType = Object.keys(payload)[0].toLowerCase();
     let type = this.resolveTypeAliases(rawType);
-    let record = Ember.$.extend({}, payload[rawType]);
+    let record = $.extend({}, payload[rawType]);
     return { payload, record, operation, type, rawType, sender, deviceId };
   },
 

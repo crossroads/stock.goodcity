@@ -1,10 +1,11 @@
-import Ember from "ember";
-import AjaxPromise from 'stock/utils/ajax-promise';
-const { getOwner } = Ember;
+import { inject as service } from "@ember/service";
+import Component from "@ember/component";
+import { getOwner } from "@ember/application";
+import AjaxPromise from "stock/utils/ajax-promise";
 
-export default Ember.Component.extend({
+export default Component.extend({
   displayUserPrompt: false,
-  store: Ember.inject.service(),
+  store: service(),
   hideDetailsLink: true,
 
   actions: {
@@ -14,10 +15,12 @@ export default Ember.Component.extend({
 
     removeItemFromSet() {
       var item = this.get("item");
-      var loadingView = getOwner(this).lookup('component:loading').append();
-      var url = `/items/${item.get('id')}/remove_from_set`;
+      var loadingView = getOwner(this)
+        .lookup("component:loading")
+        .append();
+      var url = `/items/${item.get("id")}/remove_from_set`;
 
-      new AjaxPromise(url, "PUT", this.get('session.authToken'))
+      new AjaxPromise(url, "PUT", this.get("session.authToken"))
         .then(data => {
           this.get("store").pushPayload(data);
         })
@@ -31,5 +34,4 @@ export default Ember.Component.extend({
       this.sendAction("closeList");
     }
   }
-
 });

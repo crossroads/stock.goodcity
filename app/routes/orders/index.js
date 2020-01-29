@@ -1,12 +1,12 @@
+import { inject as service } from "@ember/service";
 import AuthorizeRoute from "./../authorize";
-import Ember from "ember";
 import AjaxPromise from "stock/utils/ajax-promise"; //jshint ignore:line
 import _ from "lodash";
 import { STATE_FILTERS } from "../../services/filter-service";
 
 export default AuthorizeRoute.extend({
-  filterService: Ember.inject.service(),
-  utilityMethods: Ember.inject.service(),
+  filterService: service(),
+  utilityMethods: service(),
 
   /* jshint ignore:start */
   async model(params, transition) {

@@ -1,9 +1,10 @@
-import Ember from "ember";
+import { later } from "@ember/runloop";
+import { defer } from "rsvp";
 
 export function stagerred(result, delay = 300) {
-  const deferred = Ember.RSVP.defer();
+  const deferred = defer();
 
-  Ember.run.later(() => {
+  later(() => {
     deferred.resolve(result);
   }, delay);
 

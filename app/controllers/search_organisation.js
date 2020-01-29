@@ -1,13 +1,16 @@
-import Ember from "ember";
+import $ from "jquery";
+import { debounce } from "@ember/runloop";
+import { observer } from "@ember/object";
+import Controller from "@ember/controller";
 
-export default Ember.Controller.extend({
+export default Controller.extend({
   minSearchTextLength: 3,
   displayResults: false,
 
-  onSearchTextChange: Ember.observer("searchText", function() {
+  onSearchTextChange: observer("searchText", function() {
     this.hideResults();
     if (this.get("searchText").length) {
-      Ember.run.debounce(this, this.showResults, 500);
+      debounce(this, this.showResults, 500);
     }
   }),
 
@@ -21,7 +24,7 @@ export default Ember.Controller.extend({
 
   actions: {
     cancelSearch() {
-      Ember.$("#searchText").blur();
+      $("#searchText").blur();
       this.set("searchText", "");
       this.transitionToRoute("app_menu_list");
     },

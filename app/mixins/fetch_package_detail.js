@@ -1,9 +1,10 @@
-import Ember from "ember";
+import { computed } from "@ember/object";
+import Mixin from "@ember/object/mixin";
 import _ from "lodash";
 import apptUtils from "../utils/unique-array";
 
-export default Ember.Mixin.create({
-  subFormDetails: Ember.computed("packageDetails", function() {
+export default Mixin.create({
+  subFormDetails: computed("packageDetails", function() {
     if (this.get("showAdditionalFields")) {
       let package_details = this.get("packageDetails");
       if (package_details) {

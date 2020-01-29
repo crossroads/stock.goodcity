@@ -1,4 +1,6 @@
-import Ember from "ember";
+import { run } from "@ember/runloop";
+import { defer } from "rsvp";
+import { inject as service } from "@ember/service";
 import ApiBaseService from "./api-base-service";
 import NavigationAwareness from "../mixins/navigation_aware";
 import _ from "lodash";
@@ -13,8 +15,8 @@ import { toID } from "../utils/helpers";
  *
  */
 export default ApiBaseService.extend(NavigationAwareness, {
-  store: Ember.inject.service(),
-  i18n: Ember.inject.service(),
+  store: service(),
+  i18n: service(),
 
   init() {
     this._super(...arguments);
@@ -59,9 +61,9 @@ export default ApiBaseService.extend(NavigationAwareness, {
    * @returns {Promise<Model>}
    */
   userPickLocation(opts = {}) {
-    const deferred = Ember.RSVP.defer();
+    const deferred = defer();
 
-    Ember.run(() => {
+    run(() => {
       this.set("locationSearchOptions", opts);
       this.set("openLocationSearch", true);
       this.set("onLocationSelected", order => {
