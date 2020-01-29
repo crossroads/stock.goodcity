@@ -23,7 +23,7 @@
         </div>
         <hr />
 
-        {{#each entity.packagesLocations as |packageLocation|}}
+        {{#each pkg.packagesLocations as |packageLocation|}}
           <div class="row">
             <div class="small-4 columns">
               {{packageLocation.location.name}}
@@ -32,14 +32,13 @@
               {{packageLocation.quantity}}
             </div>
             <div class="small-4 columns">
-              {{input value=numberToMove max=packageLocation.quantity}}
+              {{input value=packageLocation.defaultQuantity}}
             </div>
           </div>
         {{/each}}
 
         <div class="buttons row">
           <div class="small-3 columns button" {{action 'cancelMove'}}>Not Now</div>
-
           <div class="small-3 columns button" {{action 'moveItemToBox' pkg}}>Move</div>
         </div>
       </div>
