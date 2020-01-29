@@ -45,11 +45,19 @@
   {{goodcity/item-search-overlay
     open=packageService.openItemSearch
     entity=packageService.entity
-    onConfirm=(action 'fetchAssociatedPackages')
+    onConfirm=(action 'openAddItemOverlay')
   }}
 </div>
 
 {{goodcity/locations-search-overlay
   open=openLocationSearch
   selectedLocation=(action 'selectLocationAndUnpackItem')
+}}
+
+
+{{goodcity/add-item-overlay
+  pkg=addableItem
+  open=openAddItemOverlay
+  entity=item
+  onConfirm=(action 'fetchAssociatedPackages')
 }}
