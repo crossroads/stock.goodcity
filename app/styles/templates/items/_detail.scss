@@ -792,6 +792,7 @@
         .tab {
           border: 2px solid $black;
           color: $white;
+          font-size: 0.8rem;
 
           svg {
             color: $white;
@@ -800,10 +801,12 @@
 
         .small {
           width: 22%;
+          padding: 0.2rem 0;
         }
 
         .large {
           width: 38%;
+          padding: 0.2rem 0;
         }
 
         .end {
@@ -832,6 +835,7 @@
 
       .item-summary {
         display: flex;
+        max-height: 120px;
 
         .content {
           color: $white;
@@ -892,15 +896,15 @@
     margin-left: 0;
 
     @media #{$small-only} {
-      height: 24vh;
+      height: 52vh;
     }
 
     @media #{$large-only} {
-      height: 36vh;
+      height: 40vh;
     }
 
     @media #{$medium-only} {
-      height: 18vh;
+      height: 45vh;
     }
 
     overflow: scroll;
@@ -919,7 +923,6 @@
   }
 
   .button {
-    margin-top: 1rem;
     width: 45%;
     padding: 0.5rem 0;
   }
