@@ -359,15 +359,15 @@ export default GoodcityController.extend(
       };
       let permissionSuccess = status => {
         //after requesting check for permission then, permit to scan
-        if (status.hasPermission) {
+        if (status.checkPermission) {
           this.scan();
         } else {
           permissionError();
         }
       };
-      permissions.hasPermission(permissions.CAMERA, function(status) {
+      permissions.checkPermission(permissions.CAMERA, function(status) {
         //check permission here
-        if (status.hasPermission) {
+        if (status.checkPermission) {
           this.scan();
         } else {
           //request permission here
