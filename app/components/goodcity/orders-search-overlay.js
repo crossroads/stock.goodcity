@@ -1,4 +1,7 @@
-import Ember from "ember";
+import { computed } from "@ember/object";
+import { not, and } from "@ember/object/computed";
+import { inject as service } from "@ember/service";
+import Component from "@ember/component";
 import _ from "lodash";
 import SearchMixin from "stock/mixins/search_resource";
 
@@ -11,10 +14,10 @@ import SearchMixin from "stock/mixins/search_resource";
  * @property {boolean} open whether the popup is visible or not
  * @property {function} onSelect callback triggered when an order is selected
  */
-export default Ember.Component.extend(SearchMixin, {
+export default Component.extend(SearchMixin, {
   searchProps: {},
   autoLoad: true,
-  store: Ember.inject.service(),
+  store: service(),
   perPage: 10,
 
   init() {
@@ -22,11 +25,11 @@ export default Ember.Component.extend(SearchMixin, {
     this.set("uuid", _.uniqueId("orders_search_overlay_"));
   },
 
-  noInput: Ember.computed.not("searchText"),
+  noInput: not("searchText"),
 
-  showRecentlyUsed: Ember.computed.and("noInput", "open"),
+  showRecentlyUsed: and("noInput", "open"),
 
-  recentlyUsedOrders: Ember.computed("open", function() {
+  recentlyUsedOrders: computed("open", function() {
     return this.get("store")
       .peekAll("designation")
       .sortBy("recentlyUsedAt")

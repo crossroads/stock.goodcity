@@ -1,21 +1,24 @@
-import Ember from "ember";
+import { computed } from "@ember/object";
+import { alias } from "@ember/object/computed";
+import { inject as service } from "@ember/service";
+import Component from "@ember/component";
 
-export default Ember.Component.extend({
-  i18n: Ember.inject.service(),
-  filterService: Ember.inject.service(),
+export default Component.extend({
+  i18n: service(),
+  filterService: service(),
 
-  orderStateFilters: Ember.computed.alias("filterService.orderStateFilters"),
-  hasStateFilters: Ember.computed("orderStateFilters", function() {
+  orderStateFilters: alias("filterService.orderStateFilters"),
+  hasStateFilters: computed("orderStateFilters", function() {
     return this.get("orderStateFilters").length > 0;
   }),
 
-  orderTypeFilters: Ember.computed.alias("filterService.orderTypeFilters"),
-  hasTypeFilters: Ember.computed("orderTypeFilters", function() {
+  orderTypeFilters: alias("filterService.orderTypeFilters"),
+  hasTypeFilters: computed("orderTypeFilters", function() {
     return this.get("orderTypeFilters").length > 0;
   }),
 
-  orderTimeRange: Ember.computed.alias("filterService.orderTimeRange"),
-  hasTimeFilters: Ember.computed("orderTimeRange", function() {
+  orderTimeRange: alias("filterService.orderTimeRange"),
+  hasTimeFilters: computed("orderTimeRange", function() {
     const { preset, after, before } = this.get("orderTimeRange");
     return preset || after || before;
   }),

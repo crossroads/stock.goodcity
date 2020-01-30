@@ -1,8 +1,10 @@
-import Ember from "ember";
+import { inject as service } from "@ember/service";
+import Component from "@ember/component";
+import $ from "jquery";
 
 // --HELPERS
 function setFilter(filter, val) {
-  Ember.$(`#${filter}`)[0].checked = val;
+  $(`#${filter}`)[0].checked = val;
 }
 
 function checkFilter(filter) {
@@ -14,14 +16,14 @@ function uncheckFilter(filter) {
 }
 
 function isChecked(filter) {
-  return Ember.$(`#${filter}`)[0].checked;
+  return $(`#${filter}`)[0].checked;
 }
 
 // ---Component
 
-export default Ember.Component.extend({
-  i18n: Ember.inject.service(),
-  filterService: Ember.inject.service(),
+export default Component.extend({
+  i18n: service(),
+  filterService: service(),
   stateFilters: ["in_stock", "designated", "dispatched"],
   publishFilters: ["published_and_private", "published", "private"],
   imageFilters: ["with_and_without_images", "has_images", "no_images"],

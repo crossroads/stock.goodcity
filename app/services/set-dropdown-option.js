@@ -1,9 +1,9 @@
-import Ember from "ember";
+import Service, { inject as service } from "@ember/service";
 import _ from "lodash";
 
-export default Ember.Service.extend({
-  session: Ember.inject.service(),
-  store: Ember.inject.service(),
+export default Service.extend({
+  session: service(),
+  store: service(),
 
   setOptions(column, package_details) {
     if (["frequency", "voltage", "testStatus"].indexOf(column) > -1) {

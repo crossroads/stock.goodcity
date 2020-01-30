@@ -1,4 +1,4 @@
-import Ember from "ember";
+import Component from "@ember/component";
 import _ from "lodash";
 import DesignationActions from "stock/mixins/designation_actions";
 
@@ -11,4 +11,4 @@ import DesignationActions from "stock/mixins/designation_actions";
 //    <div> Click me to designate {{pkg.inventory_number}} to {{orderToDesignateTo.code}}
 // {{/goodcity/designate-link}}
 //
-export default Ember.Component.extend(DesignationActions, {});
+export default Component.extend(DesignationActions, {});

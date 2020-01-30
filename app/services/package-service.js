@@ -1,7 +1,9 @@
+import { run } from "@ember/runloop";
+import { inject as service } from "@ember/service";
 import ApiBaseService from "./api-base-service";
 
 export default ApiBaseService.extend({
-  store: Ember.inject.service(),
+  store: service(),
 
   init() {
     this._super(...arguments);
@@ -38,7 +40,7 @@ export default ApiBaseService.extend({
   },
 
   createInventory(storageType) {
-    Ember.run(() => {
+    run(() => {
       this.set("openPackageSearch", true);
       this.set("storageType", storageType);
     });

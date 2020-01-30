@@ -1,4 +1,5 @@
-import Ember from "ember";
+import EmberObject, { computed } from "@ember/object";
+import { equal, not } from "@ember/object/computed";
 import _ from "lodash";
 import apptUtils from "../utils/appointments";
 import GoodcityController from "./goodcity_controller";
@@ -6,16 +7,16 @@ import GoodcityController from "./goodcity_controller";
 export default GoodcityController.extend({
   // ---- Tab selection
 
-  isPresetsTab: Ember.computed.equal("selectedTab", "presets"),
-  isSpecialTab: Ember.computed.not("isPresetsTab"),
+  isPresetsTab: equal("selectedTab", "presets"),
+  isSpecialTab: not("isPresetsTab"),
 
   // ---- Data structure
 
-  timeSlots: Ember.computed(function() {
+  timeSlots: computed(function() {
     return apptUtils.timeslots();
   }),
 
-  presets: Ember.computed(
+  presets: computed(
     "model.appointmentSlotPresets.@each.{day,hours,minutes,quota}",
     function() {
       return apptUtils.makeSelectableList(
@@ -24,7 +25,7 @@ export default GoodcityController.extend({
     }
   ),
 
-  specialSlots: Ember.computed(
+  specialSlots: computed(
     "model.appointmentSlots.@each.{quota,note,timestamp}",
     function() {
       return apptUtils.makeSelectableList(this.get("model.appointmentSlots"));
@@ -32,25 +33,22 @@ export default GoodcityController.extend({
   ),
 
   /* Aggregate the presets by days of the week */
-  presetsByWeekDay: Ember.computed(
-    "presets.@each.{record,timeslot}",
-    function() {
-      return _.range(1, 8).map(day => {
-        const presets = this.get("presets").filter(
-          pre => pre.get("record.day") === day
-        );
-        return Ember.Object.create({
-          idx: day,
-          empty: presets.length === 0,
-          items: presets,
-          showOptionsMenu: false
-        });
+  presetsByWeekDay: computed("presets.@each.{record,timeslot}", function() {
+    return _.range(1, 8).map(day => {
+      const presets = this.get("presets").filter(
+        pre => pre.get("record.day") === day
+      );
+      return EmberObject.create({
+        idx: day,
+        empty: presets.length === 0,
+        items: presets,
+        showOptionsMenu: false
       });
-    }
-  ),
+    });
+  }),
 
   /* Aggregate the speical days slots by their dates */
-  specialSlotsByDate: Ember.computed(
+  specialSlotsByDate: computed(
     "specialSlots.@each.{record,timeslot}",
     function() {
       let slotsByDates = [];
@@ -80,7 +78,7 @@ export default GoodcityController.extend({
           aggregate.note = record.get("note");
         }
       });
-      return slotsByDates.map(o => Ember.Object.create(o));
+      return slotsByDates.map(o => EmberObject.create(o));
     }
   ),
 

@@ -1,4 +1,4 @@
-import Ember from "ember";
+import { helper as buildHelper } from "@ember/component/helper";
 
 /**
  * A regex match helper
@@ -13,6 +13,6 @@ import Ember from "ember";
  * @param {String} regex the regex to test the text against
  * @returns {Boolean}
  */
-export default Ember.Helper.helper(function([text, regex]) {
+export default buildHelper(function([text, regex]) {
   return new RegExp(regex).test(text);
 });

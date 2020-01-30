@@ -1,8 +1,7 @@
-import Ember from 'ember';
+import Service from "@ember/service";
 
-export default Ember.Service.extend({
-
-  arrayExists: function(arr){
+export default Service.extend({
+  arrayExists: function(arr) {
     return arr && arr.length;
   },
 
@@ -11,6 +10,6 @@ export default Ember.Service.extend({
   },
 
   stringifyArray(arr) {
-    return Array.isArray(arr) ? arr.toString() : '';
-  },
+    return Array.isArray(arr) ? arr.toString() : "";
+  }
 });

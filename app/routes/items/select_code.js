@@ -1,10 +1,10 @@
-import Ember from "ember";
+import { hash } from "rsvp";
 import AuthorizeRoute from "./../authorize";
 
 export default AuthorizeRoute.extend({
   model(params) {
     var item = this.store.peekRecord("item", params.item_id);
-    return Ember.RSVP.hash({
+    return hash({
       item: item || this.store.findRecord("item", params.item_id),
       codes: this.store.query("code", { stock: true })
     });

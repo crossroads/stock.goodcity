@@ -1,13 +1,14 @@
-import Ember from "ember";
+import { computed } from "@ember/object";
+import Component from "@ember/component";
 import _ from "lodash";
 
 /**
  * Helper properties for the designation form
  *
  */
-export default Ember.Component.extend({
+export default Component.extend({
   // Check quantities for anomalies
-  canComplete: Ember.computed("quantity", "maxQuantity", function() {
+  canComplete: computed("quantity", "maxQuantity", function() {
     return (
       this.get("maxQuantity") > 0 &&
       this.get("quantity") > 0 &&
@@ -16,7 +17,7 @@ export default Ember.Component.extend({
   }),
 
   // Lists other orders the package is designated to
-  otherDesignations: Ember.computed(
+  otherDesignations: computed(
     "order.id",
     "pkg",
     "pkg.ordersPackages.[]",
@@ -33,16 +34,13 @@ export default Ember.Component.extend({
   ),
 
   // Whether the package is designated to some other order
-  packageHasOtherDesignations: Ember.computed(
-    "otherDesignations.length",
-    function() {
-      return this.get("otherDesignations.length") > 0;
-    }
-  ),
+  packageHasOtherDesignations: computed("otherDesignations.length", function() {
+    return this.get("otherDesignations.length") > 0;
+  }),
 
   // Will suggest user to undesignate if the available quantity is 0 and some
   // other order exists
-  suggestUndesignation: Ember.computed(
+  suggestUndesignation: computed(
     "maxQuantity",
     "packageHasOtherDesignations",
     function() {

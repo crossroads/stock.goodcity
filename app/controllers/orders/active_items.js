@@ -1,3 +1,4 @@
+import { sort } from "@ember/object/computed";
 import detail from "./detail";
 import _ from "lodash";
 
@@ -9,10 +10,7 @@ export default detail.extend({
   perPage: 25,
   ordersPkgLength: 0,
   sortProperties: ["id"],
-  sortedGcRequests: Ember.computed.sort(
-    "model.goodcityRequests",
-    "sortProperties"
-  ),
+  sortedGcRequests: sort("model.goodcityRequests", "sortProperties"),
 
   actions: {
     loadOrdersPackages(pageNo) {

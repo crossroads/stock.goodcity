@@ -1,4 +1,4 @@
-import Ember from "ember";
+import { run } from "@ember/runloop";
 import { module, test } from "qunit";
 import startApp from "../helpers/start-app";
 import "../factories/orders_package";
@@ -70,7 +70,7 @@ module("Acceptance: Item inline edit", {
   },
   afterEach: function() {
     MockUtils.closeSession();
-    Ember.run(App, "destroy");
+    run(App, "destroy");
   }
 });
 

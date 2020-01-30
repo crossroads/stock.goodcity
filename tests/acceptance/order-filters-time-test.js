@@ -1,4 +1,4 @@
-import Ember from "ember";
+import { run, later } from "@ember/runloop";
 import _ from "lodash";
 import { module, test } from "qunit";
 import startApp from "../helpers/start-app";
@@ -32,7 +32,7 @@ module("Acceptance: Order time filters", {
     MockUtils.closeSession();
 
     // Stop the app
-    Ember.run(App, "destroy");
+    run(App, "destroy");
   }
 });
 
@@ -44,15 +44,18 @@ test("Should allow to select preset time ranges", function(assert) {
   const presets = $(".row.preset");
 
   assert.equal(presets.length, 7);
-  assert.deepEqual(_.map(presets, e => e.innerText), [
-    "Overdue",
-    "Today",
-    "Tomorrow",
-    "This week",
-    "Next week",
-    "This month",
-    "Next month"
-  ]);
+  assert.deepEqual(
+    _.map(presets, e => e.innerText),
+    [
+      "Overdue",
+      "Today",
+      "Tomorrow",
+      "This week",
+      "Next week",
+      "This month",
+      "Next month"
+    ]
+  );
 });
 
 _.each(
@@ -262,7 +265,7 @@ test("Upon returning to the order list, the list is updated with the selected da
     $(".filter-btn.apply").click();
   });
 
-  Ember.run.later(() => {
+  later(() => {
     andThen(() => {
       assert.ok(apiCalled);
     });

@@ -1,12 +1,12 @@
+import { computed } from "@ember/object";
+import { getOwner } from "@ember/application";
 import detail from "./detail";
-import Ember from "ember";
 import AjaxPromise from "stock/utils/ajax-promise";
-const { getOwner } = Ember;
 
 export default detail.extend({
   showBeneficiaryModal: false,
 
-  titles: Ember.computed(function() {
+  titles: computed(function() {
     return [
       { name: "Mr", id: "Mr" },
       { name: "Mrs", id: "Mrs" },
@@ -15,7 +15,7 @@ export default detail.extend({
     ];
   }),
 
-  identityTypes: Ember.computed(function() {
+  identityTypes: computed(function() {
     return this.get("store").peekAll("identity_type");
   }),
 

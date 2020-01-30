@@ -1,4 +1,4 @@
-import Ember from "ember";
+import { hash } from "rsvp";
 import AuthorizeRoute from "./../authorize";
 import AjaxPromise from "stock/utils/ajax-promise";
 
@@ -8,7 +8,7 @@ export default AuthorizeRoute.extend({
     let order =
       this.store.peekRecord("designation", orderId) ||
       this.store.findRecord("designation", orderId);
-    return Ember.RSVP.hash({
+    return hash({
       order,
       recentUsers: new AjaxPromise(
         "/recent_users",

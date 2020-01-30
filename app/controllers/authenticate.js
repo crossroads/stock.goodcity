@@ -1,19 +1,21 @@
-import Ember from "ember";
+import $ from "jquery";
+import { computed } from "@ember/object";
+import { inject as service } from "@ember/service";
+import { getOwner } from "@ember/application";
 import AjaxPromise from "./../utils/ajax-promise";
 import config from "../config/environment";
 import preloadDataMixin from "../mixins/preload_data";
 import GoodcityController from "./goodcity_controller";
 import _ from "lodash";
-const { getOwner } = Ember;
 
 export default GoodcityController.extend(preloadDataMixin, {
-  messageBox: Ember.inject.service(),
-  authService: Ember.inject.service(),
+  messageBox: service(),
+  authService: service(),
   attemptedTransition: null,
   pin: "",
   isMobileApp: config.cordova.enabled,
 
-  mobile: Ember.computed("mobilePhone", function() {
+  mobile: computed("mobilePhone", function() {
     return config.APP.HK_COUNTRY_CODE + this.get("mobilePhone");
   }),
 
@@ -22,7 +24,7 @@ export default GoodcityController.extend(preloadDataMixin, {
       let pin = this.get("pin");
       let otpAuthKey = this.get("session.otpAuthKey");
 
-      Ember.$(".auth_error").hide();
+      $(".auth_error").hide();
       this.showLoadingSpinner();
       this.get("authService")
         .verify(pin, otpAuthKey)
@@ -43,7 +45,7 @@ export default GoodcityController.extend(preloadDataMixin, {
           this.set("attemptedTransition", null);
         })
         .catch(jqXHR => {
-          Ember.$("#pin")
+          $("#pin")
             .closest("div")
             .addClass("error");
           if (jqXHR.status === 422) {
@@ -69,7 +71,7 @@ export default GoodcityController.extend(preloadDataMixin, {
               this.transitionToRoute("/");
             });
           } else if ([422, 403].includes(error.status)) {
-            Ember.$("#mobile")
+            $("#mobile")
               .closest(".mobile")
               .addClass("error");
             return;

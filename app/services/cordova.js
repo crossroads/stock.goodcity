@@ -1,10 +1,11 @@
-import Ember from "ember";
+import { getOwner } from "@ember/application";
+import Service, { inject as service } from "@ember/service";
 import config from "../config/environment";
 import AjaxPromise from "../utils/ajax-promise";
 
-export default Ember.Service.extend({
-  session: Ember.inject.service(),
-  store: Ember.inject.service(),
+export default Service.extend({
+  session: service(),
+  store: service(),
 
   isAndroid() {
     if (!config.cordova.enabled || !window.device) {
@@ -89,9 +90,7 @@ export default Ember.Service.extend({
 
     function processTappedNotification(payload) {
       // jshint ignore:line
-      var notifications = Ember.getOwner(_this).lookup(
-        "controller:notifications"
-      );
+      var notifications = getOwner(_this).lookup("controller:notifications");
 
       new AjaxPromise(
         `/designations/${payload.order_id}`,

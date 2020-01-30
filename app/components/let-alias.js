@@ -1,4 +1,4 @@
-import Ember from "ember";
+import Component from "@ember/component";
 
 /**
  * @module Components/let-alias
@@ -11,7 +11,7 @@ import Ember from "ember";
  *    <div> because it's very {{short}} </div
  * {{/let-alias}}
  */
-const AliasComponent = Ember.Component.extend();
+const AliasComponent = Component.extend();
 
 AliasComponent.reopenClass({
   positionalParams: ["value"]

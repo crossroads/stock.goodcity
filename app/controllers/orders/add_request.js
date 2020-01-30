@@ -1,16 +1,19 @@
-import Ember from "ember";
+import { run } from "@ember/runloop";
+import { computed } from "@ember/object";
+import { inject as service } from "@ember/service";
+import Controller from "@ember/controller";
+import { getOwner } from "@ember/application";
 import AjaxPromise from "stock/utils/ajax-promise";
 import AsyncMixin, { ERROR_STRATEGIES } from "../../mixins/async";
-const { getOwner } = Ember;
 
-export default Ember.Controller.extend(AsyncMixin, {
+export default Controller.extend(AsyncMixin, {
   queryParams: ["orderId", "packageTypeId"],
   packageTypeId: null,
   orderId: null,
   quantity: 1,
-  messageBox: Ember.inject.service(),
+  messageBox: service(),
 
-  description: Ember.computed("parentCodeName", {
+  description: computed("parentCodeName", {
     get() {
       return this.get("parentCodeName");
     },
@@ -19,7 +22,7 @@ export default Ember.Controller.extend(AsyncMixin, {
     }
   }),
 
-  parentCodeName: Ember.computed("packageTypeId", function() {
+  parentCodeName: computed("packageTypeId", function() {
     var selected = "";
     var codeId = this.get("packageTypeId");
     if (codeId.length) {
@@ -50,7 +53,7 @@ export default Ember.Controller.extend(AsyncMixin, {
   },
 
   back() {
-    Ember.run(() => window.history.back());
+    run(() => window.history.back());
   },
 
   actions: {

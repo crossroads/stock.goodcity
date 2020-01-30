@@ -1,3 +1,6 @@
+import { getOwner } from "@ember/application";
+import { inject as service } from "@ember/service";
+import Controller from "@ember/controller";
 import Ember from "ember";
 import RSVP from "rsvp";
 import _ from "lodash";
@@ -11,11 +14,11 @@ import _ from "lodash";
  *  <br> - Loading spinner
  *  <br> - CRUD methods for controlling records
  */
-export default Ember.Controller.extend({
+export default Controller.extend({
   // ---- Services
 
-  messageBox: Ember.inject.service(),
-  i18n: Ember.inject.service(),
+  messageBox: service(),
+  i18n: service(),
 
   init() {
     this._super();
@@ -32,7 +35,7 @@ export default Ember.Controller.extend({
       return;
     }
     if (!this.loadingView) {
-      this.loadingView = Ember.getOwner(this)
+      this.loadingView = getOwner(this)
         .lookup("component:loading")
         .append();
     }

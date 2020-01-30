@@ -1,14 +1,14 @@
-import Ember from "ember";
+import { inject as service } from "@ember/service";
+import { getOwner } from "@ember/application";
 import _ from "lodash";
-const { getOwner } = Ember;
 import ApiBaseService from "./api-base-service";
 import { pluralize } from "ember-inflector";
 import snakeCase from "lodash/snakeCase";
 
 export default ApiBaseService.extend({
-  session: Ember.inject.service(),
-  store: Ember.inject.service(),
-  messageBox: Ember.inject.service(),
+  session: service(),
+  store: service(),
+  messageBox: service(),
 
   isSubformAvailable(subformName) {
     return (

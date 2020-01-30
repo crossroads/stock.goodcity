@@ -1,4 +1,5 @@
-import Ember from "ember";
+import { set, get } from "@ember/object";
+import { helper as buildHelper } from "@ember/component/helper";
 
 /**
  * @module Helpers/toggle
@@ -12,8 +13,8 @@ import Ember from "ember";
  * </button>
  *
  */
-export default Ember.Helper.helper(function([self, propName]) {
+export default buildHelper(function([self, propName]) {
   return function() {
-    Ember.set(self, propName, !Ember.get(self, propName));
+    set(self, propName, !get(self, propName));
   };
 });

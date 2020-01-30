@@ -1,11 +1,13 @@
-import Ember from "ember";
+import { alias, equal } from "@ember/object/computed";
+import { computed } from "@ember/object";
+import { inject as service } from "@ember/service";
 import Model from "ember-data/model";
 import attr from "ember-data/attr";
 import { belongsTo, hasMany } from "ember-data/relationships";
 
 export default Model.extend({
-  i18n: Ember.inject.service(),
-  utilityMethods: Ember.inject.service(),
+  i18n: service(),
+  utilityMethods: service(),
 
   status: attr("string"),
   state: attr("string"),
@@ -55,65 +57,61 @@ export default Model.extend({
   ordersProcessChecklists: hasMany("ordersProcessChecklists", { async: false }),
   ordersProcessChecklistIds: attr(),
 
-  clientIdType: Ember.computed(
-    "beneficiary",
-    "beneficiary.identityType",
-    function() {
-      return this.get("beneficiary.identityType.name");
-    }
-  ),
+  clientIdType: computed("beneficiary", "beneficiary.identityType", function() {
+    return this.get("beneficiary.identityType.name");
+  }),
 
-  clientIdNumber: Ember.computed.alias("beneficiary.identityNumber"),
-  clientName: Ember.computed.alias("beneficiary.fullName"),
-  clientPhone: Ember.computed.alias("beneficiary.phoneNumber"),
+  clientIdNumber: alias("beneficiary.identityNumber"),
+  clientName: alias("beneficiary.fullName"),
+  clientPhone: alias("beneficiary.phoneNumber"),
 
-  isEditAllowed: Ember.computed("state", function() {
+  isEditAllowed: computed("state", function() {
     return !(this.get("isCancelled") || this.get("isClosed"));
   }),
 
-  isLocalOrder: Ember.computed("detailType", function() {
+  isLocalOrder: computed("detailType", function() {
     return (
       ["LocalOrder", "StockitLocalOrder"].indexOf(this.get("detailType")) > -1
     );
   }),
 
-  isGoodCityOrder: Ember.computed.equal("detailType", "GoodCity"),
+  isGoodCityOrder: equal("detailType", "GoodCity"),
 
-  isAppointment: Ember.computed("bookingType", function() {
+  isAppointment: computed("bookingType", function() {
     const bookingType = this.get("bookingType");
     return bookingType && bookingType.get("isAppointment");
   }),
 
-  isOnlineOrder: Ember.computed("bookingType", function() {
+  isOnlineOrder: computed("bookingType", function() {
     const bookingType = this.get("bookingType");
     return bookingType && bookingType.get("isOnlineOrder");
   }),
 
-  isDraft: Ember.computed.equal("state", "draft"),
-  isSubmitted: Ember.computed.equal("state", "submitted"),
-  isAwaitingDispatch: Ember.computed.equal("state", "awaiting_dispatch"),
-  isDispatching: Ember.computed.equal("state", "dispatching"),
-  isClosed: Ember.computed.equal("state", "closed"),
-  isProcessing: Ember.computed.equal("state", "processing"),
-  isCancelled: Ember.computed.equal("state", "cancelled"),
+  isDraft: equal("state", "draft"),
+  isSubmitted: equal("state", "submitted"),
+  isAwaitingDispatch: equal("state", "awaiting_dispatch"),
+  isDispatching: equal("state", "dispatching"),
+  isClosed: equal("state", "closed"),
+  isProcessing: equal("state", "processing"),
+  isCancelled: equal("state", "cancelled"),
 
-  dispatchedItems: Ember.computed("items.@each.sentOn", function() {
+  dispatchedItems: computed("items.@each.sentOn", function() {
     return this.get("items").rejectBy("sentOn", null);
   }),
 
-  capitalizedState: Ember.computed("state", function() {
+  capitalizedState: computed("state", function() {
     return this.get("state").capitalize();
   }),
 
-  purposeName: Ember.computed("ordersPurposes.[]", function() {
+  purposeName: computed("ordersPurposes.[]", function() {
     return this.get("ordersPurposes.firstObject.purpose.description");
   }),
 
-  purposeId: Ember.computed("ordersPurposes.[]", function() {
+  purposeId: computed("ordersPurposes.[]", function() {
     return this.get("ordersPurposes.firstObject.purpose.nameEn");
   }),
 
-  stateIcon: Ember.computed("state", function() {
+  stateIcon: computed("state", function() {
     const state = this.get("state");
     switch (state) {
       case "awaiting_dispatch":
@@ -134,7 +132,7 @@ export default Model.extend({
     }
   }),
 
-  appointmentTransportLabel: Ember.computed(
+  appointmentTransportLabel: computed(
     "orderTransport.transportType",
     function() {
       let i18n = this.get("i18n");
@@ -144,7 +142,7 @@ export default Model.extend({
     }
   ),
 
-  stateText: Ember.computed("orderTransport", function() {
+  stateText: computed("orderTransport", function() {
     if (this.get("isAppointment")) {
       return "appointment";
     } else if (this.get("isOnlineOrder")) {
@@ -152,7 +150,7 @@ export default Model.extend({
     }
   }),
 
-  appointmentTime: Ember.computed(
+  appointmentTime: computed(
     "orderTransport.scheduledAt",
     "orderTransport.timeslot",
     function() {
@@ -167,7 +165,7 @@ export default Model.extend({
     }
   ),
 
-  transportIcon: Ember.computed("isAppointment", "isOnlineOrder", function() {
+  transportIcon: computed("isAppointment", "isOnlineOrder", function() {
     if (this.get("isAppointment")) {
       return "warehouse";
     } else if (this.get("isOnlineOrder")) {
@@ -177,12 +175,12 @@ export default Model.extend({
     }
   }),
 
-  transportLabel: Ember.computed("stateText", "orderTransport", function() {
+  transportLabel: computed("stateText", "orderTransport", function() {
     const key = this.get("stateText") || "unknown_transport";
     return this.get("i18n").t(`order_transports.${key}`);
   }),
 
-  transportKey: Ember.computed("orderTransport.transportType", function() {
+  transportKey: computed("orderTransport.transportType", function() {
     const transportType = this.get("orderTransport.transportType");
     switch (transportType) {
       case "ggv":
@@ -194,7 +192,7 @@ export default Model.extend({
     }
   }),
 
-  ordersPackagesCount: Ember.computed(
+  ordersPackagesCount: computed(
     "ordersPackages.[]",
     "ordersPackages.@each.quantity",
     "ordersPackages.@each.state",
@@ -203,7 +201,7 @@ export default Model.extend({
     }
   ),
 
-  allDispatchedOrdersPackages: Ember.computed(
+  allDispatchedOrdersPackages: computed(
     "ordersPackages.@each.state",
     "ordersPackages.@each.quantity",
     function() {
@@ -215,7 +213,7 @@ export default Model.extend({
     }
   ),
 
-  allDesignatedOrdersPackages: Ember.computed(
+  allDesignatedOrdersPackages: computed(
     "ordersPackages.@each.state",
     "ordersPackages.@each.quantity",
     function() {
@@ -227,7 +225,7 @@ export default Model.extend({
     }
   ),
 
-  quantityOrdersPackages: Ember.computed(
+  quantityOrdersPackages: computed(
     "ordersPackages.@each.state",
     "ordersPackages.@each.quantity",
     function() {
@@ -235,7 +233,7 @@ export default Model.extend({
     }
   ),
 
-  allItemsDispatched: Ember.computed("items.@each.isDispatched", function() {
+  allItemsDispatched: computed("items.@each.isDispatched", function() {
     var items = this.get("items");
     return (
       items.get("length") > 0 &&
@@ -243,41 +241,32 @@ export default Model.extend({
     );
   }),
 
-  designatedOrdersPackages: Ember.computed(
-    "ordersPackages.@each.state",
-    function() {
-      return this.get("ordersPackages").filterBy("state", "designated");
-    }
-  ),
+  designatedOrdersPackages: computed("ordersPackages.@each.state", function() {
+    return this.get("ordersPackages").filterBy("state", "designated");
+  }),
 
-  dispatchedOrdersPackages: Ember.computed(
-    "ordersPackages.@each.state",
-    function() {
-      return this.get("ordersPackages").filterBy("state", "dispatched");
-    }
-  ),
+  dispatchedOrdersPackages: computed("ordersPackages.@each.state", function() {
+    return this.get("ordersPackages").filterBy("state", "dispatched");
+  }),
 
-  cancelledOrdersPackages: Ember.computed(
-    "ordersPackages.@each.state",
-    function() {
-      return this.get("ordersPackages").filterBy("state", "cancelled");
-    }
-  ),
+  cancelledOrdersPackages: computed("ordersPackages.@each.state", function() {
+    return this.get("ordersPackages").filterBy("state", "cancelled");
+  }),
 
-  designatedItems: Ember.computed("items.@each.sentOn", function() {
+  designatedItems: computed("items.@each.sentOn", function() {
     return this.get("items").filterBy("sentOn", null);
   }),
 
-  isInactive: Ember.computed("status", function() {
+  isInactive: computed("status", function() {
     return ["Sent", "Cancelled", "Closed"].indexOf(this.get("status")) >= 0;
   }),
 
   // unread order messages
-  unreadMessagesCount: Ember.computed("messages.@each.state", function() {
+  unreadMessagesCount: computed("messages.@each.state", function() {
     return this.get("messages").filterBy("state", "unread").length;
   }),
 
-  hasUnreadMessages: Ember.computed("unreadMessagesCount", function() {
+  hasUnreadMessages: computed("unreadMessagesCount", function() {
     return this.get("unreadMessagesCount") > 0;
   })
 });

@@ -1,4 +1,7 @@
-import Ember from "ember";
+import { observer } from "@ember/object";
+import { alias } from "@ember/object/computed";
+import { inject as service } from "@ember/service";
+import Mixin from "@ember/object/mixin";
 import AsyncMixin, { ERROR_STRATEGIES } from "./async";
 import { ACTIVE_ORDER_STATES } from "../constants/states";
 import _ from "lodash";
@@ -18,11 +21,11 @@ import _ from "lodash";
  * - completeDesignation()
  * - cancelDesignation()
  */
-export default Ember.Mixin.create(AsyncMixin, {
-  designationService: Ember.inject.service(),
-  settings: Ember.inject.service(),
+export default Mixin.create(AsyncMixin, {
+  designationService: service(),
+  settings: service(),
 
-  editableQty: Ember.computed.alias("settings.allowPartialOperations"),
+  editableQty: alias("settings.allowPartialOperations"),
 
   clearDesignationParams() {
     this.set("readyToDesignate", false);
@@ -67,7 +70,7 @@ export default Ember.Mixin.create(AsyncMixin, {
     });
   },
 
-  onDesignationsChange: Ember.observer(
+  onDesignationsChange: observer(
     "designationTargetPackage.ordersPackages.[]",
     "designationTargetPackage.ordersPackages.@each.{state,quantity}",
     function() {

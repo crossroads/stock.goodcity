@@ -1,8 +1,9 @@
-import Ember from "ember";
+import { all } from "rsvp";
+import Mixin from "@ember/object/mixin";
 import config from "../config/environment";
 import AjaxPromise from "../utils/ajax-promise";
 
-export default Ember.Mixin.create({
+export default Mixin.create({
   preloadData: function() {
     var promises = [];
     var retrieve = types => types.map(type => this.store.findAll(type));
@@ -23,6 +24,6 @@ export default Ember.Mixin.create({
       promises = promises.concat(retrieve(config.APP.PRELOAD_TYPES));
     }
 
-    return Ember.RSVP.all(promises);
+    return all(promises);
   }
 });

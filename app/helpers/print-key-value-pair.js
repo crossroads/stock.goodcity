@@ -1,12 +1,18 @@
-import Ember from "ember";
+import { htmlSafe } from "@ember/template";
+import { helper as buildHelper } from "@ember/component/helper";
 
-export default Ember.Helper.helper(function(key) {
+export default buildHelper(function(key) {
   var message = "";
-  if(key[0]) {
+  if (key[0]) {
     var keys = Object.keys(key[0]);
     keys.forEach(record => {
-      message += ("Undesignating <b>" + key[0][record] + " </b>quantity from order <b>" +  record + "</b><br/>");
+      message +=
+        "Undesignating <b>" +
+        key[0][record] +
+        " </b>quantity from order <b>" +
+        record +
+        "</b><br/>";
     });
   }
-  return new Ember.String.htmlSafe(message);
+  return new htmlSafe(message);
 });
