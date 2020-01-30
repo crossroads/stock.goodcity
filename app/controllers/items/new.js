@@ -41,6 +41,8 @@ export default GoodcityController.extend(
     isSearchCodePreviousRoute: Ember.computed.localStorage(),
     fields: additionalFields,
     weight: "",
+    isSelectLocationPreviousRoute: Ember.computed.localStorage(),
+    offerService: Ember.inject.service(),
     fixedDropdownArr: ["frequency", "voltage", "compTestStatus", "testStatus"],
     quantity: 1,
     labels: 1,

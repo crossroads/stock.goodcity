@@ -166,8 +166,9 @@
         Donation
       </div>
       <div class="small-9 columns donations">
-        {{fa-icon 'plus-square'}}
-
+        <span {{action 'fetchOffer' target=offerService}}>
+          {{fa-icon 'plus-square'}}
+        </span>
         {{offer-tag
           offer=offer
           removeOffer=(action "removeOffer")
