@@ -4,11 +4,25 @@ import _ from "lodash";
 export default Ember.Component.extend({
   packageService: Ember.inject.service(),
 
+  pkgLocations: Ember.computed("pkg", function() {
+    let pkg = this.get("pkg");
+    if (pkg) {
+      return this.get("pkg").get("packagesLocations");
+    }
+  }),
+
+  pkgLocationName: Ember.computed("pkg", function() {
+    let pkgLocations = this.get("pkgLocations");
+    if (pkgLocations) {
+      return this.get("pkgLocations").get("firstObject.location.name");
+    }
+  }),
+
   actions: {
     moveItemToBox() {
       let pkg = this.get("pkg");
       if (pkg) {
-        pkg.get("packagesLocations").forEach(pkgLocation => {
+        this.get("pkgLocations").forEach(pkgLocation => {
           let selectedQuantity = pkgLocation.get("defaultQuantity");
           if (pkgLocation.get("hasDirtyAttributes") && selectedQuantity != 0) {
             const params = {

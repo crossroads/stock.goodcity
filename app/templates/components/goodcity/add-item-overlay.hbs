@@ -1,47 +1,100 @@
 <div class="add-item small-9 columns" align="center">
   {{#popup-overlay open=open}}
-    <section class="main-section move-item-to-box">
-      <div class="row search">
-        <div class="small-12 columns">
-          <span>Move item to {{entity.storageTypeName}} {{entity.inventoryNumber}}.</span>
-        </div>
-        <div class="label">
-          <span>3 Available</span>
-          <p>Indicate how many are you taking from each of the locations below.</p>
-        </div>
-        <hr/>
-        <div class="row">
-          <div class="small-4 columns">
-            Location
-          </div>
-          <div class="small-4 columns">
-            Quantity
-          </div>
-          <div class="small-4 columns">
-            Number to move
-          </div>
-        </div>
-        <hr />
+  <section class="main-section move-item-to-box">
+    <div class="row">
+      <div class="small-12 columns heading">
+        <span>Move item to {{entity.storageTypeName}} {{entity.inventoryNumber}}.</span>
+      </div>
+      {{!-- <div class="label">
+        <span>3 Available</span>
+        <p>Indicate how many are you taking from each of the locations below.</p>
+      </div> --}}
+    </div>
 
-        {{#each pkg.packagesLocations as |packageLocation|}}
-          <div class="row">
-            <div class="small-4 columns">
-              {{packageLocation.location.name}}
+    <div class="row">
+      <div class="columns small-12">
+        <div class="bottom-header">
+          <div class="tab-container">
+            <div class="tab small">
+              <div class="icon-holder">{{fa-icon 'tag' }}</div>
+              <div class="text-holder">{{pkg.inventoryNumber}}</div>
             </div>
-            <div class="small-4 columns">
-              {{packageLocation.quantity}}
+            <div class="tab large">
+              <div class="icon-holder large">{{fa-icon 'map-marker-alt' }}</div>
+              <div class="text-holder">{{pkgLocationName}}</div>
             </div>
-            <div class="small-4 columns">
-              {{input value=packageLocation.defaultQuantity}}
+            <div class="tab end large">
+              <div class="sub-tabs">
+                <div class="icon-holder">{{fa-icon 'paper-plane' }}</div>
+                <div class="text-holder">{{pkg.totalDispatchedQty}}</div>
+              </div>
+              <div class="sub-tabs">
+                <div class="icon-holder">{{fa-icon 'shopping-basket' }}</div>
+                <div class="text-holder">{{pkg.totalDesignatedQty }}</div>
+              </div>
+              <div class="sub-tabs">
+                <div class="icon-holder">{{fa-icon 'eye' }}</div>
+                <div class="text-holder">{{pkg.availableQty}}</div>
+              </div>
             </div>
           </div>
-        {{/each}}
-
-        <div class="buttons row">
-          <div class="small-3 columns button" {{action 'cancelMove'}}>Not Now</div>
-          <div class="small-3 columns button" {{action 'moveItemToBox' pkg}}>Move</div>
+          <div class="item-summary">
+            <div class="content item-img">
+              <img src={{pkg.thumbImageUrl}} class="thumb" />
+            </div>
+            <div class="content item-description">
+              <div>
+                {{pkg.notes}}
+              </div>
+              <div>
+                {{pkg.notes}}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </section>
+    </div>
+
+    <div class="row">
+      <div class="main-header">
+        <span class="available">3 Available</span>
+        <p>Indicate how many are you taking from each of the locations below.</p>
+      </div>
+    </div>
+    <div class="row items-table-heading">
+      <div class="inner-wrapper">
+        <div class="small-6 columns">
+          Location
+        </div>
+        <div class="small-3 columns">
+          Quantity
+        </div>
+        <div class="small-3 columns">
+          Number to move
+        </div>
+      </div>
+    </div>
+
+    <div class="location-wrap">
+      {{#each pkg.packagesLocations as |packageLocation|}}
+      <div class="row items-table-content">
+        <div class="small-6 columns">
+          {{packageLocation.location.name}}
+        </div>
+        <div class="small-3 columns">
+          {{packageLocation.quantity}}
+        </div>
+        <div class="small-3 columns">
+          {{input value=packageLocation.defaultQuantity}}
+        </div>
+      </div>
+      {{/each}}
+    </div>
+
+    <div class="buttons row">
+      <div class="small-4 columns button" {{action 'cancelMove'}}>Not Now</div>
+      <div class="small-4 columns button" {{action 'moveItemToBox' pkg}}>Move</div>
+    </div>
+  </section>
   {{/popup-overlay}}
 </div>
