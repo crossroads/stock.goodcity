@@ -161,6 +161,20 @@
         </div>
       {{/if}}
     </div>
+    <div class="row">
+      <div class="small-3 columns item-label">
+        Donation
+      </div>
+      <div class="small-9 columns donations">
+        {{fa-icon 'plus-square'}}
+
+        {{offer-tag
+          offer=offer
+          removeOffer=(action "removeOffer")
+        }}
+        {{offer-tag offer=offer}}
+      </div>
+    </div>
     {{#if showAdditionalFields}}
       {{partial "items/additional_fields"}}
     {{/if}}

@@ -1,0 +1,11 @@
+<div class="offer-detail">
+  {{#if offer.company}}
+    {{fa-icon 'building'}}
+    {{offer.company.name}}
+  {{else}}
+    {{fa-icon 'user'}}
+    {{offer.id}}
+  {{/if}}
+  Ikea
+</div>
+<span class="delete-offer" {{action "removeOffer"}}>{{fa-icon 'times' size="lg"}}</span>
