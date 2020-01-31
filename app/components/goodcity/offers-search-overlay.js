@@ -16,14 +16,18 @@ export default Ember.Component.extend(SearchMixin, {
   store: Ember.inject.service(),
   offerService: Ember.inject.service(),
   perPage: 25,
-  state: {
+  offer_state: {
     state: "received"
   },
 
   actions: {
     loadMoreOffers(pageNo) {
       const params = this.trimQuery(
-        _.merge({}, this.getSearchQuery(), this.getPaginationQuery(pageNo))
+        _.merge(
+          this.get("offer_state"),
+          this.getSearchQuery(),
+          this.getPaginationQuery(pageNo)
+        )
       );
 
       return this.get("store").query("offer", params);
