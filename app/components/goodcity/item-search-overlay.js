@@ -63,13 +63,28 @@ export default Ember.Component.extend(SearchMixin, {
       this.get("onConfirm")(item);
     },
 
-    loadMoreItems(pageNo) {
-      console.log(this.allChildPackagesList(), "hit");
+    async loadMoreItems(pageNo) {
+      let associatedPacakgeIds = this.allChildPackagesList().getEach("id");
+      let associatedPacakgeIdObj = {
+        associatedPacakgeIds: associatedPacakgeIds
+      };
+
       const params = this.trimQuery(
-        _.merge({}, this.getSearchQuery(true), this.getPaginationQuery(pageNo))
+        _.merge(
+          {},
+          this.getSearchQuery(true),
+          this.getPaginationQuery(pageNo),
+          associatedPacakgeIdObj
+        )
       );
-      let items = this.get("store").query("item", params);
-      console.log(items);
+
+      let items = await this.get("store").query("item", params);
+      let filteredArray = [];
+      items.forEach(item => {
+        if (associatedPacakgeIds.indexOf(item.get("packageTypeId")) !== -1) {
+          filteredArray.push(item);
+        }
+      });
       return items;
     }
   }
