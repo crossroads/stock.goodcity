@@ -28,7 +28,7 @@
     "private": true
   },
   "engines": {
-    "node": ">= 6"
+    "node": ">= 10.15.1"
   },
   "author": "",
   "license": "MIT",
