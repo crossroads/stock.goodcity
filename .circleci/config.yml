@@ -123,7 +123,7 @@ jobs:
           name: Ember build
           command: |
             case "$CIRCLE_BRANCH" in
-              master)
+              fix-node-issues-for-ember-2.18)
                 ENVIRONMENT=staging
                 ;;
               preview)
@@ -160,7 +160,7 @@ jobs:
           name: Upload to www server
           command: |
             case "$CIRCLE_BRANCH" in
-              master)
+              fix-node-issues-for-ember-2.18)
                 STAGE=staging
                 ;;
               preview)
@@ -181,7 +181,7 @@ jobs:
             SOURCE_MAP_WITH_VARIABLE_NAME=$(grep sourceMappingURL dist/assets/stock-*.js)
             SOURCE_MAP=$(eval echo $SOURCE_MAP_WITH_VARIABLE_NAME | cut -c22-100)
             case "$CIRCLE_BRANCH" in
-              master)
+              fix-node-issues-for-ember-2.18)
                 ASSET_HOST_URL=https://stock-staging.goodcity.hk/assets
                 ;;
               preview)
@@ -210,7 +210,7 @@ jobs:
           name: Ember build
           command: |
             case "$CIRCLE_BRANCH" in
-              master)
+              fix-node-issues-for-ember-2.18)
                 ENVIRONMENT=staging
                 ;;
               preview)
@@ -311,7 +311,7 @@ jobs:
           name: Setup Environment variables
           command: |
             case "$CIRCLE_BRANCH" in
-              master)
+              fix-node-issues-for-ember-2.18)
                 echo 'export ENVIRONMENT=staging' >> $BASH_ENV
                 echo 'export CERTIFICATE=GoodCity_2020_Development.p12' >> $BASH_ENV
                 echo 'export PROVISIONING_PROFILE=GoodCityStockStaging.mobileprovision' >> $BASH_ENV
@@ -409,28 +409,28 @@ workflows:
           #   - test_cases
           filters:
             branches:
-              only: /^(master|live|preview)$/
+              only: /^(fix-node-issues-for-ember-2.18|live|preview)$/
       - www-deploy:
           requires:
             - www_build
           filters:
             branches:
-              only: /^(master|live|preview)$/
+              only: /^(fix-node-issues-for-ember-2.18|live|preview)$/
       - ember_cordova_build:
           # requires:
           #   - test_cases
           filters:
             branches:
-              only: /^(master|live)$/
+              only: /^(fix-node-issues-for-ember-2.18|live)$/
       - android_build_and_deploy:
           requires:
             - ember_cordova_build
           filters:
             branches:
-              only: /^(master|live)$/
+              only: /^(fix-node-issues-for-ember-2.18|live)$/
       - ios_build_and_deploy:
           # requires:
           #   - test_cases
           filters:
             branches:
-              only: /^(master|live)$/
+              only: /^(fix-node-issues-for-ember-2.18|live)$/
