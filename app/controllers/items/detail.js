@@ -268,7 +268,7 @@ export default GoodcityController.extend(
             item_id: item.id,
             location_id: location.id,
             task: "unpack",
-            quantity: 1
+            quantity: item.added_quantity
           };
           this.get("packageService").addRemoveItem(this.get("item.id"), params);
           this.set("openLocationSearch", false);
@@ -284,7 +284,8 @@ export default GoodcityController.extend(
         return this.get("packageService")
           .fetchAssociatedPackages(this.get("item.id"))
           .then(data => {
-            this.set("associatedPackages", data.packages);
+            this.store.pushPayload(data);
+            this.set("associatedPackages", data.items);
           })
           .finally(() => {
             this.hideLoadingSpinner();

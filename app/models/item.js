@@ -68,6 +68,8 @@ export default cloudinaryUrl.extend({
     async: true
   }),
 
+  addedQuantity: attr("number"),
+
   ordersPackages: hasMany("ordersPackages", {
     async: true
   }),
