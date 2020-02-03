@@ -267,7 +267,8 @@ export default GoodcityController.extend(
           const params = {
             item_id: item.id,
             location_id: location.id,
-            task: "unpack"
+            task: "unpack",
+            quantity: 1
           };
           this.get("packageService").addRemoveItem(this.get("item.id"), params);
           this.set("openLocationSearch", false);
