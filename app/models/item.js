@@ -20,7 +20,6 @@ export default cloudinaryUrl.extend({
   caseNumber: attr("string"),
   quantity: attr("number"),
   receivedQuantity: attr("number"),
-  inHandQuantity: attr("number"),
   length: attr("number"),
   width: attr("number"),
   height: attr("number"),

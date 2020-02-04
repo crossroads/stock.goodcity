@@ -18,16 +18,29 @@ export default Ember.Component.extend({
     }
   }),
 
+  calculateSumFor(parameter) {
+    let quantities = [];
+    if (this.get("pkg.packagesLocations")) {
+      this.get("pkg.packagesLocations").map(value => {
+        quantities.push(value.get(parameter));
+      });
+    }
+    return quantities.reduce((accumulator, value) => {
+      return accumulator + (!(value == "") && parseInt(value));
+    }, 0);
+  },
+
   totalNumberTomove: Ember.computed(
     "pkg.packagesLocations.@each.defaultQuantity",
     function() {
-      let sum = 0;
-      if (this.get("pkg.packagesLocations")) {
-        this.get("pkg.packagesLocations").map(value => {
-          sum = parseInt(sum) + parseInt(value.get("defaultQuantity"));
-        });
-      }
-      return sum;
+      return this.calculateSumFor("defaultQuantity");
+    }
+  ),
+
+  availableQuantity: Ember.computed(
+    "pkg.packagesLocations.@each.quantity",
+    function() {
+      return this.calculateSumFor("quantity");
     }
   ),
 
