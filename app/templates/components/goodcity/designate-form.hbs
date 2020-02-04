@@ -35,7 +35,7 @@
     <div>
       <p>
         {{t 'designate_form.quantity_input'}}
-        {{input type="number" min="1" max="{{maxQuantity}}" value=quantity disabled=(unless editableQty true) class="qty-input"}}
+        {{input type="number" min="1" max="{{maxQuantity}}" value=quantity disabled=(unless editableQty true false) class="qty-input"}}
         / {{ maxQuantity }}
       </p>
     </div>

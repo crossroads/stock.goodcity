@@ -1,11 +1,13 @@
 import Ember from "ember";
 import _ from "lodash";
 import AsyncMixin from "../../mixins/async";
+import DispatchActions from "../../mixins/dispatch_actions";
 import { ACTIVE_ORDER_STATES } from "../../constants/states";
 
 const ACTIONS_SETTINGS = {
   dispatch: {
-    icon: "paper-plane"
+    icon: "paper-plane",
+    customAction: "beginDispatch"
   },
   cancel: {
     icon: "times-circle"
@@ -47,7 +49,7 @@ const CANCELLED = {};
  * @example
  *  {{goodcity/orders-package-block orderPkg=orderPkg }}
  */
-export default Ember.Component.extend(AsyncMixin, {
+export default Ember.Component.extend(AsyncMixin, DispatchActions, {
   store: Ember.inject.service(),
   messageBox: Ember.inject.service(),
   i18n: Ember.inject.service(),
@@ -180,8 +182,19 @@ export default Ember.Component.extend(AsyncMixin, {
    * @returns {Promise<Package>} the updated package
    */
   async runAction(actionName) {
-    const params = await this.fulfillParams(actionName);
     const ordersPkg = this.get("orderPkg");
+    const customAction = _.get(
+      ACTIONS_SETTINGS,
+      `${actionName}.customAction`,
+      null
+    );
+
+    if (customAction) {
+      this.send("closeDrawer");
+      return this.send(customAction, ordersPkg);
+    }
+
+    const params = await this.fulfillParams(actionName);
     const itemId = ordersPkg.get("itemId");
 
     if (params === CANCELLED) {
@@ -189,7 +202,7 @@ export default Ember.Component.extend(AsyncMixin, {
     }
 
     try {
-      Ember.run(() => this.set("drawerOpened", false));
+      this.send("closeDrawer");
 
       await this.runTask(
         this.get("actionRunner").execAction(ordersPkg, actionName, params)
@@ -235,6 +248,10 @@ export default Ember.Component.extend(AsyncMixin, {
   ),
 
   actions: {
+    closeDrawer() {
+      Ember.run(() => this.set("drawerOpened", false));
+    },
+
     redirectToOrderDetail(orderId) {
       this.router.transitionTo("orders.active_items", orderId);
     },

@@ -8,7 +8,6 @@ const { getOwner } = Ember;
 
 export default GoodcityController.extend(SearchMixin, {
   backLinkPath: "",
-  displayAllItems: false,
   isMobileApp: config.cordova.enabled,
   order: Ember.computed.alias("model"),
   orderId: Ember.computed.alias("model.id"),
@@ -55,21 +54,6 @@ export default GoodcityController.extend(SearchMixin, {
       return value;
     }
   }),
-
-  ordersPackagesLengthMoreThenThree: Ember.observer(
-    "model.ordersPackages",
-    function() {
-      var ordersPackages = this.get("model.ordersPackages");
-      ordersPackages.canonicalState.forEach(record => {
-        if (record && record._data.state === "cancelled") {
-          ordersPackages.canonicalState.removeObject(record);
-        }
-      });
-      return ordersPackages.canonicalState.length >= 3
-        ? this.set("displayAllItems", false)
-        : this.set("displayAllItems", true);
-    }
-  ),
 
   formatTimeSlot(hours, minutes) {
     return moment()
