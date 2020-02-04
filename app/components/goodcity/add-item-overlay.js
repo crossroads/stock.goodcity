@@ -18,6 +18,19 @@ export default Ember.Component.extend({
     }
   }),
 
+  totalNumberTomove: Ember.computed(
+    "pkg.packagesLocations.@each.defaultQuantity",
+    function() {
+      let sum = 0;
+      if (this.get("pkg.packagesLocations")) {
+        this.get("pkg.packagesLocations").map(value => {
+          sum = parseInt(sum) + parseInt(value.get("defaultQuantity"));
+        });
+      }
+      return sum;
+    }
+  ),
+
   actions: {
     moveItemToBox() {
       let pkg = this.get("pkg");
