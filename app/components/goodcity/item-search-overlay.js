@@ -12,45 +12,12 @@ export default Ember.Component.extend(SearchMixin, {
     this._super(...arguments);
     this._super("item-search-overlay");
     this.set("uuid", _.uniqueId("item_search_overlay_"));
+    this.set("displayResults", true);
   },
 
-  noInput: Ember.computed.not("searchText"),
-
-  defaultChildPackagesList: function() {
-    return this._getPackages(
-      this,
-      this.get("entity")
-        .get("code")
-        .get("defaultChildPackages")
-    );
-  },
-
-  otherChildPackagesList: function() {
-    return this._getPackages(
-      this,
-      this.get("entity")
-        .get("code")
-        .get("otherChildPackages")
-    );
-  },
-
-  allChildPackagesList: function() {
-    return this.defaultChildPackagesList().concat(
-      this.otherChildPackagesList()
-    );
-  },
-
-  _getPackages: function(model, packageNames) {
-    var array = (packageNames || "").split(",");
-    var packages = [];
-    var allPackageTypes = this.get("store").peekAll("code");
-    array.forEach(function(type) {
-      allPackageTypes.filter(function(pkg) {
-        return pkg.get("code") === type ? packages.push(pkg) : "";
-      });
-    });
-    return packages;
-  },
+  hasSearchText: Ember.computed("searchText", function() {
+    return !!this.get("searchText");
+  }),
 
   actions: {
     cancel() {
@@ -63,6 +30,10 @@ export default Ember.Component.extend(SearchMixin, {
       this.get("onConfirm")(item);
     },
 
+    clearSearch() {
+      this.set("searchText", "");
+    },
+
     async loadMoreItems(pageNo) {
       const params = this.trimQuery(
         _.merge(
@@ -70,7 +41,7 @@ export default Ember.Component.extend(SearchMixin, {
           this.getSearchQuery(true),
           this.getPaginationQuery(pageNo),
           {
-            associated_package_types: this.allChildPackagesList().getEach("id")
+            associated_package_types: this.get("associatedPackageTypes")
           }
         )
       );

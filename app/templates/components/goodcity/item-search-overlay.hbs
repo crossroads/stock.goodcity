@@ -22,17 +22,17 @@
             {{#if displayResults}}
               {{#infinite-list height="85vh" loadMore=(action "loadMoreItems") as |items| }}
                 {{#each items as |item|}}
-                  <div class="item" {{action 'selectItem' item}}>
-                    <div class="row">
-                      {{partial "items/item_status_bar"}}
-                      <div class="row other_details item_details">
-                        <div class="small-3 large-2 columns image">
-                          <img src={{item.thumbImageUrl}} class="thumb" alt="" />
-                        </div>
-                        {{partial 'items/item_description'}}
+                  <div class="row item_block" {{action 'selectItem' item}}>
+                    {{partial "items/item_status_bar"}}
+                    <div class="row other_details item_details">
+                      <div class="small-3 large-2 columns image">
+                        <img src={{item.thumbImageUrl}} class="thumb" alt="" />
                       </div>
+                      {{partial 'items/item_description'}}
                     </div>
                   </div>
+                {{else}}
+                  <div class='no_result'>{{t "no_search_results"}}</div>
                 {{/each}}
               {{/infinite-list}}
             {{else}}

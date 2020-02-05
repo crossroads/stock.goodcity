@@ -229,6 +229,10 @@ export default GoodcityController.extend(
       }
     ),
 
+    associatedPackageTypes: Ember.computed("item", function() {
+      return this.get("packageService").allChildPackageTypes(this.get("item"));
+    }),
+
     actions: {
       /**
        * Called after a property is changed to push the updated

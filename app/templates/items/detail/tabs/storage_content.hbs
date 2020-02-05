@@ -17,7 +17,7 @@
         <li class="added-item-list">
           <div class="row">
             <div class="small-2 medium-2 columns">
-              <img src={{pkg.thumbImageUrl}} class="thumb" />
+              <img src={{item.thumbImageUrl}} class="thumb" />
             </div>
             <div class="small-8 medium-8 columns details">
               <div class="content">
@@ -44,6 +44,7 @@
 <div class="row item-search-overlay">
   {{goodcity/item-search-overlay
     open=packageService.openItemSearch
+    associatedPackageTypes=associatedPackageTypes
     entity=packageService.entity
     onConfirm=(action 'openAddItemOverlay')
   }}

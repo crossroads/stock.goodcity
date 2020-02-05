@@ -61,5 +61,30 @@ export default ApiBaseService.extend({
 
   fetchAssociatedPackages(boxPalletId) {
     return this.GET(`/packages/${boxPalletId}/fetch_associated_packages`);
+  },
+
+  allChildPackageTypes(item) {
+    let all_package_types = this.fetchAssociatedPackageListFor(
+      item,
+      "defaultChildPackages"
+    ).concat(this.fetchAssociatedPackageListFor(item, "otherChildPackages"));
+    return all_package_types.getEach("id");
+  },
+
+  fetchAssociatedPackageListFor(item, type) {
+    let defaultChildPackageTypes = item.get("code").get(type);
+    return this._getPackageTypes(defaultChildPackageTypes);
+  },
+
+  _getPackageTypes(types) {
+    let packageTypeNames = (types || "").split(",");
+    let packagesTypes = [];
+    const allPackageTypes = this.get("store").peekAll("code");
+    packageTypeNames.forEach(function(type) {
+      allPackageTypes.filter(function(pkgType) {
+        return pkgType.get("code") === type ? packagesTypes.push(pkgType) : "";
+      });
+    });
+    return packagesTypes;
   }
 });
