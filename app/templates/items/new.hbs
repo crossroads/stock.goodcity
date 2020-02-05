@@ -169,11 +169,12 @@
         <span {{action 'fetchOffer' target=offerService}}>
           {{fa-icon 'plus-square'}}
         </span>
-        {{offer-tag
-          offer=offer
-          removeOffer=(action "removeOffer")
-        }}
-        {{offer-tag offer=offer}}
+        {{#each offersLists as |offer|}}
+          {{offer-tag
+            offer=offer
+            removeOffer=(action "removeOffer")
+          }}
+        {{/each}}
       </div>
     </div>
     {{#if showAdditionalFields}}

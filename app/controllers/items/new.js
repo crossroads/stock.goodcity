@@ -71,10 +71,19 @@ export default GoodcityController.extend(
       let subform = this.get("code.subform");
       return this.returnDisplayFields(subform);
     }),
+    offersLists: [],
 
     isBoxOrPallet: Ember.computed("storageType", function() {
       return ["Box", "Pallet"].indexOf(this.get("storageType")) > -1;
     }),
+
+    observeAddedOffers: Ember.observer(
+      "offerService.onOfferSelected",
+      function() {
+        const offer = this.get("offerService.onOfferSelected");
+        this.get("offersLists").pushObject(offer);
+      }
+    ),
 
     pageTitle: Ember.computed("storageType", "parentCodeName", function() {
       return this.get("isBoxOrPallet")
@@ -318,6 +327,7 @@ export default GoodcityController.extend(
             quantity: quantity
           }
         },
+        offer_ids: this.get("offersLists").getEach("id"),
         detail_attributes: detailAttributes
       };
     },
@@ -477,6 +487,12 @@ export default GoodcityController.extend(
           "location",
           await this.get("locationService").userPickLocation()
         );
+
+      removeOffer(offer) {
+        const offersList = this.get("offersLists").filter(
+          offer_list => offer_list.id !== offer.id
+        );
+        this.set("offersLists", offersList);
       },
 
       //file upload

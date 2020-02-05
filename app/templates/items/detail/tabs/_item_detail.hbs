@@ -126,6 +126,18 @@
           </div>
         {{/if}}
       </div>
+      <div class="row weight-pieces">
+        <div class="columns small-3">
+          <span class='input_text'>Offers</span>
+        </div>
+        <div class="columns small-9 value weight">
+          {{#each item.offers as |offer|}}
+            {{offer-tag
+              offer=offer
+            }}
+          {{/each}}
+        </div>
+      </div>
     </div>
   </div>
 {{/toggle-item-options-list}}

@@ -4,8 +4,8 @@ export default Ember.Component.extend({
   classNames: ["offer-tag"],
 
   actions: {
-    removeOffer() {
-      this.get("removeOffer")();
+    removeOffer(offer) {
+      this.get("removeOffer")(offer);
     }
   }
 });
