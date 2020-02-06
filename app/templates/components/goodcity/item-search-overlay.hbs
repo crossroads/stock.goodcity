@@ -1,11 +1,11 @@
-<div class="item-search small-9 columns" align="center">
+<div class="item-search item-search-overlay small-9 columns" align="center">
   {{#popup-overlay open=open}}
     <div class="search-section">
       <div class="row fixed_search_header_item fixed_search_header search-box ui items-search">
         <div class="icon-holder small-2 columns">
           <i class="back_icon" aria-hidden="true" {{ action 'cancel' }}>{{fa-icon 'angle-left' size='2x'}}</i>
         </div>
-        <div class="input-holder small-10 columns">
+        <div class="input-holder small-8 columns">
           {{focus-textfield
             name="search-text"
             id="search-text"
@@ -15,6 +15,11 @@
             <i {{action "clearSearch"}}>{{fa-icon 'times-circle'}}</i>
           {{/if}}
         </div>
+        {{#if isMobileApp}}
+        <div class="small-2 medium-2 large-2 columns scan-button">
+          {{scan-barcode-button route="items"}}
+        </div>
+        {{/if}}
       </div>
       <section class="main-section items_search_result">
         <div class="row search">

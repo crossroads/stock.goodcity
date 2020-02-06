@@ -925,3 +925,11 @@
     padding: 0.5rem 0;
   }
 }
+
+.item-search-overlay{
+  .scan-button{
+    button{
+      width: unset !important
+    }
+  }
+}

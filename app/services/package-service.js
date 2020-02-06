@@ -54,9 +54,7 @@ export default ApiBaseService.extend({
   },
 
   addRemoveItem(pkgId, params) {
-    this.PUT(`/packages/${pkgId}/add_remove_item`, params).then(data => {
-      this.get("store").pushPayload(data);
-    });
+    return this.PUT(`/packages/${pkgId}/add_remove_item`, params);
   },
 
   fetchAssociatedPackages(boxPalletId) {
