@@ -41,7 +41,8 @@ export default Ember.Component.extend(SearchMixin, {
           this.getSearchQuery(true),
           this.getPaginationQuery(pageNo),
           {
-            associated_package_types: this.get("associatedPackageTypes")
+            associated_package_types: this.get("associatedPackageTypes"),
+            withInventoryNumber: true
           }
         )
       );

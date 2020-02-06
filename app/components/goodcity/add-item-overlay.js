@@ -1,4 +1,5 @@
 import Ember from "ember";
+const { getOwner } = Ember;
 import _ from "lodash";
 
 export default Ember.Component.extend({
@@ -41,6 +42,9 @@ export default Ember.Component.extend({
   ),
 
   addRemoveItem(params) {
+    var loadingView = getOwner(this)
+      .lookup("component:loading")
+      .append();
     return this.get("packageService")
       .addRemoveItem(this.get("entity.id"), params)
       .then(data => {
@@ -52,6 +56,9 @@ export default Ember.Component.extend({
           (response.responseJSON && response.responseJSON.errors[0]) ||
           this.get("i18n").t("unexpected_error");
         this.get("messageBox").alert(error_message);
+      })
+      .finally(() => {
+        loadingView.destroy();
       });
   },
 
