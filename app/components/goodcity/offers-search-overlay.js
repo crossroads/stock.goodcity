@@ -1,4 +1,5 @@
 import Ember from "ember";
+import config from "stock/config/environment";
 import _ from "lodash";
 import SearchMixin from "stock/mixins/search_resource";
 
@@ -16,6 +17,7 @@ export default Ember.Component.extend(SearchMixin, {
   store: Ember.inject.service(),
   offerService: Ember.inject.service(),
   perPage: 25,
+  isMobileApp: config.cordova.enabled,
   offer_state: {
     state: "received"
   },
