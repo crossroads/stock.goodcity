@@ -36,7 +36,7 @@ export default Ember.Component.extend(SearchMixin, {
     closeOverlay(offer) {
       const offerService = this.get("offerService");
       offerService.set("openOfferSearch", false);
-      offerService.set("onOfferSelected", offer);
+      offerService.setOffer(offer);
     }
   }
 });

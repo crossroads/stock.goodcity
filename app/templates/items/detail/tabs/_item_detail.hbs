@@ -131,9 +131,13 @@
           <span class='input_text'>Offers</span>
         </div>
         <div class="columns small-9 value weight">
+          <span {{action 'fetchOffer' target=offerService}}>
+            {{fa-icon 'plus-square'}}
+          </span>
           {{#each item.offers as |offer|}}
             {{offer-tag
               offer=offer
+              removeOffer=(action "removeOffer")
             }}
           {{/each}}
         </div>

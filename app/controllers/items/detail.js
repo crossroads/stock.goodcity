@@ -10,6 +10,7 @@ import MoveActions from "stock/mixins/move_actions";
 import DesignationActions from "stock/mixins/designation_actions";
 import AsyncMixin from "stock/mixins/async";
 import StorageTypes from "stock/mixins/storage-type";
+import AsyncMixin from "../../mixins/async";
 import _ from "lodash";
 import SearchMixin from "stock/mixins/search_resource";
 
@@ -40,6 +41,8 @@ export default GoodcityController.extend(
     messageBox: Ember.inject.service(),
     setDropdownOption: Ember.inject.service(),
     designationService: Ember.inject.service(),
+    offerService: Ember.inject.service(),
+    packageService: Ember.inject.service(),
     settings: Ember.inject.service(),
     packageService: Ember.inject.service(),
     locationService: Ember.inject.service(),
@@ -88,6 +91,11 @@ export default GoodcityController.extend(
         };
       }
     }).volatile(),
+
+    init() {
+      this._super(...arguments);
+      this.get("offerService").on("onOfferSelect", this, this.addOffer);
+    },
 
     returnSelectedValues(selectedValues) {
       let dataObj = {
@@ -232,6 +240,24 @@ export default GoodcityController.extend(
       }
     ),
 
+    addOffer() {
+      const offerIds = [
+        ...this.get("item.offers").getEach("id"),
+        this.get("offerService.onOfferSelected.id")
+      ];
+      this.updatePackageOffers(offerIds);
+    },
+
+    updatePackageOffers(offer_ids) {
+      this.runTask(
+        this.get("packageService").updatePackage(this.get("item.id"), {
+          package: {
+            offer_ids
+          }
+        })
+      );
+    },
+
     sortedOrdersPackages: Ember.computed(
       "model.ordersPackages.[]",
       "model.ordersPackages.@each.state",
@@ -272,6 +298,13 @@ export default GoodcityController.extend(
     },
 
     actions: {
+      removeOffer(rejectedOffer) {
+        const offerIds = this.get("item.offers")
+          .filter(offer => offer.id !== rejectedOffer.id)
+          .getEach("id");
+        this.updatePackageOffers(offerIds);
+      },
+
       /**
        * Called after a property is changed to push the updated
        * record to the API

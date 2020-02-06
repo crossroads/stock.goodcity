@@ -77,13 +77,18 @@ export default GoodcityController.extend(
       return ["Box", "Pallet"].indexOf(this.get("storageType")) > -1;
     }),
 
-    observeAddedOffers: Ember.observer(
-      "offerService.onOfferSelected",
-      function() {
-        const offer = this.get("offerService.onOfferSelected");
-        this.get("offersLists").pushObject(offer);
-      }
-    ),
+    init() {
+      this._super(...arguments);
+      this.get("offerService").on("onOfferSelect", this, this.addOffer);
+    },
+
+    addOffer() {
+      const offers = _.uniq([
+        ...this.get("offersLists"),
+        this.get("offerService.onOfferSelected")
+      ]);
+      this.set("offersLists", offers);
+    },
 
     pageTitle: Ember.computed("storageType", "parentCodeName", function() {
       return this.get("isBoxOrPallet")
