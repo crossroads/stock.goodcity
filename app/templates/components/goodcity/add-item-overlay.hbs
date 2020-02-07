@@ -3,7 +3,7 @@
   <section class="main-section move-item-to-box">
     <div class="row">
       <div class="small-12 columns heading">
-        <span>Move item to {{entity.storageTypeName}} {{entity.inventoryNumber}}.</span>
+        <span>{{t 'box_pallet.move_to'}} {{entity.storageTypeName}} {{entity.inventoryNumber}}.</span>
       </div>
     </div>
 
@@ -53,21 +53,21 @@
     <div class="location-wrap">
       <div class="row">
         <div class="main-header">
-          <span class="available">{{pkg.inHandQuantity}} Available</span>
-          <p>Indicate how many are you taking from each of the locations below.</p>
+          <span class="available">{{pkg.inHandQuantity}} {{t 'box_pallet.available'}}</span>
+          <p>{{t 'box_pallet.indicate_amount'}}</p>
         </div>
       </div>
 
       <div class="row items-table-heading">
         <div class="inner-wrapper">
           <div class="small-6 columns">
-            Location
+            {{t 'box_pallet.location'}}
           </div>
           <div class="small-3 columns">
-            Quantity
+            {{t 'box_pallet.quantity'}}
           </div>
           <div class="small-3 columns">
-            Number to move
+            {{t 'box_pallet.number_to_move'}}
           </div>
         </div>
       </div>
@@ -87,8 +87,8 @@
       {{/each}}
     </div>
     <div class="buttons row">
-      <div class="small-4 columns button" {{action 'cancelMove'}}>Not Now</div>
-      <div class="small-4 columns button" {{action 'moveItemToBox' pkg}}>Move ({{totalNumberTomove}})</div>
+      <div class="small-4 columns button" {{action 'cancelMove'}}>{{t 'box_pallet.not_now'}}</div>
+      <div class="small-4 columns button" {{action 'moveItemToBox' pkg}}>{{t 'box_pallet.move'}} ({{totalNumberTomove}})</div>
     </div>
   </section>
   {{/popup-overlay}}

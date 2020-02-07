@@ -47,6 +47,21 @@ export default {
   new_order: "Create New Order",
   full_name: "{{firstName}} {{lastName}}",
   mobile_prefix: "+852",
+  box_pallet: {
+    indicate_amount:
+      "Indicate how many are you taking from each of the locations below.",
+    available: "Available",
+    location: "Location",
+    quantity: "Quantity",
+    number_to_move: "Number to move",
+    move_to: "Move item to",
+    move: "Move",
+    not_now: "Not Now",
+    add_to: "Add item to",
+    remove: "Remove",
+    content: "content",
+    details: "details"
+  },
   messages: {
     you: "You",
     chat_note: "Chat about this order with the user",

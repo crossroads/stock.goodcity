@@ -2,7 +2,7 @@
 <div class="row">
   <div class="large-12 medium-9 small-9 columns add-item" align="center">
     <button class="button expand" {{action 'openItemsSearch' item target=packageService}}
-      disabled={{disableBoxPalletItemAddition}}>Add item to {{item.storageTypeName}}</button>
+      disabled={{disableBoxPalletItemAddition}}>{{t 'box_pallet.add_to'}} {{item.storageTypeName}}</button>
   </div>
   {{#if isMobileApp}}
     <div class="small-2 medium-2 large-2 columns scan-button">
@@ -32,7 +32,7 @@
             </div>
             <div class="small-2 columns close">
               <div {{action 'openLocationSearch' pkg}}>
-                {{fa-icon 'times-circle' size="lg"}} <span>Remove</span></div>
+                {{fa-icon 'times-circle' size="lg"}} <span>{{t 'remove'}}</span></div>
             </div>
           </div>
         </li>
