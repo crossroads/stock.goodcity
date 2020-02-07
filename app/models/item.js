@@ -89,6 +89,17 @@ export default cloudinaryUrl.extend({
     return this.get("storageType.name");
   }),
 
+  storageTypeIcon: Ember.computed("storageTypeName", function() {
+    switch (this.get("storageTypeName")) {
+      case "Box":
+        return "box-open";
+      case "Pallet":
+        return "pallet";
+      default:
+        return "tag";
+    }
+  }),
+
   isDesignated: Ember.computed(
     "ordersPackages",
     "ordersPackages.[]",
