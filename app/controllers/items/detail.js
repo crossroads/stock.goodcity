@@ -22,7 +22,6 @@ export default GoodcityController.extend(
     isMobileApp: config.cordova.enabled,
     backLinkPath: "",
     previousValue: "",
-    openLocationSearch: false,
     openAddItemOverlay: false,
     addableItem: null,
     removableItem: null,
@@ -233,6 +232,13 @@ export default GoodcityController.extend(
       return this.get("packageService").allChildPackageTypes(this.get("item"));
     }),
 
+    observeLocation: Ember.observer(
+      "locationService.selectedLocation",
+      function() {
+        this.send("selectLocationAndUnpackItem");
+      }
+    ),
+
     actions: {
       /**
        * Called after a property is changed to push the updated
@@ -262,7 +268,8 @@ export default GoodcityController.extend(
        * Removes an item from a box/pallet
        * @param { Item } pkg The package we wish to remove from the box/pallet
        */
-      selectLocationAndUnpackItem(location) {
+      selectLocationAndUnpackItem() {
+        const location = this.get("locationService.selectedLocation");
         let item = this.get("removableItem");
         if (!location) {
           return false;
@@ -275,7 +282,6 @@ export default GoodcityController.extend(
             quantity: item.added_quantity
           };
           this.get("packageService").addRemoveItem(this.get("item.id"), params);
-          this.set("openLocationSearch", false);
         }
         this.send("fetchAssociatedPackages");
       },
@@ -297,7 +303,7 @@ export default GoodcityController.extend(
       },
 
       openLocationSearch(item) {
-        this.set("openLocationSearch", true);
+        this.set("locationService.openLocationSearch", true);
         this.set("removableItem", item);
       },
 

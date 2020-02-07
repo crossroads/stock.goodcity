@@ -50,15 +50,11 @@
   }}
 </div>
 
-{{goodcity/locations-search-overlay
-  open=openLocationSearch
-  selectedLocation=(action 'selectLocationAndUnpackItem')
-}}
-
-
-{{goodcity/add-item-overlay
-  pkg=addableItem
-  open=openAddItemOverlay
-  entity=item
-  onConfirm=(action 'fetchAssociatedPackages')
-}}
+<div class="row add-to-box">
+  {{goodcity/add-item-overlay
+    pkg=addableItem
+    open=openAddItemOverlay
+    entity=item
+    onConfirm=(action 'fetchAssociatedPackages')
+  }}
+</div>

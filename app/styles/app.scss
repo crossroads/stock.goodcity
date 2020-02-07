@@ -22,6 +22,7 @@
 @import "node_modules/ember-searchable-select/app/styles/ember-searchable-select/style";
 @import "templates/index";
 @import "templates/items/detail";
+@import "templates/items/detail/storage_content";
 @import "templates/items/history";
 @import "templates/items/new";
 @import "templates/items/index";
@@ -48,3 +49,4 @@
 @import "templates/users/new";
 @import "templates/notifications";
 @import "templates/appointments";
+@import "templates/components/add_item_overlay"

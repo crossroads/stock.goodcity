@@ -49,6 +49,7 @@ export default Ember.Component.extend({
       .addRemoveItem(this.get("entity.id"), params)
       .then(data => {
         this.get("store").pushPayload(data);
+        this.set("open", false);
         this.sendAction("onConfirm");
       })
       .catch(response => {
@@ -76,7 +77,6 @@ export default Ember.Component.extend({
               quantity: selectedQuantity
             };
             this.addRemoveItem(params);
-            this.set("open", false);
           }
           pkgLocation.rollbackAttributes();
         });
