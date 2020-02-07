@@ -29,6 +29,9 @@ export default DS.Model.extend({
   inactiveAt: attr("date"),
   displayImageCloudinaryId: attr("string"),
   companyId: attr("string"),
+  inventoriedPackageCount: attr("string"),
+  unrecordedPackageCount: attr("string"),
+  companyId: attr("string"),
 
   company: belongsTo("company", { async: false }),
   createdBy: belongsTo("user", { async: false }),

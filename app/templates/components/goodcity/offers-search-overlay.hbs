@@ -6,7 +6,7 @@
           <i {{action (mut offerService.openOfferSearch) false}} class="back_icon" aria-hidden="true">{{fa-icon 'times' size='lg'}}</i>
         </div>
 
-        <div class="input-holder small-10 columns">
+        <div class="input-holder small-8 columns">
           {{focus-textfield
             name="searchText"
             id=uuid
@@ -17,6 +17,11 @@
             <i class="pinned-right" {{action "clearSearch"}}>{{fa-icon 'times-circle' size='lg'}}</i>
           {{/if}}
         </div>
+        {{#if isMobileApp}}
+          <div class="small-2 columns scan-button scanner">
+            {{scan-barcode-button route="items"}}
+          </div>
+        {{/if}}
       </div>
 
       <section class="main-section orders_search_result search_result">
@@ -26,14 +31,20 @@
               {{#if displayResults}}
                 {{#infinite-list height="85vh" loadMore=(action "loadMoreOffers") as |res| }}
                   {{#each res as |offer|}}
-                    <li {{action "closeOverlay" offer}}>
-                      {{offer.id}}
-                      {{#if offer.createdBy}}
-                        - {{t "full_name" firstName=offer.createdBy.firstName lastName=offer.createdBy.lastName}}
-                      {{/if}}
-                      {{#if offer.company}}
-                        ({{offer.company.name}})
-                      {{/if}}
+                    <li {{action "closeOverlay" offer}} class="offer-result">
+                      <div class="offer-name">
+                        {{offer.id}}
+                        {{#if offer.createdBy}}
+                          - {{t "full_name" firstName=offer.createdBy.firstName lastName=offer.createdBy.lastName}}
+                        {{/if}}
+                        {{#if offer.company}}
+                          ({{offer.company.name}})
+                        {{/if}}
+                      </div>
+                      <div class="time">
+                        Received {{time-ago timeValue=offer.receivedAt smallPrefix=false}} ago
+                        <div class="package-counts">{{offer.inventoriedPackageCount}} inventories, {{offer.unrecordedPackageCount}} Unrecorded</div>
+                      </div>
                     </li>
                   {{/each}}
                 {{/infinite-list}}
