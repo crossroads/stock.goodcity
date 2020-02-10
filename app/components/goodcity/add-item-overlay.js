@@ -1,26 +1,35 @@
 import Ember from "ember";
 const { getOwner } = Ember;
+import SingletonComponent from "../base/global";
 import _ from "lodash";
 
-export default Ember.Component.extend({
+export default SingletonComponent.extend({
   packageService: Ember.inject.service(),
   store: Ember.inject.service(),
   messageBox: Ember.inject.service(),
   i18n: Ember.inject.service(),
 
+  init() {
+    this._super("add-item-overlay");
+  },
+
   pkgLocations: Ember.computed("pkg.packagesLocations", function() {
-    let pkg = this.get("pkg");
-    if (pkg) {
-      return this.get("pkg").get("packagesLocations");
-    }
+    return this.getAttributesFor("packagesLocations");
   }),
 
   pkgLocationName: Ember.computed("pkg.packagesLocations", function() {
+    return this.getAttributesFor("packagesLocationsName");
+  }),
+
+  getAttributesFor(parameter) {
     let pkg = this.get("pkg");
     if (pkg) {
-      return this.get("pkgLocations").get("firstObject.location.name");
+      if (parameter == "packagesLocationsName") {
+        return this.get("pkgLocations").get("firstObject.location.name");
+      }
+      return this.get("pkg").get("packagesLocations");
     }
-  }),
+  },
 
   calculateSumFor(parameter) {
     let quantities = [];
@@ -53,10 +62,10 @@ export default Ember.Component.extend({
         this.sendAction("onConfirm");
       })
       .catch(response => {
-        let error_message =
+        this.get("messageBox").alert(
           (response.responseJSON && response.responseJSON.errors[0]) ||
-          this.get("i18n").t("unexpected_error");
-        this.get("messageBox").alert(error_message);
+            this.get("i18n").t("unexpected_error")
+        );
       })
       .finally(() => {
         loadingView.destroy();
