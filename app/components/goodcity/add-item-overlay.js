@@ -15,8 +15,11 @@ export default Ember.Component.extend({
     }
   }),
 
-  pkgLocationName: Ember.computed("pkgLocations", function() {
-    return this.get("pkgLocations").get("firstObject.location.name");
+  pkgLocationName: Ember.computed("pkg.packagesLocations", function() {
+    let pkg = this.get("pkg");
+    if (pkg) {
+      return this.get("pkgLocations").get("firstObject.location.name");
+    }
   }),
 
   calculateSumFor(parameter) {
