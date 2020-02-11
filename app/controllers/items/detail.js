@@ -283,23 +283,20 @@ export default GoodcityController.extend(
           };
           this.get("packageService").addRemoveItem(this.get("item.id"), params);
         }
-        this.send("fetchAssociatedPackages");
+        this.send("fetchContainedPackages");
       },
 
       /**
        * Fetches all the assoicated packages to a box/pallet
        */
-      fetchAssociatedPackages() {
+      async fetchContainedPackages() {
         this.showLoadingSpinner();
-        return this.get("packageService")
-          .fetchAssociatedPackages(this.get("item.id"))
-          .then(data => {
-            this.store.pushPayload(data);
-            this.set("associatedPackages", data.items);
-          })
-          .finally(() => {
-            this.hideLoadingSpinner();
-          });
+        let data = await this.get("packageService").fetchContainedPackages(
+          this.get("item.id")
+        );
+        this.store.pushPayload(data);
+        this.set("associatedPackages", data.items);
+        this.hideLoadingSpinner();
       },
 
       openLocationSearch(item) {

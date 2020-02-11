@@ -68,7 +68,7 @@ export default cloudinaryUrl.extend({
   }),
 
   addedQuantity: attr("number"),
-  inHandQuantity: attr("number"),
+  onHandQuantity: attr("number"),
 
   ordersPackages: hasMany("ordersPackages", {
     async: true
@@ -87,17 +87,6 @@ export default cloudinaryUrl.extend({
 
   storageTypeName: Ember.computed("storageTypeId", function() {
     return this.get("storageType.name");
-  }),
-
-  storageTypeIcon: Ember.computed("storageTypeName", function() {
-    switch (this.get("storageTypeName")) {
-      case "Box":
-        return "box-open";
-      case "Pallet":
-        return "pallet";
-      default:
-        return "tag";
-    }
   }),
 
   isDesignated: Ember.computed(

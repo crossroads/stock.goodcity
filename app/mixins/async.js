@@ -81,6 +81,7 @@ export default Ember.Mixin.create({
       getString(reason, "message") ||
       getString(reason, "errors[0].message") ||
       getString(reason, "errors[0].detail.message") ||
+      getString(reason, "errors[0]") ||
       defaultMessage
     );
   },

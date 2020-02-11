@@ -75,7 +75,7 @@ export default AuthorizeRoute.extend({
     controller.set("backLinkPath", this.get("itemBackLinkPath"));
     controller.set("active", true);
     if (["Box", "Pallet"].indexOf(model.get("storageTypeName")) >= 0) {
-      controller.send("fetchAssociatedPackages");
+      controller.send("fetchContainedPackages");
     }
     let detailType = model.get("detailType");
     if (detailType) {

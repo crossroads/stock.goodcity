@@ -1,17 +1,12 @@
 import Ember from "ember";
-const { getOwner } = Ember;
-import SingletonComponent from "../base/global";
+import AsyncMixin, { ERROR_STRATEGIES } from "../../mixins/async";
 import _ from "lodash";
 
-export default SingletonComponent.extend({
+export default Ember.Component.extend(AsyncMixin, {
   packageService: Ember.inject.service(),
   store: Ember.inject.service(),
   messageBox: Ember.inject.service(),
   i18n: Ember.inject.service(),
-
-  init() {
-    this._super("add-item-overlay");
-  },
 
   pkgLocations: Ember.computed("pkg.packagesLocations", function() {
     return this.getAttributesFor("packagesLocations");
@@ -51,25 +46,15 @@ export default SingletonComponent.extend({
   ),
 
   addRemoveItem(params) {
-    var loadingView = getOwner(this)
-      .lookup("component:loading")
-      .append();
-    return this.get("packageService")
-      .addRemoveItem(this.get("entity.id"), params)
-      .then(data => {
-        this.get("store").pushPayload(data);
-        this.set("open", false);
-        this.sendAction("onConfirm");
-      })
-      .catch(response => {
-        this.get("messageBox").alert(
-          (response.responseJSON && response.responseJSON.errors[0]) ||
-            this.get("i18n").t("unexpected_error")
-        );
-      })
-      .finally(() => {
-        loadingView.destroy();
-      });
+    this.runTask(async () => {
+      const data = await this.get("packageService").addRemoveItem(
+        this.get("entity.id"),
+        params
+      );
+      this.get("store").pushPayload(data);
+      this.set("open", false);
+      this.sendAction("onConfirm");
+    }, ERROR_STRATEGIES.MODAL);
   },
 
   actions: {

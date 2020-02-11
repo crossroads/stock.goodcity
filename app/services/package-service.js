@@ -57,19 +57,19 @@ export default ApiBaseService.extend({
     return this.PUT(`/packages/${pkgId}/add_remove_item`, params);
   },
 
-  fetchAssociatedPackages(boxPalletId) {
-    return this.GET(`/packages/${boxPalletId}/fetch_associated_packages`);
+  fetchContainedPackages(boxPalletId) {
+    return this.GET(`/packages/${boxPalletId}/contained_packages`);
   },
 
   allChildPackageTypes(item) {
-    let all_package_types = this.fetchAssociatedPackageListFor(
+    let all_package_types = this.getAssociatedPkgTypes(
       item,
       "defaultChildPackages"
-    ).concat(this.fetchAssociatedPackageListFor(item, "otherChildPackages"));
+    ).concat(this.getAssociatedPkgTypes(item, "otherChildPackages"));
     return all_package_types.getEach("id");
   },
 
-  fetchAssociatedPackageListFor(item, type) {
+  getAssociatedPkgTypes(item, type) {
     let defaultChildPackageTypes = item.get("code").get(type);
     return this._getPackageTypes(defaultChildPackageTypes);
   },

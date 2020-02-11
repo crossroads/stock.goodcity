@@ -53,7 +53,7 @@
     <div class="location-wrap">
       <div class="row">
         <div class="main-header">
-          <span class="available">{{pkg.inHandQuantity}} {{t 'box_pallet.available'}}</span>
+          <span class="available">{{pkg.onHandQuantity}} {{t 'box_pallet.available'}}</span>
           <p>{{t 'box_pallet.indicate_amount'}}</p>
         </div>
       </div>
@@ -81,7 +81,7 @@
           {{packageLocation.quantity}}
         </div>
         <div class="small-3 columns">
-          {{input type="number" value=packageLocation.defaultQuantity max=packageLocation.quantity}}
+          {{input type="number" value=packageLocation.defaultQuantity}}
         </div>
       </div>
       {{/each}}

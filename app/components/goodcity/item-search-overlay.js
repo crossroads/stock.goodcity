@@ -1,9 +1,8 @@
 import Ember from "ember";
 import _ from "lodash";
-import SingletonComponent from "../base/global";
 import SearchMixin from "stock/mixins/search_resource";
 
-export default SingletonComponent.extend(SearchMixin, {
+export default Ember.Component.extend(SearchMixin, {
   searchText: "",
   autoLoad: true,
   store: Ember.inject.service(),
@@ -41,13 +40,14 @@ export default SingletonComponent.extend(SearchMixin, {
           this.getPaginationQuery(pageNo),
           {
             associated_package_types: this.get("associatedPackageTypes"),
-            withInventoryNumber: true
+            withInventoryNumber: true,
+            filter_box_pallet: true
           }
         )
       );
       let items = await this.get("store").query("item", params);
       return items.filter(function(item) {
-        return item.get("inHandQuantity") > 0;
+        return item.get("onHandQuantity") > 0;
       });
     }
   }
