@@ -37,10 +37,21 @@ export default GoodcityController.extend(SearchMixin, {
       .get("lastObject");
   }),
 
+  highlightSelectedTabs: Ember.computed("tabName", function() {
+    return (
+      ["client_summary", "contact_summary"].indexOf(this.get("tabName")) >= 0
+    );
+  }),
+
   scheduleTimeSlots: Ember.computed(function() {
     let buildSlot = (hours, minutes) => {
       const key = this.formatTimeSlot(hours, minutes);
-      return { name: key, id: key, hours, minutes };
+      return {
+        name: key,
+        id: key,
+        hours,
+        minutes
+      };
     };
     let slots = _.range(0, 23).map(h => [0, 30].map(m => buildSlot(h, m)));
     return _.flatten(slots);
