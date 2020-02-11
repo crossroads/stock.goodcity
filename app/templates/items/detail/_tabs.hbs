@@ -4,7 +4,7 @@
 
   <!-- DETAILS TAB -->
   <div {{action 'openTab' 'info'}} class="tab info small {{if selectInfoTab 'selected'}}">
-    <div class="icon-holder">{{fa-icon model.storageTypeIcon size="lg"}}</div>
+    <div class="icon-holder">{{fa-icon (storage-icon model.storageTypeName) size="lg"}}</div>
     <div class="text-holder">{{ model.inventoryNumber }}</div>
   </div>
 
