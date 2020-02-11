@@ -72,8 +72,7 @@ module.exports = function(environment) {
         "donor_condition",
         "lookup",
         "goodcity_setting",
-        "printer",
-        "cancellation_reason"
+        "printer"
       ],
       USER_DATA_TYPES: [
         "designation",
