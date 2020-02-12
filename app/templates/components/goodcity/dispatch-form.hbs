@@ -24,16 +24,20 @@
         <div class="info-row">
           <div class="key">Quantity</div>
           <div class="value">
-            {{input type="number" value=quantity disabled=(unless editableQty true) class="qty-input" change=(clamp this 'quantity' 1 maxQuantity) }}
+            {{input type="number" value=quantity disabled=(unless editableQty true) class="qty-input"}}
           </div>
-          <div class="sub-text">Max: {{maxQuantity}}</div>
+          <div class="sub-text {{if (is-not (is-in-range quantity 1 maxQuantity)) 'warn-text'}}">Max: {{maxQuantity}}</div>
         </div>
       </div>
     </div>
 
     <div class="button-container">
       <div class="button light" {{action cancelDispatchAction}}>Cancel</div>
-      <div class="button" {{action completeDispatchAction}}>Dispatch ({{ quantity }})</div>
+      {{#if (is-not (is-in-range quantity 1 maxQuantity))}}
+        <div class="button" disabled>Dispatch ({{ quantity }})</div>
+      {{else}}
+        <div class="button" {{action completeDispatchAction}}>Dispatch ({{ quantity }})</div>
+      {{/if}}
     </div>
   </div>
 {{/popup-overlay}}

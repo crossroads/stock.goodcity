@@ -1,9 +1,13 @@
 <div class="history">
   <div class="row">
-    <div class="columns small-1 medium-1 large-1 history-back-link">
-      {{#link-to 'items.detail' model.id classNames="back"}}
-        <i class="back_icon" aria-hidden="true" style="color: white;">{{fa-icon 'angle-left'}}</i>
-      {{/link-to}}
+    <div class="columns small-1 medium-1 large-1">
+      {{#back-link fallbackRoute="items"}}
+        <div class="item-page click-action-zone">
+          <div class="back_link no-avatar">
+            <i aria-hidden="true">{{fa-icon 'angle-left'}}</i>
+          </div>
+        </div>
+      {{/back-link}}
     </div>
     <div class="columns small-11 medium-11 large-11 history-title">
       {{t "items.history"}}

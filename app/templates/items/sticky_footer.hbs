@@ -3,13 +3,14 @@
     <div class="row">
       <div class="small-12 columns">
         <ul class="small-block-grid-3 list">
-          {{#link-to 'items.detail' model tagName='li' href=false}}
+          {{#link-to 'items.detail' model tagName='li' href=false replace=true}}
             <i aria-hidden="true">{{fa-icon 'file-alt'}}</i> {{t 'footer.details'}}
           {{/link-to}}
 
-          {{#link-to 'items.history' model tagName='li' href=false}}
+          {{#link-to 'items.history' model tagName='li' href=false replace=true}}
             <li><i aria-hidden="true">{{fa-icon 'clock'}}</i>{{t 'footer.history'}}</li>
           {{/link-to}}
+
           <li><i aria-hidden="true">{{fa-icon 'comments'}}</i>{{t 'footer.staff'}}</li>
         </ul>
       </div>

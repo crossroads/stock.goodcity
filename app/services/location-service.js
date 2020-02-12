@@ -64,10 +64,10 @@ export default ApiBaseService.extend(NavigationAwareness, {
     Ember.run(() => {
       this.set("locationSearchOptions", opts);
       this.set("openLocationSearch", true);
-      this.set("onLocationSelected", order => {
+      this.set("onLocationSelected", location => {
         this.set("onLocationSelected", _.noop);
         this.set("openLocationSearch", false);
-        deferred.resolve(order || null);
+        deferred.resolve(location || null);
       });
     });
 

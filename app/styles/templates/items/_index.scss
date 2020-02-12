@@ -1,3 +1,54 @@
+.item-page.click-action-zone {
+  width: 4rem;
+  height: 4rem;
+  position: absolute;
+  z-index: 99;
+
+  .back_link {
+    top: 0.5rem;
+    margin-left: 0.5rem;
+    font-size: 2rem;
+    position: absolute;
+    cursor: pointer;
+    width: 1.8rem;
+    height: 1.8rem;
+    z-index: 1;
+
+    i {
+      position: absolute;
+      font-weight: bolder;
+      color: black;
+      height: 1.2rem;
+      width: 1.2rem;
+      font-size: 2rem;
+      line-height: 1.7rem;
+      left: 0.1rem;
+      bottom: 38%;
+
+      @media #{$small-only} {
+        margin: 0.35rem 0 0 -0.9rem;
+        width: 2rem;
+        height: 2rem;
+        line-height: 1.2rem;
+        left: 0.65rem;
+        bottom: -4%;
+      }
+
+    }
+
+    @media #{$medium-only} {
+      // left: 0.5rem;
+    }
+
+    @media #{$small-only} {
+      top: 0.5rem;
+      // left: 0.5rem;
+      width: 2rem;
+      height: 2rem;
+    }
+  }
+}
+
 .add_item_inventory_button {
   padding: 10px !important;
   border: 1.4px solid white;

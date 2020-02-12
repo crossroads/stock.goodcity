@@ -24,6 +24,7 @@ export default Ember.Mixin.create(AsyncMixin, {
   designationService: Ember.inject.service(),
   locationService: Ember.inject.service(),
   settings: Ember.inject.service(),
+  i18n: Ember.inject.service(),
 
   editableQty: Ember.computed.not("settings.allowPartialOperations"),
 
@@ -66,11 +67,24 @@ export default Ember.Mixin.create(AsyncMixin, {
     const presetLocations = pkg.get("packagesLocations").mapBy("location");
 
     if (presetLocations.get("length") > 1) {
-      return this.get("locationService").userPickLocation({ presetLocations });
+      return this.get("locationService").userPickLocation({
+        headerText: this.get("i18n").t("select_location.dispatch_from"),
+        presetLocations
+      });
     }
 
     return presetLocations.get("firstObject");
   },
+
+  dispatchQuantityInvalid: Ember.computed(
+    "dispatchQty",
+    "dispatchableQuantity",
+    function() {
+      const qty = this.get("dispatchQty");
+      const max = this.get("dispatchableQuantity");
+      return isNaN(qty) || isNaN(max) || qty > max || qty < 1;
+    }
+  ),
 
   onQuantitiesChange: Ember.observer(
     "dispatchOrdersPackage.undispatchedQty",
@@ -99,7 +113,8 @@ export default Ember.Mixin.create(AsyncMixin, {
     },
 
     completeDispatch() {
-      if (!this.get("readyToDispatch")) return;
+      if (!this.get("readyToDispatch") || this.get("dispatchQuantityInvalid"))
+        return;
 
       this.runTask(() => {
         const ordPkg = this.get("dispatchOrdersPackage");
