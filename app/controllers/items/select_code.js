@@ -86,7 +86,11 @@ export default SearchCode.extend({
         package: packageParams
       })
     );
-    this.transitionToRoute("items.detail", item.id);
+    this.navigateBack();
+  },
+
+  navigateBack() {
+    window.history.back();
   },
 
   isSamePackage(type) {
@@ -98,7 +102,7 @@ export default SearchCode.extend({
     cancelSearch() {
       Ember.$("#searchText").blur();
       this.send("clearSearch", true);
-      this.transitionToRoute("items.detail", this.get("item"));
+      this.navigateBack();
     },
 
     assignItemLabel(pkgType) {
