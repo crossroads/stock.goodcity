@@ -296,6 +296,9 @@ export default GoodcityController.extend(
         let selectedLocation = await this.get(
           "locationService"
         ).userPickLocation();
+        if (!selectedLocation) {
+          return;
+        }
         this.selectLocationAndUnpackItem(selectedLocation.id);
       },
 

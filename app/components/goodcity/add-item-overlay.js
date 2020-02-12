@@ -1,5 +1,5 @@
 import Ember from "ember";
-import AsyncMixin, { ERROR_STRATEGIES } from "../../mixins/async";
+import AsyncMixin, { ERROR_STRATEGIES } from "stock/mixins/async";
 import _ from "lodash";
 
 export default Ember.Component.extend(AsyncMixin, {
@@ -29,13 +29,14 @@ export default Ember.Component.extend(AsyncMixin, {
   calculateSumFor(parameter) {
     let quantities = [];
     if (this.get("pkg.packagesLocations")) {
-      this.get("pkg.packagesLocations").map(value => {
-        quantities.push(value.get(parameter));
-      });
+      quantities = this.get("pkg.packagesLocations").map(value =>
+        value.get(parameter)
+      );
     }
-    return quantities.reduce((accumulator, value) => {
-      return accumulator + (!(value == "") && parseInt(value));
-    }, 0);
+    return quantities.reduce(
+      (accumulator, value) => accumulator + parseInt(value || 0),
+      0
+    );
   },
 
   totalNumberTomove: Ember.computed(
@@ -63,7 +64,7 @@ export default Ember.Component.extend(AsyncMixin, {
       if (pkg) {
         this.get("pkgLocations").forEach(pkgLocation => {
           let selectedQuantity = pkgLocation.get("defaultQuantity");
-          if (pkgLocation.get("hasDirtyAttributes") && selectedQuantity != 0) {
+          if (pkgLocation.get("hasDirtyAttributes") && selectedQuantity) {
             const params = {
               item_id: pkg.id,
               task: "pack",
