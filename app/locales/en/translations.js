@@ -585,7 +585,8 @@ export default {
     pick_from_location: "Select SOURCE location",
     pick_to_location: "Select DESTINATION",
     moving_item_to: "Moving this item to ",
-    quantity_input: "Input the quantity to move "
+    quantity_input: "Input the quantity to move ",
+    dispatch_from: "Where to dispatch the package from ?"
   },
 
   footer: {
