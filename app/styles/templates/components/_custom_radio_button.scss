@@ -1,0 +1,26 @@
+.custom_radio_buttons {
+  input[type='radio'] {
+    -webkit-appearance:none;
+    width:20px !important;
+    height:20px !important;
+    border-radius:50%;
+    outline:none;
+    background: white;
+
+    @media #{$small-only} {
+      width: 15px !important;
+      height: 15px !important;
+    }
+  }
+  input[type='radio']:before {
+    content:'';
+    display:block;
+    width:60%;
+    height:60%;
+    margin: 20% auto;
+    border-radius:50%;
+  }
+  input[type='radio']:checked:before {
+      background:black;
+  }
+}

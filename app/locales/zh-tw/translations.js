@@ -70,6 +70,11 @@ export default {
     online: "已連線",
     not_connected: "並未連線"
   },
+  order_cancellation_reason: {
+    warning: "此動作將移除訂單內的所有物品並取消訂單",
+    title: "取消訂單的原因",
+    other: "取消訂單的原因"
+  },
   order_client_summary: {
     remove_client_title: "移除受惠者",
     remove_client_info: "移除受惠者",

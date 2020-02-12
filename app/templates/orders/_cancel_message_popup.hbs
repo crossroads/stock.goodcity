@@ -1,0 +1,20 @@
+{{#message-box btn1Text="Not Now"  btn2Text="Cancel Order" btn2Callback=(action "cancelOrder") isVisible=showCancellationReason classNames="popupOverlay cancellation_reason"}}
+  <p>{{t 'order_cancellation_reason.warning'}}</p>
+  <strong class="title">{{t 'order_cancellation_reason.title'}}</strong>
+  {{#each cancellationReasons as |reason|}}
+    <div class="custom_radio_buttons ">
+      {{radio-button
+        name= 'cancellationReason'
+        id= reason.id
+        value= reason.id
+        selection= cancellationReasonId
+        required='true'}}
+      <label class="radio-button-text align-text hire_vehicle" for={{reason.id}}>
+        {{reason.name}}
+      </label>
+    </div>
+  {{/each}}
+  {{#if isOtherCancellationReason}}
+    {{auto-resize-textarea data-autoresize=true name="otherCancellationReason" value=otherCancellationReason required="required" pattern=".*\S.*" id="otherCancellationReason"}}
+  {{/if}}
+{{/message-box}}

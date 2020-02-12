@@ -16,6 +16,33 @@
   }
 }
 
+.cancellation_reason {
+  .title {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: antialiased;
+    display: block;
+    margin: 1.7rem 0;
+  }
+
+  textarea {
+    border: 2px solid #949698;
+  }
+
+  .custom_radio_buttons {
+    input[type='radio'] {
+      display: inline-block;
+      vertical-align: top;
+    }
+
+    label {
+      display: inline-block;
+      vertical-align: top;
+      color: black;
+      margin-top: -0.8%;
+    }
+  }
+}
+
 .beneficiary-inline-input {
   margin-bottom: 0 !important;
   color: #a3aab6 !important;
@@ -407,10 +434,6 @@
 
   .gc-cancelled-color {
     background-color: #000;
-    height: 2.7rem !important;
-    @media #{$small-only} {
-      height: 2rem !important;
-    }
   }
 
   .gc-awaiting_dispatch-color {
@@ -432,14 +455,12 @@
   .gc-order-status {
     text-align: center;
     margin-bottom: 1.2rem;
-    height: 5.7rem;
     padding: 0.3rem 0.8rem;
     color: $white;
 
     @media #{$small-only} {
       line-height: 1.6rem;
       padding: 0 0.8rem;
-      height: 5rem;
       font-size: 0.8rem;
     }
 
@@ -481,6 +502,21 @@
 
     .time-details {
       display: inline;
+
+      .cancel-reason-title {
+        margin-right: 15%;
+
+        @media #{$small-only} {
+          margin-right: 10%;
+        }
+      }
+
+      .cancel-reason {
+        display: block;
+        text-align: left;
+        width: 83%;
+        margin: 0 auto;
+      }
     }
 
     div {

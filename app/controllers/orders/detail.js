@@ -5,12 +5,15 @@ import GoodcityController from "../goodcity_controller";
 import SearchMixin from "stock/mixins/search_resource";
 import _ from "lodash";
 const { getOwner } = Ember;
+import AsyncMixin from "../../mixins/async";
 
-export default GoodcityController.extend(SearchMixin, {
+export default GoodcityController.extend(AsyncMixin, SearchMixin, {
   backLinkPath: "",
+  displayAllItems: false,
   isMobileApp: config.cordova.enabled,
   order: Ember.computed.alias("model"),
   orderId: Ember.computed.alias("model.id"),
+  showCancellationReason: false,
   hasUnreadMessages: Ember.computed("order", function() {
     return this.get("order.hasUnreadMessages");
   }),
@@ -36,6 +39,7 @@ export default GoodcityController.extend(SearchMixin, {
       .split(".")
       .get("lastObject");
   }),
+  orderService: Ember.inject.service(),
 
   scheduleTimeSlots: Ember.computed(function() {
     let buildSlot = (hours, minutes) => {
@@ -54,6 +58,86 @@ export default GoodcityController.extend(SearchMixin, {
       return value;
     }
   }),
+
+  cancellationReasons: Ember.computed(function() {
+    return this.store.peekAll("cancellation_reason");
+  }),
+
+  cancellationReasonId: Ember.computed(function() {
+    return this.get("cancellationReasons.firstObject.id");
+  }),
+
+  isOtherCancellationReason: Ember.computed("cancellationReasonId", function() {
+    const selectedCancelledReason = this.store.peekRecord(
+      "cancellation_reason",
+      this.get("cancellationReasonId")
+    );
+    return (
+      selectedCancelledReason.get("name") ===
+      this.get("i18n").t("order_cancellation_reason.other").string
+    );
+  }),
+
+  ordersPackagesLengthMoreThenThree: Ember.observer(
+    "model.ordersPackages",
+    function() {
+      var ordersPackages = this.get("model.ordersPackages");
+      ordersPackages.canonicalState.forEach(record => {
+        if (record && record._data.state === "cancelled") {
+          ordersPackages.canonicalState.removeObject(record);
+        }
+      });
+      return ordersPackages.canonicalState.length >= 3
+        ? this.set("displayAllItems", false)
+        : this.set("displayAllItems", true);
+    }
+  ),
+
+  itemsList: Ember.computed(
+    "model.items",
+    "displayAllItems",
+    "model.ordersPackages",
+    "model.ordersPackages.@each.quantity",
+    "model.ordersPackages.@each.state",
+    function() {
+      var ordersPackages = this.get("model.ordersPackages")
+        .rejectBy("state", "requested")
+        .rejectBy("state", "cancelled")
+        .rejectBy("state", null);
+      return this.get("displayAllItems")
+        ? ordersPackages
+        : ordersPackages.slice(0, 3);
+    }
+  ),
+
+  canceledItemsList: Ember.computed(
+    "model.items",
+    "displayAllItems",
+    "model.ordersPackages",
+    "model.ordersPackages.@each.quantity",
+    "model.ordersPackages.@each.state",
+    function() {
+      var ordersPackages = this.get("model.ordersPackages")
+        .filterBy("state", "cancelled")
+        .rejectBy("state", null);
+      return this.get("displayAllItems")
+        ? ordersPackages
+        : ordersPackages.slice(0, 3);
+    }
+  ),
+
+  ordersPkgLength: Ember.computed(
+    "model.items",
+    "displayAllItems",
+    "model.ordersPackages",
+    "model.ordersPackages.@each.quantity",
+    "model.ordersPackages.@each.state",
+    function() {
+      return this.get("model.ordersPackages")
+        .rejectBy("state", "requested")
+        .rejectBy("state", null).length;
+    }
+  ),
 
   formatTimeSlot(hours, minutes) {
     return moment()
@@ -99,6 +183,22 @@ export default GoodcityController.extend(SearchMixin, {
   },
 
   actions: {
+    cancelOrder() {
+      const reason = {
+        cancellation_reason_id: this.get("cancellationReasonId")
+      };
+      if (this.get("otherCancellationReason")) {
+        reason.cancel_reason = this.get("otherCancellationReason");
+      }
+      this.runTask(
+        this.get("orderService")
+          .cancelOrder(this.get("order"), reason)
+          .then(() => {
+            this.send("toggleDisplayOptions");
+          })
+      );
+    },
+
     openSchedulePopup() {
       const scheduledAt = this.get("model.orderTransport.scheduledAt");
       try {
@@ -169,7 +269,7 @@ export default GoodcityController.extend(SearchMixin, {
           this.send("dispatchLaterModel", order, actionName);
           break;
         case "cancel":
-          this.send("promptCancelOrderModel", order, actionName);
+          this.set("showCancellationReason", true);
           break;
         case "close":
           this.send("promptCloseOrderModel", order, actionName);
@@ -305,27 +405,21 @@ export default GoodcityController.extend(SearchMixin, {
     },
 
     changeOrderState(order, transition) {
-      var url = `/orders/${order.id}/transition`;
-      var loadingView = getOwner(this)
-        .lookup("component:loading")
-        .append();
-      new AjaxPromise(url, "PUT", this.get("session.authToken"), {
-        transition: transition
-      })
-        .then(data => {
-          if ("transition" === "restart_process") {
-            this.set("isOrderProcessRestarted", false);
-          }
-          this.send("toggleDisplayOptions");
-          data["designation"] = data["order"];
-          this.get("store").pushPayload(data);
-        })
-        .finally(() => {
-          loadingView.destroy();
-          if (transition === "close") {
-            this.get("appReview").promptReviewModal(true);
-          }
-        });
+      this.runTask(
+        this.get("orderService")
+          .changeOrderState(order, transition)
+          .then(data => {
+            if (transition === "restart_process") {
+              this.set("isOrderProcessRestarted", false);
+            }
+            this.send("toggleDisplayOptions");
+          })
+          .finally(() => {
+            if (transition === "close") {
+              this.get("appReview").promptReviewModal(true);
+            }
+          })
+      );
     }
   }
 });
