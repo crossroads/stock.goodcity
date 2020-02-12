@@ -92,11 +92,6 @@ export default GoodcityController.extend(
       }
     }).volatile(),
 
-    init() {
-      this._super(...arguments);
-      this.get("offerService").on("onOfferSelect", this, this.addOffer);
-    },
-
     returnSelectedValues(selectedValues) {
       let dataObj = {
         ...this.get("subformDataObject")
@@ -240,14 +235,6 @@ export default GoodcityController.extend(
       }
     ),
 
-    addOffer() {
-      const offerIds = [
-        ...this.get("item.offers").getEach("id"),
-        this.get("offerService.onOfferSelected.id")
-      ];
-      this.updatePackageOffers(offerIds);
-    },
-
     updatePackageOffers(offer_ids) {
       this.runTask(
         this.get("packageService").updatePackage(this.get("item.id"), {
@@ -298,6 +285,12 @@ export default GoodcityController.extend(
     },
 
     actions: {
+      async addOffer() {
+        const offer = await this.get("offerService").getOffer();
+        const offerIds = [...this.get("item.offers").getEach("id"), offer.id];
+        this.updatePackageOffers(offerIds);
+      },
+
       removeOffer(rejectedOffer) {
         const offerIds = this.get("item.offers")
           .filter(offer => offer.id !== rejectedOffer.id)

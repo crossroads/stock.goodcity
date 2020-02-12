@@ -3,7 +3,7 @@
     <div class="main-container">
       <div class="row search-field">
         <div class="icon-holder small-2 columns">
-          <i {{action (mut offerService.openOfferSearch) false}} class="back_icon" aria-hidden="true">{{fa-icon 'times' size='lg'}}</i>
+          <i {{action "closeOverlay"}} class="back_icon" aria-hidden="true">{{fa-icon 'times' size='lg'}}</i>
         </div>
 
         <div class="input-holder small-8 columns">
@@ -31,7 +31,7 @@
               {{#if displayResults}}
                 {{#infinite-list height="85vh" loadMore=(action "loadMoreOffers") as |res| }}
                   {{#each res as |offer|}}
-                    <li {{action "closeOverlay" offer}} class="offer-result">
+                    <li {{action "selectOffer" offer}} class="offer-result">
                       <div class="offer-name">
                         {{offer.id}}
                         {{#if offer.createdBy}}
