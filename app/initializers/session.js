@@ -7,5 +7,6 @@ export default {
     application.inject("component", "router", "router:main");
     application.inject("component", "filterService", "service:filterService");
     application.inject("service", "router", "router:main");
+    application.inject("helper", "router", "router:main");
   }
 };
