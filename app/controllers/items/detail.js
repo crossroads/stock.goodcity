@@ -232,12 +232,26 @@ export default GoodcityController.extend(
       return this.get("packageService").allChildPackageTypes(this.get("item"));
     }),
 
-    observeLocation: Ember.observer(
-      "locationService.selectedLocation",
-      function() {
-        this.send("selectLocationAndUnpackItem");
+    /**
+     * Removes an item from a box/pallet
+     * @param { Item } pkg The package we wish to remove from the box/pallet
+     */
+    selectLocationAndUnpackItem(location_id) {
+      let item = this.get("removableItem");
+      if (!location_id) {
+        return false;
       }
-    ),
+      if (item) {
+        const params = {
+          item_id: item.id,
+          location_id: location_id,
+          task: "unpack",
+          quantity: item.added_quantity
+        };
+        this.get("packageService").addRemoveItem(this.get("item.id"), params);
+      }
+      this.send("fetchContainedPackages");
+    },
 
     actions: {
       /**
@@ -265,28 +279,6 @@ export default GoodcityController.extend(
       },
 
       /**
-       * Removes an item from a box/pallet
-       * @param { Item } pkg The package we wish to remove from the box/pallet
-       */
-      selectLocationAndUnpackItem() {
-        const location = this.get("locationService.selectedLocation");
-        let item = this.get("removableItem");
-        if (!location) {
-          return false;
-        }
-        if (item) {
-          const params = {
-            item_id: item.id,
-            location_id: location.id,
-            task: "unpack",
-            quantity: item.added_quantity
-          };
-          this.get("packageService").addRemoveItem(this.get("item.id"), params);
-        }
-        this.send("fetchContainedPackages");
-      },
-
-      /**
        * Fetches all the assoicated packages to a box/pallet
        */
       async fetchContainedPackages() {
@@ -299,9 +291,12 @@ export default GoodcityController.extend(
         this.hideLoadingSpinner();
       },
 
-      openLocationSearch(item) {
-        this.set("locationService.openLocationSearch", true);
+      async openLocationSearch(item) {
         this.set("removableItem", item);
+        let selectedLocation = await this.get(
+          "locationService"
+        ).userPickLocation();
+        this.selectLocationAndUnpackItem(selectedLocation.id);
       },
 
       openAddItemOverlay(item) {

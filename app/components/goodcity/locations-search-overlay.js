@@ -16,7 +16,6 @@ import { stagerred } from "../../utils/async";
 export default SingletonComponent.extend(SearchMixin, {
   searchProps: {},
   autoLoad: true,
-  selectedLocation: null,
   store: Ember.inject.service(),
   perPage: 10,
 
@@ -44,7 +43,6 @@ export default SingletonComponent.extend(SearchMixin, {
 
     async selectLocation(location) {
       const callback = this.getWithDefault("onSelect", _.noop);
-      this.set("selectedLocation", location);
       this.set("open", false);
       this.set("searchText", "");
 

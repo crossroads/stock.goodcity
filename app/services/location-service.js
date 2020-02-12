@@ -19,7 +19,6 @@ export default ApiBaseService.extend(NavigationAwareness, {
   init() {
     this._super(...arguments);
     this.set("openLocationSearch", false);
-    this.set("selectedLocation", null);
   },
 
   onNavigation() {
