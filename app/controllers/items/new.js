@@ -489,6 +489,9 @@ export default GoodcityController.extend(
 
       async addOffer() {
         const offer = await this.get("offerService").getOffer();
+        if (!offer) {
+          return;
+        }
         const offers = _.uniq([...this.get("offersLists"), offer]);
         this.set("offersLists", offers);
       },

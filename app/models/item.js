@@ -72,6 +72,8 @@ export default cloudinaryUrl.extend({
   ordersPackages: hasMany("ordersPackages", {
     async: true
   }),
+  ordersPackages: hasMany("ordersPackages", { async: true }),
+  offersPackages: hasMany("offersPackages", { async: false }),
   imageIds: attr(),
   images: hasMany("image", {
     async: true
