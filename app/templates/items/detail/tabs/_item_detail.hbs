@@ -134,9 +134,9 @@
           <span {{action 'addOffer'}}>
             {{fa-icon 'plus-square'}}
           </span>
-          {{#each item.offers as |offer|}}
+          {{#each item.offersPackages as |offersPackage|}}
             {{offer-tag
-              offer=offer
+              offer=offersPackage.offer
               removeOffer=(action "removeOffer")
             }}
           {{/each}}

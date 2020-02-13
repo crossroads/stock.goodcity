@@ -285,17 +285,30 @@ export default GoodcityController.extend(
     },
 
     actions: {
+      /**
+       * Add Offer to Package
+       */
       async addOffer() {
         const offer = await this.get("offerService").getOffer();
-        const offerIds = [...this.get("item.offers").getEach("id"), offer.id];
+        const offerIds = [
+          ...this.get("item.offersPackages").getEach("offerId"),
+          offer.id
+        ];
         this.updatePackageOffers(offerIds);
       },
 
-      removeOffer(rejectedOffer) {
-        const offerIds = this.get("item.offers")
-          .filter(offer => offer.id !== rejectedOffer.id)
-          .getEach("id");
-        this.updatePackageOffers(offerIds);
+      /**
+       * Remove offer from Package
+       * @param {Offer} to be dissociate from Package
+       */
+      removeOffer(offer) {
+        const offerPackage = this.get("item.offersPackages").findBy(
+          "offerId",
+          +offer.get("id")
+        );
+        if (offerPackage) {
+          this.runTask(offerPackage.destroyRecord());
+        }
       },
 
       /**

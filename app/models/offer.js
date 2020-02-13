@@ -35,7 +35,6 @@ export default DS.Model.extend({
 
   company: belongsTo("company", { async: false }),
   createdBy: belongsTo("user", { async: false }),
-  packages: belongsTo("user", { async: false }),
   offersPackages: hasMany("offersPackages", { async: false }),
   // User details
   userName: attr("string"),

@@ -459,7 +459,8 @@ export default GoodcityController.extend(
           this.clearSubformAttributes();
           this.setProperties({
             locationId: "",
-            inventoryNumber: ""
+            inventoryNumber: "",
+            offersLists: []
           });
           this.replaceRoute("items.detail", data.item.id);
         })
