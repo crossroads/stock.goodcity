@@ -28,7 +28,7 @@ export default Ember.Component.extend({
 
   actions: {
     openLocationSearch(pkg) {
-      this.get("onConfirm")(pkg, this.get("addedQuantityCount"));
+      this.get("onRemove")(pkg, this.get("addedQuantityCount"));
     }
   }
 });
