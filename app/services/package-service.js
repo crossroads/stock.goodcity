@@ -61,6 +61,12 @@ export default ApiBaseService.extend({
     return this.GET(`/packages/${boxPalletId}/contained_packages`);
   },
 
+  fetchAddedQuantity(entityId, pkgID) {
+    return this.GET(`/packages/${pkgID}/fetch_added_quantity`, {
+      entity_id: entityId
+    });
+  },
+
   allChildPackageTypes(item) {
     let all_package_types = this.getAssociatedPkgTypes(
       item,

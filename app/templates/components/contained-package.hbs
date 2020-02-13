@@ -1,0 +1,26 @@
+<li class="added-item-list">
+  <div class="row">
+    <div class="small-2 medium-2 columns">
+      <img src={{package.thumbImageUrl}} class="thumb" />
+    </div>
+    <div class="small-8 medium-8 columns details">
+      <div class="content">
+        <span>
+          {{fa-icon (if package.isSet 'tags' (storage-icon package.storageTypeName))}}
+          {{package.inventoryNumber}}
+        </span>
+      </div>
+      <div class="content">
+        <span>{{addedQuantityCount}} x {{package.notes}}</span>
+      </div>
+      <div class="content">
+        {{package.notes}}
+      </div>
+    </div>
+    <div class="small-2 columns close">
+      <div {{action 'openLocationSearch' package}}>
+        {{fa-icon 'times-circle' size="lg"}} <span>{{t 'box_pallet.remove'}}</span>
+      </div>
+    </div>
+  </div>
+</li>

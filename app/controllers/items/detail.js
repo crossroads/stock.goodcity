@@ -236,7 +236,7 @@ export default GoodcityController.extend(
      * Removes an item from a box/pallet
      * @param { Item } pkg The package we wish to remove from the box/pallet
      */
-    selectLocationAndUnpackItem(location_id) {
+    selectLocationAndUnpackItem(location_id, quantity) {
       let item = this.get("removableItem");
       if (!location_id) {
         return false;
@@ -246,7 +246,7 @@ export default GoodcityController.extend(
           item_id: item.id,
           location_id: location_id,
           task: "unpack",
-          quantity: item.added_quantity
+          quantity: quantity
         };
         this.get("packageService").addRemoveItem(this.get("item.id"), params);
       }
@@ -291,7 +291,7 @@ export default GoodcityController.extend(
         this.hideLoadingSpinner();
       },
 
-      async openLocationSearch(item) {
+      async openLocationSearch(item, quantity) {
         this.set("removableItem", item);
         let selectedLocation = await this.get(
           "locationService"
@@ -299,7 +299,7 @@ export default GoodcityController.extend(
         if (!selectedLocation) {
           return;
         }
-        this.selectLocationAndUnpackItem(selectedLocation.id);
+        this.selectLocationAndUnpackItem(selectedLocation.id, quantity);
       },
 
       openAddItemOverlay(item) {

@@ -14,28 +14,11 @@
   <div class="small-12 columns">
     <ul class="added-item-block">
       {{#each associatedPackages as |pkg|}}
-        <li class="added-item-list">
-          <div class="row">
-            <div class="small-2 medium-2 columns">
-              <img src={{item.thumbImageUrl}} class="thumb" />
-            </div>
-            <div class="small-8 medium-8 columns details">
-              <div class="content">
-                <span>{{fa-icon storageTypeIcon }}&nbsp;&nbsp;&nbsp;{{pkg.inventory_number}}</span>
-              </div>
-              <div class="content">
-                <span>{{pkg.added_quantity}} x {{pkg.notes}}</span>
-              </div>
-              <div class="content">
-                {{pkg.notes}}
-              </div>
-            </div>
-            <div class="small-2 columns close">
-              <div {{action 'openLocationSearch' pkg}}>
-                {{fa-icon 'times-circle' size="lg"}} <span>{{t 'box_pallet.remove'}}</span></div>
-            </div>
-          </div>
-        </li>
+        {{contained-package
+          pkg=pkg
+          entity=item
+          onConfirm=(action 'openLocationSearch')
+        }}
       {{/each}}
     </ul>
   </div>
