@@ -134,6 +134,13 @@
           <span {{action 'addOffer'}}>
             {{fa-icon 'plus-square'}}
           </span>
+          {{#if item.offer}}
+          {{offer-tag
+              isPackageOffer=false
+              offer=item.offer
+              removeOffer=(action "removeOffer")
+            }}
+          {{/if}}
           {{#each item.offersPackages as |offersPackage|}}
             {{offer-tag
               offer=offersPackage.offer
