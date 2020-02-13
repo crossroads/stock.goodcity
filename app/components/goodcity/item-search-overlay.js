@@ -46,9 +46,7 @@ export default Ember.Component.extend(SearchMixin, {
         )
       );
       let items = await this.get("store").query("item", params);
-      return items.filter(function(item) {
-        return item.get("onHandQuantity") > 0;
-      });
+      return items.filter(item => item.get("onHandQuantity"));
     }
   }
 });

@@ -8,23 +8,12 @@ export default Ember.Component.extend(AsyncMixin, {
   messageBox: Ember.inject.service(),
   i18n: Ember.inject.service(),
 
-  pkgLocations: Ember.computed("pkg.packagesLocations", function() {
-    return this.getAttributesFor("packagesLocations");
-  }),
+  pkgLocations: Ember.computed.alias("pkg.packagesLocations"),
 
   pkgLocationName: Ember.computed("pkg.packagesLocations", function() {
-    return this.getAttributesFor("packagesLocationsName");
+    let pkgLocations = this.get("pkgLocations");
+    return pkgLocations && pkgLocations.get("firstObject.location.name");
   }),
-
-  getAttributesFor(parameter) {
-    let pkg = this.get("pkg");
-    if (pkg) {
-      if (parameter == "packagesLocationsName") {
-        return this.get("pkgLocations").get("firstObject.location.name");
-      }
-      return this.get("pkg").get("packagesLocations");
-    }
-  },
 
   calculateSumFor(parameter) {
     let quantities = [];
