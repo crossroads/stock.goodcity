@@ -31,6 +31,7 @@ export default AuthorizeRoute.extend({
     if (detailType) {
       await this.loadIfAbsent(_.snakeCase(detailType).toLowerCase(), detailId);
     }
+
     return model;
   },
 
@@ -73,6 +74,9 @@ export default AuthorizeRoute.extend({
     controller.set("callOrderObserver", false);
     controller.set("backLinkPath", this.get("itemBackLinkPath"));
     controller.set("active", true);
+    if (["Box", "Pallet"].indexOf(model.get("storageTypeName")) >= 0) {
+      controller.send("fetchContainedPackages");
+    }
     let detailType = model.get("detailType");
     if (detailType) {
       let details = await this.store.query(_.snakeCase(detailType), {

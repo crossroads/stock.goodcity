@@ -1,0 +1,95 @@
+<div class="add-item small-9 columns" align="center">
+  {{#popup-overlay open=open}}
+  <section class="main-section move-item-to-box">
+    <div class="row">
+      <div class="small-12 columns heading">
+        <span>{{t 'box_pallet.move_to'}} {{entity.storageTypeName}} {{entity.inventoryNumber}}.</span>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="columns small-12">
+        <div class="bottom-header">
+          <div class="tab-container">
+            <div class="tab small">
+              <div class="icon-holder">{{fa-icon 'tag' }}</div>
+              <div class="text-holder">{{pkg.inventoryNumber}}</div>
+            </div>
+            <div class="tab large">
+              <div class="icon-holder">{{fa-icon 'map-marker-alt' }}</div>
+              <div class="text-holder">{{pkgLocationName}}</div>
+            </div>
+            <div class="tab end large">
+              <div class="sub-tabs">
+                <div class="icon-holder">{{fa-icon 'paper-plane' }}</div>
+                <div class="text-holder">{{pkg.totalDispatchedQty}}</div>
+              </div>
+              <div class="sub-tabs">
+                <div class="icon-holder">{{fa-icon 'shopping-basket' }}</div>
+                <div class="text-holder">{{pkg.totalDesignatedQty }}</div>
+              </div>
+              <div class="sub-tabs">
+                <div class="icon-holder">{{fa-icon 'eye' }}</div>
+                <div class="text-holder">{{pkg.availableQty}}</div>
+              </div>
+            </div>
+          </div>
+          <div class="item-summary">
+            <div class="content item-img">
+              <img src={{pkg.thumbImageUrl}} class="thumb" />
+            </div>
+            <div class="content item-description">
+              <div>
+                {{pkg.notes}}
+              </div>
+              <div>
+                {{pkg.notes}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="location-wrap">
+      <div class="row">
+        <div class="main-header">
+          <span class="available">{{pkg.onHandQuantity}} {{t 'box_pallet.available'}}</span>
+          <p>{{t 'box_pallet.indicate_amount'}}</p>
+        </div>
+      </div>
+
+      <div class="row items-table-heading">
+        <div class="inner-wrapper">
+          <div class="small-6 columns">
+            {{t 'box_pallet.location'}}
+          </div>
+          <div class="small-3 columns">
+            {{t 'box_pallet.quantity'}}
+          </div>
+          <div class="small-3 columns">
+            {{t 'box_pallet.number_to_move'}}
+          </div>
+        </div>
+      </div>
+
+      {{#each pkg.packagesLocations as |packageLocation|}}
+      <div class="row items-table-content">
+        <div class="small-6 columns">
+          {{packageLocation.location.name}}
+        </div>
+        <div class="small-3 columns">
+          {{packageLocation.quantity}}
+        </div>
+        <div class="small-3 columns">
+          {{input type="number" value=packageLocation.defaultQuantity}}
+        </div>
+      </div>
+      {{/each}}
+    </div>
+    <div class="buttons row">
+      <div class="small-4 columns button" {{action 'cancelMove'}}>{{t 'box_pallet.not_now'}}</div>
+      <div class="small-4 columns button" {{action 'moveItemToBox' pkg}}>{{t 'box_pallet.move'}} ({{totalNumberTomove}})</div>
+    </div>
+  </section>
+  {{/popup-overlay}}
+</div>

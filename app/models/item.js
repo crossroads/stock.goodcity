@@ -20,12 +20,12 @@ export default cloudinaryUrl.extend({
   caseNumber: attr("string"),
   quantity: attr("number"),
   receivedQuantity: attr("number"),
-
   length: attr("number"),
   width: attr("number"),
   height: attr("number"),
   weight: attr("number"),
   pieces: attr("number"),
+  packageTypeId: attr("number"),
 
   sentOn: attr("date"),
   isSet: attr("boolean"),
@@ -40,22 +40,43 @@ export default cloudinaryUrl.extend({
     async: false
   }),
   designationId: attr("string"),
-  designation: belongsTo("designation", { async: true }),
-  location: belongsTo("location", { async: false }),
-  code: belongsTo("code", { async: false }),
-  packageType: belongsTo("packageType", { async: false }),
-  donorCondition: belongsTo("donor_condition", { async: false }),
-  setItem: belongsTo("set_item", { async: false }),
-  packagesLocations: hasMany("packages_location", { async: true }),
+  designation: belongsTo("designation", {
+    async: true
+  }),
+  location: belongsTo("location", {
+    async: false
+  }),
+  code: belongsTo("code", {
+    async: false
+  }),
+  packageType: belongsTo("packageType", {
+    async: false
+  }),
+  donorCondition: belongsTo("donor_condition", {
+    async: false
+  }),
+  setItem: belongsTo("set_item", {
+    async: false
+  }),
+  packagesLocations: hasMany("packages_location", {
+    async: true
+  }),
 
   storageTypeId: attr("number"),
   storageType: belongsTo("storage_type", {
     async: true
   }),
 
-  ordersPackages: hasMany("ordersPackages", { async: true }),
+  addedQuantity: attr("number"),
+  onHandQuantity: attr("number"),
+
+  ordersPackages: hasMany("ordersPackages", {
+    async: true
+  }),
   imageIds: attr(),
-  images: hasMany("image", { async: true }),
+  images: hasMany("image", {
+    async: true
+  }),
 
   isDispatched: Ember.computed.bool("sentOn"),
   orderCode: Ember.computed.alias("designation.code"),
@@ -63,6 +84,10 @@ export default cloudinaryUrl.extend({
 
   imageUrl: Ember.computed.alias("image.imageUrl"),
   designateFullSet: Ember.computed.localStorage(),
+
+  storageTypeName: Ember.computed("storageTypeId", function() {
+    return this.get("storageType.name");
+  }),
 
   isDesignated: Ember.computed(
     "ordersPackages",

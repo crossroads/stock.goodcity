@@ -8,6 +8,7 @@ import PackageDetailMixin from "stock/mixins/fetch_package_detail";
 import GradeMixin from "stock/mixins/grades_option";
 import MoveActions from "stock/mixins/move_actions";
 import DesignationActions from "stock/mixins/designation_actions";
+import AsyncMixin from "stock/mixins/async";
 import StorageTypes from "stock/mixins/storage-type";
 import _ from "lodash";
 
@@ -18,10 +19,14 @@ export default GoodcityController.extend(
   MoveActions,
   DesignationActions,
   StorageTypes,
+  AsyncMixin,
   {
     isMobileApp: config.cordova.enabled,
     backLinkPath: "",
     previousValue: "",
+    openAddItemOverlay: false,
+    addableItem: null,
+    removableItem: null,
     subformDataObject: null,
     item: Ember.computed.alias("model"),
     queryParams: ["showDispatchOverlay"],
@@ -33,6 +38,8 @@ export default GoodcityController.extend(
     setDropdownOption: Ember.inject.service(),
     designationService: Ember.inject.service(),
     settings: Ember.inject.service(),
+    packageService: Ember.inject.service(),
+    locationService: Ember.inject.service(),
     displayScanner: false,
     designateFullSet: Ember.computed.localStorage(),
     callOrderObserver: false,
@@ -48,7 +55,6 @@ export default GoodcityController.extend(
     currentRoute: Ember.computed.alias("application.currentPath"),
     pkg: Ember.computed.alias("model"),
     showPieces: Ember.computed.alias("model.code.allow_pieces"),
-    settings: Ember.inject.service(),
 
     isItemDetailPresent() {
       return !!this.get("item.detail.length");
@@ -151,13 +157,8 @@ export default GoodcityController.extend(
       return ["storage_content", "info"].indexOf(this.get("tabName")) > -1;
     }),
 
-    storageTypeName: Ember.computed("item", function() {
-      let storageType = this.get("item.storageType");
-      return storageType && storageType.get("name");
-    }),
-
     isBoxOrPallet: Ember.computed("item", function() {
-      return ["Box", "Pallet"].indexOf(this.get("storageTypeName")) > -1;
+      return ["Box", "Pallet"].indexOf(this.get("item.storageTypeName")) > -1;
     }),
 
     conditions: Ember.computed(function() {
@@ -229,6 +230,31 @@ export default GoodcityController.extend(
       }
     ),
 
+    associatedPackageTypes: Ember.computed("item", function() {
+      return this.get("packageService").allChildPackageTypes(this.get("item"));
+    }),
+
+    /**
+     * Removes an item from a box/pallet
+     * @param { Item } pkg The package we wish to remove from the box/pallet
+     */
+    selectLocationAndUnpackItem(location_id, quantity) {
+      let item = this.get("removableItem");
+      if (!location_id) {
+        return false;
+      }
+      if (item) {
+        const params = {
+          item_id: item.id,
+          location_id: location_id,
+          task: "unpack",
+          quantity: quantity
+        };
+        this.get("packageService").addRemoveItem(this.get("item.id"), params);
+      }
+      this.send("fetchContainedPackages");
+    },
+
     actions: {
       /**
        * Called after a property is changed to push the updated
@@ -252,6 +278,39 @@ export default GoodcityController.extend(
        */
       toggleSetList() {
         this.toggleProperty("showSetList");
+      },
+
+      /**
+       * Fetches all the assoicated packages to a box/pallet
+       */
+      fetchContainedPackages() {
+        return this.runTask(async () => {
+          const data = await this.get("packageService").fetchContainedPackages(
+            this.get("item.id")
+          );
+          this.get("store").pushPayload(data);
+          this.set("associatedPackages", data.items);
+        });
+      },
+
+      openItemsSearch(item) {
+        this.get("packageService").openItemsSearch(item);
+      },
+
+      async openLocationSearch(item, quantity) {
+        this.set("removableItem", item);
+        let selectedLocation = await this.get(
+          "locationService"
+        ).userPickLocation();
+        if (!selectedLocation) {
+          return;
+        }
+        this.selectLocationAndUnpackItem(selectedLocation.id, quantity);
+      },
+
+      openAddItemOverlay(item) {
+        this.set("openAddItemOverlay", true);
+        this.set("addableItem", item);
       },
 
       /**
