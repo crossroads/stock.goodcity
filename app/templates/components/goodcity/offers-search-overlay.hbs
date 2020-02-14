@@ -19,7 +19,7 @@
         </div>
         {{#if isMobileApp}}
           <div class="small-2 columns scan-button scanner">
-            {{scan-barcode-button route="items"}}
+            {{scan-barcode-button returnScannedText=(action "setScannedSearchText")}}
           </div>
         {{/if}}
       </div>
