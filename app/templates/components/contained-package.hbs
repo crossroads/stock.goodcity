@@ -11,7 +11,9 @@
         </span>
       </div>
       <div class="content">
-        <span>{{addedQuantityCount}} x {{package.notes}}</span>
+        {{#if fetchAddedQuantity.isFulfilled}}
+          <span>{{addedQuantityCount}} x {{package.notes}}</span>
+        {{/if}}
       </div>
       <div class="content">
         {{package.notes}}
