@@ -28,14 +28,13 @@ export default DS.Model.extend({
   cancelReason: attr("string"),
   inactiveAt: attr("date"),
   displayImageCloudinaryId: attr("string"),
-  companyId: attr("string"),
   inventoriedPackageCount: attr("string"),
   unrecordedPackageCount: attr("string"),
-  companyId: attr("string"),
+  companyId: attr("number"),
 
   company: belongsTo("company", { async: false }),
   createdBy: belongsTo("user", { async: false }),
-  item: hasMany("item", { async: false }),
+  package: hasMany("package", { async: false }),
   offersPackages: hasMany("offersPackages", { async: false }),
   // User details
   userName: attr("string"),

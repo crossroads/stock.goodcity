@@ -26,6 +26,7 @@ export default cloudinaryUrl.extend({
   weight: attr("number"),
   pieces: attr("number"),
   packageTypeId: attr("number"),
+  offerId: attr("number"),
 
   sentOn: attr("date"),
   isSet: attr("boolean"),
