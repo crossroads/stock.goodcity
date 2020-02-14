@@ -293,6 +293,10 @@ export default GoodcityController.extend(
         });
       },
 
+      openItemsSearch(item) {
+        this.get("packageService").openItemsSearch(item);
+      },
+
       async openLocationSearch(item, quantity) {
         this.set("removableItem", item);
         let selectedLocation = await this.get(
