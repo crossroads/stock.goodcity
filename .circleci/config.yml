@@ -123,7 +123,7 @@ jobs:
           name: Ember build
           command: |
             case "$CIRCLE_BRANCH" in
-              master)
+              GCW-2859-check-issues-related-to-contained-packge-removal)
                 ENVIRONMENT=staging
                 ;;
               preview)
@@ -160,7 +160,7 @@ jobs:
           name: Upload to www server
           command: |
             case "$CIRCLE_BRANCH" in
-              master)
+              GCW-2859-check-issues-related-to-contained-packge-removal)
                 STAGE=staging
                 ;;
               preview)
@@ -181,7 +181,7 @@ jobs:
             SOURCE_MAP_WITH_VARIABLE_NAME=$(grep sourceMappingURL dist/assets/stock-*.js)
             SOURCE_MAP=$(eval echo $SOURCE_MAP_WITH_VARIABLE_NAME | cut -c22-100)
             case "$CIRCLE_BRANCH" in
-              master)
+              GCW-2859-check-issues-related-to-contained-packge-removal)
                 ASSET_HOST_URL=https://stock-staging.goodcity.hk/assets
                 ;;
               preview)
@@ -405,17 +405,17 @@ workflows:
       #       branches:
       #         only: /^(master|live)$/
       - www_build:
-          requires:
-            - test_cases
+          # requires:
+            # - test_cases
           filters:
             branches:
-              only: /^(master|live|preview)$/
+              only: /^(master|live|preview|GCW-2859-check-issues-related-to-contained-packge-removal)$/
       - www-deploy:
           requires:
             - www_build
           filters:
             branches:
-              only: /^(master|live|preview)$/
+              only: /^(master|live|preview|GCW-2859-check-issues-related-to-contained-packge-removal)$/
       - ember_cordova_build:
           requires:
             - test_cases
