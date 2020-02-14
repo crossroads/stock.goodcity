@@ -42,6 +42,10 @@ export default Ember.Component.extend(SearchMixin, {
     selectOffer(offer) {
       this.getWithDefault("onSelect", _.noop)(offer);
       this.set("open", false);
+    },
+
+    setScannedSearchText(searchedText) {
+      this.set("searchText", searchedText);
     }
   }
 });

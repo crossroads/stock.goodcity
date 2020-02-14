@@ -480,6 +480,7 @@ export default GoodcityController.extend(
           "location",
           await this.get("locationService").userPickLocation()
         );
+      },
 
       removeOffer(offer) {
         const offersList = this.get("offersLists").filter(
