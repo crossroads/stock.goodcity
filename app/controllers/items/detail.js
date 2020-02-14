@@ -284,7 +284,7 @@ export default GoodcityController.extend(
        * Fetches all the assoicated packages to a box/pallet
        */
       fetchContainedPackages() {
-        return this.runTask(async () => {
+        this.runTask(async () => {
           const data = await this.get("packageService").fetchContainedPackages(
             this.get("item.id")
           );

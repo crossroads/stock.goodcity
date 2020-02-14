@@ -1,5 +1,4 @@
 import Ember from "ember";
-
 const ObjectPromiseProxy = Ember.ObjectProxy.extend(Ember.PromiseProxyMixin);
 
 export default Ember.Component.extend({
