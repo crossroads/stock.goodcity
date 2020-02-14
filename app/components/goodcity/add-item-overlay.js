@@ -36,8 +36,12 @@ export default Ember.Component.extend(AsyncMixin, {
   ),
 
   addRemoveItem(params) {
-    return this.runTask(() => {
-      this.get("packageService").addRemoveItem(this.get("entity.id"), params);
+    this.runTask(async () => {
+      const data = await this.get("packageService").addRemoveItem(
+        this.get("entity.id"),
+        params
+      );
+      this.get("store").pushPayload(data);
       this.set("open", false);
       this.sendAction("onConfirm");
     }, ERROR_STRATEGIES.MODAL);

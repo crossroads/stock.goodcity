@@ -53,9 +53,8 @@ export default ApiBaseService.extend({
     });
   },
 
-  async addRemoveItem(pkgId, params) {
-    const data = await this.PUT(`/packages/${pkgId}/add_remove_item`, params);
-    return data;
+  addRemoveItem(pkgId, params) {
+    return this.PUT(`/packages/${pkgId}/add_remove_item`, params);
   },
 
   fetchContainedPackages(boxPalletId) {
