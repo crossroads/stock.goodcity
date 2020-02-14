@@ -10,7 +10,7 @@ export default Ember.Component.extend({
     return this.get("store").peekRecord("item", this.get("pkg.id"));
   }),
 
-  addedQuantity: Ember.computed("pkg", function() {
+  fetchAddedQuantity: Ember.computed("pkg", function() {
     let pkgId = this.get("pkg.id");
     let entityId = this.get("entity.id");
     let promise = this.get("packageService").fetchAddedQuantity(
@@ -23,7 +23,7 @@ export default Ember.Component.extend({
   }),
 
   addedQuantityCount: Ember.computed
-    .reads("addedQuantity.added_quantity")
+    .reads("fetchAddedQuantity.added_quantity")
     .readOnly(),
 
   actions: {

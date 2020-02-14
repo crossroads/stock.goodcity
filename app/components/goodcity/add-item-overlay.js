@@ -15,11 +15,11 @@ export default Ember.Component.extend(AsyncMixin, {
     return pkgLocations && pkgLocations.get("firstObject.location.name");
   }),
 
-  calculateSumFor(parameter) {
+  calculateSumFor(attribute) {
     let quantities = [];
     if (this.get("pkg.packagesLocations")) {
       quantities = this.get("pkg.packagesLocations").map(value =>
-        value.get(parameter)
+        value.get(attribute)
       );
     }
     return quantities.reduce(
@@ -36,12 +36,8 @@ export default Ember.Component.extend(AsyncMixin, {
   ),
 
   addRemoveItem(params) {
-    this.runTask(async () => {
-      const data = await this.get("packageService").addRemoveItem(
-        this.get("entity.id"),
-        params
-      );
-      this.get("store").pushPayload(data);
+    return this.runTask(() => {
+      this.get("packageService").addRemoveItem(this.get("entity.id"), params);
       this.set("open", false);
       this.sendAction("onConfirm");
     }, ERROR_STRATEGIES.MODAL);
@@ -51,7 +47,7 @@ export default Ember.Component.extend(AsyncMixin, {
     moveItemToBox() {
       let pkg = this.get("pkg");
       if (pkg) {
-        this.get("pkgLocations").forEach(pkgLocation => {
+        this.get("pkgLocations").map(pkgLocation => {
           let selectedQuantity = pkgLocation.get("defaultQuantity");
           if (pkgLocation.get("hasDirtyAttributes") && selectedQuantity) {
             const params = {

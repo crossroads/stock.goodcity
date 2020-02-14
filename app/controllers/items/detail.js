@@ -8,6 +8,7 @@ import PackageDetailMixin from "stock/mixins/fetch_package_detail";
 import GradeMixin from "stock/mixins/grades_option";
 import MoveActions from "stock/mixins/move_actions";
 import DesignationActions from "stock/mixins/designation_actions";
+import AsyncMixin from "stock/mixins/async";
 import StorageTypes from "stock/mixins/storage-type";
 import _ from "lodash";
 
@@ -18,6 +19,7 @@ export default GoodcityController.extend(
   MoveActions,
   DesignationActions,
   StorageTypes,
+  AsyncMixin,
   {
     isMobileApp: config.cordova.enabled,
     backLinkPath: "",
@@ -281,14 +283,14 @@ export default GoodcityController.extend(
       /**
        * Fetches all the assoicated packages to a box/pallet
        */
-      async fetchContainedPackages() {
-        this.showLoadingSpinner();
-        let data = await this.get("packageService").fetchContainedPackages(
-          this.get("item.id")
-        );
-        this.store.pushPayload(data);
-        this.set("associatedPackages", data.items);
-        this.hideLoadingSpinner();
+      fetchContainedPackages() {
+        return this.runTask(async () => {
+          const data = await this.get("packageService").fetchContainedPackages(
+            this.get("item.id")
+          );
+          this.get("store").pushPayload(data);
+          this.set("associatedPackages", data.items);
+        });
       },
 
       async openLocationSearch(item, quantity) {

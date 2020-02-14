@@ -53,8 +53,9 @@ export default ApiBaseService.extend({
     });
   },
 
-  addRemoveItem(pkgId, params) {
-    return this.PUT(`/packages/${pkgId}/add_remove_item`, params);
+  async addRemoveItem(pkgId, params) {
+    const data = await this.PUT(`/packages/${pkgId}/add_remove_item`, params);
+    return data;
   },
 
   fetchContainedPackages(boxPalletId) {
@@ -84,7 +85,7 @@ export default ApiBaseService.extend({
     let packageTypeNames = (types || "").split(",");
     let packagesTypes = [];
     const allPackageTypes = this.get("store").peekAll("code");
-    packageTypeNames.forEach(function(type) {
+    packageTypeNames.map(function(type) {
       allPackageTypes.filter(function(pkgType) {
         return pkgType.get("code") === type ? packagesTypes.push(pkgType) : "";
       });
