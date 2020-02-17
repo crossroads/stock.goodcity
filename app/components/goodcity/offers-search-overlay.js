@@ -26,6 +26,7 @@ export default Ember.Component.extend(SearchMixin, {
     loadMoreOffers(pageNo) {
       const params = this.trimQuery(
         _.merge(
+          { slug: "search" },
           this.get("offer_state"),
           this.getSearchQuery(),
           this.getPaginationQuery(pageNo)
