@@ -9,7 +9,7 @@ import GradeMixin from "stock/mixins/grades_option";
 import MoveActions from "stock/mixins/move_actions";
 import DesignationActions from "stock/mixins/designation_actions";
 import StorageTypes from "stock/mixins/storage-type";
-import AsyncMixin from "../../mixins/async";
+import AsyncMixin from "stock/mixins/async";
 import _ from "lodash";
 import SearchMixin from "stock/mixins/search_resource";
 

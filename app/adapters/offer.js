@@ -1,5 +1,5 @@
 import ApplicationAdapter from "./application";
-import config from "../config/environment";
+import config from "stock/config/environment";
 import { pluralize } from "ember-inflector";
 
 export default ApplicationAdapter.extend({
