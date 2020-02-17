@@ -1,16 +1,18 @@
-<section class="main-section order_item_list_tabs">
+<section class="main-section order_tabs order_item_list_tabs">
   <div class="row">
     <div class="small-12 columns tab_row">
       <dl class="tabs" data-tab>
-        <dd class="small-6 medium-6 columns text-center">
+        <dd class="small-6 medium-6 columns text-center
+        {{if (is-equal tabName 'active_items') 'active'}}">
           {{#link-to 'orders.active_items' model.id replace=true}}
-            <div>{{t 'items_list_tabs.active'}} ({{ordersPkgLength}})</div>
+          <div>{{t 'items_list_tabs.active'}} ({{ordersPkgLength}})</div>
           {{/link-to}}
         </dd>
 
-        <dd class="small-6 medium-6 columns text-center">
+        <dd class="small-6 medium-6 columns text-center
+        {{if (is-equal tabName 'requested_items') 'active'}}">
           {{#link-to 'orders.requested_items' model.id replace=true}}
-            <div>{{t 'items_list_tabs.requests'}} ({{model.goodcityRequests.length}})</div>
+          <div>{{t 'items_list_tabs.requests'}} ({{model.goodcityRequests.length}})</div>
           {{/link-to}}
         </dd>
       </dl>

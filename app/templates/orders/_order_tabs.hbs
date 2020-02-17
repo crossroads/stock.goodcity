@@ -3,14 +3,15 @@
     <div class="small-12 columns tab_row">
       <dl class="tabs" data-tab>
         <dd class="small-3 medium-3 columns text-center
-          {{if highlightSelectedTab 'active'}}">
+          {{if highlightSelectedTabSummary 'active'}}">
           {{#link-to 'orders.contact_summary' model.id replace=true}}
           <i>{{fa-icon 'id-card'}}</i>
           <div>{{t "order_tabs.summary"}}</div>
           {{/link-to}}
         </dd>
 
-        <dd class="small-3 medium-3 columns text-center {{if (is-equal tabName 'active_items') 'active'}}">
+        <dd class="small-3 medium-3 columns text-center
+        {{if highlightSelectedTabGoods 'active'}}">
           {{#link-to 'orders.active_items' model.id replace=true}}
           <i class="item-menu">{{fa-icon 'shopping-basket'}}</i>
           <div>{{t "order_tabs.goods"}}</div>

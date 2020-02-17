@@ -37,9 +37,15 @@ export default GoodcityController.extend(SearchMixin, {
       .get("lastObject");
   }),
 
-  highlightSelectedTab: Ember.computed("tabName", function() {
+  highlightSelectedTabSummary: Ember.computed("tabName", function() {
     return (
       ["client_summary", "contact_summary"].indexOf(this.get("tabName")) >= 0
+    );
+  }),
+
+  highlightSelectedTabGoods: Ember.computed("tabName", function() {
+    return (
+      ["active_items", "requested_items"].indexOf(this.get("tabName")) >= 0
     );
   }),
 
