@@ -130,23 +130,25 @@
         <div class="columns small-3">
           <span class='input_text'>Offers</span>
         </div>
-        <div class="columns small-9 value weight">
-          <span {{action 'addOffer'}}>
-            {{fa-icon 'plus-square'}}
+        <div class="columns small-9 value last">
+          <div {{action 'addOffer'}}>
+            {{fa-icon 'plus-square'  size='2x'}}
+          </div>
+          <span class="offer-tag-detail">
+            {{#if item.offer}}
+              {{offer-tag
+                isPackageOffer=false
+                offer=item.offer
+                removeOffer=(action "removeOffer")
+              }}
+            {{/if}}
+            {{#each item.offersPackages as |offersPackage|}}
+              {{offer-tag
+                offer=offersPackage.offer
+                removeOffer=(action "removeOffer")
+              }}
+            {{/each}}
           </span>
-          {{#if item.offer}}
-          {{offer-tag
-              isPackageOffer=false
-              offer=item.offer
-              removeOffer=(action "removeOffer")
-            }}
-          {{/if}}
-          {{#each item.offersPackages as |offersPackage|}}
-            {{offer-tag
-              offer=offersPackage.offer
-              removeOffer=(action "removeOffer")
-            }}
-          {{/each}}
         </div>
       </div>
     </div>

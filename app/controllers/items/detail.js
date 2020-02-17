@@ -234,11 +234,11 @@ export default GoodcityController.extend(
       }
     ),
 
-    updatePackageOffers(offer_ids) {
+    updatePackageOffers(offerIds) {
       this.runTask(
         this.get("packageService").updatePackage(this.get("item.id"), {
           package: {
-            offer_ids
+            offer_ids: offerIds
           }
         })
       );

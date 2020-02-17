@@ -1,31 +1,42 @@
-.donations > svg {
-    font-size: 180%;
-    margin-top: 5%;
+.offer-tag {
+  display: inline-block;
+  border: 1px solid #466082;
+  height: 30px;
+  border-radius: 10%;
+  width: auto;
+  margin-left: 0.6em;
+  padding-right: 1em;
+  padding-left: 0.3em;
+}
+
+.offer-detail {
+  font-size: 0.8em;
+  padding-top: 4% !important;
+}
+
+.remove-button{
+  border-radius: inherit;
+  border-left: solid 1px;
+  padding-right: 3%;
+}
+
+.offer-name {
+  padding-left: 5%;
+}
+
+.offer-tag-detail {
+  margin-left: 5%;
+  margin-top: -5%;
+  font-size: 0.8rem !important;
+  display: block;
+
+  @media #{$medium-only}{
+    margin-left: 5%;
+    margin-top: -5%;
   }
 
-  .delete-offer {
-    float: right;
-    padding-right: 5%;
-    padding-top: 5%;
-    background-color: #466082;
-    padding-left: 8%;
-    padding-bottom: 4%;
-    color: white;
-  }
-
-  .offer-detail {
-    display: inline-block;
+  @media #{$small-only} {
     margin-left: 10%;
-    margin-top: 3%;
-    color: white;
-    font-size: 0.8rem;
+    margin-top: -10%;
   }
-
-  .offer-tag {
-    display: inline-block;
-    width: 120px;
-    border: 1px solid #466082;
-    height: 30px;
-    border-radius: 10%;
-    margin-left: 2%;
-  }
+}

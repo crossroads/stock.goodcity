@@ -5,12 +5,12 @@ import SearchMixin from "stock/mixins/search_resource";
 
 /**
  * An overlay that pops up from the bottom of the screen, allowing the user
- * to search and select an order.
+ * to search and select an offer.
  *
- * The popup *does not* do anythinng to the order apart from returning it
+ * The popup *does not* do anythinng to the offer apart from returning it
  *
  * @property {boolean} open whether the popup is visible or not
- * @property {function} onSelect callback triggered when an order is selected
+ * @property {function} onSelect callback triggered when an offer is selected
  */
 export default Ember.Component.extend(SearchMixin, {
   autoLoad: true,
