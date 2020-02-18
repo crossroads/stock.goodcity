@@ -11,6 +11,7 @@ import DesignationActions from "stock/mixins/designation_actions";
 import AsyncMixin from "stock/mixins/async";
 import StorageTypes from "stock/mixins/storage-type";
 import _ from "lodash";
+import SearchMixin from "stock/mixins/search_resource";
 
 export default GoodcityController.extend(
   SearchOptionMixin,
@@ -20,6 +21,7 @@ export default GoodcityController.extend(
   DesignationActions,
   StorageTypes,
   AsyncMixin,
+  SearchMixin,
   {
     isMobileApp: config.cordova.enabled,
     backLinkPath: "",
@@ -264,7 +266,7 @@ export default GoodcityController.extend(
       const searchInput = this.get("searchInput") || "";
       const sanitizeString = this.sanitizeString(searchInput);
       if (sanitizeString) {
-        this.send("openItemsSearch", model);
+        this.send("openItemsSearch", this.get("model"));
         this.set("searchText", sanitizeString);
       }
     }),
