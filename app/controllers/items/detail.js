@@ -32,6 +32,7 @@ export default GoodcityController.extend(
     queryParams: ["showDispatchOverlay"],
     showDispatchOverlay: false,
     autoDisplayOverlay: false,
+    associatedPackages: null,
     subformDetailService: Ember.inject.service(),
     application: Ember.inject.controller(),
     messageBox: Ember.inject.service(),
@@ -61,7 +62,10 @@ export default GoodcityController.extend(
     },
 
     disableBoxPalletItemAddition: Ember.computed("model", function() {
-      return this.get("settings.disableBoxPalletItemAddition");
+      return (
+        this.get("settings.disableBoxPalletItemAddition") ||
+        !this.get("item.onHandQuantity")
+      );
     }),
 
     displayFields: Ember.computed("model.code", function() {
@@ -250,9 +254,10 @@ export default GoodcityController.extend(
           task: "unpack",
           quantity: quantity
         };
-        this.get("packageService").addRemoveItem(this.get("item.id"), params);
+        this.get("packageService")
+          .addRemoveItem(this.get("item.id"), params)
+          .then(() => this.send("fetchContainedPackages"));
       }
-      this.send("fetchContainedPackages");
     },
 
     actions: {
@@ -284,13 +289,14 @@ export default GoodcityController.extend(
        * Fetches all the assoicated packages to a box/pallet
        */
       fetchContainedPackages() {
-        this.runTask(async () => {
-          const data = await this.get("packageService").fetchContainedPackages(
-            this.get("item.id")
-          );
-          this.get("store").pushPayload(data);
-          this.set("associatedPackages", data.items);
-        });
+        this.runTask(
+          this.get("packageService")
+            .fetchContainedPackages(this.get("item.id"))
+            .then(data => {
+              this.get("store").pushPayload(data);
+              this.set("associatedPackages", data.items);
+            })
+        );
       },
 
       openItemsSearch(item) {

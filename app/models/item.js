@@ -67,7 +67,6 @@ export default cloudinaryUrl.extend({
     async: true
   }),
 
-  addedQuantity: attr("number"),
   onHandQuantity: attr("number"),
 
   ordersPackages: hasMany("ordersPackages", {
