@@ -16,12 +16,17 @@
 .offer-detail {
   font-size: 0.8em;
   padding-top: 4% !important;
+  display: inline-flex;
 
+  svg {
+    margin-top: 8%;
+    font-size: 0.9rem;
+  }
   @media #{$small-only} {
     svg {
-      margin-top: 5%;
-      font-size: 1.5em;
       margin-left: 10%;
+      margin-top: 3%;
+      font-size: 0.9rem;
     }
   }
 }
@@ -34,6 +39,15 @@
 
 .offer-name {
   padding-left: 5%;
+  margin-left: 8%;
+  margin-top: 5%;
+  font-size: 0.8rem;
+
+  @media #{$small-only} {
+    padding-left: 20%;
+    margin-left: 5%;
+    padding-right: 20%;
+  }
 }
 
 .offer-tag-detail {

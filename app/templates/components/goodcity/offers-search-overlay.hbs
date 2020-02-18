@@ -2,11 +2,11 @@
   {{#popup-overlay open=open}}
     <div class="main-container">
       <div class="row search-field">
-        <div class="icon-holder small-2 columns">
+        <div class="icon-holder small-1 medium-1 columns">
           <i {{action "closeOverlay"}} class="back_icon" aria-hidden="true">{{fa-icon 'times' size='lg'}}</i>
         </div>
 
-        <div class="input-holder small-8 columns">
+        <div class="input-holder small-9 medium-9 columns">
           {{focus-textfield
             name="searchText"
             id=uuid
@@ -18,7 +18,7 @@
           {{/if}}
         </div>
         {{#if isMobileApp}}
-          <div class="small-2 columns scan-button scanner">
+          <div class="small-2 medium-2 columns scan-button scanner">
             {{scan-barcode-button returnScannedText=(action "setScannedSearchText")}}
           </div>
         {{/if}}
