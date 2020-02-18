@@ -47,7 +47,10 @@ export default GoodcityController.extend(
     length: null,
     width: null,
     height: null,
-    selectedGrade: { name: "B", id: "B" },
+    selectedGrade: {
+      name: "B",
+      id: "B"
+    },
     invalidLocation: false,
     invalidScanResult: false,
     newUploadedImage: null,
@@ -94,7 +97,10 @@ export default GoodcityController.extend(
       const printerId = this.get("selectedPrinterId");
       if (printerId) {
         const printer = this.store.peekRecord("printer", printerId);
-        return { name: printer.get("name"), id: printer.id };
+        return {
+          name: printer.get("name"),
+          id: printer.id
+        };
       } else {
         return this.get("allAvailablePrinters")[0];
       }
@@ -201,11 +207,15 @@ export default GoodcityController.extend(
     }),
 
     isInvalidPrintCount: Ember.computed("labels", function() {
-      return this.isValidLabelRange({ startRange: 0 });
+      return this.isValidLabelRange({
+        startRange: 0
+      });
     }),
 
     isMultipleCountPrint: Ember.computed("labels", function() {
-      return this.isValidLabelRange({ startRange: 1 });
+      return this.isValidLabelRange({
+        startRange: 1
+      });
     }),
 
     isInvalidDimension: Ember.computed("length", "width", "height", function() {
@@ -301,7 +311,10 @@ export default GoodcityController.extend(
         state_event: "mark_received",
         storage_type: this.get("storageType"),
         packages_locations_attributes: {
-          0: { location_id: locationId, quantity: quantity }
+          0: {
+            location_id: locationId,
+            quantity: quantity
+          }
         },
         detail_attributes: detailAttributes
       };
@@ -352,15 +365,16 @@ export default GoodcityController.extend(
     },
 
     checkPermissionAndScan() {
+      let _this = this;
       let permissions = window.cordova.plugins.permissions;
       let permissionError = () => {
-        let error_message = this.get("i18n").t("camera_scan.permission_error");
-        this.get("messageBox").alert(error_message);
+        let error_message = _this.get("i18n").t("camera_scan.permission_error");
+        _this.get("messageBox").alert(error_message);
       };
       let permissionSuccess = status => {
         //after requesting check for permission then, permit to scan
         if (status.hasPermission) {
-          this.scan();
+          _this.scan();
         } else {
           permissionError();
         }
@@ -368,7 +382,7 @@ export default GoodcityController.extend(
       permissions.hasPermission(permissions.CAMERA, function(status) {
         //check permission here
         if (status.hasPermission) {
-          this.scan();
+          _this.scan();
         } else {
           //request permission here
           permissions.requestPermission(
@@ -389,7 +403,10 @@ export default GoodcityController.extend(
       };
       let onError = error =>
         this.get("messageBox").alert("Scanning failed: " + error);
-      let options = { formats: "QR_CODE, CODE_128", orientation: "portrait" };
+      let options = {
+        formats: "QR_CODE, CODE_128",
+        orientation: "portrait"
+      };
       window.cordova.plugins.barcodeScanner.scan(onSuccess, onError, options);
     },
 
@@ -436,7 +453,10 @@ export default GoodcityController.extend(
           }
           this.updateStoreAndSaveImage(data);
           this.clearSubformAttributes();
-          this.setProperties({ locationId: "", inventoryNumber: "" });
+          this.setProperties({
+            locationId: "",
+            inventoryNumber: ""
+          });
           this.replaceRoute("items.detail", data.item.id);
         })
         .catch(response => {
@@ -556,7 +576,9 @@ export default GoodcityController.extend(
             "/images/delete_cloudinary_image",
             "PUT",
             this.get("session.authToken"),
-            { cloudinary_id: this.get("imageKeys") }
+            {
+              cloudinary_id: this.get("imageKeys")
+            }
           );
           this.set("imageKeys", "");
           this.set("newUploadedImage", null);
