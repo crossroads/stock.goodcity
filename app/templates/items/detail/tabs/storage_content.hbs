@@ -6,7 +6,7 @@
   </div>
   {{#if isMobileApp}}
     <div class="small-2 medium-2 large-2 columns scan-button">
-      {{scan-barcode-button record=item route="items"}}
+      {{scan-barcode-button route="items.detail"}}
     </div>
   {{/if}}
 </div>
@@ -27,6 +27,7 @@
 <div class="row item-search-overlay">
   {{goodcity/item-search-overlay
     open=packageService.openItemSearch
+    searchText=searchText
     associatedPackageTypes=associatedPackageTypes
     entity=packageService.entity
     onConfirm=(action 'openAddItemOverlay')
