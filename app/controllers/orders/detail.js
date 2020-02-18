@@ -79,19 +79,13 @@ export default GoodcityController.extend(AsyncMixin, SearchMixin, {
     return this.store.peekAll("cancellation_reason");
   }),
 
-  cancellationReasonId: Ember.computed(function() {
-    return this.get("cancellationReasons.firstObject.id");
-  }),
-
-  isOtherCancellationReason: Ember.computed("cancellationReasonId", function() {
-    const selectedCancelledReason = this.store.peekRecord(
-      "cancellation_reason",
-      this.get("cancellationReasonId")
-    );
-    return (
-      selectedCancelledReason.get("name") ===
-      this.get("i18n").t("order_cancellation_reason.other").string
-    );
+  cancellationReasonId: Ember.computed({
+    get: function() {
+      return this.get("cancellationReasons.firstObject.id");
+    },
+    set: function(key, value) {
+      return value;
+    }
   }),
 
   ordersPackagesLengthMoreThenThree: Ember.observer(
@@ -200,17 +194,22 @@ export default GoodcityController.extend(AsyncMixin, SearchMixin, {
 
   actions: {
     cancelOrder() {
+      const defaultCancellationReasonId = this.get(
+        "cancellationReasons.firstObject.id"
+      );
       const reason = {
-        cancellation_reason_id: this.get("cancellationReasonId")
+        cancellation_reason_id: this.get("cancellationReasonId"),
+        cancel_reason: this.get("otherCancellationReason")
       };
-      if (this.get("otherCancellationReason")) {
-        reason.cancel_reason = this.get("otherCancellationReason");
-      }
       this.runTask(
         this.get("orderService")
           .cancelOrder(this.get("order"), reason)
           .then(() => {
             this.send("toggleDisplayOptions");
+            this.setProperties({
+              otherCancellationReason: "",
+              cancellationReasonId: defaultCancellationReasonId
+            });
           })
       );
     },

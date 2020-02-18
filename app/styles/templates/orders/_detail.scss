@@ -503,19 +503,26 @@
     .time-details {
       display: inline;
 
-      .cancel-reason-title {
-        margin-right: 15%;
-
-        @media #{$small-only} {
-          margin-right: 10%;
-        }
-      }
-
       .cancel-reason {
-        display: block;
-        text-align: left;
-        width: 83%;
-        margin: 0 auto;
+        display: flex;
+
+        .cancel-reason-title {
+          margin-right: 2%;
+          @media #{$small-only} {
+            margin-right: 10%;
+          }
+        }
+
+        .reason {
+          overflow: hidden;
+          white-space: nowrap;
+          font-style: italic;
+          text-overflow: ellipsis;
+
+          @media #{$small-only} {
+            margin-left: -9%;
+          }
+        }
       }
     }
 
