@@ -33,6 +33,15 @@ export default Ember.Controller.extend(SearchMixin, {
     }
   }),
 
+  scannedText: Ember.observer("searchText", function() {
+    const searchInput = this.get("searchText") || "";
+    this.set("searchInput", this.sanitizeString(searchInput));
+  }),
+
+  hasSearchText: Ember.computed("searchText", function() {
+    return Ember.$.trim(this.get("searchText")).length;
+  }),
+
   getFilterQuery() {
     let filterService = this.get("filterService");
     let utilities = this.get("utilityMethods");
@@ -74,6 +83,10 @@ export default Ember.Controller.extend(SearchMixin, {
         .then(results => {
           return results;
         });
+    },
+
+    clearSearch() {
+      this.set("searchText", "");
     }
   }
 });

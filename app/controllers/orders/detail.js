@@ -41,12 +41,17 @@ export default GoodcityController.extend(AsyncMixin, SearchMixin, {
   }),
   orderService: Ember.inject.service(),
 
-  highlightSelectedTab: Ember.computed("tabName", function() {
+  highlightSelectedTabSummary: Ember.computed("tabName", function() {
     return (
       ["client_summary", "contact_summary"].indexOf(this.get("tabName")) >= 0
     );
   }),
 
+  highlightSelectedTabGoods: Ember.computed("tabName", function() {
+    return (
+      ["active_items", "requested_items"].indexOf(this.get("tabName")) >= 0
+    );
+  }),
   scheduleTimeSlots: Ember.computed(function() {
     let buildSlot = (hours, minutes) => {
       const key = this.formatTimeSlot(hours, minutes);
