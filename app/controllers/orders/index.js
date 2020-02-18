@@ -25,6 +25,10 @@ export default Ember.Controller.extend(SearchMixin, {
     }
   },
 
+  hasSearchText: Ember.computed("searchText", function() {
+    return Ember.$.trim(this.get("searchText")).length;
+  }),
+
   getFilterQuery() {
     const filterService = this.get("filterService");
     const utils = this.get("utilityMethods");
@@ -70,6 +74,10 @@ export default Ember.Controller.extend(SearchMixin, {
           this.afterSearch(results);
           return results;
         });
+    },
+
+    clearSearch() {
+      this.set("searchText", "");
     }
   }
 });
