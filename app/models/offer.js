@@ -9,5 +9,7 @@ export default DS.Model.extend({
   inventoriedPackageCount: attr("string"),
   unrecordedPackageCount: attr("string"),
   companyId: attr("number"),
-  company: belongsTo("company", { async: false })
+  createdById: attr("string"),
+  company: belongsTo("company", { async: false }),
+  createdBy: belongsTo("user", { async: false })
 });

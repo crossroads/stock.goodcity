@@ -32,7 +32,7 @@
                 {{#infinite-list height="85vh" loadMore=(action "loadMoreOffers") as |res| }}
                   {{#each res as |offer|}}
                     <li {{action "selectOffer" offer}} class="offer-result">
-                      <div class="offer-name">
+                      <div class="search-offer-name">
                         {{offer.id}}
                         {{#if offer.createdBy}}
                           - {{t "full_name" firstName=offer.createdBy.firstName lastName=offer.createdBy.lastName}}
