@@ -6,6 +6,8 @@ var attr = DS.attr,
   belongsTo = DS.belongsTo;
 
 export default DS.Model.extend({
+  inventoriedPackageCount: attr("string"),
+  unrecordedPackageCount: attr("string"),
   companyId: attr("number"),
   company: belongsTo("company", { async: false })
 });
