@@ -271,6 +271,11 @@ export default GoodcityController.extend(
       }
     }),
 
+    scannedText: Ember.observer("searchText", function() {
+      const searchInput = this.get("searchText") || "";
+      this.set("searchInput", this.sanitizeString(searchInput));
+    }),
+
     actions: {
       /**
        * Called after a property is changed to push the updated
