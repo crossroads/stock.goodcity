@@ -36,7 +36,14 @@ export default Ember.Component.extend(SearchMixin, {
         )
       );
 
-      return this.get("store").query("offer", params);
+      return this.get("store")
+        .query("offer", params)
+        .then(offers => {
+          if (offers.get("length") == 1) {
+            this.send("selectOffer", offers.get("firstObject"));
+          }
+          return offers;
+        });
     },
 
     closeOverlay() {
