@@ -88,7 +88,8 @@ export default {
   order_cancellation_reason: {
     warning: "此動作將移除訂單內的所有物品並取消訂單",
     title: "取消訂單的原因",
-    other: "取消訂單的原因"
+    other: "取消訂單的原因",
+    reason_count: "{{count}} remaining"
   },
   order_client_summary: {
     remove_client_title: "移除受惠者",
