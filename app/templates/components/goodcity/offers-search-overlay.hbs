@@ -6,7 +6,7 @@
           <i {{action "closeOverlay"}} class="back_icon" aria-hidden="true">{{fa-icon 'times' size='lg'}}</i>
         </div>
 
-        <div class="input-holder small-9 medium-9 columns">
+        <div class="input-holder small-9 medium-9 columns offer-search">
           {{focus-textfield
             name="searchText"
             id=uuid
@@ -18,8 +18,8 @@
           {{/if}}
         </div>
         {{#if isMobileApp}}
-          <div class="small-2 medium-2 columns scan-button scanner">
-            {{scan-barcode-button returnScannedText=(action "setScannedSearchText")}}
+          <div class="small-1 medium-2 columns scan-button scanner">
+            {{scan-barcode-button onScanComplete=(action "setScannedSearchText")}}
           </div>
         {{/if}}
       </div>

@@ -45,7 +45,7 @@ export default Ember.Component.extend({
         var record = this.get("record");
 
         if (!route) {
-          this.get("returnScannedText")(record);
+          this.get("onScanComplete")(record);
           return;
         }
         if (record) {
