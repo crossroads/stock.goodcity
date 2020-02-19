@@ -43,7 +43,6 @@ export default Ember.Component.extend(AsyncMixin, {
       );
       this.get("store").pushPayload(data);
       this.set("open", false);
-      this.sendAction("onConfirm");
     }, ERROR_STRATEGIES.MODAL);
   },
 
@@ -65,6 +64,7 @@ export default Ember.Component.extend(AsyncMixin, {
           pkgLocation.rollbackAttributes();
         });
       }
+      this.sendAction("onConfirm");
     },
 
     cancelMove() {
