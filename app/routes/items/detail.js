@@ -9,8 +9,8 @@ export default AuthorizeRoute.extend({
   i18n: Ember.inject.service(),
 
   queryParams: {
-    showDispatchOverlay: false,
-    searchInput: ""
+    showDispatchOverlay: false
+    // searchInput: ""
   },
 
   async model({ item_id }) {
