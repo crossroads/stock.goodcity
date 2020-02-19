@@ -1,13 +1,11 @@
 import Ember from "ember";
 import _ from "lodash";
-import config from "stock/config/environment";
 import SearchMixin from "stock/mixins/search_resource";
 
 export default Ember.Component.extend(SearchMixin, {
   searchText: "",
   autoLoad: true,
   store: Ember.inject.service(),
-  isMobileApp: config.cordova.enabled,
   perPage: 10,
 
   init() {

@@ -262,20 +262,6 @@ export default GoodcityController.extend(
       }
     },
 
-    scannedItem: Ember.observer("searchInput", function() {
-      const searchInput = this.get("searchInput") || "";
-      const sanitizeString = this.sanitizeString(searchInput);
-      if (sanitizeString) {
-        this.send("openItemsSearch", this.get("model"));
-        this.set("searchText", sanitizeString);
-      }
-    }),
-
-    scannedText: Ember.observer("searchText", function() {
-      const searchInput = this.get("searchText") || "";
-      this.set("searchInput", this.sanitizeString(searchInput));
-    }),
-
     actions: {
       /**
        * Called after a property is changed to push the updated
