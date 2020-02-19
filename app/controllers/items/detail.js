@@ -11,6 +11,7 @@ import DesignationActions from "stock/mixins/designation_actions";
 import AsyncMixin from "stock/mixins/async";
 import StorageTypes from "stock/mixins/storage-type";
 import _ from "lodash";
+import SearchMixin from "stock/mixins/search_resource";
 
 export default GoodcityController.extend(
   SearchOptionMixin,
@@ -20,6 +21,7 @@ export default GoodcityController.extend(
   DesignationActions,
   StorageTypes,
   AsyncMixin,
+  SearchMixin,
   {
     isMobileApp: config.cordova.enabled,
     backLinkPath: "",
@@ -259,6 +261,20 @@ export default GoodcityController.extend(
           .then(() => this.send("fetchContainedPackages"));
       }
     },
+
+    scannedItem: Ember.observer("searchInput", function() {
+      const searchInput = this.get("searchInput") || "";
+      const sanitizeString = this.sanitizeString(searchInput);
+      if (sanitizeString) {
+        this.send("openItemsSearch", this.get("model"));
+        this.set("searchText", sanitizeString);
+      }
+    }),
+
+    scannedText: Ember.observer("searchText", function() {
+      const searchInput = this.get("searchText") || "";
+      this.set("searchInput", this.sanitizeString(searchInput));
+    }),
 
     actions: {
       /**
