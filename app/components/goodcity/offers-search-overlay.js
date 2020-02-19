@@ -27,7 +27,7 @@ export default Ember.Component.extend(SearchMixin, {
       const params = this.trimQuery(
         _.merge(
           {
-            for_offers_package: true,
+            shallow: true,
             slug: "search"
           },
           this.get("offer_state"),
