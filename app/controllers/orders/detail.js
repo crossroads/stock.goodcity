@@ -79,13 +79,8 @@ export default GoodcityController.extend(AsyncMixin, SearchMixin, {
     return this.store.peekAll("cancellation_reason");
   }),
 
-  cancellationReasonId: Ember.computed({
-    get: function() {
-      return this.get("cancellationReasons.firstObject.id");
-    },
-    set: function(key, value) {
-      return value;
-    }
+  cancellationReasonId: Ember.computed(function() {
+    return this.get("cancellationReasons.firstObject.id");
   }),
 
   ordersPackagesLengthMoreThenThree: Ember.observer(
@@ -194,9 +189,6 @@ export default GoodcityController.extend(AsyncMixin, SearchMixin, {
 
   actions: {
     cancelOrder() {
-      const defaultCancellationReasonId = this.get(
-        "cancellationReasons.firstObject.id"
-      );
       const reason = {
         cancellation_reason_id: this.get("cancellationReasonId"),
         cancel_reason: this.get("otherCancellationReason")
@@ -207,8 +199,7 @@ export default GoodcityController.extend(AsyncMixin, SearchMixin, {
           .then(() => {
             this.send("toggleDisplayOptions");
             this.setProperties({
-              otherCancellationReason: "",
-              cancellationReasonId: defaultCancellationReasonId
+              otherCancellationReason: ""
             });
           })
       );
