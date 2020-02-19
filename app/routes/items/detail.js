@@ -10,7 +10,6 @@ export default AuthorizeRoute.extend({
 
   queryParams: {
     showDispatchOverlay: false
-    // searchInput: ""
   },
 
   async model({ item_id }) {
