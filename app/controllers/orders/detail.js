@@ -10,6 +10,8 @@ import AsyncMixin from "../../mixins/async";
 export default GoodcityController.extend(AsyncMixin, SearchMixin, {
   backLinkPath: "",
   displayAllItems: false,
+  otherCancellationReason: "",
+  cancelReasonLength: 180,
   isMobileApp: config.cordova.enabled,
   order: Ember.computed.alias("model"),
   orderId: Ember.computed.alias("model.id"),
@@ -83,14 +85,10 @@ export default GoodcityController.extend(AsyncMixin, SearchMixin, {
     return this.get("cancellationReasons.firstObject.id");
   }),
 
-  isOtherCancellationReason: Ember.computed("cancellationReasonId", function() {
-    const selectedCancelledReason = this.store.peekRecord(
-      "cancellation_reason",
-      this.get("cancellationReasonId")
-    );
+  remainingReasonChars: Ember.computed("otherCancellationReason", function() {
     return (
-      selectedCancelledReason.get("name") ===
-      this.get("i18n").t("order_cancellation_reason.other").string
+      this.get("cancelReasonLength") -
+      this.get("otherCancellationReason").length
     );
   }),
 
@@ -201,16 +199,17 @@ export default GoodcityController.extend(AsyncMixin, SearchMixin, {
   actions: {
     cancelOrder() {
       const reason = {
-        cancellation_reason_id: this.get("cancellationReasonId")
+        cancellation_reason_id: this.get("cancellationReasonId"),
+        cancel_reason: this.get("otherCancellationReason")
       };
-      if (this.get("otherCancellationReason")) {
-        reason.cancel_reason = this.get("otherCancellationReason");
-      }
       this.runTask(
         this.get("orderService")
           .cancelOrder(this.get("order"), reason)
           .then(() => {
             this.send("toggleDisplayOptions");
+            this.setProperties({
+              otherCancellationReason: ""
+            });
           })
       );
     },

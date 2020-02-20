@@ -89,7 +89,8 @@ export default {
   order_cancellation_reason: {
     warning: "This will remove any items from the order and cancel the order",
     title: "Cancellation Reasons",
-    other: "Other"
+    other: "Other",
+    reason_count: "{{count}} remaining"
   },
   order_client_summary: {
     remove_client_title: "Remove Client",

@@ -33,6 +33,7 @@ export default Model.extend({
   gcOrganisationId: attr("number"),
   beneficiaryId: attr("number"),
   staffNote: attr("string"),
+  cancelReason: attr("string"),
 
   cancellationReason: belongsTo("cancellation_reason", { async: false }),
   beneficiary: belongsTo("beneficiary", { async: false }),

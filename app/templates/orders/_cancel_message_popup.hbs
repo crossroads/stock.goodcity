@@ -14,7 +14,15 @@
       </label>
     </div>
   {{/each}}
-  {{#if isOtherCancellationReason}}
-    {{auto-resize-textarea data-autoresize=true name="otherCancellationReason" value=otherCancellationReason required="required" pattern=".*\S.*" id="otherCancellationReason"}}
-  {{/if}}
+
+  {{auto-resize-textarea
+    data-autoresize=true
+    name="otherCancellationReason" value=otherCancellationReason
+    required="required" pattern=".*\S.*"
+    id="otherCancellationReason"
+    maxlength=cancelReasonLength
+  }}
+  <div class="right reason-count">
+    {{t 'order_cancellation_reason.reason_count' count=remainingReasonChars}}
+  </div>
 {{/message-box}}
