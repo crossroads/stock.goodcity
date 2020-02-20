@@ -36,13 +36,13 @@ export default Ember.Component.extend(AsyncMixin, {
   ),
 
   addRemoveItem(params) {
-    this.runTask(async () => {
-      const data = await this.get("packageService").addRemoveItem(
-        this.get("entity.id"),
-        params
-      );
-      this.get("store").pushPayload(data);
-      this.set("open", false);
+    this.runTask(() => {
+      this.get("packageService")
+        .addRemoveItem(this.get("entity.id"), params)
+        .then(data => {
+          this.get("store").pushPayload(data);
+          this.set("open", false);
+        });
     }, ERROR_STRATEGIES.MODAL);
   },
 
@@ -63,8 +63,8 @@ export default Ember.Component.extend(AsyncMixin, {
           }
           pkgLocation.rollbackAttributes();
         });
+        this.sendAction("onConfirm");
       }
-      this.sendAction("onConfirm");
     },
 
     cancelMove() {
