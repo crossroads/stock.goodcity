@@ -6,6 +6,7 @@ export default {
   "language.en": "English",
   "language.zh": "中文",
   switch_language: "Switch language",
+  add_inventory_item: "Add item to inventory",
   loading: "Loading...",
   loading_timeout_error: "Loading view timeout reached.",
   loading_timeout: "This is taking too long! Click okay to reload.",
