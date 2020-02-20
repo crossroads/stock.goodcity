@@ -36,21 +36,24 @@ export default Ember.Component.extend(AsyncMixin, {
   ),
 
   addRemoveItem(params) {
-    this.runTask(async () => {
-      const data = await this.get("packageService").addRemoveItem(
-        this.get("entity.id"),
-        params
-      );
-      this.get("store").pushPayload(data);
-      this.set("open", false);
-    }, ERROR_STRATEGIES.MODAL);
+    this.runTask(
+      this.get("packageService")
+        .addRemoveItem(this.get("entity.id"), params)
+        .then(this.set("open", false))
+        .catch(response => {
+          this.get("messageBox").alert(
+            response.responseText.errors[0] ||
+              this.get("i18n").t("unexpected_error")
+          );
+        })
+    );
   },
 
   actions: {
-    moveItemToBox() {
+    async moveItemToBox() {
       let pkg = this.get("pkg");
       if (pkg) {
-        this.get("pkgLocations").map(pkgLocation => {
+        await this.get("pkgLocations").map(pkgLocation => {
           let selectedQuantity = pkgLocation.get("defaultQuantity");
           if (pkgLocation.get("hasDirtyAttributes") && selectedQuantity) {
             const params = {
@@ -63,8 +66,8 @@ export default Ember.Component.extend(AsyncMixin, {
           }
           pkgLocation.rollbackAttributes();
         });
+        this.sendAction("onConfirm");
       }
-      this.sendAction("onConfirm");
     },
 
     cancelMove() {
