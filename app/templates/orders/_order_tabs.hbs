@@ -2,36 +2,61 @@
   <div class="row">
     <div class="small-12 columns tab_row">
       <dl class="tabs" data-tab>
-        <dd class="small-3 medium-3 columns text-center
-          {{if highlightSelectedTabSummary 'active'}}">
-          {{#link-to 'orders.contact_summary' model.id replace=true}}
-          <i>{{fa-icon 'id-card'}}</i>
-          <div>{{t "order_tabs.summary"}}</div>
-          {{/link-to}}
-        </dd>
+        {{#if model.isGoodCityOrder}}
+          <dd class="small-3 medium-3 columns text-center
+            {{if highlightSelectedTabSummary 'active'}}">
+            {{#link-to 'orders.contact_summary' model.id replace=true}}
+              <i>{{fa-icon 'id-card'}}</i>
+              <div>{{t "order_tabs.summary"}}</div>
+            {{/link-to}}
+          </dd>
 
-        <dd class="small-3 medium-3 columns text-center
-        {{if highlightSelectedTabGoods 'active'}}">
+          <dd class="small-3 medium-3 columns text-center
+          {{if highlightSelectedTabGoods 'active'}}">
           {{#link-to 'orders.active_items' model.id replace=true}}
-          <i class="item-menu">{{fa-icon 'shopping-basket'}}</i>
-          <div>{{t "order_tabs.goods"}}</div>
+            <i class="item-menu">{{fa-icon 'shopping-basket'}}</i>
+            <div>{{t "order_tabs.goods"}}</div>
           {{/link-to}}
-        </dd>
+          </dd>
 
-        <dd class="small-3 medium-3 columns text-center {{if (is-equal tabName 'order_types') 'active'}}">
-          {{#link-to 'orders.order_types' model.id replace=true}}
-          <i>{{fa-icon 'truck'}}</i>
-          <div>{{t "order_tabs.logistics"}}</div>
-          {{/link-to}}
-        </dd>
+          <dd class="small-3 medium-3 columns text-center {{if (is-equal tabName 'order_types') 'active'}}">
+            {{#link-to 'orders.order_types' model.id replace=true}}
+              <i>{{fa-icon 'truck'}}</i>
+              <div>{{t "order_tabs.logistics"}}</div>
+            {{/link-to}}
+          </dd>
 
-        <dd class="small-3 medium-3 columns text-center {{if (is-equal tabName 'conversation') 'active'}}">
-          {{#link-to 'orders.conversation' model.id replace=true}}
-          {{partial 'orders/unread_message_bubble'}}
-          <i>{{fa-icon 'comments'}}</i>
-          <div>{{t "order_tabs.chat"}}</div>
+          <dd class="small-3 medium-3 columns text-center {{if (is-equal tabName 'conversation') 'active'}}">
+            {{#link-to 'orders.conversation' model.id replace=true}}
+              {{partial 'orders/unread_message_bubble'}}
+              <i>{{fa-icon 'comments'}}</i>
+              <div>{{t "order_tabs.chat"}}</div>
+            {{/link-to}}
+          </dd>
+        {{else}}
+           <dd class="small-4 medium-4 columns text-center
+            {{if highlightSelectedTabSummary 'active'}}">
+            {{#link-to 'orders.contact_summary' model.id replace=true}}
+              <i>{{fa-icon 'id-card'}}</i>
+              <div>{{t "order_tabs.summary"}}</div>
+            {{/link-to}}
+          </dd>
+
+          <dd class="small-4 medium-4 columns text-center
+          {{if highlightSelectedTabGoods 'active'}}">
+          {{#link-to 'orders.active_items' model.id replace=true}}
+            <i class="item-menu">{{fa-icon 'shopping-basket'}}</i>
+            <div>{{t "order_tabs.goods"}}</div>
           {{/link-to}}
-        </dd>
+          </dd>
+
+          <dd class="small-4 medium-4 columns text-center {{if (is-equal tabName 'order_types') 'active'}}">
+            {{#link-to 'orders.order_types' model.id replace=true}}
+              <i>{{fa-icon 'truck'}}</i>
+              <div>{{t "order_tabs.logistics"}}</div>
+            {{/link-to}}
+          </dd>
+        {{/if}}
       </dl>
     </div>
   </div>
