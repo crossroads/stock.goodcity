@@ -35,25 +35,26 @@ export default Ember.Component.extend(AsyncMixin, {
     }
   ),
 
-  addRemoveItem(params) {
-    this.runTask(
-      this.get("packageService")
-        .addRemoveItem(this.get("entity.id"), params)
-        .then(this.set("open", false))
-        .catch(response => {
-          this.get("messageBox").alert(
-            response.responseText.errors[0] ||
-              this.get("i18n").t("unexpected_error")
-          );
-        })
-    );
+  resolvePromise(promises) {
+    Promise.all(promises)
+      .then(() => {
+        this.sendAction("onConfirm");
+        this.set("open", false);
+      })
+      .catch(response => {
+        this.get("messageService").alert(
+          response.responseText.errors[0] ||
+            this.get("i18n").t("unexpected_error")
+        );
+      });
   },
 
   actions: {
-    async moveItemToBox() {
+    moveItemToBox() {
       let pkg = this.get("pkg");
+      let promises = [];
       if (pkg) {
-        await this.get("pkgLocations").map(pkgLocation => {
+        this.get("pkgLocations").map(pkgLocation => {
           let selectedQuantity = pkgLocation.get("defaultQuantity");
           if (pkgLocation.get("hasDirtyAttributes") && selectedQuantity) {
             const params = {
@@ -62,11 +63,15 @@ export default Ember.Component.extend(AsyncMixin, {
               location_id: pkgLocation.get("locationId"),
               quantity: selectedQuantity
             };
-            this.addRemoveItem(params);
+            promises <<
+              this.get("packageService").addRemoveItem(
+                this.get("entity.id"),
+                params
+              );
           }
           pkgLocation.rollbackAttributes();
         });
-        this.sendAction("onConfirm");
+        this.resolvePromise(promises);
       }
     },
 
