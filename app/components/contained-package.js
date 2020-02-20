@@ -9,6 +9,8 @@ export default Ember.Component.extend({
     return this.get("store").peekRecord("item", this.get("pkg.id"));
   }),
 
+  disableRemove: Ember.computed.alias("entity.isDispatched"),
+
   fetchAddedQuantity: Ember.computed("pkg", function() {
     let pkgId = this.get("pkg.id");
     let entityId = this.get("entity.id");

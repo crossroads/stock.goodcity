@@ -63,12 +63,16 @@ export default GoodcityController.extend(
       return !!this.get("item.detail.length");
     },
 
-    disableBoxPalletItemAddition: Ember.computed("model", function() {
-      return (
-        this.get("settings.disableBoxPalletItemAddition") ||
-        !this.get("item.onHandQuantity")
-      );
-    }),
+    disableBoxPalletItemAddition: Ember.computed(
+      "model",
+      "model.onHandQuantity",
+      function() {
+        return (
+          this.get("settings.disableBoxPalletItemAddition") ||
+          !this.get("item.onHandQuantity")
+        );
+      }
+    ),
 
     displayFields: Ember.computed("model.code", function() {
       let subform = this.get("model.code.subform");
