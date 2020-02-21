@@ -7,7 +7,6 @@ export default Model.extend({
   i18n: Ember.inject.service(),
   utilityMethods: Ember.inject.service(),
 
-  status: attr("string"),
   state: attr("string"),
   createdAt: attr("date"),
   recentlyUsedAt: attr("date"),
@@ -80,6 +79,8 @@ export default Model.extend({
   }),
 
   isGoodCityOrder: Ember.computed.equal("detailType", "GoodCity"),
+
+  isShipmentOrder: Ember.computed.equal("detailType", "Shipment"),
 
   isAppointment: Ember.computed("bookingType", function() {
     const bookingType = this.get("bookingType");
@@ -268,10 +269,6 @@ export default Model.extend({
 
   designatedItems: Ember.computed("items.@each.sentOn", function() {
     return this.get("items").filterBy("sentOn", null);
-  }),
-
-  isInactive: Ember.computed("status", function() {
-    return ["Sent", "Cancelled", "Closed"].indexOf(this.get("status")) >= 0;
   }),
 
   // unread order messages
