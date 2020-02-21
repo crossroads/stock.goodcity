@@ -8,8 +8,8 @@ import PackageDetailMixin from "stock/mixins/fetch_package_detail";
 import GradeMixin from "stock/mixins/grades_option";
 import MoveActions from "stock/mixins/move_actions";
 import DesignationActions from "stock/mixins/designation_actions";
-import AsyncMixin from "stock/mixins/async";
 import StorageTypes from "stock/mixins/storage-type";
+import AsyncMixin from "stock/mixins/async";
 import _ from "lodash";
 import SearchMixin from "stock/mixins/search_resource";
 
@@ -40,6 +40,8 @@ export default GoodcityController.extend(
     messageBox: Ember.inject.service(),
     setDropdownOption: Ember.inject.service(),
     designationService: Ember.inject.service(),
+    offerService: Ember.inject.service(),
+    packageService: Ember.inject.service(),
     settings: Ember.inject.service(),
     packageService: Ember.inject.service(),
     locationService: Ember.inject.service(),
@@ -232,6 +234,16 @@ export default GoodcityController.extend(
       }
     ),
 
+    updatePackageOffers(offerIds) {
+      this.runTask(
+        this.get("packageService").updatePackage(this.get("item.id"), {
+          package: {
+            offer_ids: offerIds
+          }
+        })
+      );
+    },
+
     sortedOrdersPackages: Ember.computed(
       "model.ordersPackages.[]",
       "model.ordersPackages.@each.state",
@@ -272,6 +284,32 @@ export default GoodcityController.extend(
     },
 
     actions: {
+      /**
+       * Add Offer to Package
+       */
+      async addOffer() {
+        const offer = await this.get("offerService").getOffer();
+        const offerIds = [
+          ...this.get("item.offersPackages").getEach("offerId"),
+          offer.id
+        ];
+        this.updatePackageOffers(offerIds);
+      },
+
+      /**
+       * Remove offer from Package
+       * @param {Offer} to be dissociate from Package
+       */
+      removeOffer(offer) {
+        const offerPackage = this.get("item.offersPackages").findBy(
+          "offerId",
+          +offer.get("id")
+        );
+        if (offerPackage) {
+          this.runTask(offerPackage.destroyRecord());
+        }
+      },
+
       /**
        * Called after a property is changed to push the updated
        * record to the API

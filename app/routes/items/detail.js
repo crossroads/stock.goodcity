@@ -35,7 +35,10 @@ export default AuthorizeRoute.extend({
     return model;
   },
 
-  afterModel(model) {
+  async afterModel(model) {
+    if (model.get("offerId")) {
+      await this.store.findRecord("offer", model.get("offerId"));
+    }
     if (!model.get("inventoryNumber")) {
       this.get("transition").abort();
       this.get("messageBox").alert(

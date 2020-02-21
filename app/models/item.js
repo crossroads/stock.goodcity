@@ -26,6 +26,7 @@ export default cloudinaryUrl.extend({
   weight: attr("number"),
   pieces: attr("number"),
   packageTypeId: attr("number"),
+  offerId: attr("number"),
 
   sentOn: attr("date"),
   isSet: attr("boolean"),
@@ -72,6 +73,9 @@ export default cloudinaryUrl.extend({
   ordersPackages: hasMany("ordersPackages", {
     async: true
   }),
+  ordersPackages: hasMany("ordersPackages", { async: true }),
+  offersPackages: hasMany("offersPackages", { async: false }),
+  offer: belongsTo("offer", { async: false }),
   imageIds: attr(),
   images: hasMany("image", {
     async: true

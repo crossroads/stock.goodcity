@@ -1,0 +1,20 @@
+<div class="row">
+  <div class="small-9 columns offer-detail">
+    {{#if offer.company}}
+      {{fa-icon 'building'}}
+      <span class="offer-name">
+      {{offer.company.name}}
+      </span>
+    {{else}}
+      {{fa-icon 'user'}}
+      <span class="offer-name">
+        {{offer.id}}
+      </span>
+    {{/if}}
+  </div>
+  {{#if isPackageOffer}}
+    <div class="small-3 columns remove-button">
+      <span class="delete-offer" {{action "removeOffer" offer}}>{{fa-icon 'times' size="lg"}}</span>
+    </div>
+  {{/if}}
+</div>

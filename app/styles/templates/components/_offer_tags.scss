@@ -1,0 +1,74 @@
+.offer-tag {
+  display: inline-block;
+  border: 1px solid #466082;
+  height: 30px;
+  border-radius: 10%;
+  width: auto;
+  margin-left: 0.6em;
+  padding-right: 1em;
+  padding-left: 0.3em;
+
+  @media #{$small-only} {
+    margin-bottom: -2%;
+  }
+}
+
+.offer-detail {
+  font-size: 0.8em;
+  padding-top: 4% !important;
+  display: inline-flex;
+
+  svg {
+    margin-top: 8%;
+    font-size: 0.9rem;
+  }
+  @media #{$small-only} {
+    svg {
+      margin-left: 10%;
+      margin-top: 3%;
+      font-size: 0.9rem;
+    }
+  }
+}
+
+.remove-button{
+  border-radius: inherit;
+  border-left: solid 1px;
+  padding-right: 3%;
+}
+
+.offer-name {
+  padding-left: 5%;
+  margin-left: 8%;
+  margin-top: 5%;
+  font-size: 0.8rem;
+
+  @media #{$small-only} {
+    padding-left: 20%;
+    margin-left: 5%;
+    padding-right: 20%;
+  }
+}
+
+.offer-tag-detail {
+  margin-left: 5%;
+  margin-top: -5%;
+  font-size: 0.8rem !important;
+  display: block;
+
+  @media #{$medium-only}{
+    margin-left: 5%;
+    margin-top: -5%;
+  }
+
+  @media #{$small-only} {
+    margin-left: 10%;
+    margin-top: -10%;
+  }
+}
+
+.donations &.remove-button {
+  @media #{$small-only} {
+    padding-top: 9% !important;
+  }
+}
