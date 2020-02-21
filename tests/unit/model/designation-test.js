@@ -23,7 +23,7 @@ moduleForModel("designation", "Designation model", {
 });
 
 test("check attributes", function(assert) {
-  assert.expect(9);
+  assert.expect(8);
 
   var model = this.subject();
   var createdAt = Object.keys(model.toJSON()).indexOf("createdAt") > -1;
