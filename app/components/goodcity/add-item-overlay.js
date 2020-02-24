@@ -1,8 +1,7 @@
 import Ember from "ember";
-import AsyncMixin, { ERROR_STRATEGIES } from "stock/mixins/async";
 import _ from "lodash";
 
-export default Ember.Component.extend(AsyncMixin, {
+export default Ember.Component.extend({
   packageService: Ember.inject.service(),
   store: Ember.inject.service(),
   messageBox: Ember.inject.service(),
@@ -35,43 +34,66 @@ export default Ember.Component.extend(AsyncMixin, {
     }
   ),
 
-  resolvePromise(promises) {
-    Promise.all(promises)
+  resolvePromise() {
+    let promises = this.createPromises();
+    Ember.RSVP.all(promises)
       .then(() => {
         this.sendAction("onConfirm");
         this.set("open", false);
       })
       .catch(response => {
-        this.get("messageService").alert(
-          response.responseText.errors[0] ||
-            this.get("i18n").t("unexpected_error")
+        let error_message =
+          response.responseJSON && response.responseJSON.errors[0];
+        this.get("messageBox").alert(
+          error_message || this.get("i18n").t("unexpected_error")
         );
       });
+  },
+
+  isAddedQuantityInvalid() {
+    let pkgLocations = this.get("pkg.packagesLocations");
+    if (pkgLocations) {
+      return pkgLocations.getEach("isDefaultQuantityValid").includes(false);
+    }
+  },
+
+  createPromises() {
+    let promises = [];
+    this.get("pkgLocations").map(pkgLocation => {
+      let selectedQuantity = pkgLocation.get("defaultQuantity");
+      if (pkgLocation.get("hasDirtyAttributes") && selectedQuantity) {
+        const params = {
+          item_id: this.get("pkg").id,
+          task: "pack",
+          location_id: pkgLocation.get("locationId"),
+          quantity: selectedQuantity
+        };
+        promises.push(
+          this.get("packageService").addRemoveItem(
+            this.get("entity.id"),
+            params
+          )
+        );
+      }
+      pkgLocation.rollbackAttributes();
+    });
+    return promises;
   },
 
   actions: {
     moveItemToBox() {
       let pkg = this.get("pkg");
-      let promises = [];
       if (pkg) {
+        if (this.isAddedQuantityInvalid()) {
+          this.get("messageBox").alert(
+            this.get("i18n").t("box_pallet.invalid_quantity")
+          );
+        } else {
+          this.resolvePromise();
+        }
         this.get("pkgLocations").map(pkgLocation => {
-          let selectedQuantity = pkgLocation.get("defaultQuantity");
-          if (pkgLocation.get("hasDirtyAttributes") && selectedQuantity) {
-            const params = {
-              item_id: pkg.id,
-              task: "pack",
-              location_id: pkgLocation.get("locationId"),
-              quantity: selectedQuantity
-            };
-            promises <<
-              this.get("packageService").addRemoveItem(
-                this.get("entity.id"),
-                params
-              );
-          }
           pkgLocation.rollbackAttributes();
         });
-        this.resolvePromise(promises);
       }
     },
 

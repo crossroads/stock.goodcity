@@ -60,7 +60,7 @@ export default cloudinaryUrl.extend({
     async: false
   }),
   packagesLocations: hasMany("packages_location", {
-    async: true
+    async: false
   }),
 
   storageTypeId: attr("number"),
@@ -88,9 +88,7 @@ export default cloudinaryUrl.extend({
   imageUrl: Ember.computed.alias("image.imageUrl"),
   designateFullSet: Ember.computed.localStorage(),
 
-  storageTypeName: Ember.computed("storageTypeId", function() {
-    return this.get("storageType.name");
-  }),
+  storageTypeName: Ember.computed.alias("storageType.name"),
 
   isDesignated: Ember.computed(
     "ordersPackages",

@@ -59,7 +59,9 @@ export default {
     add_to: "Add item to",
     remove: "Remove",
     content: "content",
-    details: "details"
+    details: "details",
+    invalid_quantity:
+      "Added quantity cannot be greater than the available quantity for each location."
   },
   messages: {
     you: "您",

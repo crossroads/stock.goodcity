@@ -7,10 +7,6 @@
   margin-left: 0.6em;
   padding-right: 1em;
   padding-left: 0.3em;
-
-  @media #{$small-only} {
-    margin-bottom: -2%;
-  }
 }
 
 .offer-detail {

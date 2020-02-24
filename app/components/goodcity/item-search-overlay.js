@@ -4,28 +4,68 @@ import SearchMixin from "stock/mixins/search_resource";
 
 export default Ember.Component.extend(SearchMixin, {
   searchText: "",
-  autoLoad: true,
+  autoLoad: false,
   store: Ember.inject.service(),
   perPage: 10,
+  packageService: Ember.inject.service(),
+  messageBox: Ember.inject.service(),
+  i18n: Ember.inject.service(),
 
   init() {
     this._super("item-search-overlay");
     this.set("displayResults", true);
   },
 
+  didDestroyElement() {
+    debugger;
+    console.log("inside did destroy");
+  },
+
+  storageTypeName: Ember.computed.alias("entity.storageTypeName"),
+
   hasSearchText: Ember.computed("searchText", function() {
     return !!this.get("searchText");
   }),
+
+  addSingleton(item) {
+    let itemLocations = item.get("locations");
+    const params = {
+      item_id: item.id,
+      task: "pack",
+      location_id: itemLocations.get("lastObject").id,
+      quantity: item.get("onHandQuantity")
+    };
+
+    this.get("packageService")
+      .addRemoveItem(this.get("entity.id"), params)
+      .then(data => {
+        this.sendAction("onSingletonAdd");
+        this.set("open", false);
+        this.destroy();
+      })
+      .catch(response => {
+        let error_message =
+          response.responseJSON && response.responseJSON.errors[0];
+        this.get("messageBox").alert(
+          error_message || this.get("i18n").t("unexpected_error")
+        );
+      });
+  },
 
   actions: {
     cancel() {
       this.set("searchText", "");
       this.set("open", false);
+      this.destroy();
     },
 
     selectItem(item) {
-      this.set("open", false);
+      if (item.get("onHandQuantity") === 1) {
+        return this.addSingleton(item);
+      }
       this.get("onConfirm")(item);
+      this.set("open", false);
+      this.destroy();
     },
 
     clearSearch() {
@@ -33,6 +73,7 @@ export default Ember.Component.extend(SearchMixin, {
     },
 
     async loadMoreItems(pageNo) {
+      let storageTypeName = this.get("storageTypeName");
       const params = this.trimQuery(
         _.merge(
           {},
@@ -41,7 +82,8 @@ export default Ember.Component.extend(SearchMixin, {
           {
             associated_package_types: this.get("associatedPackageTypes"),
             withInventoryNumber: true,
-            filter_box_pallet: true
+            filter_box_pallet: true,
+            storage_type_name: storageTypeName
           }
         )
       );

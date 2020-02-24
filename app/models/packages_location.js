@@ -19,5 +19,9 @@ export default Model.extend({
 
   siblingPackagesLocations: Ember.computed("itemId", function() {
     return this.get("item.packagesLocations");
+  }),
+
+  isDefaultQuantityValid: Ember.computed("defaultQuantity", function() {
+    return this.get("defaultQuantity") <= this.get("quantity");
   })
 });
