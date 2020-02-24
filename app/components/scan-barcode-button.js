@@ -39,13 +39,14 @@ export default Ember.Component.extend({
     var onSuccess = res => {
       if (!res.cancelled) {
         var strippedURL = res.text.substring(res.text.lastIndexOf("=") + 1);
+        const sanitizedURL = strippedURL.replace(/^\x|X/, "");
         var queryParams = {
-          queryParams: { searchInput: strippedURL.replace(/^\x|X/, "") }
+          queryParams: { searchInput: sanitizedURL }
         };
         var record = this.get("record");
 
         if (!route) {
-          this.get("onScanComplete")(record);
+          this.get("onScanComplete")(sanitizedURL);
           return;
         }
         if (record) {
