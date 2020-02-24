@@ -33,6 +33,8 @@ export default Model.extend({
   beneficiaryId: attr("number"),
   staffNote: attr("string"),
   cancelReason: attr("string"),
+  countryName: attr("string"),
+  shipmentDate: attr("date"),
 
   cancellationReason: belongsTo("cancellation_reason", { async: false }),
   beneficiary: belongsTo("beneficiary", { async: false }),
@@ -82,6 +84,10 @@ export default Model.extend({
 
   isShipmentOrder: Ember.computed.equal("detailType", "Shipment"),
 
+  isStockitLocalOrder: Ember.computed.equal("detailType", "StockitLocalOrder"),
+
+  isCarryOutOrder: Ember.computed.equal("detailType", "CarryOut"),
+
   isAppointment: Ember.computed("bookingType", function() {
     const bookingType = this.get("bookingType");
     return bookingType && bookingType.get("isAppointment");
@@ -102,6 +108,13 @@ export default Model.extend({
 
   dispatchedItems: Ember.computed("items.@each.sentOn", function() {
     return this.get("items").rejectBy("sentOn", null);
+  }),
+
+  canReopen: Ember.computed("state", function() {
+    return (
+      this.get("isClosed") &&
+      (this.get("isGoodCityOrder") || this.get("isShipmentOrder"))
+    );
   }),
 
   capitalizedState: Ember.computed("state", function() {
@@ -152,6 +165,12 @@ export default Model.extend({
       return "appointment";
     } else if (this.get("isOnlineOrder")) {
       return "online_order";
+    } else if (this.get("isShipmentOrder")) {
+      return "shipment";
+    } else if (this.get("isStockitLocalOrder")) {
+      return "stockit_local_order";
+    } else if (this.get("isCarryOutOrder")) {
+      return "carry_out";
     }
   }),
 
@@ -170,15 +189,26 @@ export default Model.extend({
     }
   ),
 
-  transportIcon: Ember.computed("isAppointment", "isOnlineOrder", function() {
-    if (this.get("isAppointment")) {
-      return "warehouse";
-    } else if (this.get("isOnlineOrder")) {
-      return "desktop";
-    } else {
-      return "question";
+  transportIcon: Ember.computed(
+    "isAppointment",
+    "isOnlineOrder",
+    "isShipmntOrder",
+    "isCarryOutOrder",
+    "isStockitLocalOrder",
+    function() {
+      if (this.get("isAppointment") || this.get("isStockitLocalOrder")) {
+        return "warehouse";
+      } else if (this.get("isOnlineOrder")) {
+        return "desktop";
+      } else if (this.get("isShipmentOrder")) {
+        return "ship";
+      } else if (this.get("isCarryOutOrder")) {
+        return "shopping-bag";
+      } else {
+        return "question";
+      }
     }
-  }),
+  ),
 
   transportLabel: Ember.computed("stateText", "orderTransport", function() {
     const key = this.get("stateText") || "unknown_transport";

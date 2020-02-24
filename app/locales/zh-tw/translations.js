@@ -296,6 +296,9 @@ export default {
   order_transports: {
     online_order: "網上訂單",
     appointment: "預約",
+    shipment: "Shipment",
+    carry_out: "Carry Out",
+    stockit_local_order: "Local Order",
     unknown_transport: "其他"
   },
   order: {

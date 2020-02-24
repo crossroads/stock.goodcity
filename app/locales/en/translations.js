@@ -305,6 +305,9 @@ export default {
   order_transports: {
     online_order: "Online Order",
     appointment: "Appointment",
+    shipment: "Shipment",
+    carry_out: "Carry Out",
+    stockit_local_order: "Local Order",
     unknown_transport: "Other"
   },
   order: {
