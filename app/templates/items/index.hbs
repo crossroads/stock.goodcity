@@ -26,8 +26,8 @@
         {{#infinite-list height="75vh" loadMore=(action "loadMoreItems") as |items| }}
           <ul class="list list-activity list-offer-items">
             {{#each items as |item|}}
-              {{partial 'orders/item_block'}}
-              {{else}}
+               {{partial 'orders/item_block'}}
+             {{else}}
                <div class="add_item_text small-12 columns center-text">
                   <div class="small-6 small-offset-3 medium-offset-1 medium-10 large-8 large-offset-2 columns center-text add_item_inventory_button">
                    {{#link-to 'search_code' (query-params backToNewItem=false)}}
