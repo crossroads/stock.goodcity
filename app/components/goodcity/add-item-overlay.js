@@ -28,9 +28,9 @@ export default Ember.Component.extend({
   },
 
   totalNumberTomove: Ember.computed(
-    "pkg.packagesLocations.@each.defaultQuantity",
+    "pkg.packagesLocations.@each.defaultAddableQuantity",
     function() {
-      return this.calculateSumFor("defaultQuantity");
+      return this.calculateSumFor("defaultAddableQuantity");
     }
   ),
 
@@ -60,7 +60,7 @@ export default Ember.Component.extend({
   createPromises() {
     let promises = [];
     this.get("pkgLocations").map(pkgLocation => {
-      let selectedQuantity = pkgLocation.get("defaultQuantity");
+      let selectedQuantity = pkgLocation.get("defaultAddableQuantity");
       if (pkgLocation.get("hasDirtyAttributes") && selectedQuantity) {
         const params = {
           item_id: this.get("pkg").id,

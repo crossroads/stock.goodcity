@@ -4,7 +4,7 @@ import SearchMixin from "stock/mixins/search_resource";
 
 export default Ember.Component.extend(SearchMixin, {
   searchText: "",
-  autoLoad: false,
+  autoLoad: true,
   store: Ember.inject.service(),
   perPage: 10,
   packageService: Ember.inject.service(),
@@ -14,11 +14,6 @@ export default Ember.Component.extend(SearchMixin, {
   init() {
     this._super("item-search-overlay");
     this.set("displayResults", true);
-  },
-
-  didDestroyElement() {
-    debugger;
-    console.log("inside did destroy");
   },
 
   storageTypeName: Ember.computed.alias("entity.storageTypeName"),
@@ -56,7 +51,6 @@ export default Ember.Component.extend(SearchMixin, {
     cancel() {
       this.set("searchText", "");
       this.set("open", false);
-      this.destroy();
     },
 
     selectItem(item) {
@@ -65,7 +59,6 @@ export default Ember.Component.extend(SearchMixin, {
       }
       this.get("onConfirm")(item);
       this.set("open", false);
-      this.destroy();
     },
 
     clearSearch() {

@@ -4,7 +4,7 @@ import attr from "ember-data/attr";
 import { belongsTo } from "ember-data/relationships";
 
 export default Model.extend({
-  defaultQuantity: attr("number", { defaultValue: 0 }),
+  defaultAddableQuantity: attr("number", { defaultValue: 0 }),
   packageId: attr("number"),
   itemId: attr("number"),
   quantity: attr("number"),
@@ -21,7 +21,7 @@ export default Model.extend({
     return this.get("item.packagesLocations");
   }),
 
-  isDefaultQuantityValid: Ember.computed("defaultQuantity", function() {
-    return this.get("defaultQuantity") <= this.get("quantity");
+  isDefaultQuantityValid: Ember.computed("defaultAddableQuantity", function() {
+    return this.get("defaultAddableQuantity") <= this.get("quantity");
   })
 });
