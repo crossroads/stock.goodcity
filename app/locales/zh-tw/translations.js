@@ -2,6 +2,7 @@ export default {
   offline_error: "無法加載，請檢查網絡連線",
   unexpected_error: "錯誤",
   okay: "確定",
+  add_inventory_item: "Add item to inventory",
   loading: "正在加載...",
   loading_timeout_error: "讀取時限已過",
   loading_timeout: "需時太久了！點擊重新加載",
