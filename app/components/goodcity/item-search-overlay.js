@@ -1,8 +1,9 @@
 import Ember from "ember";
 import _ from "lodash";
 import SearchMixin from "stock/mixins/search_resource";
+import AsyncMixin from "stock/mixins/async";
 
-export default Ember.Component.extend(SearchMixin, {
+export default Ember.Component.extend(SearchMixin, AsyncMixin, {
   searchText: "",
   autoLoad: true,
   store: Ember.inject.service(),
@@ -31,12 +32,14 @@ export default Ember.Component.extend(SearchMixin, {
       quantity: item.get("onHandQuantity")
     };
 
-    this.get("packageService")
-      .addRemoveItem(this.get("entity.id"), params)
-      .then(data => {
-        this.sendAction("onSingletonAdd");
-        this.set("open", false);
-      });
+    this.runTask(() => {
+      this.get("packageService")
+        .addRemoveItem(this.get("entity.id"), params)
+        .then(data => {
+          this.sendAction("onSingletonAdd");
+          this.set("open", false);
+        });
+    });
   },
 
   actions: {
