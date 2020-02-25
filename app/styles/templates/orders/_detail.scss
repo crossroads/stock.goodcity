@@ -28,6 +28,15 @@
     border: 2px solid #949698;
   }
 
+  .reason-count {
+    margin-top: -1%;
+    color: gray;
+  }
+
+  .button {
+    margin-top: 6%;
+  }
+
   .custom_radio_buttons {
     input[type='radio'] {
       display: inline-block;
@@ -510,6 +519,7 @@
           margin-right: 2%;
           @media #{$small-only} {
             margin-right: 10%;
+            width: 30%;
           }
         }
 
@@ -530,12 +540,6 @@
       display: inline;
     }
   }
-
-  .reason-count {
-    margin-top: -1%;
-    color: gray;
-  }
-
 
   .contact_details {
     margin-top: 1rem !important;
