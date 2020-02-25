@@ -36,13 +36,6 @@ export default Ember.Component.extend(SearchMixin, {
       .then(data => {
         this.sendAction("onSingletonAdd");
         this.set("open", false);
-      })
-      .catch(response => {
-        let error_message =
-          response.responseJSON && response.responseJSON.errors[0];
-        this.get("messageBox").alert(
-          error_message || this.get("i18n").t("unexpected_error")
-        );
       });
   },
 

@@ -23,6 +23,6 @@
     maxlength=cancelReasonLength
   }}
   <div class="right reason-count">
-    {{t 'order_cancellation_reason.reason_count' count=remainingReasonChars}}
+    {{remainingReasonChars}}/{{cancelReasonLength}}
   </div>
 {{/message-box}}
