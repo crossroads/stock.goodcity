@@ -73,8 +73,7 @@ export default Ember.Component.extend(SearchMixin, {
           {
             associated_package_types: this.get("associatedPackageTypes"),
             withInventoryNumber: true,
-            filter_box_pallet: true,
-            storage_type_name: this.get("storageTypeName")
+            storage_type_name: this.get("storageTypeName") || "Package"
           }
         )
       );
