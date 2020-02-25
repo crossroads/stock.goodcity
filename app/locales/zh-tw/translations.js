@@ -585,6 +585,9 @@ export default {
       no_bookings_allowed: "此日期不允許預約"
     }
   },
+  search_offer: {
+    offer_select_warning: "Do you want to assign this offer?"
+  },
   search_order: {
     recent: "Recently used designations"
   },
