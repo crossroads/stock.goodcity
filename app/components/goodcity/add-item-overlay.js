@@ -34,8 +34,8 @@ export default Ember.Component.extend({
     }
   ),
 
-  resolvePromise() {
-    let promises = this.createPromises();
+  resolveAddItemPromises() {
+    let promises = this.addItemPromises();
     Ember.RSVP.all(promises)
       .then(() => {
         this.sendAction("onConfirm");
@@ -50,14 +50,15 @@ export default Ember.Component.extend({
       });
   },
 
-  isAddedQuantityInvalid() {
+  hasInvalidAddedQuantity() {
     let pkgLocations = this.get("pkg.packagesLocations");
     if (pkgLocations) {
-      return pkgLocations.getEach("isDefaultQuantityValid").includes(false);
+      return pkgLocations.filterBy("hasValidDefaultAddableQuantity", true)
+        .length;
     }
   },
 
-  createPromises() {
+  addItemPromises() {
     let promises = [];
     this.get("pkgLocations").map(pkgLocation => {
       let selectedQuantity = pkgLocation.get("defaultAddableQuantity");
@@ -84,12 +85,12 @@ export default Ember.Component.extend({
     moveItemToBox() {
       let pkg = this.get("pkg");
       if (pkg) {
-        if (this.isAddedQuantityInvalid()) {
+        if (this.hasInvalidAddedQuantity()) {
+          this.resolveAddItemPromises();
+        } else {
           this.get("messageBox").alert(
             this.get("i18n").t("box_pallet.invalid_quantity")
           );
-        } else {
-          this.resolvePromise();
         }
         this.get("pkgLocations").map(pkgLocation => {
           pkgLocation.rollbackAttributes();

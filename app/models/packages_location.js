@@ -21,7 +21,10 @@ export default Model.extend({
     return this.get("item.packagesLocations");
   }),
 
-  isDefaultQuantityValid: Ember.computed("defaultAddableQuantity", function() {
-    return this.get("defaultAddableQuantity") <= this.get("quantity");
-  })
+  hasValidDefaultAddableQuantity: Ember.computed(
+    "defaultAddableQuantity",
+    function() {
+      return this.get("defaultAddableQuantity") <= this.get("quantity");
+    }
+  )
 });

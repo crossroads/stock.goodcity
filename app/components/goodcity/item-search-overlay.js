@@ -36,7 +36,6 @@ export default Ember.Component.extend(SearchMixin, {
       .then(data => {
         this.sendAction("onSingletonAdd");
         this.set("open", false);
-        this.destroy();
       })
       .catch(response => {
         let error_message =
@@ -66,7 +65,6 @@ export default Ember.Component.extend(SearchMixin, {
     },
 
     async loadMoreItems(pageNo) {
-      let storageTypeName = this.get("storageTypeName");
       const params = this.trimQuery(
         _.merge(
           {},
@@ -76,7 +74,7 @@ export default Ember.Component.extend(SearchMixin, {
             associated_package_types: this.get("associatedPackageTypes"),
             withInventoryNumber: true,
             filter_box_pallet: true,
-            storage_type_name: storageTypeName
+            storage_type_name: this.get("storageTypeName")
           }
         )
       );
