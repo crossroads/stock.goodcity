@@ -1,5 +1,6 @@
 import Ember from "ember";
 import _ from "lodash";
+const { getOwner } = Ember;
 
 export default Ember.Component.extend({
   packageService: Ember.inject.service(),
@@ -35,6 +36,9 @@ export default Ember.Component.extend({
   ),
 
   resolveAddItemPromises() {
+    const loadingView = getOwner(this)
+      .lookup("component:loading")
+      .append();
     let promises = this.addItemPromises();
     Ember.RSVP.all(promises)
       .then(() => {
@@ -47,7 +51,8 @@ export default Ember.Component.extend({
         this.get("messageBox").alert(
           error_message || this.get("i18n").t("unexpected_error")
         );
-      });
+      })
+      .finally(() => loadingView.destroy());
   },
 
   hasInvalidAddedQuantity() {
