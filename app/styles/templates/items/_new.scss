@@ -279,9 +279,12 @@
   }
 
   .weight,
-  .donations,
   .publish {
     float: left !important;
+  }
+
+  .donations{
+    padding-top: 1%;
   }
 
   .form-footer {

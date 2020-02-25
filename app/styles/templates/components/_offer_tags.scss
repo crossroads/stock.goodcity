@@ -7,9 +7,15 @@
 
   @media #{$small-only} {
     padding: 2%;
+    font-size: 80%;
   }
 
-  svg { font-size: 120%; }
+  svg {
+    font-size: 120%;
+    @media #{$large-only} {
+      font-size: 100%;
+    }
+  }
   .offer-icon { margin-right: 5px; }
   .delete-offer { margin-left: 5px; }
 }
