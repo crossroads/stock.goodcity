@@ -4,9 +4,9 @@
     <button class="button expand" {{action 'openItemsSearch'}}
       disabled={{disableBoxPalletItemAddition}}>{{t 'box_pallet.add_to'}} {{item.storageTypeName}}</button>
   </div>
-   {{#if isMobileApp}}
+  {{#if isMobileApp}}
     <div class="small-2 medium-2 large-2 columns scan-button">
-    {{scan-barcode-button onScanComplete=(action "setScannedSearchText")}}
+     {{scan-barcode-button onScanComplete=(action "setScannedSearchText")}}
     </div>
   {{/if}}
 </div>
