@@ -1,5 +1,45 @@
 .cmp.search-overlay {
   .main-container {
+
+    .search-container {
+      display: flex;
+      align-items: stretch;
+
+      .close-overlay {
+        flex-grow: 1;
+        text-align: center;
+      }
+
+      .search-overlay {
+        flex-grow: 8;
+      }
+
+      .scanner {
+        height: 10px;
+        flex-grow: 1;
+      }
+
+      .scan-button {
+        @media #{$small-only} {
+          float: left;
+        }
+        button {
+          background: none;
+          border: none;
+          padding-bottom: 2rem;
+          margin-bottom: 0;
+
+          i {
+            font-size: 1.8rem;
+            margin-top: -0.4rem;
+            color: #a3aab6;
+            padding-right: 0.5rem;
+          }
+        }
+      }
+
+    }
+
     margin: 0 auto;
     max-width: 768px;
 
@@ -32,29 +72,6 @@
 
           @media #{$small-only} {
             width: 95%;
-          }
-        }
-      }
-
-      .scanner {
-        height: 10px;
-      }
-
-      .scan-button {
-        @media #{$small-only} {
-          float: left;
-        }
-        button {
-          background: none;
-          border: none;
-          padding-bottom: 2rem;
-          margin-bottom: 0;
-
-          i {
-            font-size: 1.8rem;
-            margin-top: -0.4rem;
-            color: #a3aab6;
-            padding-right: 0.5rem;
           }
         }
       }

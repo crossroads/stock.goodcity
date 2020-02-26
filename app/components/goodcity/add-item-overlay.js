@@ -51,7 +51,7 @@ export default Ember.Component.extend({
   hasInvalidAddedQuantity() {
     let pkgLocations = this.get("pkg.packagesLocations");
     if (pkgLocations) {
-      return pkgLocations.filterBy("hasValidDefaultAddableQuantity", true)
+      return pkgLocations.filterBy("hasValidDefaultAddableQuantity", false)
         .length;
     }
   },
@@ -84,11 +84,11 @@ export default Ember.Component.extend({
       let pkg = this.get("pkg");
       if (pkg) {
         if (this.hasInvalidAddedQuantity()) {
-          this.resolveAddItemPromises();
-        } else {
           this.get("messageBox").alert(
             this.get("i18n").t("box_pallet.invalid_quantity")
           );
+        } else {
+          this.resolveAddItemPromises();
         }
         this.get("pkgLocations").map(pkgLocation => {
           pkgLocation.rollbackAttributes();

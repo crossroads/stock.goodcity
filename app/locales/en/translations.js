@@ -600,6 +600,9 @@ export default {
       no_bookings_allowed: "No bookings will be allowed for this date"
     }
   },
+  search_offer: {
+    offer_select_warning: "Do you want to assign this offer?"
+  },
   search_order: {
     recent: "Recently used designations"
   },

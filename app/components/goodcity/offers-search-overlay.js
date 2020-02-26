@@ -16,6 +16,8 @@ export default Ember.Component.extend(SearchMixin, {
   autoLoad: true,
   store: Ember.inject.service(),
   offerService: Ember.inject.service(),
+  messageBox: Ember.inject.service(),
+  i18n: Ember.inject.service(),
   perPage: 25,
   isMobileApp: config.cordova.enabled,
   offer_state: {
@@ -24,6 +26,9 @@ export default Ember.Component.extend(SearchMixin, {
 
   actions: {
     loadMoreOffers(pageNo) {
+      const singleOfferWarning = this.get("i18n").t(
+        "search_offer.offer_select_warning"
+      );
       const params = this.trimQuery(
         _.merge(
           {
@@ -40,7 +45,14 @@ export default Ember.Component.extend(SearchMixin, {
         .query("offer", params)
         .then(offers => {
           if (this.get("isMobileApp") && offers.get("length") == 1) {
-            this.send("selectOffer", offers.get("firstObject"));
+            this.get("messageBox").custom(
+              singleOfferWarning,
+              "Yes",
+              () => {
+                this.send("selectOffer", offers.get("firstObject"));
+              },
+              "No"
+            );
           }
           return offers;
         });
