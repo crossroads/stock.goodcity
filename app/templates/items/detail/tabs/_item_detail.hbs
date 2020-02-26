@@ -130,10 +130,10 @@
         <div class="columns small-3">
           <span class='input_text'>Offers</span>
         </div>
-        <div class="columns small-9 value last">
-          <div {{action 'addOffer'}}>
+        <div class="columns small-9 value last offer-tags">
+          <span {{action 'addOffer'}}>
             {{fa-icon 'plus-square'  size='2x'}}
-          </div>
+          </span>
           <span class="offer-tag-detail">
             {{#if item.offer}}
               {{offer-tag

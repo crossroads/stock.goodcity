@@ -279,9 +279,14 @@
   }
 
   .weight,
-  .donations,
   .publish {
     float: left !important;
+  }
+
+  .donations{
+    svg {
+      padding-top: 1%;
+    }
   }
 
   .form-footer {

@@ -93,6 +93,7 @@ export default AuthorizeRoute.extend({
     controller.set("invalidLocation", false);
     controller.set("invalidScanResult", false);
     controller.set("labels", 1);
+    controller.set("offersLists", []);
   },
 
   async manageSubformDetails() {

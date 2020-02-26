@@ -1,70 +1,24 @@
 .offer-tag {
   display: inline-block;
+  padding:1%;
+  margin:3px;
+  border-radius: 10px;
   border: 1px solid #466082;
-  height: 30px;
-  border-radius: 10%;
-  width: auto;
-  margin-left: 0.6em;
-  padding-right: 1em;
-  padding-left: 0.3em;
-}
+  color: white;
 
-.offer-detail {
-  font-size: 0.8em;
-  padding-top: 4% !important;
-  display: inline-flex;
+  @media #{$small-only} {
+    padding: 2%;
+  }
 
   svg {
-    margin-top: 8%;
-    font-size: 0.9rem;
-  }
-  @media #{$small-only} {
-    svg {
-      margin-left: 10%;
-      margin-top: 3%;
-      font-size: 0.9rem;
+    font-size: 120%;
+    @media #{$large-only} {
+      font-size: 100%;
     }
   }
-}
-
-.remove-button{
-  border-radius: inherit;
-  border-left: solid 1px;
-  padding-right: 3%;
-}
-
-.offer-name {
-  padding-left: 5%;
-  margin-left: 8%;
-  margin-top: 5%;
-  font-size: 0.8rem;
-
-  @media #{$small-only} {
-    padding-left: 20%;
-    margin-left: 5%;
-    padding-right: 20%;
-  }
-}
-
-.offer-tag-detail {
-  margin-left: 5%;
-  margin-top: -5%;
-  font-size: 0.8rem !important;
-  display: block;
-
-  @media #{$medium-only}{
-    margin-left: 5%;
-    margin-top: -5%;
-  }
-
-  @media #{$small-only} {
-    margin-left: 10%;
-    margin-top: -10%;
-  }
-}
-
-.donations &.remove-button {
-  @media #{$small-only} {
-    padding-top: 9% !important;
+  .offer-icon { margin-right: 5px; }
+  .delete-offer {
+    margin-left: 5px;
+    font-size: 120%;
   }
 }
