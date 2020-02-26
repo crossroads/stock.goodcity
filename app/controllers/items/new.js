@@ -83,10 +83,14 @@ export default GoodcityController.extend(
         : `Add - ${this.get("parentCodeName")}`;
     }),
 
-    showPublishItemCheckBox: Ember.computed("quantity", function() {
-      this.set("isAllowedToPublish", false);
-      return +this.get("quantity") === 1;
-    }),
+    showPublishItemCheckBox: Ember.computed(
+      "quantity",
+      "isBoxOrPallet",
+      function() {
+        this.set("isAllowedToPublish", false);
+        return +this.get("quantity") === 1 && !this.get("isBoxOrPallet");
+      }
+    ),
 
     locale: function(str) {
       return this.get("i18n").t(str);
