@@ -1,12 +1,11 @@
 <div class="cmp orders search-overlay">
   {{#popup-overlay open=open}}
     <div class="main-container">
-      <div class="row search-field">
-        <div class="icon-holder small-1 medium-1 columns">
+      <div class="search-field search-container">
+        <div class="icon-holder close-overlay">
           <i {{action "closeOverlay"}} class="back_icon" aria-hidden="true">{{fa-icon 'times' size='lg'}}</i>
         </div>
-
-        <div class="input-holder small-9 medium-9 columns offer-search">
+        <div class="input-holder search-overlay">
           {{focus-textfield
             name="searchText"
             id=uuid
@@ -18,7 +17,7 @@
           {{/if}}
         </div>
         {{#if isMobileApp}}
-          <div class="small-1 medium-2 columns scan-button scanner">
+          <div class="scan-button scanner">
             {{scan-barcode-button onScanComplete=(action "setScannedSearchText")}}
           </div>
         {{/if}}
