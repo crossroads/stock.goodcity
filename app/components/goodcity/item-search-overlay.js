@@ -1,5 +1,6 @@
 import Ember from "ember";
 import _ from "lodash";
+import config from "stock/config/environment";
 import SearchMixin from "stock/mixins/search_resource";
 import AsyncMixin from "stock/mixins/async";
 
@@ -8,6 +9,7 @@ export default Ember.Component.extend(SearchMixin, AsyncMixin, {
   autoLoad: true,
   store: Ember.inject.service(),
   perPage: 10,
+  isMobileApp: config.cordova.enabled,
   packageService: Ember.inject.service(),
   messageBox: Ember.inject.service(),
   i18n: Ember.inject.service(),
@@ -46,6 +48,10 @@ export default Ember.Component.extend(SearchMixin, AsyncMixin, {
     cancel() {
       this.set("searchText", "");
       this.set("open", false);
+    },
+
+    setScannedSearchText(searchedText) {
+      this.set("searchText", searchedText);
     },
 
     selectItem(item) {

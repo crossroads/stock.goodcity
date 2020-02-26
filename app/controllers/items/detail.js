@@ -25,6 +25,7 @@ export default GoodcityController.extend(
   {
     isMobileApp: config.cordova.enabled,
     backLinkPath: "",
+    searchText: null,
     previousValue: "",
     openAddItemOverlay: false,
     addableItem: null,
@@ -348,8 +349,13 @@ export default GoodcityController.extend(
         );
       },
 
-      openItemsSearch(item) {
-        this.get("packageService").openItemsSearch(item);
+      openItemsSearch() {
+        this.get("packageService").openItemsSearch(this.get("item"));
+      },
+
+      setScannedSearchText(searchedText) {
+        this.set("searchText", searchedText);
+        this.send("openItemsSearch");
       },
 
       async openLocationSearch(item, quantity) {
