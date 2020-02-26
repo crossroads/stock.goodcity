@@ -1,12 +1,38 @@
 export default {
   additionalFields: [
     {
+      label: "Test Status",
+      name: "compTestStatus",
+      type: "text",
+      autoComplete: true,
+      category: ["computer", "computer_accessory"],
+      addAble: false
+    },
+    {
       label: "Brand",
       name: "brand",
       type: "text",
       autoComplete: true,
       category: ["computer", "computer_accessory", "electrical"],
       addAble: true
+    },
+    {
+      label: "Model",
+      name: "model",
+      type: "text",
+      autoComplete: false,
+      value: "model",
+      category: ["computer", "computer_accessory", "electrical"],
+      addAble: false
+    },
+    {
+      label: "Serial Number",
+      name: "serialNum",
+      type: "text",
+      value: "serialNum",
+      autoComplete: false,
+      category: ["computer", "computer_accessory"],
+      addAble: false
     },
     {
       label: "Country of origin",
@@ -31,14 +57,6 @@ export default {
       autoComplete: true,
       category: ["computer"],
       addAble: true
-    },
-    {
-      label: "Comp Test Status",
-      name: "compTestStatus",
-      type: "text",
-      autoComplete: true,
-      category: ["computer", "computer_accessory"],
-      addAble: false
     },
     {
       label: "RAM",
@@ -73,14 +91,6 @@ export default {
       addAble: true
     },
     {
-      label: "Sound",
-      name: "sound",
-      type: "text",
-      autoComplete: true,
-      category: ["computer"],
-      addAble: true
-    },
-    {
       label: "LAN",
       name: "lan",
       type: "text",
@@ -89,23 +99,7 @@ export default {
       addAble: true
     },
     {
-      label: "Wireless",
-      name: "wireless",
-      type: "text",
-      autoComplete: true,
-      category: ["computer"],
-      addAble: true
-    },
-    {
-      label: "USB",
-      name: "usb",
-      type: "text",
-      autoComplete: true,
-      category: ["computer"],
-      addAble: true
-    },
-    {
-      label: "Comp Voltage",
+      label: "Voltage",
       name: "compVoltage",
       type: "text",
       autoComplete: true,
@@ -121,7 +115,7 @@ export default {
       addAble: true
     },
     {
-      label: "OS Serial Num",
+      label: "Existing COA",
       name: "osSerialNum",
       type: "text",
       autoComplete: false,
@@ -130,7 +124,7 @@ export default {
       addAble: false
     },
     {
-      label: "Ms Office Serial Num",
+      label: "MS Office Serial Num",
       name: "msOfficeSerialNum",
       type: "text",
       value: "msOfficeSerialNum",
@@ -139,7 +133,7 @@ export default {
       addAble: false
     },
     {
-      label: "Mar OS Serial Num",
+      label: "MRR COA ID",
       name: "marOsSerialNum",
       type: "text",
       value: "marOsSerialNum",
@@ -148,7 +142,7 @@ export default {
       addAble: false
     },
     {
-      label: "Mar Ms Office Serial Num",
+      label: "MRR Office COA ID",
       name: "marMsOfficeSerialNum",
       type: "text",
       value: "marMsOfficeSerialNum",
@@ -178,24 +172,6 @@ export default {
       type: "text",
       autoComplete: true,
       category: ["electrical"],
-      addAble: false
-    },
-    {
-      label: "Model",
-      name: "model",
-      type: "text",
-      autoComplete: false,
-      value: "model",
-      category: ["computer", "computer_accessory", "electrical"],
-      addAble: false
-    },
-    {
-      label: "Serial Number",
-      name: "serialNum",
-      type: "text",
-      value: "serialNum",
-      autoComplete: false,
-      category: ["computer", "computer_accessory"],
       addAble: false
     },
     {
