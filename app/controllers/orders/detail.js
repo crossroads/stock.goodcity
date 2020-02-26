@@ -5,7 +5,7 @@ import GoodcityController from "../goodcity_controller";
 import SearchMixin from "stock/mixins/search_resource";
 import _ from "lodash";
 const { getOwner } = Ember;
-import AsyncMixin from "../../mixins/async";
+import AsyncMixin, { ERROR_STRATEGIES } from "stock/mixins/async";
 
 export default GoodcityController.extend(AsyncMixin, SearchMixin, {
   backLinkPath: "",
@@ -210,7 +210,8 @@ export default GoodcityController.extend(AsyncMixin, SearchMixin, {
             this.setProperties({
               otherCancellationReason: ""
             });
-          })
+          }),
+        ERROR_STRATEGIES.MODAL
       );
     },
 
