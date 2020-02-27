@@ -63,7 +63,8 @@ export default {
     content: "content",
     details: "details",
     invalid_quantity:
-      "Added quantity cannot be greater than the available quantity for each location."
+      "Added quantity cannot be greater than the available quantity for each location.",
+    type_to_search: "Type in to search items to add."
   },
   messages: {
     you: "You",
