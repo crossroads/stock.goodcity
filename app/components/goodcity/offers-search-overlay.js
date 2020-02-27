@@ -23,8 +23,13 @@ export default Ember.Component.extend(SearchMixin, {
   offer_state: {
     state: "received"
   },
+  searchText: "",
 
   actions: {
+    clearSearch() {
+      this.set("searchText", "");
+    },
+
     loadMoreOffers(pageNo) {
       const singleOfferWarning = this.get("i18n").t(
         "search_offer.offer_select_warning"
