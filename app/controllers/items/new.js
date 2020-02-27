@@ -694,7 +694,7 @@ export default GoodcityController.extend(
         if (this.get("fixedDropdownArr").indexOf(fieldName) >= 0) {
           dropDownValues[`${fieldName}_id`] = value.id;
         } else {
-          dropDownValues[fieldName] = value.tag;
+          dropDownValues[fieldName] = value.tag ? value.tag.trim() : "";
         }
         this.set("dropDownValues", dropDownValues);
       },
