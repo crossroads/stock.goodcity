@@ -6,19 +6,20 @@
           {{#if (is-equal model.capitalizedState "Submitted")}}
             {{t "order.submitted"}}, {{display-datetime model.createdAt format="DD MMM 'YY"}}
           {{else if (is-equal model.capitalizedState "Processing")}}
-            {{model.capitalizedState}}, {{display-datetime model.processedAt format="DD MMM 'YY"}}
+            {{model.capitalizedState}} {{#if model.processedAt}} ,{{display-datetime model.processedAt format="DD MMM 'YY"}}{{/if}}
           {{else if (is-equal model.capitalizedState "Awaiting_dispatch")}}
             {{t "order.awaiting_dispatch"}}, {{display-datetime model.processCompletedAt format="DD MMM 'YY"}}
           {{else if (is-equal model.capitalizedState "Cancelled")}}
-            {{t "order.cancelled"}}, {{display-datetime model.cancelledAt format="DD MMM 'YY"}}
+            {{t "order.cancelled"}} {{#if model.cancelledAt}},{{display-datetime model.cancelledAt format="DD MMM 'YY"}}{{/if}}
               <div class="cancel-reason">
                <div class="cancel-reason-title">{{model.cancellationReason.name}}.</div>
                <div class="reason">{{model.cancelReason}}</div>
               </div>
           {{else if (is-equal model.capitalizedState "Closed")}}
-            {{t "order.closed"}}, {{display-datetime model.closedAt format="DD MMM 'YY"}}
+            {{t "order.closed"}} {{#if model.closedAt}},{{display-datetime model.closedAt format="DD MMM 'YY"}}{{/if}}
           {{else if (is-equal model.capitalizedState "Dispatching")}}
-            {{t "order.dispatching"}}, {{display-datetime model.dispatchStartedAt format="DD MMM 'YY"}}
+            {{t "order.dispatching"}}
+            {{#if model.dispatchStartedAt}},{{display-datetime model.dispatchStartedAt format="DD MMM 'YY"}}{{/if}}
           {{/if}}
         </div>
       </div>

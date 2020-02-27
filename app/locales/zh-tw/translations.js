@@ -119,7 +119,11 @@ export default {
     contact_last_seen: "最後連線時間",
     contact_registered: "已登記",
     submitted_by: "提交自",
-    total_requests: "全部要求"
+    total_requests: "全部要求",
+    country: "Country",
+    shipment_number: "Shipment number",
+    people_helped: "Number benefiting",
+    description: "Description of need"
   },
   order_tabs: {
     summary: "總結",

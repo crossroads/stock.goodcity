@@ -120,7 +120,11 @@ export default {
     contact_last_seen: "Last seen",
     contact_registered: "Registered",
     submitted_by: "Submitted By",
-    total_requests: "Total requests"
+    total_requests: "Total requests",
+    country: "Country",
+    shipment_number: "Shipment number",
+    people_helped: "Number benefiting",
+    description: "Description of need"
   },
   order_tabs: {
     summary: "Summary",
