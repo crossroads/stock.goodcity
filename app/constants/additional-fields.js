@@ -104,7 +104,7 @@ export default {
       type: "text",
       autoComplete: true,
       category: ["computer", "computer_accessory"],
-      addAble: true
+      addAble: false
     },
     {
       label: "OS",
