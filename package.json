@@ -88,7 +88,7 @@
   },
   "dependencies": {
     "azure-api": "git://github.com/crossroads/azure-api.git#master",
-    "blueimp-file-upload": "^9.17.0",
+    "blueimp-file-upload": "^9.34.0",
     "bower": "^1.8.4",
     "clean-css": "^4.1.11",
     "cloudinary-jquery-file-upload": "^2.2.0",
