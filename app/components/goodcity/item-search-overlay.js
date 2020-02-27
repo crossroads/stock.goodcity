@@ -8,6 +8,7 @@ export default Ember.Component.extend(SearchMixin, AsyncMixin, {
   searchText: "",
   autoLoad: true,
   store: Ember.inject.service(),
+  displayResults: false,
   perPage: 10,
   isMobileApp: config.cordova.enabled,
   packageService: Ember.inject.service(),
@@ -16,7 +17,6 @@ export default Ember.Component.extend(SearchMixin, AsyncMixin, {
 
   init() {
     this._super("item-search-overlay");
-    this.set("displayResults", true);
   },
 
   storageTypeName: Ember.computed.alias("entity.storageTypeName"),
@@ -39,15 +39,22 @@ export default Ember.Component.extend(SearchMixin, AsyncMixin, {
         .addRemoveItem(this.get("entity.id"), params)
         .then(data => {
           this.sendAction("onSingletonAdd");
-          this.set("open", false);
+          this.closeOverlay();
         });
+    });
+  },
+
+  closeOverlay() {
+    this.setProperties({
+      searchText: "",
+      open: false,
+      displayResults: false
     });
   },
 
   actions: {
     cancel() {
-      this.set("searchText", "");
-      this.set("open", false);
+      this.closeOverlay();
     },
 
     setScannedSearchText(searchedText) {
@@ -59,7 +66,7 @@ export default Ember.Component.extend(SearchMixin, AsyncMixin, {
         return this.addSingleton(item);
       }
       this.get("onConfirm")(item);
-      this.set("open", false);
+      this.closeOverlay();
     },
 
     clearSearch() {
