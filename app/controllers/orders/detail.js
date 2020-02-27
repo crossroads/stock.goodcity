@@ -10,8 +10,8 @@ import AsyncMixin, { ERROR_STRATEGIES } from "stock/mixins/async";
 export default GoodcityController.extend(AsyncMixin, SearchMixin, {
   backLinkPath: "",
   displayAllItems: false,
-  otherCancellationReason: "",
   cancelReasonLength: 180,
+  otherCancellationReason: "",
   isMobileApp: config.cordova.enabled,
   order: Ember.computed.alias("model"),
   orderId: Ember.computed.alias("model.id"),
@@ -82,7 +82,10 @@ export default GoodcityController.extend(AsyncMixin, SearchMixin, {
   }),
 
   cancellationReasonId: Ember.computed(function() {
-    return this.get("cancellationReasons.firstObject.id");
+    return (
+      this.get("model.cancellationReason.id") ||
+      this.get("cancellationReasons.firstObject.id")
+    );
   }),
 
   remainingReasonChars: Ember.computed("otherCancellationReason", function() {
