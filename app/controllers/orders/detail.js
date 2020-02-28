@@ -77,6 +77,8 @@ export default GoodcityController.extend(AsyncMixin, SearchMixin, {
     }
   }),
 
+  cancelReason: Ember.computed.oneWay("model.cancelReason"),
+
   cancellationReasons: Ember.computed(function() {
     return this.store.peekAll("cancellation_reason");
   }),
@@ -88,10 +90,10 @@ export default GoodcityController.extend(AsyncMixin, SearchMixin, {
     );
   }),
 
-  remainingReasonChars: Ember.computed("otherCancellationReason", function() {
+  remainingReasonChars: Ember.computed("cancelReason", function() {
     return (
       this.get("cancelReasonLength") -
-      this.get("otherCancellationReason").length
+      ((this.get("cancelReason") && this.get("cancelReason").length) || 0)
     );
   }),
 
@@ -203,7 +205,7 @@ export default GoodcityController.extend(AsyncMixin, SearchMixin, {
     cancelOrder() {
       const reason = {
         cancellation_reason_id: this.get("cancellationReasonId"),
-        cancel_reason: this.get("otherCancellationReason")
+        cancel_reason: this.get("cancelReason")
       };
       this.runTask(
         this.get("orderService")
@@ -268,11 +270,11 @@ export default GoodcityController.extend(AsyncMixin, SearchMixin, {
     },
 
     resetCancellationReason() {
-      const order = this.get("model");
-      order.setProperties({
-        cancelReason: null,
-        cancellationReason: this.get("cancellationReasons.firstObject")
-      });
+      this.set("cancelReason", "");
+      this.set(
+        "order.cancellationReason",
+        this.get("cancellationReasons").get("firstObject")
+      );
     },
 
     updateOrder(order, actionName) {
