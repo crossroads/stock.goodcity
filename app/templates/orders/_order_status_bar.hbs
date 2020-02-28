@@ -10,11 +10,13 @@
           {{else if (is-equal model.capitalizedState "Awaiting_dispatch")}}
             {{t "order.awaiting_dispatch"}}, {{display-datetime model.processCompletedAt format="DD MMM 'YY"}}
           {{else if (is-equal model.capitalizedState "Cancelled")}}
-            {{t "order.cancelled"}}, {{display-datetime model.cancelledAt format="DD MMM 'YY"}}
-              <div class="cancel-reason">
-               <div class="cancel-reason-title">{{model.cancellationReason.name}}.</div>
-               <div class="reason">{{model.cancelReason}}</div>
-              </div>
+            <div class="edit-cancel" {{action 'updateOrder' model 'cancel'}}>
+              {{t "order.cancelled"}}, {{display-datetime model.cancelledAt format="DD MMM 'YY"}}
+                <div class="cancel-reason">
+                <div class="cancel-reason-title">{{model.cancellationReason.name}}.</div>
+                <div class="reason">{{model.cancelReason}}</div>
+                </div>
+            </div>
           {{else if (is-equal model.capitalizedState "Closed")}}
             {{t "order.closed"}}, {{display-datetime model.closedAt format="DD MMM 'YY"}}
           {{else if (is-equal model.capitalizedState "Dispatching")}}

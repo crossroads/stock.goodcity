@@ -10,8 +10,8 @@ import AsyncMixin, { ERROR_STRATEGIES } from "stock/mixins/async";
 export default GoodcityController.extend(AsyncMixin, SearchMixin, {
   backLinkPath: "",
   displayAllItems: false,
-  otherCancellationReason: "",
   cancelReasonLength: 180,
+  otherCancellationReason: "",
   isMobileApp: config.cordova.enabled,
   order: Ember.computed.alias("model"),
   orderId: Ember.computed.alias("model.id"),
@@ -81,8 +81,11 @@ export default GoodcityController.extend(AsyncMixin, SearchMixin, {
     return this.store.peekAll("cancellation_reason");
   }),
 
-  cancellationReasonId: Ember.computed(function() {
-    return this.get("cancellationReasons.firstObject.id");
+  cancellationReasonId: Ember.computed("model.cancellationReason", function() {
+    return (
+      this.get("model.cancellationReason.id") ||
+      this.get("cancellationReasons.firstObject.id")
+    );
   }),
 
   remainingReasonChars: Ember.computed("otherCancellationReason", function() {
@@ -264,6 +267,14 @@ export default GoodcityController.extend(AsyncMixin, SearchMixin, {
       this.toggleProperty("displayOrderOptions");
     },
 
+    resetCancellationReason() {
+      const order = this.get("model");
+      order.setProperties({
+        cancelReason: null,
+        cancellationReason: this.get("cancellationReasons.firstObject")
+      });
+    },
+
     updateOrder(order, actionName) {
       switch (actionName) {
         case "messagePopUp":
@@ -274,6 +285,9 @@ export default GoodcityController.extend(AsyncMixin, SearchMixin, {
           break;
         case "resubmit":
           this.send("promptResubmitModel", order, actionName);
+
+          //clear cancel reason from ember data.
+          this.send("resetCancellationReason");
           break;
         case "reopen":
           this.send("promptReopenModel", order, actionName);
