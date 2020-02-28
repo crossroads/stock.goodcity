@@ -81,7 +81,7 @@ export default GoodcityController.extend(AsyncMixin, SearchMixin, {
     return this.store.peekAll("cancellation_reason");
   }),
 
-  cancellationReasonId: Ember.computed(function() {
+  cancellationReasonId: Ember.computed("model.cancellationReason", function() {
     return (
       this.get("model.cancellationReason.id") ||
       this.get("cancellationReasons.firstObject.id")
@@ -277,6 +277,10 @@ export default GoodcityController.extend(AsyncMixin, SearchMixin, {
           break;
         case "resubmit":
           this.send("promptResubmitModel", order, actionName);
+
+          //clear cancel reason from ember data.
+          this.set("model.cancelReason", null);
+          this.set("model.cancellationReason", null);
           break;
         case "reopen":
           this.send("promptReopenModel", order, actionName);
