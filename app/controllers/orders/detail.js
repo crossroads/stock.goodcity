@@ -267,6 +267,14 @@ export default GoodcityController.extend(AsyncMixin, SearchMixin, {
       this.toggleProperty("displayOrderOptions");
     },
 
+    resetCancellationReason() {
+      const order = this.get("model");
+      order.setProperties({
+        cancelReason: null,
+        cancellationReason: this.get("cancellationReasons.firstObject")
+      });
+    },
+
     updateOrder(order, actionName) {
       switch (actionName) {
         case "messagePopUp":
@@ -279,8 +287,7 @@ export default GoodcityController.extend(AsyncMixin, SearchMixin, {
           this.send("promptResubmitModel", order, actionName);
 
           //clear cancel reason from ember data.
-          this.set("model.cancelReason", null);
-          this.set("model.cancellationReason", null);
+          this.send("resetCancellationReason");
           break;
         case "reopen":
           this.send("promptReopenModel", order, actionName);
