@@ -40,4 +40,33 @@
       font-family: $header-font-family;
     }
   }
+
+  .designate-options {
+    div {
+      display: inline-block;
+    }
+
+    button {
+      margin-left: 0 !important;
+      margin-right: 0 !important;
+    }
+
+    .options-arrow:focus {
+      outline: none;
+    }
+  }
+
+  .options_menu_list {
+    margin-top: 3.2rem;
+    margin-right: 4rem;
+    background: black;
+
+    div {
+      display: block !important;
+    }
+
+    .option_menu a svg {
+      margin-right: 5px;
+    }
+  }
 }

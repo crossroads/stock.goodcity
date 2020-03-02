@@ -51,6 +51,7 @@ export default GoodcityController.extend(
     callOrderObserver: false,
     showSetList: false,
     hideDetailsLink: true,
+    displayItemOptions: false,
     fields: additionalFields,
     fixedDropdownArr: [
       "frequencyId",
@@ -421,8 +422,13 @@ export default GoodcityController.extend(
           this.set("previousValue", country.id);
         }
       },
+
       onSearch(field, searchText) {
         this.onSearchCountry(field, searchText);
+      },
+
+      toggleItemOptions() {
+        this.toggleProperty("displayItemOptions");
       }
     }
   }

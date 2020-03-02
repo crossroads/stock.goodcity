@@ -1,0 +1,37 @@
+<a {{action "toggleItemOptions"}}>
+  <button class="button options-arrow">
+    <div class="icon-holder">{{fa-icon 'caret-down' }}</div>
+  </button>
+</a>
+
+<div class="options_menu_list {{if displayItemOptions '' 'hidden'}}">
+
+  <div class="option_menu">
+    <a>
+      {{fa-icon 'random' }}
+      Process
+    </a>
+  </div>
+
+  <div class="option_menu">
+    <a {{action "submitOffer"}}>
+      {{fa-icon 'recycle' }}
+      Recycle
+    </a>
+  </div>
+
+  <div class="option_menu">
+    <a>
+      {{fa-icon 'dumpster' }}
+      Trash
+    </a>
+  </div>
+
+  <div class="option_menu">
+    <a>
+      {{fa-icon 'folder-minus' }}
+      Loss
+    </a>
+  </div>
+
+</div>
