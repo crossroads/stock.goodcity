@@ -15,7 +15,10 @@ export default Ember.Mixin.create({
             column,
             package_details
           );
-          let uniqueArray = apptUtils.removeDuplicates(columnData, "tag");
+          let uniqueArray = _.sortBy(
+            apptUtils.removeDuplicates(columnData, "tag"),
+            "tag"
+          );
           subFormData[column] = uniqueArray.map((_column, index) => {
             return {
               id: _column.id,
