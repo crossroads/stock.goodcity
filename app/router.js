@@ -11,7 +11,6 @@ Router.map(function() {
   this.route("login");
   this.route("authenticate");
   this.route("search_code");
-  this.route("select_location");
   this.route("search_organisation");
   this.route("app_menu_list");
   this.route("appointments");

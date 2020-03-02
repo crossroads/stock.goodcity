@@ -22,6 +22,7 @@
 @import "node_modules/ember-searchable-select/app/styles/ember-searchable-select/style";
 @import "templates/index";
 @import "templates/items/detail";
+@import "templates/items/detail/storage_content";
 @import "templates/items/history";
 @import "templates/items/new";
 @import "templates/items/index";
@@ -32,6 +33,7 @@
 @import "templates/orders/messages";
 @import "templates/orders/request";
 @import "templates/components/message_box";
+@import "templates/components/_custom_radio_button";
 @import "templates/components/item_options";
 @import "templates/components/item_options_list";
 @import "templates/components/add_request";
@@ -42,8 +44,10 @@
 @import "templates/components/goodcity/orders_package_block";
 @import "templates/components/goodcity/search_overlay";
 @import "templates/components/goodcity/designate_form";
+@import "templates/components/offer_tags";
 @import "templates/organisations/organisation_tabs";
 @import "templates/organisations/search_organisations";
 @import "templates/users/new";
 @import "templates/notifications";
 @import "templates/appointments";
+@import "templates/components/add_item_overlay"

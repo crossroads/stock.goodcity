@@ -6,6 +6,7 @@ export default {
   "language.en": "English",
   "language.zh": "中文",
   switch_language: "Switch language",
+  add_inventory_item: "Add item to inventory",
   loading: "Loading...",
   loading_timeout_error: "Loading view timeout reached.",
   loading_timeout: "This is taking too long! Click okay to reload.",
@@ -47,6 +48,24 @@ export default {
   new_order: "Create New Order",
   full_name: "{{firstName}} {{lastName}}",
   mobile_prefix: "+852",
+  box_pallet: {
+    indicate_amount:
+      "Indicate how many are you taking from each of the locations below.",
+    available: "Available",
+    location: "Location",
+    quantity: "Quantity",
+    number_to_move: "Number to move",
+    move_to: "Move item to",
+    move: "Move",
+    not_now: "Not Now",
+    add_to: "Add item to",
+    remove: "Remove",
+    content: "content",
+    details: "details",
+    invalid_quantity:
+      "Added quantity cannot be greater than the available quantity for each location.",
+    type_to_search: "Type in to search items to add."
+  },
   messages: {
     you: "You",
     chat_note: "Chat about this order with the user",
@@ -70,6 +89,12 @@ export default {
   online_status: {
     online: "Online",
     not_connected: "Not Connected"
+  },
+  order_cancellation_reason: {
+    warning: "This will remove any items from the order and cancel the order",
+    title: "Cancellation Reasons",
+    other: "Other",
+    reason_count: "{{count}} remaining"
   },
   order_client_summary: {
     remove_client_title: "Remove Client",
@@ -576,6 +601,9 @@ export default {
       no_bookings_allowed: "No bookings will be allowed for this date"
     }
   },
+  search_offer: {
+    offer_select_warning: "Do you want to assign this offer?"
+  },
   search_order: {
     recent: "Recently used designations"
   },
@@ -585,7 +613,8 @@ export default {
     pick_from_location: "Select SOURCE location",
     pick_to_location: "Select DESTINATION",
     moving_item_to: "Moving this item to ",
-    quantity_input: "Input the quantity to move "
+    quantity_input: "Input the quantity to move ",
+    dispatch_from: "Where to dispatch the package from ?"
   },
 
   footer: {

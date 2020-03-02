@@ -9,7 +9,9 @@ import GradeMixin from "stock/mixins/grades_option";
 import MoveActions from "stock/mixins/move_actions";
 import DesignationActions from "stock/mixins/designation_actions";
 import StorageTypes from "stock/mixins/storage-type";
+import AsyncMixin from "stock/mixins/async";
 import _ from "lodash";
+import SearchMixin from "stock/mixins/search_resource";
 
 export default GoodcityController.extend(
   SearchOptionMixin,
@@ -18,21 +20,32 @@ export default GoodcityController.extend(
   MoveActions,
   DesignationActions,
   StorageTypes,
+  AsyncMixin,
+  SearchMixin,
   {
     isMobileApp: config.cordova.enabled,
     backLinkPath: "",
+    searchText: null,
     previousValue: "",
+    openAddItemOverlay: false,
+    addableItem: null,
+    removableItem: null,
     subformDataObject: null,
     item: Ember.computed.alias("model"),
     queryParams: ["showDispatchOverlay"],
     showDispatchOverlay: false,
     autoDisplayOverlay: false,
+    associatedPackages: null,
     subformDetailService: Ember.inject.service(),
     application: Ember.inject.controller(),
     messageBox: Ember.inject.service(),
     setDropdownOption: Ember.inject.service(),
     designationService: Ember.inject.service(),
+    offerService: Ember.inject.service(),
+    packageService: Ember.inject.service(),
     settings: Ember.inject.service(),
+    packageService: Ember.inject.service(),
+    locationService: Ember.inject.service(),
     displayScanner: false,
     designateFullSet: Ember.computed.localStorage(),
     callOrderObserver: false,
@@ -48,15 +61,21 @@ export default GoodcityController.extend(
     currentRoute: Ember.computed.alias("application.currentPath"),
     pkg: Ember.computed.alias("model"),
     showPieces: Ember.computed.alias("model.code.allow_pieces"),
-    settings: Ember.inject.service(),
 
     isItemDetailPresent() {
       return !!this.get("item.detail.length");
     },
 
-    disableBoxPalletItemAddition: Ember.computed("model", function() {
-      return this.get("settings.disableBoxPalletItemAddition");
-    }),
+    disableBoxPalletItemAddition: Ember.computed(
+      "model",
+      "model.onHandQuantity",
+      function() {
+        return (
+          this.get("settings.disableBoxPalletItemAddition") ||
+          !this.get("item.onHandQuantity")
+        );
+      }
+    ),
 
     displayFields: Ember.computed("model.code", function() {
       let subform = this.get("model.code.subform");
@@ -115,7 +134,12 @@ export default GoodcityController.extend(
     allowPublish: Ember.computed(
       "model.isSingletonItem",
       "model.availableQty",
+      "isBoxOrPallet",
       function() {
+        if (this.get("isBoxOrPallet")) {
+          return false;
+        }
+
         const qty = this.get("model.availableQty");
         if (this.get("settings.onlyPublishSingletons")) {
           return qty === 1;
@@ -151,13 +175,8 @@ export default GoodcityController.extend(
       return ["storage_content", "info"].indexOf(this.get("tabName")) > -1;
     }),
 
-    storageTypeName: Ember.computed("item", function() {
-      let storageType = this.get("item.storageType");
-      return storageType && storageType.get("name");
-    }),
-
     isBoxOrPallet: Ember.computed("item", function() {
-      return ["Box", "Pallet"].indexOf(this.get("storageTypeName")) > -1;
+      return ["Box", "Pallet"].indexOf(this.get("item.storageTypeName")) > -1;
     }),
 
     conditions: Ember.computed(function() {
@@ -216,6 +235,16 @@ export default GoodcityController.extend(
       }
     ),
 
+    updatePackageOffers(offerIds) {
+      this.runTask(
+        this.get("packageService").updatePackage(this.get("item.id"), {
+          package: {
+            offer_ids: offerIds
+          }
+        })
+      );
+    },
+
     sortedOrdersPackages: Ember.computed(
       "model.ordersPackages.[]",
       "model.ordersPackages.@each.state",
@@ -229,7 +258,59 @@ export default GoodcityController.extend(
       }
     ),
 
+    associatedPackageTypes: Ember.computed("item", function() {
+      return this.get("packageService").allChildPackageTypes(this.get("item"));
+    }),
+
+    /**
+     * Removes an item from a box/pallet
+     * @param { Item } pkg The package we wish to remove from the box/pallet
+     */
+    selectLocationAndUnpackItem(location_id, quantity) {
+      let item = this.get("removableItem");
+      if (!location_id) {
+        return false;
+      }
+      if (item) {
+        const params = {
+          item_id: item.id,
+          location_id: location_id,
+          task: "unpack",
+          quantity: quantity
+        };
+        this.get("packageService")
+          .addRemoveItem(this.get("item.id"), params)
+          .then(() => this.send("fetchContainedPackages"));
+      }
+    },
+
     actions: {
+      /**
+       * Add Offer to Package
+       */
+      async addOffer() {
+        const offer = await this.get("offerService").getOffer();
+        const offerIds = [
+          ...this.get("item.offersPackages").getEach("offerId"),
+          offer.id
+        ];
+        this.updatePackageOffers(offerIds);
+      },
+
+      /**
+       * Remove offer from Package
+       * @param {Offer} to be dissociate from Package
+       */
+      removeOffer(offer) {
+        const offerPackage = this.get("item.offersPackages").findBy(
+          "offerId",
+          +offer.get("id")
+        );
+        if (offerPackage) {
+          this.runTask(offerPackage.destroyRecord());
+        }
+      },
+
       /**
        * Called after a property is changed to push the updated
        * record to the API
@@ -252,6 +333,45 @@ export default GoodcityController.extend(
        */
       toggleSetList() {
         this.toggleProperty("showSetList");
+      },
+
+      /**
+       * Fetches all the assoicated packages to a box/pallet
+       */
+      fetchContainedPackages() {
+        this.runTask(
+          this.get("packageService")
+            .fetchContainedPackages(this.get("item.id"))
+            .then(data => {
+              this.get("store").pushPayload(data);
+              this.set("associatedPackages", data.items);
+            })
+        );
+      },
+
+      openItemsSearch() {
+        this.get("packageService").openItemsSearch(this.get("item"));
+      },
+
+      setScannedSearchText(searchedText) {
+        this.set("searchText", searchedText);
+        this.send("openItemsSearch");
+      },
+
+      async openLocationSearch(item, quantity) {
+        this.set("removableItem", item);
+        let selectedLocation = await this.get(
+          "locationService"
+        ).userPickLocation();
+        if (!selectedLocation) {
+          return;
+        }
+        this.selectLocationAndUnpackItem(selectedLocation.id, quantity);
+      },
+
+      openAddItemOverlay(item) {
+        this.set("openAddItemOverlay", true);
+        this.set("addableItem", item);
       },
 
       /**

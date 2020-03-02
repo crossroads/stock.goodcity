@@ -20,12 +20,13 @@ export default cloudinaryUrl.extend({
   caseNumber: attr("string"),
   quantity: attr("number"),
   receivedQuantity: attr("number"),
-
   length: attr("number"),
   width: attr("number"),
   height: attr("number"),
   weight: attr("number"),
   pieces: attr("number"),
+  packageTypeId: attr("number"),
+  offerId: attr("number"),
 
   sentOn: attr("date"),
   isSet: attr("boolean"),
@@ -40,22 +41,45 @@ export default cloudinaryUrl.extend({
     async: false
   }),
   designationId: attr("string"),
-  designation: belongsTo("designation", { async: true }),
-  location: belongsTo("location", { async: false }),
-  code: belongsTo("code", { async: false }),
-  packageType: belongsTo("packageType", { async: false }),
-  donorCondition: belongsTo("donor_condition", { async: false }),
-  setItem: belongsTo("set_item", { async: false }),
-  packagesLocations: hasMany("packages_location", { async: true }),
+  designation: belongsTo("designation", {
+    async: true
+  }),
+  location: belongsTo("location", {
+    async: false
+  }),
+  code: belongsTo("code", {
+    async: false
+  }),
+  packageType: belongsTo("packageType", {
+    async: false
+  }),
+  donorCondition: belongsTo("donor_condition", {
+    async: false
+  }),
+  setItem: belongsTo("set_item", {
+    async: false
+  }),
+  packagesLocations: hasMany("packages_location", {
+    async: false
+  }),
 
   storageTypeId: attr("number"),
   storageType: belongsTo("storage_type", {
     async: true
   }),
 
+  onHandQuantity: attr("number"),
+
+  ordersPackages: hasMany("ordersPackages", {
+    async: true
+  }),
   ordersPackages: hasMany("ordersPackages", { async: true }),
+  offersPackages: hasMany("offersPackages", { async: false }),
+  offer: belongsTo("offer", { async: false }),
   imageIds: attr(),
-  images: hasMany("image", { async: true }),
+  images: hasMany("image", {
+    async: true
+  }),
 
   isDispatched: Ember.computed.bool("sentOn"),
   orderCode: Ember.computed.alias("designation.code"),
@@ -63,6 +87,8 @@ export default cloudinaryUrl.extend({
 
   imageUrl: Ember.computed.alias("image.imageUrl"),
   designateFullSet: Ember.computed.localStorage(),
+
+  storageTypeName: Ember.computed.alias("storageType.name"),
 
   isDesignated: Ember.computed(
     "ordersPackages",
@@ -242,29 +268,25 @@ export default cloudinaryUrl.extend({
     );
   }),
 
-  totalDispatchedQty: Ember.computed("ordersPackages.@each.state", function() {
-    var totalDispatchedQty = 0;
-    var dispatchedOrdersPackages = this.get("ordersPackages").filterBy(
-      "state",
-      "dispatched"
-    );
-    dispatchedOrdersPackages.forEach(record => {
-      totalDispatchedQty += parseInt(record.get("quantity"), 10);
-    });
-    return totalDispatchedQty;
-  }),
+  totalDispatchedQty: Ember.computed(
+    "ordersPackages.@each.state",
+    "ordersPackages.@each.dispatchedQuantity",
+    function() {
+      return this.get("ordersPackages")
+        .rejectBy("state", "cancelled")
+        .reduce((total, op) => total + op.get("dispatchedQuantity"), 0);
+    }
+  ),
 
-  totalDesignatedQty: Ember.computed("ordersPackages.@each.state", function() {
-    var totalDesignatedQty = 0;
-    var designatedOrdersPackages = this.get("ordersPackages").filterBy(
-      "state",
-      "designated"
-    );
-    designatedOrdersPackages.forEach(record => {
-      totalDesignatedQty += parseInt(record.get("quantity"), 10);
-    });
-    return totalDesignatedQty;
-  }),
+  totalDesignatedQty: Ember.computed(
+    "ordersPackages.@each.state",
+    "ordersPackages.@each.undispatchedQty",
+    function() {
+      return this.get("ordersPackages")
+        .filterBy("state", "designated")
+        .reduce((total, op) => total + op.get("undispatchedQty"), 0);
+    }
+  ),
 
   hasOneDispatchedPackage: Ember.computed(
     "ordersPackages.@each.state",

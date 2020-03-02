@@ -307,6 +307,51 @@ test("Publishing tab orders_packages blocks", function(assert) {
           .trim(),
         "Cancel"
       );
+
+      const actionsRan = () => {
+        return designationService.execAction.invocations.map(args => args[1]);
+      };
+
+      Ember.run(() => {
+        assert.equal(actionsRan().length, 0);
+        actions.eq(0).click();
+        Ember.run.next(() => {
+          assert.equal(actionsRan().length, 1);
+          assert.equal(actionsRan()[0], "cancel");
+        });
+      });
+    });
+  });
+});
+
+test("Dispatching orders_packages blocks calls the correct designationService action", function(assert) {
+  assert.equal(currentPath(), "items.detail.info");
+
+  click(".item_details_screen .tab-container .tab.publishing");
+
+  andThen(() => {
+    assert.equal(
+      $(".gc-orders-package-block .content-wrapper .content").hasClass(
+        "closed"
+      ),
+      true
+    );
+
+    click(".gc-orders-package-block .arrow-icon-holder");
+
+    andThen(() => {
+      assert.equal(
+        $(".gc-orders-package-block .content-wrapper .content").hasClass(
+          "closed"
+        ),
+        false
+      );
+
+      const ordersPackagesBLocks = $(".gc-orders-package-block");
+      assert.equal(ordersPackagesBLocks.length, 1);
+
+      const actions = ordersPackagesBLocks.find(".action-drawer .action");
+      assert.equal(actions.length, 2);
       assert.equal(
         actions
           .eq(1)
@@ -319,17 +364,27 @@ test("Publishing tab orders_packages blocks", function(assert) {
         return designationService.execAction.invocations.map(args => args[1]);
       };
 
-      Ember.run(() => {
-        assert.equal(actionsRan().length, 0);
-        actions.eq(0).click();
-        Ember.run.next(() => {
-          assert.equal(actionsRan().length, 1);
-          assert.equal(actionsRan()[0], "cancel");
-          actions.eq(1).click();
-          Ember.run.later(() => {
-            assert.equal(actionsRan().length, 2);
-            assert.equal(actionsRan()[0], "cancel");
-            assert.equal(actionsRan()[1], "dispatch");
+      assert.equal(actionsRan().length, 0);
+      Ember.run(() => actions.eq(1).click());
+
+      andThen(() => {
+        Ember.run.later(() => {
+          Ember.run.scheduleOnce("afterRender", () => {
+            const openPopup = ordersPackagesBLocks.find(".popup-overlay.open");
+            assert.equal(openPopup.length, 1);
+
+            const dispatchButton = openPopup.find(".button:last-child");
+            assert.equal(
+              /^Dispatch \(\d+\)/.test(dispatchButton.text().trim()),
+              true
+            );
+
+            click(dispatchButton);
+
+            andThen(() => {
+              assert.equal(actionsRan().length, 1);
+              assert.equal(actionsRan()[0], "dispatch");
+            });
           });
         });
       });

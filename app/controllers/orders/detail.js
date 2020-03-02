@@ -5,13 +5,17 @@ import GoodcityController from "../goodcity_controller";
 import SearchMixin from "stock/mixins/search_resource";
 import _ from "lodash";
 const { getOwner } = Ember;
+import AsyncMixin, { ERROR_STRATEGIES } from "stock/mixins/async";
 
-export default GoodcityController.extend(SearchMixin, {
+export default GoodcityController.extend(AsyncMixin, SearchMixin, {
   backLinkPath: "",
   displayAllItems: false,
+  cancelReasonLength: 180,
+  otherCancellationReason: "",
   isMobileApp: config.cordova.enabled,
   order: Ember.computed.alias("model"),
   orderId: Ember.computed.alias("model.id"),
+  showCancellationReason: false,
   hasUnreadMessages: Ember.computed("order", function() {
     return this.get("order.hasUnreadMessages");
   }),
@@ -37,11 +41,28 @@ export default GoodcityController.extend(SearchMixin, {
       .split(".")
       .get("lastObject");
   }),
+  orderService: Ember.inject.service(),
 
+  highlightSelectedTabSummary: Ember.computed("tabName", function() {
+    return (
+      ["client_summary", "contact_summary"].indexOf(this.get("tabName")) >= 0
+    );
+  }),
+
+  highlightSelectedTabGoods: Ember.computed("tabName", function() {
+    return (
+      ["active_items", "requested_items"].indexOf(this.get("tabName")) >= 0
+    );
+  }),
   scheduleTimeSlots: Ember.computed(function() {
     let buildSlot = (hours, minutes) => {
       const key = this.formatTimeSlot(hours, minutes);
-      return { name: key, id: key, hours, minutes };
+      return {
+        name: key,
+        id: key,
+        hours,
+        minutes
+      };
     };
     let slots = _.range(0, 23).map(h => [0, 30].map(m => buildSlot(h, m)));
     return _.flatten(slots);
@@ -56,6 +77,26 @@ export default GoodcityController.extend(SearchMixin, {
     }
   }),
 
+  cancelReason: Ember.computed.oneWay("model.cancelReason"),
+
+  cancellationReasons: Ember.computed(function() {
+    return this.store.peekAll("cancellation_reason");
+  }),
+
+  cancellationReasonId: Ember.computed("model.cancellationReason", function() {
+    return (
+      this.get("model.cancellationReason.id") ||
+      this.get("cancellationReasons.firstObject.id")
+    );
+  }),
+
+  remainingReasonChars: Ember.computed("cancelReason", function() {
+    return (
+      this.get("cancelReasonLength") -
+      ((this.get("cancelReason") && this.get("cancelReason").length) || 0)
+    );
+  }),
+
   ordersPackagesLengthMoreThenThree: Ember.observer(
     "model.ordersPackages",
     function() {
@@ -68,6 +109,52 @@ export default GoodcityController.extend(SearchMixin, {
       return ordersPackages.canonicalState.length >= 3
         ? this.set("displayAllItems", false)
         : this.set("displayAllItems", true);
+    }
+  ),
+
+  itemsList: Ember.computed(
+    "model.items",
+    "displayAllItems",
+    "model.ordersPackages",
+    "model.ordersPackages.@each.quantity",
+    "model.ordersPackages.@each.state",
+    function() {
+      var ordersPackages = this.get("model.ordersPackages")
+        .rejectBy("state", "requested")
+        .rejectBy("state", "cancelled")
+        .rejectBy("state", null);
+      return this.get("displayAllItems")
+        ? ordersPackages
+        : ordersPackages.slice(0, 3);
+    }
+  ),
+
+  canceledItemsList: Ember.computed(
+    "model.items",
+    "displayAllItems",
+    "model.ordersPackages",
+    "model.ordersPackages.@each.quantity",
+    "model.ordersPackages.@each.state",
+    function() {
+      var ordersPackages = this.get("model.ordersPackages")
+        .filterBy("state", "cancelled")
+        .rejectBy("state", null);
+      return this.get("displayAllItems")
+        ? ordersPackages
+        : ordersPackages.slice(0, 3);
+    }
+  ),
+
+  ordersPkgLength: Ember.computed(
+    "model.items",
+    "displayAllItems",
+    "model.ordersPackages",
+    "model.ordersPackages.@each.quantity",
+    "model.ordersPackages.@each.state",
+    function() {
+      return this.get("model.ordersPackages")
+        .rejectBy("state", "requested")
+        .rejectBy("state", null).length;
     }
   ),
 
@@ -115,6 +202,24 @@ export default GoodcityController.extend(SearchMixin, {
   },
 
   actions: {
+    cancelOrder() {
+      const reason = {
+        cancellation_reason_id: this.get("cancellationReasonId"),
+        cancel_reason: this.get("cancelReason")
+      };
+      this.runTask(
+        this.get("orderService")
+          .cancelOrder(this.get("order"), reason)
+          .then(() => {
+            this.send("toggleDisplayOptions");
+            this.setProperties({
+              otherCancellationReason: ""
+            });
+          }),
+        ERROR_STRATEGIES.MODAL
+      );
+    },
+
     openSchedulePopup() {
       const scheduledAt = this.get("model.orderTransport.scheduledAt");
       try {
@@ -164,6 +269,14 @@ export default GoodcityController.extend(SearchMixin, {
       this.toggleProperty("displayOrderOptions");
     },
 
+    resetCancellationReason() {
+      this.set("cancelReason", "");
+      this.set(
+        "order.cancellationReason",
+        this.get("cancellationReasons").get("firstObject")
+      );
+    },
+
     updateOrder(order, actionName) {
       switch (actionName) {
         case "messagePopUp":
@@ -174,6 +287,9 @@ export default GoodcityController.extend(SearchMixin, {
           break;
         case "resubmit":
           this.send("promptResubmitModel", order, actionName);
+
+          //clear cancel reason from ember data.
+          this.send("resetCancellationReason");
           break;
         case "reopen":
           this.send("promptReopenModel", order, actionName);
@@ -185,7 +301,7 @@ export default GoodcityController.extend(SearchMixin, {
           this.send("dispatchLaterModel", order, actionName);
           break;
         case "cancel":
-          this.send("promptCancelOrderModel", order, actionName);
+          this.set("showCancellationReason", true);
           break;
         case "close":
           this.send("promptCloseOrderModel", order, actionName);
@@ -321,27 +437,21 @@ export default GoodcityController.extend(SearchMixin, {
     },
 
     changeOrderState(order, transition) {
-      var url = `/orders/${order.id}/transition`;
-      var loadingView = getOwner(this)
-        .lookup("component:loading")
-        .append();
-      new AjaxPromise(url, "PUT", this.get("session.authToken"), {
-        transition: transition
-      })
-        .then(data => {
-          if ("transition" === "restart_process") {
-            this.set("isOrderProcessRestarted", false);
-          }
-          this.send("toggleDisplayOptions");
-          data["designation"] = data["order"];
-          this.get("store").pushPayload(data);
-        })
-        .finally(() => {
-          loadingView.destroy();
-          if (transition === "close") {
-            this.get("appReview").promptReviewModal(true);
-          }
-        });
+      this.runTask(
+        this.get("orderService")
+          .changeOrderState(order, transition)
+          .then(data => {
+            if (transition === "restart_process") {
+              this.set("isOrderProcessRestarted", false);
+            }
+            this.send("toggleDisplayOptions");
+          })
+          .finally(() => {
+            if (transition === "close") {
+              this.get("appReview").promptReviewModal(true);
+            }
+          })
+      );
     }
   }
 });

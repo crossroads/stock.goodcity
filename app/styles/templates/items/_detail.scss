@@ -2,7 +2,6 @@
 @import "./detail/publishing_tab";
 
 .item_details_screen {
-
   .hidden {
     visibility: hidden;
   }
@@ -137,15 +136,15 @@
                 width: 33%;
 
                 &:nth-child(1) {
-                  background-color: #051D3F;
+                  background-color: #051d3f;
                 }
 
                 &:nth-child(2) {
-                  background-color: #27436C;
+                  background-color: #27436c;
                 }
 
                 &:nth-child(3) {
-                  background-color: #438BCA;
+                  background-color: #438bca;
                 }
               }
             }
@@ -181,8 +180,6 @@
       width: 49.3%;
 
       .columns {
-
-
         .form__control {
 
           input,
@@ -238,7 +235,7 @@
         }
       }
 
-      @media (max-width:480px) {
+      @media (max-width: 480px) {
         width: 100%;
       }
     }
@@ -279,16 +276,10 @@
           left: 0.65rem;
           bottom: -4%;
         }
-
-      }
-
-      @media #{$medium-only} {
-        // left: 0.5rem;
       }
 
       @media #{$small-only} {
         top: 0.5rem;
-        // left: 0.5rem;
         width: 2rem;
         height: 2rem;
       }
@@ -296,7 +287,7 @@
   }
 
   .no-padding {
-    padding: 0
+    padding: 0;
   }
 
   .dispatch_details {
@@ -334,6 +325,11 @@
   }
 
   .detail-section {
+    .offer-tags {
+      svg {
+        padding-top: 1%;
+      }
+    }
     padding-bottom: 0.5rem;
     font-size: 0.8rem;
 
@@ -504,7 +500,7 @@
   font-size: 0.7rem;
   border: none !important;
   border-style: none !important;
-  padding: .3rem 1.5rem .3rem .4rem !important;
+  padding: 0.3rem 1.5rem 0.3rem 0.4rem !important;
   box-shadow: none !important;
   margin: -0.3rem -0.3rem 0 -0.4rem;
   text-decoration: none !important;
@@ -629,7 +625,9 @@
 }
 
 .weight-pieces {
-  .weight, .pieces{
+
+  .weight,
+  .pieces {
     float: left !important;
     top: 0.1rem;
   }
@@ -643,8 +641,7 @@
 
 .item-height,
 .item-width,
-.item-length
-  {
+.item-length {
   width: 70% !important;
   padding: 0.2rem !important;
   display: inline-block !important;
@@ -683,26 +680,3 @@
 .non-clickable-set-move {
   pointer-events: none;
 }
-
-.item_details_screen {
-  .box-pallet-tabs {
-    border-bottom: 1px solid;
-    margin-bottom: 2rem;
-    text-align: center;
-
-    .tab {
-      padding: 0.7rem;
-      font-size: 1rem;
-    }
-
-    .selected {
-      border-bottom: 2px solid;
-    }
-  }
-  .add-item{
-    button {
-      padding: 0.6em 0;
-    }
-  }
-}
-

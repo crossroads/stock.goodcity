@@ -2,6 +2,7 @@ export default {
   offline_error: "無法加載，請檢查網絡連線",
   unexpected_error: "錯誤",
   okay: "確定",
+  add_inventory_item: "Add item to inventory",
   loading: "正在加載...",
   loading_timeout_error: "讀取時限已過",
   loading_timeout: "需時太久了！點擊重新加載",
@@ -46,6 +47,24 @@ export default {
   new_order: "建立新的訂單",
   full_name: "{{firstName}} {{lastName}}",
   mobile_prefix: "+852",
+  box_pallet: {
+    indicate_amount:
+      "Indicate how many are you taking from each of the locations below.",
+    available: "Available",
+    location: "Location",
+    quantity: "Quantity",
+    number_to_move: "Number to move",
+    move_to: "Move item to",
+    move: "Move",
+    not_now: "Not Now",
+    add_to: "Add item to",
+    remove: "Remove",
+    content: "content",
+    details: "details",
+    invalid_quantity:
+      "Added quantity cannot be greater than the available quantity for each location.",
+    type_to_search: "Type in to search items to add."
+  },
   messages: {
     you: "您",
     chat_note: "與使用者對話",
@@ -69,6 +88,12 @@ export default {
   online_status: {
     online: "已連線",
     not_connected: "並未連線"
+  },
+  order_cancellation_reason: {
+    warning: "此動作將移除訂單內的所有物品並取消訂單",
+    title: "取消訂單的原因",
+    other: "取消訂單的原因",
+    reason_count: "{{count}} remaining"
   },
   order_client_summary: {
     remove_client_title: "移除受惠者",
@@ -561,6 +586,9 @@ export default {
       no_bookings_allowed: "此日期不允許預約"
     }
   },
+  search_offer: {
+    offer_select_warning: "Do you want to assign this offer?"
+  },
   search_order: {
     recent: "Recently used designations"
   },
@@ -570,7 +598,8 @@ export default {
     pick_from_location: "Where would you like to move FROM ?",
     pick_to_location: "Where would you like to move INTO ?",
     moving_item_to: "Moving this item to ",
-    quantity_input: "Input the quantity to move "
+    quantity_input: "Input the quantity to move ",
+    dispatch_from: "Where to dispatch the package from ?"
   },
 
   footer: {

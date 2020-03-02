@@ -1,5 +1,45 @@
 .cmp.search-overlay {
   .main-container {
+
+    .search-container {
+      display: flex;
+      align-items: stretch;
+
+      .close-overlay {
+        flex-grow: 1;
+        text-align: center;
+      }
+
+      .search-overlay {
+        flex-grow: 8;
+      }
+
+      .scanner {
+        height: 10px;
+        flex-grow: 1;
+      }
+
+      .scan-button {
+        @media #{$small-only} {
+          float: left;
+        }
+        button {
+          background: none;
+          border: none;
+          padding-bottom: 2rem;
+          margin-bottom: 0;
+
+          i {
+            font-size: 1.8rem;
+            margin-top: -0.4rem;
+            color: #a3aab6;
+            padding-right: 0.5rem;
+          }
+        }
+      }
+
+    }
+
     margin: 0 auto;
     max-width: 768px;
 
@@ -15,6 +55,12 @@
       padding: 0;
       background-color: $light-grey;
       z-index: 1000;
+
+      .offer-search {
+        @media #{$small-only} {
+          margin-left: 3%;
+        }
+      }
 
       .input-holder {
         padding-right: 1rem;
@@ -63,6 +109,28 @@
           border-bottom: 1px solid white;
           padding-bottom: 1rem;
           padding-top: 1rem;
+        }
+      }
+
+      .offer-result {
+        border-top: 1px solid;
+        border-bottom: 1px solid;
+        padding-top: 3%;
+        padding-bottom: 3%;
+      }
+
+      .search-offer-name {
+        color: white;
+      }
+
+      .time {
+        div {
+          display: inline-block;
+          margin-top: 0.6rem;
+        }
+
+        .package-counts {
+          margin-left: 8%;
         }
       }
     }

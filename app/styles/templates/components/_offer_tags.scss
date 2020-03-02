@@ -1,0 +1,24 @@
+.offer-tag {
+  display: inline-block;
+  padding:1%;
+  margin:3px;
+  border-radius: 10px;
+  border: 1px solid #466082;
+  color: white;
+
+  @media #{$small-only} {
+    padding: 2%;
+  }
+
+  svg {
+    font-size: 120%;
+    @media #{$large-only} {
+      font-size: 100%;
+    }
+  }
+  .offer-icon { margin-right: 5px; }
+  .delete-offer {
+    margin-left: 5px;
+    font-size: 120%;
+  }
+}

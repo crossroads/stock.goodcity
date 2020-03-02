@@ -31,10 +31,14 @@ export default AuthorizeRoute.extend({
     if (detailType) {
       await this.loadIfAbsent(_.snakeCase(detailType).toLowerCase(), detailId);
     }
+
     return model;
   },
 
-  afterModel(model) {
+  async afterModel(model) {
+    if (model.get("offerId")) {
+      await this.store.findRecord("offer", model.get("offerId"));
+    }
     if (!model.get("inventoryNumber")) {
       this.get("transition").abort();
       this.get("messageBox").alert(
@@ -73,6 +77,9 @@ export default AuthorizeRoute.extend({
     controller.set("callOrderObserver", false);
     controller.set("backLinkPath", this.get("itemBackLinkPath"));
     controller.set("active", true);
+    if (["Box", "Pallet"].indexOf(model.get("storageTypeName")) >= 0) {
+      controller.send("fetchContainedPackages");
+    }
     let detailType = model.get("detailType");
     if (detailType) {
       let details = await this.store.query(_.snakeCase(detailType), {

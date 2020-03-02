@@ -1,4 +1,5 @@
 import Ember from "ember";
+import _ from "lodash";
 import { module, test } from "qunit";
 import startApp from "../helpers/start-app";
 import "../factories/orders_package";
@@ -41,6 +42,11 @@ module("Acceptance: Goodcity Request test", {
     mockFindAll("location").returns({
       json: { locations: [location.toJSON({ includeId: true })] }
     });
+
+    MockUtils.mockWithRecords(
+      "cancellation_reason",
+      _(3).times(() => FactoryGuy.make("cancellation_reason"))
+    );
 
     MockUtils.mock({
       url: "/api/v1/goodcity_request*",

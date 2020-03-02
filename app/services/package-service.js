@@ -6,6 +6,8 @@ export default ApiBaseService.extend({
   init() {
     this._super(...arguments);
     this.set("openPackageSearch", false);
+    this.set("openItemSearch", false);
+    this.set("entity", null);
   },
 
   generateInventoryNumber() {
@@ -42,5 +44,51 @@ export default ApiBaseService.extend({
       this.set("openPackageSearch", true);
       this.set("storageType", storageType);
     });
+  },
+
+  openItemsSearch(item) {
+    Ember.run(() => {
+      this.set("openItemSearch", true);
+      this.set("entity", item);
+    });
+  },
+
+  addRemoveItem(pkgId, params) {
+    return this.PUT(`/packages/${pkgId}/add_remove_item`, params);
+  },
+
+  fetchContainedPackages(boxPalletId) {
+    return this.GET(`/packages/${boxPalletId}/contained_packages`);
+  },
+
+  fetchAddedQuantity(entityId, pkgID) {
+    return this.GET(`/packages/${pkgID}/fetch_added_quantity`, {
+      entity_id: entityId
+    });
+  },
+
+  allChildPackageTypes(item) {
+    let all_package_types = this.getAssociatedPkgTypes(
+      item,
+      "defaultChildPackages"
+    ).concat(this.getAssociatedPkgTypes(item, "otherChildPackages"));
+    return all_package_types.getEach("id");
+  },
+
+  getAssociatedPkgTypes(item, type) {
+    let defaultChildPackageTypes = item.get("code").get(type);
+    return this._getPackageTypes(defaultChildPackageTypes);
+  },
+
+  _getPackageTypes(types) {
+    let packageTypeNames = (types || "").split(",");
+    let packagesTypes = [];
+    const allPackageTypes = this.get("store").peekAll("code");
+    packageTypeNames.map(function(type) {
+      allPackageTypes.filter(function(pkgType) {
+        return pkgType.get("code") === type ? packagesTypes.push(pkgType) : "";
+      });
+    });
+    return packagesTypes;
   }
 });

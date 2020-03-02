@@ -44,6 +44,7 @@ module.exports = function(environment) {
 
     APP: {
       NAME: "stock.goodcity",
+      ORIGIN: "stock.goodcity.hk",
       SHA: process.env.APP_SHA || "00000000",
       VERSION: pkgJson.version || "1.0.0",
       environment: environment,
@@ -108,11 +109,12 @@ module.exports = function(environment) {
   };
 
   if (environment === "development") {
-    ENV.APP.API_HOST_URL = "http://localhost:4000";
+    ENV.APP.ORIGIN = "localhost";
+    ENV.APP.API_HOST_URL = "http://localhost:3000";
     ENV.APP.SOCKETIO_WEBSERVICE_URL = "http://localhost:1337/goodcity";
     ENV.cordova.FcmSenderId = "535052654081";
     ENV.contentSecurityPolicy["connect-src"] = [
-      "http://localhost:4000",
+      "http://localhost:3000",
       "https://api.cloudinary.com",
       "http://localhost:4203",
       "http://localhost:1337",
@@ -163,6 +165,7 @@ module.exports = function(environment) {
   }
 
   if (environment === "staging") {
+    ENV.APP.ORIGIN = "stock-staging.goodcity.hk";
     ENV.cordova.FcmSenderId = "535052654081";
     ENV.APP.API_HOST_URL = "https://api-staging.goodcity.hk";
     ENV.APP.SOCKETIO_WEBSERVICE_URL =
@@ -179,6 +182,7 @@ module.exports = function(environment) {
   }
 
   if (environment === "preview") {
+    ENV.APP.ORIGIN = "stock-preview.goodcity.hk";
     ENV.cordova.FcmSenderId = "535052654081";
     ENV.APP.API_HOST_URL = "https://api-preview.goodcity.hk";
     ENV.APP.SOCKETIO_WEBSERVICE_URL =

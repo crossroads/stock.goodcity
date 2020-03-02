@@ -99,20 +99,18 @@
         {{t "items.new.location"}}
       </div>
       <div class="{{if isMobileApp 'small-7 large-8' 'small-9'}} columns">
-        {{#link-to "select_location" replace=true}}
-          <div class="{{if (is-or invalidLocation invalidScanResult) 'ember-view form__control form__control--error'}}"
-            id="inventory_location">
-            <i class="location-icon" aria-hidden="true">{{fa-icon 'map-marker-alt'}}</i>
-            {{input value=locationName disabled=true required='true'}}
-            <div class='input-error'>
-              {{#if invalidScanResult}}
-                {{t "items.new.validation_errors.invalid_location"}}
-              {{else}}
-                {{t "items.new.validation_errors.blank_location"}}
-              {{/if}}
-            </div>
+        <div class="{{if (is-or invalidLocation invalidScanResult) 'ember-view form__control form__control--error'}}"
+          id="inventory_location" {{action 'pickLocation'}} >
+          <i class="location-icon" aria-hidden="true">{{fa-icon 'map-marker-alt'}}</i>
+          {{input value=locationName disabled=true required='true'}}
+          <div class='input-error'>
+            {{#if invalidScanResult}}
+              {{t "items.new.validation_errors.invalid_location"}}
+            {{else}}
+              {{t "items.new.validation_errors.blank_location"}}
+            {{/if}}
           </div>
-        {{/link-to}}
+        </div>
       </div>
       {{#if isMobileApp}}
         <div class="small-2 large-1 columns scan-icon">
@@ -162,6 +160,22 @@
           {{numeric-input name="pieces" id='pieces' value=pieces maxlength="10" pattern="[1-9]{0,5}"}}
         </div>
       {{/if}}
+    </div>
+    <div class="row">
+      <div class="small-3 columns item-label">
+        Donation
+      </div>
+      <div class="small-9 columns donations">
+        <span {{action 'addOffer'}}>
+          {{fa-icon 'plus-square' size='2x'}}
+        </span>
+        {{#each offersLists as |offer|}}
+          {{offer-tag
+            offer=offer
+            removeOffer=(action "removeOffer")
+          }}
+        {{/each}}
+      </div>
     </div>
     {{#if showAdditionalFields}}
       {{partial "items/additional_fields"}}

@@ -4,8 +4,7 @@ import Ember from "ember";
 export default AuthorizeRoute.extend({
   inventoryNumber: "",
   newItemRequest: "",
-  isSearchCodePreviousRoute: Ember.computed.localStorage(),
-  isSelectLocationPreviousRoute: Ember.computed.localStorage(),
+  isSearchCodePreviousRoute: Ember.computed.localStorage(), // @TODO: fix
   transitionFrom: "",
   packageService: Ember.inject.service(),
   printerService: Ember.inject.service(),
@@ -82,7 +81,6 @@ export default AuthorizeRoute.extend({
       this.initializeAttributes();
       this.manageSubformDetails();
       this.setUpPackageImage();
-      window.localStorage.setItem("isSelectLocationPreviousRoute", false);
     }
     this.setupPrinterId(controller);
   },
@@ -95,6 +93,7 @@ export default AuthorizeRoute.extend({
     controller.set("invalidLocation", false);
     controller.set("invalidScanResult", false);
     controller.set("labels", 1);
+    controller.set("offersLists", []);
   },
 
   async manageSubformDetails() {
@@ -137,21 +136,17 @@ export default AuthorizeRoute.extend({
     const controller = this.controller;
     this.set("newItemRequest", false);
     controller.set("quantity", 1);
-    if (
-      window.localStorage.getItem("isSelectLocationPreviousRoute") === "false"
-    ) {
-      controller.set("caseNumber", "");
-      controller.set("length", null);
-      controller.set("width", null);
-      controller.set("height", null);
-      controller.set("weight", null);
-      controller.set("pieces", null);
-      controller.set("selectedGrade", {
-        name: "B",
-        id: "B"
-      });
-      controller.set("imageKeys", "");
-    }
+    controller.set("caseNumber", "");
+    controller.set("length", null);
+    controller.set("width", null);
+    controller.set("height", null);
+    controller.set("weight", null);
+    controller.set("pieces", null);
+    controller.set("selectedGrade", {
+      name: "B",
+      id: "B"
+    });
+    controller.set("imageKeys", "");
     this.setupPrinterId(controller);
   }
 });

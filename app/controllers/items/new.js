@@ -42,13 +42,17 @@ export default GoodcityController.extend(
     fields: additionalFields,
     weight: "",
     isSelectLocationPreviousRoute: Ember.computed.localStorage(),
+    offerService: Ember.inject.service(),
     fixedDropdownArr: ["frequency", "voltage", "compTestStatus", "testStatus"],
     quantity: 1,
     labels: 1,
     length: null,
     width: null,
     height: null,
-    selectedGrade: { name: "B", id: "B" },
+    selectedGrade: {
+      name: "B",
+      id: "B"
+    },
     invalidLocation: false,
     invalidScanResult: false,
     newUploadedImage: null,
@@ -59,6 +63,7 @@ export default GoodcityController.extend(
     imageKeys: Ember.computed.localStorage(),
     i18n: Ember.inject.service(),
     session: Ember.inject.service(),
+    locationService: Ember.inject.service(),
     packageService: Ember.inject.service(),
     printerService: Ember.inject.service(),
     cancelWarning: t("items.new.cancel_warning"),
@@ -66,6 +71,7 @@ export default GoodcityController.extend(
       let subform = this.get("code.subform");
       return this.returnDisplayFields(subform);
     }),
+    offersLists: [],
 
     isBoxOrPallet: Ember.computed("storageType", function() {
       return ["Box", "Pallet"].indexOf(this.get("storageType")) > -1;
@@ -77,10 +83,14 @@ export default GoodcityController.extend(
         : `Add - ${this.get("parentCodeName")}`;
     }),
 
-    showPublishItemCheckBox: Ember.computed("quantity", function() {
-      this.set("isAllowedToPublish", false);
-      return +this.get("quantity") === 1;
-    }),
+    showPublishItemCheckBox: Ember.computed(
+      "quantity",
+      "isBoxOrPallet",
+      function() {
+        this.set("isAllowedToPublish", false);
+        return +this.get("quantity") === 1 && !this.get("isBoxOrPallet");
+      }
+    ),
 
     locale: function(str) {
       return this.get("i18n").t(str);
@@ -94,7 +104,10 @@ export default GoodcityController.extend(
       const printerId = this.get("selectedPrinterId");
       if (printerId) {
         const printer = this.store.peekRecord("printer", printerId);
-        return { name: printer.get("name"), id: printer.id };
+        return {
+          name: printer.get("name"),
+          id: printer.id
+        };
       } else {
         return this.get("allAvailablePrinters")[0];
       }
@@ -201,11 +214,15 @@ export default GoodcityController.extend(
     }),
 
     isInvalidPrintCount: Ember.computed("labels", function() {
-      return this.isValidLabelRange({ startRange: 0 });
+      return this.isValidLabelRange({
+        startRange: 0
+      });
     }),
 
     isMultipleCountPrint: Ember.computed("labels", function() {
-      return this.isValidLabelRange({ startRange: 1 });
+      return this.isValidLabelRange({
+        startRange: 1
+      });
     }),
 
     isInvalidDimension: Ember.computed("length", "width", "height", function() {
@@ -301,8 +318,12 @@ export default GoodcityController.extend(
         state_event: "mark_received",
         storage_type: this.get("storageType"),
         packages_locations_attributes: {
-          0: { location_id: locationId, quantity: quantity }
+          0: {
+            location_id: locationId,
+            quantity: quantity
+          }
         },
+        offer_ids: this.get("offersLists").getEach("id"),
         detail_attributes: detailAttributes
       };
     },
@@ -352,15 +373,16 @@ export default GoodcityController.extend(
     },
 
     checkPermissionAndScan() {
+      let _this = this;
       let permissions = window.cordova.plugins.permissions;
       let permissionError = () => {
-        let error_message = this.get("i18n").t("camera_scan.permission_error");
-        this.get("messageBox").alert(error_message);
+        let error_message = _this.get("i18n").t("camera_scan.permission_error");
+        _this.get("messageBox").alert(error_message);
       };
       let permissionSuccess = status => {
         //after requesting check for permission then, permit to scan
         if (status.hasPermission) {
-          this.scan();
+          _this.scan();
         } else {
           permissionError();
         }
@@ -368,7 +390,7 @@ export default GoodcityController.extend(
       permissions.hasPermission(permissions.CAMERA, function(status) {
         //check permission here
         if (status.hasPermission) {
-          this.scan();
+          _this.scan();
         } else {
           //request permission here
           permissions.requestPermission(
@@ -389,7 +411,10 @@ export default GoodcityController.extend(
       };
       let onError = error =>
         this.get("messageBox").alert("Scanning failed: " + error);
-      let options = { formats: "QR_CODE, CODE_128", orientation: "portrait" };
+      let options = {
+        formats: "QR_CODE, CODE_128",
+        orientation: "portrait"
+      };
       window.cordova.plugins.barcodeScanner.scan(onSuccess, onError, options);
     },
 
@@ -436,7 +461,11 @@ export default GoodcityController.extend(
           }
           this.updateStoreAndSaveImage(data);
           this.clearSubformAttributes();
-          this.setProperties({ locationId: "", inventoryNumber: "" });
+          this.setProperties({
+            locationId: "",
+            inventoryNumber: "",
+            offersLists: []
+          });
           this.replaceRoute("items.detail", data.item.id);
         })
         .catch(response => {
@@ -450,6 +479,29 @@ export default GoodcityController.extend(
     },
 
     actions: {
+      async pickLocation() {
+        this.set(
+          "location",
+          await this.get("locationService").userPickLocation()
+        );
+      },
+
+      removeOffer(offer) {
+        const offersList = this.get("offersLists").filter(
+          offer_list => offer_list.id !== offer.id
+        );
+        this.set("offersLists", offersList);
+      },
+
+      async addOffer() {
+        const offer = await this.get("offerService").getOffer();
+        if (!offer) {
+          return;
+        }
+        const offers = _.uniq([...this.get("offersLists"), offer]);
+        this.set("offersLists", offers);
+      },
+
       //file upload
       triggerUpload() {
         // For Cordova application
@@ -549,7 +601,9 @@ export default GoodcityController.extend(
             "/images/delete_cloudinary_image",
             "PUT",
             this.get("session.authToken"),
-            { cloudinary_id: this.get("imageKeys") }
+            {
+              cloudinary_id: this.get("imageKeys")
+            }
           );
           this.set("imageKeys", "");
           this.set("newUploadedImage", null);
@@ -566,7 +620,6 @@ export default GoodcityController.extend(
               this.send("deleteAutoGeneratedNumber");
               this.set("inventoryNumber", "");
             }
-            window.localStorage.setItem("isSelectLocationPreviousRoute", false);
             this.send("deleteUnusedImage");
             this.set("locationId", "");
             this.set("codeId", "");
@@ -645,14 +698,13 @@ export default GoodcityController.extend(
         if (this.get("fixedDropdownArr").indexOf(fieldName) >= 0) {
           dropDownValues[`${fieldName}_id`] = value.id;
         } else {
-          dropDownValues[fieldName] = value.tag;
+          dropDownValues[fieldName] = value.tag ? value.tag.trim() : "";
         }
         this.set("dropDownValues", dropDownValues);
       },
 
       saveItem() {
         this.showOfflineError();
-        window.localStorage.setItem("isSelectLocationPreviousRoute", false);
         this.set("isSearchCodePreviousRoute", false);
         if (this.isInValidConditions()) {
           return false;

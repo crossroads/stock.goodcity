@@ -61,6 +61,6 @@
     {{/unless}}
   </div>
   <div class="small-4 columns">
-    <i>{{fa-icon (if item.isSet 'tags' 'tag')}}</i> {{item.inventoryNumber}}
+    <i>{{fa-icon (if item.isSet 'tags' (storage-icon item.storageTypeName))}}</i>{{item.inventoryNumber}}
   </div>
 </div>
