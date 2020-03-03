@@ -244,6 +244,8 @@ export default {
     warning: "分拆數量需最少1 件或少於 {{qty}}"
   },
   order_details: {
+    cancel_order: "Cancel Order",
+    update_reason: "Update Reason",
     client_name: "服務對使用者姓名",
     hkid: "香港身份證號碼",
     reference: "參考編號:",
