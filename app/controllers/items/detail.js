@@ -10,6 +10,7 @@ import MoveActions from "stock/mixins/move_actions";
 import DesignationActions from "stock/mixins/designation_actions";
 import StorageTypes from "stock/mixins/storage-type";
 import AsyncMixin from "stock/mixins/async";
+import ItemActions from "stock/mixins/item_actions";
 import _ from "lodash";
 import SearchMixin from "stock/mixins/search_resource";
 
@@ -21,6 +22,7 @@ export default GoodcityController.extend(
   DesignationActions,
   StorageTypes,
   AsyncMixin,
+  ItemActions,
   SearchMixin,
   {
     isMobileApp: config.cordova.enabled,

@@ -8,7 +8,7 @@
       {{/if}}
       {{t 'partial_undesignate.available' }} ({{ model.availableQty }})
     </div>
-    <div class="row action-row">
+    <div class="row action-row gc-orders-package-block">
       <div class="small-6 columns">
         {{toggle-switch
             disabled=(unless allowPublish true)
@@ -28,7 +28,6 @@
         {{/goodcity/designate-link}}
         {{partial "items/detail/tabs/item_options"}}
       </div>
-
     </div>
   </div>
 

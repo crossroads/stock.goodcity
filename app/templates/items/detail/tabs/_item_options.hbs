@@ -6,32 +6,56 @@
 
 <div class="options_menu_list {{if displayItemOptions '' 'hidden'}}">
 
-  <div class="option_menu">
-    <a>
-      {{fa-icon 'random' }}
-      Process
-    </a>
-  </div>
-
-  <div class="option_menu">
-    <a {{action "submitOffer"}}>
-      {{fa-icon 'recycle' }}
-      Recycle
-    </a>
-  </div>
-
-  <div class="option_menu">
-    <a>
-      {{fa-icon 'dumpster' }}
-      Trash
-    </a>
-  </div>
-
-  <div class="option_menu">
-    <a>
-      {{fa-icon 'folder-minus' }}
-      Loss
-    </a>
-  </div>
+  {{#each itemActions as |action|}}
+    <div class="option_menu">
+      <a {{action "beginAction" item action.name}}>
+        {{fa-icon action.icon }}
+        {{action.name}}
+      </a>
+    </div>
+  {{/each}}
 
 </div>
+
+{{#popup-overlay open=readyForAction}}
+  <div class="dispatch-form">
+    <div class="order-preview">
+      {{#if readyForAction}}
+      {{goodcity/orders-package-block orderPkg=orderPkg packageView=false readOnly=true}}
+      {{/if}}
+    </div>
+
+    <div class="form-container">
+      <div class="title">{{fa-icon actionIcon}} {{actionName}}</div>
+      <div class="infos">
+        <div class="info-row">
+          <div class="key">Item</div>
+          <div class="value">{{fa-icon 'tag'}} {{item.inventoryNumber}}</div>
+        </div>
+
+        <div class="info-row">
+          <div class="key">From Location</div>
+          <div class="value clickable" {{action "selectLocationAction"}}>{{fa-icon 'map-marker-alt'}}
+            {{actionFrom.displayName}}</div>
+        </div>
+        <div class="info-row">
+          <div class="key">Quantity</div>
+          <div class="value">
+            {{input type="number" value=maxQuantity disabled=(unless editableQty true) class="qty-input"}}
+          </div>
+          <div class="sub-text {{if (is-not (is-in-range quantity 1 maxQuantity)) 'warn-text'}}">Max: {{maxQuantity}}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="button-container">
+      <div class="button light" {{action "cancelAction"}}>Cancel</div>
+      {{#if (is-not (is-in-range quantity 1 maxQuantity))}}
+      <div class="button" disabled>{{actionName}} ({{ quantity }})</div>
+      {{else}}
+      <div class="button" {{action "completeAction"}}> {{actionName}} ({{ quantity }})</div>
+      {{/if}}
+    </div>
+  </div>
+{{/popup-overlay}}
