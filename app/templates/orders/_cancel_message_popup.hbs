@@ -1,19 +1,23 @@
-{{#message-box btn1Text="Not Now"  btn2Text="Cancel Order" btn2Callback=(action "cancelOrder") isVisible=showCancellationReason classNames="popupOverlay cancellation_reason"}}
+{{#message-box btn1Text="Not Now"  btn2Text=cancelText btn2Callback=(action "cancelOrder") isVisible=showCancellationReason classNames="popupOverlay cancellation_reason"}}
   <p>{{t 'order_cancellation_reason.warning'}}</p>
   <strong class="title">{{t 'order_cancellation_reason.title'}}</strong>
-  {{#each cancellationReasons as |reason|}}
-    <div class="custom_radio_buttons ">
-      {{radio-button
-        name= 'cancellationReason'
-        id= reason.id
-        value= reason.id
-        selection= cancellationReasonId
-        required='true'}}
-      <label class="radio-button-text align-text hire_vehicle" for={{reason.id}}>
-        {{reason.name}}
-      </label>
-    </div>
-  {{/each}}
+  <div class="row">
+    {{#each cancellationReasons as |reason|}}
+      <div class="custom_radio_buttons ">
+        <div class="large-6 small-12 medium-12 columns">
+          {{radio-button
+                  name= 'cancellationReason'
+                  id= reason.id
+                  value= reason.id
+                  selection= cancellationReasonId
+                  required='true'}}
+          <label class="radio-button-text align-text hire_vehicle" for={{reason.id}}>
+            {{reason.name}}
+          </label>
+        </div>
+      </div>
+    {{/each}}
+  </div>
 
   {{auto-resize-textarea
     data-autoresize=true
@@ -22,7 +26,9 @@
     id="otherCancellationReason"
     maxlength=cancelReasonLength
   }}
-  <div class="right reason-count">
-    {{remainingReasonChars}}/{{cancelReasonLength}}
+  <div class="row">
+    <div class="right reason-count">
+      {{remainingReasonChars}}/{{cancelReasonLength}}
+    </div>
   </div>
 {{/message-box}}

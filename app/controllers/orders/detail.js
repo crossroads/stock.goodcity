@@ -79,6 +79,10 @@ export default GoodcityController.extend(AsyncMixin, SearchMixin, {
 
   cancelReason: Ember.computed.oneWay("model.cancelReason"),
 
+  cancelText: Ember.computed("cancelReason", function() {
+    return this.get("cancelReason") ? "Update Reason" : "Cancel Order";
+  }),
+
   cancellationReasons: Ember.computed(function() {
     return this.store.peekAll("cancellation_reason");
   }),
