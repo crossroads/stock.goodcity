@@ -249,6 +249,8 @@ export default {
     warning: "Quantity to split must be at least 1 and less than {{qty}}"
   },
   order_details: {
+    cancel_order: "Cancel Order",
+    update_reason: "Update Reason",
     client_name: "Client name:",
     hkid: "HKID",
     reference: "Reference #:",
