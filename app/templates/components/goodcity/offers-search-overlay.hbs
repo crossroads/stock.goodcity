@@ -7,7 +7,7 @@
         </div>
         <div class="input-holder search-overlay">
           <div class="row">
-            <div class="small-10 large-12 columns">
+            <div class="small-10 medium-10 large-12 columns">
               {{focus-textfield
                 name="searchText"
                 id=uuid
@@ -18,7 +18,7 @@
               {{/if}}
             </div>
             {{#if isMobileApp}}
-              <div class="small-2 columns scan-button scanner">
+              <div class="small-2 medium-2 columns scan-button scanner">
                 {{scan-barcode-button onScanComplete=(action "setScannedSearchText")}}
               </div>
             {{/if}}
