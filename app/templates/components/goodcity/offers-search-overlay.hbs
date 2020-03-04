@@ -6,21 +6,24 @@
           <i {{action "closeOverlay"}} class="back_icon" aria-hidden="true">{{fa-icon 'times' size='lg'}}</i>
         </div>
         <div class="input-holder search-overlay">
-          {{focus-textfield
-            name="searchText"
-            id=uuid
-            placeholder=(t "search_min")
-            value=searchText }}
-
-          {{#if searchText}}
-            <i class="pinned-right" {{action 'clearSearch'}}>{{fa-icon 'times-circle' size='lg'}}</i>
-          {{/if}}
-        </div>
-        {{#if isMobileApp}}
-          <div class="scan-button scanner">
-            {{scan-barcode-button onScanComplete=(action "setScannedSearchText")}}
+          <div class="row">
+            <div class="small-10 columns">
+              {{focus-textfield
+                name="searchText"
+                id=uuid
+                placeholder=(t "search_min")
+                value=searchText }}
+              {{#if searchText}}
+                <i class="pinned-right" {{action 'clearSearch'}}>{{fa-icon 'times-circle'}}</i>
+              {{/if}}
+            </div>
+            {{#if isMobileApp}}
+              <div class="small-2 columns scan-button scanner">
+                {{scan-barcode-button onScanComplete=(action "setScannedSearchText")}}
+              </div>
+            {{/if}}
           </div>
-        {{/if}}
+        </div>
       </div>
 
       <section class="main-section orders_search_result search_result">
