@@ -22,8 +22,6 @@ import _ from "lodash";
 export default Ember.Mixin.create(AsyncMixin, {
   locationService: Ember.inject.service(),
   settings: Ember.inject.service(),
-  currentAction: "",
-
   editableQty: Ember.computed.alias("settings.allowPartialOperations"),
 
   itemActions: [
@@ -45,49 +43,14 @@ export default Ember.Mixin.create(AsyncMixin, {
     }
   ],
 
-  // itemActions: {
-  //   process: {
-  //     name: "Process",
-  //     icon: "random"
-  //   },
-  //   recycle: {
-  //     name: "Recycle",
-  //     icon: "recycle"
-  //   },
-  //   trash: {
-  //     name: "Trash",
-  //     icon: "dumpster"
-  //   },
-  //   loss: {
-  //     name: "Loss",
-  //     icon: "folder-minus"
-  //   },
-  // },
-
-  actionQty: Ember.computed("_actionQty", {
-    get(k) {
-      return this.get("_actionQty");
-    },
-    set(k, value) {
-      const allowPartial = this.get("settings.allowPartialOperations");
-      const total = this.quantityAtSource();
-      const qty = Number(value);
-
-      if (!allowPartial && qty > 0 && qty !== total) {
-        throw new Error("Partial quantity is not permitted");
-      }
-
-      this.set("_actionQty", qty);
-      return qty;
-    }
-  }),
-
-  async resolveLocation(pkg) {
+  async resolveFromLocation(pkg) {
     const presetLocations = pkg.get("packagesLocations").mapBy("location");
 
     if (presetLocations.get("length") > 1) {
       return this.get("locationService").userPickLocation({
-        headerText: this.get("i18n").t("select_location.dispatch_from"),
+        headerText: this.get("i18n").t(
+          `select_location.${this.get("actionName").toLowerCase()}_from`
+        ),
         presetLocations
       });
     }
@@ -128,7 +91,8 @@ export default Ember.Mixin.create(AsyncMixin, {
 
   actions: {
     async beginAction(pkg, actionName) {
-      let from = await this.resolveLocation(pkg);
+      this.set("actionName", actionName);
+      let from = await this.resolveFromLocation(pkg);
 
       if (!pkg || !actionName || !from) {
         return this.send("cancelAction");
@@ -145,7 +109,6 @@ export default Ember.Mixin.create(AsyncMixin, {
       );
       this.set("actionTarget", pkg);
       this.set("actionFrom", from);
-      this.set("actionName", actionName);
       this.set("actionQty", this.quantityAtSource());
       this.set(
         "actionIcon",
@@ -164,12 +127,13 @@ export default Ember.Mixin.create(AsyncMixin, {
 
     completeAction() {
       this.runTask(() => {
-        return this.get("locationService").movePackage(
+        return this.get("locationService").peformActionOnPackage(
           this.get("actionTarget"),
           {
             from: this.get("actionFrom"),
-            actionName: this.get("actionName"),
-            quantity: this.get("actionQty")
+            actionName: this.get("actionName").toLowerCase(),
+            quantity: this.get("actionQty"),
+            description: this.get("description")
           }
         );
       }, ERROR_STRATEGIES.MODAL).finally(() => {
@@ -179,6 +143,14 @@ export default Ember.Mixin.create(AsyncMixin, {
 
     async cancelAction() {
       this.clearActionParams();
+    },
+
+    async selectLocationAction() {
+      this.send(
+        "beginAction",
+        this.get("actionTarget"),
+        this.get("actionName")
+      );
     }
   }
 });

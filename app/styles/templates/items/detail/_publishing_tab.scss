@@ -1,4 +1,4 @@
-.item_details_screen .publishing-tab {
+  .publishing-tab {
   padding-left: 1rem;
 
   @mixin spaced-out($mul : 1) {
@@ -67,6 +67,49 @@
 
     .option_menu a svg {
       margin-right: 5px;
+    }
+  }
+
+  .package-actions-form .row.gc-orders-package-block .columns {
+    border: black 2px solid;
+    height: 4rem;
+    background-color: #002352 !important;
+  }
+
+  .package-actions-form .row.gc-orders-package-block.tab-container {
+    margin: 5rem auto -5rem auto;
+    border: 2px solid black;
+    border-bottom: 0;
+  }
+
+  .thumb {
+    width: fit-content !important;
+    height: inherit;
+  }
+
+  .tab-container .text-block {
+    text-align: center;
+  }
+
+  .divided {
+    padding: 1px 6px !important;
+
+    .subtab {
+      height: inherit;
+      text-align: center;
+      padding-top: 0.5rem;
+
+      &:nth-child(1) {
+        background-color: #051d3f;
+      }
+
+      &:nth-child(2) {
+        background-color: #27436c;
+      }
+
+      &:nth-child(3) {
+        background-color: #438bca;
+      }
     }
   }
 }

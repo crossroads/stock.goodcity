@@ -18,11 +18,68 @@
 </div>
 
 {{#popup-overlay open=readyForAction}}
-  <div class="dispatch-form">
+  <div class="dispatch-form package-actions-form">
+
+    <!-- TABS -->
+    <div class="row tab-container gc-orders-package-block">
+
+      <!-- DETAILS -->
+      <div class="columns small-3 sub-block main">
+        <div class="text-block">
+          <div class="line icon-holder">{{fa-icon (if item.isSet 'tags' (storage-icon item.storageTypeName)) size="lg"}}</div>
+          <div class="line text-holder">{{ item.inventoryNumber }}</div>
+        </div>
+      </div>
+
+      <!-- LOCATION -->
+      <div class="columns small-3 sub-block main">
+        <div class="text-block">
+          <div class="line icon-holder">{{fa-icon 'map-marker-alt' size="lg"}}</div>
+          <div class="line text-holder">
+            {{#if item.hasMultiLocations}}
+            {{t "item_status_bar.multiple"}}
+            {{else}}
+            {{#if item.firstAllLocationName}}
+            {{item.firstAllLocationName}}
+            {{else}}
+            N/A
+            {{/if}}
+            {{/if}}
+          </div>
+        </div>
+      </div>
+
+      <div class="columns small-6 tab sub-block main">
+        <div class="text-block row divided">
+          <div class="subtab column small-4">
+            <div class="line icon-holder">{{fa-icon 'paper-plane' size="lg"}}</div>
+            <div class="line text-holder"> {{ item.totalDispatchedQty }} </div>
+          </div>
+          <div class="subtab column small-4">
+            <div class="line icon-holder">{{fa-icon 'shopping-basket' size="lg"}}</div>
+            <div class="line text-holder"> {{ item.totalDesignatedQty }} </div>
+          </div>
+          <div class="subtab column small-4">
+            <div class="line icon-holder">{{fa-icon (if item.allowWebPublish 'eye' 'eye-slash') size="lg"}}</div>
+            <div class="line text-holder"> {{ item.availableQty }} </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="order-preview">
-      {{#if readyForAction}}
-      {{goodcity/orders-package-block orderPkg=orderPkg packageView=false readOnly=true}}
-      {{/if}}
+      <div class="row gc-orders-package-block">
+        <div class="columns small-3 left">
+          <img src={{item.thumbImageUrl}} class="thumb" />
+        </div>
+
+        <div class="columns small-9 sub-block main" >
+          <div class="text-block">
+            <div class="line">{{ item.code.name }}</div>
+            <div class="line">{{ item.notes }}</div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="form-container">
@@ -41,9 +98,9 @@
         <div class="info-row">
           <div class="key">Quantity</div>
           <div class="value">
-            {{input type="number" value=maxQuantity disabled=(unless editableQty true) class="qty-input"}}
+            {{input type="number" value=actionQty class="qty-input"}}
           </div>
-          <div class="sub-text {{if (is-not (is-in-range quantity 1 maxQuantity)) 'warn-text'}}">Max: {{maxQuantity}}
+          <div class="sub-text {{if (is-not (is-in-range actionQty 1 maxQuantity)) 'warn-text'}}">Max: {{maxQuantity}}
           </div>
         </div>
       </div>
@@ -51,10 +108,10 @@
 
     <div class="button-container">
       <div class="button light" {{action "cancelAction"}}>Cancel</div>
-      {{#if (is-not (is-in-range quantity 1 maxQuantity))}}
-      <div class="button" disabled>{{actionName}} ({{ quantity }})</div>
+      {{#if (is-not (is-in-range actionQty 1 maxQuantity))}}
+      <div class="button" disabled>{{actionName}} ({{ actionQty }})</div>
       {{else}}
-      <div class="button" {{action "completeAction"}}> {{actionName}} ({{ quantity }})</div>
+      <div class="button" {{action "completeAction"}}> {{actionName}} ({{ actionQty }})</div>
       {{/if}}
     </div>
   </div>
