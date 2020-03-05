@@ -1,0 +1,22 @@
+<div class="row gc-orders-package-block package-action-block">
+  <div class="columns small-2 action-sub-block left ">
+    <div class="pkg-icon">{{fa-icon actionIcon}}</div>
+    <div>{{action.quantity}}</div>
+  </div>
+  <div class="columns action-sub-block main small-10">
+    <div class="row">
+      <div class="columns small-10">
+        <div class="text-block">
+          <div class="line">{{actionTitle}}</div>
+          <div class="line">By {{ action.user.fullName }}</div>
+        </div>
+      </div>
+      <div class="columns small-2 no-padding">
+        <div class="line"></div>
+        <div class="line">
+          {{time-ago timeValue=action.createdAt smallPrefix=false}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

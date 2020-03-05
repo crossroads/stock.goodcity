@@ -58,4 +58,15 @@
       </div>
     {{/each}}
   </div>
+
+  <div class="row">
+    <div class="tab-title">
+      {{fa-icon 'random'}}
+      Actions History
+    </div>
+
+    {{#each model.itemActions as |itemAction|}}
+      {{goodcity/item-action-block action=itemAction }}
+    {{/each}}
+  </div>
 </div>

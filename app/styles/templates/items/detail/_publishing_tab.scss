@@ -1,4 +1,4 @@
-  .publishing-tab {
+.item_details_screen .publishing-tab {
   padding-left: 1rem;
 
   @mixin spaced-out($mul : 1) {
@@ -111,5 +111,20 @@
         background-color: #438bca;
       }
     }
+  }
+}
+
+.package-action-block .action-sub-block {
+  &.left {
+    padding: 1em;
+    background-color: white;
+    text-align: center;
+    color: black;
+  }
+
+  &.main {
+    padding: 1em;
+    background-color: white;
+    color: black;
   }
 }

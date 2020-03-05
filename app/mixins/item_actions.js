@@ -103,7 +103,7 @@ export default Ember.Mixin.create(AsyncMixin, {
         pkg
           .get("packagesLocations")
           .filter(
-            kk => kk.get("locationId") === parseInt(from.get("id"), 10)
+            pkgLoc => pkgLoc.get("locationId") === parseInt(from.get("id"), 10)
           )[0]
           .get("quantity")
       );
