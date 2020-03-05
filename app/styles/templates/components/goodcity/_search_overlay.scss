@@ -92,8 +92,10 @@
         }
       }
 
-      .pinned-right {
+      .pinned-right-with-scanner{
         position: absolute;
+        top: 1.4rem;
+        right: 2rem;
         right: 2.5%;
         top: 0.93rem;
         color: $black;
@@ -105,6 +107,14 @@
           padding: 0.5rem 0.5rem;
           top: 0.5rem;
         }
+      }
+
+      .pinned-right {
+        position: absolute;
+        top: 1rem;
+        right:1.6rem;
+        color: $black;
+        font-size: 1.2rem;
       }
     }
 
