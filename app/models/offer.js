@@ -9,5 +9,6 @@ export default DS.Model.extend({
   companyId: attr("number"),
   createdById: attr("string"),
   company: belongsTo("company", { async: false }),
-  createdBy: belongsTo("user", { async: false })
+  createdBy: belongsTo("user", { async: false }),
+  receivedAt: attr("date")
 });
