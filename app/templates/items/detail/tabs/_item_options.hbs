@@ -5,16 +5,14 @@
 </a>
 
 <div class="options_menu_list {{if displayItemOptions '' 'hidden'}}">
-
   {{#each itemActions as |action|}}
     <div class="option_menu">
-      <a {{action "beginAction" item action.name}}>
+      <a {{action "triggerItemAction" item action.name}}>
         {{fa-icon action.icon }}
         {{action.name}}
       </a>
     </div>
   {{/each}}
-
 </div>
 
 {{#popup-overlay open=readyForAction}}

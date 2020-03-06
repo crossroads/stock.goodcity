@@ -65,7 +65,7 @@
       Actions History
     </div>
 
-    {{#each model.itemActions as |itemAction|}}
+    {{#each sortedItemActions as |itemAction|}}
       {{goodcity/item-action-block action=itemAction }}
     {{/each}}
   </div>

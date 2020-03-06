@@ -65,6 +65,12 @@ export default GoodcityController.extend(
     pkg: Ember.computed.alias("model"),
     showPieces: Ember.computed.alias("model.code.allow_pieces"),
 
+    sortActionsBy: ["id:desc"],
+    sortedItemActions: Ember.computed.sort(
+      "model.itemActions",
+      "sortActionsBy"
+    ),
+
     isItemDetailPresent() {
       return !!this.get("item.detail.length");
     },
@@ -431,6 +437,11 @@ export default GoodcityController.extend(
 
       toggleItemOptions() {
         this.toggleProperty("displayItemOptions");
+      },
+
+      triggerItemAction(pkg, actionName) {
+        this.toggleProperty("displayItemOptions");
+        this.send("beginAction", pkg, actionName);
       }
     }
   }

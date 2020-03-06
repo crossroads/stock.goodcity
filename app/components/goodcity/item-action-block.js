@@ -30,7 +30,5 @@ export default Ember.Component.extend({
       default:
         return "NOT APPLICABLE";
     }
-  }),
-
-  actions: {}
+  })
 });
