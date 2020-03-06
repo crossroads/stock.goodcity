@@ -23,6 +23,7 @@ export default Ember.Mixin.create(AsyncMixin, {
   locationService: Ember.inject.service(),
   settings: Ember.inject.service(),
   editableQty: Ember.computed.alias("settings.allowPartialOperations"),
+  actionComment: "",
 
   itemActions: [
     {
@@ -109,6 +110,7 @@ export default Ember.Mixin.create(AsyncMixin, {
       );
       this.set("actionTarget", pkg);
       this.set("actionFrom", from);
+      this.set("actionComment", "");
       this.set("actionQty", this.quantityAtSource());
       this.set(
         "actionIcon",
@@ -133,7 +135,7 @@ export default Ember.Mixin.create(AsyncMixin, {
             from: this.get("actionFrom"),
             actionName: this.get("actionName").toLowerCase(),
             quantity: this.get("actionQty"),
-            description: this.get("description")
+            comment: this.get("actionComment")
           }
         );
       }, ERROR_STRATEGIES.MODAL).finally(() => {

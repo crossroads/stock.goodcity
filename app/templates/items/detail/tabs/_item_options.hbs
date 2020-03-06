@@ -93,6 +93,7 @@
           <div class="value clickable" {{action "selectLocationAction"}}>{{fa-icon 'map-marker-alt'}}
             {{actionFrom.displayName}}</div>
         </div>
+
         <div class="info-row">
           <div class="key">Quantity</div>
           <div class="value">
@@ -101,6 +102,19 @@
           <div class="sub-text {{if (is-not (is-in-range actionQty 1 maxQuantity)) 'warn-text'}}">Max: {{maxQuantity}}
           </div>
         </div>
+
+        <div class="info-row item-action-comment">
+          <div class="key">Comment</div>
+          <div class="value">
+            {{auto-resize-textarea
+                data-autoresize=true
+                name="actionComment"
+                value=actionComment
+                id="item-action-comment"
+                maxlength="180"}}
+          </div>
+        </div>
+
       </div>
     </div>
 

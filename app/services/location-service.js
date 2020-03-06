@@ -60,14 +60,14 @@ export default ApiBaseService.extend(NavigationAwareness, {
    * @returns {Promise<Model>}
    */
   async peformActionOnPackage(pkg, opts = {}) {
-    const { from, quantity, description } = opts;
+    const { from, actionName, quantity, comment } = opts;
 
     const payload = await this.PUT(
       `/packages/${pkg.get("id")}/actions/${opts.actionName}`,
       {
         quantity: quantity,
         from: toID(from),
-        description: description
+        description: comment
       }
     );
 
