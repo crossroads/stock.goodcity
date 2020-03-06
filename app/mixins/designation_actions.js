@@ -43,7 +43,7 @@ export default Ember.Mixin.create(AsyncMixin, {
     }
 
     const maxQuantity =
-      pkg.get("availableQty") + this.alreadyDesignatedQuantity(pkg, order);
+      pkg.get("availableQuantity") + this.alreadyDesignatedQuantity(pkg, order);
 
     this.set("designatableQuantity", maxQuantity);
     if (!this.get("designationQty")) {

@@ -22,15 +22,10 @@ export default Model.extend({
   isDesignated: Ember.computed.equal("state", "designated"),
   isCancelled: Ember.computed.equal("state", "cancelled"),
 
-  availableQty: Ember.computed.alias("quantity"),
   isSingleQuantity: Ember.computed.equal("quantity", 1),
 
   undispatchedQty: Ember.computed("quantity", "dispatchedQuantity", function() {
     return this.get("quantity") - this.get("dispatchedQuantity");
-  }),
-
-  qtyToModify: Ember.computed("quantity", "item.quantity", function() {
-    return this.get("quantity") + this.get("item.quantity");
   }),
 
   orderCode: Ember.computed("designation", function() {

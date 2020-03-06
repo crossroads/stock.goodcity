@@ -47,10 +47,10 @@ export default Ember.Mixin.create(AsyncMixin, {
     }
 
     const pkg = ordPkg.get("item");
-    const pkgLocation = pkg.get("packagesLocations").findBy("location", loc);
-    const availableQty = pkgLocation ? pkgLocation.get("quantity") : 0;
-
-    const maxQuantity = Math.min(availableQty, ordPkg.get("undispatchedQty"));
+    const maxQuantity = Math.min(
+      pkg.get("onHandQuantity"),
+      ordPkg.get("undispatchedQty")
+    );
 
     this.set("dispatchableQuantity", maxQuantity);
     if (!this.get("dispatchQty") || this.get("dispatchQty") > maxQuantity) {
