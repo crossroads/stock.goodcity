@@ -24,15 +24,15 @@ export default Ember.Controller.extend(SearchMixin, {
 
   scannedItem: Ember.observer("searchInput", function() {
     const searchInput = this.get("searchInput") || "";
-    const sanitizeString = this.sanitizeString(searchInput);
-    if (sanitizeString) {
+    const sanitizedString = this.sanitizeString(searchInput);
+    if (sanitizedString) {
       this.set("searchText", sanitizeString);
     }
   }),
 
   scannedText: Ember.observer("searchText", function() {
-    const searchInput = this.get("searchText") || "";
-    this.set("searchInput", this.sanitizeString(searchInput));
+    const searchValue = this.get("searchText") || "";
+    this.set("searchInput", this.sanitizeString(searchValue));
   }),
 
   triggerDisplayDesignateOverlay() {
