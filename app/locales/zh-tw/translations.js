@@ -48,22 +48,20 @@ export default {
   full_name: "{{firstName}} {{lastName}}",
   mobile_prefix: "+852",
   box_pallet: {
-    indicate_amount:
-      "Indicate how many are you taking from each of the locations below.",
-    available: "Available",
-    location: "Location",
-    quantity: "Quantity",
-    number_to_move: "Number to move",
-    move_to: "Move item to",
-    move: "Move",
-    not_now: "Not Now",
-    add_to: "Add item to",
-    remove: "Remove",
-    content: "content",
-    details: "details",
-    invalid_quantity:
-      "Added quantity cannot be greater than the available quantity for each location.",
-    type_to_search: "Type in to search items to add."
+    indicate_amount: "指出要從以下每個位置中取多少份量",
+    available: "可用的",
+    location: "位置",
+    quantity: "数量",
+    number_to_move: "移動的數量",
+    move_to: "移動項目",
+    move: "移动",
+    not_now: "稍後",
+    add_to: "增加項目",
+    remove: "移除",
+    content: "内容",
+    details: "詳情",
+    invalid_quantity: "已增加的份量不可多於每個位置的可用的份量",
+    type_to_search: "输入搜索要添加的项目。"
   },
   messages: {
     you: "您",
