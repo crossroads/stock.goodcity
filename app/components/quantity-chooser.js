@@ -52,7 +52,7 @@ export default Ember.Component.extend({
     splitItems() {
       const value = this.elementValue();
       let item = this.get("item");
-      if (+value < 1 || +value >= +item.get("quantity")) {
+      if (+value < 1 || +value >= +item.get("availableQuantity")) {
         this.set("showErrorMessage", true);
         return false;
       }

@@ -58,13 +58,6 @@ export default Model.extend({
     }
   ),
 
-  hasZeroQty: Ember.computed("items.@each.ordersPackages", function() {
-    var zeroQtyItem = this.get("items").find(
-      record => record.get("quantity") === 0
-    );
-    return !Boolean(zeroQtyItem);
-  }),
-
   hasSingleDesignation: Ember.computed(
     "items.@each.ordersPackages",
     function() {
