@@ -26,7 +26,10 @@
             {{fa-icon 'shopping-basket'}} {{t 'item.designate'}}
           </button>
         {{/goodcity/designate-link}}
-        {{partial "items/detail/tabs/item_options"}}
+
+        {{#if allowItemActions}}
+          {{partial "items/detail/tabs/item_options"}}
+        {{/if}}
       </div>
     </div>
   </div>
@@ -59,14 +62,17 @@
     {{/each}}
   </div>
 
-  <div class="row">
-    <div class="tab-title">
-      {{fa-icon 'random'}}
-      Actions History
-    </div>
+  {{#if allowItemActions}}
+    <div class="row">
+      <div class="tab-title">
+        {{fa-icon 'random'}}
+        Actions History
+      </div>
 
-    {{#each sortedItemActions as |itemAction|}}
+      {{#each sortedItemActions as |itemAction|}}
       {{goodcity/item-action-block action=itemAction }}
-    {{/each}}
-  </div>
+      {{/each}}
+    </div>
+  {{/if}}
+
 </div>

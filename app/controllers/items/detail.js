@@ -48,6 +48,7 @@ export default GoodcityController.extend(
     settings: Ember.inject.service(),
     packageService: Ember.inject.service(),
     locationService: Ember.inject.service(),
+    settings: Ember.inject.service(),
     displayScanner: false,
     designateFullSet: Ember.computed.localStorage(),
     callOrderObserver: false,
@@ -64,6 +65,7 @@ export default GoodcityController.extend(
     currentRoute: Ember.computed.alias("application.currentPath"),
     pkg: Ember.computed.alias("model"),
     showPieces: Ember.computed.alias("model.code.allow_pieces"),
+    allowItemActions: Ember.computed.alias("settings.allowItemActions"),
 
     sortActionsBy: ["id:desc"],
     sortedItemActions: Ember.computed.sort(
