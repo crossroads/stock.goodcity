@@ -91,7 +91,6 @@ export default cloudinaryUrl.extend({
   updatedAt: attr("date"),
 
   imageUrl: Ember.computed.alias("image.imageUrl"),
-  designateFullSet: Ember.computed.localStorage(),
 
   storageTypeName: Ember.computed.alias("storageType.name"),
 
@@ -313,20 +312,6 @@ export default cloudinaryUrl.extend({
       return orderPackages;
     }
   ),
-
-  minSetQty: Ember.computed("setItem.items", function() {
-    if (this.get("isSet") && this.get("designateFullSet")) {
-      var setItems = this.get("setItem.items");
-      var minQty = setItems.canonicalState[0]._data.quantity;
-      setItems.canonicalState.forEach(record => {
-        var qty = record._data.quantity;
-        if (qty < minQty) {
-          minQty = qty;
-        }
-      });
-      return minQty;
-    }
-  }),
 
   isSingletonItem: Ember.computed("quantity", function() {
     return this.get("receivedQuantity") === 1;

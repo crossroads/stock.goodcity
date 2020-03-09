@@ -3,7 +3,6 @@ import Ember from "ember";
 export default Ember.Component.extend({
   hidden: true,
   item: null,
-  designateFullSet: Ember.computed.localStorage(),
 
   toggleItemClass() {
     var item = this.get("item");

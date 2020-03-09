@@ -13,19 +13,29 @@ moduleForModel("item", "Item Model", {
     "model:packages_location",
     "model:orders_package",
     "model:image",
-    "model:detail"
+    "model:detail",
+    "model:storage_type",
+    "model:offers_package",
+    "model:offer"
   ]
 });
 
 test("check attributes", function(assert) {
-  assert.expect(15);
+  assert.expect(18);
   var model = this.subject();
   var notes = Object.keys(model.toJSON()).indexOf("notes") > -1;
   var grade = Object.keys(model.toJSON()).indexOf("grade") > -1;
   var inventoryNumber =
     Object.keys(model.toJSON()).indexOf("inventoryNumber") > -1;
   var caseNumber = Object.keys(model.toJSON()).indexOf("caseNumber") > -1;
-  var quantity = Object.keys(model.toJSON()).indexOf("quantity") > -1;
+  var onHandQuantity =
+    Object.keys(model.toJSON()).indexOf("onHandQuantity") > -1;
+  var designatedQuantity =
+    Object.keys(model.toJSON()).indexOf("designatedQuantity") > -1;
+  var dispatchedQuantity =
+    Object.keys(model.toJSON()).indexOf("dispatchedQuantity") > -1;
+  var availableQuantity =
+    Object.keys(model.toJSON()).indexOf("availableQuantity") > -1;
   var receivedQuantity =
     Object.keys(model.toJSON()).indexOf("receivedQuantity") > -1;
   var length = Object.keys(model.toJSON()).indexOf("length") > -1;
@@ -43,7 +53,10 @@ test("check attributes", function(assert) {
   assert.ok(grade);
   assert.ok(inventoryNumber);
   assert.ok(caseNumber);
-  assert.ok(quantity);
+  assert.ok(designatedQuantity);
+  assert.ok(onHandQuantity);
+  assert.ok(dispatchedQuantity);
+  assert.ok(availableQuantity);
   assert.ok(receivedQuantity);
   assert.ok(length);
   assert.ok(width);
@@ -243,35 +256,6 @@ test("check orderPackagesMoreThenZeroQty computed property", function(assert) {
     .get("orderPackagesMoreThenZeroQty")
     .getEach("id");
   assert.equal(orderPackagesMoreThenZeroQtyIds.get("length"), 2);
-});
-
-test("check dispatchedQuantity computed property", function(assert) {
-  var model, store, ordersPackage1, ordersPackage2, ordersPackage3;
-  model = this.subject();
-  store = this.store();
-
-  Ember.run(function() {
-    ordersPackage1 = store.createRecord("ordersPackage", {
-      id: 1,
-      state: "dispatched",
-      quantity: 1
-    });
-    ordersPackage2 = store.createRecord("ordersPackage", {
-      id: 2,
-      state: "dispatched",
-      quantity: 2
-    });
-    ordersPackage3 = store.createRecord("ordersPackage", {
-      id: 3,
-      state: "designated",
-      quantity: 3
-    });
-    model
-      .get("ordersPackages")
-      .pushObjects([ordersPackage1, ordersPackage2, ordersPackage3]);
-  });
-
-  assert.equal(model.get("dispatchedQuantity"), 3);
 });
 
 test("check cancelledItemCount computed property", function(assert) {

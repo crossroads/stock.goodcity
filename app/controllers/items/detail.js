@@ -47,7 +47,6 @@ export default GoodcityController.extend(
     packageService: Ember.inject.service(),
     locationService: Ember.inject.service(),
     displayScanner: false,
-    designateFullSet: Ember.computed.localStorage(),
     callOrderObserver: false,
     showSetList: false,
     hideDetailsLink: true,
