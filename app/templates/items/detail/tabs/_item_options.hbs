@@ -2,18 +2,18 @@
   <button class="button options-arrow">
     <div class="icon-holder">{{fa-icon 'caret-down' }}</div>
   </button>
-</a>
 
-<div class="options_menu_list {{if displayItemOptions '' 'hidden'}}">
-  {{#each itemActions as |action|}}
+  <div class="options_menu_list {{if displayItemOptions '' 'hidden'}}">
+    {{#each itemActions as |action|}}
     <div class="option_menu">
-      <a {{action "triggerItemAction" item action.name}}>
+      <a {{action "triggerItemAction" item action.name bubbles=false}}>
         {{fa-icon action.icon }}
         {{action.name}}
       </a>
     </div>
-  {{/each}}
-</div>
+    {{/each}}
+  </div>
+</a>
 
 {{#popup-overlay open=readyForAction}}
   <div class="dispatch-form package-actions-form">

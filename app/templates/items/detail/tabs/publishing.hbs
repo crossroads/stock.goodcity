@@ -49,30 +49,34 @@
     </div>
   </div>
 
-  <div class="row">
-    <div class="tab-title">
-      {{fa-icon 'shopping-basket'}}
-      {{t 'item.related_orders' }}
-    </div>
-
-    {{#each sortedOrdersPackages as |orderPkg|}}
-      <div class="row">
-        {{goodcity/orders-package-block orderPkg=orderPkg }}
-      </div>
-    {{/each}}
-  </div>
-
-  {{#if allowItemActions}}
+  {{#if sortedOrdersPackages}}
     <div class="row">
       <div class="tab-title">
-        {{fa-icon 'random'}}
-        Actions History
+        {{fa-icon 'shopping-basket'}}
+        {{t 'item.related_orders' }}
       </div>
 
-      {{#each sortedItemActions as |itemAction|}}
-      {{goodcity/item-action-block action=itemAction }}
+      {{#each sortedOrdersPackages as |orderPkg|}}
+        <div class="row">
+          {{goodcity/orders-package-block orderPkg=orderPkg }}
+        </div>
       {{/each}}
     </div>
+  {{/if}}
+
+  {{#if allowItemActions}}
+    {{#if sortedItemActions}}
+      <div class="row">
+        <div class="tab-title">
+          {{fa-icon 'random'}}
+          Actions History
+        </div>
+
+        {{#each sortedItemActions as |itemAction|}}
+        {{goodcity/item-action-block action=itemAction }}
+        {{/each}}
+      </div>
+    {{/if}}
   {{/if}}
 
 </div>
