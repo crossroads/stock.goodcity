@@ -128,9 +128,7 @@ export default cloudinaryUrl.extend({
     }
   ),
 
-  isAvailable: Ember.computed("availableQuantity", function() {
-    return this.get("availableQuantity") > 0;
-  }),
+  isAvailable: Ember.computed.bool("availableQuantity"),
 
   isUnavailable: Ember.computed.not("isAvailable"),
 
