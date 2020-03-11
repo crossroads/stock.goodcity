@@ -22,11 +22,11 @@ export default Ember.Controller.extend(SearchMixin, {
     };
   },
 
-  scannedItem: Ember.observer("searchInput", function() {
+  scannedItemWatcher: Ember.observer("searchInput", function() {
     const searchInput = this.get("searchInput") || "";
     const sanitizedString = this.sanitizeString(searchInput);
     if (sanitizedString) {
-      this.set("searchText", sanitizeString);
+      this.set("searchText", sanitizedString);
     }
   }),
 
