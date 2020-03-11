@@ -296,7 +296,7 @@ test("Publishing tab orders_packages blocks", function(assert) {
       );
 
       const ordersPackagesBLocks = $(".gc-orders-package-block");
-      assert.equal(ordersPackagesBLocks.length, 1);
+      assert.equal(ordersPackagesBLocks.length, 2);
 
       const actions = ordersPackagesBLocks.find(".action-drawer .action");
       assert.equal(actions.length, 2);
@@ -348,7 +348,7 @@ test("Dispatching orders_packages blocks calls the correct designationService ac
       );
 
       const ordersPackagesBLocks = $(".gc-orders-package-block");
-      assert.equal(ordersPackagesBLocks.length, 1);
+      assert.equal(ordersPackagesBLocks.length, 2);
 
       const actions = ordersPackagesBLocks.find(".action-drawer .action");
       assert.equal(actions.length, 2);

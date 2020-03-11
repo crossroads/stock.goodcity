@@ -59,7 +59,7 @@ export default Ember.Mixin.create(AsyncMixin, {
     return presetLocations.get("firstObject");
   },
 
-  quantityAtSource() {
+  quantityAtLocation() {
     const pkg = this.get("actionTarget");
     const source = this.get("actionFrom");
 
@@ -111,7 +111,7 @@ export default Ember.Mixin.create(AsyncMixin, {
       this.set("actionTarget", pkg);
       this.set("actionFrom", from);
       this.set("actionComment", "");
-      this.set("actionQty", this.quantityAtSource());
+      this.set("actionQty", this.quantityAtLocation());
       this.set(
         "actionIcon",
         _.filter(this.get("itemActions"), {
