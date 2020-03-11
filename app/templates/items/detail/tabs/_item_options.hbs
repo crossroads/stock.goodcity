@@ -80,52 +80,54 @@
       </div>
     </div>
 
-    <div class="form-container">
-      <div class="title">{{fa-icon actionIcon}} {{actionName}}</div>
-      <div class="infos">
-        <div class="info-row">
-          <div class="key">Item</div>
-          <div class="value">{{fa-icon 'tag'}} {{item.inventoryNumber}}</div>
-        </div>
-
-        <div class="info-row">
-          <div class="key">From Location</div>
-          <div class="value clickable" {{action "selectLocationAction"}}>{{fa-icon 'map-marker-alt'}}
-            {{actionFrom.displayName}}
+    {{#form-control}}
+      <div class="form-container">
+        <div class="title">{{fa-icon actionIcon}} {{actionName}}</div>
+        <div class="infos">
+          <div class="info-row">
+            <div class="key">Item</div>
+            <div class="value">{{fa-icon 'tag'}} {{item.inventoryNumber}}</div>
           </div>
-        </div>
 
-        <div class="info-row">
-          <div class="key">Quantity</div>
-          <div class="value">
-            {{input type="number" value=actionQty class="qty-input"}}
+          <div class="info-row">
+            <div class="key">From Location</div>
+            <div class="value clickable" {{action "selectLocationAction"}}>{{fa-icon 'map-marker-alt'}}
+              {{actionFrom.displayName}}
+            </div>
           </div>
-          <div class="sub-text {{if (is-not (is-in-range actionQty 1 maxQuantity)) 'warn-text'}}">Max: {{maxQuantity}}
-          </div>
-        </div>
 
-        <div class="info-row item-action-comment">
-          <div class="key">Comment</div>
-          <div class="value">
-            {{auto-resize-textarea
-                data-autoresize=true
-                name="actionComment"
-                value=actionComment
-                id="item-action-comment"
-                maxlength="180"}}
+          <div class="info-row">
+            <div class="key">Quantity</div>
+            <div class="value">
+              {{input type="number" value=actionQty class="qty-input"}}
+            </div>
+            <div class="sub-text {{if (is-not (is-in-range actionQty 1 maxQuantity)) 'warn-text'}}">Max: {{maxQuantity}}
+            </div>
           </div>
-        </div>
 
+          <div class="info-row item-action-comment">
+            <div class="key">Comment</div>
+            <div class="value">
+              {{auto-resize-textarea
+                  data-autoresize=true
+                  name="actionComment"
+                  value=actionComment
+                  id="item-action-comment"
+                  maxlength="180"}}
+            </div>
+          </div>
+
+        </div>
       </div>
-    </div>
 
-    <div class="button-container">
-      <div class="button light" {{action "cancelAction"}}>{{t "cancel"}}</div>
-      {{#if (is-not (is-in-range actionQty 1 maxQuantity))}}
-        <div class="button" disabled>{{actionName}} ({{ actionQty }})</div>
-      {{else}}
-        <div class="button" {{action "completeAction"}}> {{actionName}} ({{ actionQty }})</div>
-      {{/if}}
-    </div>
+      <div class="button-container">
+        <div class="button light" {{action "cancelAction"}}>{{t "cancel"}}</div>
+        {{#if (is-not (is-in-range actionQty 1 maxQuantity))}}
+          <div class="button" disabled>{{actionName}} ({{ actionQty }})</div>
+        {{else}}
+          <div class="button" {{action "completeAction"}}> {{actionName}} ({{ actionQty }})</div>
+        {{/if}}
+      </div>
+    {{/form-control}}
   </div>
 {{/popup-overlay}}
