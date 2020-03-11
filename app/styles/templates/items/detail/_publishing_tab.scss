@@ -54,6 +54,10 @@
     .options-arrow:focus {
       outline: none;
     }
+
+    button.button.options-arrow svg {
+      display: inline-block !important;
+    }
   }
 
   .options_menu_list {
@@ -97,7 +101,7 @@
 
   .thumb {
     width: fit-content !important;
-    height: inherit;
+    height: 6em;
   }
 
   .tab-container .text-block {
@@ -131,7 +135,9 @@
     max-height: 4rem;
 
     .key {
-      width: 33% !important;
+      @media #{$small-only} {
+        width: 33% !important;
+      }
     }
 
     .value {

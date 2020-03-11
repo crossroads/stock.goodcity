@@ -44,7 +44,7 @@ export default Ember.Mixin.create(AsyncMixin, {
     }
   ],
 
-  async resolveFromLocation(pkg) {
+  async resolveActionFromLocation(pkg) {
     const presetLocations = pkg.get("packagesLocations").mapBy("location");
 
     if (presetLocations.get("length") > 1) {
@@ -93,7 +93,7 @@ export default Ember.Mixin.create(AsyncMixin, {
   actions: {
     async beginAction(pkg, actionName) {
       this.set("actionName", actionName);
-      let from = await this.resolveFromLocation(pkg);
+      let from = await this.resolveActionFromLocation(pkg);
 
       if (!pkg || !actionName || !from) {
         return this.send("cancelAction");
@@ -121,7 +121,6 @@ export default Ember.Mixin.create(AsyncMixin, {
 
       if (this.validActionParams()) {
         this.set("readyForAction", true);
-        // this.set("readyToDispatch", true);
       } else {
         this.send("cancelAction");
       }
