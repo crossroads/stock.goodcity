@@ -35,13 +35,13 @@
           <div class="line icon-holder">{{fa-icon 'map-marker-alt' size="lg"}}</div>
           <div class="line text-holder">
             {{#if item.hasMultiLocations}}
-            {{t "item_status_bar.multiple"}}
+              {{t "item_status_bar.multiple"}}
             {{else}}
-            {{#if item.firstAllLocationName}}
-            {{item.firstAllLocationName}}
-            {{else}}
-            N/A
-            {{/if}}
+              {{#if item.firstAllLocationName}}
+                {{item.firstAllLocationName}}
+              {{else}}
+                N/A
+              {{/if}}
             {{/if}}
           </div>
         </div>
@@ -91,7 +91,8 @@
         <div class="info-row">
           <div class="key">From Location</div>
           <div class="value clickable" {{action "selectLocationAction"}}>{{fa-icon 'map-marker-alt'}}
-            {{actionFrom.displayName}}</div>
+            {{actionFrom.displayName}}
+          </div>
         </div>
 
         <div class="info-row">
@@ -121,9 +122,9 @@
     <div class="button-container">
       <div class="button light" {{action "cancelAction"}}>Cancel</div>
       {{#if (is-not (is-in-range actionQty 1 maxQuantity))}}
-      <div class="button" disabled>{{actionName}} ({{ actionQty }})</div>
+        <div class="button" disabled>{{actionName}} ({{ actionQty }})</div>
       {{else}}
-      <div class="button" {{action "completeAction"}}> {{actionName}} ({{ actionQty }})</div>
+        <div class="button" {{action "completeAction"}}> {{actionName}} ({{ actionQty }})</div>
       {{/if}}
     </div>
   </div>

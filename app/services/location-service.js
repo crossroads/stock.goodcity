@@ -50,33 +50,6 @@ export default ApiBaseService.extend(NavigationAwareness, {
   },
 
   /**
-   * Performs action on a package from the specified location
-   *
-   * @param {Package} pkg the package to move
-   * @param {object} opts the move properties
-   * @param {Location|string} opts.from the source location or its id
-   * @param {quantity} opts.quantity the quantity to move
-   * @param {comment} opts.comment the comment of package action
-   * @returns {Promise<Model>}
-   */
-  async peformActionOnPackage(pkg, opts = {}) {
-    const { from, actionName, quantity, comment } = opts;
-
-    const payload = await this.PUT(
-      `/packages/${pkg.get("id")}/actions/${opts.actionName}`,
-      {
-        quantity: quantity,
-        from: toID(from),
-        description: comment
-      }
-    );
-
-    this.get("store").pushPayload(payload);
-
-    return this.get("store").peekRecord("item", pkg.get("id"));
-  },
-
-  /**
    * Triggers the location selection popup, and resolves the promise
    * once a location has been selected.
    *

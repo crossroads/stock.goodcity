@@ -1,6 +1,7 @@
 import Ember from "ember";
 import AsyncMixin, { ERROR_STRATEGIES } from "./async";
 import _ from "lodash";
+import { ITEM_ACTIONS } from "stock/constants/item-actions";
 
 /**
  * Adds the following properties:
@@ -21,28 +22,11 @@ import _ from "lodash";
 
 export default Ember.Mixin.create(AsyncMixin, {
   locationService: Ember.inject.service(),
+  packageService: Ember.inject.service(),
   settings: Ember.inject.service(),
   editableQty: Ember.computed.alias("settings.allowPartialOperations"),
   actionComment: "",
-
-  itemActions: [
-    {
-      name: "Process",
-      icon: "random"
-    },
-    {
-      name: "Recycle",
-      icon: "recycle"
-    },
-    {
-      name: "Trash",
-      icon: "dumpster"
-    },
-    {
-      name: "Loss",
-      icon: "folder-minus"
-    }
-  ],
+  itemActions: ITEM_ACTIONS,
 
   async resolveActionFromLocation(pkg) {
     const presetLocations = pkg.get("packagesLocations").mapBy("location");
@@ -59,9 +43,8 @@ export default Ember.Mixin.create(AsyncMixin, {
     return presetLocations.get("firstObject");
   },
 
-  quantityAtLocation() {
+  quantityAtLocation(source) {
     const pkg = this.get("actionTarget");
-    const source = this.get("actionFrom");
 
     if (!pkg) {
       return 0;
@@ -99,22 +82,17 @@ export default Ember.Mixin.create(AsyncMixin, {
         return this.send("cancelAction");
       }
 
-      this.set(
-        "maxQuantity",
-        pkg
-          .get("packagesLocations")
-          .filter(
-            pkgLoc => pkgLoc.get("locationId") === parseInt(from.get("id"), 10)
-          )[0]
-          .get("quantity")
-      );
       this.set("actionTarget", pkg);
       this.set("actionFrom", from);
       this.set("actionComment", "");
-      this.set("actionQty", this.quantityAtLocation());
+
+      let quantity = this.quantityAtLocation(from);
+      this.set("maxQuantity", quantity);
+      this.set("actionQty", quantity);
+
       this.set(
         "actionIcon",
-        _.filter(this.get("itemActions"), {
+        _.filter(ITEM_ACTIONS, {
           name: actionName
         })[0].icon
       );
@@ -128,7 +106,7 @@ export default Ember.Mixin.create(AsyncMixin, {
 
     completeAction() {
       this.runTask(() => {
-        return this.get("locationService").peformActionOnPackage(
+        return this.get("packageService").peformActionOnPackage(
           this.get("actionTarget"),
           {
             from: this.get("actionFrom"),
