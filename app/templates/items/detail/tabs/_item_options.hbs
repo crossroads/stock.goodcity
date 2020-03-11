@@ -120,7 +120,7 @@
     </div>
 
     <div class="button-container">
-      <div class="button light" {{action "cancelAction"}}>Cancel</div>
+      <div class="button light" {{action "cancelAction"}}>{{t "cancel"}}</div>
       {{#if (is-not (is-in-range actionQty 1 maxQuantity))}}
         <div class="button" disabled>{{actionName}} ({{ actionQty }})</div>
       {{else}}

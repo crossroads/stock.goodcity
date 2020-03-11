@@ -477,7 +477,8 @@ export default {
     already_dispatched: "所有被指派的物資已經被派送",
     multiple: "多項",
     dispatch_message: "請確認你要派送此物資",
-    related_orders: "Related Orders"
+    related_orders: "Related Orders",
+    action_by_user: "By {{userName}}"
   },
   orders_package: {
     actions: {

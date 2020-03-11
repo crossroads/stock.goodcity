@@ -9,7 +9,7 @@
         <div class="text-block">
           <div class="line">{{actionTitle}}</div>
           <div class="line">
-            By {{ action.user.fullName }}
+            {{t "item.action_by_user" userName=action.user.fullName}}
             <span class="action-time">{{time-ago timeValue=action.createdAt smallPrefix=false}}</span>
           </div>
         </div>

@@ -489,7 +489,8 @@ export default {
     already_dispatched: "All designated Items are already dispatched",
     multiple: "Multiple",
     dispatch_message: "Are you sure you want to dispatch this Item?",
-    related_orders: "Related Orders"
+    related_orders: "Related Orders",
+    action_by_user: "By {{userName}}"
   },
   orders_package: {
     actions: {
