@@ -37,6 +37,7 @@ export default Ember.Service.extend({
     "stock.only_publish_singletons": true,
     "stock.only_designate_singletons": true,
     "stock.enable_box_pallet_creation": false,
+    "stock.allow_item_actions": false,
     "stock.allow_box_pallet_item_addition": false
   },
 
@@ -66,6 +67,13 @@ export default Ember.Service.extend({
    */
   disableBoxPalletCreation: Ember.computed(function() {
     return !this.readBoolean("stock.enable_box_pallet_creation");
+  }),
+
+  /**
+   * @property {Computed<boolean>} allowItemActions whether item actions are allowed
+   */
+  allowItemActions: Ember.computed(function() {
+    return this.readBoolean("stock.allow_item_actions");
   }),
 
   /**

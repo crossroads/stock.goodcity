@@ -477,7 +477,8 @@ export default {
     already_dispatched: "所有被指派的物資已經被派送",
     multiple: "多項",
     dispatch_message: "請確認你要派送此物資",
-    related_orders: "Related Orders"
+    related_orders: "Related Orders",
+    action_by_user: "By {{userName}}"
   },
   orders_package: {
     actions: {
@@ -599,7 +600,11 @@ export default {
     pick_to_location: "Where would you like to move INTO ?",
     moving_item_to: "Moving this item to ",
     quantity_input: "Input the quantity to move ",
-    dispatch_from: "Where to dispatch the package from ?"
+    dispatch_from: "Where to dispatch the package from ?",
+    process_from: "From which location are you processing goods?",
+    recycle_from: "Which location are you recycling from?",
+    trash_from: "Which location are you trashing from?",
+    loss_from: "Which location is having its quantity corrected?"
   },
 
   footer: {

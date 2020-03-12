@@ -491,7 +491,8 @@ export default {
     already_dispatched: "All designated Items are already dispatched",
     multiple: "Multiple",
     dispatch_message: "Are you sure you want to dispatch this Item?",
-    related_orders: "Related Orders"
+    related_orders: "Related Orders",
+    action_by_user: "By {{userName}}"
   },
   orders_package: {
     actions: {
@@ -616,7 +617,11 @@ export default {
     pick_to_location: "Select DESTINATION",
     moving_item_to: "Moving this item to ",
     quantity_input: "Input the quantity to move ",
-    dispatch_from: "Where to dispatch the package from ?"
+    dispatch_from: "Where to dispatch the package from ?",
+    process_from: "From which location are you processing goods?",
+    recycle_from: "Which location are you recycling from?",
+    trash_from: "Which location are you trashing from?",
+    loss_from: "Which location is having its quantity corrected?"
   },
 
   footer: {
