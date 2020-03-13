@@ -22,6 +22,18 @@ export default Ember.Controller.extend(SearchMixin, {
     };
   },
 
+  scannedItemWatcher: Ember.observer("searchInput", function() {
+    const searchInput = this.get("searchInput") || "";
+    const sanitizedString = this.sanitizeString(searchInput);
+    if (sanitizedString) {
+      this.set("searchText", sanitizedString);
+    }
+  }),
+
+  scannedTextWatcher: Ember.observer("searchText", function() {
+    this.set("searchInput", this.get("searchText"));
+  }),
+
   triggerDisplayDesignateOverlay() {
     this.set("autoDisplayOverlay", true);
   },
@@ -42,6 +54,10 @@ export default Ember.Controller.extend(SearchMixin, {
         .then(results => {
           return results;
         });
+    },
+
+    clearSearch() {
+      this.set("searchText", "");
     },
 
     displaySetItems(item) {
