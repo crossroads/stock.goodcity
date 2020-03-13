@@ -23,13 +23,22 @@
       <div class="row order_body">
         <div class="small-10 columns">
 
-          {{#if (is-and order.orderTransport order.orderTransport.scheduledAt)}}
+          {{#if (is-and order.isGoodCityOrder (is-and order.orderTransport order.orderTransport.scheduledAt))}}
             <div class="row">
               <div class="small-6 columns field">
                 {{ t "order.due_date" }}
               </div>
               <div class="small-6 columns value">
                 {{  display-datetime order.orderTransport.scheduledAt format="dddd Do MMMM hh:mm a" }}
+              </div>
+            </div>
+          {{else if order.shipmentDate}}
+            <div class="row">
+              <div class="small-6 columns field">
+                {{ t "order.due_date" }}
+              </div>
+              <div class="small-6 columns value">
+                {{  display-datetime order.shipmentDate format="DD MMM 'YY" }}
               </div>
             </div>
           {{/if}}

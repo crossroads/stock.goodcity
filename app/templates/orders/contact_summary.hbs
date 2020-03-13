@@ -10,126 +10,167 @@
   {{partial "orders/order_tabs"}}
   {{partial "orders/summary_tabs"}}
   {{partial "orders/cancel_message_popup"}}
-  <div class="row">
-    <div class="small-12 columns main_details">
-      {{#if model.isEditAllowed}}
-      <div class="row">
-        <div class="small-4 columns">
-          {{t "order_contact_summary.change_contact"}}
-        </div>
-        <div class="small-8 columns underline">
-          {{#link-to "order.search_users" model.id (query-params prevPath="contact_summary") class="change-contact" tagName='div' href=false}}
-          {{t "order_contact_summary.choose_different_contact"}}
-          {{/link-to}}
-        </div>
-      </div>
-      {{/if}}
 
-      <div class="row">
-        <div class="small-4 columns">
-          {{t "order_contact_summary.submitted_by"}}
+  {{#if model.isShipmentOrder}}
+    <div class="row">
+      <div class="small-12 columns main_details">
+        <div class="row">
+          <div class="small-4 columns">
+            {{t "order_contact_summary.shipment_number"}}
+          </div>
+          <div class="small-8 columns">
+            {{model.code}}
+          </div>
         </div>
-        <div class="small-8 columns">
-          {{model.submittedBy.fullName}}
-        </div>
-      </div>
 
-      <br />
-      <div class="row">
-        <div class="small-4 columns">
-          {{t "order_contact_summary.organisation_title"}}
+        <div class="row">
+          <div class="small-4 columns">
+            {{t "order_contact_summary.country"}}
+          </div>
+          <div class="small-8 columns">
+            {{model.countryName}}
+          </div>
         </div>
-        <div class="small-8 columns organisation_name">
-          {{apply-line-break (if model.isGoodCityOrder model.gcOrganisation.nameEn model.organisation.name)}}
-        </div>
-      </div>
 
-      <div class="row">
-        <div class="small-4 columns">
-          {{t "order_contact_summary.contact_name"}}
+        <div class="row">
+          <div class="small-4 columns">
+            {{t "order_contact_summary.people_helped"}}
+          </div>
+          <div class="small-8 columns">
+            {{model.peopleHelped}}
+          </div>
         </div>
-        <div id="contact_name" class="small-8 columns">
-          {{#if model.isGoodCityOrder}}
-          {{model.createdBy.fullName}}
-          {{else}}
-          {{model.stockitContact.fullName}}
-          {{/if}}
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="small-4 columns">
-          {{t "order_contact_summary.contact_phone"}}
-        </div>
-        <div id="contact_mobile" class="small-8 columns">
-          {{model.createdBy.mobile}}
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="small-4 columns">
-          {{t "order_contact_summary.preferred_contact_number"}}
-        </div>
-        <div id="preferred_contact_number" class="small-8 columns">
-          {{model.createdBy.preferredContactNumber}}
-        </div>
-      </div>
-
-
-      <div class="row">
-        <div class="small-4 columns">
-          {{t "order_contact_summary.contact_position"}}
-        </div>
-        <div id="contact_position" class="small-8 columns mobile">
-          {{model.createdBy.position}}
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="small-4 columns">
-          {{t "order_contact_summary.contact_email"}}
-        </div>
-        <div id="contact_email" class="small-8 columns email">
-          {{model.createdBy.email}}
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="small-4 columns">
-          {{t "order_contact_summary.contact_last_seen"}}
-        </div>
-        <div id="contact_last_seen" class="small-8 columns email">
-          {{#if model.createdBy.onlineStatusLabel}}
-          {{model.createdBy.onlineStatusLabel}}
-          {{else}}
-          {{time-ago timeValue=model.createdBy.lastDisconnected smallPrefix=false}}
-          {{/if}}
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="small-4 columns">
-          {{t "order_contact_summary.contact_registered"}}
-        </div>
-        <div id="contact_registered" class="small-8 columns email">
-          {{display-timeago model.createdBy.createdAt}}
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="small-4 columns">
-          {{t "order_contact_summary.total_requests"}}
-        </div>
-        <div class="small-8 columns email">
-          {{#each-in ordersCount as |state count|}}
-            <i>{{fa-icon (state-filter-icon state)}}</i>
-            <span class="state-count" id="{{state}}_count">
-              {{count}}
-            </span>
-          {{/each-in}}
+        <div class="row">
+          <div class="small-4 columns">
+            {{t "order_contact_summary.description"}}
+          </div>
+          <div class="small-8 columns">
+            {{model.description}}
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  {{else}}
+    <div class="row">
+      <div class="small-12 columns main_details">
+        {{#if model.isEditAllowed}}
+          <div class="row">
+            <div class="small-4 columns">
+              {{t "order_contact_summary.change_contact"}}
+            </div>
+            <div class="small-8 columns underline">
+              {{#link-to "order.search_users" model.id (query-params prevPath="contact_summary") class="change-contact" tagName='div' href=false}}
+                {{t "order_contact_summary.choose_different_contact"}}
+              {{/link-to}}
+            </div>
+          </div>
+        {{/if}}
 
+        <div class="row">
+          <div class="small-4 columns">
+            {{t "order_contact_summary.submitted_by"}}
+          </div>
+          <div class="small-8 columns">
+            {{model.submittedBy.fullName}}
+          </div>
+        </div>
+
+        <br />
+        <div class="row">
+          <div class="small-4 columns">
+            {{t "order_contact_summary.organisation_title"}}
+          </div>
+          <div class="small-8 columns organisation_name">
+            {{apply-line-break (if model.isGoodCityOrder model.gcOrganisation.nameEn model.organisation.name)}}
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="small-4 columns">
+            {{t "order_contact_summary.contact_name"}}
+          </div>
+          <div id="contact_name" class="small-8 columns">
+            {{#if model.isGoodCityOrder}}
+              {{model.createdBy.fullName}}
+            {{else}}
+              {{model.stockitContact.fullName}}
+            {{/if}}
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="small-4 columns">
+            {{t "order_contact_summary.contact_phone"}}
+          </div>
+          <div id="contact_mobile" class="small-8 columns">
+            {{model.createdBy.mobile}}
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="small-4 columns">
+            {{t "order_contact_summary.preferred_contact_number"}}
+          </div>
+          <div id="preferred_contact_number" class="small-8 columns">
+            {{model.createdBy.preferredContactNumber}}
+          </div>
+        </div>
+
+
+        <div class="row">
+          <div class="small-4 columns">
+            {{t "order_contact_summary.contact_position"}}
+          </div>
+          <div id="contact_position" class="small-8 columns mobile">
+            {{model.createdBy.position}}
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="small-4 columns">
+            {{t "order_contact_summary.contact_email"}}
+          </div>
+          <div id="contact_email" class="small-8 columns email">
+            {{model.createdBy.email}}
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="small-4 columns">
+            {{t "order_contact_summary.contact_last_seen"}}
+          </div>
+          <div id="contact_last_seen" class="small-8 columns email">
+            {{#if model.createdBy.onlineStatusLabel}}
+              {{model.createdBy.onlineStatusLabel}}
+            {{else}}
+              {{time-ago timeValue=model.createdBy.lastDisconnected smallPrefix=false}}
+            {{/if}}
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="small-4 columns">
+            {{t "order_contact_summary.contact_registered"}}
+          </div>
+          <div id="contact_registered" class="small-8 columns email">
+            {{display-timeago model.createdBy.createdAt}}
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="small-4 columns">
+            {{t "order_contact_summary.total_requests"}}
+          </div>
+          <div class="small-8 columns email">
+            {{#each-in ordersCount as |state count|}}
+              <i>{{fa-icon (state-filter-icon state)}}</i>
+              <span class="state-count" id="{{state}}_count">
+                {{count}}
+              </span>
+            {{/each-in}}
+          </div>
+        </div>
+      </div>
+    </div>
+  {{/if}}
 </section>

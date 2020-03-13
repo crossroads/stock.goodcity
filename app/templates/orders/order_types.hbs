@@ -36,99 +36,102 @@
         id="sticky-note"}}
     </div>
 
-    <div class="data-rows">
-      {{#each logisticDataRows as |dataRow|}}
-        <div class="row">
-          <div class="columns small-4 text-prefix">
-            {{ dataRow.label }}
-          </div>
-          {{#unless dataRow.selectable}}
-            <div class="columns small-8 text {{dataRow.name}}" {{ action dataRow.action }}>
-              {{ dataRow.text }}
-              <i aria-hidden="true">{{fa-icon dataRow.icon }}</i>
-            </div>
-          {{else}}
-            <div class="columns small-8 text input {{dataRow.name}}">
-              {{select-list
-                content=dataRow.options
-                on-change=(action dataRow.action)
-                selectedValue=dataRow.value
-                value=dataRow.value
-                selectArrow=false
-              }}
-              <i aria-hidden="true">{{fa-icon dataRow.icon }}</i>
-            </div>
-          {{/unless}}
-        </div>
-      {{/each}}
-
-      {{#message-box
-        btn1Text=(t "save")
-        btn1Callback=(action "saveNewSchedule")
-        btn2Text=(t "cancel")
-        btn2Callback=(action "closeSchedulePopup")
-        isVisible=scheduleChangePopupVisible
-        classNames="popupOverlay ui"
-      }}
-        <div class="reschedule-popup">
+    {{#if model.isGoodCityOrder}}
+      <div class="data-rows">
+        {{#each logisticDataRows as |dataRow|}}
           <div class="row">
-            <div class="input-label">{{t 'settings.appointments.select_timeslot' }}</div>
-            <div class="small-1 columns">
-              <i>{{fa-icon 'pencil-alt'}}</i>
+            <div class="columns small-4 text-prefix">
+              {{ dataRow.label }}
             </div>
-            <div class="small-11 columns">
-              <div>
+            {{#unless dataRow.selectable}}
+              <div class="columns small-8 text {{dataRow.name}}" {{ action dataRow.action }}>
+                {{ dataRow.text }}
+                <i aria-hidden="true">{{fa-icon dataRow.icon }}</i>
+              </div>
+            {{else}}
+              <div class="columns small-8 text input {{dataRow.name}}">
                 {{select-list
-                  content=scheduleTimeSlots
-                  on-change=(action 'selectTimeslot')
-                  selectedValue=selectedTimeslot
+                  content=dataRow.options
+                  on-change=(action dataRow.action)
+                  selectedValue=dataRow.value
+                  value=dataRow.value
                   selectArrow=false
-                  classNames='timeslots'
-                  idNames='timeslot-select' }}
+                }}
+                <i aria-hidden="true">{{fa-icon dataRow.icon }}</i>
+              </div>
+            {{/unless}}
+          </div>
+        {{/each}}
+
+        {{#message-box
+          btn1Text=(t "save")
+          btn1Callback=(action "saveNewSchedule")
+          btn2Text=(t "cancel")
+          btn2Callback=(action "closeSchedulePopup")
+          isVisible=scheduleChangePopupVisible
+          classNames="popupOverlay ui"
+        }}
+          <div class="reschedule-popup">
+            <div class="row">
+              <div class="input-label">{{t 'settings.appointments.select_timeslot' }}</div>
+              <div class="small-1 columns">
+                <i>{{fa-icon 'pencil-alt'}}</i>
+              </div>
+              <div class="small-11 columns">
+                <div>
+                  {{select-list
+                    content=scheduleTimeSlots
+                    on-change=(action 'selectTimeslot')
+                    selectedValue=selectedTimeslot
+                    selectArrow=false
+                    classNames='timeslots'
+                    idNames='timeslot-select' }}
+                </div>
               </div>
             </div>
-          </div>
 
+            <div class="row">
+              <div class="input-label">{{t 'settings.appointments.select_day'}}</div>
+              <div class="small-1 columns">
+                <i class="calender_icon">{{fa-icon 'calendar'}}</i>
+              </div>
+              <div class="small-11 columns">
+                {{calendar-input
+                  name='selectedDate'
+                  id='date-selector'
+                  value=scheduledAtStringPlaceholder
+                  selection=selectedScheduleDate
+                  placeholder=placeHolderDate
+                  pattern="[a-zA-Z]{3}\s?[a-zA-Z]{3}\s?[0-9]{1,2}"}}
+              </div>
+            </div>
+
+            <div class="missing-input-message {{if incompleteForm 'show' 'hide'}}">* {{ t 'incomplete_form' }}</div>
+          </div>
+        {{/message-box}}
+      </div>
+    {{/if}}
+  </div>
+
+  {{#if model.isGoodCityOrder}}
+    <div class="checklist-section">
+      <div class="title">{{t 'order_details.logistics.processing_checklist'}}</div>
+      <div class="checklist-rows">
+        {{#each checklist as |check|}}
           <div class="row">
-            <div class="input-label">{{t 'settings.appointments.select_day'}}</div>
-            <div class="small-1 columns">
-              <i class="calender_icon">{{fa-icon 'calendar'}}</i>
+            <div class="columns small-1">
+              <div class="checkbox" {{ action 'toggleCheckbox' check.item }}>
+                {{#if check.isChecked }}
+                  <i>{{fa-icon 'check'}}</i>
+                {{/if}}
+              </div>
             </div>
-            <div class="small-11 columns">
-              {{calendar-input
-                name='selectedDate'
-                id='date-selector'
-                value=scheduledAtStringPlaceholder
-                selection=selectedScheduleDate
-                placeholder=placeHolderDate
-                pattern="[a-zA-Z]{3}\s?[a-zA-Z]{3}\s?[0-9]{1,2}"}}
+            <div class="columns small-11 text">
+              {{ check.item.text }}
             </div>
           </div>
-
-          <div class="missing-input-message {{if incompleteForm 'show' 'hide'}}">* {{ t 'incomplete_form' }}</div>
-        </div>
-      {{/message-box}}
+        {{/each}}
+      </div>
     </div>
-  </div>
-
-  <div class="checklist-section">
-    <div class="title">{{t 'order_details.logistics.processing_checklist'}}</div>
-    <div class="checklist-rows">
-      {{#each checklist as |check|}}
-        <div class="row">
-          <div class="columns small-1">
-            <div class="checkbox" {{ action 'toggleCheckbox' check.item }}>
-              {{#if check.isChecked }}
-                <i>{{fa-icon 'check'}}</i>
-              {{/if}}
-            </div>
-          </div>
-          <div class="columns small-11 text">
-            {{ check.item.text }}
-          </div>
-        </div>
-      {{/each}}
-    </div>
-  </div>
-
+  {{/if}}
 </section>
