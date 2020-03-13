@@ -76,8 +76,15 @@
       display: block !important;
     }
 
-    .option_menu a svg {
-      margin-right: 5px;
+    .option_menu {
+      a svg {
+        margin-right: 5px;
+      }
+
+      &.disabled {
+        cursor: not-allowed;
+        color: gray;
+      }
     }
   }
 
