@@ -30,9 +30,8 @@ export default Ember.Controller.extend(SearchMixin, {
     }
   }),
 
-  scannedText: Ember.observer("searchText", function() {
-    const searchValue = this.get("searchText") || "";
-    this.set("searchInput", this.sanitizeString(searchValue));
+  scannedTextWatcher: Ember.observer("searchText", function() {
+    this.set("searchInput", this.get("searchText"));
   }),
 
   triggerDisplayDesignateOverlay() {
