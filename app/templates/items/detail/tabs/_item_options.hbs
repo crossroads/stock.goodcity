@@ -5,11 +5,9 @@
 
   <div class="options_menu_list {{if displayItemOptions '' 'hidden'}}">
     {{#each itemActions as |action|}}
-    <div class="option_menu">
-      <a {{action "triggerItemAction" item action.name bubbles=false}}>
-        {{fa-icon action.icon }}
-        {{action.displayName}}
-      </a>
+    <div class="option_menu {{if item.availableQty '' 'disabled'}}" {{action "triggerItemAction" item action.name bubbles=false}}>
+      {{fa-icon action.icon}}
+      {{action.displayName}}
     </div>
     {{/each}}
   </div>
@@ -67,11 +65,11 @@
 
     <div class="order-preview">
       <div class="row gc-orders-package-block">
-        <div class="columns small-3 large-2 left">
+        <div class="columns small-3 large-2 medium-2 left">
           <img src={{item.thumbImageUrl}} class="thumb" />
         </div>
 
-        <div class="columns small-9 large-10 sub-block main" >
+        <div class="columns small-9 large-10 medium-10 sub-block main" >
           <div class="text-block">
             <div class="line">{{ item.code.name }}</div>
             <div class="line">{{ item.notes }}</div>
