@@ -11,7 +11,6 @@ import { ITEM_ACTIONS } from "stock/constants/item-actions";
  * - actionTarget (the package to move)
  * - actionFrom
  * - actionName
- * - editableQty
  *
  * Adds the following actions:
  *
@@ -24,12 +23,41 @@ export default Ember.Mixin.create(AsyncMixin, {
   locationService: Ember.inject.service(),
   packageService: Ember.inject.service(),
   settings: Ember.inject.service(),
-  editableQty: Ember.computed.alias("settings.allowPartialOperations"),
   actionComment: "",
-  itemActions: ITEM_ACTIONS,
+  i18n: Ember.inject.service(),
 
-  async resolveActionFromLocation(pkg) {
-    const presetLocations = pkg.get("packagesLocations").mapBy("location");
+  itemActions: Ember.computed(function() {
+    let actionsList = ITEM_ACTIONS;
+    actionsList.map(action => {
+      action.displayName = this.get("i18n").t(
+        `items.actions.${action.name.toLowerCase()}`
+      ).string;
+    });
+    return actionsList;
+  }),
+
+  verifyGainAction(actionName) {
+    let currentAction = _.find(
+      this.get("itemActions"),
+      action => action.name === actionName
+    );
+    return currentAction && !currentAction.loss;
+  },
+
+  isValidQuantity: Ember.computed("actionQty", "isGainAction", function() {
+    let action = this.get("actionName");
+    let isGainAction = this.get("isGainAction");
+    let value = this.get("actionQty");
+    return (
+      (isGainAction && value > 0) ||
+      (value > 0 && value <= this.get("maxQuantity"))
+    );
+  }),
+
+  async resolveActionFromLocation(pkg, showAllLocations = false) {
+    const presetLocations = showAllLocations
+      ? this.get("store").peekAll("location")
+      : pkg.get("packagesLocations").mapBy("location");
 
     if (presetLocations.get("length") > 1) {
       return this.get("locationService").userPickLocation({
@@ -61,7 +89,11 @@ export default Ember.Mixin.create(AsyncMixin, {
     const actionName = this.get("actionName");
     const qty = this.get("actionQty");
 
-    return target && from && actionName && qty > 0;
+    if (this.get("isGainAction")) {
+      return target && from && actionName;
+    } else {
+      return target && from && actionName && qty > 0;
+    }
   },
 
   clearActionParams() {
@@ -75,8 +107,11 @@ export default Ember.Mixin.create(AsyncMixin, {
 
   actions: {
     async beginAction(pkg, actionName) {
+      let isGainAction = this.verifyGainAction(actionName);
       this.set("actionName", actionName);
-      let from = await this.resolveActionFromLocation(pkg);
+      this.set("isGainAction", isGainAction);
+
+      let from = await this.resolveActionFromLocation(pkg, isGainAction);
 
       if (!pkg || !actionName || !from) {
         return this.send("cancelAction");
@@ -88,7 +123,10 @@ export default Ember.Mixin.create(AsyncMixin, {
 
       let quantity = this.quantityAtLocation(from);
       this.set("maxQuantity", quantity);
-      this.set("actionQty", quantity);
+
+      if (!isGainAction) {
+        this.set("actionQty", quantity);
+      }
 
       this.set(
         "actionIcon",

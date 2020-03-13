@@ -6,7 +6,8 @@ export default Ember.Component.extend({
     process: "random",
     recycle: "recycle",
     trash: "dumpster",
-    loss: "folder-minus"
+    loss: "folder-minus",
+    gain: "folder-plus"
   },
 
   actionIcon: Ember.computed("action.action", function() {
@@ -27,6 +28,8 @@ export default Ember.Component.extend({
         return (
           "Loss - Rolling stock take - " + this.get("action.location.name")
         );
+      case "gain":
+        return "Gain - Stock take - " + this.get("action.location.name");
       default:
         return "NOT APPLICABLE";
     }

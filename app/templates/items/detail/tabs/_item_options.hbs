@@ -8,7 +8,7 @@
     <div class="option_menu">
       <a {{action "triggerItemAction" item action.name bubbles=false}}>
         {{fa-icon action.icon }}
-        {{action.name}}
+        {{action.displayName}}
       </a>
     </div>
     {{/each}}
@@ -122,10 +122,10 @@
 
       <div class="button-container">
         <div class="button light" {{action "cancelAction"}}>{{t "cancel"}}</div>
-        {{#if (is-not (is-in-range actionQty 1 maxQuantity))}}
-          <div class="button" disabled>{{actionName}} ({{ actionQty }})</div>
-        {{else}}
+        {{#if isValidQuantity }}
           <div class="button" {{action "completeAction"}}> {{actionName}} ({{ actionQty }})</div>
+        {{else}}
+          <div class="button" disabled>{{actionName}} ({{ actionQty }})</div>
         {{/if}}
       </div>
     {{/form-control}}

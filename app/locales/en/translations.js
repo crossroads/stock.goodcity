@@ -747,6 +747,13 @@ export default {
         quantity: "Quantity cannot be blank.",
         blank_notification: "Location cannot be blank."
       }
+    },
+    actions: {
+      process: "Process",
+      loss: "Loss (decrease)",
+      trash: "Trash",
+      recycle: "Recycle",
+      gain: "Gain (increase)"
     }
   },
   modify_designation: {

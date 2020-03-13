@@ -1,18 +1,27 @@
 export const ITEM_ACTIONS = [
   {
     name: "Process",
-    icon: "random"
+    icon: "random",
+    loss: true
   },
   {
     name: "Recycle",
-    icon: "recycle"
+    icon: "recycle",
+    loss: true
   },
   {
     name: "Trash",
-    icon: "dumpster"
+    icon: "dumpster",
+    loss: true
+  },
+  {
+    name: "Gain",
+    icon: "folder-plus",
+    loss: false
   },
   {
     name: "Loss",
-    icon: "folder-minus"
+    icon: "folder-minus",
+    loss: true
   }
 ];
