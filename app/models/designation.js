@@ -160,19 +160,24 @@ export default Model.extend({
     }
   ),
 
-  stateText: Ember.computed("orderTransport", function() {
-    if (this.get("isAppointment")) {
-      return "appointment";
-    } else if (this.get("isOnlineOrder")) {
-      return "online_order";
-    } else if (this.get("isShipmentOrder")) {
-      return "shipment";
-    } else if (this.get("isStockitLocalOrder")) {
-      return "stockit_local_order";
-    } else if (this.get("isCarryOutOrder")) {
-      return "carry_out";
+  stateText: Ember.computed(
+    "orderTransport",
+    "bookingType",
+    "detailType",
+    function() {
+      if (this.get("isAppointment")) {
+        return "appointment";
+      } else if (this.get("isOnlineOrder")) {
+        return "online_order";
+      } else if (this.get("isShipmentOrder")) {
+        return "shipment";
+      } else if (this.get("isStockitLocalOrder")) {
+        return "stockit_local_order";
+      } else if (this.get("isCarryOutOrder")) {
+        return "carry_out";
+      }
     }
-  }),
+  ),
 
   appointmentTime: Ember.computed(
     "orderTransport.scheduledAt",
