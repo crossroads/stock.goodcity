@@ -40,4 +40,144 @@
       font-family: $header-font-family;
     }
   }
+
+  .designate-options {
+    > div {
+      display: inline-block;
+    }
+
+    button {
+      margin-left: 0 !important;
+      margin-right: 0 !important;
+    }
+
+    .options-arrow:focus {
+      outline: none;
+    }
+
+    button.button.options-arrow svg {
+      display: inline-block !important;
+    }
+  }
+
+  .options_menu_list {
+    margin-top: -1rem;
+    background: black;
+
+    @media #{$small-only} {
+      margin-right: 10%;
+    }
+
+    @media #{$large-only} {
+      margin-right: 50%;
+    }
+
+    div {
+      display: block !important;
+    }
+
+    .option_menu {
+      a svg {
+        margin-right: 5px;
+      }
+
+      &.disabled {
+        cursor: not-allowed;
+        color: gray;
+      }
+    }
+  }
+
+  .package-actions-form {
+    .row.gc-orders-package-block.tab-container {
+      margin: 2rem auto -5rem auto;
+      border: 2px solid black;
+      border-bottom: 0;
+
+      .columns {
+        border: black 2px solid;
+        height: 4rem;
+        background-color: #002352 !important;
+      }
+    }
+
+    .button-container {
+      padding-top: 0 !important;
+    }
+  }
+
+  .thumb {
+    width: fit-content !important;
+    height: 6em;
+  }
+
+  .tab-container .text-block {
+    text-align: center;
+  }
+
+  .divided {
+    padding: 1px 6px !important;
+
+    .subtab {
+      height: inherit;
+      text-align: center;
+      padding-top: 0.5rem;
+
+      &:nth-child(1) {
+        background-color: #051d3f;
+      }
+
+      &:nth-child(2) {
+        background-color: #27436c;
+      }
+
+      &:nth-child(3) {
+        background-color: #438bca;
+      }
+    }
+  }
+
+  .item-action-comment {
+    margin-top: 0.5rem !important;
+    max-height: 4rem;
+
+    .key {
+      @media #{$small-only} {
+        width: 33% !important;
+      }
+    }
+
+    .value {
+      width: 66% !important;
+    }
+
+    #item-action-comment {
+      font-size: 1rem;
+      height: 3.7rem !important;
+    }
+  }
+}
+
+.package-action-block .action-sub-block {
+  &.left {
+    padding: 1em;
+    background-color: white;
+    text-align: center;
+    color: black;
+  }
+
+  &.main {
+    padding: 1em;
+    background-color: white;
+    color: black;
+  }
+
+  .action-time {
+    float: right;
+    margin-right: 1rem;
+  }
+
+  .button-container {
+    padding-top: 0;
+  }
 }

@@ -161,6 +161,22 @@
         </div>
       {{/if}}
     </div>
+    <div class="row">
+      <div class="small-3 columns item-label">
+        Donation
+      </div>
+      <div class="small-9 columns donations">
+        <span {{action 'addOffer'}}>
+          {{fa-icon 'plus-square' size='2x'}}
+        </span>
+        {{#each offersLists as |offer|}}
+          {{offer-tag
+            offer=offer
+            removeOffer=(action "removeOffer")
+          }}
+        {{/each}}
+      </div>
+    </div>
     {{#if showAdditionalFields}}
       {{partial "items/additional_fields"}}
     {{/if}}

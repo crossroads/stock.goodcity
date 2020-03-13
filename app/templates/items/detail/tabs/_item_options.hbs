@@ -1,0 +1,131 @@
+<a {{action "toggleItemOptions"}}>
+  <button class="button options-arrow">
+    <div class="icon-holder">{{fa-icon 'caret-down' }}</div>
+  </button>
+
+  <div class="options_menu_list {{if displayItemOptions '' 'hidden'}}">
+    {{#each itemActions as |action|}}
+    <div class="option_menu {{if item.availableQty '' 'disabled'}}" {{action "triggerItemAction" item action.name bubbles=false}}>
+      {{fa-icon action.icon}}
+      {{action.displayName}}
+    </div>
+    {{/each}}
+  </div>
+</a>
+
+{{#popup-overlay open=readyForAction}}
+  <div class="dispatch-form package-actions-form">
+
+    <!-- TABS -->
+    <div class="row tab-container gc-orders-package-block">
+
+      <!-- DETAILS -->
+      <div class="columns small-3 sub-block main">
+        <div class="text-block">
+          <div class="line icon-holder">{{fa-icon (if item.isSet 'tags' (storage-icon item.storageTypeName)) size="lg"}}</div>
+          <div class="line text-holder">{{ item.inventoryNumber }}</div>
+        </div>
+      </div>
+
+      <!-- LOCATION -->
+      <div class="columns small-3 sub-block main">
+        <div class="text-block">
+          <div class="line icon-holder">{{fa-icon 'map-marker-alt' size="lg"}}</div>
+          <div class="line text-holder">
+            {{#if item.hasMultiLocations}}
+              {{t "item_status_bar.multiple"}}
+            {{else}}
+              {{#if item.firstAllLocationName}}
+                {{item.firstAllLocationName}}
+              {{else}}
+                N/A
+              {{/if}}
+            {{/if}}
+          </div>
+        </div>
+      </div>
+
+      <div class="columns small-6 tab sub-block main">
+        <div class="text-block row divided">
+          <div class="subtab column small-4">
+            <div class="line icon-holder">{{fa-icon 'paper-plane' size="lg"}}</div>
+            <div class="line text-holder"> {{ item.totalDispatchedQty }} </div>
+          </div>
+          <div class="subtab column small-4">
+            <div class="line icon-holder">{{fa-icon 'shopping-basket' size="lg"}}</div>
+            <div class="line text-holder"> {{ item.totalDesignatedQty }} </div>
+          </div>
+          <div class="subtab column small-4">
+            <div class="line icon-holder">{{fa-icon (if item.allowWebPublish 'eye' 'eye-slash') size="lg"}}</div>
+            <div class="line text-holder"> {{ item.availableQty }} </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="order-preview">
+      <div class="row gc-orders-package-block">
+        <div class="columns small-3 large-2 medium-2 left">
+          <img src={{item.thumbImageUrl}} class="thumb" />
+        </div>
+
+        <div class="columns small-9 large-10 medium-10 sub-block main" >
+          <div class="text-block">
+            <div class="line">{{ item.code.name }}</div>
+            <div class="line">{{ item.notes }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {{#form-control}}
+      <div class="form-container">
+        <div class="title">{{fa-icon actionIcon}} {{actionName}}</div>
+        <div class="infos">
+          <div class="info-row">
+            <div class="key">Item</div>
+            <div class="value">{{fa-icon 'tag'}} {{item.inventoryNumber}}</div>
+          </div>
+
+          <div class="info-row">
+            <div class="key">From Location</div>
+            <div class="value clickable" {{action "selectLocationAction"}}>{{fa-icon 'map-marker-alt'}}
+              {{actionFrom.displayName}}
+            </div>
+          </div>
+
+          <div class="info-row">
+            <div class="key">Quantity</div>
+            <div class="value">
+              {{input type="number" value=actionQty class="qty-input"}}
+            </div>
+            <div class="sub-text {{if (is-not (is-in-range actionQty 1 maxQuantity)) 'warn-text'}}">Max: {{maxQuantity}}
+            </div>
+          </div>
+
+          <div class="info-row item-action-comment">
+            <div class="key">Comment</div>
+            <div class="value">
+              {{auto-resize-textarea
+                  data-autoresize=true
+                  name="actionComment"
+                  value=actionComment
+                  id="item-action-comment"
+                  maxlength="180"}}
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="button-container">
+        <div class="button light" {{action "cancelAction"}}>{{t "cancel"}}</div>
+        {{#if isValidQuantity }}
+          <div class="button" {{action "completeAction"}}> {{actionName}} ({{ actionQty }})</div>
+        {{else}}
+          <div class="button" disabled>{{actionName}} ({{ actionQty }})</div>
+        {{/if}}
+      </div>
+    {{/form-control}}
+  </div>
+{{/popup-overlay}}

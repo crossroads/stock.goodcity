@@ -117,6 +117,10 @@ export default Ember.Component.extend(SearchMixin, {
       this.set("open", false);
     },
 
+    clearSearch() {
+      this.set("searchText", "");
+    },
+
     assignItemLabel(type) {
       this.set("open", false);
       this.set("isSearchCodePreviousRoute", true);

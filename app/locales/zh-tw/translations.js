@@ -2,6 +2,7 @@ export default {
   offline_error: "無法加載，請檢查網絡連線",
   unexpected_error: "錯誤",
   okay: "確定",
+  add_inventory_item: "Add item to inventory",
   loading: "正在加載...",
   loading_timeout_error: "讀取時限已過",
   loading_timeout: "需時太久了！點擊重新加載",
@@ -47,19 +48,20 @@ export default {
   full_name: "{{firstName}} {{lastName}}",
   mobile_prefix: "+852",
   box_pallet: {
-    indicate_amount:
-      "Indicate how many are you taking from each of the locations below.",
-    available: "Available",
-    location: "Location",
-    quantity: "Quantity",
-    number_to_move: "Number to move",
-    move_to: "Move item to",
-    move: "Move",
-    not_now: "Not Now",
-    add_to: "Add item to",
-    remove: "Remove",
-    content: "content",
-    details: "details"
+    indicate_amount: "指出要從以下每個位置中取多少份量",
+    available: "可用的",
+    location: "位置",
+    quantity: "数量",
+    number_to_move: "移動的數量",
+    move_to: "移動項目",
+    move: "移动",
+    not_now: "稍後",
+    add_to: "增加項目",
+    remove: "移除",
+    content: "内容",
+    details: "詳情",
+    invalid_quantity: "已增加的份量不可多於每個位置的可用的份量",
+    type_to_search: "输入搜索要添加的项目。"
   },
   messages: {
     you: "您",
@@ -244,6 +246,8 @@ export default {
     warning: "分拆數量需最少1 件或少於 {{qty}}"
   },
   order_details: {
+    cancel_order: "Cancel Order",
+    update_reason: "Update Reason",
     client_name: "服務對使用者姓名",
     hkid: "香港身份證號碼",
     reference: "參考編號:",
@@ -480,7 +484,8 @@ export default {
     already_dispatched: "所有被指派的物資已經被派送",
     multiple: "多項",
     dispatch_message: "請確認你要派送此物資",
-    related_orders: "Related Orders"
+    related_orders: "Related Orders",
+    action_by_user: "By {{userName}}"
   },
   orders_package: {
     actions: {
@@ -589,6 +594,9 @@ export default {
       no_bookings_allowed: "此日期不允許預約"
     }
   },
+  search_offer: {
+    offer_select_warning: "Do you want to assign this offer?"
+  },
   search_order: {
     recent: "Recently used designations"
   },
@@ -599,7 +607,11 @@ export default {
     pick_to_location: "Where would you like to move INTO ?",
     moving_item_to: "Moving this item to ",
     quantity_input: "Input the quantity to move ",
-    dispatch_from: "Where to dispatch the package from ?"
+    dispatch_from: "Where to dispatch the package from ?",
+    process_from: "From which location are you processing goods?",
+    recycle_from: "Which location are you recycling from?",
+    trash_from: "Which location are you trashing from?",
+    loss_from: "Which location is having its quantity corrected?"
   },
 
   footer: {
@@ -725,6 +737,13 @@ export default {
         quantity: "Quantity cannot be blank.",
         blank_notification: "Location cannot be blank."
       }
+    },
+    actions: {
+      process: "Process",
+      loss: "Loss (decrease)",
+      trash: "Trash",
+      recycle: "Recycle",
+      gain: "Gain (increase)"
     }
   },
   modify_designation: {

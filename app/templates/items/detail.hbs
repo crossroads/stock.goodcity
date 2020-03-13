@@ -38,11 +38,11 @@
           {{#if (is-and item.hasOneDesignatedPackage (is-not model.hasAllPackagesDispatched))}}
             <div class="{{unless item.hasOneDesignatedPackage 'disabled'}}">
               {{#if (is-and model.isSingletonItem model.designation.isGoodCityOrder)}}
-                <div class="no-avatar">
-                  <a href="#" {{action 'dispatchOrdersPackagePopUp' model model.firstDesignatedOrdersPackage.id}} >
+                {{#link-to 'items.detail.publishing' model.id tagName='span' href=false}}
+                  <span class="no-avatar">
                     <i class="item-menu">{{fa-icon 'ship'}}</i>
-                  </a>
-                </div>
+                  </span>
+                {{/link-to}}
               {{/if}}
             </div>
           {{/if}}

@@ -41,6 +41,8 @@ export default GoodcityController.extend(
     isSearchCodePreviousRoute: Ember.computed.localStorage(),
     fields: additionalFields,
     weight: "",
+    isSelectLocationPreviousRoute: Ember.computed.localStorage(),
+    offerService: Ember.inject.service(),
     fixedDropdownArr: ["frequency", "voltage", "compTestStatus", "testStatus"],
     quantity: 1,
     labels: 1,
@@ -69,6 +71,7 @@ export default GoodcityController.extend(
       let subform = this.get("code.subform");
       return this.returnDisplayFields(subform);
     }),
+    offersLists: [],
 
     isBoxOrPallet: Ember.computed("storageType", function() {
       return ["Box", "Pallet"].indexOf(this.get("storageType")) > -1;
@@ -80,10 +83,14 @@ export default GoodcityController.extend(
         : `Add - ${this.get("parentCodeName")}`;
     }),
 
-    showPublishItemCheckBox: Ember.computed("quantity", function() {
-      this.set("isAllowedToPublish", false);
-      return +this.get("quantity") === 1;
-    }),
+    showPublishItemCheckBox: Ember.computed(
+      "quantity",
+      "isBoxOrPallet",
+      function() {
+        this.set("isAllowedToPublish", false);
+        return +this.get("quantity") === 1 && !this.get("isBoxOrPallet");
+      }
+    ),
 
     locale: function(str) {
       return this.get("i18n").t(str);
@@ -316,6 +323,7 @@ export default GoodcityController.extend(
             quantity: quantity
           }
         },
+        offer_ids: this.get("offersLists").getEach("id"),
         detail_attributes: detailAttributes
       };
     },
@@ -455,7 +463,8 @@ export default GoodcityController.extend(
           this.clearSubformAttributes();
           this.setProperties({
             locationId: "",
-            inventoryNumber: ""
+            inventoryNumber: "",
+            offersLists: []
           });
           this.replaceRoute("items.detail", data.item.id);
         })
@@ -475,6 +484,22 @@ export default GoodcityController.extend(
           "location",
           await this.get("locationService").userPickLocation()
         );
+      },
+
+      removeOffer(offer) {
+        const offersList = this.get("offersLists").filter(
+          offer_list => offer_list.id !== offer.id
+        );
+        this.set("offersLists", offersList);
+      },
+
+      async addOffer() {
+        const offer = await this.get("offerService").getOffer();
+        if (!offer) {
+          return;
+        }
+        const offers = _.uniq([...this.get("offersLists"), offer]);
+        this.set("offersLists", offers);
       },
 
       //file upload
@@ -673,7 +698,7 @@ export default GoodcityController.extend(
         if (this.get("fixedDropdownArr").indexOf(fieldName) >= 0) {
           dropDownValues[`${fieldName}_id`] = value.id;
         } else {
-          dropDownValues[fieldName] = value.tag;
+          dropDownValues[fieldName] = value.tag ? value.tag.trim() : "";
         }
         this.set("dropDownValues", dropDownValues);
       },

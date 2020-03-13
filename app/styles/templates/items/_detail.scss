@@ -325,6 +325,11 @@
   }
 
   .detail-section {
+    .offer-tags {
+      svg {
+        padding-top: 1%;
+      }
+    }
     padding-bottom: 0.5rem;
     font-size: 0.8rem;
 

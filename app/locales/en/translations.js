@@ -6,6 +6,7 @@ export default {
   "language.en": "English",
   "language.zh": "中文",
   switch_language: "Switch language",
+  add_inventory_item: "Add item to inventory",
   loading: "Loading...",
   loading_timeout_error: "Loading view timeout reached.",
   loading_timeout: "This is taking too long! Click okay to reload.",
@@ -60,7 +61,10 @@ export default {
     add_to: "Add item to",
     remove: "Remove",
     content: "content",
-    details: "details"
+    details: "details",
+    invalid_quantity:
+      "Added quantity cannot be greater than the available quantity for each location.",
+    type_to_search: "Type in to search items to add."
   },
   messages: {
     you: "You",
@@ -249,6 +253,8 @@ export default {
     warning: "Quantity to split must be at least 1 and less than {{qty}}"
   },
   order_details: {
+    cancel_order: "Cancel Order",
+    update_reason: "Update Reason",
     client_name: "Client name:",
     hkid: "HKID",
     reference: "Reference #:",
@@ -492,7 +498,8 @@ export default {
     already_dispatched: "All designated Items are already dispatched",
     multiple: "Multiple",
     dispatch_message: "Are you sure you want to dispatch this Item?",
-    related_orders: "Related Orders"
+    related_orders: "Related Orders",
+    action_by_user: "By {{userName}}"
   },
   orders_package: {
     actions: {
@@ -604,6 +611,9 @@ export default {
       no_bookings_allowed: "No bookings will be allowed for this date"
     }
   },
+  search_offer: {
+    offer_select_warning: "Do you want to assign this offer?"
+  },
   search_order: {
     recent: "Recently used designations"
   },
@@ -614,7 +624,11 @@ export default {
     pick_to_location: "Select DESTINATION",
     moving_item_to: "Moving this item to ",
     quantity_input: "Input the quantity to move ",
-    dispatch_from: "Where to dispatch the package from ?"
+    dispatch_from: "Where to dispatch the package from ?",
+    process_from: "From which location are you processing goods?",
+    recycle_from: "Which location are you recycling from?",
+    trash_from: "Which location are you trashing from?",
+    loss_from: "Which location is having its quantity corrected?"
   },
 
   footer: {
@@ -740,6 +754,13 @@ export default {
         quantity: "Quantity cannot be blank.",
         blank_notification: "Location cannot be blank."
       }
+    },
+    actions: {
+      process: "Process",
+      loss: "Loss (decrease)",
+      trash: "Trash",
+      recycle: "Recycle",
+      gain: "Gain (increase)"
     }
   },
   modify_designation: {

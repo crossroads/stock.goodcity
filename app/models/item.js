@@ -26,6 +26,7 @@ export default cloudinaryUrl.extend({
   weight: attr("number"),
   pieces: attr("number"),
   packageTypeId: attr("number"),
+  offerId: attr("number"),
 
   sentOn: attr("date"),
   isSet: attr("boolean"),
@@ -59,7 +60,10 @@ export default cloudinaryUrl.extend({
     async: false
   }),
   packagesLocations: hasMany("packages_location", {
-    async: true
+    async: false
+  }),
+  itemActions: hasMany("item_action", {
+    async: false
   }),
 
   storageTypeId: attr("number"),
@@ -72,6 +76,9 @@ export default cloudinaryUrl.extend({
   ordersPackages: hasMany("ordersPackages", {
     async: true
   }),
+  ordersPackages: hasMany("ordersPackages", { async: true }),
+  offersPackages: hasMany("offersPackages", { async: false }),
+  offer: belongsTo("offer", { async: false }),
   imageIds: attr(),
   images: hasMany("image", {
     async: true
@@ -84,9 +91,7 @@ export default cloudinaryUrl.extend({
   imageUrl: Ember.computed.alias("image.imageUrl"),
   designateFullSet: Ember.computed.localStorage(),
 
-  storageTypeName: Ember.computed("storageTypeId", function() {
-    return this.get("storageType.name");
-  }),
+  storageTypeName: Ember.computed.alias("storageType.name"),
 
   isDesignated: Ember.computed(
     "ordersPackages",

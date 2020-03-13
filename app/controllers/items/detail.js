@@ -8,8 +8,9 @@ import PackageDetailMixin from "stock/mixins/fetch_package_detail";
 import GradeMixin from "stock/mixins/grades_option";
 import MoveActions from "stock/mixins/move_actions";
 import DesignationActions from "stock/mixins/designation_actions";
-import AsyncMixin from "stock/mixins/async";
 import StorageTypes from "stock/mixins/storage-type";
+import AsyncMixin from "stock/mixins/async";
+import ItemActions from "stock/mixins/item_actions";
 import _ from "lodash";
 import SearchMixin from "stock/mixins/search_resource";
 
@@ -21,10 +22,12 @@ export default GoodcityController.extend(
   DesignationActions,
   StorageTypes,
   AsyncMixin,
+  ItemActions,
   SearchMixin,
   {
     isMobileApp: config.cordova.enabled,
     backLinkPath: "",
+    searchText: null,
     previousValue: "",
     openAddItemOverlay: false,
     addableItem: null,
@@ -40,14 +43,18 @@ export default GoodcityController.extend(
     messageBox: Ember.inject.service(),
     setDropdownOption: Ember.inject.service(),
     designationService: Ember.inject.service(),
+    offerService: Ember.inject.service(),
+    packageService: Ember.inject.service(),
     settings: Ember.inject.service(),
     packageService: Ember.inject.service(),
     locationService: Ember.inject.service(),
+    settings: Ember.inject.service(),
     displayScanner: false,
     designateFullSet: Ember.computed.localStorage(),
     callOrderObserver: false,
     showSetList: false,
     hideDetailsLink: true,
+    displayItemOptions: false,
     fields: additionalFields,
     fixedDropdownArr: [
       "frequencyId",
@@ -58,6 +65,13 @@ export default GoodcityController.extend(
     currentRoute: Ember.computed.alias("application.currentPath"),
     pkg: Ember.computed.alias("model"),
     showPieces: Ember.computed.alias("model.code.allow_pieces"),
+    allowItemActions: Ember.computed.alias("settings.allowItemActions"),
+
+    sortActionsBy: ["id:desc"],
+    sortedItemActions: Ember.computed.sort(
+      "model.itemActions",
+      "sortActionsBy"
+    ),
 
     isItemDetailPresent() {
       return !!this.get("item.detail.length");
@@ -232,6 +246,16 @@ export default GoodcityController.extend(
       }
     ),
 
+    updatePackageOffers(offerIds) {
+      this.runTask(
+        this.get("packageService").updatePackage(this.get("item.id"), {
+          package: {
+            offer_ids: offerIds
+          }
+        })
+      );
+    },
+
     sortedOrdersPackages: Ember.computed(
       "model.ordersPackages.[]",
       "model.ordersPackages.@each.state",
@@ -273,6 +297,32 @@ export default GoodcityController.extend(
 
     actions: {
       /**
+       * Add Offer to Package
+       */
+      async addOffer() {
+        const offer = await this.get("offerService").getOffer();
+        const offerIds = [
+          ...this.get("item.offersPackages").getEach("offerId"),
+          offer.id
+        ];
+        this.updatePackageOffers(offerIds);
+      },
+
+      /**
+       * Remove offer from Package
+       * @param {Offer} to be dissociate from Package
+       */
+      removeOffer(offer) {
+        const offerPackage = this.get("item.offersPackages").findBy(
+          "offerId",
+          +offer.get("id")
+        );
+        if (offerPackage) {
+          this.runTask(offerPackage.destroyRecord());
+        }
+      },
+
+      /**
        * Called after a property is changed to push the updated
        * record to the API
        */
@@ -310,8 +360,13 @@ export default GoodcityController.extend(
         );
       },
 
-      openItemsSearch(item) {
-        this.get("packageService").openItemsSearch(item);
+      openItemsSearch() {
+        this.get("packageService").openItemsSearch(this.get("item"));
+      },
+
+      setScannedSearchText(searchedText) {
+        this.set("searchText", searchedText);
+        this.send("openItemsSearch");
       },
 
       async openLocationSearch(item, quantity) {
@@ -377,8 +432,18 @@ export default GoodcityController.extend(
           this.set("previousValue", country.id);
         }
       },
+
       onSearch(field, searchText) {
         this.onSearchCountry(field, searchText);
+      },
+
+      toggleItemOptions() {
+        this.toggleProperty("displayItemOptions");
+      },
+
+      triggerItemAction(pkg, actionName) {
+        this.toggleProperty("displayItemOptions");
+        this.send("beginAction", pkg, actionName);
       }
     }
   }

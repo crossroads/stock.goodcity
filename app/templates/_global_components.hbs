@@ -22,3 +22,11 @@
     storageType=s.storageType
   }}
 {{/let-alias}}
+
+{{#let-alias offerService as |s|}}
+  {{goodcity/offers-search-overlay
+    open=s.openOfferSearch
+    onSelect=s.onOfferSelected
+    displayResults=s.displayResults
+  }}
+{{/let-alias}}

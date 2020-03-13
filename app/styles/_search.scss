@@ -18,15 +18,14 @@
   i {
     position: absolute;
     right: 2.5%;
-    top: 0.93rem;
+    top: 0.7rem;
     color: $black;
     font-size: 1.2rem;
     cursor: pointer;
 
     @media #{$small-only} {
-      font-size: 1.2rem;
-      padding: 0.5rem 0.5rem;
-      top: 0rem;
+      font-size: 1rem;
+      top: 0.7rem;
     }
   }
 
