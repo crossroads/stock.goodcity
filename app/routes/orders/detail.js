@@ -5,10 +5,7 @@ export default AuthorizeRoute.extend({
   designationService: Ember.inject.service(),
   currentRouteName: null,
 
-  model(params) {
-    const id = params.order_id;
-    return this.get("designationService")
-      .getOrder(id)
-      .then(() => this.loadIfAbsent("designation", id));
+  model({ order_id }) {
+    return this.loadIfAbsent("designation", order_id);
   }
 });
