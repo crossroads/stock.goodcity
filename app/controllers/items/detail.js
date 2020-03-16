@@ -50,7 +50,6 @@ export default GoodcityController.extend(
     locationService: Ember.inject.service(),
     settings: Ember.inject.service(),
     displayScanner: false,
-    designateFullSet: Ember.computed.localStorage(),
     callOrderObserver: false,
     showSetList: false,
     hideDetailsLink: true,
@@ -144,14 +143,14 @@ export default GoodcityController.extend(
 
     allowPublish: Ember.computed(
       "model.isSingletonItem",
-      "model.availableQty",
+      "model.availableQuantity",
       "isBoxOrPallet",
       function() {
         if (this.get("isBoxOrPallet")) {
           return false;
         }
 
-        const qty = this.get("model.availableQty");
+        const qty = this.get("model.availableQuantity");
         if (this.get("settings.onlyPublishSingletons")) {
           return qty === 1;
         }

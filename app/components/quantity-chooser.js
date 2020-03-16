@@ -1,5 +1,5 @@
-import Ember from 'ember';
-import AjaxPromise from 'stock/utils/ajax-promise';
+import Ember from "ember";
+import AjaxPromise from "stock/utils/ajax-promise";
 const { getOwner } = Ember;
 
 export default Ember.Component.extend({
@@ -9,36 +9,39 @@ export default Ember.Component.extend({
   showErrorMessage: false,
 
   didInsertElement() {
-    this.set('displayChooseQtyOverlay', false);
-    this.set('showErrorMessage', false);
+    this.set("displayChooseQtyOverlay", false);
+    this.set("showErrorMessage", false);
   },
 
   resetValue() {
-    Ember.$('#qtySplitter').val(1);
+    Ember.$("#qtySplitter").val(1);
   },
 
   elementValue() {
-    return Ember.$('#qtySplitter').val();
+    return Ember.$("#qtySplitter").val();
   },
 
   setValueIfValid(value, isValidValue) {
-    if(isValidValue) {
-      this.set('showErrorMessage', false);
-      Ember.$('#qtySplitter').val(value);
+    if (isValidValue) {
+      this.set("showErrorMessage", false);
+      Ember.$("#qtySplitter").val(value);
     } else {
-      this.set('showErrorMessage', true);
+      this.set("showErrorMessage", true);
     }
   },
 
   actions: {
     resetValueAndToggleOverlay() {
       this.resetValue();
-      this.toggleProperty('displayChooseQtyOverlay');
+      this.toggleProperty("displayChooseQtyOverlay");
     },
 
     incrementQty() {
       let incrementedValue = +this.elementValue() + 1;
-      this.setValueIfValid(incrementedValue, incrementedValue < +this.get("item.quantity"));
+      this.setValueIfValid(
+        incrementedValue,
+        incrementedValue < +this.get("item.availableQuantity")
+      );
     },
 
     decrementQty() {
@@ -49,24 +52,32 @@ export default Ember.Component.extend({
     splitItems() {
       const value = this.elementValue();
       let item = this.get("item");
-      if(+value < 1 || +value >= +item.get("quantity")) {
+      if (+value < 1 || +value >= +item.get("availableQuantity")) {
         this.set("showErrorMessage", true);
         return false;
       }
       this.set("showErrorMessage", false);
-      let loadingView = getOwner(this).lookup('component:loading').append();
-      new AjaxPromise(`/items/${item.id}/split_item`, "PUT", this.get('session.authToken'), { package: { quantity: value } })
+      let loadingView = getOwner(this)
+        .lookup("component:loading")
+        .append();
+      new AjaxPromise(
+        `/items/${item.id}/split_item`,
+        "PUT",
+        this.get("session.authToken"),
+        { package: { quantity: value } }
+      )
         .then(data => {
           this.get("store").pushPayload(data);
-        }).catch((error) => {
-            if(error.status === 422){
-              var errors = Ember.$.parseJSON(error.responseText).errors;
-              this.get("messageBox").alert(errors);
-            }
-          })
+        })
+        .catch(error => {
+          if (error.status === 422) {
+            var errors = Ember.$.parseJSON(error.responseText).errors;
+            this.get("messageBox").alert(errors);
+          }
+        })
         .finally(() => {
           this.resetValue();
-          this.set('displayChooseQtyOverlay', false);
+          this.set("displayChooseQtyOverlay", false);
           loadingView.destroy();
         });
     }

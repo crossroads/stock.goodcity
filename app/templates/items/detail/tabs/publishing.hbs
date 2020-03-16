@@ -6,7 +6,7 @@
       {{else}}
         {{fa-icon 'eye-slash'}}
       {{/if}}
-      {{t 'partial_undesignate.available' }} ({{ model.availableQty }})
+      {{t 'partial_undesignate.available' }} ({{ model.availableQuantity }})
     </div>
     <div class="row action-row gc-orders-package-block">
       <div class="small-6 columns">
@@ -41,11 +41,11 @@
     </div>
     <div class="columns small-4">
       {{fa-icon 'paper-plane'}}
-      {{model.totalDispatchedQty}} {{t 'item_filters.dispatched' }}
+      {{model.dispatchedQuantity}} {{t 'item_filters.dispatched' }}
     </div>
     <div class="columns small-4">
       {{fa-icon 'eye'}}
-      {{model.totalDesignatedQty}} {{t 'item_filters.designated' }}
+      {{model.designatedQuantity}} {{t 'item_filters.designated' }}
     </div>
   </div>
 

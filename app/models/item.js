@@ -18,7 +18,6 @@ export default cloudinaryUrl.extend({
   grade: attr("string"),
   inventoryNumber: attr("string"),
   caseNumber: attr("string"),
-  quantity: attr("number"),
   receivedQuantity: attr("number"),
   length: attr("number"),
   width: attr("number"),
@@ -27,6 +26,14 @@ export default cloudinaryUrl.extend({
   pieces: attr("number"),
   packageTypeId: attr("number"),
   offerId: attr("number"),
+
+  onHandQuantity: attr("number"),
+  availableQuantity: attr("number"),
+  designatedQuantity: attr("number"),
+  dispatchedQuantity: attr("number"),
+
+  // Temporarily keep the old `quantity` field as an alias to make migration easier
+  quantity: Ember.computed.alias("availableQuantity"),
 
   sentOn: attr("date"),
   isSet: attr("boolean"),
@@ -71,8 +78,6 @@ export default cloudinaryUrl.extend({
     async: true
   }),
 
-  onHandQuantity: attr("number"),
-
   ordersPackages: hasMany("ordersPackages", {
     async: true
   }),
@@ -89,7 +94,6 @@ export default cloudinaryUrl.extend({
   updatedAt: attr("date"),
 
   imageUrl: Ember.computed.alias("image.imageUrl"),
-  designateFullSet: Ember.computed.localStorage(),
 
   storageTypeName: Ember.computed.alias("storageType.name"),
 
@@ -127,13 +131,7 @@ export default cloudinaryUrl.extend({
     }
   ),
 
-  availableQty: Ember.computed("lockedQty", "receivedQuantity", function() {
-    return this.get("receivedQuantity") - this.get("lockedQty");
-  }),
-
-  isAvailable: Ember.computed("availableQty", function() {
-    return this.get("availableQty") > 0;
-  }),
+  isAvailable: Ember.computed.bool("availableQuantity"),
 
   isUnavailable: Ember.computed.not("isAvailable"),
 
@@ -215,13 +213,6 @@ export default cloudinaryUrl.extend({
     }
   ),
 
-  dispatchedQuantity: Ember.computed(
-    "ordersPackages.@each.quantity",
-    function() {
-      return SUM(this.get("ordersPackages").filterBy("state", "dispatched"));
-    }
-  ),
-
   cancelledItemCount: Ember.computed(
     "ordersPackages.@each.quantity",
     function() {
@@ -270,26 +261,6 @@ export default cloudinaryUrl.extend({
         .get("length") === 1
     );
   }),
-
-  totalDispatchedQty: Ember.computed(
-    "ordersPackages.@each.state",
-    "ordersPackages.@each.dispatchedQuantity",
-    function() {
-      return this.get("ordersPackages")
-        .rejectBy("state", "cancelled")
-        .reduce((total, op) => total + op.get("dispatchedQuantity"), 0);
-    }
-  ),
-
-  totalDesignatedQty: Ember.computed(
-    "ordersPackages.@each.state",
-    "ordersPackages.@each.undispatchedQty",
-    function() {
-      return this.get("ordersPackages")
-        .filterBy("state", "designated")
-        .reduce((total, op) => total + op.get("undispatchedQty"), 0);
-    }
-  ),
 
   hasOneDispatchedPackage: Ember.computed(
     "ordersPackages.@each.state",
@@ -342,20 +313,6 @@ export default cloudinaryUrl.extend({
       return orderPackages;
     }
   ),
-
-  minSetQty: Ember.computed("setItem.items", function() {
-    if (this.get("isSet") && this.get("designateFullSet")) {
-      var setItems = this.get("setItem.items");
-      var minQty = setItems.canonicalState[0]._data.quantity;
-      setItems.canonicalState.forEach(record => {
-        var qty = record._data.quantity;
-        if (qty < minQty) {
-          minQty = qty;
-        }
-      });
-      return minQty;
-    }
-  }),
 
   isSingletonItem: Ember.computed("quantity", function() {
     return this.get("receivedQuantity") === 1;
