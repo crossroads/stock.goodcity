@@ -42,7 +42,7 @@ export default cloudinaryUrl.extend({
   }),
   designationId: attr("string"),
   designation: belongsTo("designation", {
-    async: true
+    async: false
   }),
   location: belongsTo("location", {
     async: false
@@ -74,7 +74,7 @@ export default cloudinaryUrl.extend({
   onHandQuantity: attr("number"),
 
   ordersPackages: hasMany("ordersPackages", {
-    async: true
+    async: false
   }),
   ordersPackages: hasMany("ordersPackages", { async: true }),
   offersPackages: hasMany("offersPackages", { async: false }),
