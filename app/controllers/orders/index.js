@@ -1,6 +1,6 @@
 import Ember from "ember";
 import _ from "lodash";
-import CacheSearch from "stock/utils/cache-search";
+import Cache from "stock/utils/mem-cache";
 import { STATE_FILTERS } from "../../services/filter-service";
 import SearchMixin from "stock/mixins/search_resource";
 
@@ -20,7 +20,7 @@ export default Ember.Controller.extend(SearchMixin, {
 
   init() {
     this._super(...arguments);
-    this.cache = new CacheSearch();
+    this.cache = new Cache();
   },
 
   afterSearch(designations) {
@@ -58,7 +58,6 @@ export default Ember.Controller.extend(SearchMixin, {
 
   createCacheKey(key) {
     const cacheKey = JSON.stringify(key);
-    this.get("cache").set(cacheKey);
     return cacheKey;
   },
 
