@@ -56,6 +56,12 @@ export default Ember.Controller.extend(SearchMixin, {
     };
   },
 
+  createCacheKey(key) {
+    const cacheKey = JSON.stringify(key);
+    this.get("cache").set(cacheKey);
+    return cacheKey;
+  },
+
   actions: {
     /**
      * Load the next page of the list
@@ -66,29 +72,25 @@ export default Ember.Controller.extend(SearchMixin, {
      */
     loadMoreOrders(pageNo) {
       const cache = this.get("cache");
-      const cachedOrders = cache.get("cachedOrders");
-      const hasExceedDelta = moment().diff(cache.timeout, "minutes") < 1;
-      if (cachedOrders && cachedOrders.get("length") && hasExceedDelta) {
-        return cachedOrders;
-      } else {
-        const params = this.trimQuery(
-          _.merge(
-            {},
-            this.getFilterQuery(),
-            this.getSearchQuery(),
-            this.getPaginationQuery(pageNo)
-          )
-        );
-
-        return this.get("store")
-          .query("designation", params)
-          .then(results => {
-            this.afterSearch(results);
-            cache.setTime(moment());
-            cache.set("cachedOrders", results);
-            return results;
-          });
+      const params = this.trimQuery(
+        _.merge(
+          {},
+          this.getFilterQuery(),
+          this.getSearchQuery(),
+          this.getPaginationQuery(pageNo)
+        )
+      );
+      const cacheKey = this.createCacheKey(params);
+      if (cache.has(cacheKey)) {
+        return cache.get(cacheKey);
       }
+      return this.get("store")
+        .query("designation", params)
+        .then(results => {
+          this.afterSearch(results);
+          cache.set(cacheKey, results);
+          return results;
+        });
     },
 
     clearSearch() {

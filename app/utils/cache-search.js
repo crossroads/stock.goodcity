@@ -1,8 +1,9 @@
 import Ember from "ember";
 import _ from "lodash";
 
-class CacheSearch {
+class Cache {
   constructor(opts = {}) {
+    this.timeout = opts.timeout || 5 * 60 * 1000;
     this.cache = {};
   }
 
@@ -14,8 +15,8 @@ class CacheSearch {
     this.cache[key] = value;
   }
 
-  setTime(time) {
-    this.timeout = time;
+  has(key) {
+    return this.cache[key];
   }
 
   del(key) {
@@ -23,4 +24,4 @@ class CacheSearch {
   }
 }
 
-export default CacheSearch;
+export default Cache;
