@@ -65,7 +65,7 @@ export default Ember.Service.extend(Ember.Evented, {
       operations: ["update", "delete"]
     },
     item: {
-      strategy: UPDATE_STRATEGY.RELOAD
+      strategy: UPDATE_STRATEGY.MERGE
     },
     message: {
       strategy: [UPDATE_STRATEGY.MERGE, UPDATE_STRATEGY.SAVE_SENDER]
