@@ -1,5 +1,6 @@
 import Ember from "ember";
 import _ from "lodash";
+import CacheSearch from "stock/utils/cache-search";
 import { STATE_FILTERS } from "../../services/filter-service";
 import SearchMixin from "stock/mixins/search_resource";
 
@@ -16,6 +17,11 @@ export default Ember.Controller.extend(SearchMixin, {
    * @property {Number} SearchMixin configuration, perPage in response
    **/
   perPage: 25,
+
+  init() {
+    this._super(...arguments);
+    this.cache = new CacheSearch();
+  },
 
   afterSearch(designations) {
     if (designations && designations.get("length") > 0) {
@@ -59,21 +65,30 @@ export default Ember.Controller.extend(SearchMixin, {
      * @returns {Promise<Order[]>}
      */
     loadMoreOrders(pageNo) {
-      const params = this.trimQuery(
-        _.merge(
-          {},
-          this.getFilterQuery(),
-          this.getSearchQuery(),
-          this.getPaginationQuery(pageNo)
-        )
-      );
+      const cache = this.get("cache");
+      const cachedOrders = cache.get("cachedOrders");
+      const hasExceedDelta = moment().diff(cache.timeout, "minutes") < 1;
+      if (cachedOrders && cachedOrders.get("length") && hasExceedDelta) {
+        return cachedOrders;
+      } else {
+        const params = this.trimQuery(
+          _.merge(
+            {},
+            this.getFilterQuery(),
+            this.getSearchQuery(),
+            this.getPaginationQuery(pageNo)
+          )
+        );
 
-      return this.get("store")
-        .query("designation", params)
-        .then(results => {
-          this.afterSearch(results);
-          return results;
-        });
+        return this.get("store")
+          .query("designation", params)
+          .then(results => {
+            this.afterSearch(results);
+            cache.setTime(moment());
+            cache.set("cachedOrders", results);
+            return results;
+          });
+      }
     },
 
     clearSearch() {
