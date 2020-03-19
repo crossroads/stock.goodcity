@@ -9,10 +9,17 @@ class Cache {
 
   get(key) {
     return this.cache[key];
+    const entry = this.cache[key];
+    if (entry && entry.expiry <= Date.now()) {
+      return entry.value;
+    }
   }
 
   set(key, value) {
-    this.cache[key] = value;
+    this.cache[key] = {
+      value: value,
+      expiry: Date.now() + this.timeout
+    };
   }
 
   has(key) {
@@ -21,6 +28,10 @@ class Cache {
 
   del(key) {
     delete this.cache[key];
+  }
+
+  clear() {
+    this.cache = {};
   }
 }
 
