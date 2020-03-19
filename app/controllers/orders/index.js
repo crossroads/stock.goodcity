@@ -56,9 +56,13 @@ export default Ember.Controller.extend(SearchMixin, {
     };
   },
 
-  createCacheKey(key) {
-    const cacheKey = JSON.stringify(key);
-    return cacheKey;
+  reloadResults() {
+    this.get("cache").clear();
+    this._super();
+  },
+
+  createCacheKey(data) {
+    return JSON.stringify(data);
   },
 
   actions: {
@@ -81,7 +85,7 @@ export default Ember.Controller.extend(SearchMixin, {
       );
       const cacheKey = this.createCacheKey(params);
       if (cache.has(cacheKey)) {
-        return cache.get(cacheKey).value;
+        return cache.get(cacheKey);
       }
       return this.get("store")
         .query("designation", params)

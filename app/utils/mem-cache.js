@@ -8,9 +8,8 @@ class Cache {
   }
 
   get(key) {
-    return this.cache[key];
     const entry = this.cache[key];
-    if (entry && entry.expiry <= Date.now()) {
+    if (entry && entry.expiry >= Date.now()) {
       return entry.value;
     }
   }
@@ -23,7 +22,7 @@ class Cache {
   }
 
   has(key) {
-    return this.cache[key];
+    return !!this.get(key);
   }
 
   del(key) {
