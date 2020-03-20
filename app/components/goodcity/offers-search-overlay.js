@@ -25,6 +25,53 @@ export default Ember.Component.extend(SearchMixin, {
   },
   searchText: "",
 
+  nameDisplayed(offer) {
+    if (
+      offer.get("firstObject.createdBy") &&
+      offer.get("firstObject.company")
+    ) {
+      this.get("messageBox").custom(
+        this.get("i18n").t("search_offer.offer_select_warning", {
+          offerId: offer.get("firstObject.id"),
+          offerName:
+            offer.get("firstObject.createdBy.firstName") +
+            offer.get("firstObject.createdBy.lastName"),
+          offerCompany: offer.get("firstObject.company.name")
+        }),
+        "Yes",
+        () => {
+          this.send("selectOffer", offer.get("firstObject"));
+        },
+        "No"
+      );
+    } else if (offer.get("firstObject.createdBy")) {
+      this.get("messageBox").custom(
+        this.get("i18n").t("search_offer.offer_select_warning_with_name_id", {
+          offerId: offer.get("firstObject.id"),
+          offerName:
+            offer.get("firstObject.createdBy.firstName") +
+            offer.get("firstObject.createdBy.lastName")
+        }),
+        "Yes",
+        () => {
+          this.send("selectOffer", offer.get("firstObject"));
+        },
+        "No"
+      );
+    } else {
+      this.get("messageBox").custom(
+        this.get("i18n").t("search_offer.offer_select_warning_with_id", {
+          offerId: offer.get("firstObject.id")
+        }),
+        "Yes",
+        () => {
+          this.send("selectOffer", offer.get("firstObject"));
+        },
+        "No"
+      );
+    }
+  },
+
   actions: {
     clearSearch() {
       this.set("searchText", "");
@@ -50,14 +97,7 @@ export default Ember.Component.extend(SearchMixin, {
         .query("offer", params)
         .then(offers => {
           if (this.get("isMobileApp") && offers.get("length") == 1) {
-            this.get("messageBox").custom(
-              singleOfferWarning,
-              "Yes",
-              () => {
-                this.send("selectOffer", offers.get("firstObject"));
-              },
-              "No"
-            );
+            this.nameDisplayed(offers);
           }
           return offers;
         });
