@@ -596,7 +596,7 @@ export default {
   },
   search_offer: {
     offer_select_warning:
-      "Do you want to assign this offer {{offerId}}-{{offerName}}({{offerCompany}}) ?",
+      "Do you want to assign this offer {{offerId}}-{{offerName}} ({{offerCompany}}) ?",
     offer_select_warning_with_id:
       "Do you want to assign this offer {{offerId}} ?",
     offer_select_warning_with_name_id:
