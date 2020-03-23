@@ -25,51 +25,27 @@ export default Ember.Component.extend(SearchMixin, {
   },
   searchText: "",
 
-  nameDisplayed(offer) {
-    if (
-      offer.get("firstObject.createdBy") &&
-      offer.get("firstObject.company")
-    ) {
-      this.get("messageBox").custom(
-        this.get("i18n").t("search_offer.offer_select_warning", {
-          offerId: offer.get("firstObject.id"),
-          offerName:
-            offer.get("firstObject.createdBy.firstName") +
-            offer.get("firstObject.createdBy.lastName"),
-          offerCompany: offer.get("firstObject.company.name")
-        }),
-        "Yes",
-        () => {
-          this.send("selectOffer", offer.get("firstObject"));
-        },
-        "No"
-      );
-    } else if (offer.get("firstObject.createdBy")) {
-      this.get("messageBox").custom(
-        this.get("i18n").t("search_offer.offer_select_warning_with_name_id", {
-          offerId: offer.get("firstObject.id"),
-          offerName:
-            offer.get("firstObject.createdBy.firstName") +
-            offer.get("firstObject.createdBy.lastName")
-        }),
-        "Yes",
-        () => {
-          this.send("selectOffer", offer.get("firstObject"));
-        },
-        "No"
-      );
-    } else {
-      this.get("messageBox").custom(
-        this.get("i18n").t("search_offer.offer_select_warning_with_id", {
-          offerId: offer.get("firstObject.id")
-        }),
-        "Yes",
-        () => {
-          this.send("selectOffer", offer.get("firstObject"));
-        },
-        "No"
-      );
+  confirmAssignOffer(offer) {
+    let data = { offerId: offer.get("id") };
+    let key = "search_offer.offer_select_warning_with_id";
+
+    if (offer.get("createdBy")) {
+      data["offerName"] =
+        offer.get("createdBy.firstName") + offer.get("createdBy.lastName");
+      key = "search_offer.offer_select_warning_with_name_id";
+
+      if (offer.get("company")) {
+        data["offerCompany"] = offer.get("company.name");
+        key = "search_offer.offer_select_warning";
+      }
     }
+
+    this.get("messageBox").custom(
+      this.get("i18n").t(key, data),
+      "Yes",
+      () => this.send("selectOffer", offer),
+      "No"
+    );
   },
 
   actions: {
@@ -78,9 +54,6 @@ export default Ember.Component.extend(SearchMixin, {
     },
 
     loadMoreOffers(pageNo) {
-      const singleOfferWarning = this.get("i18n").t(
-        "search_offer.offer_select_warning"
-      );
       const params = this.trimQuery(
         _.merge(
           {
@@ -97,7 +70,7 @@ export default Ember.Component.extend(SearchMixin, {
         .query("offer", params)
         .then(offers => {
           if (this.get("isMobileApp") && offers.get("length") == 1) {
-            this.nameDisplayed(offers);
+            this.confirmAssignOffer(offers.get("firstObject"));
           }
           return offers;
         });
