@@ -26,18 +26,16 @@ export default Ember.Component.extend(SearchMixin, {
   searchText: "",
 
   confirmAssignOffer(offer) {
-    let data = { offerId: offer.get("id") };
     let key = "search_offer.offer_select_warning_with_id";
-
-    if (offer.get("createdBy")) {
-      data["offerName"] =
-        offer.get("createdBy.firstName") + offer.get("createdBy.lastName");
+    let data = {
+      offerId: offer.get("id"),
+      offerName: offer.get("createdBy.fullName"),
+      offerCompany: offer.get("company.name")
+    };
+    if (offer.get("company")) {
+      key = "search_offer.offer_select_warning";
+    } else if (offer.get("createdBy")) {
       key = "search_offer.offer_select_warning_with_name_id";
-
-      if (offer.get("company")) {
-        data["offerCompany"] = offer.get("company.name");
-        key = "search_offer.offer_select_warning";
-      }
     }
 
     this.get("messageBox").custom(
