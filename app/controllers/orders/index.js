@@ -1,5 +1,6 @@
 import Ember from "ember";
 import _ from "lodash";
+import Cache from "stock/utils/mem-cache";
 import { STATE_FILTERS } from "../../services/filter-service";
 import SearchMixin from "stock/mixins/search_resource";
 
@@ -16,6 +17,11 @@ export default Ember.Controller.extend(SearchMixin, {
    * @property {Number} SearchMixin configuration, perPage in response
    **/
   perPage: 25,
+
+  init() {
+    this._super(...arguments);
+    this.cache = new Cache();
+  },
 
   afterSearch(designations) {
     if (designations && designations.get("length") > 0) {
@@ -50,6 +56,15 @@ export default Ember.Controller.extend(SearchMixin, {
     };
   },
 
+  reloadResults() {
+    this.get("cache").clear();
+    this._super();
+  },
+
+  createCacheKey(data) {
+    return JSON.stringify(data);
+  },
+
   actions: {
     /**
      * Load the next page of the list
@@ -59,6 +74,7 @@ export default Ember.Controller.extend(SearchMixin, {
      * @returns {Promise<Order[]>}
      */
     loadMoreOrders(pageNo) {
+      const cache = this.get("cache");
       const params = this.trimQuery(
         _.merge(
           {},
@@ -67,11 +83,15 @@ export default Ember.Controller.extend(SearchMixin, {
           this.getPaginationQuery(pageNo)
         )
       );
-
+      const cacheKey = this.createCacheKey(params);
+      if (cache.has(cacheKey)) {
+        return cache.get(cacheKey);
+      }
       return this.get("store")
         .query("designation", params)
         .then(results => {
           this.afterSearch(results);
+          cache.set(cacheKey, results);
           return results;
         });
     },
