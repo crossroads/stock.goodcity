@@ -122,9 +122,11 @@ export default Ember.Mixin.create(AsyncMixin, {
       this.set("actionComment", "");
 
       let quantity = this.quantityAtLocation(from);
-      this.set("maxQuantity", quantity);
 
-      if (!isGainAction) {
+      if (isGainAction) {
+        this.set("maxQuantity", 99999);
+      } else {
+        this.set("maxQuantity", quantity);
         this.set("actionQty", quantity);
       }
 
