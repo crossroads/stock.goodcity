@@ -43,7 +43,6 @@ export default Ember.Mixin.create({
   onSearchTextChange: Ember.observer("searchText", function() {
     if (this.isValidTextLength()) {
       this.reloadResults();
-      this.get("cache").clear();
     }
   }),
 
