@@ -628,7 +628,8 @@ export default {
     process_from: "From which location are you processing goods?",
     recycle_from: "Which location are you recycling from?",
     trash_from: "Which location are you trashing from?",
-    loss_from: "Which location is having its quantity corrected?"
+    loss_from: "Which location is having its quantity corrected?",
+    gain_from: "Which location is having its quantity corrected?"
   },
 
   footer: {
