@@ -4,7 +4,7 @@ import _ from "lodash";
 import SearchMixin from "stock/mixins/search_resource";
 
 export default Ember.Controller.extend(SearchMixin, {
-  queryParams: ["searchInput"],
+  // queryParams: ["searchInput"],
   hideDetailsLink: true,
   settings: Ember.inject.service(),
 
