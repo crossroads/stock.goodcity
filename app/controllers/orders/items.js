@@ -4,7 +4,6 @@ import _ from "lodash";
 import SearchMixin from "stock/mixins/search_resource";
 
 export default Ember.Controller.extend(SearchMixin, {
-  // queryParams: ["searchInput"],
   hideDetailsLink: true,
   settings: Ember.inject.service(),
 
@@ -21,18 +20,6 @@ export default Ember.Controller.extend(SearchMixin, {
       restrictMultiQuantity: this.get("settings.onlyDesignateSingletons")
     };
   },
-
-  scannedItemWatcher: Ember.observer("searchInput", function() {
-    const searchInput = this.get("searchInput") || "";
-    const sanitizedString = this.sanitizeString(searchInput);
-    if (sanitizedString) {
-      this.set("searchText", sanitizedString);
-    }
-  }),
-
-  scannedTextWatcher: Ember.observer("searchText", function() {
-    this.set("searchInput", this.get("searchText"));
-  }),
 
   triggerDisplayDesignateOverlay() {
     this.set("autoDisplayOverlay", true);
@@ -54,6 +41,10 @@ export default Ember.Controller.extend(SearchMixin, {
         .then(results => {
           return results;
         });
+    },
+
+    setScannedSearchText(searchedText) {
+      this.set("searchText", searchedText);
     },
 
     clearSearch() {
