@@ -58,11 +58,23 @@ export default SingletonComponent.extend(SearchMixin, {
 
     loadMoreLocations(pageNo) {
       if (this.isValidTextLength()) {
-        const params = this.trimQuery(
-          _.merge({}, this.getSearchQuery(), this.getPaginationQuery(pageNo))
-        );
+        if (this.get("presetLocations.length")) {
+          let searchText = this.getSearchQuery().searchText.toLowerCase();
+          return this.get("presetLocations").filter(function(location) {
+            return (
+              location
+                .get("name")
+                .toLowerCase()
+                .indexOf(searchText) > -1
+            );
+          });
+        } else {
+          const params = this.trimQuery(
+            _.merge({}, this.getSearchQuery(), this.getPaginationQuery(pageNo))
+          );
 
-        return this.get("store").query("location", params);
+          return this.get("store").query("location", params);
+        }
       }
     }
   }
