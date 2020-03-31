@@ -29,15 +29,15 @@
     class="tab publishing divided large {{if (is-equal tabName 'publishing') 'selected'}}">
     <div class="subtab">
       <div class="icon-holder">{{fa-icon 'paper-plane' size="lg"}}</div>
-      <div class="text-holder"> {{ model.totalDispatchedQty }} </div>
+      <div class="text-holder"> {{ model.dispatchedQuantity }} </div>
     </div>
     <div class="subtab">
       <div class="icon-holder">{{fa-icon 'shopping-basket' size="lg"}}</div>
-      <div class="text-holder"> {{ model.totalDesignatedQty }} </div>
+      <div class="text-holder"> {{ model.designatedQuantity }} </div>
     </div>
     <div class="subtab">
       <div class="icon-holder">{{fa-icon (if model.allowWebPublish 'eye' 'eye-slash') size="lg"}}</div>
-      <div class="text-holder"> {{ model.availableQty }} </div>
+      <div class="text-holder"> {{ model.availableQuantity }} </div>
     </div>
   </div>
 </div>

@@ -124,7 +124,11 @@ export default {
     contact_last_seen: "Last seen",
     contact_registered: "Registered",
     submitted_by: "Submitted By",
-    total_requests: "Total requests"
+    total_requests: "Total requests",
+    country: "Country",
+    shipment_number: "Shipment number",
+    people_helped: "Number benefiting",
+    description: "Description of need"
   },
   order_tabs: {
     summary: "Summary",
@@ -311,6 +315,9 @@ export default {
   order_transports: {
     online_order: "Online Order",
     appointment: "Appointment",
+    shipment: "Shipment",
+    carry_out: "Carry Out",
+    stockit_local_order: "Local Order",
     unknown_transport: "Other"
   },
   order: {
@@ -376,7 +383,7 @@ export default {
       title: "Request Purpose",
       purpose: "Purpose of Goods",
       for_organisation: "No - order for organisation's own programs",
-      for_client: "Yes - order is for a client/benificiary",
+      for_client: "Yes - order is for a client/beneficiary",
       people_count_info: "How many people will benefit from these items?",
       district_label: "Where in Hong Kong will these goods be primarily used?",
       district_label_info: "This assists us with our reporting.",
@@ -491,7 +498,8 @@ export default {
     already_dispatched: "All designated Items are already dispatched",
     multiple: "Multiple",
     dispatch_message: "Are you sure you want to dispatch this Item?",
-    related_orders: "Related Orders"
+    related_orders: "Related Orders",
+    action_by_user: "By {{userName}}"
   },
   orders_package: {
     actions: {
@@ -616,7 +624,12 @@ export default {
     pick_to_location: "Select DESTINATION",
     moving_item_to: "Moving this item to ",
     quantity_input: "Input the quantity to move ",
-    dispatch_from: "Where to dispatch the package from ?"
+    dispatch_from: "Where to dispatch the package from ?",
+    process_from: "From which location are you processing goods?",
+    recycle_from: "Which location are you recycling from?",
+    trash_from: "Which location are you trashing from?",
+    loss_from: "Which location is having its quantity corrected?",
+    gain_from: "Which location is having its quantity corrected?"
   },
 
   footer: {
@@ -742,6 +755,13 @@ export default {
         quantity: "Quantity cannot be blank.",
         blank_notification: "Location cannot be blank."
       }
+    },
+    actions: {
+      process: "Process",
+      loss: "Loss (decrease)",
+      trash: "Trash",
+      recycle: "Recycle",
+      gain: "Gain (increase)"
     }
   },
   modify_designation: {

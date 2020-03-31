@@ -10,6 +10,7 @@ import MoveActions from "stock/mixins/move_actions";
 import DesignationActions from "stock/mixins/designation_actions";
 import StorageTypes from "stock/mixins/storage-type";
 import AsyncMixin from "stock/mixins/async";
+import ItemActions from "stock/mixins/item_actions";
 import _ from "lodash";
 import SearchMixin from "stock/mixins/search_resource";
 
@@ -21,6 +22,7 @@ export default GoodcityController.extend(
   DesignationActions,
   StorageTypes,
   AsyncMixin,
+  ItemActions,
   SearchMixin,
   {
     isMobileApp: config.cordova.enabled,
@@ -46,11 +48,12 @@ export default GoodcityController.extend(
     settings: Ember.inject.service(),
     packageService: Ember.inject.service(),
     locationService: Ember.inject.service(),
+    settings: Ember.inject.service(),
     displayScanner: false,
-    designateFullSet: Ember.computed.localStorage(),
     callOrderObserver: false,
     showSetList: false,
     hideDetailsLink: true,
+    displayItemOptions: false,
     fields: additionalFields,
     fixedDropdownArr: [
       "frequencyId",
@@ -61,6 +64,13 @@ export default GoodcityController.extend(
     currentRoute: Ember.computed.alias("application.currentPath"),
     pkg: Ember.computed.alias("model"),
     showPieces: Ember.computed.alias("model.code.allow_pieces"),
+    allowItemActions: Ember.computed.alias("settings.allowItemActions"),
+
+    sortActionsBy: ["id:desc"],
+    sortedItemActions: Ember.computed.sort(
+      "model.itemActions",
+      "sortActionsBy"
+    ),
 
     isItemDetailPresent() {
       return !!this.get("item.detail.length");
@@ -133,14 +143,14 @@ export default GoodcityController.extend(
 
     allowPublish: Ember.computed(
       "model.isSingletonItem",
-      "model.availableQty",
+      "model.availableQuantity",
       "isBoxOrPallet",
       function() {
         if (this.get("isBoxOrPallet")) {
           return false;
         }
 
-        const qty = this.get("model.availableQty");
+        const qty = this.get("model.availableQuantity");
         if (this.get("settings.onlyPublishSingletons")) {
           return qty === 1;
         }
@@ -421,8 +431,18 @@ export default GoodcityController.extend(
           this.set("previousValue", country.id);
         }
       },
+
       onSearch(field, searchText) {
         this.onSearchCountry(field, searchText);
+      },
+
+      toggleItemOptions() {
+        this.toggleProperty("displayItemOptions");
+      },
+
+      triggerItemAction(pkg, actionName) {
+        this.toggleProperty("displayItemOptions");
+        this.send("beginAction", pkg, actionName);
       }
     }
   }

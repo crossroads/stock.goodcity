@@ -9,7 +9,6 @@ export default AuthorizeRoute.extend({
     searchInput: ""
   },
 
-  designateFullSet: Ember.computed.localStorage(),
   partial_qnty: Ember.computed.localStorage(),
 
   previousPage(transition) {
@@ -40,7 +39,6 @@ export default AuthorizeRoute.extend({
 
   setupController(controller, model = {}) {
     this._super(controller, model);
-    this.set("designateFullSet", false);
     this.set("partial_qnty", 0);
     controller.set("itemSetId", this.paramsFor("items.index").itemSetId);
     controller.on();
@@ -49,7 +47,6 @@ export default AuthorizeRoute.extend({
 
   afterModel() {
     this.set("partial_qnty", 0);
-    this.set("designateFullSet", false);
   },
 
   resetController(controller, isExiting) {

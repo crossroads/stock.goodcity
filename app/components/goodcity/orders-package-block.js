@@ -113,7 +113,8 @@ export default Ember.Component.extend(AsyncMixin, DispatchActions, {
   selectQuantity() {
     const deferred = Ember.RSVP.defer();
     const maxQuantity =
-      this.get("orderPkg.quantity") + this.get("orderPkg.item.availableQty");
+      this.get("orderPkg.quantity") +
+      this.get("orderPkg.item.availableQuantity");
 
     this.set(
       "designationQty",

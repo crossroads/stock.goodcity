@@ -184,7 +184,7 @@
       <div class="row">
         <div class="small-3 columns item-label">{{t "items.new.labels"}}</div>
         <div class="small-3 columns">
-          {{input type="number" id="labels" name="labels" value=labels placeholder="labels" maxlength="3" pattern="\d{1,8}"}}
+          {{numeric-input name="labels" id="labels" value=labels maxlength="3" pattern="\d{1,8}" acceptZeroValue="true"}}
           {{#if isInvalidaLabelCount}}
             <div id="label-empty-err" class='input-error show-validation'>
               {{t "items.new.validation_errors.blank_label"}}

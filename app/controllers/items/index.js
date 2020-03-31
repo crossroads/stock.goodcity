@@ -78,11 +78,7 @@ export default Ember.Controller.extend(SearchMixin, {
         )
       );
 
-      return this.get("store")
-        .query("item", params)
-        .then(results => {
-          return results;
-        });
+      return this.get("store").query("item", params);
     },
 
     clearSearch() {

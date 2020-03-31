@@ -7,10 +7,9 @@ export default getOrderRoute.extend({
 
   setupController(controller, model) {
     this._super(controller, model);
-    controller.set(
-      "searchText",
-      this.paramsFor("orders.items").searchInput || ""
-    );
+    if (this.paramsFor("orders.items").searchInput) {
+      controller.set("searchText", this.paramsFor("orders.items").searchInput);
+    }
   },
 
   resetController(controller) {

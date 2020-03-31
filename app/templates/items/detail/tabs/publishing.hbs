@@ -6,9 +6,9 @@
       {{else}}
         {{fa-icon 'eye-slash'}}
       {{/if}}
-      {{t 'partial_undesignate.available' }} ({{ model.availableQty }})
+      {{t 'partial_undesignate.available' }} ({{ model.availableQuantity }})
     </div>
-    <div class="row action-row">
+    <div class="row action-row gc-orders-package-block">
       <div class="small-6 columns">
         {{toggle-switch
             disabled=(unless allowPublish true)
@@ -20,12 +20,16 @@
             after-change=(action 'persistModel')
         }}
       </div>
-      <div class="small-6 columns">
+      <div class="small-6 columns designate-options">
         {{#goodcity/designate-link pkg=item}}
           <button class="button">
             {{fa-icon 'shopping-basket'}} {{t 'item.designate'}}
           </button>
         {{/goodcity/designate-link}}
+
+        {{#if allowItemActions}}
+          {{partial "items/detail/tabs/item_options"}}
+        {{/if}}
       </div>
     </div>
   </div>
@@ -37,24 +41,42 @@
     </div>
     <div class="columns small-4">
       {{fa-icon 'paper-plane'}}
-      {{model.totalDispatchedQty}} {{t 'item_filters.dispatched' }}
+      {{model.dispatchedQuantity}} {{t 'item_filters.dispatched' }}
     </div>
     <div class="columns small-4">
       {{fa-icon 'eye'}}
-      {{model.totalDesignatedQty}} {{t 'item_filters.designated' }}
+      {{model.designatedQuantity}} {{t 'item_filters.designated' }}
     </div>
   </div>
 
-  <div class="row">
-    <div class="tab-title">
-      {{fa-icon 'shopping-basket'}}
-      {{t 'item.related_orders' }}
-    </div>
-
-    {{#each sortedOrdersPackages as |orderPkg|}}
-      <div class="row">
-        {{goodcity/orders-package-block orderPkg=orderPkg }}
+  {{#if sortedOrdersPackages}}
+    <div class="row">
+      <div class="tab-title">
+        {{fa-icon 'shopping-basket'}}
+        {{t 'item.related_orders' }}
       </div>
-    {{/each}}
-  </div>
+
+      {{#each sortedOrdersPackages as |orderPkg|}}
+        <div class="row">
+          {{goodcity/orders-package-block orderPkg=orderPkg }}
+        </div>
+      {{/each}}
+    </div>
+  {{/if}}
+
+  {{#if allowItemActions}}
+    {{#if sortedItemActions}}
+      <div class="row">
+        <div class="tab-title">
+          {{fa-icon 'random'}}
+          Actions History
+        </div>
+
+        {{#each sortedItemActions as |itemAction|}}
+        {{goodcity/item-action-block action=itemAction }}
+        {{/each}}
+      </div>
+    {{/if}}
+  {{/if}}
+
 </div>

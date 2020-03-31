@@ -6,5 +6,13 @@
 </section>
 
 <section class="middle tab-bar-section">
-  <h1 class="title">{{t "order_details.order"}} {{model.code}}</h1>
+  {{#if model.isShipmentOrder}}
+    <h1 class="title"> {{model.code}}
+      {{#if model.countryName}}
+        - {{model.countryName}}
+      {{/if}}
+    </h1>
+  {{else}}
+    <h1 class="title">{{t "order_details.order"}} {{model.code}}</h1>
+  {{/if}}
 </section>

@@ -108,6 +108,7 @@ export default detail.extend({
     sendMessage() {
       Ember.$("textarea").trigger("blur");
       var values = this.getProperties("body");
+      values.body = values.body.trim();
       values.designation = this.get("model");
       values.createdAt = new Date();
       values.isPrivate = this.get("isPrivate");

@@ -23,7 +23,8 @@
     }
   }
 
-  .id-type-radio-input{
+  .id-type-radio-input,
+  .time_inputs {
     margin-left: 0;
     margin-right: 0;
 
@@ -32,23 +33,29 @@
       padding: .4rem;
       margin-top: 1rem;
       height: 2.7rem;
+
+      @media #{$small-only} {
+        padding: .7rem;
+      }
+
       input[type=radio] {
         margin: 0 0 0 0px;
         display: inline-block;
         margin-left: 10px;
-        margin-top: 1.2% !important;
         position: absolute;
         width: 2em;
         height: 2em;
       }
       label {
-        @media #{$small-only} {
-          font-size: 0.6rem;
-          margin-top: 0 !important;
-        }
         font-size: 0.8rem !important;
         margin-top: 0.4rem !important;
         margin-left: 3rem;
+
+        @media #{$small-only} {
+          font-size: 0.7rem !important;
+          margin-top: 0 !important;
+          margin-left: 2rem;
+        }
       }
     }
   }
@@ -96,7 +103,7 @@ div .hk-id{
     height: 2.7rem;
     padding: 0 0.5rem;
     width: 97%;
-    background: #002352t;
+    background: #002352;
     border: 1px solid $tabbar-menu-icon-color;
     color: white;
     height: 2.7rem !important;
@@ -109,12 +116,23 @@ div .hk-id{
 
   label{
     font-size: 1.8rem;
+
+    @media #{$small-only} {
+      font-size: 1.3rem;
+      line-height: 2.1;
+    }
   }
   .hk-id-input{
     width: 25%
   }
   .x-with-brackets{
     font-size: 1.7rem;
+
+    @media #{$small-only} {
+      font-size: 1.3rem;
+      line-height: 2;
+      padding-left: 1rem;
+    }
   }
 
   .rbcl_type {
@@ -150,6 +168,12 @@ div .hk-id{
   }
 }
 
+.client_title {
+  @media #{$small-only} {
+    padding: 0 !important;
+  }
+}
+
 .client_title, .client_last_name, .client_first_name{
   label.select:after {
     content: none !important;
@@ -167,7 +191,7 @@ div .hk-id{
     margin-bottom: 0;
   }
 
-  input{
+  input, select{
     margin-top: 0.3rem;
   }
 
@@ -176,6 +200,14 @@ div .hk-id{
       font-size: 0.8rem;
     }
   }
+
+  select {
+    @media #{$small-only} {
+      font-size: 1rem;
+    }
+  }
+
+
 }
 
 .goods_details{
