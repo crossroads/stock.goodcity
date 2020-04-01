@@ -4327,7 +4327,7 @@ cordova-lib@7.1.0:
 
 "cordova-lib@https://github.com/crossroads/goodcity-lib.git#master":
   version "0.0.0"
-  resolved "https://github.com/crossroads/goodcity-lib.git#82afec3e190b356793755f303d8006c4fa08eeac"
+  resolved "https://github.com/crossroads/goodcity-lib.git#f25b748e196eead8b4b9cd3e225c8b93ba6560cc"
   dependencies:
     bower "^1.8.8"
     codeclimate-test-reporter "^0.5.0"
@@ -4336,7 +4336,7 @@ cordova-lib@7.1.0:
     ember-cli-babel "^5.1.6"
     extend "^3.0.2"
     hoek "^4.2.1"
-    lodash "^4.17.11"
+    lodash "^4.17.12"
     merge "^1.2.1"
     minimatch "^3.0.2"
     morgan "^1.9.1"
