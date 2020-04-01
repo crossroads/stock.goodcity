@@ -76,6 +76,8 @@ Router.map(function() {
       this.route("new", { path: "/:organisation_id/users/new" });
     }
   );
+
+  this.route("not-found", { path: "/*path" });
 });
 
 export default Router;
