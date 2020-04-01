@@ -41,6 +41,17 @@ export default SingletonComponent.extend(SearchMixin, {
       .slice(0, 10);
   }),
 
+  isLocationPresent(searchText) {
+    return function(location) {
+      return (
+        location
+          .get("name")
+          .toLowerCase()
+          .indexOf(searchText) > -1
+      );
+    };
+  },
+
   actions: {
     cancel() {
       this.send("selectLocation", null);
@@ -57,24 +68,21 @@ export default SingletonComponent.extend(SearchMixin, {
     },
 
     loadMoreLocations(pageNo) {
-      if (this.isValidTextLength()) {
-        if (this.get("presetLocations.length")) {
-          let searchText = this.getSearchQuery().searchText.toLowerCase();
-          return this.get("presetLocations").filter(function(location) {
-            return (
-              location
-                .get("name")
-                .toLowerCase()
-                .indexOf(searchText) > -1
-            );
-          });
-        } else {
-          const params = this.trimQuery(
-            _.merge({}, this.getSearchQuery(), this.getPaginationQuery(pageNo))
-          );
+      if (!this.isValidTextLength()) {
+        return;
+      }
 
-          return this.get("store").query("location", params);
-        }
+      if (this.get("presetLocations.length")) {
+        let searchText = this.getSearchQuery().searchText.toLowerCase();
+        return this.get("presetLocations").filter(
+          this.isLocationPresent(searchText)
+        );
+      } else {
+        const params = this.trimQuery(
+          _.merge({}, this.getSearchQuery(), this.getPaginationQuery(pageNo))
+        );
+
+        return this.get("store").query("location", params);
       }
     }
   }
