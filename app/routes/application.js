@@ -65,12 +65,19 @@ export default Ember.Route.extend(AsyncMixin, preloadDataMixin, {
   showItemIsNotAvailable() {
     this.set("isItemUnavailable", true);
 
-    if (this.get("target") && this.get("target").currentPath !== "index") {
-      this.get("messageBox").alert("This item is not available.", () => {
-        this.set("isItemUnavailable", false);
-        this.transitionTo("items.index");
-      });
-    }
+    this.get("messageBox").alert(this.get("i18n").t("unavailable_item"), () => {
+      this.set("isItemUnavailable", false);
+      this.transitionTo("items.index");
+    });
+  },
+
+  showOrderIsNotAvailable() {
+    this.get("messageBox").alert(
+      this.get("i18n").t("unavailable_order"),
+      () => {
+        this.transitionTo("orders.index");
+      }
+    );
   },
 
   redirectToLogin() {
@@ -149,6 +156,12 @@ export default Ember.Route.extend(AsyncMixin, preloadDataMixin, {
           !this.get("isItemUnavailable")
         ) {
           this.showItemIsNotAvailable();
+        } else if (
+          reason.message &&
+          reason.message.indexOf("/designations/") >= 0 &&
+          reason.message.indexOf("404") >= 0
+        ) {
+          this.showOrderIsNotAvailable();
         } else {
           this.showErrorPopup(reason);
         }
