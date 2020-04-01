@@ -19,9 +19,20 @@ export default SingletonComponent.extend(SearchMixin, {
   store: Ember.inject.service(),
   perPage: 10,
 
+  showRecentlyUsed: Ember.computed.not("searchText"),
+  headerText: Ember.computed.alias("options.headerText"),
+  presetLocations: Ember.computed.alias("options.presetLocations"),
+
   init() {
     this._super("location-search-overlay");
   },
+
+  onSearchTextChange: Ember.observer("searchText", function() {
+    this.hideResults();
+    if (this.get("searchText").length) {
+      Ember.run.debounce(this, this.showResults, 500);
+    }
+  }),
 
   recentlyUsedLocations: Ember.computed("open", function() {
     return this.get("store")
@@ -30,10 +41,16 @@ export default SingletonComponent.extend(SearchMixin, {
       .slice(0, 10);
   }),
 
-  showRecentlyUsed: Ember.computed.not("searchText"),
-
-  headerText: Ember.computed.alias("options.headerText"),
-  presetLocations: Ember.computed.alias("options.presetLocations"),
+  isLocationPresent(searchText) {
+    return function(location) {
+      return (
+        location
+          .get("name")
+          .toLowerCase()
+          .indexOf(searchText) > -1
+      );
+    };
+  },
 
   actions: {
     cancel() {
@@ -51,11 +68,22 @@ export default SingletonComponent.extend(SearchMixin, {
     },
 
     loadMoreLocations(pageNo) {
-      const params = this.trimQuery(
-        _.merge({}, this.getSearchQuery(), this.getPaginationQuery(pageNo))
-      );
+      if (!this.isValidTextLength()) {
+        return;
+      }
 
-      return this.get("store").query("location", params);
+      if (this.get("presetLocations.length")) {
+        let searchText = this.getSearchQuery().searchText.toLowerCase();
+        return this.get("presetLocations").filter(
+          this.isLocationPresent(searchText)
+        );
+      } else {
+        const params = this.trimQuery(
+          _.merge({}, this.getSearchQuery(), this.getPaginationQuery(pageNo))
+        );
+
+        return this.get("store").query("location", params);
+      }
     }
   }
 });
