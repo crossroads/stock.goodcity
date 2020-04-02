@@ -55,10 +55,10 @@ export default Ember.Component.extend(AsyncMixin, {
       const quantity = this.elementValue();
       const item = this.get("item");
 
-      // if (+quantity < 1 || +quantity >= +item.get("availableQuantity")) {
-      //   this.set("showErrorMessage", true);
-      //   return false;
-      // }
+      if (+quantity < 1 || +quantity >= +item.get("availableQuantity")) {
+        this.set("showErrorMessage", true);
+        return false;
+      }
 
       this.set("showErrorMessage", false);
 
