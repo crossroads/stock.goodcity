@@ -40,16 +40,24 @@
         </div>
         <div class="item-summary">
           <div class="content item-img">
-            <img src={{model.thumbImageUrl}} class="thumb" />
+            {{#if favouriteImage}}
+              <div id="itemImage">
+                {{image-zoom item=model }}
+              </div>
+            {{else}}
+              {{#link-to 'items.detail' model.id}}
+                <img src={{blankImage}} />
+              {{/link-to}}
+            {{/if}}
           </div>
-          <div class="content item-description">
+          {{#link-to 'items.detail' model.id tagName='div' class="content item-description"}}
             <div>
               {{model.notes}}
             </div>
             <div>
               {{model.notes}}
             </div>
-          </div>
+          {{/link-to}}
         </div>
       </div>
     </div>
