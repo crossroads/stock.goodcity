@@ -24,7 +24,7 @@ export default detail.extend({
 
   checklist: Ember.computed(
     "model.bookingTypeId",
-    "model.ordersProcessChecklistIds",
+    "model.ordersProcessChecklists.[]",
     function() {
       let checklistService = this.get("processingChecklist");
       let order = this.get("model");
