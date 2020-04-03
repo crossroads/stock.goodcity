@@ -1,7 +1,7 @@
 <div class="set-list">
   {{#each item.setItem.items as |item|}}
     <a {{action 'selectItem' item}}>
-      {{partial 'orders/item_block_without_link'}}
+      {{item-summary model=item}}
     </a>
   {{/each}}
 </div>
