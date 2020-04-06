@@ -41,9 +41,11 @@
         <div class="item-summary">
           <div class="content item-img">
             {{#if favouriteImage}}
-              <div id="itemImage">
-                {{image-zoom item=model }}
-              </div>
+              {{#let-alias compositeParentId as |parentId|}}
+                <div id={{parentId}}>
+                  {{image-zoom item=model parentId=parentId}}
+                </div>
+              {{/let-alias}}
             {{else}}
               {{#link-to 'items.detail' model.id}}
                 <img src={{blankImage}} />

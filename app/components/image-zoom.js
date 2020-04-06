@@ -5,6 +5,7 @@ export default Ember.Component.extend({
   lightGallery: null,
   item: null,
   isMobileApp: config.cordova.enabled,
+  parentId: "itemImage",
 
   imageUrls: Ember.computed("item.id", function() {
     if (this.get("item.isSet")) {
@@ -22,10 +23,10 @@ export default Ember.Component.extend({
 
   didInsertElement() {
     if (!this.get("isMobileApp")) {
-      var _this = this;
+      const parentId = `#${this.get("parentId")}`;
       this._super();
-      Ember.run.scheduleOnce("afterRender", this, function() {
-        var lightGallery = Ember.$("#itemImage").lightGallery({
+      Ember.run.scheduleOnce("afterRender", this, () => {
+        const lightGallery = Ember.$(parentId).lightGallery({
           mode: "lg-slide",
           zoom: true,
           download: false,
@@ -38,16 +39,14 @@ export default Ember.Component.extend({
           enableDrag: true,
           selector: ".imageZoom"
         });
-        _this.set("lightGallery", lightGallery);
+        this.set("lightGallery", lightGallery);
       });
     }
   },
 
   willDestroyElement() {
     if (!this.get("isMobileApp")) {
-      Ember.$("#itemImage")
-        .data("lightGallery")
-        .destroy(true);
+      this.destroy();
     }
   }
 });

@@ -1,7 +1,5 @@
 <div class="set-list">
-  {{#each item.setItem.items as |item|}}
-    <a {{action 'selectItem' item}}>
-      {{item-summary model=item}}
-    </a>
+  {{#each item.setItem.items as |item index|}}
+    {{item-summary model=item parentId=index}}
   {{/each}}
 </div>
