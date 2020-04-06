@@ -1,9 +1,11 @@
 import Ember from "ember";
 import AjaxPromise from "stock/utils/ajax-promise";
+import AsyncMixin, { ERROR_STRATEGIES } from "stock/mixins/async";
 const { getOwner } = Ember;
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(AsyncMixin, {
   messageBox: Ember.inject.service(),
+  packageService: Ember.inject.service(),
   store: Ember.inject.service(),
   displayChooseQtyOverlay: false,
   showErrorMessage: false,
@@ -49,37 +51,23 @@ export default Ember.Component.extend({
       this.setValueIfValid(decrementedValue, decrementedValue >= 1);
     },
 
-    splitItems() {
-      const value = this.elementValue();
-      let item = this.get("item");
-      if (+value < 1 || +value >= +item.get("availableQuantity")) {
+    async splitItems() {
+      const quantity = this.elementValue();
+      const item = this.get("item");
+
+      if (+quantity < 1 || +quantity >= +item.get("availableQuantity")) {
         this.set("showErrorMessage", true);
         return false;
       }
+
       this.set("showErrorMessage", false);
-      let loadingView = getOwner(this)
-        .lookup("component:loading")
-        .append();
-      new AjaxPromise(
-        `/items/${item.id}/split_item`,
-        "PUT",
-        this.get("session.authToken"),
-        { package: { quantity: value } }
-      )
-        .then(data => {
-          this.get("store").pushPayload(data);
-        })
-        .catch(error => {
-          if (error.status === 422) {
-            var errors = Ember.$.parseJSON(error.responseText).errors;
-            this.get("messageBox").alert(errors);
-          }
-        })
-        .finally(() => {
-          this.resetValue();
-          this.set("displayChooseQtyOverlay", false);
-          loadingView.destroy();
-        });
+
+      await this.runTask(() => {
+        return this.get("packageService").splitPackage(item, quantity);
+      }, ERROR_STRATEGIES.MODAL);
+
+      this.resetValue();
+      this.set("displayChooseQtyOverlay", false);
     }
   }
 });

@@ -28,7 +28,9 @@ export const ERROR_STRATEGIES = {
   /** Will display the error message in a modal */
   MODAL: 2,
   /** Will let the error go through */
-  RAISE: 3
+  RAISE: 3,
+  /** Will push the error to rollbar */
+  ROLLBAR: 4
 };
 
 export default Ember.Mixin.create({
@@ -67,6 +69,24 @@ export default Ember.Mixin.create({
     if (errorStrategy === ERROR_STRATEGIES.MODAL) {
       return this.showErrorPopup(err);
     }
+
+    if (errorStrategy === ERROR_STRATEGIES.ROLLBAR) {
+      const errData = this.__toErrorSummary(err);
+      this.get("logger").notifyErrorCollector(errData);
+      console.error(errData);
+      return;
+    }
+  },
+
+  __toErrorSummary(error) {
+    if (_.isString(error)) {
+      return { message: error, details: {} };
+    }
+
+    return {
+      message: this.__toErrorMessage(error),
+      details: _.isError(error) ? { stack: error.stack } : error
+    };
   },
 
   __toErrorMessage(reason) {
@@ -74,6 +94,10 @@ export default Ember.Mixin.create({
 
     if (reason && reason.responseJSON) {
       reason = reason.responseJSON;
+    }
+
+    if (_.isString(reason)) {
+      return reason;
     }
 
     return (

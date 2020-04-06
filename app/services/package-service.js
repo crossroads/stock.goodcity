@@ -99,8 +99,8 @@ export default ApiBaseService.extend({
    * @param {Package} pkg the package to move
    * @param {object} opts the move properties
    * @param {Location|string} opts.from the source location or its id
-   * @param {quantity} opts.quantity the quantity to move
-   * @param {comment} opts.comment the comment of package action
+   * @param {number} opts.quantity the quantity to move
+   * @param {string} opts.comment the comment of package action
    * @returns {Promise<Model>}
    */
   async peformActionOnPackage(pkg, opts = {}) {
@@ -118,5 +118,22 @@ export default ApiBaseService.extend({
     this.get("store").pushPayload(payload);
 
     return this.get("store").peekRecord("item", pkg.get("id"));
+  },
+
+  /**
+   * Splits a package into 2 separate packages
+   *
+   * @param {Package} pkg the package to split
+   * @param {number} quantity the quantity to split off from the original
+   * @returns {Promise<Package>}
+   */
+  async splitPackage(pkg, quantity) {
+    const payload = await this.PUT(`/items/${toID(pkg)}/split_item`, {
+      package: { quantity }
+    });
+
+    this.get("store").pushPayload(payload);
+
+    return this.get("store").peekRecord("item", toID(pkg));
   }
 });
