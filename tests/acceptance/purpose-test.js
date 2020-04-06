@@ -13,7 +13,7 @@ import FactoryGuy from "ember-data-factory-guy";
 import { mockFindAll } from "ember-data-factory-guy";
 import MockUtils from "../helpers/mock-utils";
 
-var App, beneficiary;
+var App, beneficiary, location, code;
 
 module("Acceptance: Order Client summary", {
   beforeEach: function() {
@@ -27,12 +27,19 @@ module("Acceptance: Order Client summary", {
     beneficiary = FactoryGuy.make("beneficiary", {
       identity_type: FactoryGuy.make("identity_type")
     });
+    location = FactoryGuy.make("location");
+    code = FactoryGuy.make("code", { location: location });
     const designation = FactoryGuy.make("designation", {
       detailType: "GoodCity",
       code: "GC-00001",
+      beneficiaryId: beneficiary.id,
       beneficiary
     }).toJSON({ includeId: true });
 
+    MockUtils.mock({
+      url: "/api/v1/beneficiar*",
+      responseText: { beneficiary: beneficiary }
+    });
     MockUtils.mockWithRecords("designation", [designation]);
     MockUtils.mockWithRecords(
       "cancellation_reason",
