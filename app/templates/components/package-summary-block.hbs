@@ -4,7 +4,7 @@
       <div class="bottom-header">
         <div class="tab-container">
           {{#link-to 'items.detail' model.id tagName='span' class="tab small"}}
-            <div class="icon-holder">{{fa-icon 'tag' }}</div>
+            <div class="icon-holder">{{fa-icon (if model.isSet 'tags' (storage-icon model.storageTypeName))}}</div>
             <div class="text-holder">{{model.inventoryNumber}}</div>
           {{/link-to}}
 
