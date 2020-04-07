@@ -46,7 +46,7 @@ export default AuthorizeRoute.extend({
 
   isSubformAllowed(selectedSubform) {
     return (
-      ["computer", "electrical", "computer_accessory"].indexOf(
+      ["computer", "electrical", "computer_accessory", "medical"].indexOf(
         selectedSubform
       ) >= 0
     );

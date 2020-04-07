@@ -12,7 +12,9 @@ export default ApiBaseService.extend({
 
   isSubformAvailable(subformName) {
     return (
-      ["computer", "electrical", "computer_accessory"].indexOf(subformName) >= 0
+      ["computer", "electrical", "computer_accessory", "medical"].indexOf(
+        subformName
+      ) >= 0
     );
   },
 
