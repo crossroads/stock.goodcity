@@ -1,6 +1,5 @@
 import Ember from "ember";
-import config from "../../config/environment";
-import AjaxPromise from "stock/utils/ajax-promise";
+import config from "stock/config/environment";
 import GoodcityController from "../goodcity_controller";
 import SearchMixin from "stock/mixins/search_resource";
 import _ from "lodash";
@@ -13,9 +12,11 @@ export default GoodcityController.extend(AsyncMixin, SearchMixin, {
   cancelReasonLength: 180,
   otherCancellationReason: "",
   isMobileApp: config.cordova.enabled,
+  hkTimeZone: config.APP.HK_TIME_ZONE,
   order: Ember.computed.alias("model"),
   orderId: Ember.computed.alias("model.id"),
   showCancellationReason: false,
+
   hasUnreadMessages: Ember.computed("order", function() {
     return this.get("order.hasUnreadMessages");
   }),
@@ -231,7 +232,7 @@ export default GoodcityController.extend(AsyncMixin, SearchMixin, {
     openSchedulePopup() {
       const scheduledAt = this.get("model.orderTransport.scheduledAt");
       try {
-        const d = moment.tz(scheduledAt, "Asia/Hong_Kong");
+        const d = moment.tz(scheduledAt, this.get("hkTimeZone"));
         const timeString = d.format("hh:mmA");
 
         const currentTimeSlot = _.find(this.get("scheduleTimeSlots"), [
@@ -264,7 +265,7 @@ export default GoodcityController.extend(AsyncMixin, SearchMixin, {
         return this.showError("Please select a valid date and timeslot");
       }
 
-      date = moment.tz(date, "Asia/Hong_Kong");
+      date = moment.tz(date, this.get("hkTimeZone"));
       date.set({
         hour: ts.hours,
         minute: ts.minutes

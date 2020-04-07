@@ -1,6 +1,7 @@
 import detail from "./detail";
 import Ember from "ember";
 import _ from "lodash";
+import config from "stock/config/environment";
 
 const EMPTY_OPTION = {
   id: "-1",
@@ -9,6 +10,8 @@ const EMPTY_OPTION = {
 };
 
 export default detail.extend({
+  hkTimeZone: config.APP.HK_TIME_ZONE,
+
   stickyNote: {
     showCallToAction: true
   },
@@ -43,7 +46,7 @@ export default detail.extend({
       if (!date) {
         return this.get("i18n").t("order_details.logistics.pick_date");
       }
-      return moment.tz(date, "Asia/Hong_Kong").format("ddd MMM D");
+      return moment.tz(date, this.get("hkTimeZone")).format("ddd MMM D");
     }
   ),
 
@@ -87,7 +90,7 @@ export default detail.extend({
     return {
       label: this.get("i18n").t("order_details.logistics.scheduled"),
       text: moment
-        .tz(order.get("orderTransport.scheduledAt"), "Asia/Hong_Kong")
+        .tz(order.get("orderTransport.scheduledAt"), this.get("hkTimeZone"))
         .format("dddd Do MMMM hh:mm a"),
       action: "openSchedulePopup",
       icon: "clock",
