@@ -1,4 +1,4 @@
-.move-item-to-box {
+.move-item-to-box, .package-summary-block {
   .row {
     max-width: 768px;
     min-height: auto;
@@ -19,8 +19,10 @@
         align-items: center;
 
         .tab {
-          border: 2px solid $black;
+          border: 1px solid $black;
+          text-align: center;
           color: $white;
+          background-color: #002353;
           font-size: 0.8rem;
 
           svg {
@@ -79,11 +81,12 @@
 
           img {
             width: 100%;
-            height: 100%;
+            height: 120px;
           }
         }
 
         .item-description {
+          background-color: #002353;
           width: 76%;
           text-align: left;
           padding: 0.5rem;

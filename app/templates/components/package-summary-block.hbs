@@ -1,0 +1,65 @@
+<section class="package-summary-block">
+  <div class="row">
+    <div class="columns small-12">
+      <div class="bottom-header">
+        <div class="tab-container">
+          {{#link-to 'items.detail' model.id tagName='span' class="tab small"}}
+            <div class="icon-holder">{{fa-icon 'tag' }}</div>
+            <div class="text-holder">{{model.inventoryNumber}}</div>
+          {{/link-to}}
+
+          {{#link-to 'items.detail.location' model.id tagName='span' class="tab large"}}
+            <div class="icon-holder">{{fa-icon 'map-marker-alt' }}</div>
+            <div class="text-holder">
+              {{#if model.hasMultiLocations}}
+                {{t "item_status_bar.multiple"}}
+              {{else}}
+                {{#if model.firstAllLocationName}}
+                  {{model.firstAllLocationName}}
+                {{else}}
+                  N/A
+                {{/if}}
+              {{/if}}
+            </div>
+          {{/link-to}}
+
+          {{#link-to 'items.detail.publishing' model.id tagName='span' class="tab end large"}}
+            <div class="sub-tabs">
+              <div class="icon-holder">{{fa-icon 'paper-plane' }}</div>
+              <div class="text-holder">{{model.dispatchedQuantity}}</div>
+            </div>
+            <div class="sub-tabs">
+              <div class="icon-holder">{{fa-icon 'shopping-basket' }}</div>
+              <div class="text-holder">{{model.designatedQuantity }}</div>
+            </div>
+            <div class="sub-tabs">
+              <div class="icon-holder">{{fa-icon 'eye' }}</div>
+              <div class="text-holder">{{model.availableQuantity}}</div>
+            </div>
+          {{/link-to}}
+        </div>
+        <div class="item-summary">
+          <div class="content item-img">
+            {{#if favouriteImage}}
+              <div id={{compositeParentId}}>
+                {{image-zoom item=model}}
+              </div>
+            {{else}}
+              {{#link-to 'items.detail' model.id}}
+                <img src={{blankImage}} />
+              {{/link-to}}
+            {{/if}}
+          </div>
+          {{#link-to 'items.detail' model.id tagName='div' class="content item-description"}}
+            <div>
+              {{model.notes}}
+            </div>
+            <div>
+              {{model.notes}}
+            </div>
+          {{/link-to}}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
