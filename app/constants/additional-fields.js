@@ -13,7 +13,7 @@ export default {
       name: "brand",
       type: "text",
       autoComplete: true,
-      category: ["computer", "computer_accessory", "electrical"],
+      category: ["computer", "computer_accessory", "electrical", "medical"],
       addAble: true
     },
     {
@@ -22,7 +22,7 @@ export default {
       type: "text",
       autoComplete: false,
       value: "model",
-      category: ["computer", "computer_accessory", "electrical"],
+      category: ["computer", "computer_accessory", "electrical", "medical"],
       addAble: false
     },
     {
@@ -39,7 +39,7 @@ export default {
       name: "country",
       type: "number",
       autoComplete: true,
-      category: ["computer", "computer_accessory", "electrical"],
+      category: ["computer", "computer_accessory", "electrical", "medical"],
       addAble: false
     },
     {
