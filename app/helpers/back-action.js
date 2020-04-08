@@ -21,11 +21,11 @@ export default Ember.Helper.extend({
         return;
       }
 
-      const noHistory = window.history.length === 1;
+      const noHistory = [1, 2].includes(window.history.length);
       const deepLinked =
         document.referrer && document.referrer.indexOf(config.APP.ORIGIN) < 0;
 
-      if (deepLinked || noHistory) {
+      if (deepLinked || noHistory || document.referrer === "") {
         return this.get("router").replaceWith(fallbackRoute);
       }
 
