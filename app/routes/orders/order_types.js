@@ -26,11 +26,11 @@ export default detail.extend({
   }),
 
   loadDependencies(order) {
-    return Ember.RSVP.all(
-      order
-        .getWithDefault("ordersProcessChecklistIds", [])
-        .map(id => this.loadIfAbsent("orders_process_checklist", id))
-    );
+    return Ember.RSVP.all([
+      this.store.query("orders_process_checklist", {
+        order_id: order.get("id")
+      })
+    ]);
   },
 
   async afterModel(model) {
