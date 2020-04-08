@@ -113,6 +113,9 @@ module("Acceptance: Order details, logistics info", {
     mockResource("process_checklist*", {
       process_checklists: PROCESS_CHECKLIST
     });
+    mockResource("orders_process_checklist*", {
+      orders_process_checklists: []
+    });
     mockResource("gogovan_transport*", { gogovan_transports: ggvTransports });
     mockResource("designation*", {
       designations: designations,
