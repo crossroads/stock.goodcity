@@ -187,14 +187,24 @@
                   on-search=(action "onSearch" "country")}}
                   </div>
               {{else}}
-                {{additional-fields-input
-                id=field.name
-                name=field.name
-                type="text"
-                class="inline-input additional-input"
-                value=(mut (get (get selectedValuesDisplay field.name) 'tag'))
-                item=item detailType=item.detailType
-                detailId=item.detail.id onFocusOut=(action 'updateFields')}}
+                {{#if (is-equal field.type 'expiryDate')}}
+                {{log selectedExpiryDate}}
+                  {{date-picker
+                    name=field.name
+                    id=field.name
+                    value=selectedExpiryDate
+                    onSelect=(action 'setExpiryDate')
+                  }}
+                {{else}}
+                  {{additional-fields-input
+                    id=field.name
+                    name=field.name
+                    type="text"
+                    class="inline-input additional-input"
+                    value=(mut (get (get selectedValuesDisplay field.name) 'tag'))
+                    item=item detailType=item.detailType
+                    detailId=item.detail.id onFocusOut=(action 'updateFields')}}
+                {{/if}}
               {{/if}}
             {{/form-control}}
           </div>

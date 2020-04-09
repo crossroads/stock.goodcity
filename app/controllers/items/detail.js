@@ -102,6 +102,13 @@ export default GoodcityController.extend(
       }
     }).volatile(),
 
+    selectedExpiryDate: Ember.computed("item.detail", function() {
+      const expiryDate = this.get("item.detail.expiry_date");
+      if (expiryDate) {
+        return expiryDate;
+      }
+    }),
+
     returnSelectedValues(selectedValues) {
       let dataObj = {
         ...this.get("subformDataObject")

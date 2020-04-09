@@ -31,7 +31,7 @@ export default {
       type: "text",
       value: "serialNum",
       autoComplete: false,
-      category: ["computer", "computer_accessory", "medical"],
+      category: ["computer", "computer_accessory"],
       addAble: false
     },
     {
@@ -188,7 +188,7 @@ export default {
       type: "text",
       value: "serialNumber",
       autoComplete: false,
-      category: ["electrical"],
+      category: ["electrical", "medical"],
       addAble: false
     },
     {
@@ -217,6 +217,13 @@ export default {
       value: "standard",
       category: ["electrical"],
       addAble: true
+    },
+    {
+      label: "Expiry Date",
+      name: "expiry_date",
+      type: "expiryDate",
+      value: "expiry_date",
+      category: ["medical"]
     }
   ]
 };

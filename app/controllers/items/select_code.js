@@ -55,7 +55,7 @@ export default SearchCode.extend({
 
   isSubformPackage(packageType) {
     return (
-      ["computer", "computer_accessory", "electrical"].indexOf(
+      ["computer", "computer_accessory", "electrical", "medical"].indexOf(
         packageType.get("subform")
       ) >= 0
     );
