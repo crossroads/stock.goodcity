@@ -198,6 +198,7 @@
 
           .Searchable-select__options-list {
             li {
+              background-color: #000;
               padding: 0.6em 1.2em;
 
               .Searchable-select__icon {
@@ -207,8 +208,16 @@
           }
 
           .dropdown-wrapper {
+            color: #fff;
+            $dropdown-body: #000000;
+
+            .Searchable-select__search{
+              background-color: $dropdown-body;
+            }
+
             .Searchable-select__menu {
               z-index: 110;
+              background-color: $dropdown-body;
             }
 
             .Searchable-select__label {
