@@ -26,6 +26,7 @@ export default cloudinaryUrl.extend({
   pieces: attr("number"),
   packageTypeId: attr("number"),
   offerId: attr("number"),
+  expiryDate: attr("date"),
 
   onHandQuantity: attr("number"),
   availableQuantity: attr("number"),

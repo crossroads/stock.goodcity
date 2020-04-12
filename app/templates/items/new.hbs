@@ -162,6 +162,22 @@
       {{/if}}
     </div>
     <div class="row">
+      {{#if code.allowExpiryDate}}
+        <div class="small-3 columns item-label">
+          {{t "items.new.expiry_date"}}
+        </div>
+        <div class="small-3 columns weight">
+          {{calendar-input
+            name='expiry_date'
+            id='expiry_date'
+            value=''
+            selection=expiry_date
+            placeholder='Select Expiry'
+            pattern="[a-zA-Z]{3}\s?[a-zA-Z]{3}\s?[0-9]{1,2}"}}
+        </div>
+      {{/if}}
+    </div>
+    <div class="row">
       <div class="small-3 columns item-label">
         {{t 'item_details.saleable'}}
       </div>

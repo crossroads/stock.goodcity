@@ -10,6 +10,7 @@ export default Model.extend({
   allow_box: attr("boolean"),
   allow_pallet: attr("boolean"),
   visibleInSelects: attr("boolean", { defaultValue: false }),
+  allowExpiryDate: attr("boolean", { defaultValue: false }),
   location: belongsTo("location", { async: false }),
   goodcityRequests: hasMany("goodcity_request", { async: false }),
 

@@ -142,6 +142,11 @@
       </div>
 
       <div class="row weight-pieces">
+        {{#if item.code.allowExpiryDate}}
+          {{item.expiryDate}}
+        {{/if}}
+      </div>
+      <div class="row weight-pieces">
         <div class="columns small-3">
           <span class='input_text'>Offers</span>
         </div>
