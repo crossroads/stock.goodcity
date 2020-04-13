@@ -217,13 +217,6 @@ export default {
       value: "standard",
       category: ["electrical"],
       addAble: true
-    },
-    {
-      label: "Expiry Date",
-      name: "expiry_date",
-      type: "expiryDate",
-      value: "expiry_date",
-      category: ["medical"]
     }
   ]
 };

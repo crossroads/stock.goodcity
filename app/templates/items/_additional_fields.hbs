@@ -30,17 +30,9 @@
               on-search=(action "onSearch" "country")}}
           </div>
         {{else}}
-          {{#if (is-equal field.type 'expiryDate')}}
-            {{date-picker
-              name=field.name
-              id=field.name
-              onSelect=(action 'setExpiryDate')
-            }}
-          {{else}}
             {{input name=field.name
               type=field.type
               value=(mut (get inputFieldValues field.value)) }}
-          {{/if}}
         {{/if}}
         {{/form-control}}
       </div>

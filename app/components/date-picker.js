@@ -46,12 +46,6 @@ export default Ember.TextField.extend({
         clear: false,
         today: false,
         close: false,
-        onStart: function() {
-          if (this.get("value")) {
-            cmp.set("_model", this.get("value"));
-            cmp.set("value", moment(this.get("value")).format("ddd MMM D"));
-          }
-        },
 
         onClose: function() {
           Ember.$(document.activeElement).blur();

@@ -9,7 +9,6 @@ const { getOwner, A } = Ember;
 import SearchOptionMixin from "stock/mixins/search_option";
 import PackageDetailMixin from "stock/mixins/fetch_package_detail";
 import GradeMixin from "stock/mixins/grades_option";
-import timeUtil from "../../utils/time-ranges";
 
 export default GoodcityController.extend(
   SearchOptionMixin,
@@ -33,7 +32,6 @@ export default GoodcityController.extend(
     selected: [],
     countryObj: {},
     countryValue: {},
-    expiryDate: "",
     scanLocationName: "",
     displayInventoryOptions: false,
     autoGenerateInventory: true,
@@ -68,7 +66,6 @@ export default GoodcityController.extend(
     locationService: Ember.inject.service(),
     packageService: Ember.inject.service(),
     printerService: Ember.inject.service(),
-    fancyDateStuff: {},
     cancelWarning: t("items.new.cancel_warning"),
     displayFields: Ember.computed("code", function() {
       let subform = this.get("code.subform");
@@ -171,8 +168,7 @@ export default GoodcityController.extend(
       let attributes = {
         ...this.get("inputFieldValues"),
         ...this.get("dropDownValues"),
-        ...this.get("countryValue"),
-        ...this.get("expiryDate")
+        ...this.get("countryValue")
       };
       Object.keys(attributes).forEach(key => {
         detailAttributes[_.snakeCase(key)] = attributes[key];
@@ -689,10 +685,6 @@ export default GoodcityController.extend(
         this.set("countryValue", {
           country_id: value.id
         });
-      },
-
-      setExpiryDate(date) {
-        this.set("expiryDate", { expiryDate: timeUtil.today(date) });
       },
 
       setPrinterValue(value) {

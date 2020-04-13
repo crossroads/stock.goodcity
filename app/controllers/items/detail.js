@@ -402,15 +402,6 @@ export default GoodcityController.extend(
         this.send("updateFields", config);
       },
 
-      setExpiryDateValue(value) {
-        const config = {
-          value: value,
-          name: "expiry_date"
-        };
-
-        this.send("updateFields", config);
-      },
-
       updateFields(config) {
         const detailType = _.snakeCase(
           this.get("item.detailType")
