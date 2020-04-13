@@ -186,13 +186,6 @@
                   on-open=(action "openDropDown")
                   on-search=(action "onSearch" "country")}}
                   </div>
-              {{else if (is-equal field.name 'expiry_date')}}
-                {{date-picker
-                  name=field.name
-                  id=field.name
-                  value=(mut (get (get selectedValuesDisplay field.name) 'tag'))
-                  onSelect=(action 'setExpiryDateValue')
-                }}
               {{else}}
                 {{additional-fields-input
                   id=field.name
