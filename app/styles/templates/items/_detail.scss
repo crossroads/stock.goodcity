@@ -207,6 +207,12 @@
             }
           }
 
+          .Searchable-select__option:hover,
+          .Searchable-select__option:focus {
+            background-color: #A9A9A9;
+            outline: 0;
+          }
+
           .dropdown-wrapper {
             color: #fff;
             $dropdown-body: #000000;

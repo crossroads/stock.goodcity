@@ -97,6 +97,12 @@
         }
       }
     }
+
+    .Searchable-select__option:hover,
+    .Searchable-select__option:focus {
+      background-color: #A9A9A9;
+      outline: 0;
+    }
   }
 
   .item-label {
