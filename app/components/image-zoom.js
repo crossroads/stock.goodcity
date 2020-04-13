@@ -22,32 +22,31 @@ export default Ember.Component.extend({
 
   didInsertElement() {
     if (!this.get("isMobileApp")) {
-      var _this = this;
       this._super();
-      Ember.run.scheduleOnce("afterRender", this, function() {
-        var lightGallery = Ember.$("#itemImage").lightGallery({
-          mode: "lg-slide",
-          zoom: true,
-          download: false,
-          scale: 1,
-          hideControlOnEnd: true,
-          closable: true,
-          loop: true,
-          counter: true,
-          enableTouch: true,
-          enableDrag: true,
-          selector: ".imageZoom"
-        });
-        _this.set("lightGallery", lightGallery);
+      Ember.run.scheduleOnce("afterRender", this, () => {
+        const lightGallery = this.$()
+          .parent()
+          .lightGallery({
+            mode: "lg-slide",
+            zoom: true,
+            download: false,
+            scale: 1,
+            hideControlOnEnd: true,
+            closable: true,
+            loop: true,
+            counter: true,
+            enableTouch: true,
+            enableDrag: true,
+            selector: ".imageZoom"
+          });
+        this.set("lightGallery", lightGallery);
       });
     }
   },
 
   willDestroyElement() {
     if (!this.get("isMobileApp")) {
-      Ember.$("#itemImage")
-        .data("lightGallery")
-        .destroy(true);
+      this.destroy();
     }
   }
 });

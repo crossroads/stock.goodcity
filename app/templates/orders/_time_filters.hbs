@@ -14,6 +14,7 @@
           {{date-picker
             name='selectedTimeRangeAfter'
             id='selectedTimeRangeAfter'
+            maxDate=selectedTimeRange.before
             model=selectedTimeRange.after
             onSelect=(action 'setAfterTime')
           }}
@@ -26,6 +27,7 @@
           {{date-picker
             name='selectedTimeRangeBefore'
             id='selectedTimeRangeBefore'
+            minDate=selectedTimeRange.after
             model=selectedTimeRange.before
             onSelect=(action 'setBeforeTime')
           }}
@@ -34,7 +36,7 @@
       </div>
   </div>
   {{#each presetTimeKeys as |preset|}}
-    <div 
+    <div
       class="row preset {{ preset }} {{ if (is-equal selectedTimeRange.preset preset) 'selected' }}"
       {{ action "selectTimePreset" preset }}
     >
