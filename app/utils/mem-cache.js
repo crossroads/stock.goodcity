@@ -7,6 +7,10 @@ class Cache {
     this.cache = {};
   }
 
+  static createCacheKey(key) {
+    return JSON.stringify(key);
+  }
+
   get(key) {
     const entry = this.cache[key];
     if (entry && entry.expiry >= Date.now()) {
