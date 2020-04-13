@@ -31,7 +31,6 @@ export default AuthorizeRoute.extend({
     if (detailType) {
       await this.loadIfAbsent(_.snakeCase(detailType).toLowerCase(), detailId);
     }
-
     return model;
   },
 
