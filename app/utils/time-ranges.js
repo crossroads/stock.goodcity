@@ -6,10 +6,15 @@ export default {
     };
   },
 
-  today(date = new Date()) {
-    return moment(date)
-      .endOf("day")
-      .toDate();
+  get today() {
+    return {
+      after: moment()
+        .startOf("day")
+        .toDate(),
+      before: moment()
+        .endOf("day")
+        .toDate()
+    };
   },
 
   get tomorrow() {
