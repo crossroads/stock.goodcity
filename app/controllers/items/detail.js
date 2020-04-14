@@ -294,6 +294,10 @@ export default GoodcityController.extend(
       }
     },
 
+    myaction: Ember.observer("item.saleable", function() {
+      console.log("I will fire the update query");
+    }),
+
     actions: {
       /**
        * Add Offer to Package
