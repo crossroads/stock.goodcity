@@ -74,7 +74,7 @@ jobs:
   test_cases:
     <<: *defaults
     docker:
-      - image: circleci/node:8.15-browsers
+      - image: circleci/node:12.10.0
     environment:
       JOBS: 1
     steps:
