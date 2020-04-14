@@ -60,6 +60,7 @@ export default GoodcityController.extend(
     setDropdownOption: Ember.inject.service(),
     showAdditionalFields: false,
     isAllowedToPublish: false,
+    isSaleable: true,
     imageKeys: Ember.computed.localStorage(),
     i18n: Ember.inject.service(),
     session: Ember.inject.service(),
@@ -299,9 +300,11 @@ export default GoodcityController.extend(
       const locationId = this.get("location.id");
       const quantity = this.get("quantity");
       const detailAttributes = this.fetchDetailAttributes();
+
       return {
         quantity: quantity,
         allow_web_publish: this.get("isAllowedToPublish"),
+        saleable: this.get("isSaleable"),
         length: this.get("length"),
         width: this.get("width"),
         height: this.get("height"),
