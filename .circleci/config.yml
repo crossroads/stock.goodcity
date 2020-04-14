@@ -324,6 +324,11 @@ jobs:
                 echo 'export CERTIFICATE=Goodcity_2020.p12' >> $BASH_ENV
                 echo 'export PROVISIONING_PROFILE=GoodCityStock.mobileprovision' >> $BASH_ENV
                 ;;
+              new-ios-deploy-steps)
+                echo 'export ENVIRONMENT=new-ios-deploy-steps' >> $BASH_ENV
+                echo 'export CERTIFICATE=GoodCity_2020_Development.p12' >> $BASH_ENV
+                echo 'export PROVISIONING_PROFILE=GoodCityStockStaging.mobileprovision' >> $BASH_ENV
+                ;;
               *)
                 echo 'Unexpected branch deployment. Choose master|preview|live'
                 exit 1
