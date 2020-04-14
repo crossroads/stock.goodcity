@@ -169,7 +169,15 @@ export default {
     home: "Home",
     orders: "Orders",
     items: "Items",
-    goto: "Goto"
+    goto: "Goto",
+    alerts: "alerts"
+  },
+  my_notifications: {
+    heading: "{{name}}'s Order",
+    all_notifications: "Show all notifications",
+    show_unread: "Show unread only",
+    mark_all_read: "Mark all read",
+    no_unread: "No unread messages!"
   },
   beneficiary_warning: {
     delete_title: "Remove Client?",
