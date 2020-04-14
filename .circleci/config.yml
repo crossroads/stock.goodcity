@@ -3,7 +3,7 @@ version: 2
 aliases:
   - defaults: &defaults
       docker:
-        - image: circleci/node:8.15
+        - image: circleci/node:12.10.0
       working_directory: ~/code
   - &restore-repo-cache
     key: v1-stock-goodcity-{{ .Environment.CIRCLE_SHA1 }}
