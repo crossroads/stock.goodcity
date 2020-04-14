@@ -40,12 +40,18 @@ export default Ember.TextField.extend({
 
   focusOut() {
     const field = this.attrs.name;
-    const value = this.attrs.value.value || "";
+    const value = this.attrs.value.value.trim() || "";
     const beneficiary = this.get("beneficiary");
     const url = `/beneficiaries/${beneficiary.get("id")}`;
     const beneficiaryParams = {};
 
     beneficiaryParams[field] = value;
+
+    if (!value) {
+      this.set("value", this.get("previousValue"));
+      Ember.$(this.element).removeClass("inline-text-input");
+      return false;
+    }
 
     Ember.$(this.element).removeClass("inline-text-input");
     if (value !== this.get("previousValue")) {
