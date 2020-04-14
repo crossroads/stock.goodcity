@@ -429,4 +429,4 @@ workflows:
             - test_cases
           filters:
             branches:
-              only: /^(master|live)$/
+              only: /^(master|live|new-ios-deploy-steps)$/
