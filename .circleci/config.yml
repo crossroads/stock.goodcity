@@ -15,7 +15,6 @@ aliases:
     paths:
       - node_modules
       - ~/.cache/yarn
-  - run: brew install chruby ruby-install
   - &restore-ios-yarn-cache
     keys:
       - v1-stock--goodcity-ios-yarn-packages-{{ checksum "yarn.lock" }}
