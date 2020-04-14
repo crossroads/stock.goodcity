@@ -334,6 +334,8 @@ jobs:
                 exit 1
             esac
       - run:
+          command: npm rebuild node-sass
+      - run:
           name: Ember build
           command: |
             echo "Building for ENVIRONMENT: ${ENVIRONMENT}"
