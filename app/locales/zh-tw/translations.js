@@ -665,6 +665,7 @@ export default {
     quality: "Quality:",
     grade: "Grade :",
     weight: "Weight (kg)",
+    saleable: "Saleable",
     pieces: "Pieces",
     condition: "Condition :",
     validation_errors: {
