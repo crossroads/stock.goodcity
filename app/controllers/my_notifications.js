@@ -26,57 +26,21 @@ export default Ember.Controller.extend({
 
   init() {
     // When a new message arrives, we move it to the top
-
-    this.get("subscription").on("create:message", this, this.onNewNotification);
-
-    // this.get("subscription").on("create:message", ({
-    //   id
-    // }) => {
-    //   const store = this.get("store");
-    //   const msg = store.peekRecord("message", id);
-    //   const offerId = msg && msg.get("offerId");
-    //   const notifications = this.get("notifications");
-
-    //   if (!offerId) {
-    //     return;
-    //   }
-
-    //   this.loadIfAbsent("offer", offerId).then(() => {
-    //     let notif = notifications.findBy("key", MSG_KEY(msg));
-    //     if (notif) {
-    //       // Update existing one
-    //       notifications.removeObject(notif);
-    //       notif.get("messages").addObject(msg);
-    //     } else {
-    //       // Create new one
-    //       notif = this.messagesToNotification([msg]);
-    //     }
-    //     notifications.insertAt(0, notif);
-    //   });
-    // });
+    this.get("subscription").on("change:message", this, this.onNewNotification);
   },
 
   onNewNotification(notification) {
-    console.log(notification);
-
     const store = this.get("store");
-    // const msg = store.peekRecord("message", notification.message_id);
-    const orderId = notification.order_id;
+    const msg = store.peekRecord("message", notification.record.id);
+    const orderId = notification.record.order_id;
     const notifications = this.get("notifications");
 
     if (!orderId) {
       return;
     }
 
-    let key = [
-      notification.is_private ? "private" : "public",
-      notification.order_id || "-",
-      notification.item_id || "-"
-    ].join("/");
-
     this.loadIfAbsent("designation", orderId).then(() => {
-      const msg = store.peekRecord("message", notification.message_id);
-      let notif = notifications.findBy("key", key);
+      let notif = notifications.findBy("key", MSG_KEY(msg));
       if (notif) {
         // Update existing one
         notifications.removeObject(notif);
@@ -204,25 +168,6 @@ export default Ember.Controller.extend({
           this.get("notifications").addObjects(notifications);
           return notifications;
         });
-
-      // return new AjaxBuilder("/offers/search")
-      //   .withAuth(this.get("session.authToken"))
-      //   .withQuery({
-      //     with_notifications: state,
-      //     include_messages: true,
-      //     recent_offers: true
-      //   })
-      //   .getPage(pageNo, 10)
-      //   .then(data => this.toOfferModels(data))
-      //   .then(offers => {
-      //     const notifications = _.chain(offers)
-      //       .map(o => this.buildNotifications(o))
-      //       .flatten()
-      //       .value();
-
-      //     this.get("notifications").addObjects(notifications);
-      //     return notifications;
-      //   });
     },
 
     view(messageId) {
