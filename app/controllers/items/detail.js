@@ -294,8 +294,20 @@ export default GoodcityController.extend(
       }
     },
 
-    myaction: Ember.observer("item.saleable", function() {
-      console.log("I will fire the update query");
+    onSaleableChange: Ember.observer("item.saleable", function() {
+      const item = this.get("item");
+      const previousValue = this.get("previousSaleableValue");
+      if (previousValue == null) {
+        this.set("previousSaleableValue", this.get("item.saleable"));
+        return;
+      }
+      let loadingView = Ember.getOwner(this)
+        .lookup("component:loading")
+        .append();
+      item.save().finally(() => {
+        loadingView.destroy();
+        this.set("previousSaleableValue", this.get("item.saleable"));
+      });
     }),
 
     actions: {
