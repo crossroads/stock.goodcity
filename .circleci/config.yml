@@ -349,6 +349,10 @@ jobs:
                 exit 1
             esac
       - run:
+          name: LOG PROVISIONING_PROFILE
+          command: echo PROVISIONING_PROFILE
+          command: echo $PROVISIONING_PROFILE
+      - run:
           command: npm rebuild node-sass
       - run:
           name: Ember build
