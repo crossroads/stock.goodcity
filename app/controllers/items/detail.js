@@ -294,22 +294,6 @@ export default GoodcityController.extend(
       }
     },
 
-    onSaleableChange: Ember.observer("item.saleable", function() {
-      const item = this.get("item");
-      const previousValue = this.get("previousSaleableValue");
-      if (previousValue == null) {
-        this.set("previousSaleableValue", this.get("item.saleable"));
-        return;
-      }
-      let loadingView = Ember.getOwner(this)
-        .lookup("component:loading")
-        .append();
-      item.save().finally(() => {
-        loadingView.destroy();
-        this.set("previousSaleableValue", this.get("item.saleable"));
-      });
-    }),
-
     actions: {
       /**
        * Add Offer to Package
@@ -450,6 +434,18 @@ export default GoodcityController.extend(
 
       onSearch(field, searchText) {
         this.onSearchCountry(field, searchText);
+      },
+
+      onSaleableChange() {
+        const item = this.get("item");
+        const saleable = item.get("saleable");
+        item.set("saleable", !saleable);
+        let loadingView = Ember.getOwner(this)
+          .lookup("component:loading")
+          .append();
+        item.save().finally(() => {
+          loadingView.destroy();
+        });
       },
 
       toggleItemOptions() {

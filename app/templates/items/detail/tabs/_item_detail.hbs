@@ -83,7 +83,12 @@
           <div class="row">
             <div class="columns small-3">Saleable </div>
             <div class="columns small-9 value description">
-              {{input class="checkbox-item-details" type="checkbox" id="saleable" checked=item.saleable }}
+              {{input
+                class="checkbox-item-details"
+                type="checkbox"
+                id="saleable"
+                checked=item.saleable
+                change=(action 'onSaleableChange') }}
             </div>
           </div>
         </div>
