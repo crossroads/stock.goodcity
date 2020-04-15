@@ -448,13 +448,6 @@ export default GoodcityController.extend(
             throw e;
           }
         }, ERROR_STRATEGIES.MODAL);
-
-        let loadingView = Ember.getOwner(this)
-          .lookup("component:loading")
-          .append();
-        item.save().finally(() => {
-          loadingView.destroy();
-        });
       },
 
       toggleItemOptions() {
