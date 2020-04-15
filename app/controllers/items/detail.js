@@ -9,7 +9,7 @@ import GradeMixin from "stock/mixins/grades_option";
 import MoveActions from "stock/mixins/move_actions";
 import DesignationActions from "stock/mixins/designation_actions";
 import StorageTypes from "stock/mixins/storage-type";
-import AsyncMixin from "stock/mixins/async";
+import AsyncMixin, { ERROR_STRATEGIES } from "stock/mixins/async";
 import ItemActions from "stock/mixins/item_actions";
 import _ from "lodash";
 import SearchMixin from "stock/mixins/search_resource";
@@ -440,6 +440,15 @@ export default GoodcityController.extend(
         const item = this.get("item");
         const saleable = item.get("saleable");
         item.set("saleable", !saleable);
+        this.runTask(async () => {
+          try {
+            await item.save();
+          } catch (e) {
+            item.rollbackAttributes();
+            throw e;
+          }
+        }, ERROR_STRATEGIES.MODAL);
+
         let loadingView = Ember.getOwner(this)
           .lookup("component:loading")
           .append();
