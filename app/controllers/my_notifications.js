@@ -39,6 +39,10 @@ export default Ember.Controller.extend({
       return;
     }
 
+    if (msg.get("isUnread")) {
+      this.get("messagesUtil")._incrementCount();
+    }
+
     this.loadIfAbsent("designation", orderId).then(() => {
       let notif = notifications.findBy("key", MSG_KEY(msg));
       if (notif) {
@@ -86,10 +90,15 @@ export default Ember.Controller.extend({
           .sortBy("createdAt")
           .get("lastObject.body");
       }),
-      unreadCount: computed("messages.@each.state", function() {
-        return this.get("messages")
-          .filterBy("isUnread")
-          .get("length");
+      unreadCount: computed("messages.@each.state", "messages.[]", {
+        get() {
+          return this.get("messages")
+            .filterBy("isUnread")
+            .get("length");
+        },
+        set(key, value) {
+          return value;
+        }
       })
     });
     return notification;
@@ -177,7 +186,7 @@ export default Ember.Controller.extend({
     },
 
     markThreadRead(notification) {
-      if (notification.unreadCount === 1) {
+      if (notification.get("unreadCount") === 1) {
         var message = this.store.peekRecord("message", notification.id);
         this.get("messagesUtil").markRead(message);
         notification.set("unreadCount", 0);
@@ -197,21 +206,8 @@ export default Ember.Controller.extend({
     },
 
     markAllRead() {
-      new AjaxPromise(
-        "/messages/mark_all_read",
-        "PUT",
-        this.get("session.authToken"),
-        {}
-      )
-        .then(data => {
-          this.get("store")
-            .peekAll("message")
-            .filterBy("state", "unread")
-            .forEach(message => {
-              message.set("state", "read");
-            });
-          this.set("unreadMessageCount", 0);
-        })
+      this.get("messagesUtil")
+        .markAllRead()
         .then(() => {
           this.get("notifications").forEach(n => {
             n.set("unreadCount", 0);

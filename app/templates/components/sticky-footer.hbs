@@ -23,15 +23,13 @@
           {{/link-to}}
 
           {{#link-to 'my_notifications' tagName='li' class="notifications" href=false}}
-            {{!-- {{#if hasMessages }} --}}
+            {{#if unreadMessageCount }}
               <span class="unread">
-                <div class="unread_length">99{{unreadMessageCount}}</div>
+                <div class="unread_length">{{unreadMessageCount}}</div>
               </span>
-            {{!-- {{/if}} --}}
+            {{/if}}
             <i>{{fa-icon 'bell'}}</i>{{t "index.alerts"}}
           {{/link-to}}
-
-          {{!-- <li><i>{{fa-icon 'qrcode'}}</i>{{t "index.goto"}}</li> --}}
 
           {{#link-to 'app_menu_list' tagName='li' class="menu" href=false}}
             <i>{{fa-icon 'bars'}}</i> {{t "footer.menu"}}
