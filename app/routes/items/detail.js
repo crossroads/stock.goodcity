@@ -31,7 +31,6 @@ export default AuthorizeRoute.extend({
     if (detailType) {
       await this.loadIfAbsent(_.snakeCase(detailType).toLowerCase(), detailId);
     }
-
     return model;
   },
 
@@ -147,7 +146,6 @@ export default AuthorizeRoute.extend({
    */
   async loadItem(id, opts = {}) {
     const { loadImages = false } = opts;
-
     const item = await this.store.findRecord("item", id, { reload: true });
     if (loadImages) {
       await this.preloadImages(item);
