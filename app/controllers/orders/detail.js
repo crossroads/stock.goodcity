@@ -265,6 +265,7 @@ export default GoodcityController.extend(AsyncMixin, SearchMixin, {
         return this.showError("Please select a valid date and timeslot");
       }
 
+      date = typeof date === "string" ? new Date(date) : date;
       let tzDate = moment.tz(date.toDateString(), this.get("hkTimeZone"));
       tzDate.set({
         hour: ts.hours,
