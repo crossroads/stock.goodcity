@@ -265,15 +265,15 @@ export default GoodcityController.extend(AsyncMixin, SearchMixin, {
         return this.showError("Please select a valid date and timeslot");
       }
 
-      date = moment.tz(date, this.get("hkTimeZone"));
-      date.set({
+      let tzDate = moment.tz(date.toDateString(), this.get("hkTimeZone"));
+      tzDate.set({
         hour: ts.hours,
         minute: ts.minutes
       });
 
       this.updateRecord(this.get("model.orderTransport"), {
         timeslot: ts.id,
-        scheduledAt: date
+        scheduledAt: tzDate
       });
     },
 
