@@ -22,9 +22,9 @@
       </div>
     </div>
     <div class="columns small-3">
-    {{#link-to 'items.edit_images' item.id}}
-    <img src={{item.thumbImageUrl}} class="thumb" />
-    {{/link-to}}
+      {{#link-to 'items.edit_images' item.id}}
+        <img src={{item.thumbImageUrl}} class="thumb" />
+      {{/link-to}}
     </div>
   </div>
 {{/toggle-item-options-list}}
@@ -79,7 +79,7 @@
         </div>
       </div>
       <div class="row">
-      {{donation-field item=item caseNumber=item.caseNumber}}
+        {{donation-field item=item caseNumber=item.caseNumber}}
       </div>
       <div class="row">
         <div class="columns small-3">{{t "item_details.size"}}</div>
@@ -126,6 +126,21 @@
           </div>
         {{/if}}
       </div>
+      <div class="row">
+         <div class="columns small-3">
+           <span class="input_text">
+             {{t 'item_details.saleable'}}
+            </span>
+          </div>
+          <div class="columns small-9 value description">
+            {{input
+              class="checkbox-item-details"
+              type="checkbox"
+              checked=item.saleable
+              change=(action 'onSaleableChange') }}
+          </div>
+      </div>
+
       <div class="row weight-pieces">
         <div class="columns small-3">
           <span class='input_text'>Offers</span>
@@ -185,7 +200,7 @@
                   prompt=""
                   on-open=(action "openDropDown")
                   on-search=(action "onSearch" "country")}}
-                  </div>
+                </div>
               {{else}}
                 {{additional-fields-input
                 id=field.name
