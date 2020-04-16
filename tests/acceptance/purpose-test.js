@@ -64,7 +64,9 @@ test("Purpose name and description", function(assert) {
         .val()
         .trim() +
         " " +
-        $("#beneficiary-numeric-input").val(), // jshint ignore:line
+        $("#beneficiary-numeric-input-fname").val() +
+        " " +
+        $("#beneficiary-numeric-input-lname").val(), // jshint ignore:line
       beneficiary.get("fullName")
     ); // jshint ignore:line
     assert.equal(
