@@ -381,7 +381,6 @@ export default {
       district_label: "這些物品將會於香港哪一地區使用?",
       district_label_info: "這項資料會協助我們作統計之用。",
       select_placeholder: "選擇地區",
-      people_count_warning: "您必須填寫一個數字於此欄",
       need_description: "需要的原因",
       need_description_info: "請簡單填寫為什麼需要這些物品",
       description_warning: "此欄不能留空",
