@@ -47,7 +47,9 @@ export default Ember.Service.extend({
       "/messages/mark_all_read",
       "PUT",
       this.get("session.authToken"),
-      {}
+      {
+        scope: "order"
+      }
     ).then(() => {
       this.get("store")
         .peekAll("message")
