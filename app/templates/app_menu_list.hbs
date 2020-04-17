@@ -22,7 +22,7 @@
           {{fa-icon 'sign-out-alt' size="lg"}}&nbsp;&nbsp;{{t "logout.logout"}}
         </a>
       </li>
-      {{#if (is-or session.currentUser.isSupervisor getCurrentUser.isSupervisor)}}
+      {{#if (is-or getCurrentUser.isSupervisor)}}
         <li class="menu-list">
           {{#link-to 'search_organisation' class="menu-list-anchor"}}
             {{fa-icon 'user-cog' size="lg"}}&nbsp;&nbsp;{{t "manage_charity_users"}}
