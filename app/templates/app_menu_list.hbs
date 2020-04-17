@@ -36,12 +36,14 @@
           </a>
         </li>
       {{/each}}
-      {{#if (is-or session.currentUser.canManageOrders getCurrentUser.canManageOrders)}}
+      {{#if (is-or session.currentUser.canManageAppointments getCurrentUser.canManageAppointments)}}
         <li class="menu-list">
           {{#link-to 'appointments' class='appointments-link menu-list-anchor'}}
             {{fa-icon 'calendar-alt' size="lg"}}&nbsp;&nbsp;{{t 'manage_inventory'}}
           {{/link-to}}
         </li>
+      {{/if}}
+      {{#if (is-or session.currentUser.canManageOrders getCurrentUser.canManageOrders)}}
         <li class="menu-list">
           <a href="#" class="menu-list-anchor" {{action 'createOrder'}}>
             {{fa-icon 'shopping-basket' size="lg"}}&nbsp;&nbsp;{{t 'new_order'}}
