@@ -298,6 +298,15 @@
     float: left !important;
   }
 
+  .saleable {
+    input {
+      float: left !important;
+      height: auto !important;
+      font-size: 2rem;
+      margin-top: 0.5rem;
+    }
+  }
+
   .donations{
     svg {
       padding-top: 1%;
