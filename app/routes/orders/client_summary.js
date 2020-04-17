@@ -3,9 +3,15 @@ import detail from "./detail";
 export default detail.extend({
   async model() {
     const order = await this._super(...arguments);
+    const requestObj = { order: order };
+    if (order.get("beneficiaryId")) {
+      requestObj.beneficiary = this.loadIfAbsent(
+        "beneficiary",
+        order.get("beneficiaryId")
+      );
+    }
     return Ember.RSVP.hash({
-      order,
-      beneficiary: this.loadIfAbsent("beneficiary", order.get("beneficiaryId"))
+      ...requestObj
     });
   },
 

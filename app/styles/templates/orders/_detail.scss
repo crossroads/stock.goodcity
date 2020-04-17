@@ -62,9 +62,9 @@
 
 .beneficiary-title {
   width: 90% !important;
-  margin-left: -4rem !important;
+  margin-left: 0rem !important;
   @media #{$small-only} {
-    margin-left: -1rem !important;
+    margin-left: 0rem !important;
   }
 }
 

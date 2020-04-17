@@ -40,7 +40,7 @@ export default cloudinaryUrl.extend({
   hasBoxPallet: attr("boolean"),
   itemId: attr("string"),
   allowWebPublish: attr("boolean"),
-
+  saleable: attr("boolean"),
   detailId: attr("number"),
   detailType: attr("string"),
   detail: belongsTo("detail", {

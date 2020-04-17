@@ -47,6 +47,11 @@ export default {
   new_order: "建立新的訂單",
   full_name: "{{firstName}} {{lastName}}",
   mobile_prefix: "+852",
+  not_found:
+    "Oooops, the location you're headed to doesn't seem to exist anymore. Sorry!",
+  unavailable_item: "Sorry! This item is not available.",
+  unavailable_order: "Sorry! This order is not available.",
+
   box_pallet: {
     indicate_amount: "指出要從以下每個位置中取多少份量",
     available: "可用的",
@@ -660,6 +665,7 @@ export default {
     quality: "Quality:",
     grade: "Grade :",
     weight: "Weight (kg)",
+    saleable: "Saleable",
     pieces: "Pieces",
     condition: "Condition :",
     validation_errors: {

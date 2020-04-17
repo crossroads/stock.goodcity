@@ -1,6 +1,5 @@
 import Ember from "ember";
-import config from "../../config/environment";
-import AjaxPromise from "stock/utils/ajax-promise";
+import config from "stock/config/environment";
 import GoodcityController from "../goodcity_controller";
 import SearchMixin from "stock/mixins/search_resource";
 import _ from "lodash";
@@ -13,9 +12,11 @@ export default GoodcityController.extend(AsyncMixin, SearchMixin, {
   cancelReasonLength: 180,
   otherCancellationReason: "",
   isMobileApp: config.cordova.enabled,
+  hkTimeZone: config.APP.HK_TIME_ZONE,
   order: Ember.computed.alias("model"),
   orderId: Ember.computed.alias("model.id"),
   showCancellationReason: false,
+
   hasUnreadMessages: Ember.computed("order", function() {
     return this.get("order.hasUnreadMessages");
   }),
@@ -34,6 +35,7 @@ export default GoodcityController.extend(AsyncMixin, SearchMixin, {
   scheduleChangePopupVisible: false,
   filterService: Ember.inject.service(),
   processingChecklist: Ember.inject.service(),
+  orderService: Ember.inject.service(),
   currentRoute: Ember.computed.alias("application.currentPath"),
 
   tabName: Ember.computed("currentRoute", function() {
@@ -41,7 +43,6 @@ export default GoodcityController.extend(AsyncMixin, SearchMixin, {
       .split(".")
       .get("lastObject");
   }),
-  orderService: Ember.inject.service(),
 
   highlightSelectedTabSummary: Ember.computed("tabName", function() {
     return (
@@ -54,6 +55,7 @@ export default GoodcityController.extend(AsyncMixin, SearchMixin, {
       ["active_items", "requested_items"].indexOf(this.get("tabName")) >= 0
     );
   }),
+
   scheduleTimeSlots: Ember.computed(function() {
     let buildSlot = (hours, minutes) => {
       const key = this.formatTimeSlot(hours, minutes);
@@ -230,17 +232,20 @@ export default GoodcityController.extend(AsyncMixin, SearchMixin, {
     openSchedulePopup() {
       const scheduledAt = this.get("model.orderTransport.scheduledAt");
       try {
-        const d = new Date(scheduledAt);
-        const timeString = this.formatTimeSlot(d.getHours(), d.getMinutes());
+        const d = moment.tz(scheduledAt, this.get("hkTimeZone"));
+        const timeString = d.format("hh:mmA");
+
         const currentTimeSlot = _.find(this.get("scheduleTimeSlots"), [
           "id",
           timeString
         ]);
+
         this.set(
           "selectedTimeslot",
           currentTimeSlot || this.get("scheduleTimeSlots")[0]
         );
-        this.set("selectedScheduleDate", d);
+
+        this.set("selectedScheduleDate", d.format());
         this.set("placeHolderDate", moment(d).format("ddd MMM do"));
       } catch (e) {
         this.set("selectedTimeslot", this.get("scheduleTimeSlots")[0]);
@@ -260,11 +265,16 @@ export default GoodcityController.extend(AsyncMixin, SearchMixin, {
         return this.showError("Please select a valid date and timeslot");
       }
 
-      date.setHours(ts.hours);
-      date.setMinutes(ts.minutes);
+      date = typeof date === "string" ? new Date(date) : date;
+      let tzDate = moment.tz(date.toDateString(), this.get("hkTimeZone"));
+      tzDate.set({
+        hour: ts.hours,
+        minute: ts.minutes
+      });
+
       this.updateRecord(this.get("model.orderTransport"), {
         timeslot: ts.id,
-        scheduledAt: date
+        scheduledAt: tzDate
       });
     },
 

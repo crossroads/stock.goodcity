@@ -28,7 +28,20 @@
         <div class="row search">
           <div class="small-12 columns">
             <ul class="list list-activity">
-              {{#if presetLocations}}
+              {{#if displayResults}}
+                {{#infinite-list height="85vh" loadMore=(action "loadMoreLocations") as |res| }}
+                    {{#each res as |location|}}
+                      <div {{action 'selectLocation' location}} class="row underlined">
+                        <div class="small-6 columns">
+                          {{location.building}}
+                        </div>
+                        <div class="small-6 columns">
+                          {{location.area}}
+                        </div>
+                      </div>
+                    {{/each}}
+                {{/infinite-list}}
+              {{else if presetLocations}}
                 {{#each presetLocations as |location|}}
                   <div {{action 'selectLocation' location}} class="row underlined">
                     <div class="small-6 columns">
@@ -50,19 +63,6 @@
                     </div>
                   </div>
                 {{/each}}
-              {{else if displayResults}}
-                {{#infinite-list height="85vh" loadMore=(action "loadMoreLocations") as |res| }}
-                    {{#each res as |location|}}
-                      <div {{action 'selectLocation' location}} class="row underlined">
-                        <div class="small-6 columns">
-                          {{location.building}}
-                        </div>
-                        <div class="small-6 columns">
-                          {{location.area}}
-                        </div>
-                      </div>
-                    {{/each}}
-                {{/infinite-list}}
               {{/if}}
             </ul>
           </div>

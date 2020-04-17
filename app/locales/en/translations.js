@@ -48,6 +48,11 @@ export default {
   new_order: "Create New Order",
   full_name: "{{firstName}} {{lastName}}",
   mobile_prefix: "+852",
+  not_found:
+    "Oooops, the location you're headed to doesn't seem to exist anymore. Sorry!",
+  unavailable_item: "Sorry! This item is not available.",
+  unavailable_order: "Sorry! This order is not available.",
+
   box_pallet: {
     indicate_amount:
       "Indicate how many are you taking from each of the locations below.",
@@ -677,6 +682,7 @@ export default {
     quality: "Quality:",
     grade: "Grade :",
     weight: "Weight (kg)",
+    saleable: "Saleable",
     pieces: "Pieces",
     condition: "Condition :",
     validation_errors: {

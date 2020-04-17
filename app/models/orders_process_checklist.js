@@ -3,6 +3,10 @@ import attr from "ember-data/attr";
 import { belongsTo } from "ember-data/relationships";
 
 export default Model.extend({
-  orderId: attr("number"),
-  processChecklistId: attr("number")
+  designationId: attr("number"),
+  processChecklistId: attr("number"),
+
+  designation: belongsTo("designation", {
+    async: false
+  })
 });

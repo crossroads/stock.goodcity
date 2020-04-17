@@ -11,6 +11,7 @@ export default Ember.Route.extend({
     }
     return true;
   },
+
   loadIfAbsent(model, id) {
     // note: using findRecord with reload:false will make a request regardless of whether the data is
     // present or not. If it is present, it will return immediatly but still proceed to making the request

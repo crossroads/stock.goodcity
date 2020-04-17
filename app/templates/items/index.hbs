@@ -25,8 +25,8 @@
       {{#if displayResults}}
         {{#infinite-list height="75vh" loadMore=(action "loadMoreItems") as |items| }}
           <ul class="list list-activity list-offer-items">
-            {{#each items as |item|}}
-               {{partial 'orders/item_block'}}
+            {{#each items as |item index|}}
+              {{package-summary-block model=item parentId=index}}
             {{else}}
               <div class="add_item_text small-12 columns center-text">
                 {{#link-to 'search_code' (query-params backToNewItem=false)}}

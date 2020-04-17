@@ -64,6 +64,7 @@ module.exports = function(environment) {
 
       NAMESPACE: "api/v1",
       HK_COUNTRY_CODE: "+852",
+      HK_TIME_ZONE: "Asia/Hong_Kong",
 
       PRELOAD_TYPES: [
         "booking_type",

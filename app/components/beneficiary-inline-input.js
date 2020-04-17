@@ -1,17 +1,33 @@
-import Ember from 'ember';
-import AjaxPromise from 'stock/utils/ajax-promise';
+import Ember from "ember";
+import AjaxPromise from "stock/utils/ajax-promise";
 const { getOwner } = Ember;
 
 export default Ember.TextField.extend({
   tagName: "input",
   type: "text",
-  attributeBindings: [ "name", "type", "value", "maxlength", "id", "autoFocus" , "placeholder", "required", "pattern"],
+  attributeBindings: [
+    "name",
+    "type",
+    "value",
+    "maxlength",
+    "id",
+    "autoFocus",
+    "placeholder",
+    "required",
+    "pattern"
+  ],
   store: Ember.inject.service(),
-  previousValue: '',
+  previousValue: "",
 
   whichKey(e, key) {
     var keyList = [13, 8, 9, 39, 46, 32];
-    return e.ctrlKey && key === 86 || keyList.indexOf(key) >= 0 || key >= 35 && key <= 37 || key >= 65 && key <= 90 || key >= 96 && key <= 122;
+    return (
+      (e.ctrlKey && key === 86) ||
+      keyList.indexOf(key) >= 0 ||
+      (key >= 35 && key <= 37) ||
+      (key >= 65 && key <= 90) ||
+      (key >= 96 && key <= 122)
+    );
   },
 
   keyDown(e) {
@@ -23,23 +39,28 @@ export default Ember.TextField.extend({
   },
 
   focusOut() {
-    var value = this.attrs.value.value || "";
-    var beneficiary = this.get("beneficiary");
-    var url = `/beneficiaries/${beneficiary.get('id')}`;
-    var beneficiaryParams = {};
-    beneficiaryParams["first_name"] = value.split(" ")[0];
-    beneficiaryParams["last_name"] = value.split(" ")[1];
+    const field = this.attrs.name;
+    const value = this.attrs.value.value.trim() || "";
+    const beneficiary = this.get("beneficiary");
+    const url = `/beneficiaries/${beneficiary.get("id")}`;
+    const beneficiaryParams = {};
 
-    if(value.length <= 8 && value.split(" ").length < 2){
-      this.set('value', this.get('previousValue'));
-      Ember.$(this.element).removeClass('inline-text-input');
+    beneficiaryParams[field] = value;
+
+    if (!value) {
+      this.set("value", this.get("previousValue"));
+      Ember.$(this.element).removeClass("inline-text-input");
       return false;
     }
 
-    Ember.$(this.element).removeClass('inline-text-input');
-    if (value !== this.get('previousValue')){
-      var loadingView = getOwner(this).lookup('component:loading').append();
-      new AjaxPromise(url, "PUT", this.get('session.authToken'), { beneficiary: beneficiaryParams })
+    Ember.$(this.element).removeClass("inline-text-input");
+    if (value !== this.get("previousValue")) {
+      var loadingView = getOwner(this)
+        .lookup("component:loading")
+        .append();
+      new AjaxPromise(url, "PUT", this.get("session.authToken"), {
+        beneficiary: beneficiaryParams
+      })
         .then(data => {
           this.get("store").pushPayload(data);
         })
@@ -47,7 +68,7 @@ export default Ember.TextField.extend({
           loadingView.destroy();
         });
     }
-    Ember.$(this.element).removeClass('inline-text-input');
+    Ember.$(this.element).removeClass("inline-text-input");
   },
 
   focusIn() {
@@ -55,11 +76,11 @@ export default Ember.TextField.extend({
   },
 
   addCssStyle() {
-    Ember.$(this.element).addClass('inline-text-input');
+    Ember.$(this.element).addClass("inline-text-input");
   },
 
   click() {
     this.addCssStyle();
-    this.set('previousValue', this.get('value') || '');
+    this.set("previousValue", this.get("value") || "");
   }
 });

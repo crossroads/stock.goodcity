@@ -55,9 +55,9 @@ export default Ember.Mixin.create(AsyncMixin, {
   }),
 
   async resolveActionFromLocation(pkg, showAllLocations = false) {
-    const presetLocations = showAllLocations
-      ? this.get("store").peekAll("location")
-      : pkg.get("packagesLocations").mapBy("location");
+    const presetLocations = await (showAllLocations
+      ? this.get("store").query("location", {})
+      : pkg.get("packagesLocations").mapBy("location"));
 
     if (presetLocations.get("length") > 1) {
       return this.get("locationService").userPickLocation({
