@@ -74,6 +74,19 @@
             {{/form-control}}
           </div>
         </div>
+        {{#custom-form/ui-form  as |form|}}
+          {{#form.group as |group|}}
+            {{#group.label}}
+              User Name:
+            {{/group.label}}
+            {{group.numeric-input value=sfskaf name="count" maxlength= "10" acceptZeroValue="true"}}
+          {{/form.group}}
+
+          {{#form.group as |group|}}
+            {{group.auto-resize-textarea data-autoresize=true name="description" value=order.adsfsdf required="required"}}
+          {{/form.group}}
+
+        {{/custom-form/ui-form}}
         <div class="row continue">
           <div class="small-12 columns">
             <a {{action 'submit' target=form}} class="button expand" id="request-submit"> {{t 'continue'}} </a>
