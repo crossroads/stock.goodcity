@@ -1,3 +1,4 @@
+import _ from "lodash";
 import ApiBaseService from "./api-base-service";
 import { toID } from "stock/utils/helpers";
 
@@ -60,6 +61,20 @@ export default ApiBaseService.extend({
 
   fetchContainedPackages(boxPalletId) {
     return this.GET(`/packages/${boxPalletId}/contained_packages`);
+  },
+
+  async fetchParentContainers(pkg, opts = {}) {
+    const store = this.get("store");
+    const pagination = _.pick(opts, ["page", "per_page"]);
+
+    const data = await this.GET(
+      `/packages/${toID(pkg)}/parent_containers`,
+      pagination
+    );
+
+    store.pushPayload(data);
+
+    return _.get(data, "items", []).map(it => store.peekRecord("item", it.id));
   },
 
   fetchAddedQuantity(entityId, pkgID) {

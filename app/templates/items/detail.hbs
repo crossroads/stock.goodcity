@@ -9,7 +9,9 @@
         </div>
       {{/back-link}}
       <div id="itemImage">
-        {{image-zoom item=model}}
+        {{#if showImages}}
+          {{image-zoom item=model}}
+        {{/if}}
         <div class="image-overlay {{if showSetList 'opaque' 'transparent' }}">
           {{#if model.isSet}}
             {{partial 'items/detail/set_header' }}
