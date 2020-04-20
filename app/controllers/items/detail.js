@@ -102,6 +102,19 @@ export default GoodcityController.extend(
       }
     }).volatile(),
 
+    watchModel: Ember.observer("model.id", "active", function() {
+      // Temporary fix
+      // The image-zoom carousel sometimes has issues handling switches between two of the same page.
+      // Since the controller instance is shared between pages, we turn off the carousel on change
+      // and re-enable it once the new model has loaded
+      this.set("showImages", false);
+      if (this.get("active")) {
+        Ember.run.scheduleOnce("afterRender", () => {
+          this.set("showImages", this.get("active"));
+        });
+      }
+    }),
+
     returnSelectedValues(selectedValues) {
       let dataObj = {
         ...this.get("subformDataObject")
@@ -356,6 +369,16 @@ export default GoodcityController.extend(
               this.get("store").pushPayload(data);
               this.set("associatedPackages", data.items);
             })
+        );
+      },
+
+      fetchParentContainers(pageNo = 1) {
+        return this.get("packageService").fetchParentContainers(
+          this.get("item.id"),
+          {
+            page: pageNo,
+            per_page: 10
+          }
         );
       },
 
