@@ -192,7 +192,7 @@ test("Location tab content", function(assert) {
   click(".item_details_screen .tab-container .tab.location");
 
   andThen(() => {
-    const dataRow = $(".content-row:not(.italic)");
+    const dataRow = $(".locations .content-row:not(.italic)");
     const pkgLocation = pkg.get("packagesLocations.firstObject");
     const location = pkgLocation.get("location");
 
