@@ -60,6 +60,7 @@ export default GoodcityController.extend(
     setDropdownOption: Ember.inject.service(),
     showAdditionalFields: false,
     isAllowedToPublish: false,
+    isDuplicate: false,
     isSaleable: false,
     imageKeys: Ember.computed.localStorage(),
     i18n: Ember.inject.service(),
@@ -112,6 +113,11 @@ export default GoodcityController.extend(
       } else {
         return this.get("allAvailablePrinters")[0];
       }
+    }),
+
+    duplicateItem: Ember.computed("isDuplicate", function() {
+      // console.log(this.get("isDuplicate"))
+      return this.get("isDuplicate");
     }),
 
     setLocation: Ember.observer("scanLocationName", function() {
@@ -300,6 +306,7 @@ export default GoodcityController.extend(
       const locationId = this.get("location.id");
       const quantity = this.get("quantity");
       const detailAttributes = this.fetchDetailAttributes();
+      const option = this.get("duplicateItem") ? "copy" : "";
 
       return {
         quantity: quantity,
@@ -319,6 +326,7 @@ export default GoodcityController.extend(
         location_id: locationId,
         package_type_id: this.get("code.id"),
         state_event: "mark_received",
+        options: option,
         storage_type: this.get("storageType"),
         packages_locations_attributes: {
           0: {
@@ -459,17 +467,24 @@ export default GoodcityController.extend(
           package: this.packageParams()
         })
         .then(data => {
+          console.log(data);
           if (this.get("isMultipleCountPrint")) {
             this.printBarcode(data.item.id);
           }
           this.updateStoreAndSaveImage(data);
-          this.clearSubformAttributes();
-          this.setProperties({
-            locationId: "",
-            inventoryNumber: "",
-            offersLists: []
-          });
-          this.replaceRoute("items.detail", data.item.id);
+          if (this.get("duplicateItem")) {
+            this.replaceRoute("items.new");
+            // this.autoGenerateInventoryNumber();
+            // this.replaceRoute("items.new")
+          } else {
+            this.clearSubformAttributes();
+            this.setProperties({
+              locationId: "",
+              inventoryNumber: "",
+              offersLists: []
+            });
+            this.replaceRoute("items.detail", data.item.id);
+          }
         })
         .catch(response => {
           this.showError(

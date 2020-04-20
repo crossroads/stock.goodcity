@@ -718,6 +718,7 @@ export default {
       weight: "Weight (kg)",
       pieces: "Pieces",
       publish: "Publish",
+      duplicate: "Duplicate",
       labels: "Labels",
       condition: "Condition:",
       donation: "Donation#",
