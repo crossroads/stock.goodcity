@@ -291,7 +291,7 @@ jobs:
           command: bundle exec fastlane android ${ENVIRONMENT}
           working_directory: ~/code
 
-  ios_deploy:
+  ios_build_and_deploy:
     macos:
       xcode: "11.0.0"
     working_directory: ~/code
@@ -311,9 +311,6 @@ jobs:
               echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> $BASH_ENV
               echo nvm install 8.15.0 >> $BASH_ENV
               echo nvm alias default 8.15.0 >> $BASH_ENV
-      - run:
-          name: verify node version
-          command: node --version
       - restore-cache: *restore-ios-yarn-cache
       - run: *yarn
       - save-cache: *save-ios-yarn-cache
@@ -338,11 +335,6 @@ jobs:
                 echo 'export ENVIRONMENT=production' >> $BASH_ENV
                 echo 'export CERTIFICATE=Goodcity_2020.p12' >> $BASH_ENV
                 echo 'export PROVISIONING_PROFILE=GoodCityStock.mobileprovision' >> $BASH_ENV
-                ;;
-              new-ios-deploy-steps)
-                echo 'export ENVIRONMENT=staging' >> $BASH_ENV
-                echo 'export CERTIFICATE=GoodCity_2020_Development.p12' >> $BASH_ENV
-                echo 'export PROVISIONING_PROFILE=GoodCityStockStaging.mobileprovision' >> $BASH_ENV
                 ;;
               *)
                 echo 'Unexpected branch deployment. Choose master|preview|live'
@@ -446,9 +438,9 @@ workflows:
           filters:
             branches:
               only: /^(master|live)$/
-      - ios_deploy:
+      - ios_build_and_deploy:
           requires:
             - test_cases
           filters:
             branches:
-              only: /^(master|live|new-ios-deploy-steps)$/
+              only: /^(master|live)$/
