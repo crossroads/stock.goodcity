@@ -311,6 +311,9 @@ jobs:
               echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> $BASH_ENV
               echo nvm install 8.15.0 >> $BASH_ENV
               echo nvm alias default 8.15.0 >> $BASH_ENV
+      - run:
+          name: verify node version
+          command: node --version
       - restore-cache: *restore-ios-yarn-cache
       - run: *yarn
       - save-cache: *save-ios-yarn-cache
