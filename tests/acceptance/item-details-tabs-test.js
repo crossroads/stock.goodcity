@@ -81,6 +81,14 @@ module("Acceptance: Item details tabs", {
       }
     });
     $.mockjax({
+      url: "/api/v1/packages/" + pkg.get("id") + "/parent_container*",
+      type: "GET",
+      status: 200,
+      responseText: {
+        items: []
+      }
+    });
+    $.mockjax({
       url: "/api/v1/stockit_item*",
       type: "GET",
       status: 200,
@@ -127,7 +135,9 @@ test("Land on the info tab on the index", function(assert) {
 test("Can navigate to the location tab", function(assert) {
   assert.equal(currentPath(), "items.detail.info");
 
-  click(".item_details_screen .tab-container .tab.location");
+  andThen(() => {
+    click(".item_details_screen .tab-container .tab.location");
+  });
 
   andThen(() => {
     const selectedTab = $(".item_details_screen .tab-container .tab.selected");
@@ -182,7 +192,7 @@ test("Location tab content", function(assert) {
   click(".item_details_screen .tab-container .tab.location");
 
   andThen(() => {
-    const dataRow = $(".content-row:not(.italic)");
+    const dataRow = $(".locations .content-row:not(.italic)");
     const pkgLocation = pkg.get("packagesLocations.firstObject");
     const location = pkgLocation.get("location");
 

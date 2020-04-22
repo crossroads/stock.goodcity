@@ -22,7 +22,7 @@
           {{fa-icon 'sign-out-alt' size="lg"}}&nbsp;&nbsp;{{t "logout.logout"}}
         </a>
       </li>
-      {{#if (is-or session.currentUser.isSupervisor getCurrentUser.isSupervisor)}}
+      {{#if (is-or getCurrentUser.isSupervisor)}}
         <li class="menu-list">
           {{#link-to 'search_organisation' class="menu-list-anchor"}}
             {{fa-icon 'user-cog' size="lg"}}&nbsp;&nbsp;{{t "manage_charity_users"}}
@@ -36,12 +36,14 @@
           </a>
         </li>
       {{/each}}
-      {{#if (is-or session.currentUser.canManageAppointments getCurrentUser.canManageAppointments)}}
+      {{#if getCurrentUser.canManageAppointments}}
         <li class="menu-list">
           {{#link-to 'appointments' class='appointments-link menu-list-anchor'}}
             {{fa-icon 'calendar-alt' size="lg"}}&nbsp;&nbsp;{{t 'manage_inventory'}}
           {{/link-to}}
         </li>
+      {{/if}}
+      {{#if getCurrentUser.canManageOrders}}
         <li class="menu-list">
           <a href="#" class="menu-list-anchor" {{action 'createOrder'}}>
             {{fa-icon 'shopping-basket' size="lg"}}&nbsp;&nbsp;{{t 'new_order'}}

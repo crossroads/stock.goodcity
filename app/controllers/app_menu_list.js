@@ -27,7 +27,6 @@ export default Ember.Controller.extend(storageType, {
       .get("firstObject.id");
     orderParams.submitted_by_id = this.get("getCurrentUser.id");
     orderParams.state = "draft";
-    orderParams.people_helped = 1;
     orderParams.detail_type = "GoodCity";
     return orderParams;
   },
