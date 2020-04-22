@@ -115,11 +115,6 @@ export default GoodcityController.extend(
       }
     }),
 
-    duplicateItem: Ember.computed("isDuplicate", function() {
-      // console.log(this.get("isDuplicate"))
-      return this.get("isDuplicate");
-    }),
-
     setLocation: Ember.observer("scanLocationName", function() {
       var scanInput = this.get("scanLocationName");
       if (scanInput) {
@@ -306,7 +301,6 @@ export default GoodcityController.extend(
       const locationId = this.get("location.id");
       const quantity = this.get("quantity");
       const detailAttributes = this.fetchDetailAttributes();
-      const option = this.get("duplicateItem") ? "copy" : "";
 
       return {
         quantity: quantity,
@@ -326,7 +320,6 @@ export default GoodcityController.extend(
         location_id: locationId,
         package_type_id: this.get("code.id"),
         state_event: "mark_received",
-        options: option,
         storage_type: this.get("storageType"),
         packages_locations_attributes: {
           0: {
@@ -438,6 +431,7 @@ export default GoodcityController.extend(
           printer_id: this.get("selectedPrinterId")
         })
         .catch(error => {
+          console.log();
           this.get("messageBox").alert(error.responseJSON.errors);
         });
     },
@@ -472,11 +466,12 @@ export default GoodcityController.extend(
             this.printBarcode(data.item.id);
           }
           this.updateStoreAndSaveImage(data);
-          if (this.get("duplicateItem")) {
+          if (this.get("isDuplicate")) {
             this.replaceRoute("items.new");
-            // this.autoGenerateInventoryNumber();
-            // this.replaceRoute("items.new")
+            this.set("quantity", 1);
+            this.send("autoGenerateInventoryNumber");
           } else {
+            this.updateStoreAndSaveImage(data);
             this.clearSubformAttributes();
             this.setProperties({
               locationId: "",
@@ -641,6 +636,7 @@ export default GoodcityController.extend(
             this.send("deleteUnusedImage");
             this.set("locationId", "");
             this.set("codeId", "");
+            this.set("isDuplicate", false);
             Ember.run.later(
               this,
               function() {
