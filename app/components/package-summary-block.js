@@ -1,7 +1,10 @@
 import Ember from "ember";
 
 export default Ember.Component.extend({
+  classNames: "",
   parentId: "epsilon",
+  isRedirectable: true,
+  disableLink: Ember.computed.not("isRedirectable"),
 
   compositeParentId: Ember.computed("parentId", function() {
     const parentId = this.get("parentId");
