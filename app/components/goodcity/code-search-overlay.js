@@ -61,25 +61,46 @@ export default Ember.Component.extend(SearchMixin, {
     });
   },
 
-  highlight() {
-    var string = Ember.$.trim(this.get("filter").toLowerCase());
+  async highlight() {
+    const searchedString = Ember.$.trim(this.get("filter").toLowerCase());
+    const results = await this.get("filteredResults");
     this.clearHiglight();
-    Ember.$(".codes_results li div").each(function() {
-      var text = Ember.$(this).text();
-      if (text.toLowerCase().indexOf(string.toLowerCase()) > -1) {
-        var matchStart = text
-          .toLowerCase()
-          .indexOf("" + string.toLowerCase() + "");
-        var matchEnd = matchStart + string.length - 1;
-        var beforeMatch = text.slice(0, matchStart);
-        var matchText = text.slice(matchStart, matchEnd + 1);
-        var afterMatch = text.slice(matchEnd + 1);
-        Ember.$(this).html(
-          beforeMatch + "<em>" + matchText + "</em>" + afterMatch
-        );
+    Ember.$(".codes_results li div").each(function(index) {
+      if (results[index]) {
+        const code = results[index].get("code");
+        const name = results[index].get("name");
+        const element = $(this);
+        if (code.toLowerCase() === searchedString) {
+          const textString = element
+            .find(".code")
+            .html()
+            .replace(code, "<em>" + code + "</em>");
+          element.find(".code").html(textString);
+        }
+        if (name.toLowerCase().includes(searchedString)) {
+          const searchedIndex = element
+            .find(".package_name")
+            .html()
+            .toLowerCase()
+            .indexOf(searchedString);
+          const elem = element
+            .find(".package_name")
+            .html()
+            .substr(searchedIndex, searchedString.length);
+
+          const newTextString = element
+            .find(".package_name")
+            .html()
+            .replace(elem, "<em>" + elem + "</em>");
+          element.find(".package_name").html(newTextString);
+        }
       }
     });
   },
+
+  // highlightElement(element, ) {
+
+  // }
 
   filteredResults: Ember.computed(
     "filter",
@@ -95,6 +116,7 @@ export default Ember.Component.extend(SearchMixin, {
       if (filter.length > 0) {
         packageTypes.forEach(function(type) {
           if (
+            matchFilter(type.get("code")) ||
             matchFilter(type.get("name")) ||
             matchFilter(type.get("otherTerms"))
           ) {
