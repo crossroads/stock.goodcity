@@ -16,6 +16,7 @@ Router.map(function() {
   this.route("appointments");
   this.route("order_filters");
   this.route("item_filters");
+  this.route("my_notifications");
 
   this.route("items", function() {
     this.route("new");
