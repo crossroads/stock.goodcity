@@ -744,6 +744,7 @@ export default {
       publish: "Publish",
       labels: "Labels",
       pieces: "Pieces",
+      expiry_date: "Expiry Date",
       condition: "Condition:",
       donation: "Donation#",
       location: "Location*",

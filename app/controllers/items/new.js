@@ -320,6 +320,7 @@ export default GoodcityController.extend(
         package_type_id: this.get("code.id"),
         state_event: "mark_received",
         storage_type: this.get("storageType"),
+        expiry_date: this.get("expiry_date"),
         packages_locations_attributes: {
           0: {
             location_id: locationId,

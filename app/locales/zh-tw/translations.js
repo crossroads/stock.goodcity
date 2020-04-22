@@ -717,6 +717,7 @@ export default {
       grade: "Grade:",
       weight: "Weight (kg)",
       pieces: "Pieces",
+      expiry_date: "Expiry Date",
       publish: "Publish",
       labels: "Labels",
       condition: "Condition:",

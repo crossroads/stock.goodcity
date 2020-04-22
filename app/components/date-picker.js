@@ -46,9 +46,24 @@ export default Ember.TextField.extend({
         clear: false,
         today: false,
         close: false,
+        onStart: function() {
+          if (this.get("value")) {
+            cmp.set("_model", this.get("value"));
+            cmp.set("value", moment(this.get("value")).format("ddd MMM D"));
+          }
+        },
 
         onClose: function() {
           Ember.$(document.activeElement).blur();
+          var onSelect = cmp.get("onSelect");
+          if (onSelect) {
+            const date =
+              this.get("val") || (this.get("select") && this.get("select").obj);
+            if (isValidDate(date) && _.isFunction(onSelect)) {
+              onSelect(date);
+              cmp.set("value", moment(date).format("ddd MMM D"));
+            }
+          }
         },
 
         onOpen: function() {
@@ -57,16 +72,6 @@ export default Ember.TextField.extend({
           const [minDate, maxDate] = [cmp.get("minDate"), cmp.get("maxDate")];
           this.set("min", minDate || "");
           this.set("max", maxDate || "");
-        },
-
-        onSet: function() {
-          // Support for callback
-          var onSelect = cmp.get("onSelect");
-          const date =
-            this.get("val") || (this.get("select") && this.get("select").obj);
-          if (isValidDate(date) && _.isFunction(onSelect)) {
-            onSelect(date);
-          }
         }
       });
     });

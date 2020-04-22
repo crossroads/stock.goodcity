@@ -142,6 +142,27 @@
       </div>
 
       <div class="row weight-pieces">
+        {{#if item.code.allowExpiryDate}}
+          {{item.expiryDate}}
+        {{/if}}
+      </div>
+      {{#if item.code.allowExpiryDate}}
+        <div class="row weight-pieces">
+          <div class="columns small-3">
+            <span class='input_text'>{{t "items.new.expiry_date"}}</span>
+          </div>
+          <div class="columns small-6 value pieces">
+            {{date-picker
+              name="expiry_date"
+              id="expiry_date"
+              value=item.expiryDate
+              onSelect=(action 'setExpiryDate')
+            }}
+          </div>
+        </div>
+      {{/if}}
+      <br>
+      <div class="row weight-pieces">
         <div class="columns small-3">
           <span class='input_text'>Offers</span>
         </div>
