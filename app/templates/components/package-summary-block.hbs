@@ -33,8 +33,8 @@
               <div class="text-holder">{{model.designatedQuantity }}</div>
             </div>
             <div class="sub-tabs">
-              <div class="icon-holder">{{fa-icon 'eye' }}</div>
-              <div class="text-holder">{{model.availableQuantity}}</div>
+              <div class="icon-holder">{{fa-icon (if model.allowWebPublish 'eye' 'eye-slash')}}</div>
+              <div class="text-holder"> {{ model.availableQuantity }} </div>
             </div>
           {{/link-to}}
         </div>
