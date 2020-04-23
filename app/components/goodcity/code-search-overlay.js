@@ -41,10 +41,6 @@ export default Ember.Component.extend(SearchMixin, {
     return Ember.$.trim(this.get("searchText")).length;
   }),
 
-  hasFilter: Ember.computed("filter", function() {
-    return Ember.$.trim(this.get("filter")).length;
-  }),
-
   onSearchTextChange: Ember.observer("searchText", function() {
     // wait before applying the filter
     Ember.run.debounce(this, this.applyFilter, 500);
@@ -54,53 +50,6 @@ export default Ember.Component.extend(SearchMixin, {
     this.set("filter", this.get("searchText"));
     this.set("fetchMoreResult", true);
   },
-
-  clearHiglight() {
-    Ember.$("em").replaceWith(function() {
-      return this.innerHTML;
-    });
-  },
-
-  async highlight() {
-    const searchedString = Ember.$.trim(this.get("filter").toLowerCase());
-    const results = await this.get("filteredResults");
-    this.clearHiglight();
-    Ember.$(".codes_results li div").each(function(index) {
-      if (results[index]) {
-        const code = results[index].get("code");
-        const name = results[index].get("name");
-        const element = $(this);
-        if (code.toLowerCase() === searchedString) {
-          const textString = element
-            .find(".code")
-            .html()
-            .replace(code, "<em>" + code + "</em>");
-          element.find(".code").html(textString);
-        }
-        if (name.toLowerCase().includes(searchedString)) {
-          const searchedIndex = element
-            .find(".package_name")
-            .html()
-            .toLowerCase()
-            .indexOf(searchedString);
-          const elem = element
-            .find(".package_name")
-            .html()
-            .substr(searchedIndex, searchedString.length);
-
-          const newTextString = element
-            .find(".package_name")
-            .html()
-            .replace(elem, "<em>" + elem + "</em>");
-          element.find(".package_name").html(newTextString);
-        }
-      }
-    });
-  },
-
-  // highlightElement(element, ) {
-
-  // }
 
   filteredResults: Ember.computed(
     "filter",
@@ -123,10 +72,8 @@ export default Ember.Component.extend(SearchMixin, {
             types.push(type);
           }
         });
-        Ember.run.later(this, this.highlight);
       } else {
         types = types.concat(packageTypes.toArray());
-        this.clearHiglight();
       }
 
       return types.sortBy("name").uniq();
