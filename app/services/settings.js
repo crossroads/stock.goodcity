@@ -38,7 +38,8 @@ export default Ember.Service.extend({
     "stock.only_designate_singletons": true,
     "stock.enable_box_pallet_creation": false,
     "stock.allow_item_actions": false,
-    "stock.allow_box_pallet_item_addition": false
+    "stock.allow_box_pallet_item_addition": false,
+    "stock.params_not_to_be_copied": "serialNum"
   },
 
   /**
@@ -83,6 +84,12 @@ export default Ember.Service.extend({
     return !this.readBoolean("stock.allow_box_pallet_item_addition");
   }),
 
+  /**
+   * @property {Computed<string>} paramsNotCopied lists params not to be copied during duplicate items
+   */
+  paramsNotCopied: Ember.computed(function() {
+    return this.readString("stock.params_not_to_be_copied");
+  }),
   // ---- Access methods
 
   /**

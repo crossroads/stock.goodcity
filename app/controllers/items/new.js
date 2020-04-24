@@ -36,6 +36,8 @@ export default GoodcityController.extend(
     displayInventoryOptions: false,
     autoGenerateInventory: true,
     inputInventory: false,
+    settings: Ember.inject.service(),
+    paramsNotCopied: Ember.computed.alias("settings.paramsNotCopied"),
     locationName: Ember.computed.alias("location.displayName"),
     caseNumber: "",
     isSearchCodePreviousRoute: Ember.computed.localStorage(),
@@ -176,6 +178,21 @@ export default GoodcityController.extend(
         detailAttributes[_.snakeCase(key)] = attributes[key];
       });
       return detailAttributes;
+    },
+
+    paramsToBeCleared() {
+      let attr = this.get("paramsNotCopied").split(",");
+      let fields = {
+        ...this.get("inputFieldValues"),
+        ...this.get("dropDownValues"),
+        ...this.get("countryValue")
+      };
+      attr.forEach(value => {
+        if (fields.hasOwnProperty(value)) {
+          console.log(value);
+          this.set("inputFieldValues.value", null);
+        }
+      });
     },
 
     showPiecesInput: Ember.computed("codeId", function() {
@@ -466,12 +483,21 @@ export default GoodcityController.extend(
             this.printBarcode(data.item.id);
           }
           this.updateStoreAndSaveImage(data);
-          if (this.get("isDuplicate")) {
+          if (!this.get("isBoxOrPallet") && this.get("isDuplicate")) {
             this.replaceRoute("items.new");
             this.set("quantity", 1);
             this.send("autoGenerateInventoryNumber");
+            if (this.get("newUploadedImage")) {
+              var duplicateImage = this.get("newUploadedImage");
+              var newUploadedImage = this.get("store").createRecord("image", {
+                cloudinaryId: duplicateImage.get("cloudinaryId"),
+                favourite: true
+              });
+              this.set("newUploadedImage", newUploadedImage);
+              this.set("imageKeys", newUploadedImage);
+            }
+            this.paramsToBeCleared();
           } else {
-            this.updateStoreAndSaveImage(data);
             this.clearSubformAttributes();
             this.setProperties({
               locationId: "",
