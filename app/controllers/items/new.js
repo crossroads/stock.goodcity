@@ -45,6 +45,8 @@ export default GoodcityController.extend(
     offerService: Ember.inject.service(),
     fixedDropdownArr: ["frequency", "voltage", "compTestStatus", "testStatus"],
     quantity: 1,
+    gradeValue: "",
+    defaultGradeValue: 500,
     labels: 1,
     length: null,
     width: null,
@@ -112,6 +114,15 @@ export default GoodcityController.extend(
       } else {
         return this.get("allAvailablePrinters")[0];
       }
+    }),
+
+    isApplyDefaultGradeValueVisible: Ember.computed("gradeValue", function() {
+      debugger;
+      const defaultGradeValue = this.get("defaultGradeValue");
+      if (defaultGradeValue != this.get("gradeValue")) {
+        return true;
+      }
+      return false;
     }),
 
     setLocation: Ember.observer("scanLocationName", function() {
@@ -504,6 +515,14 @@ export default GoodcityController.extend(
         }
         const offers = _.uniq([...this.get("offersLists"), offer]);
         this.set("offersLists", offers);
+      },
+
+      setGradeValue(e) {
+        this.set("gradeValue", e.target.value);
+      },
+
+      setDefultGradeValue() {
+        this.set("gradeValue", 500);
       },
 
       //file upload

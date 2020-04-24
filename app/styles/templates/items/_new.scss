@@ -109,6 +109,20 @@
     line-height: 1.8rem;
   }
 
+  .grade-value{
+    .apply-default {
+      padding: 5px;
+      color: #fff;
+      text-decoration: underline;
+
+    }
+    .default-content {
+      &:hover{
+        cursor: pointer;
+      }
+    }
+  }
+
   .dimension-row {
     .value {
       padding: 0;
