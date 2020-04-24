@@ -182,15 +182,18 @@ export default GoodcityController.extend(
 
     paramsToBeCleared() {
       let attr = this.get("paramsNotCopied").split(",");
-      let fields = {
-        ...this.get("inputFieldValues"),
-        ...this.get("dropDownValues"),
-        ...this.get("countryValue")
-      };
+      attr[5] = "ram"; //for testing
+      console.log(this.get("dropDownValues"));
       attr.forEach(value => {
-        if (fields.hasOwnProperty(value)) {
-          console.log(value);
-          this.set("inputFieldValues.value", null);
+        if (value == "country_id") {
+          this.setProperties({
+            countryValue: {},
+            selected: []
+          });
+        }
+        this.set(`inputFieldValues.${value}`, null);
+        if (value == "ram") {
+          this.send("setFields", value, "reset");
         }
       });
     },
@@ -734,11 +737,18 @@ export default GoodcityController.extend(
       },
 
       setFields(fieldName, value) {
+        console.log(fieldName);
+        console.log(value);
         let dropDownValues = this.get("dropDownValues");
-        if (this.get("fixedDropdownArr").indexOf(fieldName) >= 0) {
-          dropDownValues[`${fieldName}_id`] = value.id;
+        console.log(dropDownValues);
+        if (value == "reset") {
+          this.set(`dropDownValues.${fieldName}`, null);
         } else {
-          dropDownValues[fieldName] = value.tag ? value.tag.trim() : "";
+          if (this.get("fixedDropdownArr").indexOf(fieldName) >= 0) {
+            dropDownValues[`${fieldName}_id`] = value.id;
+          } else {
+            dropDownValues[fieldName] = value.tag ? value.tag.trim() : "";
+          }
         }
         this.set("dropDownValues", dropDownValues);
       },
