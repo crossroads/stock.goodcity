@@ -81,23 +81,18 @@ export default Ember.Component.extend(SearchMixin, {
   ),
 
   actions: {
-    cancel() {
+    closeOverlay() {
       this.set("searchText", "");
+      this.send("selectItemLabel", null);
+    },
+
+    selectItemLabel(type) {
+      this.getWithDefault("onSelect", _.noop)(type);
       this.set("open", false);
     },
 
     clearSearch() {
       this.set("searchText", "");
-    },
-
-    assignItemLabel(type) {
-      this.set("open", false);
-      this.set("isSearchCodePreviousRoute", true);
-      if (type) {
-        this.get("router").replaceWith("items.new", {
-          queryParams: { codeId: type.id, storageType: this.get("storageType") }
-        });
-      }
     }
   }
 });

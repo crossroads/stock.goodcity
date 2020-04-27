@@ -1,8 +1,9 @@
 import _ from "lodash";
 import ApiBaseService from "./api-base-service";
 import { toID } from "stock/utils/helpers";
+import NavigationAwareness from "stock/mixins/navigation_aware";
 
-export default ApiBaseService.extend({
+export default ApiBaseService.extend(NavigationAwareness, {
   store: Ember.inject.service(),
 
   init() {
@@ -31,6 +32,7 @@ export default ApiBaseService.extend({
   updatePackage(pkgId, pkgParams) {
     return this.PUT(`/packages/${pkgId}`, pkgParams).then(data => {
       this.get("store").pushPayload(data);
+      return data;
     });
   },
 
@@ -53,11 +55,20 @@ export default ApiBaseService.extend({
     });
   },
 
-  createInventory(storageType) {
-    Ember.run(() => {
-      this.set("openPackageSearch", true);
+  getPackageType(storageType = "") {
+    const deferred = Ember.RSVP.defer();
+
+    this.set("openPackageSearch", true);
+    if (storageType) {
       this.set("storageType", storageType);
+    }
+    this.set("onPackageTypeSelected", packageType => {
+      this.set("onPackageTypeSelected", _.noop);
+      this.set("openPackageSearch", false);
+      deferred.resolve(packageType || null);
     });
+
+    return deferred.promise;
   },
 
   openItemsSearch(item) {

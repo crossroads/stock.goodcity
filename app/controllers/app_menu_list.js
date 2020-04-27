@@ -32,6 +32,15 @@ export default Ember.Controller.extend(storageType, {
   },
 
   actions: {
+    async getPackageType(storageType) {
+      const type = await this.get("packageService").getPackageType(storageType);
+      if (type) {
+        this.transitionToRoute("items.new", {
+          queryParams: { codeId: type.id, storageType }
+        });
+      }
+    },
+
     logMeOut() {
       this.get("application").send("logMeOut");
     },
