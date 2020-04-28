@@ -23,23 +23,36 @@ export default Ember.Component.extend({
   displayLabel: Ember.computed("addAble", function() {
     return this.get("addAble") ? this.get("addItem") : "";
   }),
+  didRender() {
+    if (this.isDuplicateField) {
+      console.log(this.content);
+      this.send("addNewField", this.content, null);
+    }
+  },
 
   selectedOptionDisplay: Ember.computed("dropDownValues", function() {
     let selectedValues = {
       ...this.get("dropDownValues")
     };
+    console.log(selectedValues);
     let dataObj = {};
     Object.keys(selectedValues).map((data, index) => {
       if (data != "country_id") {
         if (this.get("fixedDropdownArrId").indexOf(data) >= 0) {
+          console.log(data);
           let field = `${data.substring(0, data.length - 3)}`;
+          console.log(field);
           let recordData = this.get("store")
             .peekRecord("lookup", selectedValues[data])
             .get("labelEn");
+          console.log(selectedValues[data]);
+          console.log(recordData);
+          console.log(this.isDuplicateField);
           dataObj[field] = {
             id: selectedValues[data],
             tag: recordData
           };
+          console.log(dataObj);
         } else {
           dataObj[data] = {
             id: index + 1,
@@ -98,6 +111,7 @@ export default Ember.Component.extend({
       packageDetails[name].push(newTag);
       this.set("packageDetails", packageDetails);
       this.send("setSelected", name, newTag);
+      this.set("isDuplicateField", false);
     },
 
     async setSelected(fieldName, value) {

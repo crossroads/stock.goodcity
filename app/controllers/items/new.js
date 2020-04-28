@@ -63,6 +63,7 @@ export default GoodcityController.extend(
     showAdditionalFields: false,
     isAllowedToPublish: false,
     isDuplicate: false,
+    isDuplicateField: false,
     isSaleable: false,
     imageKeys: Ember.computed.localStorage(),
     i18n: Ember.inject.service(),
@@ -181,8 +182,11 @@ export default GoodcityController.extend(
     },
 
     paramsToBeCleared() {
-      let attr = this.get("paramsNotCopied").split(",");
-      attr[5] = "ram"; //for testing
+      let attr = this.get("paramsNotCopied")
+        .trim()
+        .split(/\s*,\s*/);
+
+      attr[8] = "compTestStatus"; //for testing
       console.log(this.get("dropDownValues"));
       attr.forEach(value => {
         if (value == "country_id") {
@@ -192,7 +196,13 @@ export default GoodcityController.extend(
           });
         }
         this.set(`inputFieldValues.${value}`, null);
-        if (value == "ram") {
+        if (
+          value == "ram" ||
+          "size" ||
+          "optical" ||
+          "brand" ||
+          "compTestStatus"
+        ) {
           this.send("setFields", value, "reset");
         }
       });
@@ -488,6 +498,9 @@ export default GoodcityController.extend(
           this.updateStoreAndSaveImage(data);
           if (!this.get("isBoxOrPallet") && this.get("isDuplicate")) {
             this.replaceRoute("items.new");
+            this.paramsToBeCleared();
+            console.log("happened");
+            this.set("isDuplicateField", true);
             this.set("quantity", 1);
             this.send("autoGenerateInventoryNumber");
             if (this.get("newUploadedImage")) {
@@ -499,7 +512,7 @@ export default GoodcityController.extend(
               this.set("newUploadedImage", newUploadedImage);
               this.set("imageKeys", newUploadedImage);
             }
-            this.paramsToBeCleared();
+            // this.paramsToBeCleared();
           } else {
             this.clearSubformAttributes();
             this.setProperties({
@@ -741,14 +754,12 @@ export default GoodcityController.extend(
         console.log(value);
         let dropDownValues = this.get("dropDownValues");
         console.log(dropDownValues);
-        if (value == "reset") {
-          this.set(`dropDownValues.${fieldName}`, null);
+        if (this.get("fixedDropdownArr").indexOf(fieldName) >= 0) {
+          dropDownValues[`${fieldName}_id`] = value == "reset" ? "" : value.id;
+          console.log(dropDownValues);
         } else {
-          if (this.get("fixedDropdownArr").indexOf(fieldName) >= 0) {
-            dropDownValues[`${fieldName}_id`] = value.id;
-          } else {
-            dropDownValues[fieldName] = value.tag ? value.tag.trim() : "";
-          }
+          dropDownValues[fieldName] =
+            value == "reset" ? "" : value.tag ? value.tag.trim() : "";
         }
         this.set("dropDownValues", dropDownValues);
       },
