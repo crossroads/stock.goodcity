@@ -119,16 +119,22 @@ export default Ember.Mixin.create({
    * @memberof AsyncMixin
    * @instance
    * @param {Promise|Function} task the job to run
-   * @param {number} [errorStrategy] an indicator of how to handle the error
+   * @param {number} [opts|errorStrategy] an indicator of how to handle the error
    */
-  async runTask(task, errorStrategy) {
-    this.__incrementTaskCount();
+  async runTask(task, opts = {}) {
+    if (_.isNumber(opts)) {
+      opts = { errorStrategy: opts };
+    }
+
+    const { errorStrategy, showSpinner = true } = opts;
+
+    this.__incrementTaskCount(showSpinner ? 1 : 0);
     try {
       return await this.__run(task);
     } catch (err) {
       return this.__handleError(err, errorStrategy);
     } finally {
-      this.__incrementTaskCount(-1);
+      this.__incrementTaskCount(showSpinner ? -1 : 0);
     }
   },
 
