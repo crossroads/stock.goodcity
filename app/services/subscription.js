@@ -257,9 +257,15 @@ export default Ember.Service.extend(Ember.Evented, AsyncMixin, {
   },
 
   update_store(data, success) {
-    this.runTask(() => {
-      return this.applyChanges(data, success);
-    }, ERROR_STRATEGIES.ROLLBAR);
+    this.runTask(
+      () => {
+        return this.applyChanges(data, success);
+      },
+      {
+        errorStrategy: ERROR_STRATEGIES.ROLLBAR,
+        showSpinner: false
+      }
+    );
   },
 
   async applyChanges(data, success) {
