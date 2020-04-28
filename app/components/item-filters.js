@@ -22,7 +22,14 @@ function isChecked(filter) {
 export default Ember.Component.extend({
   i18n: Ember.inject.service(),
   filterService: Ember.inject.service(),
-  stateFilters: ["in_stock", "designated", "dispatched"],
+  stateFilters: [
+    "dispatched",
+    "processed",
+    "lost",
+    "packed",
+    "thrashed",
+    "recyled"
+  ],
   publishFilters: ["published_and_private", "published", "private"],
   imageFilters: ["with_and_without_images", "has_images", "no_images"],
 

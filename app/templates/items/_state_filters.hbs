@@ -13,13 +13,13 @@
       {{t "item_filters.state_filter_title"}}
     </div>
   </div>
-  {{#each stateFilters as |state|}}
-    <div class="row">
-      <div class='checkbox small-12 medium-12 large-12 columns'>
+  <div class="row">
+    {{#each stateFilters as |state|}}
+      <div class='checkbox small-6 medium-6 large-6 columns'>
         {{item-filter-checkbox name=state}}
       </div>
-    </div>
-  {{/each}}
+    {{/each}}
+  </div>
   <div class="row">
     <hr/>
   </div>
