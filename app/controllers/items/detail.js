@@ -92,6 +92,10 @@ export default GoodcityController.extend(
       return this.returnDisplayFields(subform);
     }),
 
+    expiryDate: Ember.computed("item.expiryDate", function() {
+      return this.get("item.expiryDate");
+    }),
+
     selectedCountry: Ember.computed("item.detail", function() {
       let country = this.get("item.detail.country");
       if (country) {
