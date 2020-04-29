@@ -29,11 +29,28 @@ export default ApiBaseService.extend(NavigationAwareness, {
     return this.POST(`/packages`, pkgParams);
   },
 
-  updatePackage(pkgId, pkgParams) {
-    return this.PUT(`/packages/${pkgId}`, pkgParams).then(data => {
-      this.get("store").pushPayload(data);
-      return data;
-    });
+  loadSubform(detailType, detailId) {
+    return this.get("store").findRecord(
+      _.snakeCase(detailType).toLowerCase(),
+      detailId
+    );
+  },
+
+  async updatePackage(pkgId, pkgParams, opts = {}) {
+    const { reloadDeps = false } = opts;
+
+    const payload = await this.PUT(`/packages/${pkgId}`, pkgParams);
+
+    if (reloadDeps) {
+      const { detail_type, detail_id } = _.get(payload, "item", {});
+
+      if (detail_id && detail_type) {
+        await this.loadSubform(detail_type, detail_id);
+      }
+    }
+
+    this.get("store").pushPayload(payload);
+    return this.get("store").peekRecord("item", pkgId);
   },
 
   getCloudinaryImage(imageId) {

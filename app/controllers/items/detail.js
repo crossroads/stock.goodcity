@@ -398,18 +398,15 @@ export default GoodcityController.extend(
       if (deleteDetailId) {
         packageParams.detail_id = null;
       }
-      const updatedItem = await this.runTask(
-        this.get("packageService").updatePackage(item.id, {
-          package: packageParams
-        })
+      await this.runTask(
+        this.get("packageService").updatePackage(
+          item.id,
+          {
+            package: packageParams
+          },
+          { reloadDeps: true }
+        )
       );
-      const detail = updatedItem.item.detail_id;
-      if (detail && detail.type) {
-        await this.store.findRecord(
-          _.snakeCase(detail.type).toLowerCase(),
-          detail.id
-        );
-      }
     },
 
     isSamePackage(type) {
