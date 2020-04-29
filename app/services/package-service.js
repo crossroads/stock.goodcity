@@ -41,6 +41,18 @@ export default ApiBaseService.extend({
       .get("firstObject");
   },
 
+  getItemValuation({
+    donorConditionId: donor_condition_id,
+    packageTypeId: package_type_id,
+    grade
+  }) {
+    return this.GET(`/packages/package_valuation`, {
+      donor_condition_id,
+      package_type_id,
+      grade
+    });
+  },
+
   createInventory(storageType) {
     Ember.run(() => {
       this.set("openPackageSearch", true);

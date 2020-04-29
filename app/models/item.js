@@ -44,6 +44,7 @@ export default cloudinaryUrl.extend({
   saleable: attr("boolean"),
   detailId: attr("number"),
   detailType: attr("string"),
+  valueHkDollar: attr("string"),
   detail: belongsTo("detail", {
     polymorphic: true,
     async: false

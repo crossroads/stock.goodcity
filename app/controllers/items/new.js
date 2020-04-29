@@ -45,7 +45,7 @@ export default GoodcityController.extend(
     offerService: Ember.inject.service(),
     fixedDropdownArr: ["frequency", "voltage", "compTestStatus", "testStatus"],
     quantity: 1,
-    gradeValue: "",
+    valueHkDollar: "",
     defaultGradeValue: 500,
     labels: 1,
     length: null,
@@ -116,14 +116,21 @@ export default GoodcityController.extend(
       }
     }),
 
-    isApplyDefaultGradeValueVisible: Ember.computed("gradeValue", function() {
-      debugger;
-      const defaultGradeValue = this.get("defaultGradeValue");
-      if (defaultGradeValue != this.get("gradeValue")) {
-        return true;
+    isApplyDefaultGradeValueVisible: Ember.computed(
+      "valueHkDollar",
+      function() {
+        const defaultGradeValue = this.get("defaultValueHkDollar");
+        const valueHkDollar = this.get("valueHkDollar");
+        if (!defaultGradeValue || !valueHkDollar) {
+          this.send("getItemValuation");
+          return false;
+        }
+        if (defaultGradeValue != this.get("valueHkDollar")) {
+          return true;
+        }
+        return false;
       }
-      return false;
-    }),
+    ),
 
     setLocation: Ember.observer("scanLocationName", function() {
       var scanInput = this.get("scanLocationName");
@@ -501,6 +508,21 @@ export default GoodcityController.extend(
         );
       },
 
+      async getItemValuation() {
+        const itemValuation = await this.get("packageService").getItemValuation(
+          {
+            donorConditionId: this.get("defaultCondition.id"),
+            grade: this.get("selectedGrade.id"),
+            packageTypeId: this.get("code.id")
+          }
+        );
+        const defaultValueHkDollar = this.get("defaultValueHkDollar");
+        if (!defaultValueHkDollar) {
+          this.set("defaultValueHkDollar", +itemValuation.value_hk_dollar);
+        }
+        this.set("valueHkDollar", +itemValuation.value_hk_dollar);
+      },
+
       removeOffer(offer) {
         const offersList = this.get("offersLists").filter(
           offer_list => offer_list.id !== offer.id
@@ -522,7 +544,7 @@ export default GoodcityController.extend(
       },
 
       setDefultGradeValue() {
-        this.set("gradeValue", 500);
+        this.set("valueHkDollar", this.get("defaultValueHkDollar"));
       },
 
       //file upload
