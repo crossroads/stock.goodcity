@@ -42,9 +42,13 @@ export default Ember.Component.extend({
           console.log(data);
           let field = `${data.substring(0, data.length - 3)}`;
           console.log(field);
-          let recordData = this.get("store")
-            .peekRecord("lookup", selectedValues[data])
-            .get("labelEn");
+          if (selectedValues[data]) {
+            var recordData = this.get("store")
+              .peekRecord("lookup", selectedValues[data])
+              .get("labelEn");
+          } else {
+            recordData = "";
+          }
           console.log(selectedValues[data]);
           console.log(recordData);
           console.log(this.isDuplicateField);

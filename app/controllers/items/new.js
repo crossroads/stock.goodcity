@@ -46,6 +46,13 @@ export default GoodcityController.extend(
     isSelectLocationPreviousRoute: Ember.computed.localStorage(),
     offerService: Ember.inject.service(),
     fixedDropdownArr: ["frequency", "voltage", "compTestStatus", "testStatus"],
+    removalOfFields: [
+      "serialNum",
+      "marMsOfficeSerialNum",
+      "osSerialNum",
+      "marOsSerialNum",
+      "msOfficeSerialNum"
+    ],
     quantity: 1,
     labels: 1,
     length: null,
@@ -185,25 +192,23 @@ export default GoodcityController.extend(
       let attr = this.get("paramsNotCopied")
         .trim()
         .split(/\s*,\s*/);
-
+      let fieldAttributes = this.get("displayFields").map(value => value.name);
       attr[8] = "compTestStatus"; //for testing
       console.log(this.get("dropDownValues"));
       attr.forEach(value => {
-        if (value == "country_id") {
-          this.setProperties({
-            countryValue: {},
-            selected: []
-          });
-        }
-        this.set(`inputFieldValues.${value}`, null);
-        if (
-          value == "ram" ||
-          "size" ||
-          "optical" ||
-          "brand" ||
-          "compTestStatus"
-        ) {
-          this.send("setFields", value, "reset");
+        if (fieldAttributes.indexOf(value) > -1) {
+          if (value == "country_id") {
+            this.setProperties({
+              countryValue: {},
+              selected: []
+            });
+          }
+          if (this.get("removalOfFields").indexOf(value) > -1) {
+            console.log(value);
+            this.set(`inputFieldValues.${value}`, null);
+          } else {
+            this.send("setFields", value, "reset");
+          }
         }
       });
     },
