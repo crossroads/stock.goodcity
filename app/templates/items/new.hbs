@@ -90,7 +90,7 @@
         <span class='input_text'>{{t "items.new.grade"}}</span>
         {{select-list
         content=grades
-        on-change=(action (mut selectedGrade))
+        on-change=(action "onGradeChange")
         selectedValue=selectedGrade
         value=selectedGrade
         selectArrow=true
@@ -114,11 +114,12 @@
         {{t "items.new.value"}}
       </div>
       <div class="columns small-3">
-        {{numeric-input input=(action 'setGradeValue') value=valueHkDollar name="value_hk" maxlength="6" pattern="[1-9][0-9]{0,6}"}}
+        {{numeric-input acceptFloat=true  value=valueHkDollar name="value_hk" maxlength="6"
+        pattern="^[1-9]\d*\.?\d{0,6}"}}
       </div>
 
       <div class="columns small-6 apply-default">
-        {{#if isApplyDefaultGradeValueVisible}}
+        {{#if canApplyDefaultValuation}}
           <a href="#" {{action 'setDefultGradeValue'}} class="default-content">Apply Default: {{defaultValueHkDollar}}</a>
         {{/if}}
       </div>

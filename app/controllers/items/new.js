@@ -116,21 +116,18 @@ export default GoodcityController.extend(
       }
     }),
 
-    isApplyDefaultGradeValueVisible: Ember.computed(
-      "valueHkDollar",
-      function() {
-        const defaultGradeValue = this.get("defaultValueHkDollar");
-        const valueHkDollar = this.get("valueHkDollar");
-        if (!defaultGradeValue || !valueHkDollar) {
-          this.send("getItemValuation");
-          return false;
-        }
-        if (defaultGradeValue != this.get("valueHkDollar")) {
-          return true;
-        }
+    canApplyDefaultValuation: Ember.computed("valueHkDollar", function() {
+      const defaultGradeValue = this.get("defaultValueHkDollar");
+      const valueHkDollar = this.get("valueHkDollar");
+      if (!defaultGradeValue) {
+        this.send("getItemValuation");
         return false;
       }
-    ),
+      if (defaultGradeValue != valueHkDollar) {
+        return true;
+      }
+      return false;
+    }),
 
     setLocation: Ember.observer("scanLocationName", function() {
       var scanInput = this.get("scanLocationName");
@@ -508,6 +505,12 @@ export default GoodcityController.extend(
         );
       },
 
+      onGradeChange({ id, name }) {
+        this.set("selectedGrade", { id, name });
+        this.set("defaultValueHkDollar", null);
+        this.send("getItemValuation");
+      },
+
       async getItemValuation() {
         const itemValuation = await this.get("packageService").getItemValuation(
           {
@@ -516,6 +519,7 @@ export default GoodcityController.extend(
             packageTypeId: this.get("code.id")
           }
         );
+        debugger;
         const defaultValueHkDollar = this.get("defaultValueHkDollar");
         if (!defaultValueHkDollar) {
           this.set("defaultValueHkDollar", +itemValuation.value_hk_dollar);
@@ -537,10 +541,6 @@ export default GoodcityController.extend(
         }
         const offers = _.uniq([...this.get("offersLists"), offer]);
         this.set("offersLists", offers);
-      },
-
-      setGradeValue(e) {
-        this.set("gradeValue", e.target.value);
       },
 
       setDefultGradeValue() {
