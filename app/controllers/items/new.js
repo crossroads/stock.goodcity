@@ -51,7 +51,8 @@ export default GoodcityController.extend(
       "marMsOfficeSerialNum",
       "osSerialNum",
       "marOsSerialNum",
-      "msOfficeSerialNum"
+      "msOfficeSerialNum",
+      "serialNumber"
     ],
     quantity: 1,
     labels: 1,
@@ -193,18 +194,15 @@ export default GoodcityController.extend(
         .trim()
         .split(/\s*,\s*/);
       let fieldAttributes = this.get("displayFields").map(value => value.name);
-      attr[8] = "compTestStatus"; //for testing
-      console.log(this.get("dropDownValues"));
       attr.forEach(value => {
         if (fieldAttributes.indexOf(value) > -1) {
-          if (value == "country_id") {
+          if (value == "country") {
             this.setProperties({
               countryValue: {},
               selected: []
             });
           }
           if (this.get("removalOfFields").indexOf(value) > -1) {
-            console.log(value);
             this.set(`inputFieldValues.${value}`, null);
           } else {
             this.send("setFields", value, "reset");
@@ -466,7 +464,6 @@ export default GoodcityController.extend(
           printer_id: this.get("selectedPrinterId")
         })
         .catch(error => {
-          console.log();
           this.get("messageBox").alert(error.responseJSON.errors);
         });
     },
@@ -496,7 +493,6 @@ export default GoodcityController.extend(
           package: this.packageParams()
         })
         .then(data => {
-          console.log(data);
           if (this.get("isMultipleCountPrint")) {
             this.printBarcode(data.item.id);
           }
@@ -504,8 +500,6 @@ export default GoodcityController.extend(
           if (!this.get("isBoxOrPallet") && this.get("isDuplicate")) {
             this.replaceRoute("items.new");
             this.paramsToBeCleared();
-            console.log("happened");
-            this.set("isDuplicateField", true);
             this.set("quantity", 1);
             this.send("autoGenerateInventoryNumber");
             if (this.get("newUploadedImage")) {
@@ -517,7 +511,6 @@ export default GoodcityController.extend(
               this.set("newUploadedImage", newUploadedImage);
               this.set("imageKeys", newUploadedImage);
             }
-            // this.paramsToBeCleared();
           } else {
             this.clearSubformAttributes();
             this.setProperties({
@@ -755,13 +748,9 @@ export default GoodcityController.extend(
       },
 
       setFields(fieldName, value) {
-        console.log(fieldName);
-        console.log(value);
         let dropDownValues = this.get("dropDownValues");
-        console.log(dropDownValues);
         if (this.get("fixedDropdownArr").indexOf(fieldName) >= 0) {
           dropDownValues[`${fieldName}_id`] = value == "reset" ? "" : value.id;
-          console.log(dropDownValues);
         } else {
           dropDownValues[fieldName] =
             value == "reset" ? "" : value.tag ? value.tag.trim() : "";

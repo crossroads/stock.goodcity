@@ -23,10 +23,13 @@ export default Ember.Component.extend({
   displayLabel: Ember.computed("addAble", function() {
     return this.get("addAble") ? this.get("addItem") : "";
   }),
-  didRender() {
+
+  didUpdate() {
     if (this.isDuplicateField) {
-      console.log(this.content);
-      this.send("addNewField", this.content, null);
+      let dropDownValues = {
+        ...this.get("dropDownValues")
+      };
+      this.set("dropDownValues", dropDownValues);
     }
   },
 
@@ -34,14 +37,11 @@ export default Ember.Component.extend({
     let selectedValues = {
       ...this.get("dropDownValues")
     };
-    console.log(selectedValues);
     let dataObj = {};
     Object.keys(selectedValues).map((data, index) => {
       if (data != "country_id") {
         if (this.get("fixedDropdownArrId").indexOf(data) >= 0) {
-          console.log(data);
           let field = `${data.substring(0, data.length - 3)}`;
-          console.log(field);
           if (selectedValues[data]) {
             var recordData = this.get("store")
               .peekRecord("lookup", selectedValues[data])
@@ -49,14 +49,10 @@ export default Ember.Component.extend({
           } else {
             recordData = "";
           }
-          console.log(selectedValues[data]);
-          console.log(recordData);
-          console.log(this.isDuplicateField);
           dataObj[field] = {
             id: selectedValues[data],
             tag: recordData
           };
-          console.log(dataObj);
         } else {
           dataObj[data] = {
             id: index + 1,
@@ -65,6 +61,7 @@ export default Ember.Component.extend({
         }
       }
     });
+    this.set("isDuplicateField", false);
     return dataObj;
   }),
 
