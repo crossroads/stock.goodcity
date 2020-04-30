@@ -154,6 +154,15 @@ export default GoodcityController.extend(
       }
     }),
 
+    canApplyDefaultValuation: Ember.computed("model.valueHkDollar", function() {
+      const valueHkDollar = +this.get("model.valueHkDollar");
+      let defaultValue = +this.get("defaultValueHkDollar");
+      defaultValue = !!defaultValue
+        ? defaultValue
+        : this.set("defaultValueHkDollar", valueHkDollar);
+      return valueHkDollar !== defaultValue;
+    }),
+
     allowPublish: Ember.computed(
       "model.isSingletonItem",
       "model.availableQuantity",
@@ -389,6 +398,20 @@ export default GoodcityController.extend(
       setScannedSearchText(searchedText) {
         this.set("searchText", searchedText);
         this.send("openItemsSearch");
+      },
+
+      setDefaultItemValuation() {
+        const item = this.get("item");
+        item.set("valueHkDollar", +this.get("defaultValueHkDollar"));
+
+        this.runTask(async () => {
+          try {
+            await item.save();
+          } catch (e) {
+            item.rollbackAttributes();
+            throw e;
+          }
+        }, ERROR_STRATEGIES.MODAL);
       },
 
       async openLocationSearch(item, quantity) {

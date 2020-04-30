@@ -78,6 +78,19 @@
           </div>
         </div>
       </div>
+
+      <div class="row">
+        <div class="columns small-3">{{t 'items.value'}} </div>
+        <div class="columns small-2 value">
+          {{numeric-inline-input name="value_hk_dollar" class="numeric-input item-length small-3" value=item.valueHkDollar maxlength="6" acceptFloat=true item=item}}
+        </div>
+        <div class="columns small-7">
+          {{#if canApplyDefaultValuation}}
+            <a href="#" {{action 'setDefaultItemValuation'}} class="default-content">Apply Default: {{defaultValueHkDollar}}</a>
+          {{/if}}
+        </div>
+      </div>
+
       <div class="row">
         {{donation-field item=item caseNumber=item.caseNumber}}
       </div>

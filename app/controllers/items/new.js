@@ -335,6 +335,8 @@ export default GoodcityController.extend(
         state_event: "mark_received",
         storage_type: this.get("storageType"),
         expiry_date: this.get("expiry_date"),
+        value_hk_dollar:
+          this.get("valueHkDollar") || this.get("defaultValueHkDollar"),
         packages_locations_attributes: {
           0: {
             location_id: locationId,
