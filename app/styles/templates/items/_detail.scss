@@ -371,7 +371,6 @@
         font-size: 100%;
         margin-top: -15px;
       }
-
     }
 
     .item_options_component {
@@ -392,6 +391,13 @@
     i {
       margin-right: 0.5rem;
     }
+  }
+}
+
+.default-content {
+  font-size: 0.7rem;
+  &:hover{
+    cursor: pointer;
   }
 }
 
