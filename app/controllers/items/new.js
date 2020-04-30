@@ -105,6 +105,10 @@ export default GoodcityController.extend(
       }
     ),
 
+    showDuplicateCheckbox: Ember.computed("storageType", function() {
+      return ["Package"].indexOf(this.get("storageType")) > -1;
+    }),
+
     locale: function(str) {
       return this.get("i18n").t(str);
     },
@@ -497,7 +501,7 @@ export default GoodcityController.extend(
             this.printBarcode(data.item.id);
           }
           this.updateStoreAndSaveImage(data);
-          if (!this.get("isBoxOrPallet") && this.get("isDuplicate")) {
+          if (this.get("isDuplicate")) {
             this.replaceRoute("items.new");
             this.paramsToBeCleared();
             this.set("quantity", 1);

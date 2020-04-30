@@ -241,12 +241,14 @@
             {{input type="checkbox" id="publishItem" checked=isAllowedToPublish}}
           </div>
         {{/if}}
+        {{#if showDuplicateCheckbox}}
         <div class="small-3 columns item-label">
           <label for="duplicateItem">{{t "items.new.duplicate"}}</label>
         </div>
         <div class="small-3 columns publish">
           {{input type="checkbox" id="duplicateItem" checked=isDuplicate}}
         </div>
+        {{/if}}
       </div>
       <div class="row">
         <div class="small-6 columns">
