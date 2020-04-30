@@ -46,7 +46,6 @@ export default GoodcityController.extend(
     fixedDropdownArr: ["frequency", "voltage", "compTestStatus", "testStatus"],
     quantity: 1,
     valueHkDollar: "",
-    defaultGradeValue: 500,
     labels: 1,
     length: null,
     width: null,
@@ -117,13 +116,13 @@ export default GoodcityController.extend(
     }),
 
     canApplyDefaultValuation: Ember.computed("valueHkDollar", function() {
-      const defaultGradeValue = this.get("defaultValueHkDollar");
+      const defaultValue = this.get("defaultValueHkDollar");
       const valueHkDollar = this.get("valueHkDollar");
-      if (!defaultGradeValue) {
+      if (!defaultValue) {
         this.send("getItemValuation");
         return false;
       }
-      if (defaultGradeValue != valueHkDollar) {
+      if (defaultValue != valueHkDollar) {
         return true;
       }
       return false;
@@ -519,7 +518,6 @@ export default GoodcityController.extend(
             packageTypeId: this.get("code.id")
           }
         );
-        debugger;
         const defaultValueHkDollar = this.get("defaultValueHkDollar");
         if (!defaultValueHkDollar) {
           this.set("defaultValueHkDollar", +itemValuation.value_hk_dollar);
@@ -543,7 +541,7 @@ export default GoodcityController.extend(
         this.set("offersLists", offers);
       },
 
-      setDefultGradeValue() {
+      setDefaultItemValuation() {
         this.set("valueHkDollar", this.get("defaultValueHkDollar"));
       },
 
