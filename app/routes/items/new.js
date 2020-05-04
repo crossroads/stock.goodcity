@@ -132,7 +132,15 @@ export default AuthorizeRoute.extend({
     }
   },
 
-  initializeAttributes() {
+  getDefaultCondition() {
+    const conditions = this.get("store").peekAll("donor_condition");
+    return (
+      conditions.filterBy("name", "Lightly Used").get("firstObject") ||
+      conditions.get("firstObject")
+    );
+  },
+
+  async initializeAttributes() {
     const controller = this.controller;
     this.set("newItemRequest", false);
     controller.set("quantity", 1);
@@ -147,6 +155,15 @@ export default AuthorizeRoute.extend({
       id: "B"
     });
     controller.set("imageKeys", "");
+    const defaultValue = await this.get("packageService").getItemValuation({
+      donorConditionId: this.getDefaultCondition().id,
+      grade: controller.get("selectedGrade").id,
+      packageTypeId: controller.get("codeId")
+    });
+
+    controller.set("defaultCondition", this.getDefaultCondition());
+    controller.set("valueHkDollar", defaultValue.value_hk_dollar);
+    controller.set("defaultValueHkDollar", defaultValue.value_hk_dollar);
     this.setupPrinterId(controller);
   }
 });

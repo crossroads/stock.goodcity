@@ -76,6 +76,8 @@ export default AuthorizeRoute.extend({
     controller.set("callOrderObserver", false);
     controller.set("backLinkPath", this.get("itemBackLinkPath"));
     controller.set("active", true);
+    controller.set("defaultValueHkDollar", model.get("valueHkDollar"));
+
     if (["Box", "Pallet"].indexOf(model.get("storageTypeName")) >= 0) {
       controller.send("fetchContainedPackages");
     }

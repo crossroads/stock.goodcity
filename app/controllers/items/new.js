@@ -50,10 +50,6 @@ export default GoodcityController.extend(
     length: null,
     width: null,
     height: null,
-    selectedGrade: {
-      name: "B",
-      id: "B"
-    },
     invalidLocation: false,
     invalidScanResult: false,
     newUploadedImage: null,
@@ -118,11 +114,6 @@ export default GoodcityController.extend(
     canApplyDefaultValuation: Ember.computed("valueHkDollar", function() {
       const defaultValue = this.get("defaultValueHkDollar");
       const valueHkDollar = this.get("valueHkDollar");
-
-      if (!defaultValue) {
-        this.send("getItemValuation");
-        return false;
-      }
       return defaultValue !== valueHkDollar;
     }),
 
@@ -154,14 +145,6 @@ export default GoodcityController.extend(
 
     conditions: Ember.computed(function() {
       return this.get("store").peekAll("donor_condition");
-    }),
-
-    defaultCondition: Ember.computed(function() {
-      const conditions = this.get("conditions");
-      return (
-        conditions.filterBy("name", "Lightly Used").get("firstObject") ||
-        conditions.get("firstObject")
-      );
     }),
 
     description: Ember.computed("code", {

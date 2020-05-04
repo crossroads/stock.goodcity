@@ -157,9 +157,6 @@ export default GoodcityController.extend(
     canApplyDefaultValuation: Ember.computed("model.valueHkDollar", function() {
       const valueHkDollar = +this.get("model.valueHkDollar");
       let defaultValue = +this.get("defaultValueHkDollar");
-      defaultValue = !!defaultValue
-        ? defaultValue
-        : this.set("defaultValueHkDollar", valueHkDollar);
       return valueHkDollar !== defaultValue;
     }),
 
