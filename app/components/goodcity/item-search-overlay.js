@@ -15,10 +15,6 @@ export default Ember.Component.extend(SearchMixin, AsyncMixin, {
   messageBox: Ember.inject.service(),
   i18n: Ember.inject.service(),
 
-  init() {
-    this._super("item-search-overlay");
-  },
-
   storageTypeName: Ember.computed.alias("entity.storageTypeName"),
 
   hasSearchText: Ember.computed("searchText", function() {

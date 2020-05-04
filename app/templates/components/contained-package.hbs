@@ -6,7 +6,7 @@
     <div class="small-8 medium-8 columns details">
       <div class="content">
         <span>
-          {{fa-icon (if package.isSet 'tags' (storage-icon package.storageTypeName))}}
+          {{fa-icon (if package.isPartOfSet 'tags' (storage-icon package.storageTypeName))}}
           {{package.inventoryNumber}}
         </span>
       </div>

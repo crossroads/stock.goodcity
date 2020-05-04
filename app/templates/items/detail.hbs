@@ -10,10 +10,10 @@
       {{/back-link}}
       <div id="itemImage">
         {{#if showImages}}
-          {{image-zoom item=model}}
+          {{image-zoom item=model showSetImages=true}}
         {{/if}}
         <div class="image-overlay {{if showSetList 'opaque' 'transparent' }}">
-          {{#if model.isSet}}
+          {{#if model.isPartOfSet}}
             {{partial 'items/detail/set_header' }}
           {{/if}}
           <div style="visibility: {{if showSetList 'hidden' 'visible' }}">
@@ -24,7 +24,7 @@
       <div class="image-action-list">
         {{#unless (is-or model.hasAllPackagesDispatched model.hasAllPackagesDesignated)}}
           {{#if model.quantity}}
-            {{#if (is-not model.isSet)}}
+            {{#if (is-not model.isPartOfSet)}}
               {{#if model.isSingletonItem}}
                 {{#link-to 'items.detail.publishing' model.id tagName='span' href=false}}
                   <span class="no-avatar">
@@ -36,7 +36,7 @@
           {{/if}}
         {{/unless}}
 
-        {{#unless model.isSet}}
+        {{#unless model.isPartOfSet}}
           {{#if (is-and item.hasOneDesignatedPackage (is-not model.hasAllPackagesDispatched))}}
             <div class="{{unless item.hasOneDesignatedPackage 'disabled'}}">
               {{#if (is-and model.isSingletonItem model.designation.isGoodCityOrder)}}

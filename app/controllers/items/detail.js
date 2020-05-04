@@ -264,34 +264,6 @@ export default GoodcityController.extend(
       }
     },
 
-    allDispatched: Ember.computed(
-      "item.{isDispatched,isSet,setItem.items.@each.isDispatched}",
-      function() {
-        if (this.get("item.isSet")) {
-          return this.get("item.setItem.allDispatched");
-        } else {
-          return this.get("item.isDispatched");
-        }
-      }
-    ),
-
-    hasDesignation: Ember.computed(
-      "item.{isDesignated,isSet,setItem.items.@each.isDesignated}",
-      function() {
-        if (this.get("item.isSet")) {
-          var allItems = this.get("item.setItem.items");
-          return (
-            !this.get("item.setItem.allDispatched") &&
-            allItems.filterBy("isDesignated").length > 0
-          );
-        } else {
-          return (
-            this.get("item.isDesignated") && !this.get("item.isDispatched")
-          );
-        }
-      }
-    ),
-
     updatePackageOffers(offerIds) {
       this.runTask(
         this.get("packageService").updatePackage(this.get("item.id"), {

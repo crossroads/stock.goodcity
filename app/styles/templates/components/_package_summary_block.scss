@@ -1,4 +1,9 @@
 .package-summary-block {
+  
+  .no-events {
+    pointer-events: none;
+  }
+
   .row {
     max-width: 768px;
     min-height: auto;

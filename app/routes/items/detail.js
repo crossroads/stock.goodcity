@@ -17,14 +17,13 @@ export default AuthorizeRoute.extend({
     // Load selected package
     const model = await this.loadItemWithImages(item_id);
 
-    if (model.get("isSet")) {
+    if (model.get("isPartOfSet")) {
       // Load the other items of the set
-      const promises = model
-        .get("siblings")
-        .mapBy("id")
-        .map(id => this.loadItemWithImages(id));
-
-      await Ember.RSVP.all(promises);
+      // const promises = model
+      //   .get("siblings")
+      //   .mapBy("id")
+      //   .map(id => this.loadItemWithImages(id));
+      // await Ember.RSVP.all(promises);
     }
 
     let detailType = model.get("detailType");

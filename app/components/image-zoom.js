@@ -5,9 +5,10 @@ export default Ember.Component.extend({
   lightGallery: null,
   item: null,
   isMobileApp: config.cordova.enabled,
+  showSetImages: false,
 
   imageUrls: Ember.computed("item.id", function() {
-    if (this.get("item.isSet")) {
+    if (this.get("showSetImages") && this.get("item.isPartOfSet")) {
       return this.get("item.setImages");
     }
 
