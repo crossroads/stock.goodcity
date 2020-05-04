@@ -25,6 +25,7 @@ export default Ember.Component.extend({
   }),
 
   didUpdate() {
+    this._super(...arguments);
     if (this.isDuplicateField) {
       let dropDownValues = {
         ...this.get("dropDownValues")
@@ -112,7 +113,6 @@ export default Ember.Component.extend({
       packageDetails[name].push(newTag);
       this.set("packageDetails", packageDetails);
       this.send("setSelected", name, newTag);
-      this.set("isDuplicateField", false);
     },
 
     async setSelected(fieldName, value) {

@@ -71,7 +71,6 @@ export default GoodcityController.extend(
     showAdditionalFields: false,
     isAllowedToPublish: false,
     isDuplicate: false,
-    isDuplicateField: false,
     isSaleable: false,
     imageKeys: Ember.computed.localStorage(),
     i18n: Ember.inject.service(),
@@ -501,7 +500,7 @@ export default GoodcityController.extend(
             this.printBarcode(data.item.id);
           }
           this.updateStoreAndSaveImage(data);
-          if (this.get("isDuplicate")) {
+          if (this.get("isDuplicate") && !this.get("isBoxOrPallet")) {
             this.replaceRoute("items.new");
             this.paramsToBeCleared();
             this.set("quantity", 1);
