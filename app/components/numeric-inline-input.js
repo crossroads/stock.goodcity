@@ -27,17 +27,6 @@ export default Ember.TextField.extend({
     }
   },
 
-  keyUp: function() {
-    var value = this.attrs.value.value;
-    var regexPattern = this.get("acceptFloat")
-      ? /^[1-9]\d*\.?\d{0,6}/
-      : /^\d+$/;
-    if (value && value.toString().search(regexPattern) !== 0) {
-      this.set("value", value.replace(/\D/g, ""));
-    }
-    return true;
-  },
-
   whichKey(e, key) {
     var keyList = [13, 8, 9, 39, 46];
     return (
@@ -62,10 +51,8 @@ export default Ember.TextField.extend({
 
   focusOut() {
     var val = this.attrs.value.value;
-    var regexPattern = this.get("acceptFloat")
-      ? /^[1-9]\d*\.?\d{0,6}/
-      : /^\d+$/;
-    if (val && val.toString().search(regexPattern) !== 0) {
+    var regexPattern = this.get("acceptFloat") ? /^\d+\.?\d*$/g : /^\d+$/;
+    if (val && !val.toString().match(regexPattern)) {
       this.set("value", val.replace(/\D/g, ""));
     }
     var item = this.get("item");
@@ -74,7 +61,7 @@ export default Ember.TextField.extend({
     var packageParams = {};
     packageParams[key] = this.get("value") || "";
 
-    if (parseInt(packageParams[key], 10) === 0) {
+    if (isNaN(packageParams[key])) {
       Ember.$(this.element).removeClass("numeric-inline-input");
       this.set("value", "");
       return false;
