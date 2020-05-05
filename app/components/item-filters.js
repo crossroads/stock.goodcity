@@ -55,6 +55,11 @@ export default Ember.Component.extend({
     filters.forEach(uncheckFilter);
   },
 
+  // Applies filters (Generic for all given filters)
+  checkAll(filters) {
+    filters.forEach(checkFilter);
+  },
+
   actions: {
     applyFilters() {
       if (this.get("applyStateFilter")) {
@@ -63,6 +68,15 @@ export default Ember.Component.extend({
           .concat(this.get("publishFilters"))
           .concat(this.get("imageFilters"));
 
+        this.applyFilter(allStatesFilters, "itemStateFilters");
+      }
+    },
+
+    applyOnHandFilter() {
+      if (this.get("applyStateFilter")) {
+        this.send("clearFilters");
+        let allStatesFilters = this.get("stateFilters");
+        this.checkAll(allStatesFilters);
         this.applyFilter(allStatesFilters, "itemStateFilters");
       }
     },

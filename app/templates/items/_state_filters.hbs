@@ -3,7 +3,7 @@
     <button {{action "applyFilters"}} class="button expand filter-btn">{{t "order_filters.apply_filter_button"}}</button>
   </div>
   <div class="small-6 columns">
-    <button {{action "clearFilters"}} class="button expand filter-btn">{{t "order_filters.clear_button"}}</button>
+    <div class="on-hand-filter-btn" {{action "applyOnHandFilter"}}>All on-hand items</div>
   </div>
 </div>
 <div class="state-filter-block">
