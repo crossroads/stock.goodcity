@@ -193,25 +193,29 @@ export default GoodcityController.extend(
     },
 
     paramsToBeCleared() {
-      let attr = this.get("paramsNotCopied")
-        .trim()
-        .split(/\s*,\s*/);
-      let fieldAttributes = this.get("displayFields").map(value => value.name);
-      attr.forEach(value => {
-        if (fieldAttributes.indexOf(value) > -1) {
-          if (value == "country") {
-            this.setProperties({
-              countryValue: {},
-              selected: []
-            });
+      if (this.get("displayFields")) {
+        let attr = this.get("paramsNotCopied")
+          .trim()
+          .split(/\s*,\s*/);
+        let fieldAttributes = this.get("displayFields").map(
+          value => value.name
+        );
+        attr.forEach(value => {
+          if (fieldAttributes.indexOf(value) > -1) {
+            if (value == "country") {
+              this.setProperties({
+                countryValue: {},
+                selected: []
+              });
+            }
+            if (this.get("removalOfFields").indexOf(value) > -1) {
+              this.set(`inputFieldValues.${value}`, null);
+            } else {
+              this.send("setFields", value, "reset");
+            }
           }
-          if (this.get("removalOfFields").indexOf(value) > -1) {
-            this.set(`inputFieldValues.${value}`, null);
-          } else {
-            this.send("setFields", value, "reset");
-          }
-        }
-      });
+        });
+      }
     },
 
     showPiecesInput: Ember.computed("codeId", function() {
