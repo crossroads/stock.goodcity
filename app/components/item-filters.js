@@ -22,14 +22,8 @@ function isChecked(filter) {
 export default Ember.Component.extend({
   i18n: Ember.inject.service(),
   filterService: Ember.inject.service(),
-  stateFilters: [
-    "dispatched",
-    "processed",
-    "lost",
-    "packed",
-    "thrashed",
-    "recyled"
-  ],
+  stateFilters: ["in_stock", "designated"],
+  lossStateFilters: ["dispatch", "process", "loss", "pack", "trash", "recycle"],
   publishFilters: ["published_and_private", "published", "private"],
   imageFilters: ["with_and_without_images", "has_images", "no_images"],
 
@@ -58,8 +52,10 @@ export default Ember.Component.extend({
     applyFilters() {
       if (this.get("applyStateFilter")) {
         let allStatesFilters = this.get("stateFilters")
+          .concat(this.get("lossStateFilters"))
           .concat(this.get("publishFilters"))
           .concat(this.get("imageFilters"));
+
         this.applyFilter(allStatesFilters, "itemStateFilters");
       }
     },
@@ -67,6 +63,7 @@ export default Ember.Component.extend({
     clearFilters() {
       if (this.get("applyStateFilter")) {
         let allStatesFilters = this.get("stateFilters")
+          .concat(this.get("lossStateFilters"))
           .concat(this.get("publishFilters"))
           .concat(this.get("imageFilters"));
         this.uncheckAll(allStatesFilters);

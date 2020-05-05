@@ -24,6 +24,17 @@
     <hr/>
   </div>
 
+  <div class="row">
+    {{#each lossStateFilters as |state|}}
+      <div class='checkbox small-6 medium-6 large-6 columns'>
+        {{item-filter-checkbox name=state}}
+      </div>
+    {{/each}}
+  </div>
+  <div class="row">
+    <hr/>
+  </div>
+
   {{!-- Item publish filters --}}
   <div class="row">
     <div class="publish-filter-title small-5 medium-4 large-4 columns">
