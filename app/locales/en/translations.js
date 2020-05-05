@@ -204,11 +204,11 @@ export default {
     loss: "Lost",
     pack: "Packed",
     trash: "Thrashed",
-    recyle: "Recycled",
+    recycle: "Recycled",
     in_stock_info: "At least one is available(i.e not designated)",
     designated: "Designated",
     designated_info: "All remaining quantity is reserved for order(s)",
-    dispatch: "Dispatched",
+    dispatched: "Dispatched",
     dispatched_info: "Entire quantity was previously sent out"
   },
   order_filters: {

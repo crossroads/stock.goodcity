@@ -23,7 +23,14 @@ export default Ember.Component.extend({
   i18n: Ember.inject.service(),
   filterService: Ember.inject.service(),
   stateFilters: ["in_stock", "designated"],
-  lossStateFilters: ["dispatch", "process", "loss", "pack", "trash", "recycle"],
+  lossStateFilters: [
+    "dispatched",
+    "process",
+    "loss",
+    "pack",
+    "trash",
+    "recycle"
+  ],
   publishFilters: ["published_and_private", "published", "private"],
   imageFilters: ["with_and_without_images", "has_images", "no_images"],
 
