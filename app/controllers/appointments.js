@@ -1,5 +1,6 @@
 import Ember from "ember";
 import _ from "lodash";
+import config from "stock/config/environment";
 import apptUtils from "../utils/appointments";
 import GoodcityController from "./goodcity_controller";
 
@@ -8,6 +9,7 @@ export default GoodcityController.extend({
 
   isPresetsTab: Ember.computed.equal("selectedTab", "presets"),
   isSpecialTab: Ember.computed.not("isPresetsTab"),
+  hkTimeZone: config.APP.HK_TIME_ZONE,
 
   // ---- Data structure
 
@@ -157,6 +159,9 @@ export default GoodcityController.extend({
 
       const note = this.get("dateDescription");
       const timestamp = this.get("selectedDate");
+      const zone_timestamp = moment
+        .tz(timestamp.toDateString(), this.get("hkTimeZone"))
+        .toDate();
       const clear = this.send.bind(this, "cancelDateCreation");
       const dateExists = this.get("model.appointmentSlots").find(sl =>
         apptUtils.sameDay(sl.get("timestamp"), timestamp)
@@ -167,7 +172,7 @@ export default GoodcityController.extend({
         return;
       }
       this.createRecord("appointment_slot", {
-        timestamp,
+        timestamp: zone_timestamp,
         note,
         quota: 0
       }).finally(clear);
