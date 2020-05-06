@@ -50,44 +50,54 @@ export default Ember.TextField.extend({
   },
 
   focusOut() {
-    var val = this.attrs.value.value;
-    var regexPattern = this.get("acceptFloat") ? /^\d+\.?\d*$/g : /^\d+$/;
+    let val = this.attrs.value.value;
+    var regexPattern = this.get("acceptFloat") ? /^\d+\.?\d+$/g : /^\d+$/;
     if (val && !val.toString().match(regexPattern)) {
-      this.set("value", val.replace(/\D/g, ""));
-    }
-    var item = this.get("item");
-    var url = `/packages/${item.get("id")}`;
-    var key = this.get("name");
-    var packageParams = {};
-    packageParams[key] = this.get("value") || "";
-
-    if (isNaN(packageParams[key])) {
-      Ember.$(this.element).removeClass("numeric-inline-input");
-      this.set("value", "");
-      return false;
+      val = val.replace(/[^\d\.]/g, "");
     }
 
-    Ember.$(this.element).removeClass("numeric-inline-input");
-    if (
-      packageParams[key].toString() !== this.get("previousValue").toString()
-    ) {
-      var loadingView = getOwner(this)
-        .lookup("component:loading")
-        .append();
-      new AjaxPromise(url, "PUT", this.get("session.authToken"), {
-        package: packageParams
-      })
-        .then(data => {
-          this.get("store").pushPayload(data);
+    val = this.get("acceptFloat")
+      ? parseFloat(this.get("value"))
+      : +this.get("value");
+    this.set("value", val || 0);
+
+    this.onFocusOut && this.onFocusOut();
+
+    if (!this.skipSave) {
+      var item = this.get("item");
+      var url = `/packages/${item.get("id")}`;
+      var key = this.get("name");
+      var packageParams = {};
+      packageParams[key] = this.get("value") || "";
+
+      if (isNaN(packageParams[key])) {
+        this.set("value", "");
+        return false;
+      }
+
+      if (
+        packageParams[key].toString() !== this.get("previousValue").toString()
+      ) {
+        var loadingView = getOwner(this)
+          .lookup("component:loading")
+          .append();
+        new AjaxPromise(url, "PUT", this.get("session.authToken"), {
+          package: packageParams
         })
-        .finally(() => {
-          loadingView.destroy();
-        });
+          .then(data => {
+            this.get("store").pushPayload(data);
+          })
+          .finally(() => {
+            loadingView.destroy();
+          });
+      }
     }
+    Ember.$(this.element).removeClass("numeric-inline-input");
   },
 
   focusIn() {
     this.addCssStyle();
+    this.onFocusIn && this.onFocusIn();
   },
 
   addCssStyle() {

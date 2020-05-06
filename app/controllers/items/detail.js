@@ -160,6 +160,11 @@ export default GoodcityController.extend(
       return valueHkDollar !== defaultValue;
     }),
 
+    canSave: Ember.computed("model.valueHkDollar", function() {
+      const item = this.get("item");
+      return Object.keys(item.changedAttributes()).includes("valueHkDollar");
+    }),
+
     allowPublish: Ember.computed(
       "model.isSingletonItem",
       "model.availableQuantity",
@@ -401,6 +406,18 @@ export default GoodcityController.extend(
         const item = this.get("item");
         item.set("valueHkDollar", +this.get("defaultValueHkDollar"));
 
+        this.runTask(async () => {
+          try {
+            await item.save();
+          } catch (e) {
+            item.rollbackAttributes();
+            throw e;
+          }
+        }, ERROR_STRATEGIES.MODAL);
+      },
+
+      updateItemValuation() {
+        const item = this.get("item");
         this.runTask(async () => {
           try {
             await item.save();

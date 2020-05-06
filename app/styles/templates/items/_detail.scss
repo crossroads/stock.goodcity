@@ -396,6 +396,7 @@
 
 .default-content {
   font-size: 0.7rem;
+  text-decoration: underline;
   &:hover{
     cursor: pointer;
   }
@@ -710,3 +711,4 @@
 .non-clickable-set-move {
   pointer-events: none;
 }
+
