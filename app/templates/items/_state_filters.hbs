@@ -15,7 +15,7 @@
   </div>
   <div class="row">
     {{#each stateFilters as |state|}}
-      <div class='item-state small-5 medium-5 large-5 columns end'>
+      <div class='item-state small-5 medium-5 large-5 columns end {{if state.enabled "enabled"}}'>
         {{item-filter-checkbox name=state}}
       </div>
     {{/each}}
@@ -26,7 +26,7 @@
 
   <div class="row">
     {{#each lossStateFilters as |state|}}
-      <div class='item-state small-5 medium-5 large-5 columns end'>
+      <div class='item-state small-5 medium-5 large-5 columns end {{if state.enabled "enabled"}}'>
         {{item-filter-checkbox name=state}}
       </div>
     {{/each}}
@@ -47,7 +47,10 @@
   <div class="row item-filter-radiobutton">
     {{#each publishFilters as |publishState|}}
       <div class='checkbox small-4 medium-4 large-4 columns'>
-        {{item-filter-radiobutton nameType="publish" name=publishState}}
+        {{input id=publishState type="radio" name=publishState click=(action (mut publishFilter) publishState)}}
+        <label class="radio-button-text" for={{publishState}}>
+          <span class="type">{{t (concat "item_filters." publishState)}}</span>
+        </label>
       </div>
     {{/each}}
   </div>
@@ -66,8 +69,11 @@
   </div>
   <div class="row item-filter-radiobutton">
     {{#each imageFilters as |imageState|}}
-      <div class='checkbox {{if (is-equal imageState "with_and_without_images") "small-3" "small-5"}} {{if (is-equal imageState "has_images") "with_images" ""}} {{if (is-equal imageState "no_images") "no_images" ""}} medium-4 large-4 columns'>
-        {{item-filter-radiobutton nameType="image" name=imageState}}
+      <div class='checkbox small-4 medium-4 large-4 columns'>
+        {{input id=imageState type="radio" name=imageState click=(action (mut imageFilter) imageState) value=imageFilter}}
+        <label class="radio-button-text" for={{imageState}}>
+          <span class="type">{{t (concat "item_filters." imageState)}}</span>
+        </label>
       </div>
     {{/each}}
   </div>

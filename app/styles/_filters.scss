@@ -107,6 +107,11 @@
       padding-bottom: 3%;
       margin-bottom: 2%;
 
+      &.enabled {
+        background-color: #F34D4F;
+        border: 1px solid #F34D4F;
+      }
+
       label {
         font-size: 1rem;
         @media #{$small-only} {
