@@ -106,7 +106,9 @@ export default Ember.Component.extend({
           this.get("stateFilters"),
           this.get("lossStateFilters")
         ];
-        this.uncheckAll(allStatesFilters);
+        this.set("publishFilter", ""),
+          this.set("imageFilter", ""),
+          this.uncheckAll(allStatesFilters);
       }
     }
   }
