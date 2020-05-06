@@ -70,7 +70,7 @@ export default GoodcityController.extend(
     setDropdownOption: Ember.inject.service(),
     showAdditionalFields: false,
     isAllowedToPublish: false,
-    isDuplicate: false,
+    shouldDuplicate: false,
     isSaleable: false,
     imageKeys: Ember.computed.localStorage(),
     i18n: Ember.inject.service(),
@@ -103,10 +103,7 @@ export default GoodcityController.extend(
         return +this.get("quantity") === 1 && !this.get("isBoxOrPallet");
       }
     ),
-
-    showDuplicateCheckbox: Ember.computed("storageType", function() {
-      return ["Package"].indexOf(this.get("storageType")) > -1;
-    }),
+    showDuplicateCheckbox: Ember.computed.equal("storageType", "Package"),
 
     locale: function(str) {
       return this.get("i18n").t(str);
@@ -192,11 +189,9 @@ export default GoodcityController.extend(
       return detailAttributes;
     },
 
-    paramsToBeCleared() {
+    clearParams() {
       if (this.get("displayFields")) {
-        let attr = this.get("paramsNotCopied")
-          .trim()
-          .split(/\s*,\s*/);
+        let attr = this.get("paramsNotCopied");
         let fieldAttributes = this.get("displayFields").map(
           value => value.name
         );
@@ -504,20 +499,8 @@ export default GoodcityController.extend(
             this.printBarcode(data.item.id);
           }
           this.updateStoreAndSaveImage(data);
-          if (this.get("isDuplicate") && !this.get("isBoxOrPallet")) {
-            this.replaceRoute("items.new");
-            this.paramsToBeCleared();
-            this.set("quantity", 1);
-            this.send("autoGenerateInventoryNumber");
-            if (this.get("newUploadedImage")) {
-              var duplicateImage = this.get("newUploadedImage");
-              var newUploadedImage = this.get("store").createRecord("image", {
-                cloudinaryId: duplicateImage.get("cloudinaryId"),
-                favourite: true
-              });
-              this.set("newUploadedImage", newUploadedImage);
-              this.set("imageKeys", newUploadedImage);
-            }
+          if (this.get("shouldDuplicate") && !this.get("isBoxOrPallet")) {
+            this.displayDuplicateParams(data);
           } else {
             this.clearSubformAttributes();
             this.setProperties({
@@ -536,6 +519,22 @@ export default GoodcityController.extend(
         .finally(() => {
           this.hideLoadingSpinner();
         });
+    },
+
+    async displayDuplicateParams(data) {
+      this.replaceRoute("items.new");
+      this.clearParams();
+      this.set("quantity", 1);
+      await this.send("autoGenerateInventoryNumber");
+      if (this.get("newUploadedImage")) {
+        var duplicateImage = this.get("newUploadedImage");
+        var newUploadedImage = this.get("store").createRecord("image", {
+          cloudinaryId: duplicateImage.get("cloudinaryId"),
+          favourite: true
+        });
+        this.set("newUploadedImage", newUploadedImage);
+        this.set("imageKeys", newUploadedImage);
+      }
     },
 
     actions: {
@@ -683,7 +682,7 @@ export default GoodcityController.extend(
             this.send("deleteUnusedImage");
             this.set("locationId", "");
             this.set("codeId", "");
-            this.set("isDuplicate", false);
+            this.set("shouldDuplicate", false);
             Ember.run.later(
               this,
               function() {
@@ -757,10 +756,15 @@ export default GoodcityController.extend(
       setFields(fieldName, value) {
         let dropDownValues = this.get("dropDownValues");
         if (this.get("fixedDropdownArr").indexOf(fieldName) >= 0) {
-          dropDownValues[`${fieldName}_id`] = value == "reset" ? "" : value.id;
+          this.set(
+            `dropDownValues.${fieldName}_id`,
+            value == "reset" ? "" : value.id
+          );
         } else {
-          dropDownValues[fieldName] =
-            value == "reset" ? "" : value.tag ? value.tag.trim() : "";
+          this.set(
+            `dropDownValues.${fieldName}`,
+            value == "reset" ? "" : value.tag ? value.tag.trim() : ""
+          );
         }
         this.set("dropDownValues", dropDownValues);
       },
