@@ -13,12 +13,12 @@
 
       <!-- Open btn -->
       <div class="button-text" {{action "redirectTofilters" "applyStateFilter"}} >
-        {{#if (is-equal appliedFilters.length 0) }}
+        {{#if (is-equal itemStateFilters.length 0) }}
           {{t 'item_filters.button_state'}}
-        {{else if (is-equal appliedFilters.length 1) }}
-          {{t (concat 'item_filters.' appliedFilters.firstObject) }}
+        {{else if (is-equal itemStateFilters.length 1) }}
+          {{t (concat 'item_filters.' itemStateFilters.firstObject) }}
         {{else}}
-          {{t 'item_filters.button_state'}}: {{appliedFilters.length}}
+          {{t 'item_filters.button_state'}}: {{itemStateFilters.length}}
         {{/if}}
       </div>
     </div>

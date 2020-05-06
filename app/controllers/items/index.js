@@ -45,7 +45,7 @@ export default Ember.Controller.extend(SearchMixin, {
   getFilterQuery() {
     let filterService = this.get("filterService");
     let utilities = this.get("utilityMethods");
-    let itemStateFilters = filterService.get("itemStateFilters");
+    let itemStateFilters = filterService.get("itemStateFilterArray");
     let itemlocationFilter = filterService.get("itemLocationFilters");
     return {
       stockRequest: true,

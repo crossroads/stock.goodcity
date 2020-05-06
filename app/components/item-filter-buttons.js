@@ -5,26 +5,10 @@ export default Ember.Component.extend({
   i18n: Ember.inject.service(),
   filterService: Ember.inject.service(),
 
-  itemStateFilters: Ember.computed.alias("filterService.itemStateFilters"),
-  hasStateFilters: Ember.computed("appliedFilters", function() {
-    return this.get("appliedFilters").length > 0;
-  }),
+  itemStateFilters: Ember.computed.alias("filterService.itemStateFilterArray"),
 
-  appliedFilters: Ember.computed("itemStateFilters", function() {
-    let filters = [];
-    const itemFilters = this.get("itemStateFilters");
-    const arrayFilters = _.map(itemFilters, function(filter) {
-      if (_.isArray(filter)) {
-        filter.forEach(state => {
-          if (state.enabled) {
-            filters.push(state.state);
-          }
-        });
-      } else if (filter) {
-        filters.push(filter);
-      }
-    });
-    return filters;
+  hasStateFilters: Ember.computed("itemStateFilters", function() {
+    return this.get("itemStateFilters").length > 0;
   }),
 
   itemLocationFilters: Ember.computed.alias(

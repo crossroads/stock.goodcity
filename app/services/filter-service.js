@@ -91,6 +91,23 @@ export default Ember.Service.extend(Ember.Evented, {
     this.clearOrderTimeFilters();
   },
 
+  itemStateFilterArray: Ember.computed("itemStateFilters", function() {
+    let filters = [];
+    const itemFilters = this.get("itemStateFilters");
+    const arrayFilters = _.map(itemFilters, function(filter) {
+      if (_.isArray(filter)) {
+        filter.forEach(state => {
+          if (state.enabled) {
+            filters.push(state.state);
+          }
+        });
+      } else if (filter) {
+        filters.push(filter);
+      }
+    });
+    return filters;
+  }),
+
   hasOrderFilters: Ember.computed(
     "orderStateFilters",
     "orderTypeFilters",
