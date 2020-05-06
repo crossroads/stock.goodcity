@@ -37,15 +37,15 @@ export default Ember.Component.extend(AsyncMixin, {
   },
 
   computedWidth: Ember.computed("value", function() {
-    if (true || !this.element) {
+    if (!this.get("fitted-width") || !this.element) {
       return "auto";
     }
 
-    const safetyMargin = 80;
-    const el = document.createElement("pre");
+    const safetyMargin = 60;
+    const el = document.createElement("div");
     const fontSize = this.element.computedStyleMap().get("font-size");
 
-    el.textContent = this.getWithDefault("value", "").replace(/ /g, "a");
+    el.textContent = this.getWithDefault("value", "");
     el.style.display = "inline-block";
     el.style.position = "absolute";
     el.style.fontSize = fontSize.value + fontSize.unit;
