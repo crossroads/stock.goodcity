@@ -160,7 +160,7 @@ export default GoodcityController.extend(
       return valueHkDollar !== defaultValue;
     }),
 
-    canSave: Ember.computed("model.valueHkDollar", function() {
+    canUpdateValuation: Ember.computed("model.valueHkDollar", function() {
       const item = this.get("item");
       return (
         Object.keys(item.changedAttributes()).includes("valueHkDollar") &&
@@ -408,27 +408,12 @@ export default GoodcityController.extend(
       setDefaultItemValuation() {
         const item = this.get("item");
         item.set("valueHkDollar", +this.get("defaultValueHkDollar"));
-
-        this.runTask(async () => {
-          try {
-            await item.save();
-          } catch (e) {
-            item.rollbackAttributes();
-            throw e;
-          }
-        }, ERROR_STRATEGIES.MODAL);
+        this.send("saveItem", item);
       },
 
       updateItemValuation() {
         const item = this.get("item");
-        this.runTask(async () => {
-          try {
-            await item.save();
-          } catch (e) {
-            item.rollbackAttributes();
-            throw e;
-          }
-        }, ERROR_STRATEGIES.MODAL);
+        this.send("saveItem", item);
       },
 
       async openLocationSearch(item, quantity) {
@@ -470,6 +455,17 @@ export default GoodcityController.extend(
         this.runTask(this.get("item").save());
       },
 
+      saveItem(item) {
+        this.runTask(async () => {
+          try {
+            await item.save();
+          } catch (e) {
+            item.rollbackAttributes();
+            throw e;
+          }
+        }, ERROR_STRATEGIES.MODAL);
+      },
+
       updateFields(config) {
         const detailType = _.snakeCase(
           this.get("item.detailType")
@@ -508,14 +504,7 @@ export default GoodcityController.extend(
         const item = this.get("item");
         const saleable = item.get("saleable");
         item.set("saleable", !saleable);
-        this.runTask(async () => {
-          try {
-            await item.save();
-          } catch (e) {
-            item.rollbackAttributes();
-            throw e;
-          }
-        }, ERROR_STRATEGIES.MODAL);
+        this.send("saveItem", item);
       },
 
       toggleItemOptions() {

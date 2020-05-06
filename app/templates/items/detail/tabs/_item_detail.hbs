@@ -95,7 +95,7 @@
             <div class="columns small-2">
               <i {{action 'setDefaultItemValuation'}} title={{defaultValueText}}>{{fa-icon 'info-circle'}}</i>
             </div>
-            {{#if (is-and canApplyDefaultValuation canSave)}}
+            {{#if (is-and canApplyDefaultValuation canUpdateValuation)}}
               <div class="columns small-10">
                 <i {{action 'updateItemValuation'}} title="Save">{{fa-icon 'save'}}</i>
               </div>
