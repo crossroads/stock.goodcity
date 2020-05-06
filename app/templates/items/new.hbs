@@ -100,7 +100,7 @@
         <span class='input_text'>{{t "items.new.condition"}}</span>
         {{select-list
         content=conditions
-        on-change=(action (mut defaultCondition))
+        on-change=(action "onConditionChange")
         selectedValue=defaultCondition
         selectArrow=true
         value=defaultCondition

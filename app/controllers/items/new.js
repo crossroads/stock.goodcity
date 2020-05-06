@@ -492,6 +492,12 @@ export default GoodcityController.extend(
         this.send("getItemValuation");
       },
 
+      onConditionChange({ id, name }) {
+        this.set("defaultCondition", { id, name });
+        this.set("defaultValueHkDollar", null);
+        this.send("getItemValuation");
+      },
+
       async getItemValuation() {
         const itemValuation = await this.get("packageService").getItemValuation(
           {
