@@ -162,7 +162,10 @@ export default GoodcityController.extend(
 
     canSave: Ember.computed("model.valueHkDollar", function() {
       const item = this.get("item");
-      return Object.keys(item.changedAttributes()).includes("valueHkDollar");
+      return (
+        Object.keys(item.changedAttributes()).includes("valueHkDollar") &&
+        !!item.get("valueHkDollar")
+      );
     }),
 
     allowPublish: Ember.computed(
