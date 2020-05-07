@@ -25,7 +25,7 @@
   </div>
 
   <div class="row">
-    {{#each lossStateFilters as |state|}}
+    {{#each inventoryFilters as |state|}}
       <div class='item-state small-5 medium-5 large-5 columns end {{if state.enabled "enabled"}}'>
         {{item-filter-checkbox name=state}}
       </div>

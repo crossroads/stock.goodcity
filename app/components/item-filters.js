@@ -1,23 +1,6 @@
 import Ember from "ember";
 import _ from "lodash";
 
-// --HELPERS
-function setFilter(filter, val) {
-  Ember.$(`#${filter}`)[0].checked = val;
-}
-
-function checkFilter(filter) {
-  setFilter(filter, true);
-}
-
-function uncheckFilter(filter) {
-  setFilter(filter, false);
-}
-
-function isChecked(filter) {
-  return Ember.$(`#${filter}`)[0].checked;
-}
-
 // ---Component
 
 export default Ember.Component.extend({
@@ -29,7 +12,7 @@ export default Ember.Component.extend({
     { state: "in_stock", enabled: false },
     { state: "designated", enabled: false }
   ],
-  lossStates: [
+  inventoryStates: [
     { state: "dispatched", enabled: false },
     { state: "process", enabled: false },
     { state: "loss", enabled: false },
@@ -46,7 +29,7 @@ export default Ember.Component.extend({
     if (this.get("applyStateFilter")) {
       const {
         availableStates,
-        lossStates,
+        inventoryStates,
         publishFilter,
         imageFilter
       } = itemFilters;
@@ -55,8 +38,8 @@ export default Ember.Component.extend({
         availableStates || _.cloneDeep(this.get("availableStates"))
       );
       this.set(
-        "lossStateFilters",
-        lossStates || _.cloneDeep(this.get("lossStates"))
+        "inventoryFilters",
+        inventoryStates || _.cloneDeep(this.get("inventoryStates"))
       );
       this.set("publishFilter", publishFilter);
       this.set("imageFilter", imageFilter);
@@ -83,7 +66,7 @@ export default Ember.Component.extend({
         let filterService = this.get("filterService");
         let allStatesFilters = {
           availableStates: this.get("stateFilters"),
-          lossStates: this.get("lossStateFilters"),
+          inventoryStates: this.get("inventoryFilters"),
           publishFilter: this.get("publishFilter"),
           imageFilter: this.get("imageFilter")
         };
@@ -104,7 +87,7 @@ export default Ember.Component.extend({
       if (this.get("applyStateFilter")) {
         let allStatesFilters = [
           this.get("stateFilters"),
-          this.get("lossStateFilters")
+          this.get("inventoryFilters")
         ];
         this.set("publishFilter", ""),
           this.set("imageFilter", ""),
