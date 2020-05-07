@@ -206,7 +206,7 @@ export default GoodcityController.extend(
             if (this.get("removalOfFields").indexOf(value) > -1) {
               this.set(`inputFieldValues.${value}`, null);
             } else {
-              this.send("setFields", value, "reset");
+              this.send("setFields", value, null);
             }
           }
         });
@@ -754,17 +754,12 @@ export default GoodcityController.extend(
       },
 
       setFields(fieldName, value) {
-        let dropDownValues = this.get("dropDownValues");
+        let dropDownValues = { ...this.get("dropDownValues") };
         if (this.get("fixedDropdownArr").indexOf(fieldName) >= 0) {
-          this.set(
-            `dropDownValues.${fieldName}_id`,
-            value == "reset" ? "" : value.id
-          );
+          dropDownValues[`${fieldName}_id`] = value == null ? "" : value.id;
         } else {
-          this.set(
-            `dropDownValues.${fieldName}`,
-            value == "reset" ? "" : value.tag ? value.tag.trim() : ""
-          );
+          dropDownValues[fieldName] =
+            value !== null && value.tag ? value.tag.trim() : "";
         }
         this.set("dropDownValues", dropDownValues);
       },

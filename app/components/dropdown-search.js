@@ -24,16 +24,6 @@ export default Ember.Component.extend({
     return this.get("addAble") ? this.get("addItem") : "";
   }),
 
-  didUpdate() {
-    this._super(...arguments);
-    if (this.isDuplicateField) {
-      let dropDownValues = {
-        ...this.get("dropDownValues")
-      };
-      this.set("dropDownValues", dropDownValues);
-    }
-  },
-
   selectedOptionDisplay: Ember.computed("dropDownValues", function() {
     let selectedValues = {
       ...this.get("dropDownValues")
@@ -62,7 +52,6 @@ export default Ember.Component.extend({
         }
       }
     });
-    this.set("isDuplicateField", false);
     return dataObj;
   }),
 
