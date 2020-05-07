@@ -192,24 +192,25 @@ export default GoodcityController.extend(
     clearParams() {
       if (this.get("displayFields")) {
         let attr = this.get("paramsNotCopied");
-        let fieldAttributes = this.get("displayFields").map(
-          value => value.name
-        );
-        attr.forEach(value => {
-          if (fieldAttributes.indexOf(value) > -1) {
-            if (value == "country") {
-              this.setProperties({
-                countryValue: {},
-                selected: []
-              });
-            }
-            if (this.get("removalOfFields").indexOf(value) > -1) {
-              this.set(`inputFieldValues.${value}`, null);
-            } else {
-              this.send("setFields", value, null);
-            }
-          }
+        attr.forEach(value => this.clearAttribute(value));
+      }
+    },
+
+    clearAttribute(value) {
+      let fieldAttributes = this.get("displayFields").map(value => value.name);
+      if (fieldAttributes.indexOf(value) < 0) {
+        return;
+      }
+      if (value == "country") {
+        return this.setProperties({
+          countryValue: {},
+          selected: []
         });
+      }
+      if (this.get("removalOfFields").indexOf(value) > -1) {
+        return this.set(`inputFieldValues.${value}`, null);
+      } else {
+        return this.send("setFields", value, null);
       }
     },
 
