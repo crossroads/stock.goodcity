@@ -25,7 +25,7 @@
       text-align: center;
       width: 100%;
       height: 100%;
-      white-space: nowrap; 
+      white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
       padding-left: 0.5rem;
@@ -68,6 +68,18 @@
     font-size: 1rem !important;
   }
 
+  .on-hand-filter-btn {
+    font-size: 1rem;
+    padding-left: 8%;
+    margin-top: 6%;
+    text-decoration: underline;
+    color: white;
+
+    @media #{$small-only} {
+      font-size: 0.9rem;
+    }
+  }
+
   .state-filter-block {
     .priority-order-icon {
       @media #{$small-only} {
@@ -81,19 +93,51 @@
       }
     }
 
-    i {
-      padding-top: 0.1rem;
+    .radio-buttons {
+      border-spacing: .1rem;
+      color: #fff;
+      display: table;
+      table-layout: fixed!important;
+      width: 100%;
+    }
+
+    .item-state {
+      border: 1px solid #ddd;
+      padding-top: 3%;
+      padding-bottom: 3%;
+      margin-bottom: 2%;
+
+      &.enabled {
+        background-color: #F34D4F;
+        border: 1px solid #F34D4F;
+      }
+
+      label {
+        font-size: 1rem;
+        @media #{$small-only} {
+          font-size: 0.7rem;
+          margin-left: 2%;
+        }
+        @media #{$large-only} {
+          margin-left: 4%;
+        }
+      }
+    }
+
+    .item-state:nth-child(even){
+      margin-right: 4%;
+      margin-left: 4% !important;
+    }
+
+    svg {
       color: white;
-      font-size: 1.2rem;
       float: right;
       @media #{$small-only} {
-        margin-right: 8.5rem !important;
-      }
-      @media #{$medium-only} {
-        margin-right: 22.2rem;
+        font-size: 0.7rem;
+
       }
       @media #{$large-only} {
-        margin-right: 29.2rem;
+        margin-right: 3rem;
       }
     }
   }
@@ -161,7 +205,6 @@
     }
     .type {
       color: white;
-      margin-left: 0.5rem;
     }
     .type-filter-title {
       margin: -0.5rem 0 1rem 0.4rem;
