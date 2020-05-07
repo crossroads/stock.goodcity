@@ -233,15 +233,7 @@
         </div>
       </div>
       <div class="row">
-        {{#if showPublishItemCheckBox}}
-          <div class="small-3 columns item-label">
-            <label for="publishItem">{{t "items.new.publish"}}</label>
-          </div>
-          <div class="small-3 columns publish">
-            {{input type="checkbox" id="publishItem" checked=isAllowedToPublish}}
-          </div>
-        {{/if}}
-        <div class="small-2 columns item-label">
+        <div class="small-3 columns item-label">
           <label>{{t "items.new.printer"}}</label>
         </div>
         <div class="small-4 columns printer-dropdown">
@@ -255,6 +247,24 @@
             }}
           </div>
         </div>
+      </div>
+      <div class="row">
+        {{#if showPublishItemCheckBox}}
+          <div class="small-3 columns item-label">
+            <label for="publishItem">{{t "items.new.publish"}}</label>
+          </div>
+          <div class="small-3 columns publish">
+            {{input type="checkbox" id="publishItem" checked=isAllowedToPublish}}
+          </div>
+        {{/if}}
+        {{#if showDuplicateCheckbox}}
+          <div class="small-3 columns item-label">
+            <label for="duplicateItem">{{t "items.new.duplicate"}}</label>
+          </div>
+          <div class="small-3 columns publish">
+            {{input type="checkbox" name="duplicateItem" checked=shouldDuplicate}}
+          </div>
+        {{/if}}
       </div>
       <div class="row">
         <div class="small-6 columns">

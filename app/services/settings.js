@@ -3,6 +3,9 @@ import _ from "lodash";
 
 const NOT_EMPTY = val => val && val.length > 0;
 const TO_STRING = val => String(val);
+const TO_ARRAY = val => {
+  return val.trim().split(/\s*,\s*/);
+};
 const TO_NUMBER = val => Number(val);
 const IS_NUMBER = val => !isNaN(TO_NUMBER(val));
 const TO_BOOL = val => {
@@ -38,7 +41,8 @@ export default Ember.Service.extend({
     "stock.only_designate_singletons": true,
     "stock.enable_box_pallet_creation": false,
     "stock.allow_item_actions": false,
-    "stock.allow_box_pallet_item_addition": false
+    "stock.allow_box_pallet_item_addition": false,
+    "stock.params_not_to_be_copied": "serialNum"
   },
 
   /**
@@ -83,6 +87,12 @@ export default Ember.Service.extend({
     return !this.readBoolean("stock.allow_box_pallet_item_addition");
   }),
 
+  /**
+   * @property {Computed<string>} paramsNotCopied lists params not to be copied during duplicate items
+   */
+  paramsNotCopied: Ember.computed(function() {
+    return this.readArray("stock.params_not_to_be_copied");
+  }),
   // ---- Access methods
 
   /**
@@ -94,6 +104,18 @@ export default Ember.Service.extend({
   readBoolean(key) {
     return this.__readValue(key, {
       parser: TO_BOOL
+    });
+  },
+
+  /**
+   * Reads the property by its key and returns a string
+   *
+   * @param {string} key the settings key
+   * @returns {array} the string of the setting keys in array form
+   */
+  readArray(key) {
+    return this.__readValue(key, {
+      parser: TO_ARRAY
     });
   },
 

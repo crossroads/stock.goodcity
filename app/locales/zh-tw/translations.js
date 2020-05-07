@@ -719,6 +719,7 @@ export default {
       pieces: "Pieces",
       expiry_date: "Expiry Date",
       publish: "Publish",
+      duplicate: "Duplicate",
       labels: "Labels",
       condition: "Condition:",
       donation: "Donation#",

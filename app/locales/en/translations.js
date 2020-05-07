@@ -742,6 +742,7 @@ export default {
       grade: "Grade:",
       weight: "Weight (kg)",
       publish: "Publish",
+      duplicate: "Duplicate",
       labels: "Labels",
       pieces: "Pieces",
       expiry_date: "Expiry Date",

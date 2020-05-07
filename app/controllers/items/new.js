@@ -38,6 +38,8 @@ export default GoodcityController.extend(
     displayInventoryOptions: false,
     autoGenerateInventory: true,
     inputInventory: false,
+    settings: Ember.inject.service(),
+    paramsNotCopied: Ember.computed.alias("settings.paramsNotCopied"),
     locationName: Ember.computed.alias("location.displayName"),
     caseNumber: "",
     isSearchCodePreviousRoute: Ember.computed.localStorage(),
@@ -46,6 +48,14 @@ export default GoodcityController.extend(
     isSelectLocationPreviousRoute: Ember.computed.localStorage(),
     offerService: Ember.inject.service(),
     fixedDropdownArr: ["frequency", "voltage", "compTestStatus", "testStatus"],
+    removalOfFields: [
+      "serialNum",
+      "marMsOfficeSerialNum",
+      "osSerialNum",
+      "marOsSerialNum",
+      "msOfficeSerialNum",
+      "serialNumber"
+    ],
     quantity: 1,
     labels: 1,
     length: null,
@@ -62,6 +72,7 @@ export default GoodcityController.extend(
     setDropdownOption: Ember.inject.service(),
     showAdditionalFields: false,
     isAllowedToPublish: false,
+    shouldDuplicate: false,
     isSaleable: false,
     imageKeys: Ember.computed.localStorage(),
     i18n: Ember.inject.service(),
@@ -94,6 +105,7 @@ export default GoodcityController.extend(
         return +this.get("quantity") === 1 && !this.get("isBoxOrPallet");
       }
     ),
+    showDuplicateCheckbox: Ember.computed.equal("storageType", "Package"),
 
     locale: function(str) {
       return this.get("i18n").t(str);
@@ -177,6 +189,31 @@ export default GoodcityController.extend(
         detailAttributes[_.snakeCase(key)] = attributes[key];
       });
       return detailAttributes;
+    },
+
+    clearParams() {
+      if (this.get("displayFields")) {
+        let attr = this.get("paramsNotCopied");
+        attr.forEach(value => this.clearAttribute(value));
+      }
+    },
+
+    clearAttribute(value) {
+      let fieldAttributes = this.get("displayFields").map(value => value.name);
+      if (fieldAttributes.indexOf(value) < 0) {
+        return;
+      }
+      if (value == "country") {
+        return this.setProperties({
+          countryValue: {},
+          selected: []
+        });
+      }
+      if (this.get("removalOfFields").indexOf(value) > -1) {
+        return this.set(`inputFieldValues.${value}`, null);
+      } else {
+        return this.send("setFields", value, null);
+      }
     },
 
     showPiecesInput: Ember.computed("codeId", function() {
@@ -466,13 +503,17 @@ export default GoodcityController.extend(
             this.printBarcode(data.item.id);
           }
           this.updateStoreAndSaveImage(data);
-          this.clearSubformAttributes();
-          this.setProperties({
-            locationId: "",
-            inventoryNumber: "",
-            offersLists: []
-          });
-          this.replaceRoute("items.detail", data.item.id);
+          if (this.get("shouldDuplicate") && !this.get("isBoxOrPallet")) {
+            this.displayDuplicateParams(data);
+          } else {
+            this.clearSubformAttributes();
+            this.setProperties({
+              locationId: "",
+              inventoryNumber: "",
+              offersLists: []
+            });
+            this.replaceRoute("items.detail", data.item.id);
+          }
         })
         .catch(response => {
           this.showError(
@@ -482,6 +523,22 @@ export default GoodcityController.extend(
         .finally(() => {
           this.hideLoadingSpinner();
         });
+    },
+
+    async displayDuplicateParams(data) {
+      this.replaceRoute("items.new");
+      this.clearParams();
+      this.set("quantity", 1);
+      await this.send("autoGenerateInventoryNumber");
+      if (this.get("newUploadedImage")) {
+        var duplicateImage = this.get("newUploadedImage");
+        var newUploadedImage = this.get("store").createRecord("image", {
+          cloudinaryId: duplicateImage.get("cloudinaryId"),
+          favourite: true
+        });
+        this.set("newUploadedImage", newUploadedImage);
+        this.set("imageKeys", newUploadedImage);
+      }
     },
 
     actions: {
@@ -626,6 +683,7 @@ export default GoodcityController.extend(
             this.send("deleteUnusedImage");
             this.set("locationId", "");
             this.set("codeId", "");
+            this.set("shouldDuplicate", false);
             Ember.run.later(
               this,
               function() {
@@ -703,11 +761,12 @@ export default GoodcityController.extend(
       },
 
       setFields(fieldName, value) {
-        let dropDownValues = this.get("dropDownValues");
+        let dropDownValues = { ...this.get("dropDownValues") };
         if (this.get("fixedDropdownArr").indexOf(fieldName) >= 0) {
-          dropDownValues[`${fieldName}_id`] = value.id;
+          dropDownValues[`${fieldName}_id`] = value == null ? "" : value.id;
         } else {
-          dropDownValues[fieldName] = value.tag ? value.tag.trim() : "";
+          dropDownValues[fieldName] =
+            value !== null && value.tag ? value.tag.trim() : "";
         }
         this.set("dropDownValues", dropDownValues);
       },
