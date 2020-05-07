@@ -92,20 +92,16 @@ export default Ember.Service.extend(Ember.Evented, {
   },
 
   itemStateFilterArray: Ember.computed("itemStateFilters", function() {
-    let filters = [];
     const itemFilters = this.get("itemStateFilters");
-    const arrayFilters = _.map(itemFilters, function(filter) {
-      if (_.isArray(filter)) {
-        filter.forEach(state => {
-          if (state.enabled) {
-            filters.push(state.state);
-          }
-        });
-      } else if (filter) {
-        filters.push(filter);
-      }
-    });
-    return filters;
+    return _.chain(itemFilters)
+      .map(f =>
+        _.isArray(f)
+          ? _.filter(f, ["enabled", true]).map(({ state }) => state)
+          : f
+      )
+      .compact()
+      .flatten()
+      .value();
   }),
 
   hasOrderFilters: Ember.computed(
