@@ -155,18 +155,31 @@ export default GoodcityController.extend(
     }),
 
     canApplyDefaultValuation: Ember.computed("model.valueHkDollar", function() {
-      const valueHkDollar = +this.get("model.valueHkDollar");
-      let defaultValue = +this.get("defaultValueHkDollar");
+      const valueHkDollar = parseFloat(this.get("model.valueHkDollar"));
+      let defaultValue = parseFloat(this.get("defaultValueHkDollar"));
       return valueHkDollar !== defaultValue;
     }),
 
-    canUpdateValuation: Ember.computed("model.valueHkDollar", function() {
-      const item = this.get("item");
-      return (
-        Object.keys(item.changedAttributes()).includes("valueHkDollar") &&
-        !!item.get("valueHkDollar")
-      );
-    }),
+    /**
+     * Returns true if valueHkDollar is modified and not empty
+     * and its value is different from previous saved value
+     */
+    canUpdateValuation: Ember.computed(
+      "model.valueHkDollar",
+      "prevValueHkDollar",
+      function() {
+        const item = this.get("item");
+        const hasValueHkDollarChanged = Object.keys(
+          item.changedAttributes()
+        ).includes("valueHkDollar");
+        return (
+          hasValueHkDollarChanged &&
+          !!item.get("valueHkDollar") &&
+          parseFloat(this.get("prevValueHkDollar")) !==
+            parseFloat(item.get("valueHkDollar"))
+        );
+      }
+    ),
 
     allowPublish: Ember.computed(
       "model.isSingletonItem",
@@ -405,15 +418,25 @@ export default GoodcityController.extend(
         this.send("openItemsSearch");
       },
 
-      setDefaultItemValuation() {
+      /**
+       * Applies the original item valuation when it was loaded.
+       * It is like resetting to the value when item was displayed
+       */
+      applyDefaultItemValuation() {
         const item = this.get("item");
         item.set("valueHkDollar", +this.get("defaultValueHkDollar"));
+        this.set("prevValueHkDollar", null);
         this.send("saveItem", item);
       },
 
-      updateItemValuation() {
+      /**
+       * Updates the valueHkDollar
+       * Updates the previous saved value
+       */
+      async updateItemValuation() {
         const item = this.get("item");
         this.send("saveItem", item);
+        this.set("prevValueHkDollar", item.get("valueHkDollar"));
       },
 
       async openLocationSearch(item, quantity) {

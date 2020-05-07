@@ -51,17 +51,14 @@ export default Ember.TextField.extend({
 
   focusOut() {
     let val = this.attrs.value.value;
-    var regexPattern = this.get("acceptFloat") ? /^\d+\.?\d+$/g : /^\d+$/;
-    if (val && !val.toString().match(regexPattern)) {
-      val = val.toString().replace(/[^\d\.]/g, "");
+    const [regexPattern, replacePattern] = this.get("acceptFloat")
+      ? [/^\d+\.?\d+$/g, /[^\d\.]/g]
+      : [/^\d+$/, /[\D]/g];
+    if (val && val.toString().search(regexPattern) !== 0) {
+      val = val.toString().replace(replacePattern, "");
     }
-
-    val = this.get("acceptFloat")
-      ? parseFloat(this.get("value"))
-      : +this.get("value");
-    this.set("value", val || null);
-
-    this.onFocusOut && this.onFocusOut();
+    val = isNaN(val) ? null : val;
+    this.set("value", val);
 
     if (!this.skipSave) {
       var item = this.get("item");
@@ -97,7 +94,6 @@ export default Ember.TextField.extend({
 
   focusIn() {
     this.addCssStyle();
-    this.onFocusIn && this.onFocusIn();
   },
 
   addCssStyle() {

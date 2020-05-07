@@ -731,7 +731,7 @@ export default {
     quantity: "Quantity",
     number: "Number",
     value: "Value (HK$)",
-    applyDefault: "Apply Default: $",
+    apply_default: "Apply Default: ${{value}}",
     no_history: "No history available.",
     new: {
       add: "Add",

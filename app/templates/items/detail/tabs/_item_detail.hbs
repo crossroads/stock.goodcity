@@ -80,26 +80,29 @@
       </div>
 
       <div class="row">
-        <div class="columns small-3">{{t 'items.value'}} </div>
-        <div class="columns small-3 value">
+        <div class="columns large-3 small-3">{{t 'items.value'}} </div>
+        <div class="columns large-3 small-3 value">
+          <span>
           {{numeric-inline-input name="value_hk_dollar"
             class="numeric-input item-length small-3"
             value=item.valueHkDollar
             maxlength="6"
             acceptFloat=true
             item=item
+            class='numeric-input valuation-input'
             skipSave=true}}
-        </div>
-        <div class="columns small-6">
-          {{#if canApplyDefaultValuation}}
-            <div class="columns small-2">
-              <i {{action 'setDefaultItemValuation'}} title={{defaultValueText}}>{{fa-icon 'info-circle'}}</i>
-            </div>
-            {{#if (is-and canApplyDefaultValuation canUpdateValuation)}}
-              <div class="columns small-10">
+            {{#if canUpdateValuation}}
+              <span class="save-btn">
                 <i {{action 'updateItemValuation'}} title="Save">{{fa-icon 'save'}}</i>
-              </div>
+              </span>
             {{/if}}
+            </span>
+        </div>
+        <div class="columns large-6 small-6">
+          {{#if canApplyDefaultValuation}}
+            <span {{action "applyDefaultItemValuation"}} class="default-content">
+              {{t "items.apply_default" value=defaultValueHkDollar}}
+            </span>
           {{/if}}
         </div>
       </div>
