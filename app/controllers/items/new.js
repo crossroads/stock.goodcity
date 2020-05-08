@@ -486,19 +486,36 @@ export default GoodcityController.extend(
         );
       },
 
+      /**
+       * Change the Grade value and update the item valuation
+       * @param {Object} selectedGrade - The selected grade value of item
+       * @param {string} selectedGrade.id - ID of the grade
+       * @param {string} selectedGrade.name - Name of the grade
+       */
       onGradeChange({ id, name }) {
         this.set("selectedGrade", { id, name });
         this.set("defaultValueHkDollar", null);
-        this.send("getItemValuation");
+        this.send("calculateItemValuation");
       },
 
+      /**
+       * Change the donor condition value and update the item valuation
+       * @param {Object} defaultCondition - The selected condition of item
+       * @param {string} defaultCondition.id - ID of the condition
+       * @param {string} defaultCondition.name - Name of the condition
+       */
       onConditionChange({ id, name }) {
         this.set("defaultCondition", { id, name });
         this.set("defaultValueHkDollar", null);
-        this.send("getItemValuation");
+        this.send("calculateItemValuation");
       },
 
-      async getItemValuation() {
+      /**
+       * Makes an API call to calculate the item valuation based on
+       * donor condition, grade and package type.
+       * This also sets the default value for item valuation.
+       */
+      async calculateItemValuation() {
         const itemValuation = await this.get("packageService").getItemValuation(
           {
             donorConditionId: this.get("defaultCondition.id"),
