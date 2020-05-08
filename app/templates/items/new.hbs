@@ -114,8 +114,8 @@
         {{t "items.value"}}
       </div>
       <div class="columns small-3">
-        {{numeric-input acceptFloat=true  value=valueHkDollar name="value_hk" maxlength="6"
-        pattern="\d+\.?\d+"}}
+        {{numeric-input acceptFloat=true acceptZeroValue=true  value=valueHkDollar name="value_hk" maxlength="6"
+        pattern="\d+\.?\d*"}}
       </div>
 
       <div class="columns small-6 apply-default">
