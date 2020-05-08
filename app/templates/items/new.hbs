@@ -150,14 +150,14 @@
         {{t "items.new.weight"}}
       </div>
       <div class="small-3 columns weight">
-        {{numeric-input name="weight" id='weight' value=weight maxlength="10" pattern="[1-9]{0,5}"}}
+        {{numeric-input name="weight" id='weight' value=weight maxlength="10" pattern="[0-9]{0,5}"}}
       </div>
       {{#if showPiecesInput}}
         <div class="small-3 columns item-label" align="right">
           {{t "items.new.pieces"}}
         </div>
         <div class="small-3 columns pieces">
-          {{numeric-input name="pieces" id='pieces' value=pieces maxlength="10" pattern="[1-9]{0,5}"}}
+          {{numeric-input name="pieces" id='pieces' value=pieces maxlength="10" pattern="[0-9]{0,5}"}}
         </div>
       {{/if}}
     </div>
