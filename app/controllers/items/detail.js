@@ -156,7 +156,7 @@ export default GoodcityController.extend(
 
     canApplyDefaultValuation: Ember.computed("model.valueHkDollar", function() {
       const valueHkDollar = parseFloat(this.get("model.valueHkDollar"));
-      let defaultValue = parseFloat(this.get("defaultValueHkDollar"));
+      const defaultValue = parseFloat(this.get("defaultValueHkDollar"));
       return valueHkDollar !== defaultValue;
     }),
 
@@ -478,6 +478,12 @@ export default GoodcityController.extend(
         this.runTask(this.get("item").save());
       },
 
+      /**
+       *
+       * @param {Object} item - Model to persist
+       * Perform an update action on item. It does a rollback of the item
+       * if there is an error encountered
+       */
       saveItem(item) {
         this.runTask(async () => {
           try {
