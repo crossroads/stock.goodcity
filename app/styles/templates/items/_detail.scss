@@ -397,7 +397,7 @@
 .default-content {
   font-size: 0.7rem;
   text-decoration: underline;
-  color: #fff !important;
+  color:$white !important;
   &:hover{
     cursor: pointer;
   }

@@ -169,15 +169,14 @@ export default GoodcityController.extend(
       "prevValueHkDollar",
       function() {
         const item = this.get("item");
-        const hasValueHkDollarChanged = Object.keys(
-          item.changedAttributes()
-        ).includes("valueHkDollar");
-        return (
-          hasValueHkDollarChanged &&
-          !!item.get("valueHkDollar") &&
-          parseFloat(this.get("prevValueHkDollar")) !==
-            parseFloat(item.get("valueHkDollar"))
-        );
+        const valueHkDollar = parseFloat(item.get("valueHkDollar"));
+        const prevValueHkDollar = parseFloat(this.get("prevValueHkDollar"));
+        const defaultValue = parseFloat(this.get("defaultValueHkDollar"));
+        if (!prevValueHkDollar) {
+          return Math.abs(valueHkDollar - defaultValue);
+        } else {
+          return Math.abs(valueHkDollar - prevValueHkDollar);
+        }
       }
     ),
 
@@ -433,10 +432,12 @@ export default GoodcityController.extend(
        * Updates the valueHkDollar
        * Updates the previous saved value
        */
-      async updateItemValuation() {
+      updateItemValuation() {
         const item = this.get("item");
+        const value = item.get("valueHkDollar");
+        item.set("valueHkDollar", Number(value));
         this.send("saveItem", item);
-        this.set("prevValueHkDollar", item.get("valueHkDollar"));
+        this.set("prevValueHkDollar", value);
       },
 
       async openLocationSearch(item, quantity) {

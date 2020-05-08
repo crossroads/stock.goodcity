@@ -1,5 +1,6 @@
 import Ember from "ember";
 import AjaxPromise from "stock/utils/ajax-promise";
+import { regex } from "stock/constants/regex";
 const { getOwner } = Ember;
 
 export default Ember.TextField.extend({
@@ -52,8 +53,8 @@ export default Ember.TextField.extend({
   focusOut() {
     let val = this.attrs.value.value;
     const [regexPattern, replacePattern] = this.get("acceptFloat")
-      ? [/^\d+\.?\d+$/g, /[^\d\.]/g]
-      : [/^\d+$/, /[\D]/g];
+      ? [regex.FLOAT_REGEX, regex.NON_DIGIT_FLOAT_REGEX]
+      : [regex.INT_REGEX, regex.NON_DIGIT_REGEX];
     if (val && val.toString().search(regexPattern) !== 0) {
       val = val.toString().replace(replacePattern, "");
     }

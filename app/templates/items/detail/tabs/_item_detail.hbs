@@ -92,16 +92,16 @@
             class='numeric-input valuation-input'
             skipSave=true}}
             {{#if canUpdateValuation}}
-              <span class="save-btn">
+              <a class="save-btn">
                 <i {{action 'updateItemValuation'}} title="Save">{{fa-icon 'save'}}</i>
-              </span>
+              </a>
             {{/if}}
             </span>
         </div>
         <div class="columns large-6 small-6">
           {{#if canApplyDefaultValuation}}
             <span {{action "applyDefaultItemValuation"}} class="default-content">
-              {{t "items.apply_default" value=defaultValueHkDollar}}
+              {{t "items.apply_default"}} {{defaultValueHkDollar}}
             </span>
           {{/if}}
         </div>
