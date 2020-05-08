@@ -245,7 +245,7 @@ export default GoodcityController.extend(
 
     isInvalidaLabelCount: Ember.computed("labels", function() {
       const labelCount = this.get("labels");
-      return !labelCount || Number(labelCount) < 0;
+      return Number(labelCount) < 0;
     }),
 
     isInvalidPrintCount: Ember.computed("labels", function() {
