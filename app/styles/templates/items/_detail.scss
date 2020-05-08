@@ -375,7 +375,6 @@
         font-size: 100%;
         margin-top: -15px;
       }
-
     }
 
     .item_options_component {
@@ -396,6 +395,15 @@
     i {
       margin-right: 0.5rem;
     }
+  }
+}
+
+.default-content {
+  font-size: 0.7rem;
+  text-decoration: underline;
+  color:$white !important;
+  &:hover{
+    cursor: pointer;
   }
 }
 
@@ -707,4 +715,25 @@
 
 .non-clickable-set-move {
   pointer-events: none;
+}
+
+.save-btn{
+  right: 45%;
+  position: absolute;
+  padding: 4px;
+  @media only screen and (max-width: 780px) {
+    right: 20%;
+  }
+}
+
+.valuation-input{
+  width: 60% !important;
+  padding: 0.2rem !important;
+  display: inline-block !important;
+  border: 1px solid #8091a9 !important;
+  @media only screen and (max-width: 780px) {
+    width: 90% !important;
+    padding: 0.2rem !important;
+    display: inline !important;
+  }
 }

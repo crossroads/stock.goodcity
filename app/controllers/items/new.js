@@ -57,14 +57,11 @@ export default GoodcityController.extend(
       "serialNumber"
     ],
     quantity: 1,
+    valueHkDollar: "",
     labels: 1,
     length: null,
     width: null,
     height: null,
-    selectedGrade: {
-      name: "B",
-      id: "B"
-    },
     invalidLocation: false,
     invalidScanResult: false,
     newUploadedImage: null,
@@ -128,6 +125,12 @@ export default GoodcityController.extend(
       }
     }),
 
+    canApplyDefaultValuation: Ember.computed("valueHkDollar", function() {
+      const defaultValue = this.get("defaultValueHkDollar");
+      const valueHkDollar = this.get("valueHkDollar");
+      return defaultValue !== valueHkDollar;
+    }),
+
     setLocation: Ember.observer("scanLocationName", function() {
       var scanInput = this.get("scanLocationName");
       if (scanInput) {
@@ -156,14 +159,6 @@ export default GoodcityController.extend(
 
     conditions: Ember.computed(function() {
       return this.get("store").peekAll("donor_condition");
-    }),
-
-    defaultCondition: Ember.computed(function() {
-      const conditions = this.get("conditions");
-      return (
-        conditions.filterBy("name", "Lightly Used").get("firstObject") ||
-        conditions.get("firstObject")
-      );
     }),
 
     description: Ember.computed("code", {
@@ -360,6 +355,8 @@ export default GoodcityController.extend(
         state_event: "mark_received",
         storage_type: this.get("storageType"),
         expiry_date: this.get("expiry_date"),
+        value_hk_dollar:
+          this.get("valueHkDollar") || this.get("defaultValueHkDollar"),
         packages_locations_attributes: {
           0: {
             location_id: locationId,
@@ -549,6 +546,50 @@ export default GoodcityController.extend(
         );
       },
 
+      /**
+       * Change the Grade value and update the item valuation
+       * @param {Object} selectedGrade - The selected grade value of item
+       * @param {string} selectedGrade.id - ID of the grade
+       * @param {string} selectedGrade.name - Name of the grade
+       */
+      onGradeChange({ id, name }) {
+        this.set("selectedGrade", { id, name });
+        this.set("defaultValueHkDollar", null);
+        this.send("calculateItemValuation");
+      },
+
+      /**
+       * Change the donor condition value and update the item valuation
+       * @param {Object} defaultCondition - The selected condition of item
+       * @param {string} defaultCondition.id - ID of the condition
+       * @param {string} defaultCondition.name - Name of the condition
+       */
+      onConditionChange({ id, name }) {
+        this.set("defaultCondition", { id, name });
+        this.set("defaultValueHkDollar", null);
+        this.send("calculateItemValuation");
+      },
+
+      /**
+       * Makes an API call to calculate the item valuation based on
+       * donor condition, grade and package type.
+       * This also sets the default value for item valuation.
+       */
+      async calculateItemValuation() {
+        const itemValuation = await this.get("packageService").getItemValuation(
+          {
+            donorConditionId: this.get("defaultCondition.id"),
+            grade: this.get("selectedGrade.id"),
+            packageTypeId: this.get("code.id")
+          }
+        );
+        const defaultValueHkDollar = this.get("defaultValueHkDollar");
+        if (!defaultValueHkDollar) {
+          this.set("defaultValueHkDollar", +itemValuation.value_hk_dollar);
+        }
+        this.set("valueHkDollar", +itemValuation.value_hk_dollar);
+      },
+
       removeOffer(offer) {
         const offersList = this.get("offersLists").filter(
           offer_list => offer_list.id !== offer.id
@@ -563,6 +604,10 @@ export default GoodcityController.extend(
         }
         const offers = _.uniq([...this.get("offersLists"), offer]);
         this.set("offersLists", offers);
+      },
+
+      setDefaultItemValuation() {
+        this.set("valueHkDollar", this.get("defaultValueHkDollar"));
       },
 
       //file upload

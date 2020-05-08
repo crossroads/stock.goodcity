@@ -158,6 +158,32 @@ export default GoodcityController.extend(
       }
     }),
 
+    canApplyDefaultValuation: Ember.computed("model.valueHkDollar", function() {
+      const valueHkDollar = parseFloat(this.get("model.valueHkDollar"));
+      const defaultValue = parseFloat(this.get("defaultValueHkDollar"));
+      return valueHkDollar !== defaultValue;
+    }),
+
+    /**
+     * Returns true if valueHkDollar is modified and not empty
+     * and its value is different from previous saved value
+     */
+    canUpdateValuation: Ember.computed(
+      "model.valueHkDollar",
+      "prevValueHkDollar",
+      function() {
+        const item = this.get("item");
+        const valueHkDollar = parseFloat(item.get("valueHkDollar"));
+        const prevValueHkDollar = parseFloat(this.get("prevValueHkDollar"));
+        const defaultValue = parseFloat(this.get("defaultValueHkDollar"));
+        if (!prevValueHkDollar) {
+          return Math.abs(valueHkDollar - defaultValue);
+        } else {
+          return Math.abs(valueHkDollar - prevValueHkDollar);
+        }
+      }
+    ),
+
     allowPublish: Ember.computed(
       "model.isSingletonItem",
       "model.availableQuantity",
@@ -395,6 +421,29 @@ export default GoodcityController.extend(
         this.send("openItemsSearch");
       },
 
+      /**
+       * Applies the original item valuation when it was loaded.
+       * It is like resetting to the value when item was displayed
+       */
+      applyDefaultItemValuation() {
+        const item = this.get("item");
+        item.set("valueHkDollar", +this.get("defaultValueHkDollar"));
+        this.set("prevValueHkDollar", null);
+        this.send("saveItem", item);
+      },
+
+      /**
+       * Updates the valueHkDollar
+       * Updates the previous saved value
+       */
+      updateItemValuation() {
+        const item = this.get("item");
+        const value = item.get("valueHkDollar");
+        item.set("valueHkDollar", Number(value));
+        this.send("saveItem", item);
+        this.set("prevValueHkDollar", value);
+      },
+
       async openLocationSearch(item, quantity) {
         this.set("removableItem", item);
         let selectedLocation = await this.get(
@@ -432,6 +481,23 @@ export default GoodcityController.extend(
       setExpiryDate(value) {
         this.set("item.expiryDate", value);
         this.runTask(this.get("item").save());
+      },
+
+      /**
+       *
+       * @param {Object} item - Model to persist
+       * Perform an update action on item. It does a rollback of the item
+       * if there is an error encountered
+       */
+      saveItem(item) {
+        this.runTask(async () => {
+          try {
+            await item.save();
+          } catch (e) {
+            item.rollbackAttributes();
+            throw e;
+          }
+        }, ERROR_STRATEGIES.MODAL);
       },
 
       updateFields(config) {
@@ -472,14 +538,7 @@ export default GoodcityController.extend(
         const item = this.get("item");
         const saleable = item.get("saleable");
         item.set("saleable", !saleable);
-        this.runTask(async () => {
-          try {
-            await item.save();
-          } catch (e) {
-            item.rollbackAttributes();
-            throw e;
-          }
-        }, ERROR_STRATEGIES.MODAL);
+        this.send("saveItem", item);
       },
 
       toggleItemOptions() {

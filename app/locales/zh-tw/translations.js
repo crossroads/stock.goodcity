@@ -710,6 +710,8 @@ export default {
     order_code: "Order Code",
     quantity: "Quantity",
     number: "Number",
+    value: "Value (HK$)",
+    apply_default: "Apply Default:",
     no_history: "No history available.",
     new: {
       add: "Add",
@@ -732,6 +734,7 @@ export default {
       inventory: "Inventory#",
       print: "& Print {{labels}}",
       printer: "Printer",
+      value: "Value (HK$)",
       cancel_warning:
         "You will lose all your data. Are you sure you want to cancel this item?",
       subform: {
