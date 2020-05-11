@@ -45,6 +45,8 @@ export default {
   create_new_box: "Create New Box",
   create_new_pallet: "Create New Pallet",
   manage_inventory: "Manage Appointment Quotas",
+  manage_users: "Manage Users",
+  search_user: "Search User",
   new_order: "Create New Order",
   full_name: "{{firstName}} {{lastName}}",
   mobile_prefix: "+852",

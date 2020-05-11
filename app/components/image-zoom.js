@@ -11,7 +11,9 @@ export default Ember.Component.extend({
       return this.get("item.setImages");
     }
 
-    return this.get("item.images").mapBy("imageUrl");
+    let images = this.get("item.images") || [this.get("item.image")];
+
+    return images.mapBy("imageUrl");
   }),
 
   actions: {

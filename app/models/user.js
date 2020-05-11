@@ -14,10 +14,17 @@ export default Addressable.extend({
   lastDisconnected: attr("date"),
   i18n: Ember.inject.service(),
   printerId: attr("number"),
+
   printer: belongsTo("printer", { async: false }),
+
+  image: belongsTo("image", {
+    async: false
+  }),
+
   userRoles: hasMany("userRoles", {
     async: false
   }),
+
   roles: hasMany("roles", {
     async: false
   }),
@@ -29,6 +36,7 @@ export default Addressable.extend({
   organisations: hasMany("organisation", {
     async: false
   }),
+
   organisationsUsers: hasMany("organisationsUsers", {
     async: false
   }),
