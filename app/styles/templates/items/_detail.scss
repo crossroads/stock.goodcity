@@ -20,7 +20,7 @@
     }
   }
 
-  .search {
+  .item-details-body {
     margin-top: 0;
 
     // --- HEADER IMAGE
@@ -64,9 +64,12 @@
             margin-right: 0.5rem;
           }
 
-          .title {
-            font-family: $header-font-family;
-            font-size: 1rem;
+          .editable-line {
+            color: white;
+          }
+
+          .title, .subtitle {
+            padding-left: 1rem;
           }
         }
 
@@ -75,6 +78,7 @@
           $border-width: 2px;
           $border-color: rgb(190, 190, 190);
           display: flex;
+          padding-left: 1rem;
 
           .horizontal-line {
             border-bottom: $border-width solid $border-color;
@@ -163,6 +167,33 @@
 
       .dispatch_details {
         margin-bottom: 0;
+      }
+
+      .set-list {
+        padding-bottom: 5rem;
+
+
+        .set-main-controls {
+          padding: 0 1.5rem;
+        }
+
+        .package-summary-block {
+          .set-actions {
+            color: rgba(white, 0.7);
+            position: absolute;
+            bottom: 0.5rem;
+            right: 1rem;
+            .action {
+              cursor: pointer;
+              &:hover {
+                color: white;
+              }
+              i {
+                font-size: 0.8rem;
+              }
+            }
+          }
+        }
       }
     }
   }

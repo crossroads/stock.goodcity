@@ -5,12 +5,12 @@ import NavigationAwareness from "stock/mixins/navigation_aware";
 
 export default ApiBaseService.extend(NavigationAwareness, {
   store: Ember.inject.service(),
+  packageTypeService: Ember.inject.service(),
 
   init() {
     this._super(...arguments);
     this.set("openPackageSearch", false);
-    this.set("openItemSearch", false);
-    this.set("entity", null);
+    this.set("packageSearchOptions", {});
   },
 
   generateInventoryNumber() {
@@ -70,22 +70,6 @@ export default ApiBaseService.extend(NavigationAwareness, {
       package_type_id,
       grade
     });
-  },
-
-  userPickPackageType(storageType = "") {
-    const deferred = Ember.RSVP.defer();
-
-    this.set("openPackageSearch", true);
-    if (storageType) {
-      this.set("storageType", storageType);
-    }
-    this.set("onPackageTypeSelected", packageType => {
-      this.set("onPackageTypeSelected", _.noop);
-      this.set("openPackageSearch", false);
-      deferred.resolve(packageType || null);
-    });
-
-    return deferred.promise;
   },
 
   openItemsSearch(item) {
@@ -149,6 +133,79 @@ export default ApiBaseService.extend(NavigationAwareness, {
   },
 
   /**
+   * Removes a package from its set
+   *
+   * @param {Package} pkg the package to unlink
+   * @returns {Promise<Model>}
+   */
+  async removeFromSet(pkg) {
+    if (!pkg.get("packageSetId")) {
+      return pkg;
+    }
+
+    const id = pkg.get("id");
+    const packageSet = pkg.get("packageSet");
+    const payload = await this.PUT(`/packages/${id}`, {
+      package: {
+        package_set_id: null
+      }
+    });
+
+    packageSet.get("packageIds").removeObject(Number(id));
+
+    this.get("store").pushPayload(payload);
+    return this.get("store").peekRecord("item", id);
+  },
+
+  /**
+   * Creates a set for the package if non-existent
+   *
+   * @param {Package} pkg the package to add to set
+   * @returns {Promise<PackageSet>} the existing newly created package set
+   */
+  async initializeSetOf(pkg) {
+    const allowedPackageTypes = this.get("packageTypeService").parentsOf(
+      pkg.get("code")
+    );
+    const code = await this.get("packageTypeService").userPickPackageType({
+      subsetPackageTypes: allowedPackageTypes,
+      storageType: "Package"
+    });
+
+    if (pkg.get("packageSet")) {
+      return pkg.get("packageSet");
+    }
+
+    return this.get("store").createRecord("package_set", {
+      packageTypeId: code.get("id"),
+      description: code.get("name")
+    });
+  },
+
+  /**
+   * Removes a package from its set
+   *
+   * @param {Package} pkg the package to add to set
+   * @param {PackageSet} packageSet the package set to add to
+   * @returns {Promise<Model>}
+   */
+  async addToSet(pkg, packageSet) {
+    // if (pkg.get('packageSetId')) {
+    //   throw new Error(this.get('i18n').t('item.already_in_set'));
+    // }
+    // const id = pkg.get("id");
+    // const packageSet = pkg.get('packageSet');
+    // const payload = await this.PUT(`/packages/${id}`, {
+    //     package: {
+    //       package_set_id: packageSet.get('id')
+    //     }
+    //   }
+    // );
+    // this.get("store").pushPayload(payload);
+    // return this.get("store").peekRecord("item", id);
+  },
+
+  /**
    * Performs action on a package from the specified location
    *
    * @param {Package} pkg the package to move
@@ -190,5 +247,30 @@ export default ApiBaseService.extend(NavigationAwareness, {
     this.get("store").pushPayload(payload);
 
     return this.get("store").peekRecord("item", toID(pkg));
+  },
+
+  /**
+   * Triggers the package selection popup, and resolves the promise
+   * once a package has been selected.
+   *
+   * null is returned if the user closes the UI
+   *
+   * @param {object} opts search options
+   * @returns {Promise<Model>}
+   */
+  userPickPackage(opts = {}) {
+    const deferred = Ember.RSVP.defer();
+
+    Ember.run(() => {
+      this.set("packageSearchOptions", opts);
+      this.set("openPackageSearch", true);
+      this.set("onPackageSelected", pkg => {
+        this.set("onPackageSelected", _.noop);
+        this.set("openPackageSearch", false);
+        deferred.resolve(pkg || null);
+      });
+    });
+
+    return deferred.promise;
   }
 });

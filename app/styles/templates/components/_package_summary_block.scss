@@ -98,11 +98,15 @@
         }
 
         .item-description {
+          position: relative;
           background-color: #002353;
           width: 76%;
           text-align: left;
           padding: 0.5rem;
+          padding-left: 1rem;
+          line-height: 1.5rem;
         }
+        
       }
     }
 

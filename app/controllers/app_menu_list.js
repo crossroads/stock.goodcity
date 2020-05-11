@@ -9,6 +9,7 @@ export default Ember.Controller.extend(storageType, {
   isMobileApp: config.cordova.enabled,
   settings: Ember.inject.service(),
   packageService: Ember.inject.service(),
+  packageTypeService: Ember.inject.service(),
   stockAppVersion: Ember.computed(function() {
     return config.cordova.enabled ? config.APP.VERSION : null;
   }),
@@ -45,6 +46,20 @@ export default Ember.Controller.extend(storageType, {
 
     logMeOut() {
       this.get("application").send("logMeOut");
+    },
+
+    async createInventory(storageTypeName) {
+      const code = await this.get("packageTypeService").userPickPackageType({
+        storageType: storageTypeName
+      });
+
+      if (!code) {
+        return;
+      }
+
+      this.replaceRoute("items.new", {
+        queryParams: { codeId: code.get("id"), storageType: storageTypeName }
+      });
     },
 
     createOrder() {

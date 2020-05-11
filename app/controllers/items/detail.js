@@ -448,6 +448,37 @@ export default GoodcityController.extend(
       },
 
       /**
+       * Removes a package from its set
+       * @param {Package} pkg the package to unlink
+       */
+      unlinkFromSet(pkg) {
+        this.runTask(async () => {
+          await this.get("packageService").removeFromSet(pkg);
+
+          if (pkg.get("id") === this.get("model.id")) {
+            this.set("showSetList", false);
+          }
+        }, ERROR_STRATEGIES.MODAL);
+      },
+
+      async addItemToCurrentSet() {
+        await this.get("packageService").initializeSetOf(this.get("model"));
+        const packageSet = this.get("model.packageSet");
+        const pkg = await this.get("packageService").userPickPackage({
+          packageTypes: this.get("packageService").allChildPackageTypes(
+            packageSet
+          ),
+          storageTypeName: "Package" // we don't add boxes to sets
+        });
+
+        if (!pkg || pkg.get("packageSetId") === packageSet.get("id")) {
+          return;
+        }
+
+        // if (pkg.)
+      },
+
+      /**
        * Called after a property is changed to push the updated
        * record to the API
        */
@@ -505,12 +536,7 @@ export default GoodcityController.extend(
       },
 
       openItemsSearch() {
-        this.get("packageService").openItemsSearch(this.get("item"));
-      },
-
-      setScannedSearchText(searchedText) {
-        this.set("searchText", searchedText);
-        this.send("openItemsSearch");
+        this.set("openPackageSearch", true);
       },
 
       /**

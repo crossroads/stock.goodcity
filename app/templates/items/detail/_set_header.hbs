@@ -1,6 +1,6 @@
 <div class="set-header">
   <div class="row">
-    <div class="small-6 columns text-align-left {{if showSetList 'hidden' }}"> {{t 'item_details.viewing_set'}} </div>
+    <div class="small-6 columns text-align-left subtitle {{if showSetList 'hidden' }}"> {{t 'item_details.viewing_set'}} </div>
     <div class="small-6 columns text-align-right">
       <a {{action 'toggleSetList'}}>
         {{#if showSetList}}
@@ -17,7 +17,9 @@
     </div>
   </div>
   <div class="row">
-    <div class="title">{{model.packageSet.description}}</div>
-    <div>{{model.code.name}}</div>
+    <div class="title">
+      {{editable-line value=model.packageSet.description model=model.packageSet large=true autosave=true fitted-width=true}}
+    </div>
+    <div class="subtitle">{{model.code.name}}</div>
   </div>
 </div>

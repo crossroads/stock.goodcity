@@ -50,14 +50,22 @@
               {{/link-to}}
             {{/if}}
           </div>
-          {{#link-to 'items.detail' model.id tagName='div' class="content item-description" disabled=disableLink}}
-            <div>
-              {{model.notes}}
-            </div>
-            <div>
-              {{model.notes}}
-            </div>
-          {{/link-to}}
+          <div class="content item-description">
+            {{#unless hasBlock}}
+              {{#link-to 'items.detail' model.id disabled=disableLink}}
+                <div>
+                  {{model.code.name}}
+                </div>
+                <div>
+                  {{model.notes}}
+                </div>
+              {{/link-to}}
+            {{else}}
+              {{#link-to 'items.detail' model.id disabled=disableLink}}
+                {{yield}}
+              {{/link-to}}
+            {{/unless}}
+          </div>
         </div>
       </div>
     </div>

@@ -406,11 +406,16 @@ export default cloudinaryUrl.extend({
    * @instance
    * @property {Item[]} siblings the other packages that are part of the same set
    */
-  siblings: Ember.computed("isPartOfSet", "packageSet.items.[]", function() {
-    if (!this.get("isPartOfSet")) {
-      return [];
-    }
+  siblings: Ember.computed(
+    "isPartOfSet",
+    "packageSet.items.@each.packageSetId",
+    "packageSet.items.[]",
+    function() {
+      if (!this.get("isPartOfSet")) {
+        return [];
+      }
 
-    return this.get("packageSet.items").rejectBy("id", this.get("id"));
-  })
+      return this.get("packageSet.items").rejectBy("id", this.get("id"));
+    }
+  )
 });

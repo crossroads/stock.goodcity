@@ -15,36 +15,16 @@ export default Ember.Component.extend(SearchMixin, AsyncMixin, {
   messageBox: Ember.inject.service(),
   i18n: Ember.inject.service(),
 
-  storageTypeName: Ember.computed.alias("entity.storageTypeName"),
-
   hasSearchText: Ember.computed("searchText", function() {
     return !!this.get("searchText");
   }),
-
-  addSingleton(item) {
-    let itemLocations = item.get("locations");
-    const params = {
-      item_id: item.id,
-      task: "pack",
-      location_id: itemLocations.get("lastObject").id,
-      quantity: item.get("onHandQuantity")
-    };
-
-    this.runTask(() => {
-      this.get("packageService")
-        .addRemoveItem(this.get("entity.id"), params)
-        .then(data => {
-          this.sendAction("onSingletonAdd");
-          this.closeOverlay();
-        });
-    });
-  },
 
   closeOverlay() {
     this.setProperties({
       searchText: "",
       open: false,
-      displayResults: false
+      displayResults: false,
+      onSelect: null
     });
   },
 
@@ -58,9 +38,6 @@ export default Ember.Component.extend(SearchMixin, AsyncMixin, {
     },
 
     selectItem(item) {
-      if (item.get("onHandQuantity") === 1) {
-        return this.addSingleton(item);
-      }
       this.get("onConfirm")(item);
       this.closeOverlay();
     },
