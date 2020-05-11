@@ -12,9 +12,9 @@
     <div class="row req-second-row">
       <div class="columns small-4 request-type">Type </div>
       <div class="columns small-8 request-value">
-        {{#link-to 'orders.search_code' order.id (query-params changeCode=true reqId=request.id)}}
+        <div class="columns small-8 request-value" {{action 'assingPackageType'}}>
           {{input value=request.code.name class="item-type" disabled=true}}
-        {{/link-to}}
+        </div>
       </div>
     </div>
   </div>

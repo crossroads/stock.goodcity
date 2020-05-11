@@ -2,7 +2,7 @@
   <div class="row request-block">
     {{#form-control}}
         <div class="small-12 columns add-request" >
-          <div class="small-7 columns" {{action "searchPackageType" request.id order.id}}>
+          <div class="small-7 columns" {{action "assingPackageType" request.id}}>
             <label> {{t 'order.goods_details.type_label'}} </label>
               {{input type="text" name="packageTypeDescription" value=packageTypeName pattern=".*\S.*" id=(concat 'packageTypeDescription' request.id) classNames="select-goods" required='true'}}
           </div>

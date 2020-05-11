@@ -1,9 +1,12 @@
 import Ember from "ember";
 const { getOwner } = Ember;
-import AjaxPromise from 'stock/utils/ajax-promise';
-import config from '../../config/environment';
+import AjaxPromise from "stock/utils/ajax-promise";
+import config from "../../config/environment";
+import AsyncMixin, { ERROR_STRATEGIES } from "stock/mixins/async";
 
-export default Ember.Controller.extend({
+export default Ember.Controller.extend(AsyncMixin, {
+  goodcityRequest: Ember.inject.service(),
+
   queryParams: ["typeId", "fromClientInformation"],
   order: Ember.computed.alias("model.orderUserOrganisation.order"),
   typeId: null,
@@ -11,45 +14,46 @@ export default Ember.Controller.extend({
   qty: null,
   otherDetails: "",
   sortProperties: ["id"],
-  sortedGcRequests: Ember.computed.sort("order.goodcityRequests", "sortProperties"),
+  sortedGcRequests: Ember.computed.sort(
+    "order.goodcityRequests",
+    "sortProperties"
+  ),
   isMobileApp: config.cordova.enabled,
 
   hasNoGcRequests: Ember.computed("order.goodcityRequests", function() {
-    return (!this.get('order.goodcityRequests').length);
+    return !this.get("order.goodcityRequests").length;
   }),
 
   sortedGcRequestsLength: Ember.computed("order.goodcityRequests", function() {
-    return (this.get('order.goodcityRequests').length > 1);
+    return this.get("order.goodcityRequests").length > 1;
   }),
 
   actions: {
-    addRequest(){
-      var orderId = this.get('order.id');
-      var goodcityRequestParams = {};
-      goodcityRequestParams['quantity'] = 1;
-      goodcityRequestParams['order_id'] = orderId;
-      var loadingView = getOwner(this).lookup('component:loading').append();
-
-      new AjaxPromise("/goodcity_requests", "POST", this.get('session.authToken'), { goodcity_request: goodcityRequestParams })
-        .then(data => {
-          this.get("store").pushPayload(data);
-        })
-        .finally(() => {
-          loadingView.destroy();
-        });
+    async addRequest() {
+      await this.get("goodcityRequest").createGcRequest({
+        quantity: 1,
+        order_id: this.get("order.id")
+      });
     },
 
-    saveGoodsDetails(){
-      if(this.get('hasNoGcRequests')){return false;}
+    saveGoodsDetails() {
+      if (this.get("hasNoGcRequests")) {
+        return false;
+      }
       var promises = [];
-      this.get('order.goodcityRequests').forEach(goodcityRequest => {
+      this.get("order.goodcityRequests").forEach(goodcityRequest => {
         promises.push(goodcityRequest.save());
       });
 
-      var loadingView = getOwner(this).lookup('component:loading').append();
+      var loadingView = getOwner(this)
+        .lookup("component:loading")
+        .append();
 
       Ember.RSVP.all(promises).finally(() => {
-        this.transitionToRoute('order.appointment_details', this.get("order.id"));
+        this.transitionToRoute(
+          "order.appointment_details",
+          this.get("order.id")
+        );
         loadingView.destroy();
       });
     }

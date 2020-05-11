@@ -7,13 +7,15 @@ export default Ember.Component.extend({
   isGCRequest: null,
 
   store: Ember.inject.service(),
+  goodcityRequest: Ember.inject.service(),
+  packageService: Ember.inject.service(),
   messageBox: Ember.inject.service(),
   i18n: Ember.inject.service(),
   request: null,
   num: null,
   order: null,
 
-  packageTypeName: Ember.computed("request.code.name", function() {
+  packageTypeName: Ember.computed("request", function() {
     return this.get("request.code.name");
   }),
 
@@ -37,20 +39,28 @@ export default Ember.Component.extend({
       );
     },
 
-    removeRequest(reqId) {
-      var url = `/goodcity_requests/${reqId}`;
-      var req = this.get("store").peekRecord("goodcity_request", reqId);
-      var loadingView = getOwner(this)
-        .lookup("component:loading")
-        .append();
-      new AjaxPromise(url, "DELETE", this.get("session.authToken"))
-        .then(data => {
-          this.get("store").pushPayload(data);
-        })
+    async removeRequest(reqId) {
+      const req = this.get("store").peekRecord("goodcity_request", reqId);
+      await this.get("goodcityRequest")
+        .deleteRequest(reqId)
         .finally(() => {
-          loadingView.destroy();
           this.get("store").unloadRecord(req);
         });
+    },
+
+    async assingPackageType(reqId) {
+      const type = await this.get("packageService").getPackageType();
+      if (type) {
+        const gcRequest = await this.get("goodcityRequest").updateGcRequest(
+          reqId,
+          {
+            package_type_id: type.get("id"),
+            quantity: 1,
+            order_id: this.get("order.id")
+          }
+        );
+        this.set("request", gcRequest);
+      }
     },
 
     searchPackageType(reqId, orderId) {
