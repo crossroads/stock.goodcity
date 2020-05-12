@@ -45,12 +45,12 @@ export default Ember.Component.extend(AsyncMixin, {
     },
 
     async assingPackageType(reqId) {
-      const type = await this.get("packageService").getPackageType();
+      const pkgType = await this.get("packageService").getPackageType();
 
-      if (type) {
+      if (pkgType) {
         this.runTask(
           this.get("goodcityRequest").updateGcRequest(reqId, {
-            package_type_id: type.get("id"),
+            package_type_id: pkgType.get("id"),
             quantity: 1,
             order_id: this.get("order.id")
           })

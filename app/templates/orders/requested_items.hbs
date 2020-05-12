@@ -13,9 +13,9 @@
   {{#unless (is-or model.isCancelled model.isClosed)}}
     <div class="row add_item_button">
       <div class="small-12 columns">
-        {{#link-to "orders.search_code" model.id (query-params orderId=model.id searchInput="" changeCode=false) id="requestbtn" class="button expand"}}
+        <div class="button expand" {{action "addRequest"}}>
           {{t "order_details.add_request_to_order"}}
-        {{/link-to}}
+        </div>
       </div>
     </div>
   {{/unless}}
