@@ -6,8 +6,12 @@ export default ApiBaseService.extend({
   createGcRequest(gcRequestParams) {
     return this.POST(`/goodcity_requests`, {
       goodcity_request: gcRequestParams
-    }).then(gcRequest => {
-      this.get("store").pushPayload(gcRequest);
+    }).then(payload => {
+      this.get("store").pushPayload(payload);
+      return this.get("store").peekRecord(
+        "goodcity_request",
+        payload.goodcity_request.id
+      );
     });
   },
 

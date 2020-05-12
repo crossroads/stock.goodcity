@@ -1,8 +1,7 @@
 import Ember from "ember";
-const { getOwner } = Ember;
-import AjaxPromise from "stock/utils/ajax-promise";
+import AsyncMixin from "stock/mixins/async";
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(AsyncMixin, {
   layoutName: null,
   isGCRequest: null,
 
@@ -15,7 +14,7 @@ export default Ember.Component.extend({
   num: null,
   order: null,
 
-  packageTypeName: Ember.computed("request", function() {
+  packageTypeName: Ember.computed("request.code.name", function() {
     return this.get("request.code.name");
   }),
 
@@ -41,25 +40,21 @@ export default Ember.Component.extend({
 
     async removeRequest(reqId) {
       const req = this.get("store").peekRecord("goodcity_request", reqId);
-      await this.get("goodcityRequest")
-        .deleteRequest(reqId)
-        .finally(() => {
-          this.get("store").unloadRecord(req);
-        });
+      this.runTask(await this.get("goodcityRequest").deleteRequest(reqId));
+      this.get("store").unloadRecord(req);
     },
 
     async assingPackageType(reqId) {
       const type = await this.get("packageService").getPackageType();
+
       if (type) {
-        const gcRequest = await this.get("goodcityRequest").updateGcRequest(
-          reqId,
-          {
+        this.runTask(
+          this.get("goodcityRequest").updateGcRequest(reqId, {
             package_type_id: type.get("id"),
             quantity: 1,
             order_id: this.get("order.id")
-          }
+          })
         );
-        this.set("request", gcRequest);
       }
     },
 
