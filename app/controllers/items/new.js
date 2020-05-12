@@ -48,14 +48,6 @@ export default GoodcityController.extend(
     isSelectLocationPreviousRoute: Ember.computed.localStorage(),
     offerService: Ember.inject.service(),
     fixedDropdownArr: ["frequency", "voltage", "compTestStatus", "testStatus"],
-    removalOfFields: [
-      "serialNum",
-      "marMsOfficeSerialNum",
-      "osSerialNum",
-      "marOsSerialNum",
-      "msOfficeSerialNum",
-      "serialNumber"
-    ],
     quantity: 1,
     valueHkDollar: "",
     labels: 1,
@@ -194,21 +186,21 @@ export default GoodcityController.extend(
     },
 
     clearAttribute(value) {
-      let fieldAttributes = this.get("displayFields").map(value => value.name);
-      if (fieldAttributes.indexOf(value) < 0) {
-        return;
-      }
-      if (value == "country") {
+      if (value.toLowerCase().includes("country")) {
         return this.setProperties({
           countryValue: {},
           selected: []
         });
       }
-      if (this.get("removalOfFields").indexOf(value) > -1) {
-        return this.set(`inputFieldValues.${value}`, null);
-      } else {
-        return this.send("setFields", value, null);
+      const fieldAtributes = this.get("displayFields").find(
+        newValue => newValue.label == value
+      );
+      if (!fieldAtributes) {
+        return;
       }
+      return fieldAtributes.autoComplete
+        ? this.send("setFields", fieldAtributes.name, null)
+        : this.set(`inputFieldValues.${fieldAtributes.value}`, null);
     },
 
     showPiecesInput: Ember.computed("codeId", function() {
