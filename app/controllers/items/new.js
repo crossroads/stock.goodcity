@@ -186,22 +186,21 @@ export default GoodcityController.extend(
     },
 
     clearAttribute(value) {
-      let fieldAtributes = this.get("displayFields").find(
-        newValue => newValue.label == value
-      );
       if (value.toLowerCase().includes("country")) {
         return this.setProperties({
           countryValue: {},
           selected: []
         });
       }
-      if (fieldAtributes) {
-        if (fieldAtributes.autoComplete) {
-          return this.send("setFields", fieldAtributes.name, null);
-        } else {
-          return this.set(`inputFieldValues.${fieldAtributes.value}`, null);
-        }
+      const fieldAtributes = this.get("displayFields").find(
+        newValue => newValue.label == value
+      );
+      if (!fieldAtributes) {
+        return;
       }
+      return fieldAtributes.autoComplete
+        ? this.send("setFields", fieldAtributes.name, null)
+        : this.set(`inputFieldValues.${fieldAtributes.value}`, null);
     },
 
     showPiecesInput: Ember.computed("codeId", function() {
