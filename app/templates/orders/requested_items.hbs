@@ -13,7 +13,7 @@
   {{#unless (is-or model.isCancelled model.isClosed)}}
     <div class="row add_item_button">
       <div class="small-12 columns">
-        <div class="button expand" {{action "addRequest"}}>
+        <div class="button expand" {{action "addRequest"}} id="requestbtn">
           {{t "order_details.add_request_to_order"}}
         </div>
       </div>
