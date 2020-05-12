@@ -39,8 +39,6 @@ export default AuthorizeRoute.extend({
     if (searchCodePreviousRoute) {
       var newItemRequest = searchCodePreviousRoute ? true : false;
       this.set("newItemRequest", newItemRequest);
-    } else {
-      this.replaceWith("search_code");
     }
   },
 
