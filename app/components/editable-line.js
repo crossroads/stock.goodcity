@@ -41,7 +41,7 @@ export default Ember.Component.extend(AsyncMixin, {
       return "auto";
     }
 
-    const safetyMargin = 60;
+    const safetyMargin = 100;
     const el = document.createElement("div");
     const fontSize = this.element.computedStyleMap().get("font-size");
 
