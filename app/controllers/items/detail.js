@@ -54,6 +54,7 @@ export default GoodcityController.extend(
     showSetList: false,
     hideDetailsLink: true,
     displayItemOptions: false,
+    isFocused: false,
     fields: additionalFields,
     fixedDropdownArr: [
       "frequencyId",
@@ -158,11 +159,15 @@ export default GoodcityController.extend(
       }
     }),
 
-    canApplyDefaultValuation: Ember.computed("model.valueHkDollar", function() {
-      const valueHkDollar = parseFloat(this.get("model.valueHkDollar"));
-      const defaultValue = parseFloat(this.get("defaultValueHkDollar"));
-      return valueHkDollar !== defaultValue;
-    }),
+    canApplyDefaultValuation: Ember.computed(
+      "model.valueHkDollar",
+      "isFocused",
+      function() {
+        const valueHkDollar = parseFloat(this.get("model.valueHkDollar"));
+        const defaultValue = parseFloat(this.get("defaultValueHkDollar"));
+        return this.get("isFocused") && valueHkDollar !== defaultValue;
+      }
+    ),
 
     /**
      * Returns true if valueHkDollar is modified and not empty
@@ -348,6 +353,35 @@ export default GoodcityController.extend(
           offer.id
         ];
         this.updatePackageOffers(offerIds);
+      },
+
+      setIsFocused(val) {
+        this.set("isFocused", val);
+      },
+
+      onGradeChange({ id, name }) {
+        this.set("selectedGrade", { id, name });
+        this.set("defaultValueHkDollar", null);
+        this.send("calculateItemValuation");
+      },
+
+      onConditionChange({ id, name }) {
+        this.set("defaultCondition", { id, name });
+        this.set("defaultValueHkDollar", null);
+        this.send("calculateItemValuation");
+      },
+
+      async calculateItemValuation() {
+        const item = this.get("item");
+        const itemValuation = await this.get("packageService").getItemValuation(
+          {
+            donorConditionId:
+              this.get("defaultCondition.id") || item.get("donorCondition.id"),
+            grade: this.get("selectedGrade.id") || item.get("grade"),
+            packageTypeId: item.get("code.id")
+          }
+        );
+        this.set("defaultValueHkDollar", Number(itemValuation.value_hk_dollar));
       },
 
       /**
