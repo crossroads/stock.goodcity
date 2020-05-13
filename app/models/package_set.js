@@ -42,6 +42,7 @@ export default Model.extend({
             .filterBy("quantity")
             .rejectBy("state", "cancelled")
         );
+        return ops;
       }, []);
     }
   ),

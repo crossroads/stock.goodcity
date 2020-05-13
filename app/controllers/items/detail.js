@@ -44,13 +44,13 @@ export default GoodcityController.extend(
     setDropdownOption: Ember.inject.service(),
     designationService: Ember.inject.service(),
     offerService: Ember.inject.service(),
+    packageTypeService: Ember.inject.service(),
     packageService: Ember.inject.service(),
     settings: Ember.inject.service(),
     locationService: Ember.inject.service(),
     settings: Ember.inject.service(),
     displayScanner: false,
     callOrderObserver: false,
-    showSetList: false,
     hideDetailsLink: true,
     displayItemOptions: false,
     isFocused: false,
@@ -75,6 +75,16 @@ export default GoodcityController.extend(
     isItemDetailPresent() {
       return !!this.get("item.detail.length");
     },
+
+    showSetList: Ember.computed("_showSetList", "model.isPartOfSet", {
+      get() {
+        return this.get("_showSetList") && this.get("model.isPartOfSet");
+      },
+      set(k, value) {
+        this.set("_showSetList", value);
+        return value;
+      }
+    }),
 
     disableBoxPalletItemAddition: Ember.computed(
       "model",
@@ -461,8 +471,33 @@ export default GoodcityController.extend(
         }, ERROR_STRATEGIES.MODAL);
       },
 
+      async makeCurrentPackageASet() {
+        if (this.get("model.isPartOfSet")) {
+          return;
+        }
+
+        const allowedPackageTypes = this.get("packageTypeService").parentsOf(
+          this.get("model.code")
+        );
+
+        const code = await this.get("packageTypeService").userPickPackageType({
+          storageType: "Package",
+          subsetPackageTypes: allowedPackageTypes
+        });
+
+        return this.runTask(async () => {
+          await this.get("packageService").initializeSetOf(
+            this.get("model"),
+            code
+          );
+        }, ERROR_STRATEGIES.MODAL);
+      },
+
       async addItemToCurrentSet() {
-        await this.get("packageService").initializeSetOf(this.get("model"));
+        await this.runTask(
+          this.get("packageService").initializeSetOf(this.get("model"))
+        );
+
         const packageSet = this.get("model.packageSet");
         const pkg = await this.get("packageService").userPickPackage({
           packageTypes: this.get("packageService").allChildPackageTypes(
@@ -475,7 +510,9 @@ export default GoodcityController.extend(
           return;
         }
 
-        // if (pkg.)
+        this.runTask(async () => {
+          await this.get("packageService").addToSet(pkg, packageSet);
+        }, ERROR_STRATEGIES.MODAL);
       },
 
       /**

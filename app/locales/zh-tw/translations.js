@@ -757,6 +757,8 @@ export default {
         blank_notification: "Location cannot be blank."
       }
     },
+    action_label: "Actions",
+    make_set: "Make Set",
     actions: {
       process: "Process",
       loss: "Loss (decrease)",

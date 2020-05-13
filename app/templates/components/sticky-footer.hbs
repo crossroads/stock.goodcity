@@ -2,38 +2,42 @@
   <div class="navigation_menus">
     <div class="row">
       <div class="small-12 columns">
-        <ul class="small-block-grid-5 list">
-          {{#link-to 'index' tagName='li' href=false}}
-            <i>{{fa-icon 'home'}}</i>
-            {{t "index.home"}}
-          {{/link-to}}
+        <ul class="small-block-grid-{{if columns columns 5}} list">
+          {{#unless hasBlock}}
+            {{#link-to 'index' tagName='li' href=false}}
+              <i>{{fa-icon 'home'}}</i>
+              {{t "index.home"}}
+            {{/link-to}}
 
-          {{#if (is-and filterService.getOrderState.length filterService.getOrderType.length)}}
-            {{#link-to 'orders' (query-params preload=true) tagName='li' class="orders" href=false}}
-              <i>{{fa-icon 'shopping-basket'}}</i>{{t "index.orders"}}
+            {{#if (is-and filterService.getOrderState.length filterService.getOrderType.length)}}
+              {{#link-to 'orders' (query-params preload=true) tagName='li' class="orders" href=false}}
+                <i>{{fa-icon 'shopping-basket'}}</i>{{t "index.orders"}}
+              {{/link-to}}
+            {{else}}
+              {{#link-to 'orders' tagName='li' class="orders" href=false}}
+                <i>{{fa-icon 'shopping-basket'}}</i>{{t "index.orders"}}
+              {{/link-to}}
+            {{/if}}
+
+            {{#link-to 'items' tagName='li' class="items" href=false}}
+              <i>{{fa-icon 'cube'}}</i>{{t "index.items"}}
+            {{/link-to}}
+
+            {{#link-to 'my_notifications' tagName='li' class="notifications" href=false}}
+              {{#if unreadMessageCount }}
+                <span class="unread">
+                  <div class="unread_length">{{unreadMessageCount}}</div>
+                </span>
+              {{/if}}
+              <i>{{fa-icon 'bell'}}</i>{{t "index.alerts"}}
+            {{/link-to}}
+
+            {{#link-to 'app_menu_list' tagName='li' class="menu" href=false}}
+              <i>{{fa-icon 'bars'}}</i> {{t "footer.menu"}}
             {{/link-to}}
           {{else}}
-            {{#link-to 'orders' tagName='li' class="orders" href=false}}
-              <i>{{fa-icon 'shopping-basket'}}</i>{{t "index.orders"}}
-            {{/link-to}}
-          {{/if}}
-
-          {{#link-to 'items' tagName='li' class="items" href=false}}
-            <i>{{fa-icon 'cube'}}</i>{{t "index.items"}}
-          {{/link-to}}
-
-          {{#link-to 'my_notifications' tagName='li' class="notifications" href=false}}
-            {{#if unreadMessageCount }}
-              <span class="unread">
-                <div class="unread_length">{{unreadMessageCount}}</div>
-              </span>
-            {{/if}}
-            <i>{{fa-icon 'bell'}}</i>{{t "index.alerts"}}
-          {{/link-to}}
-
-          {{#link-to 'app_menu_list' tagName='li' class="menu" href=false}}
-            <i>{{fa-icon 'bars'}}</i> {{t "footer.menu"}}
-          {{/link-to}}
+            {{yield}}
+          {{/unless}}
         </ul>
       </div>
     </div>

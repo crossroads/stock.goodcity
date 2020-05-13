@@ -1,19 +1,74 @@
-<div class="footer">
-  <div class="navigation_menus">
+{{#sticky-footer columns=4}}
+  <div class="extended-footer-menu {{if showExtendedFooterMenu 'visible'}}">
     <div class="row">
       <div class="small-12 columns">
-        <ul class="small-block-grid-3 list">
-          {{#link-to 'items.detail' model tagName='li' href=false replace=true}}
-            <i aria-hidden="true">{{fa-icon 'file-alt'}}</i> {{t 'footer.details'}}
-          {{/link-to}}
-
-          {{#link-to 'items.history' model tagName='li' href=false replace=true}}
-            <li><i aria-hidden="true">{{fa-icon 'clock'}}</i>{{t 'footer.history'}}</li>
-          {{/link-to}}
-
-          <li><i aria-hidden="true">{{fa-icon 'comments'}}</i>{{t 'footer.staff'}}</li>
+        <ul class="flex">
+          <li class="menu {{if item.availableQuantity '' 'disabled'}}"
+            {{action (
+              chain-actions
+                (action 'makeCurrentPackageASet')
+                (toggle this "showExtendedFooterMenu")
+              )
+            }} >
+            <i>{{fa-icon 'object-group'}}</i> {{t 'items.make_set'}}
+          </li>
+          {{#each itemActions as |action|}}
+            {{#if action.loss}}
+              <li class="menu {{if (is-and allowItemActions item.availableQuantity) '' 'disabled'}}"
+                onclick={{if item.availableQuantity (action 'triggerItemAction' item action.name)}} >
+                <i>{{fa-icon action.icon}}</i> {{action.displayName}}
+              </li>
+            {{else}}
+              <li class="menu {{unless allowItemActions 'disabled'}}"
+                {{action (
+                  chain-actions
+                    (action "triggerItemAction" item action.name)
+                    (toggle this "showExtendedFooterMenu")
+                  )
+                }}>
+                <i>{{fa-icon action.icon}}</i> {{action.displayName}}
+              </li>
+            {{/if}}
+          {{/each}}
+        </ul>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div class="row">
+      <div class="small-6 columns">
+        {{toggle-switch
+            disabled=(unless allowPublish true)
+            on-icon='eye'
+            off-icon='eye-slash'
+            on-text=(t 'item_filters.published')
+            off-text=(t 'item_filters.private')
+            value=model.allowWebPublish
+            after-change=(action 'persistModel')
+        }}
+      </div>
+      <div class="small-6 columns">
+        <ul>
+          <li class="menu" {{action (toggle this "showExtendedFooterMenu")}}>
+            {{#goodcity/designate-link pkg=item}}
+              <i>{{fa-icon 'shopping-basket'}}</i> {{t "item.designate"}}
+            {{/goodcity/designate-link}}
+          </li>
         </ul>
       </div>
     </div>
   </div>
-</div>
+
+  {{#link-to 'items.detail' model tagName='li' href=false replace=true}}
+    <i aria-hidden="true">{{fa-icon 'file-alt'}}</i> {{t 'footer.details'}}
+  {{/link-to}}
+
+  {{#link-to 'items.history' model tagName='li' href=false replace=true}}
+    <li><i aria-hidden="true">{{fa-icon 'clock'}}</i>{{t 'footer.history'}}</li>
+  {{/link-to}}
+
+  <li><i aria-hidden="true">{{fa-icon 'comments'}}</i>{{t 'footer.staff'}}</li>
+
+  <li class="menu" {{action (toggle this "showExtendedFooterMenu")}}>
+    <i>{{fa-icon 'bars'}}</i> {{t "items.action_label"}}
+  </li>
+{{/sticky-footer}}
