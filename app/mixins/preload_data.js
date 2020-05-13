@@ -23,7 +23,8 @@ export default Ember.Mixin.create({
       );
       promises = promises.concat(this.store.query("code", { stock: true }));
       promises = promises.concat(
-        this.store.query("cancellation_reason", { for: "order" })
+        this.store.query("cancellation_reason", { for: "order" }),
+        this.store.query("donor_condition", { for: "package" })
       );
       promises = promises.concat(retrieve(config.APP.PRELOAD_TYPES));
       promises.push(this.get("messages").fetchUnreadMessageCount());
