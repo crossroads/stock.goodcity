@@ -55,7 +55,7 @@
             <span class='input_text'>{{t 'item_details.grade'}}</span>
             {{inline-select-list
               content=grades
-              on-change=(action (mut selectedReason))
+              on-change=(action "onGradeChange")
               name="grade"
               autosave=true
               isPrimitive=true
@@ -69,7 +69,7 @@
             <span class='input_text'>{{t 'item_details.condition'}}</span>
             {{inline-select-list
             content=conditions
-            on-change=(action (mut selectedReason))
+            on-change=(action "onConditionChange")
             name="donorCondition"
             item=item
             autosave=true
@@ -82,7 +82,6 @@
       <div class="row">
         <div class="columns large-3 small-3">{{t 'items.value'}} </div>
         <div class="columns large-3 small-3 value">
-          <span>
           {{numeric-inline-input name="value_hk_dollar"
             class="numeric-input item-length small-3"
             value=item.valueHkDollar
@@ -90,13 +89,9 @@
             acceptFloat=true
             item=item
             class='numeric-input valuation-input'
-            skipSave=true}}
-            {{#if canUpdateValuation}}
-              <a class="save-btn">
-                <i {{action 'updateItemValuation'}} title="Save">{{fa-icon 'save'}}</i>
-              </a>
-            {{/if}}
-            </span>
+            onFocusIn=(action 'setIsFocused' true)
+            onFocusOut=(action 'setIsFocused' false)
+            }}
         </div>
         <div class="columns large-6 small-6">
           {{#if canApplyDefaultValuation}}

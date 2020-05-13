@@ -5,6 +5,7 @@ import _ from "lodash";
 export default AuthorizeRoute.extend({
   itemBackLinkPath: Ember.computed.localStorage(),
   transition: null,
+  packageService: Ember.inject.service(),
   messageBox: Ember.inject.service(),
   i18n: Ember.inject.service(),
 
@@ -76,7 +77,14 @@ export default AuthorizeRoute.extend({
     controller.set("callOrderObserver", false);
     controller.set("backLinkPath", this.get("itemBackLinkPath"));
     controller.set("active", true);
-    controller.set("defaultValueHkDollar", model.get("valueHkDollar"));
+
+    const defaultValue = await this.get("packageService").getItemValuation({
+      donorConditionId: model.get("donorCondition.id"),
+      grade: model.get("grade"),
+      packageTypeId: model.get("code.id")
+    });
+
+    controller.set("defaultValueHkDollar", defaultValue.value_hk_dollar);
 
     if (["Box", "Pallet"].indexOf(model.get("storageTypeName")) >= 0) {
       controller.send("fetchContainedPackages");

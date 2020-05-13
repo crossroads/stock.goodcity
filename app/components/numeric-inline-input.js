@@ -51,6 +51,8 @@ export default Ember.TextField.extend({
   },
 
   focusOut() {
+    this.onFocusOut && setTimeout(() => this.onFocusOut(), 150);
+
     let val = this.attrs.value.value;
     const [regexPattern, replacePattern] = this.get("acceptFloat")
       ? [regex.FLOAT_REGEX, regex.NON_DIGIT_FLOAT_REGEX]
@@ -61,39 +63,38 @@ export default Ember.TextField.extend({
     val = isNaN(val) ? null : val;
     this.set("value", val);
 
-    if (!this.skipSave) {
-      var item = this.get("item");
-      var url = `/packages/${item.get("id")}`;
-      var key = this.get("name");
-      var packageParams = {};
-      packageParams[key] = this.get("value") || "";
+    var item = this.get("item");
+    var url = `/packages/${item.get("id")}`;
+    var key = this.get("name");
+    var packageParams = {};
+    packageParams[key] = this.get("value") || "";
 
-      if (isNaN(packageParams[key])) {
-        this.set("value", "");
-        return false;
-      }
+    if (isNaN(packageParams[key])) {
+      this.set("value", "");
+      return false;
+    }
 
-      if (
-        packageParams[key].toString() !== this.get("previousValue").toString()
-      ) {
-        var loadingView = getOwner(this)
-          .lookup("component:loading")
-          .append();
-        new AjaxPromise(url, "PUT", this.get("session.authToken"), {
-          package: packageParams
+    if (
+      packageParams[key].toString() !== this.get("previousValue").toString()
+    ) {
+      var loadingView = getOwner(this)
+        .lookup("component:loading")
+        .append();
+      new AjaxPromise(url, "PUT", this.get("session.authToken"), {
+        package: packageParams
+      })
+        .then(data => {
+          this.get("store").pushPayload(data);
         })
-          .then(data => {
-            this.get("store").pushPayload(data);
-          })
-          .finally(() => {
-            loadingView.destroy();
-          });
-      }
+        .finally(() => {
+          loadingView.destroy();
+        });
     }
     Ember.$(this.element).removeClass("numeric-inline-input");
   },
 
   focusIn() {
+    this.onFocusIn && this.onFocusIn();
     this.addCssStyle();
   },
 
