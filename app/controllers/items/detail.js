@@ -479,8 +479,8 @@ export default GoodcityController.extend(
         );
       },
 
-      async getPackageType() {
-        const pkgType = await this.get("packageService").getPackageType();
+      async updatePackageType() {
+        const pkgType = await this.get("packageService").userPickPackageType();
         if (this.hasExistingPackageSubform() && !this.isSamePackage(pkgType)) {
           this.warnAndAssignNew(pkgType);
         } else {

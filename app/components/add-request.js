@@ -45,7 +45,7 @@ export default Ember.Component.extend(AsyncMixin, {
     },
 
     async assingPackageType(reqId) {
-      const pkgType = await this.get("packageService").getPackageType();
+      const pkgType = await this.get("packageService").userPickPackageType();
 
       if (pkgType) {
         this.runTask(

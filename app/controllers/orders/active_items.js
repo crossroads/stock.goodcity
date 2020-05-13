@@ -34,7 +34,7 @@ export default detail.extend({
     },
 
     async addRequest() {
-      const pgkType = await this.get("packageService").getPackageType();
+      const pgkType = await this.get("packageService").userPickPackageType();
       if (pgkType) {
         await this.get("goodcityRequest").createGcRequest({
           package_type_id: pgkType.get("id"),

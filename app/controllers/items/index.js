@@ -84,7 +84,7 @@ export default Ember.Controller.extend(SearchMixin, {
     },
 
     async getPackageType() {
-      const type = await this.get("packageService").getPackageType();
+      const type = await this.get("packageService").userPickPackageType();
       if (type) {
         this.transitionToRoute("items.new", {
           queryParams: { codeId: type.id }

@@ -72,7 +72,7 @@ export default ApiBaseService.extend(NavigationAwareness, {
     });
   },
 
-  getPackageType(storageType = "") {
+  userPickPackageType(storageType = "") {
     const deferred = Ember.RSVP.defer();
 
     this.set("openPackageSearch", true);
