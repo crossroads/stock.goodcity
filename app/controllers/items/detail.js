@@ -46,7 +46,6 @@ export default GoodcityController.extend(
     offerService: Ember.inject.service(),
     packageService: Ember.inject.service(),
     settings: Ember.inject.service(),
-    packageService: Ember.inject.service(),
     locationService: Ember.inject.service(),
     settings: Ember.inject.service(),
     displayScanner: false,
@@ -337,6 +336,84 @@ export default GoodcityController.extend(
       }
     },
 
+    async deleteAndAssignNew(packageType) {
+      const item = this.get("item");
+      const type = item.get("detailType");
+      const detailId = item.get("detailId");
+      if (type) {
+        await this.runTask(
+          this.get("subformDetailService").deleteDetailType(type, detailId)
+        );
+      }
+      return this.assignNew(packageType, {
+        deleteDetailId: !this.isSubformPackage(packageType)
+      });
+    },
+
+    warnAndAssignNew(pkgType) {
+      const existingPkgType = this.get("item.code");
+      const packageName = existingPkgType.get("name");
+      const newPackageName = pkgType.get("name");
+      const translation = this.get("i18n");
+
+      this.get("messageBox").custom(
+        translation.t("items.new.subform.delete_subform_waring", {
+          newPackageName,
+          packageName
+        }),
+        translation.t("not_now"),
+        null,
+        translation.t("continue"),
+        () => {
+          this.deleteAndAssignNew(pkgType);
+        }
+      );
+    },
+
+    isSubformPackage(packageType) {
+      return (
+        ["computer", "computer_accessory", "electrical", "medical"].indexOf(
+          packageType.get("subform")
+        ) >= 0
+      );
+    },
+
+    hasExistingPackageSubform() {
+      const code = this.get("item.code");
+      return this.isSubformPackage(code);
+    },
+
+    async assignNew(type, { deleteDetailId = false } = {}) {
+      const item = this.get("item");
+      const url = `/packages/${item.get("id")}`;
+      const packageParams = {
+        package_type_id: type.get("id")
+      };
+      if (
+        !this.isSamePackage(type) ||
+        (!item.get("detailId") && this.isSubformPackage(type))
+      ) {
+        packageParams.detail_type = _.capitalize(type.get("subform"));
+      }
+      if (deleteDetailId) {
+        packageParams.detail_id = null;
+      }
+      await this.runTask(
+        this.get("packageService").updatePackage(
+          item.id,
+          {
+            package: packageParams
+          },
+          { reloadDeps: true }
+        )
+      );
+    },
+
+    isSamePackage(type) {
+      const existingPkgTypeSubform = this.get("item.code.subform");
+      return type.get("subform") == existingPkgTypeSubform;
+    },
+
     actions: {
       /**
        * Add Offer to Package
@@ -400,6 +477,15 @@ export default GoodcityController.extend(
               this.set("associatedPackages", data.items);
             })
         );
+      },
+
+      async updatePackageType() {
+        const pkgType = await this.get("packageService").userPickPackageType();
+        if (this.hasExistingPackageSubform() && !this.isSamePackage(pkgType)) {
+          this.warnAndAssignNew(pkgType);
+        } else {
+          this.assignNew(pkgType);
+        }
       },
 
       fetchParentContainers(pageNo = 1) {

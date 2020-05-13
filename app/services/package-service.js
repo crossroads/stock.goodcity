@@ -1,8 +1,9 @@
 import _ from "lodash";
 import ApiBaseService from "./api-base-service";
 import { toID } from "stock/utils/helpers";
+import NavigationAwareness from "stock/mixins/navigation_aware";
 
-export default ApiBaseService.extend({
+export default ApiBaseService.extend(NavigationAwareness, {
   store: Ember.inject.service(),
 
   init() {
@@ -28,10 +29,28 @@ export default ApiBaseService.extend({
     return this.POST(`/packages`, pkgParams);
   },
 
-  updatePackage(pkgId, pkgParams) {
-    return this.PUT(`/packages/${pkgId}`, pkgParams).then(data => {
-      this.get("store").pushPayload(data);
-    });
+  loadSubform(detailType, detailId) {
+    return this.get("store").findRecord(
+      _.snakeCase(detailType).toLowerCase(),
+      detailId
+    );
+  },
+
+  async updatePackage(pkgId, pkgParams, opts = {}) {
+    const { reloadDeps = false } = opts;
+
+    const payload = await this.PUT(`/packages/${pkgId}`, pkgParams);
+
+    if (reloadDeps) {
+      const { detail_type, detail_id } = _.get(payload, "item", {});
+
+      if (detail_id && detail_type) {
+        await this.loadSubform(detail_type, detail_id);
+      }
+    }
+
+    this.get("store").pushPayload(payload);
+    return this.get("store").peekRecord("item", pkgId);
   },
 
   getCloudinaryImage(imageId) {
@@ -53,11 +72,20 @@ export default ApiBaseService.extend({
     });
   },
 
-  createInventory(storageType) {
-    Ember.run(() => {
-      this.set("openPackageSearch", true);
+  userPickPackageType(storageType = "") {
+    const deferred = Ember.RSVP.defer();
+
+    this.set("openPackageSearch", true);
+    if (storageType) {
       this.set("storageType", storageType);
+    }
+    this.set("onPackageTypeSelected", packageType => {
+      this.set("onPackageTypeSelected", _.noop);
+      this.set("openPackageSearch", false);
+      deferred.resolve(packageType || null);
     });
+
+    return deferred.promise;
   },
 
   openItemsSearch(item) {

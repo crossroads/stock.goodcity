@@ -19,6 +19,7 @@
 {{#let-alias packageService as |s|}}
   {{goodcity/code-search-overlay
     open=s.openPackageSearch
+    onSelect=s.onPackageTypeSelected
     storageType=s.storageType
   }}
 {{/let-alias}}
