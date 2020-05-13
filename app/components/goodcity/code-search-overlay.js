@@ -94,13 +94,7 @@ export default Ember.Component.extend(SearchMixin, {
 
   actions: {
     closeOverlay() {
-      this.set("searchText", "");
-      this.send("selectItemLabel", null);
-    },
-
-    selectItemLabel(type) {
-      this.getWithDefault("onSelect", _.noop)(type);
-      this.set("open", false);
+      this.closeOverlay();
     },
 
     clearSearch() {

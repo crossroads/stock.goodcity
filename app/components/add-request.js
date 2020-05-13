@@ -7,6 +7,7 @@ export default Ember.Component.extend(AsyncMixin, {
 
   store: Ember.inject.service(),
   goodcityRequestService: Ember.inject.service(),
+  packageTypeService: Ember.inject.service(),
   packageService: Ember.inject.service(),
   messageBox: Ember.inject.service(),
   i18n: Ember.inject.service(),
@@ -47,7 +48,9 @@ export default Ember.Component.extend(AsyncMixin, {
     },
 
     async assingPackageType(reqId) {
-      const pkgType = await this.get("packageService").userPickPackageType();
+      const pkgType = await this.get(
+        "packageTypeService"
+      ).userPickPackageType();
 
       if (pkgType) {
         this.runTask(
