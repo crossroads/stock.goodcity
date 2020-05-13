@@ -6,7 +6,7 @@ export default Ember.Component.extend(AsyncMixin, {
   isGCRequest: null,
 
   store: Ember.inject.service(),
-  goodcityRequest: Ember.inject.service(),
+  goodcityRequestService: Ember.inject.service(),
   packageService: Ember.inject.service(),
   messageBox: Ember.inject.service(),
   i18n: Ember.inject.service(),
@@ -40,7 +40,9 @@ export default Ember.Component.extend(AsyncMixin, {
 
     async removeRequest(reqId) {
       const req = this.get("store").peekRecord("goodcity_request", reqId);
-      this.runTask(await this.get("goodcityRequest").deleteRequest(reqId));
+      this.runTask(
+        await this.get("goodcityRequestService").deleteRequest(reqId)
+      );
       this.get("store").unloadRecord(req);
     },
 
@@ -49,7 +51,7 @@ export default Ember.Component.extend(AsyncMixin, {
 
       if (pkgType) {
         this.runTask(
-          this.get("goodcityRequest").updateGcRequest(reqId, {
+          this.get("goodcityRequestService").updateGcRequest(reqId, {
             package_type_id: pkgType.get("id"),
             quantity: 1,
             order_id: this.get("order.id")

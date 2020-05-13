@@ -5,7 +5,7 @@ import config from "../../config/environment";
 import AsyncMixin, { ERROR_STRATEGIES } from "stock/mixins/async";
 
 export default Ember.Controller.extend(AsyncMixin, {
-  goodcityRequest: Ember.inject.service(),
+  goodcityRequestService: Ember.inject.service(),
 
   queryParams: ["typeId", "fromClientInformation"],
   order: Ember.computed.alias("model.orderUserOrganisation.order"),
@@ -30,7 +30,7 @@ export default Ember.Controller.extend(AsyncMixin, {
 
   actions: {
     async addRequest() {
-      await this.get("goodcityRequest").createGcRequest({
+      await this.get("goodcityRequestService").createGcRequest({
         quantity: 1,
         order_id: this.get("order.id")
       });

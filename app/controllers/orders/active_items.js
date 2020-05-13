@@ -2,7 +2,7 @@ import detail from "./detail";
 import _ from "lodash";
 
 export default detail.extend({
-  goodcityRequest: Ember.inject.service(),
+  goodcityRequestService: Ember.inject.service(),
   packageService: Ember.inject.service(),
 
   autoLoad: true,
@@ -36,7 +36,7 @@ export default detail.extend({
     async addRequest() {
       const pgkType = await this.get("packageService").userPickPackageType();
       if (pgkType) {
-        await this.get("goodcityRequest").createGcRequest({
+        await this.get("goodcityRequestService").createGcRequest({
           package_type_id: pgkType.get("id"),
           quantity: 1,
           order_id: this.get("order.id")
