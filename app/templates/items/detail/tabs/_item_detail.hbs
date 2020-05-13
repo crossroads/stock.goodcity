@@ -17,9 +17,9 @@
     <div class="row">
       <div class="columns small-4">{{t "item_details.type"}} </div>
       <div class="columns small-8 value">
-        {{#link-to 'items.select_code' item.id}}
+        <div {{action "assignNew"}}>
           {{input value=item.code.name class="item-type" disabled=true}}
-        {{/link-to}}
+        </div>
       </div>
     </div>
   </div>
