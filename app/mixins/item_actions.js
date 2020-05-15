@@ -29,9 +29,12 @@ export default Ember.Mixin.create(AsyncMixin, {
   itemActions: Ember.computed(function() {
     let actionsList = ITEM_ACTIONS;
     actionsList.map(action => {
-      action.displayName = this.get("i18n").t(
-        `items.actions.${action.name.toLowerCase()}`
-      ).string;
+      return {
+        ...action,
+        displayName: this.get("i18n").t(
+          `items.actions.${action.name.toLowerCase()}`
+        ).string
+      };
     });
     return actionsList;
   }),
