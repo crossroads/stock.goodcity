@@ -3,6 +3,7 @@ import Ember from "ember";
 
 moduleForModel("item", "Item Model", {
   needs: [
+    "model:item_action",
     "model:package_type",
     "model:item",
     "model:designation",
@@ -42,7 +43,7 @@ test("check attributes", function(assert) {
   var width = Object.keys(model.toJSON()).indexOf("width") > -1;
   var height = Object.keys(model.toJSON()).indexOf("height") > -1;
   var sentOn = Object.keys(model.toJSON()).indexOf("sentOn") > -1;
-  var isPartOfSet = Object.keys(model.toJSON()).indexOf("isPartOfSet") > -1;
+  var packageSetId = Object.keys(model.toJSON()).indexOf("packageSetId") > -1;
   var itemId = Object.keys(model.toJSON()).indexOf("itemId") > -1;
   var allowWebPublish =
     Object.keys(model.toJSON()).indexOf("allowWebPublish") > -1;
@@ -61,7 +62,7 @@ test("check attributes", function(assert) {
   assert.ok(width);
   assert.ok(height);
   assert.ok(sentOn);
-  assert.ok(isPartOfSet);
+  assert.ok(packageSetId);
   assert.ok(itemId);
   assert.ok(allowWebPublish);
   assert.ok(packageType);
@@ -107,7 +108,7 @@ test("Relationships with other models", function(assert) {
   assert.equal(relationshipWithDonorCondition.kind, "belongsTo");
 
   assert.equal(relationshipWithPackageSet.key, "packageSet");
-  assert.equal(relationshipWithSetItem.kind, "belongsTo");
+  assert.equal(relationshipWithPackageSet.kind, "belongsTo");
 
   assert.equal(relationshipWithPkgsLocation.key, "packagesLocations");
   assert.equal(relationshipWithPkgsLocation.kind, "hasMany");

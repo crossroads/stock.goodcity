@@ -19,14 +19,6 @@
         </div>
       </div>
     </div>
-    <div class="row">
-      <div class="columns small-4">{{t "item_details.type"}} </div>
-      <div class="columns small-8 value">
-        <div {{action "assignNew"}}>
-          {{input value=item.code.name class="item-type" disabled=true}}
-        </div>
-      </div>
-    </div>
   </div>
   <div class="columns small-3">
     {{#link-to 'items.edit_images' item.id}}
@@ -34,6 +26,7 @@
     {{/link-to}}
   </div>
 </div>
+
 <div class="row detail-section">
   <div class="columns small-12">
     <div class="row">
