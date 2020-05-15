@@ -172,9 +172,21 @@ export default GoodcityController.extend(
         ...this.get("dropDownValues"),
         ...this.get("countryValue")
       };
-      Object.keys(attributes).forEach(key => {
-        detailAttributes[_.snakeCase(key)] = attributes[key];
+
+      // https://jira.crossroads.org.hk/browse/GCW-3145
+      // A check to pass only those fields in detailAttributes, which are
+      // part of subforms
+      const display = this.get("displayFields").map(i => i.name);
+
+      Object.keys(attributes).map(key => {
+        const isSubFormAttr =
+          (key == "country_id" && display.includes("country")) ||
+          display.includes(key);
+        if (isSubFormAttr) {
+          detailAttributes[_.snakeCase(key)] = attributes[key];
+        }
       });
+
       return detailAttributes;
     },
 
