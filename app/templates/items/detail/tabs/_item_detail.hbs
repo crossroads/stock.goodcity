@@ -5,12 +5,17 @@
       <div class="columns small-3 value item-quantity">
         {{item.availableQuantity}}
       </div>
-      <div class="row">
-        <div class="columns small-4">{{t "item_details.type"}} </div>
-        <div class="columns small-8 value">
-          <div {{action "updatePackageType"}}>
-            {{input value=item.code.name class="item-type" disabled=true}}
-          </div>
+      <div class="columns small-5 value">
+        {{#if (is-greater item.availableQuantity 1)}}
+          {{quantity-chooser item=item}}
+        {{/if}}
+      </div>
+    </div>
+    <div class="row">
+      <div class="columns small-4">{{t "item_details.type"}} </div>
+      <div class="columns small-8 value">
+        <div {{action "updatePackageType"}}>
+          {{input value=item.code.name class="item-type" disabled=true}}
         </div>
       </div>
     </div>
