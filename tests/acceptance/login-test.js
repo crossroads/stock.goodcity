@@ -32,9 +32,16 @@ module("Acceptance: Login", {
     mockFindAll("booking_type").returns({
       json: { booking_types: [bookingType.toJSON({ includeId: true })] }
     });
+    mockFindAll("message").returns({
+      json: { messages: [] }
+    });
     MockUtils.mockWithRecords(
       "cancellation_reason",
       _(3).times(() => FactoryGuy.make("cancellation_reason"))
+    );
+    MockUtils.mockWithRecords(
+      "donor_condition",
+      _(3).times(() => FactoryGuy.make("donor_condition"))
     );
     hk_user = FactoryGuy.make("with_hk_mobile");
     non_hk_user = FactoryGuy.make("with_non_hk_mobile");
