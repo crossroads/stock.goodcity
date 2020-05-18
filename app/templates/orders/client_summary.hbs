@@ -27,7 +27,7 @@
 
         <div class="row">
           <div class="small-5 columns">
-            {{t "order_client_summary.client_name"}}
+            {{t "order.title"}}
           </div>
           <div id="client_name" class="small-7 columns">
             <div class="columns small-3 value quality">
@@ -45,15 +45,41 @@
                   beneficiary=model.beneficiary}}
               </div>
             </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="small-5 columns">
+            {{t "order.client_information.first_name"}}
+          </div>
+          <div id="client_first_name" class="small-7 columns">
             <div class="columns small-9">
               {{beneficiary-inline-input
-                name="fullName"
+                name="first_name"
                 disabled=(if model.isEditAllowed "" true)
                 maxlength=50
-                id="beneficiary-numeric-input"
+                id="beneficiary-numeric-input-fname"
                 class="numeric-input beneficiary-inline-input beneficiary-title"
-                value=model.beneficiary.fullNameWithoutTitle
-                  beneficiary=model.beneficiary}}
+                value=model.beneficiary.firstName
+                beneficiary=model.beneficiary}}
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="small-5 columns">
+            {{t "order.client_information.family_name"}}
+          </div>
+          <div id="clint_last_name" class="small-7 columns">
+            <div class="columns small-9">
+              {{beneficiary-inline-input
+                name="last_name"
+                disabled=(if model.isEditAllowed "" true)
+                maxlength=50
+                id="beneficiary-numeric-input-lname"
+                class="numeric-input beneficiary-inline-input beneficiary-title"
+                value=model.beneficiary.lastName
+                beneficiary=model.beneficiary}}
             </div>
           </div>
         </div>

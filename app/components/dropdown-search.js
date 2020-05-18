@@ -33,9 +33,13 @@ export default Ember.Component.extend({
       if (data != "country_id") {
         if (this.get("fixedDropdownArrId").indexOf(data) >= 0) {
           let field = `${data.substring(0, data.length - 3)}`;
-          let recordData = this.get("store")
-            .peekRecord("lookup", selectedValues[data])
-            .get("labelEn");
+          if (selectedValues[data]) {
+            var recordData = this.get("store")
+              .peekRecord("lookup", selectedValues[data])
+              .get("labelEn");
+          } else {
+            recordData = "";
+          }
           dataObj[field] = {
             id: selectedValues[data],
             tag: recordData

@@ -55,9 +55,9 @@ export default Ember.Mixin.create(AsyncMixin, {
   }),
 
   async resolveActionFromLocation(pkg, showAllLocations = false) {
-    const presetLocations = showAllLocations
-      ? this.get("store").peekAll("location")
-      : pkg.get("packagesLocations").mapBy("location");
+    const presetLocations = await (showAllLocations
+      ? this.get("store").query("location", {})
+      : pkg.get("packagesLocations").mapBy("location"));
 
     if (presetLocations.get("length") > 1) {
       return this.get("locationService").userPickLocation({
@@ -122,9 +122,11 @@ export default Ember.Mixin.create(AsyncMixin, {
       this.set("actionComment", "");
 
       let quantity = this.quantityAtLocation(from);
-      this.set("maxQuantity", quantity);
 
-      if (!isGainAction) {
+      if (isGainAction) {
+        this.set("maxQuantity", 99999);
+      } else {
+        this.set("maxQuantity", quantity);
         this.set("actionQty", quantity);
       }
 

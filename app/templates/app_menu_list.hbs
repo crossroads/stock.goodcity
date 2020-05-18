@@ -22,7 +22,7 @@
           {{fa-icon 'sign-out-alt' size="lg"}}&nbsp;&nbsp;{{t "logout.logout"}}
         </a>
       </li>
-      {{#if (is-or session.currentUser.isSupervisor getCurrentUser.isSupervisor)}}
+      {{#if (is-or getCurrentUser.isSupervisor)}}
         <li class="menu-list">
           {{#link-to 'search_organisation' class="menu-list-anchor"}}
             {{fa-icon 'user-cog' size="lg"}}&nbsp;&nbsp;{{t "manage_charity_users"}}
@@ -31,17 +31,19 @@
       {{/if}}
       {{#each storageTypes as |storageType|}}
         <li class="menu-list {{if storageType.disable 'disable'}}">
-          <a href="#" class="menu-list-anchor {{if storageType.disable 'disable'}}" {{action 'createInventory' storageType.name target=packageService}} disabled={{storageType.disable}}>
+          <a href="#" class="menu-list-anchor {{if storageType.disable 'disable'}}" {{action 'getPackageType' storageType.name}} disabled={{storageType.disable}}>
             {{fa-icon storageType.icon size="lg"}}&nbsp;&nbsp;{{t storageType.translation}}
           </a>
         </li>
       {{/each}}
-      {{#if (is-or session.currentUser.canManageAppointments getCurrentUser.canManageAppointments)}}
+      {{#if getCurrentUser.canManageAppointments}}
         <li class="menu-list">
           {{#link-to 'appointments' class='appointments-link menu-list-anchor'}}
             {{fa-icon 'calendar-alt' size="lg"}}&nbsp;&nbsp;{{t 'manage_inventory'}}
           {{/link-to}}
         </li>
+      {{/if}}
+      {{#if getCurrentUser.canManageOrders}}
         <li class="menu-list">
           <a href="#" class="menu-list-anchor" {{action 'createOrder'}}>
             {{fa-icon 'shopping-basket' size="lg"}}&nbsp;&nbsp;{{t 'new_order'}}
@@ -51,4 +53,4 @@
     </ul>
   </div>
 </div>
-{{partial "sticky_footer"}}
+{{sticky-footer}}

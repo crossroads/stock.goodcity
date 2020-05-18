@@ -15,16 +15,16 @@
       <div class="row">
         <div class="columns small-4">{{t "item_details.type"}} </div>
         <div class="columns small-8 value">
-          {{#link-to 'items.select_code' item.id}}
+          <div {{action "updatePackageType"}}>
             {{input value=item.code.name class="item-type" disabled=true}}
-          {{/link-to}}
+          </div>
         </div>
       </div>
     </div>
     <div class="columns small-3">
-    {{#link-to 'items.edit_images' item.id}}
-    <img src={{item.thumbImageUrl}} class="thumb" />
-    {{/link-to}}
+      {{#link-to 'items.edit_images' item.id}}
+        <img src={{item.thumbImageUrl}} class="thumb" />
+      {{/link-to}}
     </div>
   </div>
 {{/toggle-item-options-list}}
@@ -55,7 +55,7 @@
             <span class='input_text'>{{t 'item_details.grade'}}</span>
             {{inline-select-list
               content=grades
-              on-change=(action (mut selectedReason))
+              on-change=(action "onGradeChange")
               name="grade"
               autosave=true
               isPrimitive=true
@@ -69,7 +69,7 @@
             <span class='input_text'>{{t 'item_details.condition'}}</span>
             {{inline-select-list
             content=conditions
-            on-change=(action (mut selectedReason))
+            on-change=(action "onConditionChange")
             name="donorCondition"
             item=item
             autosave=true
@@ -78,8 +78,32 @@
           </div>
         </div>
       </div>
+
       <div class="row">
-      {{donation-field item=item caseNumber=item.caseNumber}}
+        <div class="columns large-3 small-3">{{t 'items.value'}} </div>
+        <div class="columns large-3 small-3 value">
+          {{numeric-inline-input name="value_hk_dollar"
+            class="numeric-input item-length small-3"
+            value=item.valueHkDollar
+            maxlength="6"
+            acceptFloat=true
+            item=item
+            class='numeric-input valuation-input'
+            onFocusIn=(action 'setIsFocused' true)
+            onFocusOut=(action 'setIsFocused' false)
+            }}
+        </div>
+        <div class="columns large-6 small-6">
+          {{#if canApplyDefaultValuation}}
+            <span {{action "applyDefaultItemValuation"}} class="default-content">
+              {{t "items.apply_default"}} {{defaultValueHkDollar}}
+            </span>
+          {{/if}}
+        </div>
+      </div>
+
+      <div class="row">
+        {{donation-field item=item caseNumber=item.caseNumber}}
       </div>
       <div class="row">
         <div class="columns small-3">{{t "item_details.size"}}</div>
@@ -126,6 +150,37 @@
           </div>
         {{/if}}
       </div>
+      <div class="row">
+         <div class="columns small-3">
+           <span class="input_text">
+             {{t 'item_details.saleable'}}
+            </span>
+          </div>
+          <div class="columns small-9 value description">
+            {{input
+              class="checkbox-item-details"
+              type="checkbox"
+              checked=item.saleable
+              change=(action 'onSaleableChange') }}
+          </div>
+      </div>
+
+      {{#if item.code.allowExpiryDate}}
+        <div class="row weight-pieces">
+          <div class="columns small-3">
+            <span class='input_text'>{{t "items.new.expiry_date"}}</span>
+          </div>
+          <div class="columns small-6 value pieces">
+            {{date-picker
+              name="expiry_date"
+              id="expiry_date"
+              value=expiryDate
+              onSelect=(action 'setExpiryDate')
+            }}
+          </div>
+        </div>
+      {{/if}}
+      <br>
       <div class="row weight-pieces">
         <div class="columns small-3">
           <span class='input_text'>Offers</span>
@@ -185,16 +240,16 @@
                   prompt=""
                   on-open=(action "openDropDown")
                   on-search=(action "onSearch" "country")}}
-                  </div>
+                </div>
               {{else}}
                 {{additional-fields-input
-                id=field.name
-                name=field.name
-                type="text"
-                class="inline-input additional-input"
-                value=(mut (get (get selectedValuesDisplay field.name) 'tag'))
-                item=item detailType=item.detailType
-                detailId=item.detail.id onFocusOut=(action 'updateFields')}}
+                  id=field.name
+                  name=field.name
+                  type="text"
+                  class="inline-input additional-input"
+                  value=(mut (get (get selectedValuesDisplay field.name) 'tag'))
+                  item=item detailType=item.detailType
+                  detailId=item.detail.id onFocusOut=(action 'updateFields')}}
               {{/if}}
             {{/form-control}}
           </div>

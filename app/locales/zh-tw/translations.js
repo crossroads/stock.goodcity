@@ -47,6 +47,11 @@ export default {
   new_order: "建立新的訂單",
   full_name: "{{firstName}} {{lastName}}",
   mobile_prefix: "+852",
+  not_found:
+    "Oooops, the location you're headed to doesn't seem to exist anymore. Sorry!",
+  unavailable_item: "Sorry! This item is not available.",
+  unavailable_order: "Sorry! This order is not available.",
+
   box_pallet: {
     indicate_amount: "指出要從以下每個位置中取多少份量",
     available: "可用的",
@@ -183,6 +188,11 @@ export default {
     private: "未被刊登",
     state_filter_title: "物件狀態",
     in_stock: "有貨存",
+    process: "Processed",
+    loss: "Lost",
+    pack: "Packed",
+    trash: "Thrashed",
+    recycle: "Recycled",
     in_stock_info: "最少一件有貨存（即未被指派）",
     designated: "已指派",
     designated_info: "所有餘下的數量已被預留至訂單",
@@ -376,7 +386,6 @@ export default {
       district_label: "這些物品將會於香港哪一地區使用?",
       district_label_info: "這項資料會協助我們作統計之用。",
       select_placeholder: "選擇地區",
-      people_count_warning: "您必須填寫一個數字於此欄",
       need_description: "需要的原因",
       need_description_info: "請簡單填寫為什麼需要這些物品",
       description_warning: "此欄不能留空",
@@ -616,7 +625,8 @@ export default {
     process_from: "From which location are you processing goods?",
     recycle_from: "Which location are you recycling from?",
     trash_from: "Which location are you trashing from?",
-    loss_from: "Which location is having its quantity corrected?"
+    loss_from: "Which location is having its quantity corrected?",
+    gain_from: "Which location is having its quantity corrected?"
   },
 
   footer: {
@@ -664,6 +674,7 @@ export default {
     quality: "Quality:",
     grade: "Grade :",
     weight: "Weight (kg)",
+    saleable: "Saleable",
     pieces: "Pieces",
     condition: "Condition :",
     validation_errors: {
@@ -704,6 +715,8 @@ export default {
     order_code: "Order Code",
     quantity: "Quantity",
     number: "Number",
+    value: "Value (HK$)",
+    apply_default: "Apply Default:",
     no_history: "No history available.",
     new: {
       add: "Add",
@@ -716,7 +729,9 @@ export default {
       grade: "Grade:",
       weight: "Weight (kg)",
       pieces: "Pieces",
+      expiry_date: "Expiry Date",
       publish: "Publish",
+      duplicate: "Duplicate",
       labels: "Labels",
       condition: "Condition:",
       donation: "Donation#",
@@ -724,6 +739,7 @@ export default {
       inventory: "Inventory#",
       print: "& Print {{labels}}",
       printer: "Printer",
+      value: "Value (HK$)",
       cancel_warning:
         "You will lose all your data. Are you sure you want to cancel this item?",
       subform: {

@@ -3,6 +3,8 @@ import config from "../config/environment";
 import AjaxPromise from "../utils/ajax-promise";
 
 export default Ember.Mixin.create({
+  messages: Ember.inject.service(),
+
   preloadData: function() {
     var promises = [];
     var retrieve = types => types.map(type => this.store.findAll(type));
@@ -24,6 +26,7 @@ export default Ember.Mixin.create({
         this.store.query("cancellation_reason", { for: "order" })
       );
       promises = promises.concat(retrieve(config.APP.PRELOAD_TYPES));
+      promises.push(this.get("messages").fetchUnreadMessageCount());
     }
 
     return Ember.RSVP.all(promises);

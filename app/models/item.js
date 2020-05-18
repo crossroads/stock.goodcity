@@ -26,6 +26,7 @@ export default cloudinaryUrl.extend({
   pieces: attr("number"),
   packageTypeId: attr("number"),
   offerId: attr("number"),
+  expiryDate: attr("date"),
 
   onHandQuantity: attr("number"),
   availableQuantity: attr("number"),
@@ -40,9 +41,10 @@ export default cloudinaryUrl.extend({
   hasBoxPallet: attr("boolean"),
   itemId: attr("string"),
   allowWebPublish: attr("boolean"),
-
+  saleable: attr("boolean"),
   detailId: attr("number"),
   detailType: attr("string"),
+  valueHkDollar: attr("string"),
   detail: belongsTo("detail", {
     polymorphic: true,
     async: false

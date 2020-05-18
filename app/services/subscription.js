@@ -1,6 +1,7 @@
 import Ember from "ember";
 import _ from "lodash";
 import config from "../config/environment";
+import AsyncMixin, { ERROR_STRATEGIES } from "stock/mixins/async";
 
 function run(func) {
   if (func) {
@@ -12,7 +13,7 @@ const ALL_OPERATIONS = ["create", "update", "delete"];
 
 const UPDATE_STRATEGY = {
   RELOAD: (store, type, record) => {
-    store.findRecord(type, record.id, { reload: true });
+    return store.findRecord(type, record.id, { reload: true });
   },
   MERGE: (store, type, record) => {
     store.pushPayload({ [type]: record });
@@ -26,7 +27,7 @@ const UPDATE_STRATEGY = {
  * Subscription service
  *
  */
-export default Ember.Service.extend(Ember.Evented, {
+export default Ember.Service.extend(Ember.Evented, AsyncMixin, {
   messagesUtil: Ember.inject.service("messages"),
   session: Ember.inject.service(),
   store: Ember.inject.service(),
@@ -212,13 +213,15 @@ export default Ember.Service.extend(Ember.Evented, {
     return false;
   },
 
-  applyUpdateStrategy(record, type, sender) {
+  async applyUpdateStrategy(record, type, sender) {
     const store = this.get("store");
     const { strategy } = this.getStrategy(type);
 
-    _.flatten([strategy]).forEach(fn => {
-      fn(store, type, record, sender);
-    });
+    const funcs = _.flatten([strategy]);
+
+    for (let fn of funcs) {
+      await fn(store, type, record, sender);
+    }
   },
 
   // -----------
@@ -254,6 +257,18 @@ export default Ember.Service.extend(Ember.Evented, {
   },
 
   update_store(data, success) {
+    this.runTask(
+      () => {
+        return this.applyChanges(data, success);
+      },
+      {
+        errorStrategy: ERROR_STRATEGIES.ROLLBAR,
+        showSpinner: false
+      }
+    );
+  },
+
+  async applyChanges(data, success) {
     if (this.isUnhandled(data)) {
       return false;
     }
@@ -263,7 +278,7 @@ export default Ember.Service.extend(Ember.Evented, {
     switch (operation) {
       case "create":
       case "update":
-        this.applyUpdateStrategy(record, type, sender);
+        await this.applyUpdateStrategy(record, type, sender);
         break;
       case "delete":
         let existingItem = this.get("store").peekRecord(type, record.id);

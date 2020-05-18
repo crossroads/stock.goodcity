@@ -1,7 +1,9 @@
+import _ from "lodash";
 import ApiBaseService from "./api-base-service";
 import { toID } from "stock/utils/helpers";
+import NavigationAwareness from "stock/mixins/navigation_aware";
 
-export default ApiBaseService.extend({
+export default ApiBaseService.extend(NavigationAwareness, {
   store: Ember.inject.service(),
 
   init() {
@@ -27,10 +29,28 @@ export default ApiBaseService.extend({
     return this.POST(`/packages`, pkgParams);
   },
 
-  updatePackage(pkgId, pkgParams) {
-    return this.PUT(`/packages/${pkgId}`, pkgParams).then(data => {
-      this.get("store").pushPayload(data);
-    });
+  loadSubform(detailType, detailId) {
+    return this.get("store").findRecord(
+      _.snakeCase(detailType).toLowerCase(),
+      detailId
+    );
+  },
+
+  async updatePackage(pkgId, pkgParams, opts = {}) {
+    const { reloadDeps = false } = opts;
+
+    const payload = await this.PUT(`/packages/${pkgId}`, pkgParams);
+
+    if (reloadDeps) {
+      const { detail_type, detail_id } = _.get(payload, "item", {});
+
+      if (detail_id && detail_type) {
+        await this.loadSubform(detail_type, detail_id);
+      }
+    }
+
+    this.get("store").pushPayload(payload);
+    return this.get("store").peekRecord("item", pkgId);
   },
 
   getCloudinaryImage(imageId) {
@@ -40,11 +60,32 @@ export default ApiBaseService.extend({
       .get("firstObject");
   },
 
-  createInventory(storageType) {
-    Ember.run(() => {
-      this.set("openPackageSearch", true);
-      this.set("storageType", storageType);
+  getItemValuation({
+    donorConditionId: donor_condition_id,
+    packageTypeId: package_type_id,
+    grade
+  }) {
+    return this.GET(`/packages/package_valuation`, {
+      donor_condition_id,
+      package_type_id,
+      grade
     });
+  },
+
+  userPickPackageType(storageType = "") {
+    const deferred = Ember.RSVP.defer();
+
+    this.set("openPackageSearch", true);
+    if (storageType) {
+      this.set("storageType", storageType);
+    }
+    this.set("onPackageTypeSelected", packageType => {
+      this.set("onPackageTypeSelected", _.noop);
+      this.set("openPackageSearch", false);
+      deferred.resolve(packageType || null);
+    });
+
+    return deferred.promise;
   },
 
   openItemsSearch(item) {
@@ -60,6 +101,20 @@ export default ApiBaseService.extend({
 
   fetchContainedPackages(boxPalletId) {
     return this.GET(`/packages/${boxPalletId}/contained_packages`);
+  },
+
+  async fetchParentContainers(pkg, opts = {}) {
+    const store = this.get("store");
+    const pagination = _.pick(opts, ["page", "per_page"]);
+
+    const data = await this.GET(
+      `/packages/${toID(pkg)}/parent_containers`,
+      pagination
+    );
+
+    store.pushPayload(data);
+
+    return _.get(data, "items", []).map(it => store.peekRecord("item", it.id));
   },
 
   fetchAddedQuantity(entityId, pkgID) {
@@ -99,8 +154,8 @@ export default ApiBaseService.extend({
    * @param {Package} pkg the package to move
    * @param {object} opts the move properties
    * @param {Location|string} opts.from the source location or its id
-   * @param {quantity} opts.quantity the quantity to move
-   * @param {comment} opts.comment the comment of package action
+   * @param {number} opts.quantity the quantity to move
+   * @param {string} opts.comment the comment of package action
    * @returns {Promise<Model>}
    */
   async peformActionOnPackage(pkg, opts = {}) {
@@ -118,5 +173,22 @@ export default ApiBaseService.extend({
     this.get("store").pushPayload(payload);
 
     return this.get("store").peekRecord("item", pkg.get("id"));
+  },
+
+  /**
+   * Splits a package into 2 separate packages
+   *
+   * @param {Package} pkg the package to split
+   * @param {number} quantity the quantity to split off from the original
+   * @returns {Promise<Package>}
+   */
+  async splitPackage(pkg, quantity) {
+    const payload = await this.PUT(`/items/${toID(pkg)}/split_item`, {
+      package: { quantity }
+    });
+
+    this.get("store").pushPayload(payload);
+
+    return this.get("store").peekRecord("item", toID(pkg));
   }
 });

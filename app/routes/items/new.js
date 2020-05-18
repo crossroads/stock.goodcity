@@ -39,14 +39,12 @@ export default AuthorizeRoute.extend({
     if (searchCodePreviousRoute) {
       var newItemRequest = searchCodePreviousRoute ? true : false;
       this.set("newItemRequest", newItemRequest);
-    } else {
-      this.replaceWith("search_code");
     }
   },
 
   isSubformAllowed(selectedSubform) {
     return (
-      ["computer", "electrical", "computer_accessory"].indexOf(
+      ["computer", "electrical", "computer_accessory", "medical"].indexOf(
         selectedSubform
       ) >= 0
     );
@@ -132,7 +130,15 @@ export default AuthorizeRoute.extend({
     }
   },
 
-  initializeAttributes() {
+  getDefaultCondition() {
+    const conditions = this.get("store").peekAll("donor_condition");
+    return (
+      conditions.filterBy("name", "Lightly Used").get("firstObject") ||
+      conditions.get("firstObject")
+    );
+  },
+
+  async initializeAttributes() {
     const controller = this.controller;
     this.set("newItemRequest", false);
     controller.set("quantity", 1);
@@ -147,6 +153,15 @@ export default AuthorizeRoute.extend({
       id: "B"
     });
     controller.set("imageKeys", "");
+    const defaultValue = await this.get("packageService").getItemValuation({
+      donorConditionId: this.getDefaultCondition().id,
+      grade: controller.get("selectedGrade").id,
+      packageTypeId: controller.get("codeId")
+    });
+
+    controller.set("defaultCondition", this.getDefaultCondition());
+    controller.set("valueHkDollar", defaultValue.value_hk_dollar);
+    controller.set("defaultValueHkDollar", defaultValue.value_hk_dollar);
     this.setupPrinterId(controller);
   }
 });

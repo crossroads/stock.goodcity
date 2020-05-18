@@ -9,7 +9,7 @@ import GradeMixin from "stock/mixins/grades_option";
 import MoveActions from "stock/mixins/move_actions";
 import DesignationActions from "stock/mixins/designation_actions";
 import StorageTypes from "stock/mixins/storage-type";
-import AsyncMixin from "stock/mixins/async";
+import AsyncMixin, { ERROR_STRATEGIES } from "stock/mixins/async";
 import ItemActions from "stock/mixins/item_actions";
 import _ from "lodash";
 import SearchMixin from "stock/mixins/search_resource";
@@ -46,7 +46,6 @@ export default GoodcityController.extend(
     offerService: Ember.inject.service(),
     packageService: Ember.inject.service(),
     settings: Ember.inject.service(),
-    packageService: Ember.inject.service(),
     locationService: Ember.inject.service(),
     settings: Ember.inject.service(),
     displayScanner: false,
@@ -54,6 +53,7 @@ export default GoodcityController.extend(
     showSetList: false,
     hideDetailsLink: true,
     displayItemOptions: false,
+    isFocused: false,
     fields: additionalFields,
     fixedDropdownArr: [
       "frequencyId",
@@ -92,6 +92,10 @@ export default GoodcityController.extend(
       return this.returnDisplayFields(subform);
     }),
 
+    expiryDate: Ember.computed("item.expiryDate", function() {
+      return this.get("item.expiryDate");
+    }),
+
     selectedCountry: Ember.computed("item.detail", function() {
       let country = this.get("item.detail.country");
       if (country) {
@@ -101,6 +105,19 @@ export default GoodcityController.extend(
         };
       }
     }).volatile(),
+
+    watchModel: Ember.observer("model.id", "active", function() {
+      // Temporary fix
+      // The image-zoom carousel sometimes has issues handling switches between two of the same page.
+      // Since the controller instance is shared between pages, we turn off the carousel on change
+      // and re-enable it once the new model has loaded
+      this.set("showImages", false);
+      if (this.get("active")) {
+        Ember.run.scheduleOnce("afterRender", () => {
+          this.set("showImages", this.get("active"));
+        });
+      }
+    }),
 
     returnSelectedValues(selectedValues) {
       let dataObj = {
@@ -140,6 +157,36 @@ export default GoodcityController.extend(
         return value;
       }
     }),
+
+    canApplyDefaultValuation: Ember.computed(
+      "model.valueHkDollar",
+      "isFocused",
+      function() {
+        const valueHkDollar = parseFloat(this.get("model.valueHkDollar"));
+        const defaultValue = parseFloat(this.get("defaultValueHkDollar"));
+        return this.get("isFocused") && valueHkDollar !== defaultValue;
+      }
+    ),
+
+    /**
+     * Returns true if valueHkDollar is modified and not empty
+     * and its value is different from previous saved value
+     */
+    canUpdateValuation: Ember.computed(
+      "model.valueHkDollar",
+      "prevValueHkDollar",
+      function() {
+        const item = this.get("item");
+        const valueHkDollar = parseFloat(item.get("valueHkDollar"));
+        const prevValueHkDollar = parseFloat(this.get("prevValueHkDollar"));
+        const defaultValue = parseFloat(this.get("defaultValueHkDollar"));
+        if (!prevValueHkDollar) {
+          return Math.abs(valueHkDollar - defaultValue);
+        } else {
+          return Math.abs(valueHkDollar - prevValueHkDollar);
+        }
+      }
+    ),
 
     allowPublish: Ember.computed(
       "model.isSingletonItem",
@@ -294,6 +341,84 @@ export default GoodcityController.extend(
       }
     },
 
+    async deleteAndAssignNew(packageType) {
+      const item = this.get("item");
+      const type = item.get("detailType");
+      const detailId = item.get("detailId");
+      if (type) {
+        await this.runTask(
+          this.get("subformDetailService").deleteDetailType(type, detailId)
+        );
+      }
+      return this.assignNew(packageType, {
+        deleteDetailId: !this.isSubformPackage(packageType)
+      });
+    },
+
+    warnAndAssignNew(pkgType) {
+      const existingPkgType = this.get("item.code");
+      const packageName = existingPkgType.get("name");
+      const newPackageName = pkgType.get("name");
+      const translation = this.get("i18n");
+
+      this.get("messageBox").custom(
+        translation.t("items.new.subform.delete_subform_waring", {
+          newPackageName,
+          packageName
+        }),
+        translation.t("not_now"),
+        null,
+        translation.t("continue"),
+        () => {
+          this.deleteAndAssignNew(pkgType);
+        }
+      );
+    },
+
+    isSubformPackage(packageType) {
+      return (
+        ["computer", "computer_accessory", "electrical", "medical"].indexOf(
+          packageType.get("subform")
+        ) >= 0
+      );
+    },
+
+    hasExistingPackageSubform() {
+      const code = this.get("item.code");
+      return this.isSubformPackage(code);
+    },
+
+    async assignNew(type, { deleteDetailId = false } = {}) {
+      const item = this.get("item");
+      const url = `/packages/${item.get("id")}`;
+      const packageParams = {
+        package_type_id: type.get("id")
+      };
+      if (
+        !this.isSamePackage(type) ||
+        (!item.get("detailId") && this.isSubformPackage(type))
+      ) {
+        packageParams.detail_type = _.capitalize(type.get("subform"));
+      }
+      if (deleteDetailId) {
+        packageParams.detail_id = null;
+      }
+      await this.runTask(
+        this.get("packageService").updatePackage(
+          item.id,
+          {
+            package: packageParams
+          },
+          { reloadDeps: true }
+        )
+      );
+    },
+
+    isSamePackage(type) {
+      const existingPkgTypeSubform = this.get("item.code.subform");
+      return type.get("subform") == existingPkgTypeSubform;
+    },
+
     actions: {
       /**
        * Add Offer to Package
@@ -305,6 +430,35 @@ export default GoodcityController.extend(
           offer.id
         ];
         this.updatePackageOffers(offerIds);
+      },
+
+      setIsFocused(val) {
+        this.set("isFocused", val);
+      },
+
+      onGradeChange({ id, name }) {
+        this.set("selectedGrade", { id, name });
+        this.set("defaultValueHkDollar", null);
+        this.send("calculateItemValuation");
+      },
+
+      onConditionChange({ id, name }) {
+        this.set("defaultCondition", { id, name });
+        this.set("defaultValueHkDollar", null);
+        this.send("calculateItemValuation");
+      },
+
+      async calculateItemValuation() {
+        const item = this.get("item");
+        const itemValuation = await this.get("packageService").getItemValuation(
+          {
+            donorConditionId:
+              this.get("defaultCondition.id") || item.get("donorCondition.id"),
+            grade: this.get("selectedGrade.id") || item.get("grade"),
+            packageTypeId: item.get("code.id")
+          }
+        );
+        this.set("defaultValueHkDollar", Number(itemValuation.value_hk_dollar));
       },
 
       /**
@@ -359,6 +513,25 @@ export default GoodcityController.extend(
         );
       },
 
+      async updatePackageType() {
+        const pkgType = await this.get("packageService").userPickPackageType();
+        if (this.hasExistingPackageSubform() && !this.isSamePackage(pkgType)) {
+          this.warnAndAssignNew(pkgType);
+        } else {
+          this.assignNew(pkgType);
+        }
+      },
+
+      fetchParentContainers(pageNo = 1) {
+        return this.get("packageService").fetchParentContainers(
+          this.get("item.id"),
+          {
+            page: pageNo,
+            per_page: 10
+          }
+        );
+      },
+
       openItemsSearch() {
         this.get("packageService").openItemsSearch(this.get("item"));
       },
@@ -366,6 +539,29 @@ export default GoodcityController.extend(
       setScannedSearchText(searchedText) {
         this.set("searchText", searchedText);
         this.send("openItemsSearch");
+      },
+
+      /**
+       * Applies the original item valuation when it was loaded.
+       * It is like resetting to the value when item was displayed
+       */
+      applyDefaultItemValuation() {
+        const item = this.get("item");
+        item.set("valueHkDollar", +this.get("defaultValueHkDollar"));
+        this.set("prevValueHkDollar", null);
+        this.send("saveItem", item);
+      },
+
+      /**
+       * Updates the valueHkDollar
+       * Updates the previous saved value
+       */
+      updateItemValuation() {
+        const item = this.get("item");
+        const value = item.get("valueHkDollar");
+        item.set("valueHkDollar", Number(value));
+        this.send("saveItem", item);
+        this.set("prevValueHkDollar", value);
       },
 
       async openLocationSearch(item, quantity) {
@@ -402,6 +598,28 @@ export default GoodcityController.extend(
         this.send("updateFields", config);
       },
 
+      setExpiryDate(value) {
+        this.set("item.expiryDate", value);
+        this.runTask(this.get("item").save());
+      },
+
+      /**
+       *
+       * @param {Object} item - Model to persist
+       * Perform an update action on item. It does a rollback of the item
+       * if there is an error encountered
+       */
+      saveItem(item) {
+        this.runTask(async () => {
+          try {
+            await item.save();
+          } catch (e) {
+            item.rollbackAttributes();
+            throw e;
+          }
+        }, ERROR_STRATEGIES.MODAL);
+      },
+
       updateFields(config) {
         const detailType = _.snakeCase(
           this.get("item.detailType")
@@ -434,6 +652,13 @@ export default GoodcityController.extend(
 
       onSearch(field, searchText) {
         this.onSearchCountry(field, searchText);
+      },
+
+      onSaleableChange() {
+        const item = this.get("item");
+        const saleable = item.get("saleable");
+        item.set("saleable", !saleable);
+        this.send("saveItem", item);
       },
 
       toggleItemOptions() {

@@ -3,7 +3,7 @@
     <div class="main-container">
       <div class="row search-field">
         <div class="icon-holder small-2 columns">
-          <i {{action 'cancel'}} class="back_icon" aria-hidden="true">{{fa-icon 'times' size='lg'}}</i>
+          <i {{action 'closeOverlay'}} class="back_icon" aria-hidden="true">{{fa-icon 'times' size='lg'}}</i>
         </div>
         <div class="input-holder small-10 columns">
           {{focus-textfield
@@ -21,9 +21,16 @@
           <div class="small-12 columns">
             <ul class="list list-activity list-offer-items codes_results">
               {{#each filteredResults as |type|}}
-                <li {{action "assignItemLabel" type}}>
-                  <div class="package_name">{{type.name}}</div>
-                  <div>{{type.otherTerms}}</div>
+                <li {{action "selectItemLabel" type}}>
+                  <div class="row">
+                    <div class="small-3 columns code">
+                      {{{highlight-substr type.code searchText}}}
+                    </div>
+                    <div class="small-9 columns">
+                      <div class="package_name">{{{highlight-substr type.name searchText}}}</div>
+                      <div>{{type.otherTerms}}</div>
+                    </div>
+                  </div>
                 </li>
               {{/each}}
             </ul>

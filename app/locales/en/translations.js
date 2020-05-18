@@ -48,6 +48,11 @@ export default {
   new_order: "Create New Order",
   full_name: "{{firstName}} {{lastName}}",
   mobile_prefix: "+852",
+  not_found:
+    "Oooops, the location you're headed to doesn't seem to exist anymore. Sorry!",
+  unavailable_item: "Sorry! This item is not available.",
+  unavailable_order: "Sorry! This order is not available.",
+
   box_pallet: {
     indicate_amount:
       "Indicate how many are you taking from each of the locations below.",
@@ -164,7 +169,15 @@ export default {
     home: "Home",
     orders: "Orders",
     items: "Items",
-    goto: "Goto"
+    goto: "Goto",
+    alerts: "alerts"
+  },
+  my_notifications: {
+    heading: "{{name}}'s Order",
+    all_notifications: "Show all notifications",
+    show_unread: "Show unread only",
+    mark_all_read: "Mark all read",
+    no_unread: "No unread messages!"
   },
   beneficiary_warning: {
     delete_title: "Remove Client?",
@@ -187,6 +200,11 @@ export default {
     private: "Private",
     state_filter_title: "Item states",
     in_stock: "In Stock",
+    process: "Processed",
+    loss: "Lost",
+    pack: "Packed",
+    trash: "Thrashed",
+    recycle: "Recycled",
     in_stock_info: "At least one is available(i.e not designated)",
     designated: "Designated",
     designated_info: "All remaining quantity is reserved for order(s)",
@@ -388,7 +406,6 @@ export default {
       district_label: "Where in Hong Kong will these goods be primarily used?",
       district_label_info: "This assists us with our reporting.",
       select_placeholder: "Select District",
-      people_count_warning: "You must input a number here",
       need_description: "Description of need",
       need_description_info: "Please briefly describe why goods are needed.",
       description_warning: "Description cannot be blank.",
@@ -633,7 +650,8 @@ export default {
     process_from: "From which location are you processing goods?",
     recycle_from: "Which location are you recycling from?",
     trash_from: "Which location are you trashing from?",
-    loss_from: "Which location is having its quantity corrected?"
+    loss_from: "Which location is having its quantity corrected?",
+    gain_from: "Which location is having its quantity corrected?"
   },
 
   footer: {
@@ -681,6 +699,7 @@ export default {
     quality: "Quality:",
     grade: "Grade :",
     weight: "Weight (kg)",
+    saleable: "Saleable",
     pieces: "Pieces",
     condition: "Condition :",
     validation_errors: {
@@ -721,6 +740,8 @@ export default {
     order_code: "Order Code",
     quantity: "Quantity",
     number: "Number",
+    value: "Value (HK$)",
+    apply_default: "Apply Default:",
     no_history: "No history available.",
     new: {
       add: "Add",
@@ -733,8 +754,10 @@ export default {
       grade: "Grade:",
       weight: "Weight (kg)",
       publish: "Publish",
+      duplicate: "Duplicate",
       labels: "Labels",
       pieces: "Pieces",
+      expiry_date: "Expiry Date",
       condition: "Condition:",
       donation: "Donation#",
       location: "Location*",

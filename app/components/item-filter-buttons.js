@@ -5,7 +5,8 @@ export default Ember.Component.extend({
   i18n: Ember.inject.service(),
   filterService: Ember.inject.service(),
 
-  itemStateFilters: Ember.computed.alias("filterService.itemStateFilters"),
+  itemStateFilters: Ember.computed.alias("filterService.itemStateFilterArray"),
+
   hasStateFilters: Ember.computed("itemStateFilters", function() {
     return this.get("itemStateFilters").length > 0;
   }),

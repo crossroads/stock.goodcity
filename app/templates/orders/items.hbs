@@ -19,7 +19,7 @@
 
   {{#if isMobileApp}}
     <div class="small-2 large-1 columns scan-button">
-      {{scan-barcode-button record=model route="orders.items"}}
+      {{scan-barcode-button record=model onScanComplete=(action "setScannedSearchText")}}
     </div>
   {{/if}}
 </div>

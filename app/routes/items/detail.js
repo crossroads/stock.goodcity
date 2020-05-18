@@ -5,6 +5,7 @@ import _ from "lodash";
 export default AuthorizeRoute.extend({
   itemBackLinkPath: Ember.computed.localStorage(),
   transition: null,
+  packageService: Ember.inject.service(),
   messageBox: Ember.inject.service(),
   i18n: Ember.inject.service(),
 
@@ -31,7 +32,6 @@ export default AuthorizeRoute.extend({
     if (detailType) {
       await this.loadIfAbsent(_.snakeCase(detailType).toLowerCase(), detailId);
     }
-
     return model;
   },
 
@@ -77,6 +77,15 @@ export default AuthorizeRoute.extend({
     controller.set("callOrderObserver", false);
     controller.set("backLinkPath", this.get("itemBackLinkPath"));
     controller.set("active", true);
+
+    const defaultValue = await this.get("packageService").getItemValuation({
+      donorConditionId: model.get("donorCondition.id"),
+      grade: model.get("grade"),
+      packageTypeId: model.get("code.id")
+    });
+
+    controller.set("defaultValueHkDollar", defaultValue.value_hk_dollar);
+
     if (["Box", "Pallet"].indexOf(model.get("storageTypeName")) >= 0) {
       controller.send("fetchContainedPackages");
     }
@@ -147,7 +156,6 @@ export default AuthorizeRoute.extend({
    */
   async loadItem(id, opts = {}) {
     const { loadImages = false } = opts;
-
     const item = await this.store.findRecord("item", id, { reload: true });
     if (loadImages) {
       await this.preloadImages(item);

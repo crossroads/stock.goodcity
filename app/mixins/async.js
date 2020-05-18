@@ -28,7 +28,9 @@ export const ERROR_STRATEGIES = {
   /** Will display the error message in a modal */
   MODAL: 2,
   /** Will let the error go through */
-  RAISE: 3
+  RAISE: 3,
+  /** Will push the error to rollbar */
+  ROLLBAR: 4
 };
 
 export default Ember.Mixin.create({
@@ -67,6 +69,24 @@ export default Ember.Mixin.create({
     if (errorStrategy === ERROR_STRATEGIES.MODAL) {
       return this.showErrorPopup(err);
     }
+
+    if (errorStrategy === ERROR_STRATEGIES.ROLLBAR) {
+      const errData = this.__toErrorSummary(err);
+      this.get("logger").notifyErrorCollector(errData);
+      console.error(errData);
+      return;
+    }
+  },
+
+  __toErrorSummary(error) {
+    if (_.isString(error)) {
+      return { message: error, details: {} };
+    }
+
+    return {
+      message: this.__toErrorMessage(error),
+      details: _.isError(error) ? { stack: error.stack } : error
+    };
   },
 
   __toErrorMessage(reason) {
@@ -76,12 +96,17 @@ export default Ember.Mixin.create({
       reason = reason.responseJSON;
     }
 
+    if (_.isString(reason)) {
+      return reason;
+    }
+
     return (
       getString(reason, "error") ||
-      getString(reason, "message") ||
       getString(reason, "errors[0].message") ||
       getString(reason, "errors[0].detail.message") ||
+      getString(reason, "errors[0].title") ||
       getString(reason, "errors[0]") ||
+      getString(reason, "message") ||
       defaultMessage
     );
   },
@@ -94,16 +119,22 @@ export default Ember.Mixin.create({
    * @memberof AsyncMixin
    * @instance
    * @param {Promise|Function} task the job to run
-   * @param {number} [errorStrategy] an indicator of how to handle the error
+   * @param {number} [opts|errorStrategy] an indicator of how to handle the error
    */
-  async runTask(task, errorStrategy) {
-    this.__incrementTaskCount();
+  async runTask(task, opts = {}) {
+    if (_.isNumber(opts)) {
+      opts = { errorStrategy: opts };
+    }
+
+    const { errorStrategy, showSpinner = true } = opts;
+
+    this.__incrementTaskCount(showSpinner ? 1 : 0);
     try {
       return await this.__run(task);
     } catch (err) {
       return this.__handleError(err, errorStrategy);
     } finally {
-      this.__incrementTaskCount(-1);
+      this.__incrementTaskCount(showSpinner ? -1 : 0);
     }
   },
 

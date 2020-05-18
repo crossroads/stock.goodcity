@@ -198,6 +198,7 @@
 
           .Searchable-select__options-list {
             li {
+              background-color: #000;
               padding: 0.6em 1.2em;
 
               .Searchable-select__icon {
@@ -206,9 +207,27 @@
             }
           }
 
+          .Searchable-select__option:hover,
+          .Searchable-select__option:focus {
+            background-color: #454545;
+            outline: 0;
+          }
+
           .dropdown-wrapper {
+            color: #fff;
+            $dropdown-body: #000000;
+
+            .Searchable-select__search{
+              background-color: $dropdown-body;
+            }
+
             .Searchable-select__menu {
               z-index: 110;
+              background-color: $dropdown-body;
+            }
+
+            .Searchable-select__add-new {
+              background: #454545;
             }
 
             .Searchable-select__label {
@@ -348,6 +367,14 @@
     .value {
       color: $white;
       font-size: 0.7rem !important;
+
+      #expiry_date {
+        background: none;
+        color: white;
+        border: none;
+        font-size: 100%;
+        margin-top: -15px;
+      }
     }
 
     .item_options_component {
@@ -368,6 +395,15 @@
     i {
       margin-right: 0.5rem;
     }
+  }
+}
+
+.default-content {
+  font-size: 0.7rem;
+  text-decoration: underline;
+  color:$white !important;
+  &:hover{
+    cursor: pointer;
   }
 }
 
@@ -679,4 +715,24 @@
 
 .non-clickable-set-move {
   pointer-events: none;
+}
+
+.save-btn{
+  right: 45%;
+  position: absolute;
+  padding: 4px;
+  @media only screen and (max-width: 780px) {
+    right: 20%;
+  }
+}
+
+.valuation-input{
+  width: 60% !important;
+  padding: 0.2rem !important;
+  display: inline-block !important;
+  @media only screen and (max-width: 780px) {
+    width: 90% !important;
+    padding: 0.2rem !important;
+    display: inline !important;
+  }
 }

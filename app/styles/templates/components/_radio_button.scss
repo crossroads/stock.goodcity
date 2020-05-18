@@ -1,0 +1,20 @@
+.radio-button {
+  display: flex;
+  .radio-button-outlet {
+    height: 60%;
+    width: 10%;
+    background: white;
+    border-radius: 50px;
+    position: relative;
+
+    .selected {
+      position: absolute;
+      height: 80%;
+      width: 80%;
+      background: blue;
+      border-radius: 50px;
+      top: 10%;
+      left: 10%;
+    }
+  }
+}

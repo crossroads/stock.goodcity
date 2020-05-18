@@ -31,7 +31,9 @@ export default SelectList.extend({
       let loadingView = getOwner(this)
         .lookup("component:loading")
         .append();
-      item.save().finally(() => loadingView.destroy());
+      item.save().finally(() => {
+        loadingView.destroy();
+      });
     }
   }
 });

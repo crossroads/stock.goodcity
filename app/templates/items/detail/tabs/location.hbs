@@ -1,44 +1,66 @@
 <div class="location-tab">
-  <div class="row header-row">
-    <div class="columns small-6">{{t 'location'}}</div>
-    <div class="columns small-6">{{t 'partial_undesignate.qty'}}</div>
-  </div>
-  {{#each model.packagesLocationsList as |pkgLocation|}}
-    <div class="row content-row">
-      <div class="columns small-2">&nbsp;{{ pkgLocation.location.building }}</div>
-      <div class="columns small-4">&nbsp;{{ pkgLocation.location.area }}</div>
-      <div class="columns small-2">&nbsp;{{ pkgLocation.quantity }}</div>
+
+  <div class="locations">
+    {{!-- LOCATIONS --}}
+    <div class="row header-row top">
+      <div class="columns small-6">{{t 'location'}}</div>
+      <div class="columns small-6">{{t 'partial_undesignate.qty'}}</div>
+    </div>
+    {{#each model.packagesLocationsList as |pkgLocation|}}
+      <div class="row content-row">
+        <div class="columns small-2 highlighted">
+          <div class="highlight">&nbsp;{{ pkgLocation.location.building }}</div>
+        </div>
+        <div class="columns small-4">
+          <div class="highlight">&nbsp;{{ pkgLocation.location.area }}</div>
+        </div>
+        <div class="columns small-2">&nbsp;{{ pkgLocation.quantity }}</div>
+        <div class="columns small-2">
+          <div class="light-button move-button" {{action 'beginMove' model pkgLocation.location}}>{{t 'item.move' }}</div>
+        </div>
+        <div class="columns small-2"></div>
+      </div>
+    {{/each}}
+    <div class="row content-row italic">
+      <div class="columns small-6">&nbsp;</div>
+      <div class="columns small-2">{{ model.dispatchedQuantity }}</div>
       <div class="columns small-2">
-        <div class="light-button move-button" {{action 'beginMove' model pkgLocation.location}}>{{t 'item.move' }}</div>
+        {{t 'item_filters.dispatched' }}
       </div>
       <div class="columns small-2"></div>
     </div>
-  {{/each}}
-  <div class="row content-row italic">
-    <div class="columns small-6">&nbsp;</div>
-    <div class="columns small-2">{{ model.dispatchedQuantity }}</div>
-    <div class="columns small-2">
-      {{t 'item_filters.dispatched' }}
-    </div>
-    <div class="columns small-2"></div>
+
+    {{#if readyToMove}}
+      {{#message-box
+          btn1Text=(t "item.move") btn1Callback=(action "completeMove")
+          btn2Text=(t "cancel") btn2Callback=(action "cancelMove")
+          isVisible=true classNames="modal-overlay operation-confirmation move-confirmation"
+        }}
+          <p>{{fa-icon 'people-carry'}} {{t 'select_location.moving_item_to' }} {{moveTo.name}}</p>
+
+          {{partial 'orders/item_block_without_link'}}
+
+          <div>
+            <p>
+              {{t 'select_location.quantity_input'}} {{input type="number" value=moveQty disabled=(unless editableQty true) class="qty-input"}}
+            </p>
+          </div>
+      {{/message-box}}
+    {{/if}}
   </div>
 
-  {{#if readyToMove}}
-    {{#message-box
-        btn1Text=(t "item.move") btn1Callback=(action "completeMove")
-        btn2Text=(t "cancel") btn2Callback=(action "cancelMove")
-        isVisible=true classNames="modal-overlay operation-confirmation move-confirmation"
-      }}
-        <p>{{fa-icon 'people-carry'}} {{t 'select_location.moving_item_to' }} {{moveTo.name}}</p>
-
-        {{partial 'orders/item_block_without_link'}}
-
-        <div>
-          <p>
-            {{t 'select_location.quantity_input'}} {{input type="number" value=moveQty disabled=(unless editableQty true) class="qty-input"}}
-          </p>
-        </div>
-    {{/message-box}}
-  {{/if}}
+  <div>
+    {{!-- BOXES --}}
+    <div class="row header-row bottom">
+      Boxes or pallets that contain this item
+    </div>
+    <div class="row content-row box-list">
+      {{#infinite-list height="40vh" loadMore=(action "fetchParentContainers") as |res| }}
+        {{#each res as |pkg|}}
+          {{package-summary-block model=pkg}}
+        {{/each}}
+      {{/infinite-list}}
+    </div>
+  </div>
 </div>
 
