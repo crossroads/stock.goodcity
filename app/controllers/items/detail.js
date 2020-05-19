@@ -53,7 +53,7 @@ export default GoodcityController.extend(
     callOrderObserver: false,
     hideDetailsLink: true,
     displayItemOptions: false,
-    isFocused: false,
+    valuationIsFocused: false,
     fields: additionalFields,
     fixedDropdownArr: [
       "frequencyId",
@@ -170,11 +170,11 @@ export default GoodcityController.extend(
 
     canApplyDefaultValuation: Ember.computed(
       "model.valueHkDollar",
-      "isFocused",
+      "valuationIsFocused",
       function() {
         const valueHkDollar = parseFloat(this.get("model.valueHkDollar"));
         const defaultValue = parseFloat(this.get("defaultValueHkDollar"));
-        return this.get("isFocused") && valueHkDollar !== defaultValue;
+        return this.get("valuationIsFocused") && valueHkDollar !== defaultValue;
       }
     ),
 
@@ -414,8 +414,8 @@ export default GoodcityController.extend(
         this.updatePackageOffers(offerIds);
       },
 
-      setIsFocused(val) {
-        this.set("isFocused", val);
+      setValuationIsFocused(val) {
+        this.set("valuationIsFocused", val);
       },
 
       onGradeChange({ id, name }) {
