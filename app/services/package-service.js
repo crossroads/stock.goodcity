@@ -37,8 +37,9 @@ export default ApiBaseService.extend(NavigationAwareness, {
     );
   },
 
-  async updatePackage(pkgId, pkgParams, opts = {}) {
+  async updatePackage(pkg, pkgParams, opts = {}) {
     const { reloadDeps = false } = opts;
+    const pkgId = toID(pkg);
 
     const payload = await this.PUT(`/packages/${pkgId}`, pkgParams);
 
