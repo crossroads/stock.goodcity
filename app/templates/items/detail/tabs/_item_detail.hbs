@@ -70,10 +70,9 @@
           name="donorCondition"
           item=item
           autosave=true
-          isPrimitive=true
-          id=(concat 'grd' item.id)
-          class="grade-margin"
-          item=item}}
+          id=(concat 'cnd' item.id)
+          class="condition-margin"}}
+        </div>
       </div>
     </div>
 
@@ -120,70 +119,49 @@
         {{numeric-inline-input id=(concat 'hgt' item.id) name="height" class="numeric-input item-height small-3" value=item.height maxlength="5" item=item}}
       </div>
     </div>
-  </div>
-  <div class="row">
-    {{donation-field item=item caseNumber=item.caseNumber}}
-  </div>
-  <div class="row">
-    <div class="columns small-3">{{t "item_details.size"}}</div>
-    <div class="columns small-3 value">
-      L:
-      {{numeric-inline-input id=(concat 'qty' item.id) name="length" class="numeric-input item-length small-3" value=item.length maxlength="5" item=item}}
-      <span><i aria-hidden="true">{{fa-icon 'times'}}</i></span>
-    </div>
-    <div class="columns small-3 value">
-      W:
-      {{numeric-inline-input id=(concat 'wth' item.id) name="width" class="numeric-input item-width small-3" value=item.width maxlength="5"  item=item}}
-      <span><i aria-hidden="true">{{fa-icon 'times'}}</i></span>
-    </div>
-    <div class="columns small-3 value">
-      H:
-      {{numeric-inline-input id=(concat 'hgt' item.id) name="height" class="numeric-input item-height small-3" value=item.height maxlength="5" item=item}}
-    </div>
-  </div>
-  <div class="row weight-pieces">
-    <div class="columns small-3">
-      <span class='input_text'>{{t 'item_details.weight'}}</span>
-    </div>
-    <div class="columns small-3 value weight">
-      {{numeric-inline-input
-      id=(concat 'wgt' item.id)
-      name="weight"
-      class="numeric-input"
-      value=item.weight
-      maxlength="9"
-      item=item}}
-    </div>
-    {{#if showPieces}}
+    <div class="row weight-pieces">
       <div class="columns small-3">
-        <span class='input_text'>{{t 'item_details.pieces'}}</span>
+        <span class='input_text'>{{t 'item_details.weight'}}</span>
       </div>
-      <div class="columns small-3 value pieces">
+      <div class="columns small-3 value weight">
         {{numeric-inline-input
-        id=(concat 'pcs' item.id)
-        name="pieces"
+        id=(concat 'wgt' item.id)
+        name="weight"
         class="numeric-input"
-        value=item.pieces
+        value=item.weight
         maxlength="9"
         item=item}}
       </div>
-    {{/if}}
-  </div>
-  <div class="row">
-      <div class="columns small-3">
-        <span class="input_text">
-          {{t 'item_details.saleable'}}
-        </span>
-      </div>
-      <div class="columns small-9 value description">
-        {{input
-          class="checkbox-item-details"
-          type="checkbox"
-          checked=item.saleable
-          change=(action 'onSaleableChange') }}
-      </div>
-  </div>
-  <div>
+      {{#if showPieces}}
+        <div class="columns small-3">
+          <span class='input_text'>{{t 'item_details.pieces'}}</span>
+        </div>
+        <div class="columns small-3 value pieces">
+          {{numeric-inline-input
+          id=(concat 'pcs' item.id)
+          name="pieces"
+          class="numeric-input"
+          value=item.pieces
+          maxlength="9"
+          item=item}}
+        </div>
+      {{/if}}
+    </div>
+    <div class="row">
+        <div class="columns small-3">
+          <span class="input_text">
+            {{t 'item_details.saleable'}}
+          </span>
+        </div>
+        <div class="columns small-9 value description">
+          {{input
+            class="checkbox-item-details"
+            type="checkbox"
+            checked=item.saleable
+            change=(action 'onSaleableChange') }}
+        </div>
+    </div>
+
     {{#if item.code.allowExpiryDate}}
       <div class="row weight-pieces">
         <div class="columns small-3">
@@ -199,46 +177,31 @@
         </div>
       </div>
     {{/if}}
-  </div>
-  {{#if item.code.allowExpiryDate}}
+    <br>
     <div class="row weight-pieces">
       <div class="columns small-3">
-        <span class='input_text'>{{t "items.new.expiry_date"}}</span>
+        <span class='input_text'>Offers</span>
       </div>
-      <div class="columns small-6 value pieces">
-        {{date-picker
-          name="expiry_date"
-          id="expiry_date"
-          value=item.expiryDate
-          onSelect=(action 'setExpiryDate')
-        }}
+      <div class="columns small-9 value last offer-tags">
+        <span {{action 'addOffer'}}>
+          {{fa-icon 'plus-square'  size='2x'}}
+        </span>
+        <span class="offer-tag-detail">
+          {{#if item.offer}}
+            {{offer-tag
+              isPackageOffer=false
+              offer=item.offer
+              removeOffer=(action "removeOffer")
+            }}
+          {{/if}}
+          {{#each item.offersPackages as |offersPackage|}}
+            {{offer-tag
+              offer=offersPackage.offer
+              removeOffer=(action "removeOffer")
+            }}
+          {{/each}}
+        </span>
       </div>
-    </div>
-  {{/if}}
-  <br>
-  <div class="row weight-pieces">
-    <div class="columns small-3">
-      <span class='input_text'>Offers</span>
-    </div>
-    <div class="columns small-9 value last offer-tags">
-      <span {{action 'addOffer'}}>
-        {{fa-icon 'plus-square'  size='2x'}}
-      </span>
-      <span class="offer-tag-detail">
-        {{#if item.offer}}
-          {{offer-tag
-            isPackageOffer=false
-            offer=item.offer
-            removeOffer=(action "removeOffer")
-          }}
-        {{/if}}
-        {{#each item.offersPackages as |offersPackage|}}
-          {{offer-tag
-            offer=offersPackage.offer
-            removeOffer=(action "removeOffer")
-          }}
-        {{/each}}
-      </span>
     </div>
   </div>
 </div>
