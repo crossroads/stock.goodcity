@@ -516,7 +516,10 @@ export default {
     multiple: "Multiple",
     dispatch_message: "Are you sure you want to dispatch this Item?",
     related_orders: "Related Orders",
-    action_by_user: "By {{userName}}"
+    action_by_user: "By {{userName}}",
+    unlink: "unlink",
+    add_to_set: "Add to set",
+    already_in_set: "This item already belongs to a set"
   },
   orders_package: {
     actions: {
@@ -778,6 +781,8 @@ export default {
         blank_notification: "Location cannot be blank."
       }
     },
+    action_label: "Actions",
+    make_set: "Make Set",
     actions: {
       process: "Process",
       loss: "Loss (decrease)",

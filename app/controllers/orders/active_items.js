@@ -4,6 +4,7 @@ import _ from "lodash";
 export default detail.extend({
   goodcityRequestService: Ember.inject.service(),
   packageService: Ember.inject.service(),
+  packageTypeService: Ember.inject.service(),
 
   autoLoad: true,
   /*
@@ -34,7 +35,9 @@ export default detail.extend({
     },
 
     async addRequest() {
-      const pgkType = await this.get("packageService").userPickPackageType();
+      const pgkType = await this.get(
+        "packageTypeService"
+      ).userPickPackageType();
       if (pgkType) {
         await this.get("goodcityRequestService").createGcRequest({
           package_type_id: pgkType.get("id"),

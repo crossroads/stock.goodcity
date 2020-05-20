@@ -26,11 +26,10 @@
 
 <div class="row item-search-overlay">
   {{goodcity/item-search-overlay
-    open=packageService.openItemSearch
+    open=openPackageSearch
     searchText=searchText
     associatedPackageTypes=associatedPackageTypes
-    entity=packageService.entity
-    onSingletonAdd=(action 'fetchContainedPackages')
+    storageTypeName=entity.storageTypeName
     onConfirm=(action 'openAddItemOverlay')
   }}
 </div>

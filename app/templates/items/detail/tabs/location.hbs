@@ -6,7 +6,7 @@
       <div class="columns small-6">{{t 'location'}}</div>
       <div class="columns small-6">{{t 'partial_undesignate.qty'}}</div>
     </div>
-    {{#each model.packagesLocationsList as |pkgLocation|}}
+    {{#each model.packagesLocations as |pkgLocation|}}
       <div class="row content-row">
         <div class="columns small-2 highlighted">
           <div class="highlight">&nbsp;{{ pkgLocation.location.building }}</div>
@@ -38,7 +38,7 @@
         }}
           <p>{{fa-icon 'people-carry'}} {{t 'select_location.moving_item_to' }} {{moveTo.name}}</p>
 
-          {{partial 'orders/item_block_without_link'}}
+          {{package-summary-block model=model}}
 
           <div>
             <p>
@@ -55,11 +55,13 @@
       Boxes or pallets that contain this item
     </div>
     <div class="row content-row box-list">
-      {{#infinite-list height="40vh" loadMore=(action "fetchParentContainers") as |res| }}
-        {{#each res as |pkg|}}
-          {{package-summary-block model=pkg}}
-        {{/each}}
-      {{/infinite-list}}
+      {{#reactive-view model=model}}
+        {{#infinite-list height="40vh" loadMore=(action "fetchParentContainers") as |res| }}
+          {{#each res as |pkg|}}
+            {{package-summary-block model=pkg}}
+          {{/each}}
+        {{/infinite-list}}
+      {{/reactive-view}}
     </div>
   </div>
 </div>

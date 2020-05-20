@@ -348,12 +348,6 @@ export default GoodcityController.extend(
         storage_type: this.get("storageType"),
         expiry_date: this.get("expiry_date"),
         value_hk_dollar: this.get("valueHkDollar"),
-        packages_locations_attributes: {
-          0: {
-            location_id: locationId,
-            quantity: quantity
-          }
-        },
         offer_ids: this.get("offersLists").getEach("id"),
         detail_attributes: detailAttributes
       };

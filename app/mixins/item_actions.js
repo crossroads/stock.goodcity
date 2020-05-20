@@ -27,25 +27,22 @@ export default Ember.Mixin.create(AsyncMixin, {
   i18n: Ember.inject.service(),
 
   itemActions: Ember.computed(function() {
-    let actionsList = ITEM_ACTIONS;
-    actionsList.map(action => {
-      action.displayName = this.get("i18n").t(
-        `items.actions.${action.name.toLowerCase()}`
-      ).string;
+    return ITEM_ACTIONS.map(action => {
+      return {
+        ...action,
+        displayName: this.get("i18n").t(
+          `items.actions.${action.name.toLowerCase()}`
+        ).string
+      };
     });
-    return actionsList;
   }),
 
   verifyGainAction(actionName) {
-    let currentAction = _.find(
-      this.get("itemActions"),
-      action => action.name === actionName
-    );
+    let currentAction = _.find(this.get("itemActions"), ["name", actionName]);
     return currentAction && !currentAction.loss;
   },
 
   isValidQuantity: Ember.computed("actionQty", "isGainAction", function() {
-    let action = this.get("actionName");
     let isGainAction = this.get("isGainAction");
     let value = this.get("actionQty");
     return (
