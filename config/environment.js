@@ -71,6 +71,7 @@ module.exports = function(environment) {
         "purpose",
         "process_checklist",
         "identity_type",
+        "donor_condition",
         "lookup",
         "goodcity_setting",
         "printer"
