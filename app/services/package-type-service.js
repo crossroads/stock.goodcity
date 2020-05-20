@@ -46,10 +46,13 @@ export default Ember.Service.extend({
 
     const node = hierarchy.refs[code];
 
-    return _.flatten([
-      ...node.parents.map(({ type }) => type),
-      ...node.parents.map(({ type }) => this.parentsOf(type))
-    ]);
+    return _.uniq(
+      _.flatten([
+        packageType,
+        ...node.parents.map(({ type }) => type),
+        ...node.parents.map(({ type }) => this.parentsOf(type))
+      ])
+    );
   },
 
   // ----- Data -----
