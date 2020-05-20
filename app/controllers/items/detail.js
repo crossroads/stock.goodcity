@@ -482,7 +482,8 @@ export default GoodcityController.extend(
 
         const code = await this.get("packageTypeService").userPickPackageType({
           storageType: "Package",
-          subsetPackageTypes: allowedPackageTypes
+          subsetPackageTypes: allowedPackageTypes,
+          headerText: this.get("i18n").t("items.select_set_type")
         });
 
         return this.runTask(async () => {

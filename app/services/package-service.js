@@ -182,6 +182,7 @@ export default ApiBaseService.extend(NavigationAwareness, {
       pkgType ||
       (await this.get("packageTypeService").userPickPackageType({
         storageType: "Package",
+        headerText: this.get("i18n").t("items.select_set_type"),
         subsetPackageTypes: this.get("packageTypeService").parentsOf(
           pkg.get("code")
         )
