@@ -5,7 +5,7 @@
         <ul class="flex">
           <li class="menu {{if item.availableQuantity '' 'disabled'}}"
             {{action (
-              chain-actions
+              multi-actions
                 (action 'makeCurrentPackageASet')
                 (toggle this "showExtendedFooterMenu")
               )
@@ -21,7 +21,7 @@
             {{else}}
               <li class="menu {{unless allowItemActions 'disabled'}}"
                 {{action (
-                  chain-actions
+                  multi-actions
                     (action "triggerItemAction" item action.name)
                     (toggle this "showExtendedFooterMenu")
                   )

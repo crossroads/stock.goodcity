@@ -1,12 +1,12 @@
 import Ember from "ember";
 
 /**
- * @module Helpers/chain-actions
- * @description Allows running multiple successive actions
+ * @module Helpers/multi-actions
+ * @description Allows running multiple actions
  * @property {...functions} actions the actions to run
  * @example
  *
- * <button {{action (chain-actions
+ * <button {{action (multi-actions
  *    (action "doThis")
  *    (action "doThat")
  *    (action "andThenThis")
