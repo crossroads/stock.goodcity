@@ -4,8 +4,6 @@ import Ember from "ember";
 export default AuthorizeRoute.extend({
   inventoryNumber: "",
   newItemRequest: "",
-  isSearchCodePreviousRoute: Ember.computed.localStorage(), // @TODO: fix
-  transitionFrom: "",
   packageService: Ember.inject.service(),
   printerService: Ember.inject.service(),
   session: Ember.inject.service(),
@@ -26,19 +24,13 @@ export default AuthorizeRoute.extend({
     }
   },
 
-  beforeModel() {
+  beforeModel({ queryParams = {} }) {
     this._super(...arguments);
-    var searchCodePreviousRoute = this.get("isSearchCodePreviousRoute");
-    var currentRouteName = this.controllerFor("application").get(
-      "currentRouteName"
-    );
-    var transitionFrom = this.modelFor(currentRouteName);
-    if (transitionFrom) {
-      this.set("transitionFrom", transitionFrom.modelName);
-    }
-    if (searchCodePreviousRoute) {
-      var newItemRequest = searchCodePreviousRoute ? true : false;
-      this.set("newItemRequest", newItemRequest);
+
+    const hasCodeId = !!queryParams.codeId;
+
+    if (!hasCodeId) {
+      this.replaceWith("search_code");
     }
   },
 
@@ -75,11 +67,9 @@ export default AuthorizeRoute.extend({
     const store = this.get("store");
     this.initializeController();
 
-    if (this.get("newItemRequest")) {
-      this.initializeAttributes();
-      this.manageSubformDetails();
-      this.setUpPackageImage();
-    }
+    this.initializeAttributes();
+    this.manageSubformDetails();
+    this.setUpPackageImage();
     this.setupPrinterId(controller);
   },
 

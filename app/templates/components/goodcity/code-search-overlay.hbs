@@ -17,11 +17,16 @@
         </div>
       </div>
       <section class="main-section orders_search_result search_result">
+        {{#if headerText}}
+          <div class="row header-text">
+            <h2>{{ headerText }}</h2>
+          </div>
+        {{/if}}
         <div class="row search">
           <div class="small-12 columns">
             <ul class="list list-activity list-offer-items codes_results">
               {{#each filteredResults as |type|}}
-                <li {{action "selectItemLabel" type}}>
+                <li {{action "selectCode" type}}>
                   <div class="row">
                     <div class="small-3 columns code">
                       {{{highlight-substr type.code searchText}}}

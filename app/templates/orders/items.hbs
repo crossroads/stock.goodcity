@@ -31,7 +31,7 @@
         {{#infinite-list height="85vh" loadMore=(action "loadMoreItems") as |items| }}
           {{#each items as |item|}}
             {{#goodcity/designate-link order=model pkg=item}}
-              {{partial 'orders/item_block'}}
+              {{package-summary-block model=item disableLink=true}}
             {{/goodcity/designate-link}}
           {{/each}}
         {{/infinite-list}}

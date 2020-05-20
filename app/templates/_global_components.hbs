@@ -16,13 +16,22 @@
   }}
 {{/let-alias}}
 
-{{#let-alias packageService as |s|}}
+{{#let-alias packageTypeService as |s|}}
   {{goodcity/code-search-overlay
-    open=s.openPackageSearch
+    open=s.openPackageTypeSearch
+    storageType=s.packageTypeSearchOptions.storageType
+    subsetPackageTypes=s.packageTypeSearchOptions.subsetPackageTypes
+    headerText=s.packageTypeSearchOptions.headerText
     onSelect=s.onPackageTypeSelected
-    storageType=s.storageType
   }}
 {{/let-alias}}
+
+{{goodcity/item-search-overlay
+  open=packageService.openPackageSearch
+  associatedPackageTypes=packageService.packageSearchOptions.packageTypes
+  storageTypeName=packageService.packageSearchOptions.storageTypeName
+  onConfirm=packageService.onPackageSelected
+}}
 
 {{#let-alias offerService as |s|}}
   {{goodcity/offers-search-overlay

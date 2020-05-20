@@ -13,7 +13,7 @@ moduleForModel("designation", "Designation model", {
     "model:location",
     "model:code",
     "model:donor_condition",
-    "model:set_item",
+    "model:package_set",
     "model:packages_location",
     "model:image",
     "model:orders_purpose",

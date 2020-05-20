@@ -44,16 +44,16 @@ export default GoodcityController.extend(
     setDropdownOption: Ember.inject.service(),
     designationService: Ember.inject.service(),
     offerService: Ember.inject.service(),
+    packageTypeService: Ember.inject.service(),
     packageService: Ember.inject.service(),
     settings: Ember.inject.service(),
     locationService: Ember.inject.service(),
     settings: Ember.inject.service(),
     displayScanner: false,
     callOrderObserver: false,
-    showSetList: false,
     hideDetailsLink: true,
     displayItemOptions: false,
-    isFocused: false,
+    valuationIsFocused: false,
     fields: additionalFields,
     fixedDropdownArr: [
       "frequencyId",
@@ -75,6 +75,16 @@ export default GoodcityController.extend(
     isItemDetailPresent() {
       return !!this.get("item.detail.length");
     },
+
+    showSetList: Ember.computed("_showSetList", "model.isPartOfSet", {
+      get() {
+        return this.get("_showSetList") && this.get("model.isPartOfSet");
+      },
+      set(k, value) {
+        this.set("_showSetList", value);
+        return value;
+      }
+    }),
 
     disableBoxPalletItemAddition: Ember.computed(
       "model",
@@ -160,11 +170,11 @@ export default GoodcityController.extend(
 
     canApplyDefaultValuation: Ember.computed(
       "model.valueHkDollar",
-      "isFocused",
+      "valuationIsFocused",
       function() {
         const valueHkDollar = parseFloat(this.get("model.valueHkDollar"));
         const defaultValue = parseFloat(this.get("defaultValueHkDollar"));
-        return this.get("isFocused") && valueHkDollar !== defaultValue;
+        return this.get("valuationIsFocused") && valueHkDollar !== defaultValue;
       }
     ),
 
@@ -263,34 +273,6 @@ export default GoodcityController.extend(
         this.toggleProperty("autoDisplayOverlay");
       }
     },
-
-    allDispatched: Ember.computed(
-      "item.{isDispatched,isSet,setItem.items.@each.isDispatched}",
-      function() {
-        if (this.get("item.isSet")) {
-          return this.get("item.setItem.allDispatched");
-        } else {
-          return this.get("item.isDispatched");
-        }
-      }
-    ),
-
-    hasDesignation: Ember.computed(
-      "item.{isDesignated,isSet,setItem.items.@each.isDesignated}",
-      function() {
-        if (this.get("item.isSet")) {
-          var allItems = this.get("item.setItem.items");
-          return (
-            !this.get("item.setItem.allDispatched") &&
-            allItems.filterBy("isDesignated").length > 0
-          );
-        } else {
-          return (
-            this.get("item.isDesignated") && !this.get("item.isDispatched")
-          );
-        }
-      }
-    ),
 
     updatePackageOffers(offerIds) {
       this.runTask(
@@ -432,8 +414,8 @@ export default GoodcityController.extend(
         this.updatePackageOffers(offerIds);
       },
 
-      setIsFocused(val) {
-        this.set("isFocused", val);
+      setValuationIsFocused(val) {
+        this.set("valuationIsFocused", val);
       },
 
       onGradeChange({ id, name }) {
@@ -476,6 +458,65 @@ export default GoodcityController.extend(
       },
 
       /**
+       * Removes a package from its set
+       * @param {Package} pkg the package to unlink
+       */
+      unlinkFromSet(pkg) {
+        this.runTask(async () => {
+          await this.get("packageService").removeFromSet(pkg);
+
+          if (pkg.get("id") === this.get("model.id")) {
+            this.set("showSetList", false);
+          }
+        }, ERROR_STRATEGIES.MODAL);
+      },
+
+      async makeCurrentPackageASet() {
+        if (this.get("model.isPartOfSet")) {
+          return;
+        }
+
+        const allowedPackageTypes = this.get("packageTypeService").parentsOf(
+          this.get("model.code")
+        );
+
+        const code = await this.get("packageTypeService").userPickPackageType({
+          storageType: "Package",
+          subsetPackageTypes: allowedPackageTypes,
+          headerText: this.get("i18n").t("items.select_set_type")
+        });
+
+        return this.runTask(async () => {
+          await this.get("packageService").initializeSetOf(
+            this.get("model"),
+            code
+          );
+        }, ERROR_STRATEGIES.MODAL);
+      },
+
+      async addItemToCurrentSet() {
+        await this.runTask(
+          this.get("packageService").initializeSetOf(this.get("model"))
+        );
+
+        const packageSet = this.get("model.packageSet");
+        const pkg = await this.get("packageService").userPickPackage({
+          packageTypes: this.get("packageService").allChildPackageTypes(
+            packageSet
+          ),
+          storageTypeName: "Package" // we don't add boxes to sets
+        });
+
+        if (!pkg || pkg.get("packageSetId") === packageSet.get("id")) {
+          return;
+        }
+
+        this.runTask(async () => {
+          await this.get("packageService").addToSet(pkg, packageSet);
+        }, ERROR_STRATEGIES.MODAL);
+      },
+
+      /**
        * Called after a property is changed to push the updated
        * record to the API
        */
@@ -514,7 +555,9 @@ export default GoodcityController.extend(
       },
 
       async updatePackageType() {
-        const pkgType = await this.get("packageService").userPickPackageType();
+        const pkgType = await this.get(
+          "packageTypeService"
+        ).userPickPackageType();
         if (this.hasExistingPackageSubform() && !this.isSamePackage(pkgType)) {
           this.warnAndAssignNew(pkgType);
         } else {
@@ -533,12 +576,7 @@ export default GoodcityController.extend(
       },
 
       openItemsSearch() {
-        this.get("packageService").openItemsSearch(this.get("item"));
-      },
-
-      setScannedSearchText(searchedText) {
-        this.set("searchText", searchedText);
-        this.send("openItemsSearch");
+        this.set("openPackageSearch", true);
       },
 
       /**
