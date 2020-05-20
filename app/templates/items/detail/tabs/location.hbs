@@ -55,11 +55,13 @@
       Boxes or pallets that contain this item
     </div>
     <div class="row content-row box-list">
-      {{#infinite-list height="40vh" loadMore=(action "fetchParentContainers") as |res| }}
-        {{#each res as |pkg|}}
-          {{package-summary-block model=pkg}}
-        {{/each}}
-      {{/infinite-list}}
+      {{#reactive-view model=model}}
+        {{#infinite-list height="40vh" loadMore=(action "fetchParentContainers") as |res| }}
+          {{#each res as |pkg|}}
+            {{package-summary-block model=pkg}}
+          {{/each}}
+        {{/infinite-list}}
+      {{/reactive-view}}
     </div>
   </div>
 </div>
