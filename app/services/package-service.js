@@ -178,6 +178,10 @@ export default ApiBaseService.extend(NavigationAwareness, {
       return pkg.get("packageSet");
     }
 
+    if (pkg.get("isBoxPallet")) {
+      throw new Error(this.get("i18n").t("items.no_box_in_set"));
+    }
+
     const code =
       pkgType ||
       (await this.get("packageTypeService").userPickPackageType({

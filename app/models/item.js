@@ -42,7 +42,12 @@ export default cloudinaryUrl.extend({
     async: false
   }),
   isPartOfSet: Ember.computed.bool("packageSetId"),
-  hasBoxPallet: attr("boolean"),
+  isBoxPallet: Ember.computed("storageType", function() {
+    return (
+      this.get("storageType") &&
+      (this.get("storageType.isBox") || this.get("storageType.isPallet"))
+    );
+  }),
   itemId: attr("string"),
   allowWebPublish: attr("boolean"),
   saleable: attr("boolean"),
