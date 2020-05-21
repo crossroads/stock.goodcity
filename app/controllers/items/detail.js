@@ -25,6 +25,7 @@ export default GoodcityController.extend(
   ItemActions,
   SearchMixin,
   {
+    enableFooterActions: true,
     isMobileApp: config.cordova.enabled,
     backLinkPath: "",
     searchText: null,

@@ -97,7 +97,9 @@ export default Ember.Component.extend(AsyncMixin, DispatchActions, {
    * @returns {Promise<String>}
    */
   async selectLocation() {
-    const location = await this.get("locationService").userPickLocation();
+    const location = await this.get("locationService").userPickLocation({
+      headerText: this.get("i18n").t("select_location.pick_to_location")
+    });
     return location ? location.get("id") : CANCELLED;
   },
 

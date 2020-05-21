@@ -432,6 +432,14 @@
   .footer {
     .extended-footer-menu {
 
+      .click-out-overlay {
+        position: absolute;
+        width: 100%;
+        opacity: 0;
+        height: 100vh;
+        bottom: 100%;
+      }
+
       .divider {
         width: 100%;
         height: 1px;
