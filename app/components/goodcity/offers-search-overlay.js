@@ -31,9 +31,6 @@ export default Ember.Component.extend(SearchMixin, {
     },
 
     loadMoreOffers(pageNo) {
-      const singleOfferWarning = this.get("i18n").t(
-        "search_offer.offer_select_warning"
-      );
       const params = this.trimQuery(
         _.merge(
           {
@@ -54,7 +51,11 @@ export default Ember.Component.extend(SearchMixin, {
               singleOfferWarning,
               "Yes",
               () => {
-                this.send("selectOffer", offers.get("firstObject"));
+                this.send(
+                  "selectOffer",
+                  offers.get("firstObject"),
+                  this.set("isMobileSearch", true)
+                );
               },
               "No"
             );
@@ -64,11 +65,12 @@ export default Ember.Component.extend(SearchMixin, {
     },
 
     closeOverlay() {
+      this.set("searchText", "");
       this.send("selectOffer", null);
     },
 
     selectOffer(offer) {
-      this.getWithDefault("onSelect", _.noop)(offer);
+      this.getWithDefault("onSelect", _.noop)({ offer, isMobileSearch });
       this.set("open", false);
     },
 

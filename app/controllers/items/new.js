@@ -165,6 +165,27 @@ export default GoodcityController.extend(
       }
     }),
 
+    confirmAssignOffer(offer) {
+      let key = "search_offer.offer_select_warning_with_id";
+      let data = {
+        offerId: offer.get("id"),
+        offerName: offer.get("createdBy.fullName"),
+        offerCompany: offer.get("company.name")
+      };
+      if (offer.get("company")) {
+        key = "search_offer.offer_select_warning";
+      } else if (offer.get("createdBy")) {
+        key = "search_offer.offer_select_warning_with_name_id";
+      }
+
+      this.get("messageBox").custom(
+        this.get("i18n").t(key, data),
+        "Yes",
+        () => this.createOfferList(offer),
+        "No"
+      );
+    },
+
     fetchDetailAttributes() {
       let detailAttributes = {};
       let attributes = {
@@ -575,6 +596,11 @@ export default GoodcityController.extend(
         this.set("valueHkDollar", +itemValuation.value_hk_dollar);
       },
 
+      createOfferList(offer) {
+        const offers = _.uniq([...this.get("offersLists"), offer]);
+        this.set("offersLists", offers);
+      },
+
       removeOffer(offer) {
         const offersList = this.get("offersLists").filter(
           offer_list => offer_list.id !== offer.id
@@ -583,12 +609,17 @@ export default GoodcityController.extend(
       },
 
       async addOffer() {
-        const offer = await this.get("offerService").getOffer();
+        const { offer, isMobileSearch } = await this.get(
+          "offerService"
+        ).getOffer();
         if (!offer) {
           return;
         }
-        const offers = _.uniq([...this.get("offersLists"), offer]);
-        this.set("offersLists", offers);
+        if (isMobileSearch) {
+          this.confirmAssignOffer(offer);
+        } else {
+          this.createOfferList(offer);
+        }
       },
 
       setDefaultItemValuation() {

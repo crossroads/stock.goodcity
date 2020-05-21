@@ -168,6 +168,27 @@ export default GoodcityController.extend(
       }
     }),
 
+    confirmAssignOffer(offer) {
+      let key = "search_offer.offer_select_warning_with_id";
+      let data = {
+        offerId: offer.get("id"),
+        offerName: offer.get("createdBy.fullName"),
+        offerCompany: offer.get("company.name")
+      };
+      if (offer.get("company")) {
+        key = "search_offer.offer_select_warning";
+      } else if (offer.get("createdBy")) {
+        key = "search_offer.offer_select_warning_with_name_id";
+      }
+
+      this.get("messageBox").custom(
+        this.get("i18n").t(key, data),
+        "Yes",
+        () => this.updatePackageOffers(offer),
+        "No"
+      );
+    },
+
     canApplyDefaultValuation: Ember.computed(
       "model.valueHkDollar",
       "valuationIsFocused",
@@ -274,7 +295,11 @@ export default GoodcityController.extend(
       }
     },
 
-    updatePackageOffers(offerIds) {
+    updatePackageOffers(offer) {
+      const offerIds = [
+        ...this.get("item.offersPackages").getEach("offerId"),
+        offer.id
+      ];
       this.runTask(
         this.get("packageService").updatePackage(this.get("item.id"), {
           package: {
@@ -406,12 +431,14 @@ export default GoodcityController.extend(
        * Add Offer to Package
        */
       async addOffer() {
-        const offer = await this.get("offerService").getOffer();
-        const offerIds = [
-          ...this.get("item.offersPackages").getEach("offerId"),
-          offer.id
-        ];
-        this.updatePackageOffers(offerIds);
+        const { offer, isMobileSearch } = await this.get(
+          "offerService"
+        ).getOffer();
+        if (isMobileSearch) {
+          this.confirmAssignOffer(offer);
+        } else {
+          this.updatePackageOffers(offer);
+        }
       },
 
       setValuationIsFocused(val) {
