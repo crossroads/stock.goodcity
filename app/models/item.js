@@ -1,7 +1,6 @@
 import attr from "ember-data/attr";
 import { belongsTo, hasMany } from "ember-data/relationships";
 import Ember from "ember";
-import _ from "lodash";
 import cloudinaryUrl from "./cloudinary_url";
 
 function SUM(ordersPkgs) {
