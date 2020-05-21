@@ -782,6 +782,7 @@ export default {
       }
     },
     select_set_type: "Select a type for the new set",
+    no_box_in_set: "Boxes and pallets are not allowed in sets",
     containers_label: "Boxes or pallets that contain this item",
     action_label: "Actions",
     make_set: "Make Set",
