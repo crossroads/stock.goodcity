@@ -14,7 +14,7 @@
   </section>
 </nav>
 
-<section class="order-booking-tab">
+<section class="order-booking-tab user-details-section">
   <div class="data-section">
 
     <div class="data-rows">
@@ -45,7 +45,7 @@
           Image
         </div>
         <div class="columns small-8 text">
-          <div class="content item-img">
+          <div class="content user-img">
             {{#if model.image}}
               <div class="image-zoom-container" id='image-1'>
                 {{image-zoom item=model}}
@@ -67,6 +67,10 @@
         </div>
         <div class="columns small-8 text">
           {{ model.mobile }}
+
+          {{#if model.isMobileVerified}}
+            <i>{{fa-icon 'check-circle'}}</i>
+          {{/if}}
         </div>
       </div>
     </div>
@@ -78,6 +82,10 @@
         </div>
         <div class="columns small-8 text">
           {{ model.email }}
+
+          {{#if model.isEmailVerified}}
+            <i>{{fa-icon 'check-circle'}}</i>
+          {{/if}}
         </div>
       </div>
     </div>
@@ -88,7 +96,9 @@
           Roles
         </div>
         <div class="columns small-8 text">
-          {{ model.roles }}
+          {{#each model.roles as |role|}}
+            {{role.name}},
+          {{/each}}
         </div>
       </div>
     </div>
@@ -115,5 +125,21 @@
       </div>
     </div>
 
+    <div class="data-rows">
+      <div class="row">
+        <div class="columns small-4 text-prefix">
+          Disabled:
+        </div>
+        <div class="columns small-8 text">
+          {{#if model.disabled}}
+            Yes
+          {{else}}
+            No
+          {{/if}}
+        </div>
+      </div>
+    </div>
+
   </div>
 </section>
+{{partial "loading_image"}}

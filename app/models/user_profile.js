@@ -8,6 +8,7 @@ export default Addressable.extend({
   firstName: attr("string"),
   lastName: attr("string"),
   mobile: attr("string"),
+  disabled: attr("boolean"),
 
   userRoles: DS.hasMany("userRoles", { async: false }),
 
