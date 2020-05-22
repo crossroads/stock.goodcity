@@ -147,11 +147,8 @@ export default ApiBaseService.extend(NavigationAwareness, {
 
     const id = pkg.get("id");
     const packageSet = pkg.get("packageSet");
-    const payload = await this.PUT(`/packages/${id}`, {
-      package: {
-        package_set_id: null
-      }
-    });
+
+    await this.updatePackage(id, { package: { package_set_id: null } });
 
     packageSet.get("packageIds").removeObject(Number(id));
 
@@ -162,7 +159,6 @@ export default ApiBaseService.extend(NavigationAwareness, {
       packageSet.set("packageIds", []);
     }
 
-    this.get("store").pushPayload(payload);
     return this.get("store").peekRecord("item", id);
   },
 

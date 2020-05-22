@@ -487,12 +487,14 @@ export default GoodcityController.extend(
           headerText: this.get("i18n").t("items.select_set_type")
         });
 
-        return this.runTask(async () => {
+        await this.runTask(async () => {
           await this.get("packageService").initializeSetOf(
             this.get("model"),
             code
           );
         }, ERROR_STRATEGIES.MODAL);
+
+        return this.send("addItemToCurrentSet");
       },
 
       async addItemToCurrentSet() {
@@ -512,7 +514,7 @@ export default GoodcityController.extend(
           return;
         }
 
-        this.runTask(async () => {
+        return this.runTask(async () => {
           await this.get("packageService").addToSet(pkg, packageSet);
         }, ERROR_STRATEGIES.MODAL);
       },
