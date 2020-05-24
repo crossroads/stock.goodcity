@@ -21,7 +21,7 @@
           {{#infinite-list height="75vh" loadMore=(action "loadMoreOrders") as |items| }}
             <ul class="list list-activity list-offer-items">
               {{#each items as |order|}}
-                {{#link-to 'orders.active_items' order href=false}}
+                {{#link-to 'orders.active_items' order.id href=false}}
                   {{partial 'orders/order_block'}}
                 {{/link-to}}
               {{/each}}

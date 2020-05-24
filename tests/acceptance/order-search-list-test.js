@@ -57,6 +57,7 @@ module("Acceptance: Order search list", {
       "cancellation_reason",
       _(3).times(() => FactoryGuy.make("cancellation_reason"))
     );
+    MockUtils.mockWithRecords("goodcity_request", []);
 
     visit("/");
 

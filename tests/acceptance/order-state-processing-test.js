@@ -127,6 +127,7 @@ module("Acceptance: Order State processing", {
       "cancellation_reason",
       _(3).times(() => FactoryGuy.make("cancellation_reason"))
     );
+    MockUtils.mockWithRecords("goodcity_request", []);
   },
   afterEach: function() {
     MockUtils.closeSession();

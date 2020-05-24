@@ -94,6 +94,7 @@ module("Acceptance: Order State closed", {
       "cancellation_reason",
       _(3).times(() => FactoryGuy.make("cancellation_reason"))
     );
+    MockUtils.mockWithRecords("goodcity_request", []);
 
     mockFindAll("designation").returns({
       json: {
