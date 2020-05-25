@@ -6,6 +6,7 @@ import AjaxPromise from "stock/utils/ajax-promise";
 export default Ember.Controller.extend({
   mobilePhone: "",
   disabled: false,
+  selectedRoleIds: [],
   activeUser: Ember.computed.not("disabled"),
   i18n: Ember.inject.service(),
   messageBox: Ember.inject.service(),
@@ -31,38 +32,46 @@ export default Ember.Controller.extend({
 
   getRequestParams() {
     const mobilePhone = this.formatMobileNumber();
-    const params = {
-      user_attributes: {
-        first_name: this.get("firstName"),
-        last_name: this.get("lastName"),
-        mobile: mobilePhone,
-        email: this.get("email"),
-        disabled: this.get("disabled")
-      }
-    };
+
     return {
-      user: params
+      firstName: this.get("firstName"),
+      lastName: this.get("lastName"),
+      mobile: mobilePhone,
+      email: this.get("email"),
+      disabled: this.get("disabled")
     };
   },
 
   actions: {
+    setSelecteIds(id, isSelected) {
+      if (isSelected) {
+        this.get("selectedRoleIds").pushObject(id);
+      } else {
+        this.get("selectedRoleIds").removeObject(id);
+      }
+    },
+
     saveUser() {
       const loadingView = getOwner(this)
         .lookup("component:loading")
         .append();
-      new AjaxPromise(
-        "/users",
-        "POST",
-        this.get("session.authToken"),
+
+      let newUser = this.get("store").createRecord(
+        "user",
         this.getRequestParams()
-      )
+      );
+
+      if (this.get("selectedRoleIds.length")) {
+        newUser.set("userRoleIds", this.get("selectedRoleIds"));
+      } else {
+        newUser.set("userRoleIds", []);
+      }
+
+      newUser
+        .save()
         .then(data => {
-          this.get("store").pushPayload(data);
           this.clearFormData();
-          // this.transitionToRoute(
-          //   "organisations.users",
-          //   this.get("organisationId")
-          // );
+          this.transitionToRoute("user_details", data.id);
         })
         .catch(xhr => {
           if (xhr.status === 422) {

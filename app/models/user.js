@@ -14,6 +14,7 @@ export default Addressable.extend({
   lastDisconnected: attr("date"),
   i18n: Ember.inject.service(),
   printerId: attr("number"),
+  userRoleIds: attr(""),
 
   isEmailVerified: attr("boolean"),
   isMobileVerified: attr("boolean"),
