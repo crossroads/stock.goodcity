@@ -104,7 +104,7 @@ export default Ember.Controller.extend({
 
     cancelForm() {
       this.get("messageBox").custom(
-        "You will lose all your data. Are you sure you want to cancel this item?",
+        "You will lose all your data. Are you sure you want to cancel this User?",
         "Yes",
         () => {
           Ember.run.later(
@@ -125,7 +125,6 @@ export default Ember.Controller.extend({
     },
 
     uploadStart(e, data) {
-      // this.send("deleteUnusedImage");
       this.set("uploadedFileDate", data);
       Ember.$(".loading-image-indicator").show();
       this.set("loadingPercentage", "Image Uploading ");
@@ -219,15 +218,7 @@ export default Ember.Controller.extend({
         this.initActionSheet(onSuccess);
       } else {
         // For web application
-        if (navigator.userAgent.match(/iemobile/i)) {
-          //don't know why but on windows phone need to click twice in quick succession
-          //for dialog to appear
-          Ember.$("input[type='file']")
-            .click()
-            .click();
-        } else {
-          Ember.$("input[type='file']").trigger("click");
-        }
+        Ember.$("input[type='file']").trigger("click");
       }
     }
   }
