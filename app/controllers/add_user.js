@@ -21,6 +21,9 @@ export default Ember.Controller.extend({
     this.set("lastName", "");
     this.set("mobilePhone", "");
     this.set("email", "");
+    this.set("selectedRoleIds", []);
+    this.set("disabled", false);
+    this.set("newUploadedImage", null);
   },
 
   formatMobileNumber() {
@@ -42,6 +45,15 @@ export default Ember.Controller.extend({
     };
   },
 
+  saveImage() {
+    let image = this.get("newUploadedImage");
+    if (image) {
+      return image.save();
+    } else {
+      return Promise.resolve();
+    }
+  },
+
   actions: {
     setSelecteIds(id, isSelected) {
       if (isSelected) {
@@ -52,35 +64,42 @@ export default Ember.Controller.extend({
     },
 
     saveUser() {
-      const loadingView = getOwner(this)
+      let _this = this;
+      const loadingView = getOwner(_this)
         .lookup("component:loading")
         .append();
 
-      let newUser = this.get("store").createRecord(
-        "user",
-        this.getRequestParams()
-      );
+      let newUser = _this
+        .get("store")
+        .createRecord("user", _this.getRequestParams());
 
-      if (this.get("selectedRoleIds.length")) {
-        newUser.set("userRoleIds", this.get("selectedRoleIds"));
+      if (_this.get("selectedRoleIds.length")) {
+        newUser.set("userRoleIds", _this.get("selectedRoleIds"));
       } else {
         newUser.set("userRoleIds", []);
       }
 
-      newUser
-        .save()
-        .then(data => {
-          this.clearFormData();
-          this.transitionToRoute("user_details", data.id);
-        })
-        .catch(xhr => {
-          if (xhr.status === 422) {
-            this.get("messageBox").alert(xhr.responseJSON.errors[0].message);
-          } else {
-            throw xhr;
-          }
-        })
-        .finally(() => loadingView.destroy());
+      _this.saveImage().then(imageData => {
+        if (imageData) {
+          let image = _this.get("store").peekRecord("image", imageData.id);
+          newUser.set("image", image);
+        }
+
+        newUser
+          .save()
+          .then(data => {
+            this.clearFormData();
+            this.transitionToRoute("user_details", data.id);
+          })
+          .catch(xhr => {
+            if (xhr.status === 422) {
+              this.get("messageBox").alert(xhr.responseJSON.errors[0].message);
+            } else {
+              throw xhr;
+            }
+          })
+          .finally(() => loadingView.destroy());
+      });
     },
 
     cancelForm() {
@@ -99,18 +118,6 @@ export default Ember.Controller.extend({
         },
         "No"
       );
-    },
-
-    updateStoreAndSaveImage(data) {
-      this.get("store").pushPayload(data);
-      var image = this.get("newUploadedImage");
-      if (image) {
-        image.setProperties({
-          imageableId: data.item.id,
-          imageableType: "User"
-        });
-        image.save();
-      }
     },
 
     uploadReady() {

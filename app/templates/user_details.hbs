@@ -1,9 +1,9 @@
 <nav class="tab-bar">
   <section class="left-small">
-    {{#back-link fallbackRoute="/" }}
-    <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-left'}}</i>
-    <div>{{t "back"}}</div>
-    {{/back-link}}
+    {{#link-to "manage_users"}}
+      <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-left'}}</i>
+      <div>{{t "back"}}</div>
+    {{/link-to}}
   </section>
 
   <section class="middle tab-bar-section">
