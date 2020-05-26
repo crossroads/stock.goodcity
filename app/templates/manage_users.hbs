@@ -26,7 +26,7 @@
   <div class="row search">
     <div class="small-12 columns">
       {{#if displayResults}}
-        {{#infinite-list height="75vh" loadMore=(action "loadMoreOrganisations") as |items| }}
+        {{#infinite-list height="75vh" loadMore=(action "loadMoreUsers") as |items| }}
           <ul class="list list-activity list-offer-items">
             {{#each items as |user|}}
             <li>

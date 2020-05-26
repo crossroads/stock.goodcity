@@ -26,7 +26,7 @@ export default Ember.Controller.extend({
       this.transitionToRoute("app_menu_list");
     },
 
-    loadMoreOrganisations(page) {
+    loadMoreUsers(page) {
       const params = {
         page: page,
         per_page: 25,

@@ -16,6 +16,12 @@ export default Ember.Controller.extend({
 
   isMobileApp: config.cordova.enabled,
 
+  getCurrentUser: Ember.computed(function() {
+    var store = this.get("store");
+    var currentUser = store.peekAll("user_profile").get("firstObject") || null;
+    return currentUser;
+  }).volatile(),
+
   clearFormData() {
     this.set("firstName", "");
     this.set("lastName", "");

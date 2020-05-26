@@ -45,6 +45,7 @@ export default {
   create_new_pallet: "Create New Pallet",
   manage_inventory: "管理預約限額",
   manage_users: "Manage Users",
+  search_user: "Search User",
   new_order: "建立新的訂單",
   full_name: "{{firstName}} {{lastName}}",
   mobile_prefix: "+852",
