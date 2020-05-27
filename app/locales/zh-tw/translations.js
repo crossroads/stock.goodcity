@@ -713,7 +713,7 @@ export default {
     order_code: "Order Code",
     quantity: "Quantity",
     number: "Number",
-    value: "Value (HK$)",
+    value: "Value per unit (HK$)",
     apply_default: "Apply Default:",
     no_history: "No history available.",
     new: {

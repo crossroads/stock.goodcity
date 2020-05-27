@@ -118,8 +118,8 @@ export default GoodcityController.extend(
     }),
 
     canApplyDefaultValuation: Ember.computed("valueHkDollar", function() {
-      const defaultValue = this.get("defaultValueHkDollar");
-      const valueHkDollar = this.get("valueHkDollar");
+      const defaultValue = Number(this.get("defaultValueHkDollar"));
+      const valueHkDollar = Number(this.get("valueHkDollar"));
       return defaultValue !== valueHkDollar;
     }),
 
@@ -267,6 +267,15 @@ export default GoodcityController.extend(
       return Number(this.get("labels"));
     }),
 
+    isInvalidValuation: Ember.computed("valueHkDollar", function() {
+      const value = this.get("valueHkDollar");
+      // can be 0
+      if (value === "" || value === null) {
+        return true;
+      }
+      return false;
+    }),
+
     location: Ember.computed("codeId", "locationId", {
       get() {
         var location;
@@ -391,6 +400,7 @@ export default GoodcityController.extend(
         !this.get("isInvalidPrintCount") ||
         this.get("isInvalidaLabelCount") ||
         this.get("isInvalidDimension") ||
+        this.get("isInvalidValuation") ||
         parseInt(this.get("length"), 10) === 0 ||
         parseInt(this.get("width"), 10) === 0 ||
         parseInt(this.get("height"), 10) === 0
