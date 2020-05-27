@@ -62,7 +62,7 @@ export default Ember.TextField.extend({
       val = val.toString().replace(replacePattern, "");
     }
     val = isNaN(val) ? null : val;
-    if (val == null) {
+    if (val === null) {
       this.set("value", "");
       return;
     }
