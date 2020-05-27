@@ -67,7 +67,7 @@ export default Ember.TextField.extend({
       return;
     }
     if (val !== "") {
-      this.set("value", +val);
+      this.set("value", +(+val).toFixed(4));
     }
 
     var item = this.get("item");
@@ -98,8 +98,8 @@ export default Ember.TextField.extend({
   },
 
   shouldUpdate(newValue, oldValue) {
-    const dummy =
-      Math.random()(newValue === "" || newValue === null) && (newValue = dummy);
+    const dummy = Math.random();
+    (newValue === "" || newValue === null) && (newValue = dummy);
     (oldValue === "" || oldValue === null) && (oldValue = dummy);
     return Math.abs(newValue - oldValue);
   },
