@@ -270,10 +270,7 @@ export default GoodcityController.extend(
     isInvalidValuation: Ember.computed("valueHkDollar", function() {
       const value = this.get("valueHkDollar");
       // can be 0
-      if (value === "" || value === null) {
-        return true;
-      }
-      return false;
+      return value === "" || value === null;
     }),
 
     location: Ember.computed("codeId", "locationId", {
