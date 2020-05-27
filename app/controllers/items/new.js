@@ -38,6 +38,8 @@ export default GoodcityController.extend(
     displayInventoryOptions: false,
     autoGenerateInventory: true,
     inputInventory: false,
+    settings: Ember.inject.service(),
+    paramsNotCopied: Ember.computed.alias("settings.paramsNotCopied"),
     locationName: Ember.computed.alias("location.displayName"),
     caseNumber: "",
     isSearchCodePreviousRoute: Ember.computed.localStorage(),
@@ -47,14 +49,11 @@ export default GoodcityController.extend(
     offerService: Ember.inject.service(),
     fixedDropdownArr: ["frequency", "voltage", "compTestStatus", "testStatus"],
     quantity: 1,
+    valueHkDollar: "",
     labels: 1,
     length: null,
     width: null,
     height: null,
-    selectedGrade: {
-      name: "B",
-      id: "B"
-    },
     invalidLocation: false,
     invalidScanResult: false,
     newUploadedImage: null,
@@ -62,6 +61,7 @@ export default GoodcityController.extend(
     setDropdownOption: Ember.inject.service(),
     showAdditionalFields: false,
     isAllowedToPublish: false,
+    shouldDuplicate: false,
     isSaleable: false,
     imageKeys: Ember.computed.localStorage(),
     i18n: Ember.inject.service(),
@@ -94,6 +94,7 @@ export default GoodcityController.extend(
         return +this.get("quantity") === 1 && !this.get("isBoxOrPallet");
       }
     ),
+    showDuplicateCheckbox: Ember.computed.equal("storageType", "Package"),
 
     locale: function(str) {
       return this.get("i18n").t(str);
@@ -114,6 +115,12 @@ export default GoodcityController.extend(
       } else {
         return this.get("allAvailablePrinters")[0];
       }
+    }),
+
+    canApplyDefaultValuation: Ember.computed("valueHkDollar", function() {
+      const defaultValue = this.get("defaultValueHkDollar");
+      const valueHkDollar = this.get("valueHkDollar");
+      return defaultValue !== valueHkDollar;
     }),
 
     setLocation: Ember.observer("scanLocationName", function() {
@@ -146,14 +153,6 @@ export default GoodcityController.extend(
       return this.get("store").peekAll("donor_condition");
     }),
 
-    defaultCondition: Ember.computed(function() {
-      const conditions = this.get("conditions");
-      return (
-        conditions.filterBy("name", "Lightly Used").get("firstObject") ||
-        conditions.get("firstObject")
-      );
-    }),
-
     description: Ember.computed("code", {
       get() {
         if (this.get("isBoxOrPallet")) {
@@ -177,6 +176,31 @@ export default GoodcityController.extend(
         detailAttributes[_.snakeCase(key)] = attributes[key];
       });
       return detailAttributes;
+    },
+
+    clearParams() {
+      if (this.get("displayFields")) {
+        let attr = this.get("paramsNotCopied");
+        attr.forEach(value => this.clearAttribute(value));
+      }
+    },
+
+    clearAttribute(value) {
+      if (value.toLowerCase().includes("country")) {
+        return this.setProperties({
+          countryValue: {},
+          selected: []
+        });
+      }
+      const fieldAtributes = this.get("displayFields").find(
+        newValue => newValue.label == value
+      );
+      if (!fieldAtributes) {
+        return;
+      }
+      return fieldAtributes.autoComplete
+        ? this.send("setFields", fieldAtributes.name, null)
+        : this.set(`inputFieldValues.${fieldAtributes.value}`, null);
     },
 
     showPiecesInput: Ember.computed("codeId", function() {
@@ -213,7 +237,7 @@ export default GoodcityController.extend(
 
     isInvalidaLabelCount: Ember.computed("labels", function() {
       const labelCount = this.get("labels");
-      return !labelCount || Number(labelCount) < 0;
+      return Number(labelCount) < 0;
     }),
 
     isInvalidPrintCount: Ember.computed("labels", function() {
@@ -322,12 +346,8 @@ export default GoodcityController.extend(
         package_type_id: this.get("code.id"),
         state_event: "mark_received",
         storage_type: this.get("storageType"),
-        packages_locations_attributes: {
-          0: {
-            location_id: locationId,
-            quantity: quantity
-          }
-        },
+        expiry_date: this.get("expiry_date"),
+        value_hk_dollar: this.get("valueHkDollar"),
         offer_ids: this.get("offersLists").getEach("id"),
         detail_attributes: detailAttributes
       };
@@ -465,13 +485,17 @@ export default GoodcityController.extend(
             this.printBarcode(data.item.id);
           }
           this.updateStoreAndSaveImage(data);
-          this.clearSubformAttributes();
-          this.setProperties({
-            locationId: "",
-            inventoryNumber: "",
-            offersLists: []
-          });
-          this.replaceRoute("items.detail", data.item.id);
+          if (this.get("shouldDuplicate") && !this.get("isBoxOrPallet")) {
+            this.displayDuplicateParams(data);
+          } else {
+            this.clearSubformAttributes();
+            this.setProperties({
+              locationId: "",
+              inventoryNumber: "",
+              offersLists: []
+            });
+            this.replaceRoute("items.detail", data.item.id);
+          }
         })
         .catch(response => {
           this.showError(
@@ -483,12 +507,72 @@ export default GoodcityController.extend(
         });
     },
 
+    async displayDuplicateParams(data) {
+      this.replaceRoute("items.new");
+      this.clearParams();
+      this.set("quantity", 1);
+      await this.send("autoGenerateInventoryNumber");
+      if (this.get("newUploadedImage")) {
+        var duplicateImage = this.get("newUploadedImage");
+        var newUploadedImage = this.get("store").createRecord("image", {
+          cloudinaryId: duplicateImage.get("cloudinaryId"),
+          favourite: true
+        });
+        this.set("newUploadedImage", newUploadedImage);
+        this.set("imageKeys", newUploadedImage);
+      }
+    },
+
     actions: {
       async pickLocation() {
         this.set(
           "location",
           await this.get("locationService").userPickLocation()
         );
+      },
+
+      /**
+       * Change the Grade value and update the item valuation
+       * @param {Object} selectedGrade - The selected grade value of item
+       * @param {string} selectedGrade.id - ID of the grade
+       * @param {string} selectedGrade.name - Name of the grade
+       */
+      onGradeChange({ id, name }) {
+        this.set("selectedGrade", { id, name });
+        this.set("defaultValueHkDollar", null);
+        this.send("calculateItemValuation");
+      },
+
+      /**
+       * Change the donor condition value and update the item valuation
+       * @param {Object} defaultCondition - The selected condition of item
+       * @param {string} defaultCondition.id - ID of the condition
+       * @param {string} defaultCondition.name - Name of the condition
+       */
+      onConditionChange({ id, name }) {
+        this.set("defaultCondition", { id, name });
+        this.set("defaultValueHkDollar", null);
+        this.send("calculateItemValuation");
+      },
+
+      /**
+       * Makes an API call to calculate the item valuation based on
+       * donor condition, grade and package type.
+       * This also sets the default value for item valuation.
+       */
+      async calculateItemValuation() {
+        const itemValuation = await this.get("packageService").getItemValuation(
+          {
+            donorConditionId: this.get("defaultCondition.id"),
+            grade: this.get("selectedGrade.id"),
+            packageTypeId: this.get("code.id")
+          }
+        );
+        const defaultValueHkDollar = this.get("defaultValueHkDollar");
+        if (!defaultValueHkDollar) {
+          this.set("defaultValueHkDollar", +itemValuation.value_hk_dollar);
+        }
+        this.set("valueHkDollar", +itemValuation.value_hk_dollar);
       },
 
       removeOffer(offer) {
@@ -505,6 +589,10 @@ export default GoodcityController.extend(
         }
         const offers = _.uniq([...this.get("offersLists"), offer]);
         this.set("offersLists", offers);
+      },
+
+      setDefaultItemValuation() {
+        this.set("valueHkDollar", this.get("defaultValueHkDollar"));
       },
 
       //file upload
@@ -625,6 +713,7 @@ export default GoodcityController.extend(
             this.send("deleteUnusedImage");
             this.set("locationId", "");
             this.set("codeId", "");
+            this.set("shouldDuplicate", false);
             Ember.run.later(
               this,
               function() {
@@ -702,11 +791,12 @@ export default GoodcityController.extend(
       },
 
       setFields(fieldName, value) {
-        let dropDownValues = this.get("dropDownValues");
+        let dropDownValues = { ...this.get("dropDownValues") };
         if (this.get("fixedDropdownArr").indexOf(fieldName) >= 0) {
-          dropDownValues[`${fieldName}_id`] = value.id;
+          dropDownValues[`${fieldName}_id`] = value == null ? "" : value.id;
         } else {
-          dropDownValues[fieldName] = value.tag ? value.tag.trim() : "";
+          dropDownValues[fieldName] =
+            value !== null && value.tag ? value.tag.trim() : "";
         }
         this.set("dropDownValues", dropDownValues);
       },

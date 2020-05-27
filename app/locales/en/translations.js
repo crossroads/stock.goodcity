@@ -169,7 +169,15 @@ export default {
     home: "Home",
     orders: "Orders",
     items: "Items",
-    goto: "Goto"
+    goto: "Goto",
+    alerts: "alerts"
+  },
+  my_notifications: {
+    heading: "{{name}}'s Order",
+    all_notifications: "Show all notifications",
+    show_unread: "Show unread only",
+    mark_all_read: "Mark all read",
+    no_unread: "No unread messages!"
   },
   beneficiary_warning: {
     delete_title: "Remove Client?",
@@ -192,6 +200,11 @@ export default {
     private: "Private",
     state_filter_title: "Item states",
     in_stock: "In Stock",
+    process: "Processed",
+    loss: "Lost",
+    pack: "Packed",
+    trash: "Thrashed",
+    recycle: "Recycled",
     in_stock_info: "At least one is available(i.e not designated)",
     designated: "Designated",
     designated_info: "All remaining quantity is reserved for order(s)",
@@ -503,7 +516,10 @@ export default {
     multiple: "Multiple",
     dispatch_message: "Are you sure you want to dispatch this Item?",
     related_orders: "Related Orders",
-    action_by_user: "By {{userName}}"
+    action_by_user: "By {{userName}}",
+    unlink: "unlink",
+    add_to_set: "Add to set",
+    already_in_set: "This item already belongs to a set"
   },
   orders_package: {
     actions: {
@@ -722,6 +738,8 @@ export default {
     order_code: "Order Code",
     quantity: "Quantity",
     number: "Number",
+    value: "Value (HK$)",
+    apply_default: "Apply Default:",
     no_history: "No history available.",
     new: {
       add: "Add",
@@ -734,8 +752,10 @@ export default {
       grade: "Grade:",
       weight: "Weight (kg)",
       publish: "Publish",
+      duplicate: "Duplicate",
       labels: "Labels",
       pieces: "Pieces",
+      expiry_date: "Expiry Date",
       condition: "Condition:",
       donation: "Donation#",
       location: "Location*",
@@ -761,6 +781,11 @@ export default {
         blank_notification: "Location cannot be blank."
       }
     },
+    select_set_type: "Select a type for the new set",
+    no_box_in_set: "Boxes and pallets are not allowed in sets",
+    containers_label: "Boxes or pallets that contain this item",
+    action_label: "Actions",
+    make_set: "Make Set",
     actions: {
       process: "Process",
       loss: "Loss (decrease)",

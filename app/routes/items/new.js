@@ -4,8 +4,6 @@ import Ember from "ember";
 export default AuthorizeRoute.extend({
   inventoryNumber: "",
   newItemRequest: "",
-  isSearchCodePreviousRoute: Ember.computed.localStorage(), // @TODO: fix
-  transitionFrom: "",
   packageService: Ember.inject.service(),
   printerService: Ember.inject.service(),
   session: Ember.inject.service(),
@@ -26,20 +24,12 @@ export default AuthorizeRoute.extend({
     }
   },
 
-  beforeModel() {
+  beforeModel({ queryParams = {} }) {
     this._super(...arguments);
-    var searchCodePreviousRoute = this.get("isSearchCodePreviousRoute");
-    var currentRouteName = this.controllerFor("application").get(
-      "currentRouteName"
-    );
-    var transitionFrom = this.modelFor(currentRouteName);
-    if (transitionFrom) {
-      this.set("transitionFrom", transitionFrom.modelName);
-    }
-    if (searchCodePreviousRoute) {
-      var newItemRequest = searchCodePreviousRoute ? true : false;
-      this.set("newItemRequest", newItemRequest);
-    } else {
+
+    const hasCodeId = !!queryParams.codeId;
+
+    if (!hasCodeId) {
       this.replaceWith("search_code");
     }
   },
@@ -77,11 +67,9 @@ export default AuthorizeRoute.extend({
     const store = this.get("store");
     this.initializeController();
 
-    if (this.get("newItemRequest")) {
-      this.initializeAttributes();
-      this.manageSubformDetails();
-      this.setUpPackageImage();
-    }
+    this.initializeAttributes();
+    this.manageSubformDetails();
+    this.setUpPackageImage();
     this.setupPrinterId(controller);
   },
 
@@ -132,7 +120,15 @@ export default AuthorizeRoute.extend({
     }
   },
 
-  initializeAttributes() {
+  getDefaultCondition() {
+    const conditions = this.get("store").peekAll("donor_condition");
+    return (
+      conditions.filterBy("name", "Lightly Used").get("firstObject") ||
+      conditions.get("firstObject")
+    );
+  },
+
+  async initializeAttributes() {
     const controller = this.controller;
     this.set("newItemRequest", false);
     controller.set("quantity", 1);
@@ -147,6 +143,15 @@ export default AuthorizeRoute.extend({
       id: "B"
     });
     controller.set("imageKeys", "");
+    const defaultValue = await this.get("packageService").getItemValuation({
+      donorConditionId: this.getDefaultCondition().id,
+      grade: controller.get("selectedGrade").id,
+      packageTypeId: controller.get("codeId")
+    });
+
+    controller.set("defaultCondition", this.getDefaultCondition());
+    controller.set("valueHkDollar", defaultValue.value_hk_dollar);
+    controller.set("defaultValueHkDollar", defaultValue.value_hk_dollar);
     this.setupPrinterId(controller);
   }
 });

@@ -183,3 +183,18 @@
     padding-top: 0;
   }
 }
+
+
+.package-summary-block-view {
+  margin-top: 2rem !important;
+
+  @media #{$medium-up} {
+    margin: 0 auto;
+    max-width: 747px;
+    min-height: auto;
+  }
+
+  @media #{$small-only} {
+    margin-left: 0.4rem;
+  }
+}

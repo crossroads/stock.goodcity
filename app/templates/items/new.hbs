@@ -5,53 +5,83 @@
 </nav>
 <section class="main-section new-item-section ui">
   {{#validatable-form onSubmit=(action 'saveItem') as |form|}}
-    <div class="row image-box-row">
-      <a {{action "triggerUpload"}} class="{{unless isReady 'disabled'}}">
-        <span class="image-box">
-          {{#if newUploadedImage}}
-            <img src={{newUploadedImage.thumbImageUrl}} class="thumb" />
-          {{else}}
-            <i aria-hidden="true">{{fa-icon 'camera'}}</i><br />
-            {{t "items.new.add_images"}}
-          {{/if}}
-        </span>
-      </a>
-      {{cloudinary-upload ready="uploadReady" progress="uploadProgress"
-      always="uploadComplete" done="uploadSuccess" submit="uploadStart"}}
-      <div class="small-12 columns">
-        <div class="row quantity">
-          <div class="small-3 columns item-label">
-            {{t "items.new.quantity"}}
-          </div>
-          <div class="small-7 large-8 columns left">
-            {{#form-control}}
-              {{numeric-input id='qty' name="qty" value=quantity maxlength="8" required='true' pattern="\d{1,8}" disabled=isBoxOrPallet}}
-              <div class='input-error'>{{t "items.new.validation_errors.quantity"}}</div>
-            {{/form-control}}
-          </div>
+    <div class="section">
+      <div class="row">
+        <div class="small-3 columns item-label">
+          {{t "items.new.quantity"}}
         </div>
-        <div class="row type">
-          <div class="small-3 columns item-label">
-            {{t "items.new.type"}}
-          </div>
-          <div class="small-7 large-8 columns left">
-            {{input value=code.name disabled=true}}
-          </div>
+        <div class="small-2 columns left">
+          {{#form-control}}
+            {{numeric-input id='qty' name="qty" value=quantity maxlength="8" required='true' pattern="\d{1,8}" disabled=isBoxOrPallet}}
+            <div class='input-error'>{{t "items.new.validation_errors.quantity"}}</div>
+          {{/form-control}}
         </div>
       </div>
+
+      <div class="row">
+        <div class="small-3 columns item-label">
+          {{t "items.new.location"}}
+        </div>
+        <div class="{{if isMobileApp 'small-7 large-8' 'small-9'}} columns">
+          <div class="{{if (is-or invalidLocation invalidScanResult) 'ember-view form__control form__control--error'}}"
+            id="inventory_location" {{action 'pickLocation'}}>
+            <i class="location-icon" aria-hidden="true">{{fa-icon 'map-marker-alt'}}</i>
+            {{input value=locationName disabled=true required='true'}}
+            <div class='input-error'>
+              {{#if invalidScanResult}}
+                {{t "items.new.validation_errors.invalid_location"}}
+              {{else}}
+                {{t "items.new.validation_errors.blank_location"}}
+              {{/if}}
+            </div>
+          </div>
+        </div>
+        {{#if isMobileApp}}
+          <div class="small-2 large-1 columns scan-icon">
+            {{barcode-scanner route="items.new" paramName="scanLocationName"}}
+          </div>
+        {{/if}}
+      </div>
+      <br />
     </div>
+
+
+    <div class="row">
+      <div class="small-3 columns item-label">
+        {{t "items.new.type"}}
+      </div>
+      <div class="{{if isMobileApp 'small-7 large-8' 'small-9'}} columns left">
+        {{input value=code.name disabled=true}}
+      </div>
+    </div>
+
     <div class="row">
       <div class="small-3 columns item-label">
         {{t "items.new.description"}}
       </div>
-      <div class="small-9 columns description-block">
+      <div class="small-6 large-7 columns description-block">
         {{#form-control}}
           <i class="remove-text" aria-hidden="true" {{action "clearDescription"}}>{{fa-icon 'times-circle'}}</i>
           {{auto-resize-textarea data-autoresize=true name="description" value=description required="required" pattern=".*\S.*" id="description"}}
           <div class='input-error'>{{t 'items.new.validation_errors.description'}}</div>
         {{/form-control}}
       </div>
+      <div class="small-3 large-2">
+        <a {{action "triggerUpload"}} class="{{unless isReady 'disabled'}}">
+          <span class="image-box">
+            {{#if newUploadedImage}}
+              <img src={{newUploadedImage.thumbImageUrl}} class="thumb" />
+            {{else}}
+              <i aria-hidden="true">{{fa-icon 'camera'}}</i><br />
+              {{t "items.new.add_images"}}
+            {{/if}}
+          </span>
+        </a>
+        {{cloudinary-upload ready="uploadReady" progress="uploadProgress"
+              always="uploadComplete" done="uploadSuccess" submit="uploadStart"}}
+      </div>
     </div>
+
     <div class="row quality-row">
       <div class="small-3 columns item-label">
         {{t "items.new.quality"}}
@@ -60,7 +90,7 @@
         <span class='input_text'>{{t "items.new.grade"}}</span>
         {{select-list
         content=grades
-        on-change=(action (mut selectedGrade))
+        on-change=(action "onGradeChange")
         selectedValue=selectedGrade
         value=selectedGrade
         selectArrow=true
@@ -70,7 +100,7 @@
         <span class='input_text'>{{t "items.new.condition"}}</span>
         {{select-list
         content=conditions
-        on-change=(action (mut defaultCondition))
+        on-change=(action "onConditionChange")
         selectedValue=defaultCondition
         selectArrow=true
         value=defaultCondition
@@ -78,6 +108,23 @@
         idNames='condition-select' }}
       </div>
     </div>
+
+    <div class="row grade-value">
+      <div class="small-3 columns">
+        {{t "items.value"}}
+      </div>
+      <div class="columns small-3">
+        {{numeric-input acceptFloat=true acceptZeroValue=true  value=valueHkDollar name="value_hk" maxlength="6"
+        pattern="\d+\.?\d*"}}
+      </div>
+
+      <div class="columns small-6 apply-default">
+        {{#if canApplyDefaultValuation}}
+          <a href="#" {{action 'setDefaultItemValuation'}} class="default-content">{{t 'items.apply_default'}} {{defaultValueHkDollar}}</a>
+        {{/if}}
+      </div>
+    </div>
+
     <div class="row">
       <div class="small-3 columns item-label">
         {{t "items.new.donation"}}
@@ -91,30 +138,6 @@
       {{#if isMobileApp}}
         <div class="small-2 large-1 columns scan-icon">
           {{barcode-scanner route="items.new" paramName="caseNumber"}}
-        </div>
-      {{/if}}
-    </div>
-    <div class="row">
-      <div class="small-3 columns item-label">
-        {{t "items.new.location"}}
-      </div>
-      <div class="{{if isMobileApp 'small-7 large-8' 'small-9'}} columns">
-        <div class="{{if (is-or invalidLocation invalidScanResult) 'ember-view form__control form__control--error'}}"
-          id="inventory_location" {{action 'pickLocation'}} >
-          <i class="location-icon" aria-hidden="true">{{fa-icon 'map-marker-alt'}}</i>
-          {{input value=locationName disabled=true required='true'}}
-          <div class='input-error'>
-            {{#if invalidScanResult}}
-              {{t "items.new.validation_errors.invalid_location"}}
-            {{else}}
-              {{t "items.new.validation_errors.blank_location"}}
-            {{/if}}
-          </div>
-        </div>
-      </div>
-      {{#if isMobileApp}}
-        <div class="small-2 large-1 columns scan-icon">
-          {{barcode-scanner route="items.new" paramName="scanLocationName"}}
         </div>
       {{/if}}
     </div>
@@ -158,6 +181,22 @@
         </div>
         <div class="small-3 columns pieces">
           {{numeric-input name="pieces" id='pieces' value=pieces maxlength="10" pattern="[0-9]{0,5}"}}
+        </div>
+      {{/if}}
+    </div>
+    <div class="row">
+      {{#if code.allowExpiryDate}}
+        <div class="small-3 columns item-label">
+          {{t "items.new.expiry_date"}}
+        </div>
+        <div class="small-3 columns weight">
+          {{calendar-input
+            name='expiry_date'
+            id='expiry_date'
+            value=''
+            selection=expiry_date
+            placeholder='Select Expiry'
+            pattern="[a-zA-Z]{3}\s?[a-zA-Z]{3}\s?[0-9]{1,2}"}}
         </div>
       {{/if}}
     </div>
@@ -217,15 +256,7 @@
         </div>
       </div>
       <div class="row">
-        {{#if showPublishItemCheckBox}}
-          <div class="small-3 columns item-label">
-            <label for="publishItem">{{t "items.new.publish"}}</label>
-          </div>
-          <div class="small-3 columns publish">
-            {{input type="checkbox" id="publishItem" checked=isAllowedToPublish}}
-          </div>
-        {{/if}}
-        <div class="small-2 columns item-label">
+        <div class="small-3 columns item-label">
           <label>{{t "items.new.printer"}}</label>
         </div>
         <div class="small-4 columns printer-dropdown">
@@ -239,6 +270,24 @@
             }}
           </div>
         </div>
+      </div>
+      <div class="row">
+        {{#if showPublishItemCheckBox}}
+          <div class="small-3 columns item-label">
+            <label for="publishItem">{{t "items.new.publish"}}</label>
+          </div>
+          <div class="small-3 columns publish">
+            {{input type="checkbox" id="publishItem" checked=isAllowedToPublish}}
+          </div>
+        {{/if}}
+        {{#if showDuplicateCheckbox}}
+          <div class="small-3 columns item-label">
+            <label for="duplicateItem">{{t "items.new.duplicate"}}</label>
+          </div>
+          <div class="small-3 columns publish">
+            {{input type="checkbox" name="duplicateItem" checked=shouldDuplicate}}
+          </div>
+        {{/if}}
       </div>
       <div class="row">
         <div class="small-6 columns">

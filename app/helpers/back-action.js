@@ -25,7 +25,7 @@ export default Ember.Helper.extend({
       const deepLinked =
         document.referrer && document.referrer.indexOf(config.APP.ORIGIN) < 0;
 
-      if (deepLinked || noHistory || document.referrer === "") {
+      if (deepLinked || noHistory) {
         return this.get("router").replaceWith(fallbackRoute);
       }
 

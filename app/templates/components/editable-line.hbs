@@ -1,0 +1,15 @@
+<div class="gc editable-line {{if large 'large'}} {{if editing 'editing'}}">
+  {{
+    auto-resize-textarea
+    class=(concat "text-content editable " (if editing 'show' 'hide'))
+    data-autoresize=false
+    model=model
+    value=value
+    rows=1
+    pattern="[\w]*\S.*"
+  }}
+  <div class="text-content ellipsis {{if editing 'hide' 'show'}}">{{ value }}</div>
+  <div>
+    <i {{action 'toggleEdit'}}>{{fa-icon (if editing 'save' 'pencil-alt')}}</i>
+  </div>
+</div>

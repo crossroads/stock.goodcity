@@ -26,6 +26,7 @@ export default cloudinaryUrl.extend({
   pieces: attr("number"),
   packageTypeId: attr("number"),
   offerId: attr("number"),
+  expiryDate: attr("date"),
 
   onHandQuantity: attr("number"),
   availableQuantity: attr("number"),
@@ -36,13 +37,23 @@ export default cloudinaryUrl.extend({
   quantity: Ember.computed.alias("availableQuantity"),
 
   sentOn: attr("date"),
-  isSet: attr("boolean"),
-  hasBoxPallet: attr("boolean"),
+  packageSetId: attr("number"),
+  packageSet: belongsTo("package_set", {
+    async: false
+  }),
+  isPartOfSet: Ember.computed.bool("packageSet"),
+  isBoxPallet: Ember.computed("storageType", function() {
+    return (
+      this.get("storageType") &&
+      (this.get("storageType.isBox") || this.get("storageType.isPallet"))
+    );
+  }),
   itemId: attr("string"),
   allowWebPublish: attr("boolean"),
   saleable: attr("boolean"),
   detailId: attr("number"),
   detailType: attr("string"),
+  valueHkDollar: attr("string"),
   detail: belongsTo("detail", {
     polymorphic: true,
     async: false
@@ -61,9 +72,6 @@ export default cloudinaryUrl.extend({
     async: false
   }),
   donorCondition: belongsTo("donor_condition", {
-    async: false
-  }),
-  setItem: belongsTo("set_item", {
     async: false
   }),
   packagesLocations: hasMany("packages_location", {
@@ -320,13 +328,9 @@ export default cloudinaryUrl.extend({
 
   isMultiQtyItem: Ember.computed.not("isSingletonItem"),
 
-  hasSingleLocation: Ember.computed(
-    "packagesLocations.[]",
-    "packagesLocationsList",
-    function() {
-      return Ember.isEqual(this.get("packagesLocationsList").length, 1);
-    }
-  ),
+  hasSingleLocation: Ember.computed("packagesLocations.[]", function() {
+    return Ember.isEqual(this.get("packagesLocations").length, 1);
+  }),
 
   hasSingleAndDispatchLocation: Ember.computed(
     "packagesLocations.[]",
@@ -353,13 +357,12 @@ export default cloudinaryUrl.extend({
     }
   ),
 
-  firstLocationName: Ember.computed(
-    "packagesLocations.[]",
-    "packagesLocationsList",
-    function() {
-      return this.get("packagesLocationsList").get("firstObject.location.name");
-    }
-  ),
+  firstLocationName: Ember.computed("packagesLocations.[]", function() {
+    return this.get("packagesLocations").getWithDefault(
+      "firstObject.location.name",
+      ""
+    );
+  }),
 
   firstOrdersPackage: Ember.computed("ordersPackages.[]", function() {
     return this.get("ordersPackages.firstObject");
@@ -373,21 +376,11 @@ export default cloudinaryUrl.extend({
     }
   ),
 
-  packagesLocationsList: Ember.computed(
-    "packagesLocations.[]",
-    "packagesLocations.@each.location",
-    function() {
-      return this.get("packagesLocations")
-        .rejectBy("location.building", "Dispatched")
-        .uniq();
-    }
-  ),
-
   imageUrlList: Ember.computed(
     "images",
-    "setItem.@each.items.images.[]",
-    "setItem.@each.items.@each.imageUrl",
-    "setItem.@each.items.@each.thumbImageUrl",
+    "packageSet.items.@each.images.[]",
+    "packageSet.items.@each.imageUrl",
+    "packageSet.items.@each.thumbImageUrl",
     function() {
       var imageList = [];
       this.store
@@ -399,33 +392,35 @@ export default cloudinaryUrl.extend({
   ),
 
   setImages: Ember.computed(
-    "images",
-    "setItem.items.@each.imageUrlList.[]",
-    "setItem.items.@each.images.[]",
-    "setItem.items.@each.imageUrl",
-    "setItem.items.@each.thumbImageUrl",
+    "packageSet.items.@each.imageUrlList.[]",
     function() {
-      var setItemImages = [];
-      this.get("setItem.items").forEach(item => {
-        setItemImages = setItemImages.concat(item.get("imageUrlList"));
-      });
-      return setItemImages.uniq();
+      return this.getWithDefault("packageSet.items", [])
+        .reduce((all, item) => {
+          all.push(...item.get("imageUrlList"));
+          return all;
+        }, [])
+        .uniq();
     }
   ),
 
   allowLabelPrint: Ember.computed("ordersPackages.[]", function() {
-    return !this.get("isDispatchedForQuantity") && !this.get("isSet");
+    return !this.get("isDispatchedForQuantity");
   }),
 
   /**
    * @instance
    * @property {Item[]} siblings the other packages that are part of the same set
    */
-  siblings: Ember.computed("isSet", "setItems.items.[]", function() {
-    if (!this.get("isSet")) {
-      return [];
-    }
+  siblings: Ember.computed(
+    "isPartOfSet",
+    "packageSet.items.@each.packageSetId",
+    "packageSet.items.[]",
+    function() {
+      if (!this.get("isPartOfSet")) {
+        return [];
+      }
 
-    return this.get("setItem.items").rejectBy("id", this.get("id"));
-  })
+      return this.get("packageSet.items").rejectBy("id", this.get("id"));
+    }
+  )
 });

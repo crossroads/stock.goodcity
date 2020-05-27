@@ -15,8 +15,8 @@
   </div>
   <hr/>
   <div class="history-block">
-  {{#if model.isSet}}
-    {{#if model.setItem.setItemOrdersPackages}}
+  {{#if model.isPartOfSet}}
+    {{#if model.packageSet.hasActiveOrders}}
       <div class="row history-header">
         <div class="columns small-4 medium-4 large-4">
           {{t "items.order_code"}}
@@ -28,7 +28,7 @@
           {{t "items.number"}}
         </div>
       </div>
-      {{#each model.setItem.designatedAndDispatchedOrdersPackages as |ordersPackage|}}
+      {{#each model.packageSet.designatedAndDispatchedOrdersPackages as |ordersPackage|}}
         <div class="row {{ordersPackage.state}}">
           {{#link-to 'orders.active_items' ordersPackage.designation.id href=false}}
             <div class="columns small-4 medium-4 large-4">

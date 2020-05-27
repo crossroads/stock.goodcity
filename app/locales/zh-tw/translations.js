@@ -188,6 +188,11 @@ export default {
     private: "未被刊登",
     state_filter_title: "物件狀態",
     in_stock: "有貨存",
+    process: "Processed",
+    loss: "Lost",
+    pack: "Packed",
+    trash: "Thrashed",
+    recycle: "Recycled",
     in_stock_info: "最少一件有貨存（即未被指派）",
     designated: "已指派",
     designated_info: "所有餘下的數量已被預留至訂單",
@@ -489,7 +494,10 @@ export default {
     multiple: "多項",
     dispatch_message: "請確認你要派送此物資",
     related_orders: "Related Orders",
-    action_by_user: "By {{userName}}"
+    action_by_user: "By {{userName}}",
+    unlink: "unlink",
+    add_to_set: "Add to set",
+    already_in_set: "This item already belongs to a set"
   },
   orders_package: {
     actions: {
@@ -705,6 +713,8 @@ export default {
     order_code: "Order Code",
     quantity: "Quantity",
     number: "Number",
+    value: "Value (HK$)",
+    apply_default: "Apply Default:",
     no_history: "No history available.",
     new: {
       add: "Add",
@@ -717,7 +727,9 @@ export default {
       grade: "Grade:",
       weight: "Weight (kg)",
       pieces: "Pieces",
+      expiry_date: "Expiry Date",
       publish: "Publish",
+      duplicate: "Duplicate",
       labels: "Labels",
       condition: "Condition:",
       donation: "Donation#",
@@ -725,6 +737,7 @@ export default {
       inventory: "Inventory#",
       print: "& Print {{labels}}",
       printer: "Printer",
+      value: "Value (HK$)",
       cancel_warning:
         "You will lose all your data. Are you sure you want to cancel this item?",
       subform: {
@@ -744,6 +757,11 @@ export default {
         blank_notification: "Location cannot be blank."
       }
     },
+    select_set_type: "Select a type for the new set",
+    no_box_in_set: "Boxes and pallets are not allowed in sets",
+    containers_label: "Boxes or pallets that contain this item",
+    action_label: "Actions",
+    make_set: "Make Set",
     actions: {
       process: "Process",
       loss: "Loss (decrease)",

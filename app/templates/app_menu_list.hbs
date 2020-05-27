@@ -31,7 +31,7 @@
       {{/if}}
       {{#each storageTypes as |storageType|}}
         <li class="menu-list {{if storageType.disable 'disable'}}">
-          <a href="#" class="menu-list-anchor {{if storageType.disable 'disable'}}" {{action 'createInventory' storageType.name target=packageService}} disabled={{storageType.disable}}>
+          <a href="#" class="menu-list-anchor {{if storageType.disable 'disable'}}" {{action 'createInventory' storageType.name}} disabled={{storageType.disable}}>
             {{fa-icon storageType.icon size="lg"}}&nbsp;&nbsp;{{t storageType.translation}}
           </a>
         </li>
@@ -53,4 +53,4 @@
     </ul>
   </div>
 </div>
-{{partial "sticky_footer"}}
+{{sticky-footer}}

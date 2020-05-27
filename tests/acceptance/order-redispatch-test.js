@@ -98,10 +98,16 @@ module("Acceptance: Order redispatch", {
       url: "/api/v1/auth/current_user_profil*",
       responseText: data
     });
+    MockUtils.mock({
+      url: "/api/v1/auth/current_user_profil*",
+      responseText: data
+    });
     MockUtils.mockWithRecords(
       "cancellation_reason",
       _(3).times(() => FactoryGuy.make("cancellation_reason"))
     );
+
+    MockUtils.mockWithRecords("goodcity_request", []);
 
     visit("/");
 

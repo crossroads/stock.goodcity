@@ -49,11 +49,6 @@ export default Ember.Controller.extend(SearchMixin, {
 
     clearSearch() {
       this.set("searchText", "");
-    },
-
-    displaySetItems(item) {
-      this.set("itemSetId", item.get("itemId"));
-      Ember.run.debounce(this, this.applyFilter, 0);
     }
   }
 });

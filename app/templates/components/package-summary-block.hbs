@@ -3,12 +3,12 @@
     <div class="columns small-12">
       <div class="bottom-header">
         <div class="tab-container">
-          {{#link-to 'items.detail' model.id tagName='span' class="tab small"}}
-            <div class="icon-holder">{{fa-icon (if model.isSet 'tags' (storage-icon model.storageTypeName))}}</div>
+          {{#link-to 'items.detail' model.id tagName='span' class="tab small" disabled=disableLink}}
+            <div class="icon-holder">{{fa-icon (if model.isPartOfSet 'tags' (storage-icon model.storageTypeName))}}</div>
             <div class="text-holder">{{model.inventoryNumber}}</div>
           {{/link-to}}
 
-          {{#link-to 'items.detail.location' model.id tagName='span' class="tab large"}}
+          {{#link-to 'items.detail.location' model.id tagName='span' class="tab large" disabled=disableLink}}
             <div class="icon-holder">{{fa-icon 'map-marker-alt' }}</div>
             <div class="text-holder">
               {{#if model.hasMultiLocations}}
@@ -23,7 +23,7 @@
             </div>
           {{/link-to}}
 
-          {{#link-to 'items.detail.publishing' model.id tagName='span' class="tab end large"}}
+          {{#link-to 'items.detail.publishing' model.id tagName='span' class="tab end large" disabled=disableLink}}
             <div class="sub-tabs">
               <div class="icon-holder">{{fa-icon 'paper-plane' }}</div>
               <div class="text-holder">{{model.dispatchedQuantity}}</div>
@@ -41,7 +41,7 @@
         <div class="item-summary">
           <div class="content item-img">
             {{#if favouriteImage}}
-              <div class="image-zoom-container" id={{compositeParentId}}>
+              <div class="image-zoom-container {{if disableLink 'no-events'}}" id={{compositeParentId}}>
                 {{image-zoom item=model}}
               </div>
             {{else}}
@@ -50,14 +50,22 @@
               {{/link-to}}
             {{/if}}
           </div>
-          {{#link-to 'items.detail' model.id tagName='div' class="content item-description"}}
-            <div>
-              {{model.notes}}
-            </div>
-            <div>
-              {{model.notes}}
-            </div>
-          {{/link-to}}
+          <div class="content item-description">
+            {{#unless hasBlock}}
+              {{#link-to 'items.detail' model.id disabled=disableLink}}
+                <div>
+                  {{model.code.name}}
+                </div>
+                <div>
+                  {{model.notes}}
+                </div>
+              {{/link-to}}
+            {{else}}
+              {{#link-to 'items.detail' model.id disabled=disableLink}}
+                {{yield}}
+              {{/link-to}}
+            {{/unless}}
+          </div>
         </div>
       </div>
     </div>
