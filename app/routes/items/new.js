@@ -150,11 +150,8 @@ export default AuthorizeRoute.extend({
     });
 
     controller.set("defaultCondition", this.getDefaultCondition());
-    controller.set("valueHkDollar", Number(defaultValue.value_hk_dollar));
-    controller.set(
-      "defaultValueHkDollar",
-      Number(defaultValue.value_hk_dollar)
-    );
+    controller.set("valueHkDollar", +defaultValue.value_hk_dollar);
+    controller.set("defaultValueHkDollar", +defaultValue.value_hk_dollar);
     this.setupPrinterId(controller);
   }
 });

@@ -74,10 +74,7 @@ export default AuthorizeRoute.extend({
       packageTypeId: model.get("code.id")
     });
 
-    controller.set(
-      "defaultValueHkDollar",
-      Number(defaultValue.value_hk_dollar)
-    );
+    controller.set("defaultValueHkDollar", +defaultValue.value_hk_dollar);
 
     if (["Box", "Pallet"].indexOf(model.get("storageTypeName")) >= 0) {
       controller.send("fetchContainedPackages");
