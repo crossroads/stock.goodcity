@@ -98,8 +98,9 @@ export default Ember.TextField.extend({
   },
 
   shouldUpdate(newValue, oldValue) {
-    newValue === "" && (newValue = 999999);
-    oldValue === "" && (oldValue = 999999);
+    const dummy =
+      Math.random()(newValue === "" || newValue === null) && (newValue = dummy);
+    (oldValue === "" || oldValue === null) && (oldValue = dummy);
     return Math.abs(newValue - oldValue);
   },
 
