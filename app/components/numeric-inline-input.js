@@ -67,7 +67,7 @@ export default Ember.TextField.extend({
       return;
     }
     if (val !== "") {
-      this.set("value", +(+val).toFixed(4));
+      this.set("value", +(+val).toFixed((this.get("maxlength") || 6) - 2));
     }
 
     var item = this.get("item");
