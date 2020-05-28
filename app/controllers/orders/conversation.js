@@ -116,6 +116,8 @@ export default detail.extend({
         "user",
         this.get("session.currentUser.id")
       );
+      values.messageableType = "Order";
+      values.messageableId = this.get("model.id");
       this.createMessage(values);
 
       // Animate and scroll to bottom

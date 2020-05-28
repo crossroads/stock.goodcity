@@ -19,6 +19,9 @@ export default DS.Model.extend({
   designationId: attr(),
   designation: belongsTo("designation", { async: false }),
 
+  messageableType: attr("string"),
+  messageableId: attr("string"),
+
   myMessage: Ember.computed("sender", function() {
     return this.get("sender.id") === this.get("session.currentUser.id");
   }),

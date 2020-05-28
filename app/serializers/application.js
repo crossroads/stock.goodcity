@@ -14,6 +14,16 @@ function normalize(payload) {
       delete payload[original];
     }
   });
+
+  const messages = _.flatten([payload.messages, payload.message]).filter(
+    _.identity
+  );
+
+  _.each(messages, m => {
+    if (m.messageable_type == "Order") {
+      m.designation_id = m.messageable_id;
+    }
+  });
 }
 
 export default ActiveModelSerializer.extend({
