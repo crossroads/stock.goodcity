@@ -37,29 +37,6 @@ export default Ember.TextField.extend({
   },
 
   didInsertElement() {
-    let routes = this.router.router.currentHandlerInfos;
-    let currentRoute = routes && routes.pop();
-    let isIndexRoute =
-      currentRoute && currentRoute.name === "items.index" ? true : false;
-    if (this.get("hasRecentDesignations") && isIndexRoute) {
-      var recentlyUsedDesignations = this.get("store").query("designation", {
-        shallow: true,
-        recently_used: true
-      });
-      recentlyUsedDesignations.forEach(record => {
-        if (record.constructor.toString() === "stock@model:designation:") {
-          this.store.query("orders_package", {
-            search_by_order_id: record.get("id")
-          });
-        }
-      });
-      var recentlyUsedLocations = this.get("store").query("location", {
-        recently_used: true
-      });
-      this.get("store").pushPayload(recentlyUsedDesignations);
-      this.get("store").pushPayload(recentlyUsedLocations);
-      this.set("hasRecentDesignations", false);
-    }
     document.body.scrollTop = document.documentElement.scrollTop = 0;
     this.$().focus();
     if (this.get("hasFixedInputHeader")) {
