@@ -100,7 +100,7 @@
         <div class="small-12 columns summary recent_orders counts" >
         <h2>{{t 'order_filters.recent_orders'}}</h2>
         {{#each model.recentlyUsedDesignations as |order|}}
-          {{#link-to 'orders.active_items' order.id (query-params reload=true) href=false}}
+          {{#link-to 'orders.active_items' order.id href=false}}
               <div class="row order_header">
                 <div class="small-4 medium-4 large-4 columns">
                   <i class="order_transport">{{fa-icon order.transportIcon}}</i>
