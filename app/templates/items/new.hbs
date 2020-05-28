@@ -212,12 +212,13 @@
       <div class="small-3 columns item-label">
         Donation
       </div>
-      <div class="small-9 columns donations">
+      <div class="small-9 columns donations offer-tag-detail">
         <span {{action 'addOffer'}}>
           {{fa-icon 'plus-square' size='2x'}}
         </span>
         {{#each offersLists as |offer|}}
           {{offer-tag
+            class="offer-tag"
             offer=offer
             removeOffer=(action "removeOffer")
           }}

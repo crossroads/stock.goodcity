@@ -109,6 +109,11 @@
     }
   }
 
+  .offer-tag-detail {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
   .item-label {
     line-height: 1.8rem;
   }

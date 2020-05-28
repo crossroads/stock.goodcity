@@ -757,7 +757,7 @@ export default {
       pieces: "Pieces",
       expiry_date: "Expiry Date",
       condition: "Condition:",
-      donation: "Donation#",
+      donation: "CAS#",
       location: "Location*",
       inventory: "Inventory#",
       print: "& Print {{labels}}",
@@ -803,7 +803,7 @@ export default {
     cancel: "Cancel the designation of this item"
   },
   donation: {
-    title: "Donation#",
+    title: "CAS#",
     donation_number_error: "Must be in the form 'CAS-12345'"
   },
   partial_designate: {
