@@ -1,25 +1,26 @@
 import config from "stock/config/environment";
 import Ember from "ember";
 const { getOwner } = Ember;
-import AjaxPromise from "stock/utils/ajax-promise";
 
 export default Ember.Controller.extend({
-  queryParams: ["restoreForm", "organisationId"],
+  queryParams: ["organisationId"],
   organisationId: null,
-  existingRoleIds: [],
   organisationName: null,
-  restoreForm: false,
+  existingRoleIds: [],
   selectedRoleIds: [],
   mobilePhone: "",
+  newUploadedImage: null,
   disabled: false,
   activeUser: Ember.computed.not("disabled"),
+
   i18n: Ember.inject.service(),
   messageBox: Ember.inject.service(),
-
-  newUploadedImage: null,
   userImageKeys: Ember.computed.localStorage(),
-
   isMobileApp: config.cordova.enabled,
+
+  locale: function(str) {
+    return this.get("i18n").t(str);
+  },
 
   allRoles: Ember.computed("model.roles.[]", function() {
     let roles = this.get("model.roles");
@@ -57,6 +58,7 @@ export default Ember.Controller.extend({
     this.set("email", "");
     this.set("selectedRoleIds", []);
     this.set("disabled", false);
+    this.set("organisationName", "");
     this.set("newUploadedImage", null);
   },
 
@@ -99,8 +101,6 @@ export default Ember.Controller.extend({
     },
 
     setSelecteIds(id, isSelected) {
-      console.log(this.get("existingRoleIds"), id, isSelected);
-
       if (isSelected) {
         this.get("selectedRoleIds").pushObject(id);
       } else {
@@ -153,8 +153,8 @@ export default Ember.Controller.extend({
 
     cancelForm() {
       this.get("messageBox").custom(
-        "You will lose all your data. Are you sure you want to cancel this User?",
-        "Yes",
+        this.locale("users.cancel_user_warning").string,
+        this.locale("yes").string,
         () => {
           Ember.run.later(
             this,
@@ -165,7 +165,7 @@ export default Ember.Controller.extend({
             0
           );
         },
-        "No"
+        this.locale("no").string
       );
     },
 

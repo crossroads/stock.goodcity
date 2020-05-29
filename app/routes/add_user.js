@@ -13,7 +13,9 @@ export default AuthorizeRoute.extend({
 
   setupController(controller, model) {
     this._super(controller, model);
-    let existingRoleIds = this.controller.get("selectedRoleIds");
+    let existingRoleIds = [...this.controller.get("selectedRoleIds")].map(
+      num => +num
+    );
     this.controller.set("existingRoleIds", existingRoleIds);
   }
 });

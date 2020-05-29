@@ -53,6 +53,8 @@ export default {
     "Oooops, the location you're headed to doesn't seem to exist anymore. Sorry!",
   unavailable_item: "Sorry! This item is not available.",
   unavailable_order: "Sorry! This order is not available.",
+  yes: "Yes",
+  no: "No",
 
   box_pallet: {
     indicate_amount: "指出要從以下每個位置中取多少份量",
@@ -837,5 +839,15 @@ export default {
       "The remaining quantity is designated to {{orderCode}}.",
     confirm_undesignation: "Are you sure you wish to undesignate ?",
     click_to_undesignate: "Click here to undesignate"
+  },
+  users: {
+    cancel_user_warning:
+      "You will lose all your data. Are you sure you want to cancel this User?",
+    image: "Image",
+    add_image: "Add Image",
+    disabled: "Disabled",
+    roles: "Roles",
+    organisation: "Organisation",
+    create_new_user: "Create new user"
   }
 };

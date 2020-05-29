@@ -32,7 +32,7 @@
 
   <div class="row">
     <div class="small-3 columns item-label">
-      Image
+      {{t 'users.image'}}
     </div>
     <div class="small-9 columns">
       <a {{action "triggerUpload"}} class="{{unless isReady 'disabled'}}">
@@ -41,7 +41,7 @@
           <img src={{newUploadedImage.thumbImageUrl}} class="thumb" />
           {{else}}
           <i aria-hidden="true">{{fa-icon 'camera'}}</i><br />
-          Add Image
+          {{t 'users.add_image'}}
           {{/if}}
         </span>
       </a>
@@ -84,7 +84,7 @@
 
   <div class="row">
     <div class="small-3 columns item-label">
-      Disabled
+      {{t 'users.disabled'}}
     </div>
     <div class="small-9 columns field-container">
       {{#form-control}}
@@ -96,7 +96,7 @@
   {{#if getCurrentUser.canManageUsers}}
     <div class="row">
       <div class="small-3 columns item-label">
-        Role
+        {{t 'users.roles'}}
       </div>
       <div class="small-9 columns field-container">
         <ul class="radio-buttons">
@@ -117,7 +117,7 @@
     {{#if displayOrganizationInput}}
       <div class="row">
         <div class="small-3 columns item-label">
-          Organization
+          {{t 'users.organisation'}}
         </div>
         <div class="small-9 columns field-container" {{action "searchOrganization"}}>
           {{input type="text" name="organisation" value=organisationName required='true'}}
