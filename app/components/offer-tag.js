@@ -1,7 +1,7 @@
 import Ember from "ember";
 
 export default Ember.Component.extend({
-  classNames: ["class"],
+  classNames: "",
   isPackageOffer: true,
 
   actions: {
