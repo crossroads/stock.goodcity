@@ -1,6 +1,8 @@
 import Ember from "ember";
 
 export default Ember.Controller.extend({
+  queryParams: ["backToNewUser"],
+  backToNewUser: false,
   minSearchTextLength: 3,
   displayResults: false,
 
@@ -23,7 +25,23 @@ export default Ember.Controller.extend({
     cancelSearch() {
       Ember.$("#searchText").blur();
       this.set("searchText", "");
-      this.transitionToRoute("app_menu_list");
+      if (this.get("backToNewUser")) {
+        this.replaceRoute("add_user");
+      } else {
+        this.transitionToRoute("app_menu_list");
+      }
+    },
+
+    setOrganization(organisation) {
+      if (this.get("backToNewUser")) {
+        this.replaceRoute("add_user", {
+          queryParams: {
+            organisationId: organisation.id
+          }
+        });
+      } else {
+        this.transitionToRoute("organisations.detail", organisation.id);
+      }
     },
 
     loadMoreOrganisations(page) {

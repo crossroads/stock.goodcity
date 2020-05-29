@@ -4,9 +4,14 @@ const { getOwner } = Ember;
 import AjaxPromise from "stock/utils/ajax-promise";
 
 export default Ember.Controller.extend({
+  queryParams: ["restoreForm", "organisationId"],
+  organisationId: null,
+  existingRoleIds: [],
+  organisationName: null,
+  restoreForm: false,
+  selectedRoleIds: [],
   mobilePhone: "",
   disabled: false,
-  selectedRoleIds: [],
   activeUser: Ember.computed.not("disabled"),
   i18n: Ember.inject.service(),
   messageBox: Ember.inject.service(),
@@ -16,11 +21,34 @@ export default Ember.Controller.extend({
 
   isMobileApp: config.cordova.enabled,
 
+  allRoles: Ember.computed("model.roles.[]", function() {
+    let roles = this.get("model.roles");
+    return roles && roles.rejectBy("name", "System").sortBy("name");
+  }),
+
   getCurrentUser: Ember.computed(function() {
-    var store = this.get("store");
-    var currentUser = store.peekAll("user_profile").get("firstObject") || null;
+    let store = this.get("store");
+    let currentUser = store.peekAll("user_profile").get("firstObject") || null;
     return currentUser;
   }).volatile(),
+
+  charityRoleId: Ember.computed("model.roles.[]", function() {
+    let store = this.get("store");
+    let allRoles = store.peekAll("role");
+    let charityRole = allRoles.find(role => role.get("name") === "Charity");
+    return charityRole && charityRole.get("id");
+  }),
+
+  organisationChanged: Ember.observer("organisationId", function() {
+    if (this.get("organisationId")) {
+      let store = this.get("store");
+      let organisation = store.peekRecord(
+        "gc_organisation",
+        this.get("organisationId")
+      );
+      this.set("organisationName", organisation && organisation.get("nameEn"));
+    }
+  }),
 
   clearFormData() {
     this.set("firstName", "");
@@ -47,7 +75,8 @@ export default Ember.Controller.extend({
       lastName: this.get("lastName"),
       mobile: mobilePhone,
       email: this.get("email"),
-      disabled: this.get("disabled")
+      disabled: this.get("disabled"),
+      organisations_users_ids: [this.get("organisationId")]
     };
   },
 
@@ -61,12 +90,26 @@ export default Ember.Controller.extend({
   },
 
   actions: {
+    searchOrganization() {
+      this.replaceRoute("search_organisation", {
+        queryParams: {
+          backToNewUser: true
+        }
+      });
+    },
+
     setSelecteIds(id, isSelected) {
+      console.log(this.get("existingRoleIds"), id, isSelected);
+
       if (isSelected) {
         this.get("selectedRoleIds").pushObject(id);
       } else {
         this.get("selectedRoleIds").removeObject(id);
       }
+
+      let hasCharityRole =
+        this.get("selectedRoleIds").indexOf(this.get("charityRoleId")) >= 0;
+      this.set("displayOrganizationInput", hasCharityRole);
     },
 
     saveUser() {

@@ -101,9 +101,9 @@
       <div class="small-9 columns field-container">
         <ul class="radio-buttons">
 
-          {{#each model.roles as |role|}}
+          {{#each allRoles as |role|}}
             <li class="radio">
-              {{check-box selected=role.id id=role.id value=role.id action="setSelecteIds"}}
+              {{check-box selected=role.id id=role.id name=role.name value=role.id selection=existingRoleIds action="setSelecteIds"}}
               <label class="radio-wrap small-only-text-center" for={{role.id}}>
                 {{role.name}}
               </label>
@@ -113,6 +113,17 @@
 
       </div>
     </div>
+
+    {{#if displayOrganizationInput}}
+      <div class="row">
+        <div class="small-3 columns item-label">
+          Organization
+        </div>
+        <div class="small-9 columns field-container" {{action "searchOrganization"}}>
+          {{input type="text" name="organisation" value=organisationName required='true'}}
+        </div>
+      </div>
+    {{/if}}
   {{/if}}
 
   <div class="row">

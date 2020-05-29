@@ -32,7 +32,13 @@ export default Ember.Controller.extend({
         per_page: 25,
         searchText: this.get("searchText"),
         stockRequest: true,
-        stockUsers: true
+        roles: [
+          "Charity",
+          "Supervisor",
+          "Reviewer",
+          "Order fulfilment",
+          "Order administrator"
+        ]
       };
 
       if (this.get("searchText").trim().length >= 3) {
