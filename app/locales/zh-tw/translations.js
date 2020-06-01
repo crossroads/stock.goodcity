@@ -673,6 +673,8 @@ export default {
     grade: "Grade :",
     weight: "Weight (kg)",
     saleable: "Saleable",
+    restriction: "Restriction",
+    comment: "Comments",
     pieces: "Pieces",
     condition: "Condition :",
     validation_errors: {

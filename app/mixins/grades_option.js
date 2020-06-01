@@ -1,4 +1,5 @@
 import Ember from "ember";
+import { SALEABLE_OPTIONS } from "stock/constants/saleable-options";
 
 export default Ember.Mixin.create({
   grades: Ember.computed(function() {
@@ -10,11 +11,7 @@ export default Ember.Mixin.create({
   }),
 
   saleableOptions: Ember.computed(function() {
-    return [
-      { id: "not_set", name: "Not set", value: "" },
-      { id: "saleable", name: "Saleable", value: true },
-      { id: "not_selling", name: "Not selling", value: false }
-    ];
+    return SALEABLE_OPTIONS;
   }),
 
   restrictionOptions: Ember.computed(function() {

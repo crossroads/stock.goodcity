@@ -2,6 +2,8 @@ import attr from "ember-data/attr";
 import { belongsTo, hasMany } from "ember-data/relationships";
 import Ember from "ember";
 import cloudinaryUrl from "./cloudinary_url";
+import _ from "lodash";
+import { SALEABLE_OPTIONS } from "stock/constants/saleable-options";
 
 function SUM(ordersPkgs) {
   return ordersPkgs.mapBy("quantity").reduce((total, qty) => total + qty, 0);
@@ -32,7 +34,9 @@ export default cloudinaryUrl.extend({
   availableQuantity: attr("number"),
   designatedQuantity: attr("number"),
   dispatchedQuantity: attr("number"),
-
+  notes: attr("string"),
+  restrictionId: attr("number"),
+  comment: attr("string"),
   // Temporarily keep the old `quantity` field as an alias to make migration easier
   quantity: Ember.computed.alias("availableQuantity"),
 
@@ -48,9 +52,13 @@ export default cloudinaryUrl.extend({
       (this.get("storageType.isBox") || this.get("storageType.isPallet"))
     );
   }),
+  saleableValue: Ember.computed("saleable", function() {
+    const saleable = this.get("saleable");
+    return _.filter(SALEABLE_OPTIONS, ["value", saleable])[0].name;
+  }),
   itemId: attr("string"),
   allowWebPublish: attr("boolean"),
-  saleable: attr("boolean"),
+  saleable: attr("string"),
   detailId: attr("number"),
   detailType: attr("string"),
   valueHkDollar: attr("string"),
@@ -72,6 +80,9 @@ export default cloudinaryUrl.extend({
     async: false
   }),
   donorCondition: belongsTo("donor_condition", {
+    async: false
+  }),
+  restriction: belongsTo("restriction", {
     async: false
   }),
   packagesLocations: hasMany("packages_location", {

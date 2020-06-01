@@ -17,19 +17,7 @@ export default GoodcityController.extend(
   GradeMixin,
   AsyncMixin,
   {
-<<<<<<< HEAD
     queryParams: ["codeId", "locationId", "scanLocationName", "storageType"],
-=======
-    queryParams: [
-      "codeId",
-      "locationId",
-      "scanLocationName",
-      "caseNumber",
-      "storageType"
-    ],
-    saleableId: 1,
-    restrictionId: 1,
->>>>>>> added comments, restriction and salebale dropdown
     codeId: "",
     locationId: "",
     inventoryNumber: "",
@@ -81,6 +69,14 @@ export default GoodcityController.extend(
       return this.returnDisplayFields(subform);
     }),
     offersLists: [],
+
+    saleableId: Ember.computed("saleableOptions", function() {
+      return this.get("saleableOptions").get("firstObject");
+    }),
+
+    restrictionId: Ember.computed("restrictionOptions", function() {
+      return this.get("restrictionOptions").get("firstObject");
+    }),
 
     isBoxOrPallet: Ember.computed("storageType", function() {
       return ["Box", "Pallet"].indexOf(this.get("storageType")) > -1;
