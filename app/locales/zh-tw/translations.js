@@ -713,7 +713,7 @@ export default {
     order_code: "Order Code",
     quantity: "Quantity",
     number: "Number",
-    value: "Value (HK$)",
+    value: "Value per unit (HK$)",
     apply_default: "Apply Default:",
     no_history: "No history available.",
     new: {
@@ -754,7 +754,8 @@ export default {
         invalid_location: "Scanned Location is invalid.",
         blank_location: "Location can't be blank.",
         quantity: "Quantity cannot be blank.",
-        blank_notification: "Location cannot be blank."
+        blank_notification: "Location cannot be blank.",
+        blank_valuation: "Value cannot be blank."
       }
     },
     select_set_type: "Select a type for the new set",
