@@ -51,7 +51,10 @@ export default Ember.TextField.extend({
   },
 
   focusOut() {
-    let val = this.attrs.value.value;
+    this.onFocusOut && setTimeout(() => this.onFocusOut(), 150);
+    Ember.$(this.element).removeClass("numeric-inline-input");
+
+    let val = this.get("value");
     const [regexPattern, replacePattern] = this.get("acceptFloat")
       ? [regex.FLOAT_REGEX, regex.NON_DIGIT_FLOAT_REGEX]
       : [regex.INT_REGEX, regex.NON_DIGIT_REGEX];
@@ -59,47 +62,56 @@ export default Ember.TextField.extend({
       val = val.toString().replace(replacePattern, "");
     }
     val = isNaN(val) ? null : val;
-    this.set("value", val);
-
-    if (!this.skipSave) {
-      var item = this.get("item");
-      var url = `/packages/${item.get("id")}`;
-      var key = this.get("name");
-      var packageParams = {};
-      packageParams[key] = this.get("value") || "";
-
-      if (isNaN(packageParams[key])) {
-        this.set("value", "");
-        return false;
-      }
-
-      if (
-        packageParams[key].toString() !== this.get("previousValue").toString()
-      ) {
-        var loadingView = getOwner(this)
-          .lookup("component:loading")
-          .append();
-        new AjaxPromise(url, "PUT", this.get("session.authToken"), {
-          package: packageParams
-        })
-          .then(data => {
-            this.get("store").pushPayload(data);
-          })
-          .finally(() => {
-            loadingView.destroy();
-          });
-      }
+    if (val === null) {
+      this.set("value", "");
+      return;
     }
-    Ember.$(this.element).removeClass("numeric-inline-input");
+    if (val !== "") {
+      this.set("value", +(+val).toFixed((this.get("maxlength") || 6) - 2));
+    }
+
+    var item = this.get("item");
+    var url = `/packages/${item.get("id")}`;
+    var key = this.get("name");
+    var packageParams = {};
+    packageParams[key] = this.get("value");
+
+    if (isNaN(packageParams[key])) {
+      this.set("value", "");
+      return false;
+    }
+
+    if (this.shouldUpdate(packageParams[key], this.get("previousValue"))) {
+      var loadingView = getOwner(this)
+        .lookup("component:loading")
+        .append();
+      new AjaxPromise(url, "PUT", this.get("session.authToken"), {
+        package: packageParams
+      })
+        .then(data => {
+          this.get("store").pushPayload(data);
+        })
+        .finally(() => {
+          loadingView.destroy();
+        });
+    }
+  },
+
+  shouldUpdate(newValue, oldValue) {
+    const dummy = Math.random();
+    (newValue === "" || newValue === null) && (newValue = dummy);
+    (oldValue === "" || oldValue === null) && (oldValue = dummy);
+    return Math.abs(newValue - oldValue);
   },
 
   focusIn() {
+    this.onFocusIn && this.onFocusIn();
     this.addCssStyle();
   },
 
   addCssStyle() {
     Ember.$(this.element).addClass("numeric-inline-input");
-    this.set("previousValue", this.get("value") || "");
+    this.set("previousValue", this.get("value"));
   },
 
   click() {

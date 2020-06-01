@@ -114,6 +114,7 @@ module("Acceptance: Order resubmit", {
       "cancellation_reason",
       _(3).times(() => FactoryGuy.make("cancellation_reason"))
     );
+    MockUtils.mockWithRecords("goodcity_request", []);
   },
   afterEach: function() {
     Ember.run(App, "destroy");

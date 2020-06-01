@@ -12,19 +12,20 @@ import SearchMixin from "stock/mixins/search_resource";
  * @property {function} onSelect callback triggered when an order is selected
  */
 export default Ember.Component.extend(SearchMixin, {
-  fetchMoreResult: true,
   store: Ember.inject.service(),
   filter: "",
   searchText: "",
   fetchMoreResult: true,
   storageType: null,
-  isSearchCodePreviousRoute: Ember.computed.localStorage(),
 
   init() {
     this._super("code-search-overlay");
   },
 
-  allPackageTypes: Ember.computed("open", function() {
+  allPackageTypes: Ember.computed("open", "subsetPackageTypes", function() {
+    if (this.get("subsetPackageTypes")) {
+      return this.get("subsetPackageTypes");
+    }
     return this.get("store").peekAll("code");
   }),
 
@@ -80,24 +81,29 @@ export default Ember.Component.extend(SearchMixin, {
     }
   ),
 
+  closeOverlay() {
+    this.setProperties({
+      searchText: "",
+      filter: "",
+      open: false,
+      onSelect: null,
+      fetchMoreResult: true,
+      storageType: null
+    });
+  },
+
   actions: {
-    cancel() {
-      this.set("searchText", "");
-      this.set("open", false);
+    closeOverlay() {
+      this.closeOverlay();
     },
 
     clearSearch() {
       this.set("searchText", "");
     },
 
-    assignItemLabel(type) {
-      this.set("open", false);
-      this.set("isSearchCodePreviousRoute", true);
-      if (type) {
-        this.get("router").replaceWith("items.new", {
-          queryParams: { codeId: type.id, storageType: this.get("storageType") }
-        });
-      }
+    selectCode(code) {
+      this.getWithDefault("onSelect", _.noop)(code);
+      this.closeOverlay();
     }
   }
 });

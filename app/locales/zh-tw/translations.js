@@ -498,7 +498,10 @@ export default {
     multiple: "多項",
     dispatch_message: "請確認你要派送此物資",
     related_orders: "Related Orders",
-    action_by_user: "By {{userName}}"
+    action_by_user: "By {{userName}}",
+    unlink: "unlink",
+    add_to_set: "Add to set",
+    already_in_set: "This item already belongs to a set"
   },
   orders_package: {
     actions: {
@@ -714,7 +717,7 @@ export default {
     order_code: "Order Code",
     quantity: "Quantity",
     number: "Number",
-    value: "Value (HK$)",
+    value: "Value per unit (HK$)",
     apply_default: "Apply Default:",
     no_history: "No history available.",
     new: {
@@ -755,9 +758,15 @@ export default {
         invalid_location: "Scanned Location is invalid.",
         blank_location: "Location can't be blank.",
         quantity: "Quantity cannot be blank.",
-        blank_notification: "Location cannot be blank."
+        blank_notification: "Location cannot be blank.",
+        blank_valuation: "Value cannot be blank."
       }
     },
+    select_set_type: "Select a type for the new set",
+    no_box_in_set: "Boxes and pallets are not allowed in sets",
+    containers_label: "Boxes or pallets that contain this item",
+    action_label: "Actions",
+    make_set: "Make Set",
     actions: {
       process: "Process",
       loss: "Loss (decrease)",

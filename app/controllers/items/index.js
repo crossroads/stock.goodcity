@@ -16,6 +16,9 @@ export default Ember.Controller.extend(SearchMixin, {
     withInventoryNumber: "true"
   },
 
+  packageService: Ember.inject.service(),
+  packageTypeService: Ember.inject.service(),
+
   /**
    * @property {Boolean} SearchMixin configuration
    **/
@@ -79,6 +82,15 @@ export default Ember.Controller.extend(SearchMixin, {
       );
 
       return this.get("store").query("item", params);
+    },
+
+    async createNewPackage() {
+      const type = await this.get("packageTypeService").userPickPackageType();
+      if (type) {
+        this.transitionToRoute("items.new", {
+          queryParams: { codeId: type.id }
+        });
+      }
     },
 
     clearSearch() {

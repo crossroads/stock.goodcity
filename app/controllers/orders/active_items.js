@@ -2,6 +2,10 @@ import detail from "./detail";
 import _ from "lodash";
 
 export default detail.extend({
+  goodcityRequestService: Ember.inject.service(),
+  packageService: Ember.inject.service(),
+  packageTypeService: Ember.inject.service(),
+
   autoLoad: true,
   /*
    * @type {Number}, perPage in response
@@ -28,6 +32,19 @@ export default detail.extend({
           this.set("ordersPkgLength", ordersPkgs.meta.orders_packages_count);
           return ordersPkgs;
         });
+    },
+
+    async addRequest() {
+      const pgkType = await this.get(
+        "packageTypeService"
+      ).userPickPackageType();
+      if (pgkType) {
+        await this.get("goodcityRequestService").createGcRequest({
+          package_type_id: pgkType.get("id"),
+          quantity: 1,
+          order_id: this.get("order.id")
+        });
+      }
     }
   }
 });

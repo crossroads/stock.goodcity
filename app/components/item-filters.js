@@ -93,6 +93,10 @@ export default Ember.Component.extend({
           this.set("imageFilter", ""),
           this.uncheckAll(allStatesFilters);
       }
+    },
+
+    toggleCheckbox(state) {
+      Ember.set(state, "enabled", !state.enabled);
     }
   }
 });

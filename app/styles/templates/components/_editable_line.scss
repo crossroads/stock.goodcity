@@ -1,0 +1,46 @@
+.gc.editable-line {
+  display: flex;
+  padding: 0.3rem;
+  padding-left: 0;
+  max-width: 90%;
+
+  .hide {
+    display: none;
+  }
+
+  i {
+    margin-right: 0.5rem;
+    margin-left: 0.5rem;
+  }
+
+  &.large {
+    font-family: $header-font-family;
+  }
+
+  font-size: 1rem;
+  height: 2rem;
+
+  .text-content {
+    height: 1rem;
+    background: transparent;
+    border: none;
+    padding: 0;
+    resize: none;
+    white-space: nowrap;
+    color: inherit;
+    &.ellipsis {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      height: 2rem;
+      max-width: 80%;
+      &:not(.hide) { display: block; }
+    }
+    &.editable {
+      overflow-x: auto;
+    }
+  }
+
+  &.editing {
+    border: 1px solid gray;
+  }
+}

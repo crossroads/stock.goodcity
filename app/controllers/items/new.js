@@ -48,14 +48,6 @@ export default GoodcityController.extend(
     isSelectLocationPreviousRoute: Ember.computed.localStorage(),
     offerService: Ember.inject.service(),
     fixedDropdownArr: ["frequency", "voltage", "compTestStatus", "testStatus"],
-    removalOfFields: [
-      "serialNum",
-      "marMsOfficeSerialNum",
-      "osSerialNum",
-      "marOsSerialNum",
-      "msOfficeSerialNum",
-      "serialNumber"
-    ],
     quantity: 1,
     valueHkDollar: "",
     labels: 1,
@@ -126,8 +118,8 @@ export default GoodcityController.extend(
     }),
 
     canApplyDefaultValuation: Ember.computed("valueHkDollar", function() {
-      const defaultValue = this.get("defaultValueHkDollar");
-      const valueHkDollar = this.get("valueHkDollar");
+      const defaultValue = Number(this.get("defaultValueHkDollar"));
+      const valueHkDollar = Number(this.get("valueHkDollar"));
       return defaultValue !== valueHkDollar;
     }),
 
@@ -194,21 +186,21 @@ export default GoodcityController.extend(
     },
 
     clearAttribute(value) {
-      let fieldAttributes = this.get("displayFields").map(value => value.name);
-      if (fieldAttributes.indexOf(value) < 0) {
-        return;
-      }
-      if (value == "country") {
+      if (value.toLowerCase().includes("country")) {
         return this.setProperties({
           countryValue: {},
           selected: []
         });
       }
-      if (this.get("removalOfFields").indexOf(value) > -1) {
-        return this.set(`inputFieldValues.${value}`, null);
-      } else {
-        return this.send("setFields", value, null);
+      const fieldAtributes = this.get("displayFields").find(
+        newValue => newValue.label == value
+      );
+      if (!fieldAtributes) {
+        return;
       }
+      return fieldAtributes.autoComplete
+        ? this.send("setFields", fieldAtributes.name, null)
+        : this.set(`inputFieldValues.${fieldAtributes.value}`, null);
     },
 
     showPiecesInput: Ember.computed("codeId", function() {
@@ -273,6 +265,12 @@ export default GoodcityController.extend(
 
     printLabelCount: Ember.computed("labels", function() {
       return Number(this.get("labels"));
+    }),
+
+    isInvalidValuation: Ember.computed("valueHkDollar", function() {
+      const value = this.get("valueHkDollar");
+      // can be 0
+      return value === "" || value === null;
     }),
 
     location: Ember.computed("codeId", "locationId", {
@@ -356,12 +354,6 @@ export default GoodcityController.extend(
         storage_type: this.get("storageType"),
         expiry_date: this.get("expiry_date"),
         value_hk_dollar: this.get("valueHkDollar"),
-        packages_locations_attributes: {
-          0: {
-            location_id: locationId,
-            quantity: quantity
-          }
-        },
         offer_ids: this.get("offersLists").getEach("id"),
         detail_attributes: detailAttributes
       };
@@ -405,6 +397,7 @@ export default GoodcityController.extend(
         !this.get("isInvalidPrintCount") ||
         this.get("isInvalidaLabelCount") ||
         this.get("isInvalidDimension") ||
+        this.get("isInvalidValuation") ||
         parseInt(this.get("length"), 10) === 0 ||
         parseInt(this.get("width"), 10) === 0 ||
         parseInt(this.get("height"), 10) === 0

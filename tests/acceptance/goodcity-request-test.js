@@ -97,7 +97,7 @@ module("Acceptance: Goodcity Request test", {
 });
 
 test("Add a request to order", function(assert) {
-  assert.expect(4);
+  assert.expect(2);
   MockUtils.mock({
     url: "/api/v1/designations/*",
     type: "GET",
@@ -117,15 +117,8 @@ test("Add a request to order", function(assert) {
   });
 
   andThen(function() {
-    assert.equal(currentPath(), "orders.search_code");
     //click on first package_type
     click(find(".list li:first")[0]);
-  });
-
-  andThen(function() {
-    assert.equal(currentPath(), "orders.add_request");
-    //click on first package_type
-    click($(".button.expand")[1]);
   });
 
   andThen(function() {

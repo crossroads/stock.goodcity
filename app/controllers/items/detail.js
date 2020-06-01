@@ -25,6 +25,7 @@ export default GoodcityController.extend(
   ItemActions,
   SearchMixin,
   {
+    enableFooterActions: true,
     isMobileApp: config.cordova.enabled,
     backLinkPath: "",
     searchText: null,
@@ -44,16 +45,23 @@ export default GoodcityController.extend(
     setDropdownOption: Ember.inject.service(),
     designationService: Ember.inject.service(),
     offerService: Ember.inject.service(),
+    packageTypeService: Ember.inject.service(),
     packageService: Ember.inject.service(),
     settings: Ember.inject.service(),
-    packageService: Ember.inject.service(),
     locationService: Ember.inject.service(),
     settings: Ember.inject.service(),
     displayScanner: false,
     callOrderObserver: false,
-    showSetList: false,
     hideDetailsLink: true,
     displayItemOptions: false,
+    valuationIsFocused: false,
+    valueHkDollar: Ember.computed("model.valueHkDollar", function() {
+      const val = this.get("model.valueHkDollar");
+      if (val !== null && val !== "") {
+        return +this.get("model.valueHkDollar");
+      }
+      return val;
+    }),
     fields: additionalFields,
     fixedDropdownArr: [
       "frequencyId",
@@ -75,6 +83,16 @@ export default GoodcityController.extend(
     isItemDetailPresent() {
       return !!this.get("item.detail.length");
     },
+
+    showSetList: Ember.computed("_showSetList", "model.isPartOfSet", {
+      get() {
+        return this.get("_showSetList") && this.get("model.isPartOfSet");
+      },
+      set(k, value) {
+        this.set("_showSetList", value);
+        return value;
+      }
+    }),
 
     disableBoxPalletItemAddition: Ember.computed(
       "model",
@@ -158,11 +176,15 @@ export default GoodcityController.extend(
       }
     }),
 
-    canApplyDefaultValuation: Ember.computed("model.valueHkDollar", function() {
-      const valueHkDollar = parseFloat(this.get("model.valueHkDollar"));
-      const defaultValue = parseFloat(this.get("defaultValueHkDollar"));
-      return valueHkDollar !== defaultValue;
-    }),
+    canApplyDefaultValuation: Ember.computed(
+      "valueHkDollar",
+      "valuationIsFocused",
+      function() {
+        const valueHkDollar = +this.get("valueHkDollar");
+        const defaultValue = +this.get("defaultValueHkDollar");
+        return this.get("valuationIsFocused") && valueHkDollar !== defaultValue;
+      }
+    ),
 
     /**
      * Returns true if valueHkDollar is modified and not empty
@@ -172,10 +194,9 @@ export default GoodcityController.extend(
       "model.valueHkDollar",
       "prevValueHkDollar",
       function() {
-        const item = this.get("item");
-        const valueHkDollar = parseFloat(item.get("valueHkDollar"));
+        const valueHkDollar = this.get("valueHkDollar");
         const prevValueHkDollar = parseFloat(this.get("prevValueHkDollar"));
-        const defaultValue = parseFloat(this.get("defaultValueHkDollar"));
+        const defaultValue = this.get("defaultValueHkDollar");
         if (!prevValueHkDollar) {
           return Math.abs(valueHkDollar - defaultValue);
         } else {
@@ -260,34 +281,6 @@ export default GoodcityController.extend(
       }
     },
 
-    allDispatched: Ember.computed(
-      "item.{isDispatched,isSet,setItem.items.@each.isDispatched}",
-      function() {
-        if (this.get("item.isSet")) {
-          return this.get("item.setItem.allDispatched");
-        } else {
-          return this.get("item.isDispatched");
-        }
-      }
-    ),
-
-    hasDesignation: Ember.computed(
-      "item.{isDesignated,isSet,setItem.items.@each.isDesignated}",
-      function() {
-        if (this.get("item.isSet")) {
-          var allItems = this.get("item.setItem.items");
-          return (
-            !this.get("item.setItem.allDispatched") &&
-            allItems.filterBy("isDesignated").length > 0
-          );
-        } else {
-          return (
-            this.get("item.isDesignated") && !this.get("item.isDispatched")
-          );
-        }
-      }
-    ),
-
     updatePackageOffers(offerIds) {
       this.runTask(
         this.get("packageService").updatePackage(this.get("item.id"), {
@@ -337,6 +330,84 @@ export default GoodcityController.extend(
       }
     },
 
+    async deleteAndAssignNew(packageType) {
+      const item = this.get("item");
+      const type = item.get("detailType");
+      const detailId = item.get("detailId");
+      if (type) {
+        await this.runTask(
+          this.get("subformDetailService").deleteDetailType(type, detailId)
+        );
+      }
+      return this.assignNew(packageType, {
+        deleteDetailId: !this.isSubformPackage(packageType)
+      });
+    },
+
+    warnAndAssignNew(pkgType) {
+      const existingPkgType = this.get("item.code");
+      const packageName = existingPkgType.get("name");
+      const newPackageName = pkgType.get("name");
+      const translation = this.get("i18n");
+
+      this.get("messageBox").custom(
+        translation.t("items.new.subform.delete_subform_waring", {
+          newPackageName,
+          packageName
+        }),
+        translation.t("not_now"),
+        null,
+        translation.t("continue"),
+        () => {
+          this.deleteAndAssignNew(pkgType);
+        }
+      );
+    },
+
+    isSubformPackage(packageType) {
+      return (
+        ["computer", "computer_accessory", "electrical", "medical"].indexOf(
+          packageType.get("subform")
+        ) >= 0
+      );
+    },
+
+    hasExistingPackageSubform() {
+      const code = this.get("item.code");
+      return this.isSubformPackage(code);
+    },
+
+    async assignNew(type, { deleteDetailId = false } = {}) {
+      const item = this.get("item");
+      const url = `/packages/${item.get("id")}`;
+      const packageParams = {
+        package_type_id: type.get("id")
+      };
+      if (
+        !this.isSamePackage(type) ||
+        (!item.get("detailId") && this.isSubformPackage(type))
+      ) {
+        packageParams.detail_type = _.capitalize(type.get("subform"));
+      }
+      if (deleteDetailId) {
+        packageParams.detail_id = null;
+      }
+      await this.runTask(
+        this.get("packageService").updatePackage(
+          item.id,
+          {
+            package: packageParams
+          },
+          { reloadDeps: true }
+        )
+      );
+    },
+
+    isSamePackage(type) {
+      const existingPkgTypeSubform = this.get("item.code.subform");
+      return type.get("subform") == existingPkgTypeSubform;
+    },
+
     actions: {
       /**
        * Add Offer to Package
@@ -348,6 +419,35 @@ export default GoodcityController.extend(
           offer.id
         ];
         this.updatePackageOffers(offerIds);
+      },
+
+      setValuationIsFocused(val) {
+        this.set("valuationIsFocused", val);
+      },
+
+      onGradeChange({ id, name }) {
+        this.set("selectedGrade", { id, name });
+        this.set("defaultValueHkDollar", null);
+        this.send("calculateItemValuation");
+      },
+
+      onConditionChange({ id, name }) {
+        this.set("defaultCondition", { id, name });
+        this.set("defaultValueHkDollar", null);
+        this.send("calculateItemValuation");
+      },
+
+      async calculateItemValuation() {
+        const item = this.get("item");
+        const itemValuation = await this.get("packageService").getItemValuation(
+          {
+            donorConditionId:
+              this.get("defaultCondition.id") || item.get("donorCondition.id"),
+            grade: this.get("selectedGrade.id") || item.get("grade"),
+            packageTypeId: item.get("code.id")
+          }
+        );
+        this.set("defaultValueHkDollar", Number(itemValuation.value_hk_dollar));
       },
 
       /**
@@ -362,6 +462,67 @@ export default GoodcityController.extend(
         if (offerPackage) {
           this.runTask(offerPackage.destroyRecord());
         }
+      },
+
+      /**
+       * Removes a package from its set
+       * @param {Package} pkg the package to unlink
+       */
+      unlinkFromSet(pkg) {
+        this.runTask(async () => {
+          await this.get("packageService").removeFromSet(pkg);
+
+          if (pkg.get("id") === this.get("model.id")) {
+            this.set("showSetList", false);
+          }
+        }, ERROR_STRATEGIES.MODAL);
+      },
+
+      async makeCurrentPackageASet() {
+        if (this.get("model.isPartOfSet")) {
+          return;
+        }
+
+        const allowedPackageTypes = this.get("packageTypeService").parentsOf(
+          this.get("model.code")
+        );
+
+        const code = await this.get("packageTypeService").userPickPackageType({
+          storageType: "Package",
+          subsetPackageTypes: allowedPackageTypes,
+          headerText: this.get("i18n").t("items.select_set_type")
+        });
+
+        await this.runTask(async () => {
+          await this.get("packageService").initializeSetOf(
+            this.get("model"),
+            code
+          );
+        }, ERROR_STRATEGIES.MODAL);
+
+        return this.send("addItemToCurrentSet");
+      },
+
+      async addItemToCurrentSet() {
+        await this.runTask(
+          this.get("packageService").initializeSetOf(this.get("model"))
+        );
+
+        const packageSet = this.get("model.packageSet");
+        const pkg = await this.get("packageService").userPickPackage({
+          packageTypes: this.get("packageService").allChildPackageTypes(
+            packageSet
+          ),
+          storageTypeName: "Package" // we don't add boxes to sets
+        });
+
+        if (!pkg || pkg.get("packageSetId") === packageSet.get("id")) {
+          return;
+        }
+
+        return this.runTask(async () => {
+          await this.get("packageService").addToSet(pkg, packageSet);
+        }, ERROR_STRATEGIES.MODAL);
       },
 
       /**
@@ -402,6 +563,17 @@ export default GoodcityController.extend(
         );
       },
 
+      async updatePackageType() {
+        const pkgType = await this.get(
+          "packageTypeService"
+        ).userPickPackageType();
+        if (this.hasExistingPackageSubform() && !this.isSamePackage(pkgType)) {
+          this.warnAndAssignNew(pkgType);
+        } else {
+          this.assignNew(pkgType);
+        }
+      },
+
       fetchParentContainers(pageNo = 1) {
         return this.get("packageService").fetchParentContainers(
           this.get("item.id"),
@@ -413,12 +585,7 @@ export default GoodcityController.extend(
       },
 
       openItemsSearch() {
-        this.get("packageService").openItemsSearch(this.get("item"));
-      },
-
-      setScannedSearchText(searchedText) {
-        this.set("searchText", searchedText);
-        this.send("openItemsSearch");
+        this.set("openPackageSearch", true);
       },
 
       /**
@@ -427,7 +594,8 @@ export default GoodcityController.extend(
        */
       applyDefaultItemValuation() {
         const item = this.get("item");
-        item.set("valueHkDollar", +this.get("defaultValueHkDollar"));
+        item.set("valueHkDollar", this.get("defaultValueHkDollar"));
+        this.set("valueHkDollar", this.get("defaultValueHkDollar"));
         this.set("prevValueHkDollar", null);
         this.send("saveItem", item);
       },
