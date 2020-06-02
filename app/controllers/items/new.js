@@ -17,13 +17,7 @@ export default GoodcityController.extend(
   GradeMixin,
   AsyncMixin,
   {
-    queryParams: [
-      "codeId",
-      "locationId",
-      "scanLocationName",
-      "caseNumber",
-      "storageType"
-    ],
+    queryParams: ["codeId", "locationId", "scanLocationName", "storageType"],
     codeId: "",
     locationId: "",
     inventoryNumber: "",
