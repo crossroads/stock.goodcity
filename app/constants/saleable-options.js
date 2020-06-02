@@ -1,5 +1,9 @@
 export const SALEABLE_OPTIONS = [
-  { id: "Not set", name: "Not set", value: null },
-  { id: "Saleable", name: "Saleable", value: "true" },
-  { id: "Not selling", name: "Not selling", value: "false" }
+  { id: "Not Set", translation_key: "items.new.not_set", value: null },
+  { id: "Saleable", translation_key: "items.new.saleable", value: "true" },
+  {
+    id: "Not selling",
+    translation_key: "items.new.not_selling",
+    value: "false"
+  }
 ];

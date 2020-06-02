@@ -719,6 +719,9 @@ export default {
     apply_default: "Apply Default:",
     no_history: "No history available.",
     new: {
+      not_set: "Not Set",
+      saleable: "Saleable",
+      not_selling: "Not selling",
       add: "Add",
       add_images: "Add Images",
       quantity: "Quantity*",

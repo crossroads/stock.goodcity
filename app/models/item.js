@@ -3,7 +3,7 @@ import { belongsTo, hasMany } from "ember-data/relationships";
 import Ember from "ember";
 import cloudinaryUrl from "./cloudinary_url";
 import _ from "lodash";
-import { SALEABLE_OPTIONS } from "stock/constants/saleable-options";
+import GradeMixin from "stock/mixins/grades_option";
 
 function SUM(ordersPkgs) {
   return ordersPkgs.mapBy("quantity").reduce((total, qty) => total + qty, 0);
@@ -15,7 +15,7 @@ function SUM(ordersPkgs) {
  * @augments ember/Model
  *
  */
-export default cloudinaryUrl.extend({
+export default cloudinaryUrl.extend(GradeMixin, {
   notes: attr("string"),
   grade: attr("string"),
   inventoryNumber: attr("string"),
@@ -54,7 +54,7 @@ export default cloudinaryUrl.extend({
   }),
   saleableValue: Ember.computed("saleable", function() {
     const saleable = this.get("saleable");
-    return _.filter(SALEABLE_OPTIONS, ["value", saleable])[0].name;
+    return _.filter(this.get("saleableOptions"), ["value", saleable])[0].name;
   }),
   itemId: attr("string"),
   allowWebPublish: attr("boolean"),
