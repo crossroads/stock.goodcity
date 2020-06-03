@@ -41,7 +41,7 @@ export default cloudinaryUrl.extend({
   packageSet: belongsTo("package_set", {
     async: false
   }),
-  isPartOfSet: Ember.computed.bool("packageSetId"),
+  isPartOfSet: Ember.computed.bool("packageSet"),
   isBoxPallet: Ember.computed("storageType", function() {
     return (
       this.get("storageType") &&

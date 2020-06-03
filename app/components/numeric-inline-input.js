@@ -52,8 +52,9 @@ export default Ember.TextField.extend({
 
   focusOut() {
     this.onFocusOut && setTimeout(() => this.onFocusOut(), 150);
+    Ember.$(this.element).removeClass("numeric-inline-input");
 
-    let val = this.attrs.value.value;
+    let val = this.get("value");
     const [regexPattern, replacePattern] = this.get("acceptFloat")
       ? [regex.FLOAT_REGEX, regex.NON_DIGIT_FLOAT_REGEX]
       : [regex.INT_REGEX, regex.NON_DIGIT_REGEX];
@@ -61,22 +62,26 @@ export default Ember.TextField.extend({
       val = val.toString().replace(replacePattern, "");
     }
     val = isNaN(val) ? null : val;
-    this.set("value", val);
+    if (val === null) {
+      this.set("value", "");
+      return;
+    }
+    if (val !== "") {
+      this.set("value", +(+val).toFixed((this.get("maxlength") || 6) - 2));
+    }
 
     var item = this.get("item");
     var url = `/packages/${item.get("id")}`;
     var key = this.get("name");
     var packageParams = {};
-    packageParams[key] = this.get("value") || "";
+    packageParams[key] = this.get("value");
 
     if (isNaN(packageParams[key])) {
       this.set("value", "");
       return false;
     }
 
-    if (
-      packageParams[key].toString() !== this.get("previousValue").toString()
-    ) {
+    if (this.shouldUpdate(packageParams[key], this.get("previousValue"))) {
       var loadingView = getOwner(this)
         .lookup("component:loading")
         .append();
@@ -90,7 +95,13 @@ export default Ember.TextField.extend({
           loadingView.destroy();
         });
     }
-    Ember.$(this.element).removeClass("numeric-inline-input");
+  },
+
+  shouldUpdate(newValue, oldValue) {
+    const dummy = Math.random();
+    (newValue === "" || newValue === null) && (newValue = dummy);
+    (oldValue === "" || oldValue === null) && (oldValue = dummy);
+    return Math.abs(newValue - oldValue);
   },
 
   focusIn() {
@@ -100,7 +111,7 @@ export default Ember.TextField.extend({
 
   addCssStyle() {
     Ember.$(this.element).addClass("numeric-inline-input");
-    this.set("previousValue", this.get("value") || "");
+    this.set("previousValue", this.get("value"));
   },
 
   click() {

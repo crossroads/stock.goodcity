@@ -114,16 +114,23 @@
         {{t "items.value"}}
       </div>
       <div class="columns small-3">
-        {{numeric-input acceptFloat=true acceptZeroValue=true  value=valueHkDollar name="value_hk" maxlength="6"
+        {{numeric-input acceptFloat=true required='true' acceptZeroValue=true value=valueHkDollar name="value_hk" maxlength="6"
         pattern="\d+\.?\d*"}}
       </div>
-
       <div class="columns small-6 apply-default">
         {{#if canApplyDefaultValuation}}
           <a href="#" {{action 'setDefaultItemValuation'}} class="default-content">{{t 'items.apply_default'}} {{defaultValueHkDollar}}</a>
         {{/if}}
       </div>
     </div>
+    {{#if isInvalidValuation}}
+      <div class="row error-message">
+        <div class="small-3 columns item-label"></div>
+        <div id="max-val-err" class='small-9 columns input-error show-validation'>
+          {{t 'items.new.validation_errors.blank_valuation'}}
+        </div>
+      </div>
+    {{/if}}
 
     <div class="row">
       <div class="small-3 columns item-label">

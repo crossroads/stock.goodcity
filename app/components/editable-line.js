@@ -32,39 +32,31 @@ export default Ember.Component.extend(AsyncMixin, {
     });
   },
 
+  willDestroyElement() {
+    const model = this.get("model");
+    const key = this.get("key");
+
+    if (!model || !key) {
+      return;
+    }
+
+    const chagedAttributes = this.get("model").changedAttributes();
+    const changes = chagedAttributes[key];
+    if (changes) {
+      // Rollback before leaving
+      this.model.set(key, changes[0]);
+    }
+  },
+
   textarea() {
     return $(this.element).find("textarea");
   },
-
-  computedWidth: Ember.computed("value", function() {
-    if (!this.get("fitted-width") || !this.element) {
-      return "auto";
-    }
-
-    const safetyMargin = 100;
-    const el = document.createElement("div");
-    const fontSize = this.element.computedStyleMap().get("font-size");
-
-    el.textContent = this.getWithDefault("value", "");
-    el.style.display = "inline-block";
-    el.style.position = "absolute";
-    el.style.fontSize = fontSize.value + fontSize.unit;
-    el.style.visibility = "hidden";
-
-    document.body.appendChild(el);
-
-    const size = el.clientWidth;
-
-    document.body.removeChild(el);
-
-    return safetyMargin + size + "px";
-  }),
 
   disabled: Ember.computed.not("editing"),
 
   actions: {
     stopEditing() {
-      if (!this.get("editing")) {
+      if (!this.get("editing") || !this.get("value")) {
         return;
       }
 

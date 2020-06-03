@@ -115,6 +115,7 @@ module("Acceptance: Order restart processing", {
         ]
       }
     });
+    MockUtils.mockWithRecords("goodcity_request", []);
   },
   afterEach: function() {
     MockUtils.closeSession();

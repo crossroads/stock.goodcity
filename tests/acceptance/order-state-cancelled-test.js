@@ -126,6 +126,7 @@ module("Acceptance: Order State cancelled", {
         ]
       }
     });
+    MockUtils.mockWithRecords("goodcity_request", []);
   },
   afterEach: function() {
     MockUtils.closeSession();

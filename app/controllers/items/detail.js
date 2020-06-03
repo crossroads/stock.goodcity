@@ -55,6 +55,13 @@ export default GoodcityController.extend(
     hideDetailsLink: true,
     displayItemOptions: false,
     valuationIsFocused: false,
+    valueHkDollar: Ember.computed("model.valueHkDollar", function() {
+      const val = this.get("model.valueHkDollar");
+      if (val !== null && val !== "") {
+        return +this.get("model.valueHkDollar");
+      }
+      return val;
+    }),
     fields: additionalFields,
     fixedDropdownArr: [
       "frequencyId",
@@ -170,11 +177,11 @@ export default GoodcityController.extend(
     }),
 
     canApplyDefaultValuation: Ember.computed(
-      "model.valueHkDollar",
+      "valueHkDollar",
       "valuationIsFocused",
       function() {
-        const valueHkDollar = parseFloat(this.get("model.valueHkDollar"));
-        const defaultValue = parseFloat(this.get("defaultValueHkDollar"));
+        const valueHkDollar = +this.get("valueHkDollar");
+        const defaultValue = +this.get("defaultValueHkDollar");
         return this.get("valuationIsFocused") && valueHkDollar !== defaultValue;
       }
     ),
@@ -187,10 +194,9 @@ export default GoodcityController.extend(
       "model.valueHkDollar",
       "prevValueHkDollar",
       function() {
-        const item = this.get("item");
-        const valueHkDollar = parseFloat(item.get("valueHkDollar"));
+        const valueHkDollar = this.get("valueHkDollar");
         const prevValueHkDollar = parseFloat(this.get("prevValueHkDollar"));
-        const defaultValue = parseFloat(this.get("defaultValueHkDollar"));
+        const defaultValue = this.get("defaultValueHkDollar");
         if (!prevValueHkDollar) {
           return Math.abs(valueHkDollar - defaultValue);
         } else {
@@ -487,12 +493,14 @@ export default GoodcityController.extend(
           headerText: this.get("i18n").t("items.select_set_type")
         });
 
-        return this.runTask(async () => {
+        await this.runTask(async () => {
           await this.get("packageService").initializeSetOf(
             this.get("model"),
             code
           );
         }, ERROR_STRATEGIES.MODAL);
+
+        return this.send("addItemToCurrentSet");
       },
 
       async addItemToCurrentSet() {
@@ -512,7 +520,7 @@ export default GoodcityController.extend(
           return;
         }
 
-        this.runTask(async () => {
+        return this.runTask(async () => {
           await this.get("packageService").addToSet(pkg, packageSet);
         }, ERROR_STRATEGIES.MODAL);
       },
@@ -586,7 +594,8 @@ export default GoodcityController.extend(
        */
       applyDefaultItemValuation() {
         const item = this.get("item");
-        item.set("valueHkDollar", +this.get("defaultValueHkDollar"));
+        item.set("valueHkDollar", this.get("defaultValueHkDollar"));
+        this.set("valueHkDollar", this.get("defaultValueHkDollar"));
         this.set("prevValueHkDollar", null);
         this.send("saveItem", item);
       },
