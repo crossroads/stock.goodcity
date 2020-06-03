@@ -14,7 +14,7 @@
   {{#unless (is-or model.isCancelled model.isClosed)}}
     <div class="row add_item_button">
       <div class=" {{if isMobileApp 'small-9' 'small-12'}} columns">
-          {{#link-to "orders.items" model class="button expand"}}{{t "order_details.add_item_to_order"}}{{/link-to}}
+          {{#link-to "orders.items" model class="button expand" disabled=model.isDraft}}{{t "order_details.add_item_to_order"}}{{/link-to}}
       </div>
       {{#if isMobileApp}}
         <div class="small-3 columns">

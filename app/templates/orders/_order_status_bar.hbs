@@ -19,6 +19,8 @@
             </div>
           {{else if (is-equal model.capitalizedState "Closed")}}
             {{t "order.closed"}} {{#if model.closedAt}},{{display-datetime model.closedAt format="DD MMM 'YY"}}{{/if}}
+          {{else if (is-equal model.capitalizedState "Draft")}}
+            {{t "order.draft"}}
           {{else if (is-equal model.capitalizedState "Dispatching")}}
             {{t "order.dispatching"}}
             {{#if model.dispatchStartedAt}},{{display-datetime model.dispatchStartedAt format="DD MMM 'YY"}}{{/if}}

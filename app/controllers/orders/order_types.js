@@ -120,7 +120,7 @@ export default detail.extend({
    */
   makeTransportRow() {
     const transport = this.get("model.orderTransport");
-    const transportType = transport.get("transportType");
+    const transportType = transport && transport.get("transportType");
     const options = ["self", "ggv"].map((t, i) => ({
       id: i,
       value: t,
@@ -172,7 +172,8 @@ export default detail.extend({
       name: "vehicle",
       selectable: true,
       value: options.find(
-        opt => opt.id === orderTransport.get("gogovanTransport.id")
+        opt =>
+          opt.id === orderTransport && orderTransport.get("gogovanTransport.id")
       ),
       options: options
     };
