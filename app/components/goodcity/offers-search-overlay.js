@@ -69,7 +69,7 @@ export default Ember.Component.extend(SearchMixin, {
       this.send("selectOffer", null);
     },
 
-    selectOffer(offer) {
+    selectOffer(offer, isMobileSearch = false) {
       this.getWithDefault("onSelect", _.noop)({ offer, isMobileSearch });
       this.set("open", false);
     },
