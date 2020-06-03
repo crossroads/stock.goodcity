@@ -1,6 +1,7 @@
 <div class="columns small-3">{{t "donation.title"}}</div>
 <div class="{{if isMobileApp 'small-7 large-8' 'small-9'}} columns donation-field">
-  {{donation-inline-input id=(concat 'cas' item.id) name="case_number" type="text" class="inline-input donation-input" value=caseNumber item=item displayScanner=displayScanner}}
+  {{donation-inline-input id=(concat 'cas' item.id) name="case_number" type="text"
+   class=(if noCss "inline-text-input-withbg"  "inline-input donation-input") value=caseNumber item=item displayScanner=displayScanner}}
   <div id='CAS-error{{item.id}}' class='donation-input-error'>{{t "donation.donation_number_error"}}</div>
 </div>
 {{#if displayScanner}}
