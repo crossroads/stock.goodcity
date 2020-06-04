@@ -431,6 +431,16 @@ export default GoodcityController.extend(
         this.send("calculateItemValuation");
       },
 
+      onRestrictionChange({ id }) {
+        this.runTask(
+          this.get("packageService").updatePackage(this.get("item.id"), {
+            package: {
+              restriction_id: id
+            }
+          })
+        );
+      },
+
       onConditionChange({ id, name }) {
         this.set("defaultCondition", { id, name });
         this.set("defaultValueHkDollar", null);
@@ -702,10 +712,11 @@ export default GoodcityController.extend(
         this.onSearchCountry(field, searchText);
       },
 
-      onSaleableChange() {
+      onSaleableChange({ id }) {
         const item = this.get("item");
-        const saleable = item.get("saleable");
-        item.set("saleable", !saleable);
+        const saleable = _.filter(this.get("saleableOptions"), ["name", id])[0]
+          .value;
+        item.set("saleable", saleable);
         this.send("saveItem", item);
       },
 

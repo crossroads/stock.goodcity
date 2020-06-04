@@ -141,18 +141,34 @@
     </div>
 
     <div class="row">
-        <div class="columns small-3">
-          <span class="input_text">
-            {{t 'item_details.saleable'}}
-          </span>
+      <div class="columns small-3">{{t 'item_details.saleable'}}</div>
+      <div class="columns small-3 value quality saleable">
+        <div class="select-quality">
+          {{inline-select-list
+            content=saleableOptions
+            name="saleableValue"
+            autosave=true
+            isPrimitive=true
+            on-change=(action 'onSaleableChange')
+            class="grade-margin"
+            item=item}}
         </div>
-        <div class="columns small-9 description">
-          {{input
-            class="checkbox-item-details"
-            type="checkbox"
-            checked=item.saleable
-            change=(action 'onSaleableChange') }}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="columns small-3">{{t 'item_details.restriction'}}</div>
+      <div class="columns small-3 value quality saleable">
+        <div class="select-quality">
+          {{inline-select-list
+            content=restrictionOptions
+            name="restriction"
+            item=item
+            autosave=true
+            on-change=(action 'onRestrictionChange')
+          }}
         </div>
+      </div>
     </div>
 
     {{#if item.code.allowExpiryDate}}

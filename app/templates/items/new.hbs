@@ -209,14 +209,6 @@
     </div>
     <div class="row">
       <div class="small-3 columns item-label">
-        {{t 'item_details.saleable'}}
-      </div>
-      <div class="small-3 columns publish">
-        {{input type="checkbox" checked=isSaleable}}
-      </div>
-    </div>
-    <div class="row">
-      <div class="small-3 columns item-label">
         Donation
       </div>
       <div class="small-9 columns donations offer-tag-detail">
@@ -230,6 +222,31 @@
             removeOffer=(action "removeOffer")
           }}
         {{/each}}
+      </div>
+    </div>
+    <div class="row">
+      <div class="small-3 columns item-label">
+        Constraints
+      </div>
+      <div class="small-3 columns publish">
+        {{select-list
+          content=saleableOptions
+          on-change=(action (mut saleableId))
+          selectedValue=saleableId
+          value=saleableId
+          selectArrow=true
+          classNames='grade'
+        }}
+      </div>
+      <div class="small-6 columns publish">
+        {{select-list
+          content=restrictionOptions
+          on-change=(action (mut restrictionId))
+          selectedValue=restrictionId
+          value=restrictionId
+          selectArrow=true
+          classNames='grade'
+        }}
       </div>
     </div>
     {{#if showAdditionalFields}}
