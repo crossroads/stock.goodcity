@@ -12,7 +12,8 @@ moduleForModel("packages_location", "PackagesLocation Model", {
     "model:location",
     "model:package_set",
     "model:packages_location",
-    "model:orders_package"
+    "model:orders_package",
+    "service:i18n"
   ]
 });
 
