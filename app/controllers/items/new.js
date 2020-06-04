@@ -357,7 +357,6 @@ export default GoodcityController.extend(
         expiry_date: this.get("expiry_date"),
         value_hk_dollar: this.get("valueHkDollar"),
         offer_ids: this.get("offersLists").getEach("id"),
-        comment: this.get("comment"),
         restriction_id: this.get("restrictionId").id,
         saleable: this.get("saleableId").value,
         detail_attributes: detailAttributes

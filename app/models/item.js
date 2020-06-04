@@ -36,7 +36,6 @@ export default cloudinaryUrl.extend(GradeMixin, {
   dispatchedQuantity: attr("number"),
   notes: attr("string"),
   restrictionId: attr("number"),
-  comment: attr("string"),
   // Temporarily keep the old `quantity` field as an alias to make migration easier
   quantity: Ember.computed.alias("availableQuantity"),
 

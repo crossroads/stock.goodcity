@@ -249,14 +249,6 @@
         }}
       </div>
     </div>
-    <div class="row">
-      <div class="small-3 columns item-label">
-        Comments
-      </div>
-      <div class="small-9 large-9 columns description-block">
-        {{auto-resize-textarea data-autoresize=true name="comments" value=comment pattern=".*\S.*"}}
-      </div>
-    </div>
     {{#if showAdditionalFields}}
       {{partial "items/additional_fields"}}
     {{/if}}
