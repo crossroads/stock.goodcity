@@ -70,14 +70,6 @@ export default GoodcityController.extend(
     }),
     offersLists: [],
 
-    saleableId: Ember.computed("saleableOptions", function() {
-      return this.get("saleableOptions").get("firstObject");
-    }),
-
-    restrictionId: Ember.computed("restrictionOptions", function() {
-      return this.get("restrictionOptions").get("firstObject");
-    }),
-
     isBoxOrPallet: Ember.computed("storageType", function() {
       return ["Box", "Pallet"].indexOf(this.get("storageType")) > -1;
     }),
@@ -338,7 +330,6 @@ export default GoodcityController.extend(
       return {
         quantity: quantity,
         allow_web_publish: this.get("isAllowedToPublish"),
-        saleable: this.get("isSaleable"),
         length: this.get("length"),
         width: this.get("width"),
         height: this.get("height"),
