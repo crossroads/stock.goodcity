@@ -10,7 +10,7 @@
             {{/link-to}}
           </dd>
 
-          <dd class="small-3 medium-3 columns text-center
+          <dd class="small-2 medium-2 columns text-center
           {{if highlightSelectedTabGoods 'active'}}">
           {{#link-to 'orders.active_items' model.id replace=true}}
             <i class="item-menu">{{fa-icon 'shopping-basket'}}</i>
@@ -25,11 +25,27 @@
             {{/link-to}}
           </dd>
 
-          <dd class="small-3 medium-3 columns text-center {{if (is-equal tabName 'conversation') 'active'}}">
+          <dd class="small-2 medium-2 columns text-center {{if (is-equal tabName 'conversation') 'active'}}">
             {{#link-to 'orders.conversation' model.id replace=true}}
-              {{partial 'orders/unread_message_bubble'}}
+              {{#if model.hasUnreadUserMessages}}
+                <div class='unread_message'>
+                  {{model.unreadUserMessagesCount}}
+                </div>
+              {{/if}}
               <i>{{fa-icon 'comments'}}</i>
-              <div>{{t "order_tabs.chat"}}</div>
+              <div>{{t "order_tabs.user"}}</div>
+            {{/link-to}}
+          </dd>
+
+          <dd class="small-2 medium-2 columns text-center {{if (is-equal tabName 'staff_conversation') 'active'}}">
+            {{#link-to 'orders.staff_conversation' model.id replace=true}}
+              {{#if model.hasUnreadStaffMessages}}
+                <div class='unread_message'>
+                  {{model.unreadStaffMessagesCount}}
+                </div>
+              {{/if}}
+              <i>{{fa-icon 'comments'}}</i>
+              <div>{{t "order_tabs.staff"}}</div>
             {{/link-to}}
           </dd>
         {{else}}

@@ -136,7 +136,8 @@ export default {
     summary: "總結",
     goods: "物品",
     logistics: "物流",
-    chat: "對話"
+    staff: "Staff",
+    user: "User"
   },
   order_summary_tabs: {
     contact: "聯絡",

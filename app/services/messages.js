@@ -65,15 +65,20 @@ export default Ember.Service.extend({
     this.get("logger").error(e);
   },
 
-  getMessageRoute(orderId) {
-    return ["orders.conversation", orderId];
+  getMessageRoute(orderId, isPrivate) {
+    if (isPrivate) {
+      return ["orders.staff_conversation", orderId];
+    } else {
+      return ["orders.conversation", orderId];
+    }
   },
 
   getRoute: function(message) {
-    var orderId = message.get
+    let orderId = message.get
       ? message.get("designation.id")
       : message.designation_id;
-    var messageRoute = this.getMessageRoute(orderId);
+
+    let messageRoute = this.getMessageRoute(orderId, message.get("isPrivate"));
     return messageRoute;
   },
 

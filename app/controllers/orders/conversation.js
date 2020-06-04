@@ -1,5 +1,5 @@
 import Ember from "ember";
-import config from "../../config/environment";
+import config from "stock/config/environment";
 import detail from "./detail";
 
 export default detail.extend({
@@ -15,15 +15,16 @@ export default detail.extend({
   i18n: Ember.inject.service(),
   sortProperties: ["createdAt: asc"],
   model: null,
-  noMessage: Ember.computed.empty("model.messages"),
+  messages: [],
+  noMessage: Ember.computed.empty("messages"),
 
   displayChatNote: Ember.computed("noMessage", "disabled", function() {
     return this.get("noMessage") && !this.get("disabled");
   }),
 
-  sortedMessages: Ember.computed.sort("model.messages", "sortProperties"),
+  sortedMessages: Ember.computed.sort("messages", "sortProperties"),
 
-  groupedMessages: Ember.computed("sortedMessages", function() {
+  groupedMessages: Ember.computed("sortedMessages", "messages.[]", function() {
     this.autoScroll();
     return this.groupBy(this.get("sortedMessages"), "createdDate");
   }),
@@ -42,7 +43,7 @@ export default detail.extend({
 
   autoScroll() {
     // scroll the messages screen to bottom
-    window.scrollTo(0, document.body.scrollHeight);
+    Ember.run.later(() => window.scrollTo(0, document.body.scrollHeight));
   },
 
   groupBy: function(content, key) {
@@ -68,8 +69,9 @@ export default detail.extend({
     var message = this.store.createRecord("message", values);
     message
       .save()
-      .then(() => {
+      .then(data => {
         this.set("body", "");
+        this.get("messages").pushObject(data._internalModel);
       })
       .catch(error => {
         this.store.unloadRecord(message);
@@ -121,6 +123,7 @@ export default detail.extend({
       // Animate and scroll to bottom
       this.autoScroll();
     },
+
     markRead() {
       this.get("sortedMessages")
         .filterBy("state", "unread")
