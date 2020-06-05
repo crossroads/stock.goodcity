@@ -423,11 +423,19 @@
       font-size: 0.7rem !important;
 
       #expiry_date {
-        background: none;
+        background: #1a3964;
+        width:60%;
         color: white;
         border: none;
-        font-size: 100%;
-        margin-top: -15px;
+        margin-top: -0.2rem !important;
+        font-size: 1rem;
+        height:40px;
+
+        @media #{$small-only} {
+          font-size: 0.7rem;
+          height: 33px;
+        }
+
       }
     }
 
