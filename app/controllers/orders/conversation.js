@@ -6,7 +6,6 @@ export default detail.extend({
   store: Ember.inject.service(),
   subscription: Ember.inject.service(),
   messagesUtil: Ember.inject.service("messages"),
-  body: "",
   isPrivate: false,
   backLinkPath: "",
   isMobileApp: config.cordova.enabled,
@@ -16,7 +15,7 @@ export default detail.extend({
   sortProperties: ["createdAt: asc"],
   model: null,
   noMessage: Ember.computed.empty("model.messages"),
-
+  body: "",
   displayChatNote: Ember.computed("noMessage", "disabled", function() {
     return this.get("noMessage") && !this.get("disabled");
   }),
@@ -105,9 +104,19 @@ export default detail.extend({
   },
 
   actions: {
+    setMessageBody: function(text) {
+      this.set("body", text);
+    },
+
+    parseMessageBody: function(text) {
+      this.set("parsedBody", text);
+    },
+
     sendMessage() {
       Ember.$("textarea").trigger("blur");
-      var values = this.getProperties("body");
+      const values = {};
+
+      values.body = this.get("parsedBody");
       values.body = values.body.trim();
       values.designation = this.get("model");
       values.createdAt = new Date();
