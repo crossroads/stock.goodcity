@@ -10,6 +10,7 @@ export default Ember.Controller.extend({
   packageService: Ember.inject.service(),
   packageTypeService: Ember.inject.service(),
   offerService: Ember.inject.service(),
+  messagesUtil: Ember.inject.service("messages"),
   app_id: config.APP.ANDROID_APP_ID,
   ios_app_id: config.APP.APPLE_APP_ID,
   appTitle: config.APP.TITLE,
@@ -24,7 +25,17 @@ export default Ember.Controller.extend({
       // jshint ignore:line
       this.redirectToItem();
     }
+
+    this.get("subscription").on("change:message", this, this.onNewNotification);
   }),
+
+  onNewNotification(notification) {
+    const msg = this.get("store").peekRecord("message", notification.record.id);
+
+    if (msg.get("isUnread")) {
+      this.get("messagesUtil")._incrementCount();
+    }
+  },
 
   redirectToItem() {
     universalLinks &&
