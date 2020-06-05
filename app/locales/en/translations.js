@@ -697,7 +697,7 @@ export default {
     quality: "Quality:",
     grade: "Grade :",
     weight: "Weight (kg)",
-    saleable: "Saleable",
+    constraints: "Constraints",
     restriction: "Restriction",
     comment: "Comments",
     pieces: "Pieces",

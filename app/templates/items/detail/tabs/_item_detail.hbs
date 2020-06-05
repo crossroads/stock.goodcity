@@ -12,12 +12,12 @@
     </div>
   </div>
 
-  <div class="columns small-9">
+  <div class="columns small-12">
     <div class="row">
-      <div class="columns small-4">
+      <div class="columns small-3">
         {{t 'item_details.description'}}
       </div>
-      <div class="columns small-8 description">
+      <div class="columns small-6 description">
         {{#form-control}}
           {{item-description-textarea data-autoresize=true name="notes" value=item.notes noCss="true" class="description-textarea-withbg" required="required" id=(concat 'desc' item.id) pattern=".*\S.*" item=item}}
           <div class='description-error-withbg'>
@@ -25,12 +25,12 @@
           </div>
         {{/form-control}}
       </div>
+      <div class="columns small-3">
+        {{#link-to 'items.edit_images' item.id}}
+          <img src={{item.thumbImageUrl}} class="thumb" />
+        {{/link-to}}
+      </div>
     </div>
-  </div>
-  <div class="columns small-3">
-    {{#link-to 'items.edit_images' item.id}}
-      <img src={{item.thumbImageUrl}} class="thumb" />
-    {{/link-to}}
   </div>
 
   <div class="columns small-12">
@@ -140,37 +140,6 @@
       {{/if}}
     </div>
 
-    <div class="row">
-      <div class="columns small-3">{{t 'item_details.saleable'}}</div>
-      <div class="columns small-3 value quality saleable">
-        <div class="select-quality">
-          {{inline-select-list
-            content=saleableOptions
-            name="saleableValue"
-            autosave=true
-            isPrimitive=true
-            on-change=(action 'onSaleableChange')
-            class="grade-margin"
-            item=item}}
-        </div>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="columns small-3">{{t 'item_details.restriction'}}</div>
-      <div class="columns small-3 value quality saleable">
-        <div class="select-quality">
-          {{inline-select-list
-            content=restrictionOptions
-            name="restriction"
-            item=item
-            autosave=true
-            on-change=(action 'onRestrictionChange')
-          }}
-        </div>
-      </div>
-    </div>
-
     {{#if item.code.allowExpiryDate}}
       <div class="row weight-pieces">
         <div class="columns small-3">
@@ -214,6 +183,35 @@
         </span>
       </div>
     </div>
+
+    <div class="row  constraints-row">
+      <div class="columns small-3">{{t 'item_details.constraints'}}</div>
+      <div class="columns small-3 quality constraints">
+        <div class="select-quality">
+          {{inline-select-list
+            content=saleableOptions
+            name="saleableValue"
+            autosave=true
+            isPrimitive=true
+            on-change=(action 'onSaleableChange')
+            class="constraints-saleable"
+            item=item}}
+        </div>
+      </div>
+      <div class="columns small-6 quality constraints">
+        <div class="select-quality">
+          {{inline-select-list
+            content=restrictionOptions
+            name="restriction"
+            item=item
+            class="constraints-restrictions"
+            autosave=true
+            on-change=(action 'onRestrictionChange')
+          }}
+        </div>
+      </div>
+    </div>
+
     <div class="row">
       {{donation-field item=item noCss="true" caseNumber=item.caseNumber}}
     </div>

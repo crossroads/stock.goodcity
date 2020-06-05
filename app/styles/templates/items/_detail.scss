@@ -6,6 +6,10 @@
     visibility: hidden;
   }
 
+  .constraints-row {
+    margin-top: 1rem;
+  }
+
   .set_details {
     color: $white;
     padding: 0.5rem;
@@ -384,6 +388,8 @@
     width: 5rem;
     @media #{$small-only} {
       margin-left: 0.3rem;
+      margin-top: 0.05rem;
+      width: 4.4rem;
     }
   }
 
@@ -413,9 +419,13 @@
       color: $medium-blue;
     }
 
-    .saleable {
+    .constraints {
       float: left;
-      margin-left: -6%;
+      height: 3.3rem;
+
+      @media #{$small-only} {
+        height: 2.5rem
+      }
     }
 
     .value {
@@ -673,11 +683,11 @@
   border: none !important;
   padding: 0.3rem 1.5rem 0.3rem 0.4rem ;
   box-shadow: none ;
-  height:85px;
+  height:90px !important;
   text-decoration: none !important;
 
   @media #{$small-only} {
-    height:80px;
+    height:80px !important;
     font-size: 0.7rem ;
     }
 
@@ -746,8 +756,47 @@
     padding-left: 0.5rem;
     position: absolute;
     color: white !important;
-    line-height: 2rem;
+    line-height: 2.4rem;
+
+    @media #{$small-only} {
+      line-height: 2rem;
+      }
   }
+
+  .constraints-saleable{
+   select{
+      background-color: #1a3964 !important;
+      padding-right: 0.6rem;
+      padding-left: 0.5rem;
+      width: 120%;
+      font-size: 1rem !important;
+      margin-left: 0rem;
+      height: 40px !important;
+
+      @media #{$small-only} {
+        height: 33px !important;
+        font-size: 0.7rem !important;
+      }
+    }
+  }
+
+  .constraints-restrictions{
+    select{
+       background-color: #1a3964 !important;
+      //  padding-right: 0.6rem;
+       padding-left: 0.5rem;
+       width: 120%;
+       font-size: 1rem !important;
+       margin-left: 0rem;
+       height: 40px !important;
+
+       @media #{$small-only} {
+         margin-left: 1rem;
+         height: 33px !important;
+         font-size: 0.7rem !important;
+       }
+     }
+   }
 
   .condition-margin,
   .grade-margin {
@@ -757,7 +806,7 @@
     select {
       background-color: $light-blue-3 !important;
       margin-left: -1.5rem !important;
-      height:1.9rem;
+      height: 40px;
       padding-left: 6rem !important;
       font-size: 1rem !important;
       width: 140% !important;
@@ -765,7 +814,7 @@
 
       @media #{$small-only} {
         width: 130% !important;
-        height: 1.7rem;
+        height: 33px;
         padding-left: 4.2rem !important;
         font-size: 0.7rem !important;
       }
@@ -777,14 +826,14 @@
     select {
       background-color: $light-blue-3 !important;
       width: 145% !important;
-      height:1.9rem;
+      height: 40px;
       padding-left: 4rem !important;
       font-size: 1rem !important;
       margin-top: 0.1rem;
 
       @media #{$small-only} {
         width: 125% !important;
-        height: 1.7rem;
+        height: 33px;
         padding-left: 3rem !important;
         font-size: 0.7rem !important;
       }
@@ -866,7 +915,6 @@
   height: inherit !important;
 
   @media #{$small-only} {
-   margin-top:0.2rem !important;
    font-size: 0.7rem !important;
   }
 }
@@ -879,18 +927,18 @@
   display: inline-block !important;
 
   @media #{$small-only} {
-    width: 49% !important;
+    width: 63% !important;
   }
 }
 
 .item-dimension-withbg {
   width:6rem !important;
-  height: 2rem !important;
+  height: 40px !important;
   margin-bottom: 1rem;
 
   @media #{$small-only} {
-    width: 3rem !important;
-    height: 1.5rem !important;
+    width: 90% !important;
+    height: 33px !important;
   }
 
 }
@@ -907,6 +955,8 @@
 .donation-scanner {
   padding-top: 0rem !important;
 }
+
+
 
 .warnings {
   font-size: 0.75rem;
@@ -940,7 +990,7 @@
   font-size: 1rem !important;
   padding: 0.5rem !important;
   display: inline-block !important;
-  @media only screen and (max-width: 780px) {
+  @media #{$small-only} {
     width: 90% !important;
     font-size: 0.7rem !important;
     display: inline !important;
