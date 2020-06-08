@@ -1,6 +1,6 @@
 <section class="message-section">
   <div class="row">
-    <div class="small-12 columns">
+    <div class="small-12 columns message-container">
       {{#each groupedMessages as |messages|}}
         <div class="small-12 columns day_seperator">
           <span>{{display-messages-day messages.firstObject.createdDate (t 'messages.day.today')}}</span>
@@ -20,7 +20,7 @@
                 {{display-datetime message.createdAt format="HH:mm"}}
               </div>
 
-              {{{apply-line-break message.body}}}
+              {{{apply-line-break message.parsedBody}}}
             </div>
             {{else}}
             <div class="small-12 columns item_log">
@@ -34,6 +34,7 @@
 </section>
 <div class="message-footer">
   <div class="btm message-form">
+    <div class="message-textbar-container" />
     <div class="row message-textbar">
       {{#if displayChatNote}}
         <div class="row">
@@ -48,7 +49,7 @@
           {{#validatable-form class="form-horizontal" onSubmit=(action 'sendMessage') as |form|}}
             <div class="row ui">
               <div class="small-9 large-10 medium-10 columns">
-                {{variable-height-textarea id="myid" value=body setMessageBody=(action 'setMessageBody') parseMessageBody= (action 'parseMessageBody') required=true parentDiv="message-section"}}
+                {{variable-height-textarea value=body setMessageBody=(action 'setMessageBody') parseMessageBody= (action 'parseMessageBody') required=true parentDiv="message-section" orderId = model.id}}
               </div>
               <div class="small-3 large-2 medium-2 columns">
                 {{#online-button classNames="button" onClick=(action "sendMessage") actionArgs=true}}

@@ -10,6 +10,7 @@ export default DS.Model.extend({
   createdAt: attr("date"),
   updatedAt: attr("date"),
   senderId: attr("number"),
+  lookup: attr("string"),
   state: attr("string", {
     defaultValue: "read"
   }),
@@ -21,7 +22,21 @@ export default DS.Model.extend({
 
   messageableType: attr("string"),
   messageableId: attr("string"),
-
+  parsedBody: Ember.computed("body", function() {
+    let body = this.get("body");
+    const lookup = JSON.parse(this.get("lookup"));
+    if (!lookup) {
+      return body;
+    } else {
+      Object.keys(lookup).forEach(key => {
+        body = body.replace(
+          new RegExp(`\\[:${key}\\]`, "g"),
+          `<span class='mentioned'>@${lookup[key].display_name}</span>`
+        );
+      });
+      return body;
+    }
+  }),
   myMessage: Ember.computed("sender", function() {
     return this.get("sender.id") === this.get("session.currentUser.id");
   }),
