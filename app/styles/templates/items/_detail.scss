@@ -743,12 +743,15 @@
   border: none !important;
   background: $light-blue-3 !important;
   font-size: 1rem !important  ;
+  padding: 0.5rem;
   color: white !important;
   box-shadow: none !important;
-  height: inherit !important;
+  height: 40px;
+  margin-bottom: 1rem;
 
  @media #{$small-only} {
-  font-size: 0.7rem !important;
+   height: 33px;
+   font-size: 0.7rem !important;
   }
 }
 
@@ -941,12 +944,14 @@
 
 .item-dimension-withbg {
   width:6rem !important;
-  height: 40px !important;
+  color: #fff;
+  height: 40px ;
+  background-color:$light-blue-3 ;
   margin-bottom: 1rem;
 
   @media #{$small-only} {
     width: 90% !important;
-    height: 33px !important;
+    height: 33px ;
   }
 
 }
