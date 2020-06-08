@@ -698,7 +698,9 @@ export default {
     quality: "Quality:",
     grade: "Grade :",
     weight: "Weight (kg)",
-    saleable: "Saleable",
+    constraints: "Constraints",
+    restriction: "Restriction",
+    comment: "Comments",
     pieces: "Pieces",
     condition: "Condition :",
     validation_errors: {
@@ -743,6 +745,9 @@ export default {
     apply_default: "Apply Default:",
     no_history: "No history available.",
     new: {
+      not_set: "Not Set",
+      saleable: "Saleable",
+      not_selling: "Not selling",
       add: "Add",
       add_images: "Add Images",
       quantity: "Quantity*",
@@ -758,7 +763,7 @@ export default {
       pieces: "Pieces",
       expiry_date: "Expiry Date",
       condition: "Condition:",
-      donation: "Donation#",
+      donation: "CAS#",
       location: "Location*",
       inventory: "Inventory#",
       print: "& Print {{labels}}",
@@ -805,7 +810,7 @@ export default {
     cancel: "Cancel the designation of this item"
   },
   donation: {
-    title: "Donation#",
+    title: "CAS#",
     donation_number_error: "Must be in the form 'CAS-12345'"
   },
   partial_designate: {

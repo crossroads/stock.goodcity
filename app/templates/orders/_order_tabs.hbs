@@ -26,7 +26,7 @@
           </dd>
 
           <dd class="small-2 medium-2 columns text-center {{if (is-equal tabName 'conversation') 'active'}}">
-            {{#link-to 'orders.conversation' model.id replace=true}}
+            {{#link-to 'orders.conversation' model.id replace=true disabled=model.isDraft}}
               {{#if model.hasUnreadUserMessages}}
                 <div class='unread_message'>
                   {{model.unreadUserMessagesCount}}
