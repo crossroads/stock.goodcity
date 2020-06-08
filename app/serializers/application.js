@@ -23,6 +23,10 @@ function normalize(payload) {
     if (m.messageable_type == "Order") {
       m.designation_id = m.messageable_id;
     }
+
+    if (typeof m.lookup === "object") {
+      m.lookup = JSON.stringify(m.lookup);
+    }
   });
 }
 

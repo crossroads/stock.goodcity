@@ -24,7 +24,6 @@ export default detail.extend({
   sortedMessages: Ember.computed.sort("model.messages", "sortProperties"),
 
   groupedMessages: Ember.computed("sortedMessages", function() {
-    this.autoScroll();
     return this.groupBy(this.get("sortedMessages"), "createdDate");
   }),
 
@@ -38,11 +37,6 @@ export default detail.extend({
       this,
       this.markReadAndScroll
     );
-  },
-
-  autoScroll() {
-    // scroll the messages screen to bottom
-    window.scrollTo(0, document.body.scrollHeight);
   },
 
   groupBy: function(content, key) {
@@ -105,10 +99,20 @@ export default detail.extend({
   },
 
   actions: {
+    setMessageBody: function(text) {
+      this.set("body", text);
+    },
+
+    parseMessageBody: function(text) {
+      this.set("parsedBody", text);
+    },
+
     sendMessage() {
       Ember.$("textarea").trigger("blur");
-      var values = this.getProperties("body");
-      values.body = values.body.trim();
+      const values = {};
+      values.body = this.get("parsedBody");
+      values.body = Ember.Handlebars.Utils.escapeExpression(values.body || "");
+      values.body = values.body.replace(/(\r\n|\n|\r)/gm, "<br>");
       values.designation = this.get("model");
       values.createdAt = new Date();
       values.isPrivate = this.get("isPrivate");
@@ -119,9 +123,6 @@ export default detail.extend({
       values.messageableType = "Order";
       values.messageableId = this.get("model.id");
       this.createMessage(values);
-
-      // Animate and scroll to bottom
-      this.autoScroll();
     },
     markRead() {
       this.get("sortedMessages")

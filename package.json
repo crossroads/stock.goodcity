@@ -96,6 +96,7 @@
     "cordova": "^7.1.0",
     "cordova-lib": "https://github.com/crossroads/goodcity-lib.git#master",
     "cordova-update-config": "^1.0.2",
+    "ember-browserify": "^1.2.2",
     "ember-cli-babel": "^5.1.10",
     "ember-cli-test-loader": "^1.1.0",
     "ember-infinite-list": "1.0.4",
@@ -105,6 +106,7 @@
     "mixin-deep": "^1.3.2",
     "phantomjs-prebuilt": "^2.1.14",
     "set-value": "^2.0.1",
+    "tributejs": "^5.1.3",
     "underscore.string": "^3.3.5"
   }
 }
