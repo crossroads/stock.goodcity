@@ -2,6 +2,8 @@ import Ember from "ember";
 import _ from "lodash";
 
 const PICKADATE_CONFIG = {
+  selectMonths: true,
+  selectYears: true,
   format: "ddd mmm d",
   monthsFull: moment.months(),
   monthsShort: moment.monthsShort(),
