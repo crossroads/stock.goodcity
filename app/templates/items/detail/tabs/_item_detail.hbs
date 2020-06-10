@@ -212,6 +212,17 @@
       </div>
     </div>
 
+    <div class="row detail-section">
+      <div class="columns small-12">
+        <div class="row">
+          <div class="columns small-3">{{t 'item_details.comment'}}</div>
+          <div class="columns small-9 value description">
+            {{item-description-textarea data-autoresize=true name="comment" value=item.comment required="required" pattern=".*\S.*" class="description-textarea-withbg" item=item maxlength=180}}
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="row">
       {{donation-field item=item noCss="true" caseNumber=item.caseNumber}}
     </div>
