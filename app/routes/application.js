@@ -46,7 +46,7 @@ export default Ember.Route.extend(AsyncMixin, preloadDataMixin, {
 
       if (!authToken && !isLoginPath) {
         object.session.clear();
-        object.store.unloadSessionData();
+        object.store.unloadAll();
         object.transitionTo("login");
       } else if (authToken && isLoginPath) {
         object.transitionTo("/");
