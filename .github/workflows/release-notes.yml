@@ -12,13 +12,14 @@ jobs:
   release-notes:
     runs-on: ubuntu-latest
     steps:
-    - env:
-        JIRA_USERNAME: ${{secrets.jira_username}}
-        JIRA_PASSWORD: ${{secrets.jira_password}}
-        SENDGRID_API_KEY: ${{secrets.sendgrid_api_key}}
     - uses: actions/checkout@v2
     - name: Use Node.js 12.x
       uses: actions/setup-node@v1
       with:
         node-version: 12.x
-    - run: npx @goodcity/release-notes --email-to prabier@crossroads.org.hk
+    - name: generate notes
+      run: npx @goodcity/release-notes --email-to prabier@crossroads.org.hk
+      env:
+        JIRA_USERNAME: ${{secrets.jira_username}}
+        JIRA_PASSWORD: ${{secrets.jira_password}}
+        SENDGRID_API_KEY: ${{secrets.sendgrid_api_key}}
