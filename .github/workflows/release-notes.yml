@@ -18,7 +18,7 @@ jobs:
       with:
         node-version: 12.x
     - name: generate notes
-      run: npx @goodcity/release-notes --email-to "prabier@crossroads.org.hk" --email-subject "Upcoming release:"
+      run: npx @goodcity/release-notes --email-to "prabier@crossroads.org.hk,swkenworthy@crossroads.org.hk" --email-subject "Upcoming release:"
       env:
         JIRA_USERNAME: ${{secrets.jira_username}}
         JIRA_PASSWORD: ${{secrets.jira_password}}
