@@ -24,7 +24,14 @@ export default Ember.Controller.extend({
 
   allRoles: Ember.computed("model.roles.[]", function() {
     let roles = this.get("model.roles");
-    return roles && roles.rejectBy("name", "System").sortBy("name");
+    let maxRoleLevel = this.get("getCurrentUser.maxRoleLevel");
+    return (
+      roles &&
+      roles
+        .rejectBy("name", "System")
+        .filter(role => role.get("level") <= maxRoleLevel)
+        .sortBy("name")
+    );
   }),
 
   getCurrentUser: Ember.computed(function() {

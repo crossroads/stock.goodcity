@@ -9,6 +9,7 @@ export default Addressable.extend({
   lastName: attr("string"),
   mobile: attr("string"),
   disabled: attr("boolean"),
+  maxRoleLevel: attr("number"),
 
   userRoles: DS.hasMany("userRoles", { async: false }),
 
@@ -62,10 +63,10 @@ export default Addressable.extend({
     );
   }),
 
-  canManageUsers: Ember.computed("roles", function() {
+  canDisableUsers: Ember.computed("roles", function() {
     const roles = this.get("roles");
     return roles.find(
-      r => r.get("permissionNames").indexOf("can_read_or_modify_user") >= 0
+      r => r.get("permissionNames").indexOf("can_disable_user") >= 0
     );
   }),
 

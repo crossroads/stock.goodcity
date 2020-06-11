@@ -82,18 +82,20 @@
     </div>
   </div>
 
-  <div class="row">
-    <div class="small-3 columns item-label">
-      {{t 'users.disabled'}}
+  {{#if getCurrentUser.canDisableUsers}}
+    <div class="row">
+      <div class="small-3 columns item-label">
+        {{t 'users.disabled'}}
+      </div>
+      <div class="small-9 columns field-container">
+        {{#form-control}}
+        {{input type="checkbox" checked=disabled}}
+        {{/form-control}}
+      </div>
     </div>
-    <div class="small-9 columns field-container">
-      {{#form-control}}
-      {{input type="checkbox" checked=disabled}}
-      {{/form-control}}
-    </div>
-  </div>
+  {{/if}}
 
-  {{#if getCurrentUser.canManageUsers}}
+  {{#if allRoles.length}}
     <div class="row">
       <div class="small-3 columns item-label">
         {{t 'users.roles'}}
