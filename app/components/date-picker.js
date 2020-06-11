@@ -36,13 +36,21 @@ export default Ember.TextField.extend({
 
   didInsertElement() {
     const cmp = this;
+    const enablePreviousDate = this.get("enablePreviousDate");
 
     Ember.run.scheduleOnce("afterRender", this, function() {
       Ember.$(this.element).pickadate({
+        selectMonths: !!enablePreviousDate,
+        selectYears: !!enablePreviousDate,
         format: "ddd mmm d",
         monthsFull: moment.months(),
         monthsShort: moment.monthsShort(),
         weekdaysShort: moment.weekdaysShort(),
+        min: enablePreviousDate
+          ? moment()
+              .subtract(2, "years")
+              .toDate()
+          : undefined,
         clear: false,
         today: false,
         close: false,

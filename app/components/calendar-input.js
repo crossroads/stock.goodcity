@@ -68,6 +68,16 @@ export default Ember.TextField.extend({
     }
   },
 
+  didReceiveAttrs() {
+    this._super(...arguments);
+    const enablePreviousDate = this.get("enablePreviousDate");
+    if (enablePreviousDate) {
+      PICKADATE_CONFIG.min = moment()
+        .subtract(2, "years")
+        .toDate();
+    }
+  },
+
   didInsertElement() {
     const component = this;
 

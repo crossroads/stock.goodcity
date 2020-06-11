@@ -46,6 +46,18 @@
     }
   }
 
+  .picker__header {
+    select {
+      border: 1px solid #b7b7b7 !important;
+      padding: .5em;
+      margin-left: .25em;
+      margin-right: .25em;
+      background: #ffffff !important;
+      white-space: nowrap;
+      color: black;
+    }
+  }
+
   .dropdown-wrapper {
     color: #fff;
     $dropdown-body: #000000;
