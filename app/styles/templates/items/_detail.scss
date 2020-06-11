@@ -434,7 +434,7 @@
 
       #expiry_date {
         background: #1a3964;
-        width:60%;
+        width:100%;
         color: white;
         border: none;
         margin-top: -0.2rem !important;
@@ -447,10 +447,20 @@
         }
 
       }
+
       .picker__select--month, .picker__select--year  {
         height: 2.1em;
       }
     }
+
+    .expiry_date_cancel svg {
+      margin-top: 1.5%;
+
+      @media #{$small-only} {
+        margin-top: 1.8%;
+      }
+    }
+
 
     .item_options_component {
       z-index: 10;

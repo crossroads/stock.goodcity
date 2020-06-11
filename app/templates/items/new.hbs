@@ -206,6 +206,7 @@
             placeholder='Select Expiry'
             pattern="[a-zA-Z]{3}\s?[a-zA-Z]{3}\s?[0-9]{1,2}"}}
         </div>
+        <i {{action (mut expiry_date) ""}} class="expiry_date_cancel">{{fa-icon 'times-circle' size="1x"}}</i>
       {{/if}}
     </div>
     <div class="row">

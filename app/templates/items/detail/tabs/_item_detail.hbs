@@ -145,7 +145,7 @@
         <div class="columns small-3">
           <span class='input_text'>{{t "items.new.expiry_date"}}</span>
         </div>
-        <div class="columns small-6 value pieces">
+        <div class="columns small-4 value pieces">
           {{date-picker
             name="expiry_date"
             id="expiry_date"
@@ -154,6 +154,7 @@
             onSelect=(action 'setExpiryDate')
           }}
         </div>
+        <i {{action (mut expiryDate) ""}} class="expiry_date_cancel">{{fa-icon 'times-circle' size="1x"}}</i>
       </div>
     {{/if}}
 
