@@ -17,13 +17,7 @@ export default GoodcityController.extend(
   GradeMixin,
   AsyncMixin,
   {
-    queryParams: [
-      "codeId",
-      "locationId",
-      "scanLocationName",
-      "caseNumber",
-      "storageType"
-    ],
+    queryParams: ["codeId", "locationId", "scanLocationName", "storageType"],
     codeId: "",
     locationId: "",
     inventoryNumber: "",
@@ -336,7 +330,6 @@ export default GoodcityController.extend(
       return {
         quantity: quantity,
         allow_web_publish: this.get("isAllowedToPublish"),
-        saleable: this.get("isSaleable"),
         length: this.get("length"),
         width: this.get("width"),
         height: this.get("height"),
@@ -355,6 +348,9 @@ export default GoodcityController.extend(
         expiry_date: this.get("expiry_date"),
         value_hk_dollar: this.get("valueHkDollar"),
         offer_ids: this.get("offersLists").getEach("id"),
+        restriction_id: this.get("restrictionId").id,
+        saleable: this.get("saleableId").value,
+        comment: this.get("comment"),
         detail_attributes: detailAttributes
       };
     },

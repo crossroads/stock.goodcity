@@ -17,7 +17,9 @@ moduleForModel("item", "Item Model", {
     "model:detail",
     "model:storage_type",
     "model:offers_package",
-    "model:offer"
+    "model:offer",
+    "model:restriction",
+    "service:i18n"
   ]
 });
 

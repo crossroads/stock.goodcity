@@ -6,6 +6,10 @@
     visibility: hidden;
   }
 
+  .constraints-row {
+    margin-top: 1rem;
+  }
+
   .set_details {
     color: $white;
     padding: 0.5rem;
@@ -216,12 +220,18 @@
 
           input,
           select {
-            padding: 0 0.8rem !important;
+            padding: 0 1em !important;
             background: $light-blue-3 !important;
+            font-size: 1rem !important;
             border: 1px solid $light-blue-3 !important;
             color: $white !important;
-            height: 2rem !important;
+            height: 2.5rem !important;
             margin-bottom: 0;
+
+            @media #{$small-only} {
+              height: 2rem !important;
+              font-size: 0.8rem !important;
+            }
           }
 
           .inline-text-input {
@@ -264,12 +274,19 @@
 
             .Searchable-select__label {
               min-height: 2rem;
+              font-size: 1rem;
               border-radius: 0;
               background-image: url(../assets/images/dropdown_icon.png);
               background-repeat: no-repeat;
               background-size: 1.2rem;
+              height: 2.5rem;
               border: none;
               background-color: $light-blue-3;
+
+              @media #{$small-only} {
+               font-size: unset;
+               height: 2rem;
+              }
             }
 
             .dropdown-icon {
@@ -369,20 +386,23 @@
 
   .thumb {
     width: 5rem;
-
     @media #{$small-only} {
-      width: 3rem;
+      margin-left: 0.3rem;
+      margin-top: 0.05rem;
+      width: 4.4rem;
     }
   }
 
   .detail-section {
-    .offer-tags {
-      svg {
-        padding-top: 1%;
-      }
+    .offer-tag-detail {
+      display: flex;
+      flex-wrap: wrap;
     }
-    padding-bottom: 0.5rem;
-    font-size: 0.8rem;
+
+    .offer-tags {
+      display: flex;
+    }
+    padding-bottom: 0.6rem;
 
     @media #{$small-only} {
       font-size: 0.68rem !important;
@@ -390,10 +410,22 @@
 
     .columns {
       padding: 0.2rem 0.5rem;
+      @media #{$small-only} {
+        padding: 0rem 0.2rem;
+      }
     }
 
     span {
       color: $medium-blue;
+    }
+
+    .constraints {
+      float: left;
+      height: 3.3rem;
+
+      @media #{$small-only} {
+        height: 2.5rem
+      }
     }
 
     .value {
@@ -401,11 +433,19 @@
       font-size: 0.7rem !important;
 
       #expiry_date {
-        background: none;
+        background: #1a3964;
+        width:60%;
         color: white;
         border: none;
-        font-size: 100%;
-        margin-top: -15px;
+        margin-top: -0.2rem !important;
+        font-size: 1rem;
+        height:40px;
+
+        @media #{$small-only} {
+          font-size: 0.7rem;
+          height: 33px;
+        }
+
       }
     }
 
@@ -428,10 +468,9 @@
       margin-right: 0.5rem;
     }
   }
-  
+
   .footer {
     .extended-footer-menu {
-
       .click-out-overlay {
         position: absolute;
         width: 100%;
@@ -459,7 +498,7 @@
           display: flex;
           justify-content: center;
           align-items: center;
-      
+
           ul {
             li.menu.disabled {
               opacity: 0.5;
@@ -642,6 +681,24 @@
   box-shadow: none !important;
   margin: -0.3rem -0.3rem 0 -0.4rem;
   text-decoration: none !important;
+
+}
+
+.description-textarea-withbg {
+  background-color:$light-blue-3 !important;
+  color: white;
+  font-size: 1rem;
+  border: none !important;
+  padding: 0.3rem 1.5rem 0.3rem 0.4rem ;
+  box-shadow: none ;
+  height:90px !important;
+  text-decoration: none !important;
+
+  @media #{$small-only} {
+    height:80px !important;
+    font-size: 0.7rem ;
+    }
+
 }
 
 .donation-input-error,
@@ -657,6 +714,12 @@
 .description-error {
   display: none !important;
   margin: -0.4rem 0 0 -0.4rem !important;
+  width: 100% !important;
+}
+
+.description-error-withbg {
+  display: none !important;
+  margin: -0.4rem 0 0 0.1rem !important;
   width: 100% !important;
 }
 
@@ -676,6 +739,18 @@
   height: inherit !important;
   font-size: 0.7rem !important;
 }
+ .item-type-withbg {
+  border: none !important;
+  background: $light-blue-3 !important;
+  font-size: 1rem !important  ;
+  color: white !important;
+  box-shadow: none !important;
+  height: inherit !important;
+
+ @media #{$small-only} {
+  font-size: 0.7rem !important;
+  }
+}
 
 .quality {
   top: -0.3rem;
@@ -686,29 +761,90 @@
   display: inline-block !important;
 
   span.input_text {
+    padding-left: 0.5rem;
     position: absolute;
     color: white !important;
-    line-height: 1.7rem;
+    line-height: 2.4rem;
+
+    @media #{$small-only} {
+      line-height: 2rem;
+      }
   }
 
-  .condition-margin,
-  .grade-margin {
-    margin-left: 1.2rem !important;
-    width: 82% !important;
-    padding-right: 0rem !important;
+  .constraints-saleable{
+   select{
+      background-color: #1a3964 !important;
+      padding-right: 0.6rem;
+      padding-left: 0.5rem;
+      width: 120%;
+      font-size: 1rem !important;
+      margin-left: 0rem;
+      height: 40px !important;
 
-    select {
-      margin-left: -1.5rem !important;
-      padding-left: 4rem !important;
-      width: 140% !important;
+      @media #{$small-only} {
+        height: 33px !important;
+        font-size: 0.7rem !important;
+      }
     }
   }
 
+  .constraints-restrictions{
+    select{
+       background-color: #1a3964 !important;
+      //  padding-right: 0.6rem;
+       padding-left: 0.5rem;
+       width: 120%;
+       font-size: 1rem !important;
+       margin-left: 0rem;
+       height: 40px !important;
+
+       @media #{$small-only} {
+         margin-left: 1rem;
+         height: 33px !important;
+         font-size: 0.7rem !important;
+       }
+     }
+   }
+
+  .condition-margin,
+  .grade-margin {
+    margin-left: 1.5rem !important;
+    width: 82% !important;
+
+    select {
+      background-color: $light-blue-3 !important;
+      margin-left: -1.5rem !important;
+      height: 40px;
+      padding-left: 6rem !important;
+      font-size: 1rem !important;
+      width: 140% !important;
+      margin-top: 0.1rem;
+
+      @media #{$small-only} {
+        width: 130% !important;
+        height: 33px;
+        padding-left: 4.2rem !important;
+        font-size: 0.7rem !important;
+      }
+    }
+
+  }
+
   .grade-margin {
     select {
+      background-color: $light-blue-3 !important;
       width: 145% !important;
-      margin-left: -1.8rem !important;
-      padding-left: 3rem !important;
+      height: 40px;
+      padding-left: 4rem !important;
+      font-size: 1rem !important;
+      margin-top: 0.1rem;
+
+      @media #{$small-only} {
+        width: 125% !important;
+        height: 33px;
+        padding-left: 3rem !important;
+        font-size: 0.7rem !important;
+      }
     }
   }
 
@@ -777,16 +913,42 @@
   border: 1px solid #8091a9 !important;
 }
 
+.inline-text-input-withbg {
+  border: none !important;
+  background: $light-blue-3 !important;
+  font-size: 1rem !important  ;
+  color: white !important;
+  border-style: none !important;
+  box-shadow: none !important;
+  height: inherit !important;
+
+  @media #{$small-only} {
+   font-size: 0.7rem !important;
+  }
+}
+
 .item-height,
 .item-width,
 .item-length {
-  width: 70% !important;
+  width: 60% !important;
   padding: 0.2rem !important;
   display: inline-block !important;
 
   @media #{$small-only} {
-    width: 49% !important;
+    width: 63% !important;
   }
+}
+
+.item-dimension-withbg {
+  width:6rem !important;
+  height: 40px !important;
+  margin-bottom: 1rem;
+
+  @media #{$small-only} {
+    width: 90% !important;
+    height: 33px !important;
+  }
+
 }
 
 .item-description-textarea {
@@ -795,13 +957,14 @@
 }
 
 .donation-input {
-  padding: 0.2rem !important;
-  margin-left: -0.2rem !important;
+  padding: 0.5rem !important;
 }
 
 .donation-scanner {
   padding-top: 0rem !important;
 }
+
+
 
 .warnings {
   font-size: 0.75rem;
@@ -829,12 +992,15 @@
 }
 
 .valuation-input{
-  width: 60% !important;
-  padding: 0.2rem !important;
+  background: $light-blue-3 !important;
+  margin-top: -0.3rem !important;
+  width: 65% !important;
+  font-size: 1rem !important;
+  padding: 0.5rem !important;
   display: inline-block !important;
-  @media only screen and (max-width: 780px) {
+  @media #{$small-only} {
     width: 90% !important;
-    padding: 0.2rem !important;
+    font-size: 0.7rem !important;
     display: inline !important;
   }
 }

@@ -26,7 +26,7 @@
           </dd>
 
           <dd class="small-3 medium-3 columns text-center {{if (is-equal tabName 'conversation') 'active'}}">
-            {{#link-to 'orders.conversation' model.id replace=true}}
+            {{#link-to 'orders.conversation' model.id replace=true disabled=model.isDraft}}
               {{partial 'orders/unread_message_bubble'}}
               <i>{{fa-icon 'comments'}}</i>
               <div>{{t "order_tabs.chat"}}</div>

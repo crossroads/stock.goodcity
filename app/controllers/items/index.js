@@ -1,5 +1,6 @@
 import config from "../../config/environment";
 import _ from "lodash";
+import Cache from "stock/utils/mem-cache";
 import SearchMixin from "stock/mixins/search_resource";
 
 /**
@@ -18,6 +19,11 @@ export default Ember.Controller.extend(SearchMixin, {
 
   packageService: Ember.inject.service(),
   packageTypeService: Ember.inject.service(),
+
+  init() {
+    this._super(...arguments);
+    this.cache = new Cache();
+  },
 
   /**
    * @property {Boolean} SearchMixin configuration
@@ -44,6 +50,15 @@ export default Ember.Controller.extend(SearchMixin, {
   hasSearchText: Ember.computed("searchText", function() {
     return Ember.$.trim(this.get("searchText")).length;
   }),
+
+  reloadResults() {
+    this.get("cache").clear();
+    this._super();
+  },
+
+  createCacheKey(data) {
+    return JSON.stringify(data);
+  },
 
   getFilterQuery() {
     let filterService = this.get("filterService");
@@ -72,6 +87,7 @@ export default Ember.Controller.extend(SearchMixin, {
      * @returns {Promise<Model[]>}
      */
     loadMoreItems(pageNo) {
+      const cache = this.get("cache");
       const params = this.trimQuery(
         _.merge(
           {},
@@ -80,8 +96,16 @@ export default Ember.Controller.extend(SearchMixin, {
           this.getPaginationQuery(pageNo)
         )
       );
-
-      return this.get("store").query("item", params);
+      const cacheKey = this.createCacheKey(params);
+      if (cache.has(cacheKey)) {
+        return cache.get(cacheKey);
+      }
+      return this.get("store")
+        .query("item", params)
+        .then(results => {
+          cache.set(cacheKey, results);
+          return results;
+        });
     },
 
     async createNewPackage() {
