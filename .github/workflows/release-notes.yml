@@ -18,8 +18,8 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: 12.x
-    - name: generate notes
-      run: npx @goodcity/release-notes --email-to "prabier@crossroads.org.hk,swkenworthy@crossroads.org.hk" --head ${{github.event.pull_request.head.sha}} --base ${{github.event.pull_request.base.sha}}
+    - name: Generate and email notes
+      run: npx @goodcity/release-notes --email-to "prabier@crossroads.org.hk,swkenworthy@crossroads.org.hk" --head ${{github.event.pull_request.head.sha}} --base ${{github.event.pull_request.base.sha}} --email-subject "Stock Release 🚀"
       env:
         JIRA_USERNAME: ${{secrets.jira_username}}
         JIRA_PASSWORD: ${{secrets.jira_password}}
