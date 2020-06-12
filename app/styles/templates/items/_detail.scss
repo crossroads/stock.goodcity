@@ -713,15 +713,10 @@
 
 .description-error {
   display: none !important;
-  margin: -0.4rem 0 0 -0.4rem !important;
+  margin: -1.3rem 0 0.4rem 0.1rem!important;
   width: 100% !important;
 }
 
-.description-error-withbg {
-  display: none !important;
-  margin: -0.4rem 0 0 0.1rem !important;
-  width: 100% !important;
-}
 
 .form__control.form__control--error .description-error {
   display: block !important;
