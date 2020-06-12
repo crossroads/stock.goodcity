@@ -1,6 +1,9 @@
 import Ember from "ember";
 import _ from "lodash";
 
+const MIN_DATE = moment()
+  .subtract(2, "years")
+  .toDate();
 function isValidDate(d) {
   return d && d instanceof Date && !isNaN(d);
 }
@@ -36,21 +39,17 @@ export default Ember.TextField.extend({
 
   didInsertElement() {
     const cmp = this;
-    const enablePreviousDate = this.get("enablePreviousDate");
+    const enablePastDate = this.get("enablePastDate");
 
     Ember.run.scheduleOnce("afterRender", this, function() {
       Ember.$(this.element).pickadate({
-        selectMonths: !!enablePreviousDate,
-        selectYears: !!enablePreviousDate,
+        selectMonths: !!enablePastDate,
+        selectYears: !!enablePastDate,
         format: "ddd mmm d",
         monthsFull: moment.months(),
         monthsShort: moment.monthsShort(),
         weekdaysShort: moment.weekdaysShort(),
-        min: enablePreviousDate
-          ? moment()
-              .subtract(2, "years")
-              .toDate()
-          : undefined,
+        min: enablePastDate ? MIN_DATE : undefined,
         clear: false,
         today: false,
         close: false,
