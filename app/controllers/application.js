@@ -25,17 +25,7 @@ export default Ember.Controller.extend({
       // jshint ignore:line
       this.redirectToItem();
     }
-
-    this.get("subscription").on("change:message", this, this.onNewNotification);
   }),
-
-  onNewNotification(notification) {
-    const msg = this.get("store").peekRecord("message", notification.record.id);
-
-    if (msg.get("isUnread")) {
-      this.get("messagesUtil")._incrementCount();
-    }
-  },
 
   redirectToItem() {
     universalLinks &&
