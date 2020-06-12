@@ -77,9 +77,9 @@ module("Acceptance: Item inline edit", {
 test("Filling same description doesn't fire request for update", function(assert) {
   assert.expect(1);
   //filling same description
-  fillIn(find(".description-textarea"), "Inline edit test");
-  //clicking on qty to fire focusOut event of description textarea
-  click(".value");
+  fillIn(find(".description-textarea-withbg"), "Inline edit test");
+  //clicking on size to fire focusOut event of description textarea
+  click(".dimension");
   assert.equal(pkg.get("notes"), "Inline edit test");
   //if request was fired then this test case would have failed because mocking is not used here so we can say that request is not fired
 });
@@ -105,12 +105,12 @@ test("Filling different description fires request for update", function(assert) 
   });
   assert.expect(1);
   //filling different description
-  fillIn(find(".description-textarea"), "Item description changed");
-  //clicking on qty to fire focusOut event of description textarea
-  click(".value");
+  fillIn(find(".description-textarea-withbg"), "Item description changed");
+  //clicking on size to fire focusOut event of description textarea
+  click(".dimension");
   andThen(function() {
     assert.equal(
-      find(".description-textarea").val(),
+      find(".description-textarea-withbg").val(),
       "Item description changed"
     );
   });
@@ -119,9 +119,9 @@ test("Filling different description fires request for update", function(assert) 
 test("Filling same length doesn't fire request for update", function(assert) {
   assert.expect(1);
   //filling same length
-  fillIn(find(".item-length"), "20");
-  //clicking on qty to fire focusOut event of length textfield
-  click(".value");
+  fillIn(find(".item-type-withbg"), "20");
+  //clicking on size to fire focusOut event of length textfield
+  click(".dimension");
   assert.equal(pkg.get("length"), "20");
   //if request was fired then this test case would have failed because mocking is not used here so we can say that request is not fired
 });
@@ -147,20 +147,20 @@ test("Filling different length fires request for update", function(assert) {
   });
   assert.expect(1);
   //filling different length
-  fillIn(find(".item-length"), "50");
-  //clicking on qty to fire focusOut event of length textfield
-  click(".value");
+  fillIn(find(".item-type-withbg"), "50");
+  //clicking on size to fire focusOut event of length textfield
+  click(".dimension");
   andThen(function() {
-    assert.equal(find(".item-length").val(), "50");
+    assert.equal(find(".item-type-withbg").val(), "50");
   });
 });
 
 test("Filling same width doesn't fire request for update", function(assert) {
   assert.expect(1);
   //filling same width
-  fillIn(find(".item-width"), "15");
-  //clicking on qty to fire focusOut event of width textfield
-  click(".value");
+  fillIn(find(".item-type-withbg"), "15");
+  //clicking on size to fire focusOut event of width textfield
+  click(".dimension");
   assert.equal(pkg.get("width"), "15");
   //if request was fired then this test case would have failed because mocking is not used here so we can say that request is not fired
 });
@@ -186,20 +186,20 @@ test("Filling different width fires request for update", function(assert) {
   });
   assert.expect(1);
   //filling different width
-  fillIn(find(".item-width"), "30");
-  //clicking on qty to fire focusOut event of width textfield
-  click(".value");
+  fillIn(find(".item-type-withbg"), "30");
+  //clicking on size to fire focusOut event of width textfield
+  click(".dimension");
   andThen(function() {
-    assert.equal(find(".item-width").val(), "30");
+    assert.equal(find(".item-type-withbg").val(), "30");
   });
 });
 
 test("Filling same height doesn't fire request for update", function(assert) {
   assert.expect(1);
   //filling same height
-  fillIn(find(".item-height"), "10");
-  //clicking on qty to fire focusOut event of height textfield
-  click(".value");
+  fillIn(find(".item-type-withbg"), "10");
+  //clicking on size to fire focusOut event of height textfield
+  click(".dimension");
   assert.equal(pkg.get("height"), "10");
   //if request was fired then this test case would have failed because mocking is not used here so we can say that request is not fired
 });
@@ -225,11 +225,11 @@ test("Filling different height fires request for update", function(assert) {
   });
   assert.expect(1);
   //filling different height
-  fillIn(find(".item-height"), "20");
-  //clicking on qty to fire focusOut event of height textfield
-  click(".value");
+  fillIn(find(".item-type-withbg"), "20");
+  //clicking on size to fire focusOut event of height textfield
+  click(".dimension");
   andThen(function() {
-    assert.equal(find(".item-height").val(), "20");
+    assert.equal(find(".item-type-withbg").val(), "20");
   });
 });
 
@@ -309,11 +309,11 @@ test("Selecting different condition fires request for update", function(assert) 
 test("Filling same donation(CAS) doesn't fires request for update", function(assert) {
   assert.expect(1);
   //filling same donation
-  fillIn(find(".donation-input"), "");
-  //clicking on qty to fire focusOut event of donation textfield
-  click(".value");
+  fillIn(find(".inline-text-input-withbg"), "");
+  //clicking on size to fire focusOut event of donation textfield
+  click(".dimension");
   andThen(function() {
-    assert.equal($(".donation-input").val(), "");
+    assert.equal($(".inline-text-input-withbg").val(), "");
   });
 });
 
@@ -338,20 +338,20 @@ test("Filling different condition fires request for update", function(assert) {
   });
   assert.expect(1);
   //filling different donation
-  fillIn(find(".donation-input"), "CAS-12345");
-  //clicking on qty to fire focusOut event of donation textfield
-  click(".value");
+  fillIn(find(".inline-text-input-withbg"), "CAS-12345");
+  //clicking on size to fire focusOut event of donation textfield
+  click(".dimension");
   andThen(function() {
-    assert.equal($(".donation-input").val(), "CAS-12345");
+    assert.equal($(".inline-text-input-withbg").val(), "CAS-12345");
   });
 });
 
 test("Filling invalid condition gives validation error", function(assert) {
   assert.expect(1);
   //filling invalid donation
-  fillIn(find(".donation-input"), "123");
-  //clicking on qty to fire focusOut event of donation textfield
-  click(".value");
+  fillIn(find(".inline-text-input-withbg"), "123");
+  //clicking on size to fire focusOut event of donation textfield
+  click(find(".dimension"));
   andThen(function() {
     assert.equal(
       $(".donation-input-error").text(),

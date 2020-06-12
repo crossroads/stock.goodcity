@@ -17,13 +17,7 @@ export default GoodcityController.extend(
   GradeMixin,
   AsyncMixin,
   {
-    queryParams: [
-      "codeId",
-      "locationId",
-      "scanLocationName",
-      "caseNumber",
-      "storageType"
-    ],
+    queryParams: ["codeId", "locationId", "scanLocationName", "storageType"],
     codeId: "",
     locationId: "",
     inventoryNumber: "",
@@ -118,8 +112,8 @@ export default GoodcityController.extend(
     }),
 
     canApplyDefaultValuation: Ember.computed("valueHkDollar", function() {
-      const defaultValue = this.get("defaultValueHkDollar");
-      const valueHkDollar = this.get("valueHkDollar");
+      const defaultValue = Number(this.get("defaultValueHkDollar"));
+      const valueHkDollar = Number(this.get("valueHkDollar"));
       return defaultValue !== valueHkDollar;
     }),
 
@@ -267,6 +261,12 @@ export default GoodcityController.extend(
       return Number(this.get("labels"));
     }),
 
+    isInvalidValuation: Ember.computed("valueHkDollar", function() {
+      const value = this.get("valueHkDollar");
+      // can be 0
+      return value === "" || value === null;
+    }),
+
     location: Ember.computed("codeId", "locationId", {
       get() {
         var location;
@@ -330,7 +330,6 @@ export default GoodcityController.extend(
       return {
         quantity: quantity,
         allow_web_publish: this.get("isAllowedToPublish"),
-        saleable: this.get("isSaleable"),
         length: this.get("length"),
         width: this.get("width"),
         height: this.get("height"),
@@ -349,6 +348,9 @@ export default GoodcityController.extend(
         expiry_date: this.get("expiry_date"),
         value_hk_dollar: this.get("valueHkDollar"),
         offer_ids: this.get("offersLists").getEach("id"),
+        restriction_id: this.get("restrictionId").id,
+        saleable: this.get("saleableId").value,
+        comment: this.get("comment"),
         detail_attributes: detailAttributes
       };
     },
@@ -391,6 +393,7 @@ export default GoodcityController.extend(
         !this.get("isInvalidPrintCount") ||
         this.get("isInvalidaLabelCount") ||
         this.get("isInvalidDimension") ||
+        this.get("isInvalidValuation") ||
         parseInt(this.get("length"), 10) === 0 ||
         parseInt(this.get("width"), 10) === 0 ||
         parseInt(this.get("height"), 10) === 0

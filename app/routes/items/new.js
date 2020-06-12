@@ -1,7 +1,8 @@
 import AuthorizeRoute from "./../authorize";
 import Ember from "ember";
+import GradeMixin from "stock/mixins/grades_option";
 
-export default AuthorizeRoute.extend({
+export default AuthorizeRoute.extend(GradeMixin, {
   inventoryNumber: "",
   newItemRequest: "",
   packageService: Ember.inject.service(),
@@ -143,6 +144,14 @@ export default AuthorizeRoute.extend({
       id: "B"
     });
     controller.set("imageKeys", "");
+    controller.set(
+      "restrictionId",
+      this.get("restrictionOptions").get("firstObject")
+    );
+    controller.set(
+      "saleableId",
+      this.get("saleableOptions").get("firstObject")
+    );
     const defaultValue = await this.get("packageService").getItemValuation({
       donorConditionId: this.getDefaultCondition().id,
       grade: controller.get("selectedGrade").id,
@@ -150,8 +159,8 @@ export default AuthorizeRoute.extend({
     });
 
     controller.set("defaultCondition", this.getDefaultCondition());
-    controller.set("valueHkDollar", defaultValue.value_hk_dollar);
-    controller.set("defaultValueHkDollar", defaultValue.value_hk_dollar);
+    controller.set("valueHkDollar", +defaultValue.value_hk_dollar);
+    controller.set("defaultValueHkDollar", +defaultValue.value_hk_dollar);
     this.setupPrinterId(controller);
   }
 });

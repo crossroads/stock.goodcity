@@ -672,7 +672,9 @@ export default {
     quality: "Quality:",
     grade: "Grade :",
     weight: "Weight (kg)",
-    saleable: "Saleable",
+    constraints: "Constraints",
+    restriction: "Restriction",
+    comment: "Comments",
     pieces: "Pieces",
     condition: "Condition :",
     validation_errors: {
@@ -713,10 +715,13 @@ export default {
     order_code: "Order Code",
     quantity: "Quantity",
     number: "Number",
-    value: "Value (HK$)",
+    value: "Value per unit (HK$)",
     apply_default: "Apply Default:",
     no_history: "No history available.",
     new: {
+      not_set: "Not Set",
+      saleable: "Saleable",
+      not_selling: "Not selling",
       add: "Add",
       add_images: "Add Images",
       quantity: "Quantity*",
@@ -732,7 +737,7 @@ export default {
       duplicate: "Duplicate",
       labels: "Labels",
       condition: "Condition:",
-      donation: "Donation#",
+      donation: "CAS#",
       location: "Location*",
       inventory: "Inventory#",
       print: "& Print {{labels}}",
@@ -754,7 +759,8 @@ export default {
         invalid_location: "Scanned Location is invalid.",
         blank_location: "Location can't be blank.",
         quantity: "Quantity cannot be blank.",
-        blank_notification: "Location cannot be blank."
+        blank_notification: "Location cannot be blank.",
+        blank_valuation: "Value cannot be blank."
       }
     },
     select_set_type: "Select a type for the new set",
@@ -779,7 +785,7 @@ export default {
     cancel: "Cancel the designation of this item"
   },
   donation: {
-    title: "Donation#",
+    title: "CAS#",
     donation_number_error: "Must be in the form 'CAS-12345'"
   },
   partial_designate: {

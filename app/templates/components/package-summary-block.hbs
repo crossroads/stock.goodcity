@@ -54,7 +54,7 @@
             {{#unless hasBlock}}
               {{#link-to 'items.detail' model.id disabled=disableLink}}
                 <div>
-                  {{model.code.name}}
+                  {{display-package-code  item=model.code}}
                 </div>
                 <div>
                   {{model.notes}}
