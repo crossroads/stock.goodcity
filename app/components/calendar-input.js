@@ -1,7 +1,12 @@
 import Ember from "ember";
 import _ from "lodash";
 
-const PICKADATE_CONFIG = {
+const MIN_DATE = moment()
+  .subtract(2, "years")
+  .toDate();
+const DEFAULT_PICKADATE_CONFIG = {
+  selectMonths: true,
+  selectYears: true,
   format: "ddd mmm d",
   monthsFull: moment.months(),
   monthsShort: moment.monthsShort(),
@@ -66,12 +71,24 @@ export default Ember.TextField.extend({
     }
   },
 
+  didReceiveAttrs() {
+    this._super(...arguments);
+    this.set("datePickerConfig", DEFAULT_PICKADATE_CONFIG);
+    const enablePastDate = this.get("enablePastDate");
+    if (enablePastDate) {
+      this.set("datePickerConfig", {
+        ...DEFAULT_PICKADATE_CONFIG,
+        min: MIN_DATE
+      });
+    }
+  },
+
   didInsertElement() {
     const component = this;
 
     Ember.run.scheduleOnce("afterRender", this, function() {
       Ember.$(".pickadate").pickadate(
-        _.extend({}, PICKADATE_CONFIG, {
+        _.extend({}, this.get("datePickerConfig"), {
           disable: component.get("disableWeekends") === true ? [1, 2] : [],
           onClose: function() {
             component.onClose(this);
