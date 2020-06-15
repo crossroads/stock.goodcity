@@ -49,7 +49,8 @@
           {{#validatable-form class="form-horizontal" onSubmit=(action 'sendMessage') as |form|}}
             <div class="row ui">
               <div class="small-9 large-10 medium-10 columns">
-                {{variable-height-textarea value=body name="body" required="true" disabled=disabled isPrivate=isPrivateMessage orderId=model.id setMessageBody=(action 'setMessageBody') parseMessageBody= (action 'parseMessageBody')}}
+                {{variable-height-textarea value=body name="body" required="true" disabled=disabled isPrivate=isPrivate orderId=model.id setMessageContext= (action 'setMessageContext')
+                menuContainer="message-textbar-container"}}
               </div>
               <div class="small-3 large-2 medium-2 columns">
                 {{#online-button classNames="button" onClick=(action "sendMessage") actionArgs=true}}

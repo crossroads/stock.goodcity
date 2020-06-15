@@ -99,18 +99,15 @@ export default detail.extend({
   },
 
   actions: {
-    setMessageBody: function(text) {
-      this.set("body", text);
-    },
-
-    parseMessageBody: function(text) {
-      this.set("parsedBody", text);
+    setMessageContext: function(message) {
+      this.set("body", message.parsedText);
+      this.set("displayText", message.displayText);
     },
 
     sendMessage() {
       Ember.$("textarea").trigger("blur");
       const values = {};
-      values.body = this.get("parsedBody");
+      values.body = this.get("body");
       values.body = Ember.Handlebars.Utils.escapeExpression(values.body || "");
       values.body = values.body.replace(/(\r\n|\n|\r)/gm, "<br>");
       values.designation = this.get("model");
