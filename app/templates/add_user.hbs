@@ -5,7 +5,7 @@
 </nav>
 
 <section class="main-section add-user-form new-user-section ui ">
-  {{#validatable-form onSubmit=(action 'saveUser') as |form|}}
+  {{#async-validatable-form onSubmit=(action 'saveUser') as |form|}}
   <div class="row">
     <div class="small-3 columns item-label">
       {{t 'organisation.user.first_name'}}
@@ -138,5 +138,6 @@
     </div>
   </div>
 
-  {{/validatable-form}}
+  {{/async-validatable-form}}
 </section>
+{{partial "loading_image"}}

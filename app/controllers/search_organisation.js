@@ -1,8 +1,8 @@
 import Ember from "ember";
 
 export default Ember.Controller.extend({
-  queryParams: ["backToNewUser"],
-  backToNewUser: false,
+  queryParams: ["redirectToPath"],
+  redirectToPath: null,
   minSearchTextLength: 3,
   displayResults: false,
 
@@ -25,16 +25,16 @@ export default Ember.Controller.extend({
     cancelSearch() {
       Ember.$("#searchText").blur();
       this.set("searchText", "");
-      if (this.get("backToNewUser")) {
-        this.replaceRoute("add_user");
+      if (this.get("redirectToPath")) {
+        this.replaceRoute(this.get("redirectToPath"));
       } else {
         this.transitionToRoute("app_menu_list");
       }
     },
 
     setOrganization(organisation) {
-      if (this.get("backToNewUser")) {
-        this.replaceRoute("add_user", {
+      if (this.get("redirectToPath")) {
+        this.replaceRoute(this.get("redirectToPath"), {
           queryParams: {
             organisationId: organisation.id
           }

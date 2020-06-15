@@ -8,9 +8,9 @@ export default Ember.Component.extend({
   selection: [],
 
   didInsertElement() {
-    var isCurrentRole =
+    let isSelected =
       this.get("selection").indexOf(parseInt(this.get("selected"))) >= 0;
-    if (isCurrentRole) {
+    if (isSelected) {
       this.$().prop("checked", true);
       this.sendAction("action", this.get("value"), true);
     }
@@ -18,7 +18,7 @@ export default Ember.Component.extend({
 
   _updateElementValue: function() {
     this.set("checked", this.$().prop("checked"));
-    var isChecked = this.get("checked");
+    let isChecked = this.get("checked");
     this.sendAction("action", this.get("value"), isChecked);
   }.on("didInsertElement"),
 

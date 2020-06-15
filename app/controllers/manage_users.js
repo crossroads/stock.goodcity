@@ -6,7 +6,7 @@ export default Ember.Controller.extend({
 
   onSearchTextChange: Ember.observer("searchText", function() {
     this.hideResults();
-    if (this.get("searchText").length) {
+    if (this.get("searchText").trim().length >= 3) {
       Ember.run.debounce(this, this.showResults, 500);
     }
   }),
@@ -41,9 +41,7 @@ export default Ember.Controller.extend({
         ]
       };
 
-      if (this.get("searchText").trim().length >= 3) {
-        return this.get("store").query("user", params);
-      }
+      return this.get("store").query("user", params);
     }
   }
 });
