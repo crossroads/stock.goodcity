@@ -17,6 +17,38 @@ export default Ember.Mixin.create({
     return this.get("i18n").t(str);
   },
 
+  initActionSheet(onSuccess) {
+    return window.plugins.actionsheet.show(
+      {
+        buttonLabels: [
+          this.locale("edit_images.upload").string,
+          this.locale("edit_images.camera").string,
+          this.locale("edit_images.cancel").string
+        ]
+      },
+      function(buttonIndex) {
+        if (buttonIndex === 1) {
+          navigator.camera.getPicture(onSuccess, null, {
+            quality: 40,
+            destinationType: navigator.camera.DestinationType.DATA_URL,
+            sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY
+          });
+        }
+        if (buttonIndex === 2) {
+          navigator.camera.getPicture(onSuccess, null, {
+            correctOrientation: true,
+            quality: 40,
+            destinationType: navigator.camera.DestinationType.DATA_URL,
+            sourceType: navigator.camera.PictureSourceType.CAMERA
+          });
+        }
+        if (buttonIndex === 3) {
+          window.plugins.actionsheet.hide();
+        }
+      }
+    );
+  },
+
   actions: {
     uploadReady() {
       this.set("isReady", true);
@@ -60,38 +92,6 @@ export default Ember.Mixin.create({
       });
       this.set("newUploadedImage", newUploadedImage);
       this.set("userImageKeys", identifier);
-    },
-
-    initActionSheet: function(onSuccess) {
-      return window.plugins.actionsheet.show(
-        {
-          buttonLabels: [
-            this.locale("edit_images.upload").string,
-            this.locale("edit_images.camera").string,
-            this.locale("edit_images.cancel").string
-          ]
-        },
-        function(buttonIndex) {
-          if (buttonIndex === 1) {
-            navigator.camera.getPicture(onSuccess, null, {
-              quality: 40,
-              destinationType: navigator.camera.DestinationType.DATA_URL,
-              sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY
-            });
-          }
-          if (buttonIndex === 2) {
-            navigator.camera.getPicture(onSuccess, null, {
-              correctOrientation: true,
-              quality: 40,
-              destinationType: navigator.camera.DestinationType.DATA_URL,
-              sourceType: navigator.camera.PictureSourceType.CAMERA
-            });
-          }
-          if (buttonIndex === 3) {
-            window.plugins.actionsheet.hide();
-          }
-        }
-      );
     },
 
     triggerUpload() {
