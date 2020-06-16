@@ -7,7 +7,7 @@ const MIN_DATE = moment()
 const DEFAULT_PICKADATE_CONFIG = {
   selectMonths: true,
   selectYears: true,
-  format: "ddd mmm d",
+  formatSubmit: "ddd mmm d",
   monthsFull: moment.months(),
   monthsShort: moment.monthsShort(),
   weekdaysShort: moment.weekdaysShort(),
@@ -105,5 +105,9 @@ export default Ember.TextField.extend({
         Ember.$("[id$=selectedDate]").trigger("blur");
       });
     });
+  },
+
+  willDestroyElement() {
+    this.set("selection", null);
   }
 });

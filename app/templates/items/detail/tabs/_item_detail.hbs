@@ -149,12 +149,12 @@
           {{date-picker
             name="expiry_date"
             id="expiry_date"
-            value=expiryDate
+            value=item.expiryDate
             enablePastDate=true
             onSelect=(action 'setExpiryDate')
           }}
         </div>
-        <i {{action (mut expiryDate) ""}} class="expiry_date_cancel">{{fa-icon 'times-circle' size="1x"}}</i>
+        <i {{action 'setExpiryDate' ''}} class="expiry_date_cancel">{{fa-icon 'times-circle' size="1x"}}</i>
       </div>
     {{/if}}
 
