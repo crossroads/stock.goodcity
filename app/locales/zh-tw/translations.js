@@ -862,6 +862,12 @@ export default {
     disabled: "Disabled",
     roles: "Roles",
     organisation: "Organisation",
-    create_new_user: "Create new user"
+    create_new_user: "Create new user",
+    first_name: "First Name",
+    last_name: "Last Name",
+    mobile: "Mobile",
+    email: "Email",
+    registered_on: "Registered on",
+    last_connected_on: "Last connected on"
   }
 };

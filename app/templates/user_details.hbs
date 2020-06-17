@@ -20,7 +20,7 @@
     <div class="data-rows">
       <div class="row">
         <div class="columns small-4 text-prefix">
-          First Name
+          {{t 'users.first_name'}}:
         </div>
         <div class="columns small-8 text">
           {{ model.firstName }}
@@ -31,7 +31,7 @@
     <div class="data-rows">
       <div class="row">
         <div class="columns small-4 text-prefix">
-          Last Name
+          {{t 'users.last_name'}}:
         </div>
         <div class="columns small-8 text">
           {{ model.lastName }}
@@ -42,7 +42,7 @@
     <div class="data-rows">
       <div class="row">
         <div class="columns small-4 text-prefix">
-          Image
+          {{t 'users.image'}}:
         </div>
         <div class="columns small-8 text">
           <div class="content user-img">
@@ -63,7 +63,7 @@
     <div class="data-rows">
       <div class="row">
         <div class="columns small-4 text-prefix">
-          Mobile
+          {{t 'users.mobile'}}:
         </div>
         <div class="columns small-8 text">
           {{ model.mobile }}
@@ -78,7 +78,7 @@
     <div class="data-rows">
       <div class="row">
         <div class="columns small-4 text-prefix">
-          Email
+          {{t 'users.email'}}:
         </div>
         <div class="columns small-8 text">
           {{ model.email }}
@@ -93,7 +93,7 @@
     <div class="data-rows">
       <div class="row">
         <div class="columns small-4 text-prefix">
-          Roles
+          {{t 'users.roles'}}:
         </div>
         <div class="columns small-8 text">
           {{#each model.roles as |role|}}
@@ -106,7 +106,7 @@
     <div class="data-rows">
       <div class="row">
         <div class="columns small-4 text-prefix">
-          Registered on:
+          {{t 'users.registered_on'}}:
         </div>
         <div class="columns small-8 text">
           {{time-ago timeValue=model.createdAt smallPrefix=false}}
@@ -117,7 +117,7 @@
     <div class="data-rows">
       <div class="row">
         <div class="columns small-4 text-prefix">
-          Last connected on:
+          {{t 'users.last_connected_on'}}:
         </div>
         <div class="columns small-8 text">
           {{time-ago timeValue=model.lastDisconnected smallPrefix=false}}
@@ -128,13 +128,13 @@
     <div class="data-rows">
       <div class="row">
         <div class="columns small-4 text-prefix">
-          Disabled:
+          {{t 'users.disabled'}}:
         </div>
         <div class="columns small-8 text">
           {{#if model.disabled}}
-            Yes
+            {{t "yes"}}
           {{else}}
-            No
+            {{t 'no'}}
           {{/if}}
         </div>
       </div>

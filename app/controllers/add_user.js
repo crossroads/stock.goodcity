@@ -107,7 +107,7 @@ export default Ember.Controller.extend(AsyncMixin, ImageUploadMixin, {
       });
     },
 
-    setSelecteIds(id, isSelected) {
+    setSelectedIds(id, isSelected) {
       if (isSelected) {
         this.get("selectedRoleIds").pushObject(id);
       } else {

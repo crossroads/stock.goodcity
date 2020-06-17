@@ -105,7 +105,7 @@
 
           {{#each allRoles as |role|}}
             <li class="radio">
-              {{check-box selected=role.id id=role.id name=role.name value=role.id selection=existingRoleIds action="setSelecteIds"}}
+              {{check-box selected=role.id id=role.id name=role.name value=role.id selection=existingRoleIds action="setSelectedIds"}}
               <label class="radio-wrap small-only-text-center" for={{role.id}}>
                 {{role.name}}
               </label>
