@@ -47,6 +47,14 @@ export default Ember.TextField.extend({
     return selected.getTime() === date.getTime();
   },
 
+  _cb() {
+    const onSelect = this.get("onSelect");
+    if (onSelect) {
+      const date = this.get("selection");
+      onSelect(date);
+    }
+  },
+
   onClose(pickadate) {
     Ember.$(document.activeElement).blur();
     if (this.setting) {
@@ -58,6 +66,7 @@ export default Ember.TextField.extend({
       this.set("selection", date);
       this.setting = true;
       Ember.run.next(() => {
+        this._cb();
         pickadate.set("select", new Date(date), { format: "ddd mmm d" });
         this.setting = false;
       });
@@ -95,6 +104,9 @@ export default Ember.TextField.extend({
           },
           onOpen: function() {
             component.onStart(this);
+          },
+          onStart: function() {
+            this.set("select", moment(this.get("value")).format("LL"));
           }
         })
       );
