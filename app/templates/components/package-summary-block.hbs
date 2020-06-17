@@ -45,9 +45,11 @@
                 {{image-zoom item=model}}
               </div>
             {{else}}
-              {{#link-to 'items.detail' model.id}}
-                <img src={{blankImage}} />
-              {{/link-to}}
+              <div class="default-icon">
+                {{#link-to 'items.detail' model.id disabled=disableLink}}
+                  {{fa-icon (if model.isPartOfSet 'tags' (storage-icon model.storageTypeName))}}
+                {{/link-to}}
+            </div>
             {{/if}}
           </div>
           <div class="content item-description">
@@ -56,7 +58,7 @@
                 <div>
                   {{display-package-code  item=model.code}}
                 </div>
-                <div>
+                <div class="description">
                   {{model.notes}}
                 </div>
               {{/link-to}}

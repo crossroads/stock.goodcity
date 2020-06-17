@@ -1,5 +1,5 @@
 .package-summary-block {
-  
+
   .no-events {
     pointer-events: none;
   }
@@ -73,7 +73,7 @@
 
         .content {
           color: $white;
-          border-left: 2px solid $black;
+          border-left: 1px solid $black;
           border-bottom: 2px solid $black;
 
           &:last-child {
@@ -82,11 +82,29 @@
         }
 
         .item-img {
+          background-color: #002353 ;
           width: 22%;
-
+          border-right: 1px solid $black;
           .image-zoom-container {
             height: 100%;
             div { height: 100% }
+          }
+
+          a{
+            color: #a3aab6 !important;
+            background-color:unset;
+
+            @media #{$small-only} {
+              margin-left:-0.5rem
+            }
+          }
+
+          .default-icon{
+            width: 22%;
+            font-size: 1.5rem;
+            margin: 0 auto;
+            line-height: 4rem;
+
           }
 
           img {
@@ -105,8 +123,13 @@
           padding: 0.5rem;
           padding-left: 1rem;
           line-height: 1.5rem;
+          font-size: 13.5px;
+
+          .description{
+            color: #a3aab6
+          }
         }
-        
+
       }
     }
 
