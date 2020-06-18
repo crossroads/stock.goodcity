@@ -8,8 +8,10 @@
   background-color: #002352;
   z-index: 1000;
   transform: translateY(100%);
+  pointer-events: none;
 
   &.open {
     transform: translateY(0%);
+    pointer-events: initial;
   }
 }
