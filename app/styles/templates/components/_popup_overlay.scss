@@ -10,6 +10,10 @@
   transform: translateY(100%);
   pointer-events: none;
 
+  &:not(.open) {
+    input { display: none; }
+  }
+
   &.open {
     transform: translateY(0%);
     pointer-events: initial;
