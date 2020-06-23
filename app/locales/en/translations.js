@@ -759,7 +759,7 @@ export default {
       publish: "Publish",
       duplicate: "Duplicate",
       duplicate_successful_message:
-        "Item with inventory number {{inventoryNo}} was created ",
+        "Item with inventory number '{{inventoryNo}}' was created ",
       labels: "Labels",
       pieces: "Pieces",
       expiry_date: "Expiry Date",

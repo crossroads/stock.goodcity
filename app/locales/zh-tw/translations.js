@@ -736,7 +736,7 @@ export default {
       publish: "Publish",
       duplicate: "Duplicate",
       duplicate_successful_message:
-        "Item with inventory number {{inventoryNo}} was created ",
+        "Item with inventory number '{{inventoryNo}}' was created ",
       labels: "Labels",
       condition: "Condition:",
       donation: "CAS#",

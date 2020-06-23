@@ -535,7 +535,7 @@ export default GoodcityController.extend(
         function() {
           this.set("successfullyDuplicated", false);
         },
-        3000
+        4000
       );
     },
 

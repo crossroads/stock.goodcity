@@ -12,15 +12,16 @@
   }
 
   .fade-out {
-    background: red;
+    background: #f46769;
     color: $white;
     position: absolute;
     padding: 0.5rem;
     z-index: 10;
     left: 25%;
     width: 50%;
-    animation: fadeOut 3s ease;
-    opacity: 0;
+    animation: fadeOut 4s ease;
+    opacity: 1;
+    border-radius: 0.2rem;
   }
 
   .input-error {
