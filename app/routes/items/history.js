@@ -11,5 +11,15 @@ export default AuthorizeRoute.extend({
         this.store.findRecord("item", item.get("id"), { reload: true });
       });
     }
+  },
+
+  setupController(controller, model) {
+    controller.on();
+  },
+
+  resetController(controller, isExiting) {
+    if (isExiting) {
+      controller.off();
+    }
   }
 });
