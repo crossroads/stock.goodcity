@@ -120,7 +120,7 @@ test("Splitting the Quantity of item", function(assert) {
     visit(`/items/${updatedPkg.id}/publishing`);
   });
   andThen(function() {
-    click($(".small-block-grid-4 li:last"));
+    click(".small-block-grid-4 li:last");
   });
   andThen(function() {
     click(".split-quantity");
@@ -173,7 +173,7 @@ test("Testing upper limit validation for splitting the quantity", function(asser
     visit(`/items/${updatedPkg.id}`);
   });
   andThen(function() {
-    click($(".small-block-grid-4 li:last"));
+    click(".small-block-grid-4 li:last");
   });
   andThen(function() {
     click(".split-quantity");
@@ -228,7 +228,7 @@ test("Testing lower limit validation for splitting the quantity", function(asser
     visit(`/items/${updatedPkg.id}`);
   });
   andThen(function() {
-    click($(".small-block-grid-4 li:last"));
+    click(".small-block-grid-4 li:last");
   });
   andThen(function() {
     click(".split-quantity");
@@ -283,7 +283,7 @@ test("Splitting the Quantity of item, entering wrong quantity(higher than the qu
     visit(`/items/${updatedPkg.id}`);
   });
   andThen(function() {
-    click($(".small-block-grid-4 li:last"));
+    click(".small-block-grid-4 li:last");
   });
   andThen(function() {
     click(".split-quantity");
@@ -341,7 +341,7 @@ test("Splitting the Quantity of item, entering wrong quantity(lower than the qua
     visit(`/items/${updatedPkg.id}`);
   });
   andThen(function() {
-    click($(".small-block-grid-4 li:last"));
+    click(".small-block-grid-4 li:last");
   });
   andThen(function() {
     click(".split-quantity");
@@ -399,7 +399,7 @@ test("Clicking on not now should not split, and quantity should remain as it is"
     visit(`/items/${updatedPkg.id}/publishing`);
   });
   andThen(function() {
-    click($(".small-block-grid-4 li:last"));
+    click(".small-block-grid-4 li:last");
   });
   andThen(function() {
     click(".split-quantity");
@@ -410,11 +410,6 @@ test("Clicking on not now should not split, and quantity should remain as it is"
   andThen(function() {
     click(".dont-split-btn");
   });
-  console.log(
-    $(".text-holde")
-      .text()
-      .trim()
-  );
   andThen(function() {
     assert.equal($(".inventory-holder").text(), 20);
   });
