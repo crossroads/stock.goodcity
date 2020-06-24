@@ -48,9 +48,17 @@ ul > li:hover,
 }
 
 .mentioned {
-  background: #0079d3;
+  background: $mentioned-user-textbox-color;
+  border-radius: 5px;
+  padding: 7px;
+  color: black;
+}
+
+.mentioned-message-display {
+  background: $mentioned-user-display-color;
   border-radius: 5px;
   color: black;
+  padding: 7px;
 }
 
 .mentionedImage {

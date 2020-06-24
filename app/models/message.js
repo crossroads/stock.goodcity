@@ -32,7 +32,9 @@ export default DS.Model.extend({
       Object.keys(lookup).forEach(key => {
         body = body.replace(
           new RegExp(`\\[:${key}\\]`, "g"),
-          `<span class='mentioned'>@${lookup[key].display_name}</span>`
+          `<span class='mentioned-message-display'>@${
+            lookup[key].display_name
+          }</span>`
         );
       });
       return body;

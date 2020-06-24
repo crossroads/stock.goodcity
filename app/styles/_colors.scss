@@ -12,6 +12,9 @@ $dispatching-state-color: #051D3F;
 $cancelled-state-color: #000000;
 $closed-state-color: #000000;
 
+$mentioned-user-display-color: rgb(249, 193, 118);
+$mentioned-user-textbox-color: rgba(196,221,255,1);
+
 $colors-by-state: (
   "state-submitted": $submitted-state-color,
   "state-processing": $processing-state-color,
