@@ -24,10 +24,13 @@ h2{
 }
 
 .split-quantity {
-  color: #fff !important;
-  font-size: 0.9rem !important;
-  @media #{$small-only} {
-    font-size: 0.72rem !important;
+  text-align: center;
+  flex-direction: column;
+  display: flex;
+  width: 100%;
+
+  #icon{
+    margin-bottom: 0.3rem;
   }
 }
 

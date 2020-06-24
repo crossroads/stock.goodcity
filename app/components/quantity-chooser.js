@@ -54,21 +54,14 @@ export default Ember.Component.extend({
         return false;
       }
       this.set("showErrorMessage", false);
-      let loadingView = getOwner(this).lookup('component:loading').append();
-      new AjaxPromise(`/items/${item.id}/split_item`, "PUT", this.get('session.authToken'), { package: { quantity: value } })
-        .then(data => {
-          this.get("store").pushPayload(data);
-        }).catch((error) => {
-            if(error.status === 422){
-              var errors = Ember.$.parseJSON(error.responseText).errors;
-              this.get("messageBox").alert(errors);
-            }
-          })
-        .finally(() => {
-          this.resetValue();
-          this.set('displayChooseQtyOverlay', false);
-          loadingView.destroy();
-        });
+
+      await this.runTask(() => {
+        return this.get("packageService").splitPackage(item, quantity);
+      }, ERROR_STRATEGIES.MODAL);
+
+      this.resetValue();
+      this.set("displayChooseQtyOverlay", false);
+      this.sendAction("toggleShowExtendedFooterMenu");
     }
   }
 });

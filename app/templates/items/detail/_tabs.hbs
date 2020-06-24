@@ -1,0 +1,43 @@
+<!-- TABS -->
+<div class="tab-container {{tabName}}">
+  <div class="horizontal-line"></div>
+
+  <!-- DETAILS TAB -->
+  <div {{action 'openTab' 'info'}} class="tab info small {{if selectInfoTab 'selected'}}">
+    <div class="icon-holder">{{fa-icon (if model.isPartOfSet 'tags' (storage-icon model.storageTypeName)) size="lg"}}</div>
+    <div class="text-holder">{{ model.inventoryNumber }}</div>
+  </div>
+
+  <!-- LOCATION TAB -->
+  <div {{action 'openTab' 'location'}} class="tab location large {{if (is-equal tabName 'location') 'selected'}}">
+    <div class="icon-holder">{{fa-icon 'map-marker-alt' size="lg"}}</div>
+    <div class="text-holder">
+      {{#if model.hasMultiLocations}}
+      {{t "item_status_bar.multiple"}}
+      {{else}}
+      {{#if model.firstAllLocationName}}
+      {{model.firstAllLocationName}}
+      {{else}}
+      N/A
+      {{/if}}
+      {{/if}}
+    </div>
+  </div>
+
+  <!-- PUBLISHING TAB -->
+  <div {{action 'openTab' 'publishing'}}
+    class="tab publishing divided large {{if (is-equal tabName 'publishing') 'selected'}}">
+    <div class="subtab">
+      <div class="icon-holder">{{fa-icon 'paper-plane' size="lg"}}</div>
+      <div class="text-holder"> {{ model.dispatchedQuantity }} </div>
+    </div>
+    <div class="subtab">
+      <div class="icon-holder">{{fa-icon 'shopping-basket' size="lg"}}</div>
+      <div class="text-holder"> {{ model.designatedQuantity }} </div>
+    </div>
+    <div class="subtab">
+      <div class="icon-holder">{{fa-icon (if model.allowWebPublish 'eye' 'eye-slash') size="lg"}}</div>
+      <div class="inventory-holder"> {{ model.availableQuantity }} </div>
+    </div>
+  </div>
+</div>
