@@ -23,6 +23,11 @@ function normalize(payload) {
     if (m.messageable_type == "Order") {
       m.designation_id = m.messageable_id;
     }
+
+    // This is done to handle inconsistent mapping of jsonb datatype
+    if (typeof m.lookup === "object") {
+      m.lookup = JSON.stringify(m.lookup);
+    }
   });
 }
 
