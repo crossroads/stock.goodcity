@@ -128,6 +128,7 @@ test("User is able to enter sms code and confirm and redirected to Home page and
 
   andThen(function() {
     click("#submit_pin");
+    visit("/");
   });
 
   andThen(function() {
