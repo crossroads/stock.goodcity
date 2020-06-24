@@ -49,7 +49,7 @@
           {{#validatable-form class="form-horizontal" onSubmit=(action 'sendMessage') as |form|}}
             <div class="row ui">
               <div class="small-9 large-10 medium-10 columns">
-                {{variable-height-textarea value=body name="body" required="true" disabled=disabled setMessageContext=(action 'setMessageContext')}}
+                {{variable-height-textarea value=body name="body" required="true" setMessageContext=(action 'setMessageContext')}}
               </div>
               <div class="small-3 large-2 medium-2 columns">
                 {{#online-button classNames="button" onClick=(action "sendMessage") actionArgs=true}}
