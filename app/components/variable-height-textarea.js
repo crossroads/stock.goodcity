@@ -36,6 +36,7 @@ export default Ember.Component.extend({
   processValue: function() {
     if (!this.value) {
       this.element.innerText = "";
+      window.scrollTo(0, document.body.scrollHeight);
     }
   },
 
@@ -85,7 +86,6 @@ export default Ember.Component.extend({
         parsedText,
         displayText: this.innerText
       });
-      window.scrollTo(0, document.body.scrollHeight);
     });
   }
 });
