@@ -65,7 +65,8 @@ export default Ember.Component.extend({
         )}</span>`;
       },
       selectClass: "highlight",
-      noMatchTemplate: () => "",
+      // Adding display: none to avoid nondeName error in contenteditable cell
+      noMatchTemplate: () => `<div style="display: 'none'"/>`,
       menuContainer: document.getElementsByClassName(
         "message-textbar-container"
       )[0]
