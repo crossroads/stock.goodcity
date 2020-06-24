@@ -108,9 +108,12 @@ export default detail.extend({
     sendMessage() {
       Ember.$("textarea").trigger("blur");
       const values = {};
-      values.body = this.get("body");
+      values.body = this.get("body").trim();
       values.body = Ember.Handlebars.Utils.escapeExpression(values.body || "");
       values.body = values.body.replace(/(\r\n|\n|\r)/gm, "<br>");
+      if (!values.body) {
+        return;
+      }
       values.designation = this.get("model");
       values.createdAt = new Date();
       values.isPrivate = this.get("isPrivate");
