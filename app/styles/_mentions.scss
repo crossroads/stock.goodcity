@@ -49,13 +49,15 @@ ul > li:hover,
 
 .mentioned {
   background: $mentioned-user-textbox-color;
+  border: 1.6px solid $mentioned-user-textbox-border;
   border-radius: 5px;
-  padding: 7px;
+  padding: 5px;
   color: black;
 }
 
 .mentioned-message-display {
   background: $mentioned-user-display-color;
+  border: 1.6px solid $mentioned-user-display-border;
   border-radius: 5px;
   color: black;
   padding: 7px;
