@@ -64,6 +64,7 @@ export default detail.extend({
       .save()
       .then(() => {
         this.set("body", "");
+        this.set("displayText", "");
       })
       .catch(error => {
         this.store.unloadRecord(message);
