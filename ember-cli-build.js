@@ -94,7 +94,7 @@ module.exports = function(defaults) {
     "bower_components/blueimp-file-upload/js/jquery.iframe-transport.js"
   );
   app.import("bower_components/blueimp-file-upload/js/jquery.fileupload.js");
-  app.import("bower_components/cloudinary/js/load-image.min.js");
+  app.import("bower_components/blueimp-load-image/js/load-image.all.min.js");
   app.import("bower_components/cloudinary/js/jquery.cloudinary.js");
   app.import("bower_components/cloudinary/js/canvas-to-blob.min.js");
   app.import(

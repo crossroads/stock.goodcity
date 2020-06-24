@@ -8,47 +8,7 @@
     </div>
 
     <div class="row">
-      <div class="columns small-12">
-        <div class="bottom-header">
-          <div class="tab-container">
-            <div class="tab small">
-              <div class="icon-holder">{{fa-icon 'tag' }}</div>
-              <div class="text-holder">{{pkg.inventoryNumber}}</div>
-            </div>
-            <div class="tab large">
-              <div class="icon-holder">{{fa-icon 'map-marker-alt' }}</div>
-              <div class="text-holder">{{pkgLocationName}}</div>
-            </div>
-            <div class="tab end large">
-              <div class="sub-tabs">
-                <div class="icon-holder">{{fa-icon 'paper-plane' }}</div>
-                <div class="text-holder">{{pkg.dispatchedQuantity}}</div>
-              </div>
-              <div class="sub-tabs">
-                <div class="icon-holder">{{fa-icon 'shopping-basket' }}</div>
-                <div class="text-holder">{{pkg.designatedQuantity }}</div>
-              </div>
-              <div class="sub-tabs">
-                <div class="icon-holder">{{fa-icon 'eye' }}</div>
-                <div class="text-holder">{{pkg.availableQuantity}}</div>
-              </div>
-            </div>
-          </div>
-          <div class="item-summary">
-            <div class="content item-img">
-              <img src={{pkg.thumbImageUrl}} class="thumb" />
-            </div>
-            <div class="content item-description">
-              <div>
-                {{pkg.notes}}
-              </div>
-              <div>
-                {{pkg.notes}}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+       {{package-summary-block model=pkg disableLink=true}}
     </div>
     <div class="location-wrap">
       <div class="row">

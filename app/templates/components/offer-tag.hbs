@@ -6,5 +6,5 @@
   {{offer.id}}
 {{/if}}
 {{#if isPackageOffer}}
-  <span {{action "removeOffer" offer}}>{{fa-icon 'times' size="lg" class="delete-offer"}}</span>
+  <div class="delete-offer"{{action "removeOffer" offer}}>{{fa-icon 'times'}}</div>
 {{/if}}
