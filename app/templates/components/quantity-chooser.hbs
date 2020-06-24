@@ -1,7 +1,7 @@
-<span {{action 'resetValueAndToggleOverlay'}} class="split-quantity">
-  <i aria-hidden="true">{{fa-icon 'clone'}}</i>
+<div {{action 'resetValueAndToggleOverlay'}} class="split-quantity">
+  <i aria-hidden="true" id="icon">{{fa-icon 'clone'}}</i>
   {{t "split_quantity.title"}}
-</span>
+</div>
 
 {{#message-box isVisible=displayChooseQtyOverlay classNames="popupOverlay split-popup"}}
   <div class="split-item-header">{{t "split_quantity.header"}}</div>
