@@ -14,7 +14,8 @@ export default ApplicationAdapter.extend({
     const params = {
       include_packages: false,
       include_order: true,
-      include_orders_packages: false
+      include_orders_packages: false,
+      include_messages: true
     };
     let baseUrl = this.buildURL(modelName, id, snapshot);
     const paramStr = _.map(params, (value, key) => `${key}=${value}`).join("&");

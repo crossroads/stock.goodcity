@@ -6,8 +6,22 @@ export default Ember.Service.extend({
   logger: Ember.inject.service(),
   session: Ember.inject.service(),
   store: Ember.inject.service(),
+  subscription: Ember.inject.service(),
 
   unreadMessageCount: 0,
+
+  init() {
+    this._super(...arguments);
+    this.get("subscription").on("change:message", this, this.onNewNotification);
+  },
+
+  onNewNotification({ record: { id } }) {
+    const msg = this.get("store").peekRecord("message", id);
+
+    if (msg.get("isUnread")) {
+      this._incrementCount();
+    }
+  },
 
   fetchUnreadMessageCount() {
     return this._queryMessages("unread", 1, 1)
@@ -65,15 +79,20 @@ export default Ember.Service.extend({
     this.get("logger").error(e);
   },
 
-  getMessageRoute(orderId) {
-    return ["orders.conversation", orderId];
+  getMessageRoute(orderId, isPrivate) {
+    if (isPrivate) {
+      return ["orders.staff_conversation", orderId];
+    } else {
+      return ["orders.conversation", orderId];
+    }
   },
 
   getRoute: function(message) {
-    var orderId = message.get
+    let orderId = message.get
       ? message.get("designation.id")
       : message.designation_id;
-    var messageRoute = this.getMessageRoute(orderId);
+
+    let messageRoute = this.getMessageRoute(orderId, message.get("isPrivate"));
     return messageRoute;
   },
 

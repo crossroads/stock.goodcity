@@ -311,6 +311,29 @@ export default Model.extend({
     return this.get("messages").filterBy("state", "unread").length;
   }),
 
+  unreadUserMessagesCount: Ember.computed("messages.@each.state", function() {
+    return this.get("messages")
+      .filterBy("isPrivate", false)
+      .filterBy("state", "unread").length;
+  }),
+
+  unreadStaffMessagesCount: Ember.computed("messages.@each.state", function() {
+    return this.get("messages")
+      .filterBy("isPrivate", true)
+      .filterBy("state", "unread").length;
+  }),
+
+  hasUnreadUserMessages: Ember.computed("unreadUserMessagesCount", function() {
+    return this.get("unreadUserMessagesCount") > 0;
+  }),
+
+  hasUnreadStaffMessages: Ember.computed(
+    "unreadStaffMessagesCount",
+    function() {
+      return this.get("unreadStaffMessagesCount") > 0;
+    }
+  ),
+
   hasUnreadMessages: Ember.computed("unreadMessagesCount", function() {
     return this.get("unreadMessagesCount") > 0;
   })

@@ -35,10 +35,6 @@ export default Ember.Controller.extend({
     const orderId = notification.record.order_id;
     const notifications = this.get("notifications");
 
-    if (msg.get("isUnread")) {
-      this.get("messagesUtil")._incrementCount();
-    }
-
     if (!orderId || this.session.router.currentURL !== "/my_notifications") {
       return;
     }

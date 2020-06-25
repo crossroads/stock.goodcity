@@ -139,7 +139,8 @@ export default {
     summary: "Summary",
     goods: "Goods",
     logistics: "Logistics",
-    chat: "Chat"
+    staff: "Staff",
+    user: "User"
   },
   order_summary_tabs: {
     contact: "Contact",

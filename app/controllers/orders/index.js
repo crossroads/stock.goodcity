@@ -23,6 +23,12 @@ export default Ember.Controller.extend(SearchMixin, {
     this.cache = new Cache();
   },
 
+  searchProps: {
+    exclude_message_sender: true,
+    include_messages: true,
+    shallow: true
+  },
+
   afterSearch(designations) {
     if (designations && designations.get("length") > 0) {
       this.get("store").query("order_transport", {
