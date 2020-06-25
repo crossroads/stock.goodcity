@@ -434,7 +434,7 @@
 
       #expiry_date {
         background: #1a3964;
-        width:60%;
+        width:100%;
         color: white;
         border: none;
         margin-top: -0.2rem !important;
@@ -447,7 +447,20 @@
         }
 
       }
+
+      .picker__select--month, .picker__select--year  {
+        height: 2.1em;
+      }
     }
+
+    .expiry_date_cancel svg {
+      margin-top: 1.5%;
+
+      @media #{$small-only} {
+        margin-top: 1.8%;
+      }
+    }
+
 
     .item_options_component {
       z-index: 10;
@@ -713,15 +726,10 @@
 
 .description-error {
   display: none !important;
-  margin: -0.4rem 0 0 -0.4rem !important;
+  margin: -1.3rem 0 0.4rem 0.1rem!important;
   width: 100% !important;
 }
 
-.description-error-withbg {
-  display: none !important;
-  margin: -0.4rem 0 0 0.1rem !important;
-  width: 100% !important;
-}
 
 .form__control.form__control--error .description-error {
   display: block !important;
@@ -743,12 +751,15 @@
   border: none !important;
   background: $light-blue-3 !important;
   font-size: 1rem !important  ;
+  padding: 0.5rem;
   color: white !important;
   box-shadow: none !important;
-  height: inherit !important;
+  height: 40px;
+  margin-bottom: 1rem;
 
  @media #{$small-only} {
-  font-size: 0.7rem !important;
+   height: 33px;
+   font-size: 0.7rem !important;
   }
 }
 
@@ -759,6 +770,19 @@
 .select-quality,
 .select-condition {
   display: inline-block !important;
+
+  span.condition_text{
+    margin-left: 0.4rem;
+    padding-left: 0.5rem;
+    position: absolute;
+    color: $white !important;
+    line-height: 2.4rem;
+
+    @media #{$small-only} {
+      line-height: 2rem;
+      }
+
+  }
 
   span.input_text {
     padding-left: 0.5rem;
@@ -791,7 +815,6 @@
   .constraints-restrictions{
     select{
        background-color: #1a3964 !important;
-      //  padding-right: 0.6rem;
        padding-left: 0.5rem;
        width: 120%;
        font-size: 1rem !important;
@@ -806,11 +829,8 @@
      }
    }
 
-  .condition-margin,
-  .grade-margin {
-    margin-left: 1.5rem !important;
-    width: 82% !important;
-
+  .condition-margin{
+    margin-left: 2rem;
     select {
       background-color: $light-blue-3 !important;
       margin-left: -1.5rem !important;
@@ -823,7 +843,7 @@
       @media #{$small-only} {
         width: 130% !important;
         height: 33px;
-        padding-left: 4.2rem !important;
+        padding-left: 4.15rem !important;
         font-size: 0.7rem !important;
       }
     }
@@ -831,6 +851,8 @@
   }
 
   .grade-margin {
+    margin-left: -2.5rem;
+    width: 84%;
     select {
       background-color: $light-blue-3 !important;
       width: 145% !important;
@@ -840,7 +862,7 @@
       margin-top: 0.1rem;
 
       @media #{$small-only} {
-        width: 125% !important;
+        width: 124% !important;
         height: 33px;
         padding-left: 3rem !important;
         font-size: 0.7rem !important;
@@ -931,22 +953,25 @@
 .item-width,
 .item-length {
   width: 60% !important;
-  padding: 0.2rem !important;
+  padding: 0.1rem !important;
   display: inline-block !important;
 
   @media #{$small-only} {
     width: 63% !important;
+    margin-left: -0.13rem !important;
   }
 }
 
 .item-dimension-withbg {
   width:6rem !important;
-  height: 40px !important;
+  color: $white;
+  height: 40px ;
+  background-color:$light-blue-3 ;
   margin-bottom: 1rem;
 
   @media #{$small-only} {
-    width: 90% !important;
-    height: 33px !important;
+    width: 93% !important;
+    height: 33px ;
   }
 
 }

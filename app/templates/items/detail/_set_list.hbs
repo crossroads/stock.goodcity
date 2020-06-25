@@ -4,8 +4,8 @@
   </div>
   {{#each item.packageSet.items as |sibling index|}}
     {{#package-summary-block model=sibling parentId=index}}
-      <div>{{sibling.code.name}}</div>
-      <div>{{sibling.notes}}</div>
+      <div>{{display-package-code  item=sibling.code}}</div>
+      <div class="description">{{sibling.notes}}</div>
       <div class="set-actions">
         <div class="unlink action" {{action 'unlinkFromSet' sibling bubbles=false}}>
           {{t 'item.unlink'}} <i>{{fa-icon 'unlink'}}</i>

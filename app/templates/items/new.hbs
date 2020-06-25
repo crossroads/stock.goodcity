@@ -201,10 +201,12 @@
             name='expiry_date'
             id='expiry_date'
             value=''
+            enablePastDate = true
             selection=expiry_date
             placeholder='Select Expiry'
             pattern="[a-zA-Z]{3}\s?[a-zA-Z]{3}\s?[0-9]{1,2}"}}
         </div>
+        <i {{action (mut expiry_date) ""}} class="expiry_date_cancel">{{fa-icon 'times-circle' size="1x"}}</i>
       {{/if}}
     </div>
     <div class="row">
@@ -226,7 +228,7 @@
     </div>
     <div class="row">
       <div class="small-3 columns item-label">
-        Constraints
+        {{t 'item_details.constraints'}}
       </div>
       <div class="small-3 columns publish">
         {{select-list
@@ -247,6 +249,14 @@
           selectArrow=true
           classNames='grade'
         }}
+      </div>
+    </div>
+    <div class="row">
+      <div class="small-3 columns item-label">
+        {{t 'item_details.comment'}}
+      </div>
+      <div class="small-9 large-9 columns description-block">
+        {{auto-resize-textarea data-autoresize=true name="comments" value=comment pattern=".*\S.*" maxlength=180}}
       </div>
     </div>
     {{#if showAdditionalFields}}

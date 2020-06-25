@@ -1,55 +1,92 @@
-import Ember from 'ember';
+import Ember from "ember";
+import Tribute from "npm:tributejs";
 
-export default Ember.TextArea.extend({
-  tagName: "textarea",
-  attributeBindings: ["disabled"],
-  classNames: 'message-bar',
+import AjaxPromise from "stock/utils/ajax-promise";
+
+let users = null;
+let selectedUsers = [];
+const remoteSearch = cb => {
+  const token = JSON.parse(window.localStorage.authToken);
+  new AjaxPromise("/mentionable_users", "GET", token, {
+    roles: "Order administrator, Order fulfilment"
+  }).then(data => {
+    users = data.users;
+    return cb(users);
+  });
+};
+
+const fullName = item =>
+  `${item.first_name} ${item.last_name ? item.last_name : ""}`;
+
+export default Ember.Component.extend({
+  tagName: "p",
+  contentEditable: true,
+  attributeBindings: ["disabled", "value", "setBody"],
+  classNames: "message-bar mentionable",
   disabled: false,
 
-  didDestroyElement: function (){
-    Ember.$('body').css({'overflow-x':'hidden'});
+  didDestroyElement: function() {
+    Ember.$("body").css({ "overflow-x": "hidden" });
   },
 
-  autoScroll: function(){
-    window.scrollTo(0, document.body.scrollHeight);
-  },
+  valueObserver: function() {
+    Ember.run.once(this, "processValue");
+  }.observes("value"),
 
-  didInsertElement: function(){
-    Ember.$('body').css({'overflow-x':'unset'});
-    // scrolling down to bottom of page
-    this.autoScroll();
-  },
-
-  handleReturnAndAutoscroll: function(){
-    var _this = this;
-    var textarea = _this.element;
-    Ember.$(textarea)
-      .css({
-        'height': 'auto',
-        'overflow-y': 'hidden'
-      })
-      .height(textarea.scrollHeight - 15);
-
-      // scroll to bottom if message typed and restrict if blank message is sent
-      if (_this.get('value') !== "") {
-        Ember.$('.message-bar').parent().removeClass('has-error');
-        _this.autoScroll();
-      }
-  },
-
-  valueChanged: Ember.observer('value', function () {
-    var _this = this;
-    var textarea = _this.element;
-
-    if (textarea) {
-      Ember.run.once(function () {
-        // auto-resize height of textarea $('textarea')[0].
-        if (textarea.scrollHeight < 120) {
-          _this.handleReturnAndAutoscroll();
-        } else{
-          Ember.$(textarea).css({ 'height': 'auto', 'overflow-y': 'auto' });
-        }
-      });
+  processValue: function() {
+    if (!this.value) {
+      this.element.innerText = "";
+      window.scrollTo(0, document.body.scrollHeight);
     }
-  }),
+  },
+
+  didInsertElement: function() {
+    Ember.$("body").css({ "overflow-x": "unset" });
+
+    const _this = this;
+    const tribute = new Tribute({
+      values: function(text, cb) {
+        if (!users) {
+          return remoteSearch(users => cb(users));
+        }
+        return cb(users);
+      },
+      menuItemTemplate: item => {
+        return `<div class='item'><img class='mentionedImage' src="assets/images/user.svg"></img> ${fullName(
+          item.original
+        )}</div>`;
+      },
+      selectTemplate: function(item) {
+        if (typeof item === "undefined") return null;
+
+        selectedUsers.push(item.original);
+        return `<span class='mentioned' contenteditable="false">@${fullName(
+          item.original
+        )}</span>`;
+      },
+      selectClass: "highlight",
+      // Adding display: none to avoid nondeName error in contenteditable cell
+      noMatchTemplate: () => `<div style="display: 'none'"/>`,
+      menuContainer: document.getElementsByClassName(
+        "message-textbar-container"
+      )[0]
+    });
+
+    tribute.attach(Ember.$(this.element));
+
+    this.element.addEventListener("input", function() {
+      let parsedText = this.innerText;
+      selectedUsers.forEach(user => {
+        parsedText = parsedText.replace(
+          new RegExp(`@${fullName(user)}`, "g"),
+          `[:${user.id}]`
+        );
+      });
+
+      _this.setMessageContext({
+        parsedText,
+        displayText: this.innerText
+      });
+    });
+  }
 });

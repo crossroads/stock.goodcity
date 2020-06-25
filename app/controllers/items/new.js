@@ -350,6 +350,7 @@ export default GoodcityController.extend(
         offer_ids: this.get("offersLists").getEach("id"),
         restriction_id: this.get("restrictionId").id,
         saleable: this.get("saleableId").value,
+        comment: this.get("comment"),
         detail_attributes: detailAttributes
       };
     },

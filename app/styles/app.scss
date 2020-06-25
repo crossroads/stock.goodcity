@@ -18,6 +18,7 @@
 @import "client_information";
 @import "goods_details";
 @import "appointment_details";
+@import "mentions";
 
 @import "node_modules/ember-searchable-select/app/styles/ember-searchable-select/style";
 @import "templates/index";
@@ -46,6 +47,7 @@
 @import "templates/components/goodcity/search_overlay";
 @import "templates/components/goodcity/designate_form";
 @import "templates/components/offer_tags";
+@import "templates/components/display_package_code";
 @import "templates/components/editable_line";
 @import "templates/organisations/organisation_tabs";
 @import "templates/organisations/search_organisations";
