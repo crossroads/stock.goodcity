@@ -15,11 +15,7 @@ export default detail.extend(SearchMixin, {
           this.getPaginationQuery(pageNo)
         )
       );
-      return this.get("store")
-        .query("item_action", params)
-        .then(results => {
-          return results;
-        });
+      return this.get("store").query("item_action", params);
     }
   }
 });

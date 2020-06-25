@@ -39,5 +39,19 @@
       width: 90%;
       background-color: #001C42;
     }
+    .block-header {
+      margin-top: 5%;
+      margin-left: 2%;
+      padding-right: 3%;
+      background: #334F75;
+      padding-top: 1%;
+      padding-bottom: 1%;
+      margin-right: 13%;
+      width: 96%;
+
+      .user-name {
+        text-align: center;
+      }
+    }
   }
 }
