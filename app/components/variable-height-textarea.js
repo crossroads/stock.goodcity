@@ -23,23 +23,6 @@ export default Ember.Component.extend({
   classNames: "message-bar mentionable",
   disabled: false,
   users: [],
-  initializeMentionableUsers: async () => {
-    let res = await new AjaxPromise(
-      "/mentionable_users",
-      "GET",
-      this.get("session.authToken"),
-      {
-        roles: "Order administrator, Order fulfilment"
-      }
-    );
-
-    this.set(
-      "users",
-      res.users.map(user => {
-        return { name: user.first_name + " " + user.last_name, id: user.id };
-      })
-    );
-  },
 
   didDestroyElement: function() {
     Ember.$("body").css({ "overflow-x": "hidden" });
