@@ -25,7 +25,6 @@ export default Ember.Component.extend({
   attributeBindings: ["disabled", "value", "setBody"],
   classNames: "message-bar mentionable",
   disabled: false,
-  users: [],
 
   didDestroyElement: function() {
     Ember.$("body").css({ "overflow-x": "hidden" });
