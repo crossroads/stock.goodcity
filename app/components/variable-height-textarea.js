@@ -12,6 +12,9 @@ const remoteSearch = (authToken, cb) => {
     users = data.users.map(user => {
       return { name: user.first_name + " " + user.last_name, id: user.id };
     });
+    users.sort((u1, u2) =>
+      u1.name.toLowerCase().localeCompare(u2.name.toLowerCase())
+    );
     return cb(users);
   });
 };
@@ -89,6 +92,33 @@ export default Ember.Component.extend({
         parsedText,
         displayText: this.innerText
       });
+    });
+
+    // Handle copy and paste operation for contenteditable
+    $(document).on("copy", "[contenteditable]", function(e) {
+      e = e.originalEvent;
+      var selectedText = window.getSelection();
+      var range = selectedText.getRangeAt(0);
+      var selectedTextReplacement = range.toString();
+      e.clipboardData.setData("text/plain", selectedTextReplacement);
+      e.preventDefault();
+    });
+
+    $(document).on("paste", "[contenteditable]", function(e) {
+      e.preventDefault();
+
+      if (window.clipboardData) {
+        var content = window.clipboardData.getData("Text");
+        if (window.getSelection) {
+          var selObj = window.getSelection();
+          var selRange = selObj.getRangeAt(0);
+          selRange.deleteContents();
+          selRange.insertNode(document.createTextNode(content));
+        }
+      } else if (e.originalEvent.clipboardData) {
+        content = (e.originalEvent || e).clipboardData.getData("text/plain");
+        document.execCommand("insertText", false, content);
+      }
     });
   }
 });
