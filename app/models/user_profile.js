@@ -61,6 +61,13 @@ export default Addressable.extend({
     );
   }),
 
+  canManageItemsChat: Ember.computed("roles", function() {
+    const roles = this.get("roles");
+    return roles.find(
+      r => r.get("permissionNames").indexOf("can_manage_packages_chat") >= 0
+    );
+  }),
+
   mobileWithCountryCode: Ember.computed("mobile", function() {
     return this.get("mobile") ? "+852" + this.get("mobile") : "";
   }),

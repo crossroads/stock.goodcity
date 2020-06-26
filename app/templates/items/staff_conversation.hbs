@@ -1,0 +1,23 @@
+<div class="history">
+  <div class="row">
+    <div class="columns small-1 medium-1 large-1">
+      {{#back-link fallbackRoute="items"}}
+      <div class="item-page click-action-zone">
+        <div class="back_link no-avatar">
+          <i aria-hidden="true">{{fa-icon 'angle-left'}}</i>
+        </div>
+      </div>
+      {{/back-link}}
+    </div>
+    <div class="columns small-11 medium-11 large-11 history-title">
+      {{t "items.staff"}}
+    </div>
+  </div>
+  <hr />
+
+  <section class="main-section items-messages-section">
+    {{partial "orders/message_template"}}
+  </section>
+
+  {{partial "items/sticky_footer"}}
+</div>

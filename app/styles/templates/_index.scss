@@ -144,6 +144,10 @@
   .navigation_menus {
     position: relative;
 
+    .list li {
+      margin-bottom: 0 !important;
+    }
+
     .small-block-grid-5 {
       li:not(:last-child) {
         width: 22%;
@@ -160,7 +164,7 @@
 
       i {
         display: block;
-        font-size: 1.5rem;
+        font-size: 1.2rem;
         margin-bottom: 0.3rem;
       }
     }

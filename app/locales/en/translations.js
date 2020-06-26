@@ -799,7 +799,8 @@ export default {
       trash: "Trash",
       recycle: "Recycle",
       gain: "Gain (increase)"
-    }
+    },
+    staff: "Staff Conversation"
   },
   modify_designation: {
     designation_to: "Designation to",
