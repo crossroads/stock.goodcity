@@ -1,0 +1,79 @@
+.user-details-section {
+  .user-img img {
+    width: 150px;
+  }
+}
+
+.create-user-button {
+  padding: 10px !important;
+  border: 1.4px solid white;
+  color: white;
+  font-weight: 600;
+  text-align: center;
+}
+
+.add-user-form {
+  input {
+    height: 1.8rem !important;
+  }
+
+  input[type="checkbox"] {
+    position: initial;
+  }
+
+  .image-box {
+    float: left;
+    margin-top: 0.5rem;
+    margin-right: 0.4rem;
+    background-color: #334f75;
+    text-align: center;
+    position: initial;
+    height: 4.1rem;
+    right: unset;
+    width: 20%;
+    font-size: 0.8rem;
+    z-index: 100;
+    margin-bottom: 1rem;
+
+    @media #{$small-only} {
+      width: 30%;
+    }
+  }
+}
+
+.radio-buttons {
+  .radio input {
+    position: absolute;
+  }
+
+  li {
+    border: none;
+    float: left;
+    width: 240px;
+    margin: 7px 5px;
+  }
+
+  input[type="checkbox"] {
+    background: none repeat scroll 0 0 red;
+    color: red;
+    visibility: hidden;
+  }
+
+  input[type="checkbox"]:checked + label {
+    background: $coral-red;
+    border: 1px solid $coral-red;
+  }
+
+  input[type="checkbox"]:not(:checked)+label,
+  input[type="checkbox"]:checked+label {
+    padding-left: 5px;
+  }
+
+  input[type="checkbox"]:checked + label:before,
+  input[type="checkbox"]:not(:checked) + label:before,
+  input[type="checkbox"]:checked+label:after
+    {
+      content: none;
+    }
+
+}

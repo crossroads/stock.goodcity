@@ -1,6 +1,8 @@
-import Ember from 'ember';
+import Ember from "ember";
 
 export default Ember.Component.extend({
+  smallPrefix: true,
+
   time: Ember.computed(function() {
     var timeValue = this.attrs.timeValue.value || new Date();
     return timeValue.toISOString();
@@ -8,6 +10,6 @@ export default Ember.Component.extend({
 
   timeDisplay: Ember.computed(function() {
     var timeValue = this.attrs.timeValue.value || new Date();
-    return moment(timeValue).fromNow(true);
+    return moment(timeValue).fromNow(this.get("smallPrefix"));
   })
 });

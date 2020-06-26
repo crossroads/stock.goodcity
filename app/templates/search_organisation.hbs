@@ -29,8 +29,8 @@
         {{#infinite-list height="75vh" loadMore=(action "loadMoreOrganisations") as |items| }}
           <ul class="list list-activity list-offer-items">
             {{#each items as |organisation|}}
-              <li>
-              {{#link-to 'organisations.detail' organisation.id tagName='div' href=false}}
+              <li {{action "setOrganization" organisation}}>
+
                 <div class="row">
                   <div class="small-12 columns">
                     {{organisation.nameEn}}
@@ -40,7 +40,7 @@
                   {{organisation.ordersCount}} {{t 'orders'}}
                   {{organisation.usersCount}} <i>{{fa-icon 'users'}}</i>
                 </div>
-              {{/link-to}}
+
               </li>
             {{/each}}
           </ul>
