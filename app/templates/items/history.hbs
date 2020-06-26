@@ -15,15 +15,17 @@
   </div>
   <div class="history-block">
     {{#if displayResults}}
-      {{#infinite-list height="60vh" loadMore=(action "loadMoreActions") as |item_actions| }}
-        {{#each item_actions as |item|}}
-          <div class="row block-header">
-            <div class="columns small-1">{{fa-icon 'paper-plane' }}</div>
-            <div class="columns small-3">{{item.action}}</div>
-            <div class="columns small-5 user-name">{{item.user.fullName}}</div>
-            <div class="columns small-2">21 May '20</div>
-          </div>
-        {{/each}}
+      {{#infinite-list height="100vh" loadMore=(action "loadMoreActions") as |item_actions| }}
+        {{#each-in item_actions.firstObject as |itemkey itemval|}}
+            {{#each-in (group-by "action" itemval) as |actionName itemActions|}}
+              <div class="action-block-parent">
+                {{partial "items/item_action_block"}}
+                {{#each itemActions as |action|}}
+                  {{partial "items/edit_item_block"}}
+                {{/each}}
+              </div>
+            {{/each-in}}
+        {{/each-in}}
       {{/infinite-list}}
     {{/if}}
   </div>
