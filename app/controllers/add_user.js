@@ -17,12 +17,20 @@ export default Ember.Controller.extend(AsyncMixin, ImageUploadMixin, {
 
   i18n: Ember.inject.service(),
   messageBox: Ember.inject.service(),
+  session: Ember.inject.service(),
   userImageKeys: Ember.computed.localStorage(),
   isMobileApp: config.cordova.enabled,
 
   locale: function(str) {
     return this.get("i18n").t(str);
   },
+
+  canManageUserRoles: Ember.computed("allRoles.[]", function() {
+    return (
+      this.get("allRoles").length &&
+      this.get("session.currentUser.canManageUserRoles")
+    );
+  }),
 
   allRoles: Ember.computed("model.roles.[]", function() {
     let roles = this.get("model.roles");

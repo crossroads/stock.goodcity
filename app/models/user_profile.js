@@ -56,6 +56,13 @@ export default Addressable.extend({
     );
   }),
 
+  canManageUserRoles: Ember.computed("roles", function() {
+    const roles = this.get("roles");
+    return roles.find(
+      r => r.get("permissionNames").indexOf("can_manage_user_roles") >= 0
+    );
+  }),
+
   canManageOrders: Ember.computed("roles", function() {
     const roles = this.get("roles");
     return roles.find(
