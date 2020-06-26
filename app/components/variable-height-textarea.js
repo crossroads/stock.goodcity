@@ -5,18 +5,16 @@ import AjaxPromise from "stock/utils/ajax-promise";
 
 let users = null;
 let selectedUsers = [];
-const remoteSearch = cb => {
-  const token = JSON.parse(window.localStorage.authToken);
-  new AjaxPromise("/mentionable_users", "GET", token, {
+const remoteSearch = (authToken, cb) => {
+  new AjaxPromise("/mentionable_users", "GET", authToken, {
     roles: "Order administrator, Order fulfilment"
   }).then(data => {
-    users = data.users;
+    users = data.users.map(user => {
+      return { name: user.first_name + " " + user.last_name, id: user.id };
+    });
     return cb(users);
   });
 };
-
-const fullName = item =>
-  `${item.first_name} ${item.last_name ? item.last_name : ""}`;
 
 export default Ember.Component.extend({
   tagName: "p",
@@ -24,6 +22,24 @@ export default Ember.Component.extend({
   attributeBindings: ["disabled", "value", "setBody"],
   classNames: "message-bar mentionable",
   disabled: false,
+  users: [],
+  initializeMentionableUsers: async () => {
+    let res = await new AjaxPromise(
+      "/mentionable_users",
+      "GET",
+      this.get("session.authToken"),
+      {
+        roles: "Order administrator, Order fulfilment"
+      }
+    );
+
+    this.set(
+      "users",
+      res.users.map(user => {
+        return { name: user.first_name + " " + user.last_name, id: user.id };
+      })
+    );
+  },
 
   didDestroyElement: function() {
     Ember.$("body").css({ "overflow-x": "hidden" });
@@ -40,33 +56,36 @@ export default Ember.Component.extend({
     }
   },
 
-  didInsertElement: function() {
+  didInsertElement: async function() {
     Ember.$("body").css({ "overflow-x": "unset" });
 
     const _this = this;
     const tribute = new Tribute({
       values: function(text, cb) {
         if (!users) {
-          return remoteSearch(users => cb(users));
+          return remoteSearch(_this.get("session.authToken"), users =>
+            cb(users)
+          );
         }
         return cb(users);
       },
       menuItemTemplate: item => {
-        return `<div class='item'><img class='mentionedImage' src="assets/images/user.svg"></img> ${fullName(
-          item.original
-        )}</div>`;
+        return `<div class='item'><img class='mentionedImage' src="assets/images/user.svg"></img> ${
+          item.original.name
+        }</div>`;
       },
       selectTemplate: function(item) {
         if (typeof item === "undefined") return null;
 
         selectedUsers.push(item.original);
-        return `<span class='mentioned' contenteditable="false">@${fullName(
-          item.original
-        )}</span>`;
+        return `<span class='mentioned' contenteditable="false">@${
+          item.original.name
+        }</span>`;
       },
       selectClass: "highlight",
-      // Adding display: none to avoid nondeName error in contenteditable cell
-      noMatchTemplate: () => `<div style="display: 'none'"/>`,
+      lookup: "name",
+      fillAttr: "name",
+      noMatchTemplate: () => null,
       menuContainer: document.getElementsByClassName(
         "message-textbar-container"
       )[0]
@@ -78,7 +97,7 @@ export default Ember.Component.extend({
       let parsedText = this.innerText;
       selectedUsers.forEach(user => {
         parsedText = parsedText.replace(
-          new RegExp(`@${fullName(user)}`, "g"),
+          new RegExp(`@${user.name}`, "g"),
           `[:${user.id}]`
         );
       });

@@ -4443,7 +4443,6 @@ cordova-lib@7.1.0:
 
 "cordova-lib@https://github.com/crossroads/goodcity-lib.git#master":
   version "0.0.0"
-
   resolved "https://github.com/crossroads/goodcity-lib.git#e041de5bf8cf742da810b31457e9e8cd206a0298"
   dependencies:
     bower "^1.8.8"
@@ -13892,10 +13891,9 @@ tree-sync@^1.2.1, tree-sync@^1.2.2, tree-sync@^1.4.0:
     quick-temp "^0.1.5"
     walk-sync "^0.3.3"
 
-tributejs@^5.1.3:
+"tributejs@https://github.com/crossroads/tribute":
   version "5.1.3"
-  resolved "https://registry.yarnpkg.com/tributejs/-/tributejs-5.1.3.tgz#980600fc72865be5868893078b4bfde721129eae"
-  integrity sha512-B5CXihaVzXw+1UHhNFyAwUTMDk1EfoLP5Tj1VhD9yybZ1I8DZJEv8tZ1l0RJo0t0tk9ZhR8eG5tEsaCvRigmdQ==
+  resolved "https://github.com/crossroads/tribute#83629165dd47251b658fc2fb8b0febf4f7b60388"
 
 trim-newlines@^1.0.0:
   version "1.0.0"
