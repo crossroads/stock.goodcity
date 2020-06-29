@@ -740,6 +740,8 @@ export default {
       expiry_date: "Expiry Date",
       publish: "Publish",
       duplicate: "Duplicate",
+      duplicate_successful_message:
+        "Item with inventory number '{{inventoryNo}}' was created ",
       labels: "Labels",
       condition: "Condition:",
       donation: "CAS#",
