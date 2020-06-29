@@ -146,15 +146,17 @@
           <span class='input_text'>{{t "items.new.expiry_date"}}</span>
         </div>
         <div class="columns small-4 value pieces">
-          {{date-picker
-            name="expiry_date"
-            id="expiry_date"
-            value=expiryDate
+          {{calendar-input
+            name='expiry_date'
+            id='expiry_date'
+            value=item.expiryDate
             enablePastDate=true
+            selection=item.expiryDate
             onSelect=(action 'setExpiryDate')
+            placeholder='Select Expiry'
           }}
         </div>
-        <i {{action (mut expiryDate) ""}} class="expiry_date_cancel">{{fa-icon 'times-circle' size="1x"}}</i>
+        <i {{action 'setExpiryDate' ''}} class="expiry_date_cancel">{{fa-icon 'times-circle' size="1x"}}</i>
       </div>
     {{/if}}
 
