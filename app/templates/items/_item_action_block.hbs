@@ -1,6 +1,6 @@
 <div class="row block-header">
-  <div class="columns small-1">{{fa-icon 'paper-plane' }}</div>
-  <div class="columns small-3">{{itemActions.firstObject.action}}</div>
-  <div class="columns small-4 user-name">{{itemActions.firstObject.user.fullName}}</div>
-  <div class="columns small-3 display-day">{{display-time itemActions.firstObject.createdAt "LL"}}</div>
+  <div class="columns small-1">{{fa-icon (item-action-icon group.type) }}</div>
+  <div class="columns small-3">{{group.type}}</div>
+  <div class="columns small-4 user-name">{{group.user}}</div>
+  <div class="columns small-3 display-day">{{group.date}}</div>
 </div>

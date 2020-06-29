@@ -31,27 +31,26 @@ export default detail.extend(SearchMixin, {
           if (!items.get("length")) {
             return [];
           }
-          let groupedUserItems = [];
-          let actionsAndVersions = [...items.toArray()];
-          let sortedItems = actionsAndVersions.sortBy("createdAt");
-
-          sortedItems.map((item, index) => {
-            let previousItem = sortedItems[index - 1];
-            if (
-              item.get("user.fullName").toString() ==
-              (previousItem && previousItem.get("user.fullName").toString())
-            ) {
-              const existingKey = this.getObjectPosition(
-                groupedUserItems,
-                previousItem
-              );
-              groupedUserItems[existingKey].push(item);
-            } else {
-              const newKey = `${item.get("user.fullName")}_${index}`;
-              groupedUserItems[newKey] = [item];
-            }
-          });
-          return [groupedUserItems];
+          let sortedItems = [...items.toArray()].sortBy("createdAt");
+          const groups = _.reduce(
+            sortedItems,
+            (results, action) => {
+              const groupKey = `${action.get("user.fullName")}/${action.get(
+                "action"
+              )}/${moment(action.get("createdAt")).format("LL")}`;
+              results[groupKey] = results[groupKey] || {
+                key: groupKey,
+                type: action.get("action").capitalize(),
+                date: moment(action.get("createdAt")).format("LL"),
+                user: action.get("user.fullName"),
+                actions: []
+              };
+              results[groupKey].actions.push(action);
+              return results;
+            },
+            {}
+          );
+          return _.values(groups);
         });
     }
   }
