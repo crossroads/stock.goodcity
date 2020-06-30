@@ -26,5 +26,21 @@ export default DS.Model.extend({
 
   user: belongsTo("user", {
     async: false
+  }),
+
+  absoluteQuantity: Ember.computed("quantity", function() {
+    return Math.abs(this.get("quantity"));
+  }),
+
+  locationSubscript: Ember.computed("quantity", function() {
+    return Number(this.get("quantity")) >= 0 ? "To" : "From";
+  }),
+
+  sourceSubscript: Ember.computed("quantity", function() {
+    return Number(this.get("quantity")) >= 0 ? "From" : "To";
+  }),
+
+  arrow: Ember.computed("quantity", function() {
+    return Number(this.get("quantity")) >= 0 ? "arrow-up" : "arrow-down";
   })
 });

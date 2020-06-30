@@ -1,7 +1,22 @@
 <div class="row actions-list">
-  <div class="columns small-1">{{fa-icon 'arrow-up' }}</div>
-  <div class="columns small-3">{{action.quantity}}</div>
-  <div class="columns small-3">from</div>
-  <div class="columns small-3 user-name">{{action.location.name}}</div>
+  <div class="columns small-1">{{fa-icon action.arrow }}</div>
+  <div class="columns small-3">{{action.absoluteQuantity}}</div>
+  <div class="columns small-2">
+    {{action.locationSubscript}}
+    {{#if action.sourceId}}
+      <br>
+      {{action.sourceSubscript}}
+    {{/if}}
+  </div>
+  <div class="columns small-3 user-name">
+    {{action.location.name}}
+    {{#if action.sourceId}}
+      <br>
+      {{action.source.name}}
+    {{/if}}
+  </div>
   <div class="columns small-1">{{display-time action.createdAt "HH:mm"}}</div>
+  <div class="columns small-12 description">
+    {{action.description}}
+  </div>
 </div>

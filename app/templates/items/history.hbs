@@ -15,7 +15,7 @@
   </div>
   <div class="history-block">
     {{#if displayResults}}
-      {{#infinite-list height="100vh" loadMore=(action "loadMoreActions") as |actionGroups| }}
+      {{#infinite-list height="120vh" loadMore=(action "loadMoreActions") as |actionGroups| }}
         {{#each actionGroups as |group|}}
           <div class="action-block-parent">
             {{partial "items/item_action_block"}}
