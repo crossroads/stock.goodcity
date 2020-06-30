@@ -33,5 +33,10 @@ export const ITEM_ACTIONS = [
     name: "Move",
     icon: "map-marker",
     loss: true
+  },
+  {
+    name: "Edited",
+    icon: "edit",
+    loss: true
   }
 ];

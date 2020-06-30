@@ -20,7 +20,32 @@
           <div class="action-block-parent">
             {{partial "items/item_action_block"}}
             {{#each group.actions as |action|}}
-              {{partial "items/edit_item_block"}}
+              {{#if action.objectChanges}}
+                {{#each-in action.objectChanges as |key value|}}
+                  {{#if (is-not-equal key "updated_at")}}
+                    <div class="row actions-list">
+                      <div class="columns small-3">
+                        {{key}}
+                      </div>
+                      <div class="columns small-7">
+                        <div>
+                          {{#if value.firstObject}}
+                            <div style="text-decoration: line-through;">{{value.firstObject}}</div>
+                          {{else}}
+                            -
+                          {{/if}}
+                        </div>
+                        <div>{{value.lastObject}}</div>
+                      </div>
+                      <div class="columns small-2">
+                        {{display-time value.lastObject "HH:mm"}}
+                      </div>
+                    </div>
+                  {{/if}}
+                {{/each-in}}
+              {{else}}
+                {{partial "items/edit_item_block"}}
+              {{/if}}
             {{/each}}
           </div>
         {{/each}}

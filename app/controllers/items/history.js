@@ -31,18 +31,40 @@ export default detail.extend(SearchMixin, {
           if (!items.get("length")) {
             return [];
           }
-          let sortedItems = [...items.toArray()].sortBy("createdAt");
+          let versions = items
+            .get("firstObject")
+            .get("item.versions")
+            .toArray();
+          versions.shift();
+          let actionsAndVersions = [...items.toArray(), ...versions].sortBy(
+            "createdAt"
+          );
           const groups = _.reduce(
-            sortedItems,
+            actionsAndVersions,
             (results, action) => {
-              const groupKey = `${action.get("user.fullName")}/${action.get(
-                "action"
-              )}/${moment(action.get("createdAt")).format("LL")}`;
+              let groupKey;
+              const createdAt = moment(action.get("createdAt")).format("LL");
+              const isItemAction = !!action.get("user.fullName");
+
+              if (isItemAction) {
+                groupKey = `${action.get("user.fullName")}/${action.get(
+                  "action"
+                )}/${createdAt}`;
+              } else {
+                groupKey = `${action.get("whodunnitName")}/${action.get(
+                  "state"
+                )}/${createdAt}`;
+              }
+
               results[groupKey] = results[groupKey] || {
                 key: groupKey,
-                type: action.get("action").capitalize(),
-                date: moment(action.get("createdAt")).format("LL"),
-                user: action.get("user.fullName"),
+                type: isItemAction
+                  ? action.get("action").capitalize()
+                  : "Edited",
+                date: createdAt,
+                user: isItemAction
+                  ? action.get("user.fullName")
+                  : action.get("whodunnitName"),
                 actions: []
               };
               results[groupKey].actions.push(action);

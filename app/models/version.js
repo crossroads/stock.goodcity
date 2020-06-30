@@ -10,6 +10,7 @@ export default DS.Model.extend({
   whodunnitName: attr("string"),
   state: attr("string"),
   createdAt: attr("date"),
+  objectChanges: attr(),
   item: belongsTo("item", {
     async: false
   })
