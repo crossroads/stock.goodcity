@@ -74,6 +74,8 @@ export default {
   messages: {
     you: "You",
     chat_note: "Chat about this order with the user",
+    item_chat_permission_error:
+      "You are not authorized to send messages on items.",
     send: "Send",
     day: {
       today: "Today",

@@ -16,3 +16,19 @@
     margin-bottom: 50px;
   }
 }
+
+.not-accessible {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.permission-error {
+  text-align: center;
+  font-size: 1rem;
+  position: absolute;
+  margin: 0;
+  top: 40%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}

@@ -15,8 +15,14 @@
   </div>
   <hr />
 
-  <section class="main-section items-messages-section">
+  <section class="main-section items-messages-section {{if canManageItemsChat '' 'not-accessible'}}">
     {{partial "orders/message_template"}}
+
+    {{#unless canManageItemsChat}}
+      <div class="permission-error">
+        {{t "messages.item_chat_permission_error"}}
+      </div>
+    {{/unless}}
   </section>
 
   {{partial "items/sticky_footer"}}

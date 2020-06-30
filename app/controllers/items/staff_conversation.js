@@ -3,12 +3,15 @@
 export default Ember.Controller.extend({
   isPrivate: true,
   sortProperties: ["createdAt: asc"],
-  store: Ember.inject.service(),
-  subscription: Ember.inject.service(),
-  messagesUtil: Ember.inject.service("messages"),
   body: "",
   messages: [],
 
+  store: Ember.inject.service(),
+  subscription: Ember.inject.service(),
+
+  canManageItemsChat: Ember.computed.alias(
+    "session.currentUser.canManageItemsChat"
+  ),
   sortedMessages: Ember.computed.sort("messages", "sortProperties"),
 
   groupedMessages: Ember.computed("sortedMessages", function() {
