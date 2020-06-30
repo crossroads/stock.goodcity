@@ -84,6 +84,7 @@ export default detail.extend({
       return;
     }
 
+    this.get("messages").pushObject(message._internalModel);
     this.get("messagesUtil").markRead(message);
 
     if (!Ember.$(".message-textbar").length) {
