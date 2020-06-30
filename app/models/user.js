@@ -14,12 +14,24 @@ export default Addressable.extend({
   lastDisconnected: attr("date"),
   i18n: Ember.inject.service(),
   printerId: attr("number"),
+  userRoleIds: attr(""),
+
+  isEmailVerified: attr("boolean"),
+  isMobileVerified: attr("boolean"),
+  disabled: attr("boolean"),
+
   printer: belongsTo("printer", { async: false }),
+
+  image: belongsTo("image", {
+    async: false
+  }),
+
   userRoles: hasMany("userRoles", {
     async: false
   }),
-  roles: hasMany("roles", {
-    async: false
+
+  roles: Ember.computed("userRoles.[]", function() {
+    return this.get("userRoles").map(userRole => userRole.get("role"));
   }),
 
   fullName: Ember.computed("firstName", "lastName", function() {
@@ -29,6 +41,7 @@ export default Addressable.extend({
   organisations: hasMany("organisation", {
     async: false
   }),
+
   organisationsUsers: hasMany("organisationsUsers", {
     async: false
   }),

@@ -52,6 +52,7 @@ export default GoodcityController.extend(
     invalidScanResult: false,
     newUploadedImage: null,
     subFormData: {},
+    successfullyDuplicated: false,
     setDropdownOption: Ember.inject.service(),
     showAdditionalFields: false,
     isAllowedToPublish: false,
@@ -479,6 +480,7 @@ export default GoodcityController.extend(
     },
 
     createPackage() {
+      this.set("previousInventoryNumber", this.get("inventoryNumber"));
       this.get("packageService")
         .createPackage({
           package: this.packageParams()
@@ -494,6 +496,8 @@ export default GoodcityController.extend(
             this.clearSubformAttributes();
             this.setProperties({
               locationId: "",
+              comment: "",
+              successfullyDuplicated: false,
               inventoryNumber: "",
               offersLists: []
             });
@@ -513,7 +517,9 @@ export default GoodcityController.extend(
     async displayDuplicateParams(data) {
       this.replaceRoute("items.new");
       this.clearParams();
+      Ember.$("body").animate({ scrollTop: 0 });
       this.set("quantity", 1);
+      this.set("successfullyDuplicated", true);
       await this.send("autoGenerateInventoryNumber");
       if (this.get("newUploadedImage")) {
         var duplicateImage = this.get("newUploadedImage");
@@ -524,6 +530,13 @@ export default GoodcityController.extend(
         this.set("newUploadedImage", newUploadedImage);
         this.set("imageKeys", newUploadedImage);
       }
+      Ember.run.later(
+        this,
+        function() {
+          this.set("successfullyDuplicated", false);
+        },
+        4000
+      );
     },
 
     actions: {
@@ -714,9 +727,13 @@ export default GoodcityController.extend(
               this.set("inventoryNumber", "");
             }
             this.send("deleteUnusedImage");
-            this.set("locationId", "");
-            this.set("codeId", "");
-            this.set("shouldDuplicate", false);
+            this.setProperties({
+              locationId: "",
+              comment: "",
+              codeId: "",
+              successfullyDuplicated: false,
+              shouldDuplicate: false
+            });
             Ember.run.later(
               this,
               function() {

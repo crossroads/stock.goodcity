@@ -17,6 +17,15 @@ Router.map(function() {
   this.route("item_filters");
   this.route("my_notifications");
 
+  // Users
+  this.route("manage_users");
+  this.route("add_user", {
+    path: "/users/new"
+  });
+  this.route("user_details", {
+    path: "/users/:user_id"
+  });
+
   this.route("items", function() {
     this.route("new");
 

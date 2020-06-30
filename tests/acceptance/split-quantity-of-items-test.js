@@ -55,11 +55,11 @@
 //     $.mockjaxSettings.matchInRegistrationOrder = false;
 //     mocks.push(
 //       $.mockjax({
-//         url: "/api/v1/auth/current_user_profil*",
+//         url: "/api/v1/auth/current_user_profile*",
 //         responseText: data
 //       }),
 //       $.mockjax({
-//         url: "/api/v1/orders/summar*",
+//         url: "/api/v1/orders/summary*",
 //         responseText: {
 //           submitted: 14,
 //           awaiting_dispatch: 1,
@@ -109,7 +109,7 @@
 //   });
 //   mocks.push(
 //     $.mockjax({
-//       url: `/items/${updatedPkg.id}/split_ite*`,
+//       url: `/items/${updatedPkg.id}/split_item*`,
 //       type: "PUT",
 //       status: 200,
 //       responseText: updatedPkg
@@ -117,7 +117,10 @@
 //   );
 //   visit("/");
 //   andThen(function() {
-//     visit(`/items/${updatedPkg.id}`);
+//     visit(`/items/${updatedPkg.id}/publishing`);
+//   });
+//   andThen(function() {
+//     click(".small-block-grid-4 li:last");
 //   });
 //   andThen(function() {
 //     click(".split-quantity");
@@ -129,12 +132,7 @@
 //     click(".split-item-btn");
 //   });
 //   andThen(function() {
-//     assert.equal(
-//       +Ember.$(".item-quantity")
-//         .text()
-//         .trim(),
-//       18
-//     );
+//     assert.equal($(".inventory-holder").text(), 18);
 //   });
 // });
 
@@ -163,7 +161,7 @@
 //   });
 //   mocks.push(
 //     $.mockjax({
-//       url: `/items/${updatedPkg.id}/split_ite*`,
+//       url: `/items/${updatedPkg.id}/split_item*`,
 //       type: "PUT",
 //       status: 200,
 //       responseText: updatedPkg
@@ -173,6 +171,9 @@
 //   visit("/");
 //   andThen(function() {
 //     visit(`/items/${updatedPkg.id}`);
+//   });
+//   andThen(function() {
+//     click(".small-block-grid-4 li:last");
 //   });
 //   andThen(function() {
 //     click(".split-quantity");
@@ -215,7 +216,7 @@
 //   });
 //   mocks.push(
 //     $.mockjax({
-//       url: `/items/${updatedPkg.id}/split_ite*`,
+//       url: `/items/${updatedPkg.id}/split_item*`,
 //       type: "PUT",
 //       status: 200,
 //       responseText: updatedPkg
@@ -225,6 +226,9 @@
 //   visit("/");
 //   andThen(function() {
 //     visit(`/items/${updatedPkg.id}`);
+//   });
+//   andThen(function() {
+//     click(".small-block-grid-4 li:last");
 //   });
 //   andThen(function() {
 //     click(".split-quantity");
@@ -267,7 +271,7 @@
 //   });
 //   mocks.push(
 //     $.mockjax({
-//       url: `/items/${updatedPkg.id}/split_ite*`,
+//       url: `/items/${updatedPkg.id}/split_item*`,
 //       type: "PUT",
 //       status: 200,
 //       responseText: updatedPkg
@@ -277,6 +281,9 @@
 //   visit("/");
 //   andThen(function() {
 //     visit(`/items/${updatedPkg.id}`);
+//   });
+//   andThen(function() {
+//     click(".small-block-grid-4 li:last");
 //   });
 //   andThen(function() {
 //     click(".split-quantity");
@@ -323,7 +330,7 @@
 //   });
 //   mocks.push(
 //     $.mockjax({
-//       url: `/items/${updatedPkg.id}/split_ite*`,
+//       url: `/items/${updatedPkg.id}/split_item*`,
 //       type: "PUT",
 //       status: 200,
 //       responseText: updatedPkg
@@ -332,6 +339,9 @@
 //   visit("/");
 //   andThen(function() {
 //     visit(`/items/${updatedPkg.id}`);
+//   });
+//   andThen(function() {
+//     click(".small-block-grid-4 li:last");
 //   });
 //   andThen(function() {
 //     click(".split-quantity");
@@ -378,7 +388,7 @@
 //   });
 //   mocks.push(
 //     $.mockjax({
-//       url: `/items/${updatedPkg.id}/split_ite*`,
+//       url: `/items/${updatedPkg.id}/split_item*`,
 //       type: "PUT",
 //       status: 200,
 //       responseText: updatedPkg
@@ -386,7 +396,10 @@
 //   );
 //   visit("/");
 //   andThen(function() {
-//     visit(`/items/${updatedPkg.id}`);
+//     visit(`/items/${updatedPkg.id}/publishing`);
+//   });
+//   andThen(function() {
+//     click(".small-block-grid-4 li:last");
 //   });
 //   andThen(function() {
 //     click(".split-quantity");
@@ -398,13 +411,6 @@
 //     click(".dont-split-btn");
 //   });
 //   andThen(function() {
-//     assert.equal(
-//       +Ember.$(".item-quantity")
-//         .text()
-//         .trim(),
-//       20
-//     );
+//     assert.equal($(".inventory-holder").text(), 20);
 //   });
 // });
-
-//Commented for now and wll be updated once split button is added in action field

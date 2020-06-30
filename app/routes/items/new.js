@@ -139,6 +139,7 @@ export default AuthorizeRoute.extend(GradeMixin, {
     controller.set("height", null);
     controller.set("weight", null);
     controller.set("pieces", null);
+    controller.set("expirty_date", null);
     controller.set("selectedGrade", {
       name: "B",
       id: "B"

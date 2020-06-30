@@ -45,6 +45,8 @@ export default {
   create_new_box: "Create New Box",
   create_new_pallet: "Create New Pallet",
   manage_inventory: "Manage Appointment Quotas",
+  manage_users: "Manage Users",
+  search_user: "Search User",
   new_order: "Create New Order",
   full_name: "{{firstName}} {{lastName}}",
   mobile_prefix: "+852",
@@ -52,6 +54,8 @@ export default {
     "Oooops, the location you're headed to doesn't seem to exist anymore. Sorry!",
   unavailable_item: "Sorry! This item is not available.",
   unavailable_order: "Sorry! This order is not available.",
+  yes: "Yes",
+  no: "No",
 
   box_pallet: {
     indicate_amount:
@@ -761,6 +765,8 @@ export default {
       weight: "Weight (kg)",
       publish: "Publish",
       duplicate: "Duplicate",
+      duplicate_successful_message:
+        "Item with inventory number '{{inventoryNo}}' was created ",
       labels: "Labels",
       pieces: "Pieces",
       expiry_date: "Expiry Date",
@@ -872,5 +878,21 @@ export default {
       "The remaining quantity is designated to {{orderCode}}.",
     confirm_undesignation: "Are you sure you wish to undesignate ?",
     click_to_undesignate: "Click here to undesignate"
+  },
+  users: {
+    cancel_user_warning:
+      "You will lose all your data. Are you sure you want to cancel this User?",
+    image: "Image",
+    add_image: "Add Image",
+    disabled: "Disabled",
+    roles: "Roles",
+    organisation: "Organisation",
+    create_new_user: "Create new user",
+    first_name: "First Name",
+    last_name: "Last Name",
+    mobile: "Mobile",
+    email: "Email",
+    registered_on: "Registered on",
+    last_connected_on: "Last connected on"
   }
 };

@@ -8,6 +8,8 @@ export default Addressable.extend({
   firstName: attr("string"),
   lastName: attr("string"),
   mobile: attr("string"),
+  disabled: attr("boolean"),
+  maxRoleLevel: attr("number"),
 
   userRoles: DS.hasMany("userRoles", { async: false }),
 
@@ -54,6 +56,13 @@ export default Addressable.extend({
     );
   }),
 
+  canManageUserRoles: Ember.computed("roles", function() {
+    const roles = this.get("roles");
+    return roles.find(
+      r => r.get("permissionNames").indexOf("can_manage_user_roles") >= 0
+    );
+  }),
+
   canManageOrders: Ember.computed("roles", function() {
     const roles = this.get("roles");
     return roles.find(
@@ -65,6 +74,13 @@ export default Addressable.extend({
     const roles = this.get("roles");
     return roles.find(
       r => r.get("permissionNames").indexOf("can_manage_packages_chat") >= 0
+    );
+  }),
+
+  canDisableUsers: Ember.computed("roles", function() {
+    const roles = this.get("roles");
+    return roles.find(
+      r => r.get("permissionNames").indexOf("can_disable_user") >= 0
     );
   }),
 

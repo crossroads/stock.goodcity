@@ -32,7 +32,7 @@ export default Ember.TextField.extend({
         val = null;
       }
       this.set("_model", val);
-      this.set("value", val ? moment(val).format("ddd MMM D") : "");
+      this.set("value", val ? moment(val).format("LL") : "");
       return val;
     }
   }),
@@ -45,7 +45,7 @@ export default Ember.TextField.extend({
       Ember.$(this.element).pickadate({
         selectMonths: !!enablePastDate,
         selectYears: !!enablePastDate,
-        format: "ddd mmm d",
+        formatSubmit: "ddd mmm d",
         monthsFull: moment.months(),
         monthsShort: moment.monthsShort(),
         weekdaysShort: moment.weekdaysShort(),
@@ -56,7 +56,7 @@ export default Ember.TextField.extend({
         onStart: function() {
           if (this.get("value")) {
             cmp.set("_model", this.get("value"));
-            cmp.set("value", moment(this.get("value")).format("ddd MMM D"));
+            cmp.set("value", moment(this.get("value")).format("LL"));
           }
         },
 
@@ -68,7 +68,7 @@ export default Ember.TextField.extend({
               this.get("val") || (this.get("select") && this.get("select").obj);
             if (isValidDate(date) && _.isFunction(onSelect)) {
               onSelect(date);
-              cmp.set("value", moment(date).format("ddd MMM D"));
+              cmp.set("value", moment(date).format("LL"));
             }
           }
         },
