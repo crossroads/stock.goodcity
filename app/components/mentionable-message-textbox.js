@@ -31,6 +31,10 @@ export default Ember.Component.extend({
   classNames: "message-bar mentionable",
   disabled: false,
 
+  autoScroll: function() {
+    window.scrollTo(0, document.body.scrollHeight);
+  },
+
   didDestroyElement: function() {
     Ember.$("body").css({ "overflow-x": "hidden" });
   },
@@ -40,15 +44,15 @@ export default Ember.Component.extend({
   }.observes("value"),
 
   processValue: function() {
-    if (!this.value) {
+    // scroll to bottom if message typed and restrict if blank message is sent
+    if (!this.get("value")) {
+      this.autoScroll();
       this.element.innerText = "";
-      window.scrollTo(0, document.body.scrollHeight);
     }
   },
 
   didInsertElement: async function() {
     Ember.$("body").css({ "overflow-x": "unset" });
-
     const _this = this;
     const tribute = new Tribute({
       values: function(text, cb) {

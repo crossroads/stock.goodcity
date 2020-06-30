@@ -13891,9 +13891,9 @@ tree-sync@^1.2.1, tree-sync@^1.2.2, tree-sync@^1.4.0:
     quick-temp "^0.1.5"
     walk-sync "^0.3.3"
 
-"tributejs@https://github.com/crossroads/tribute":
+"tributejs@https://github.com/crossroads/tribute.git#master":
   version "5.1.3"
-  resolved "https://github.com/crossroads/tribute#83629165dd47251b658fc2fb8b0febf4f7b60388"
+  resolved "https://github.com/crossroads/tribute.git#7302c8d72d0dccc58d5aa5efb247265cab27f10a"
 
 trim-newlines@^1.0.0:
   version "1.0.0"
