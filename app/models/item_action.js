@@ -42,5 +42,16 @@ export default DS.Model.extend({
 
   arrow: Ember.computed("quantity", function() {
     return Number(this.get("quantity")) >= 0 ? "arrow-up" : "arrow-down";
+  }),
+
+  sourceDisplayName: Ember.computed("sourceId", "source_type", function() {
+    switch (this.get("source_type")) {
+      case "OrdersPackage":
+        return this.get("store")
+          .peekRecord("orders_package", this.get("sourceId"))
+          .getWithDefault("'order.code'", "N/A");
+      default:
+        return "";
+    }
   })
 });
