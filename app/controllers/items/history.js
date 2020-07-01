@@ -7,16 +7,6 @@ export default detail.extend(SearchMixin, {
   autoLoad: true,
   perPage: 25,
 
-  getObjectPosition(objectToBeSearched, searchElement) {
-    let position;
-    Object.keys(objectToBeSearched).map(key => {
-      if (objectToBeSearched[key].includes(searchElement)) {
-        position = key;
-      }
-    });
-    return position;
-  },
-
   actions: {
     loadMoreActions(pageNo) {
       const params = this.trimQuery(
@@ -35,6 +25,18 @@ export default detail.extend(SearchMixin, {
             .get("firstObject")
             .get("item.versions")
             .toArray();
+
+          let results = _.map(versions, function(version) {
+            return _.omit(version.get("objectChanges"), [
+              "available_quantity",
+              "designated_quantity",
+              "on_hand_quantity",
+              "dispatched_quanitity"
+            ]);
+          });
+          versions.forEach((version, index) =>
+            version.set("objectChanges", results[index])
+          );
           versions.shift();
           let actionsAndVersions = [...items.toArray(), ...versions].sortBy(
             "createdAt"
