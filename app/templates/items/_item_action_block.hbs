@@ -1,6 +1,22 @@
-<div class="row block-header">
-  <div class="columns small-1">{{fa-icon (item-action-icon group.type) }}</div>
-  <div class="columns small-3">{{group.type}}</div>
-  <div class="columns small-4 user-name">{{group.user}}</div>
-  <div class="columns small-3 display-day">{{group.date}}</div>
+<div class="row actions-list">
+  <div class="columns small-1">{{fa-icon action.arrow }}</div>
+  <div class="columns small-2">{{action.absoluteQuantity}}</div>
+  <div class="columns small-3">
+    {{action.locationSubscript}}
+    {{#if action.sourceId}}
+      <br>
+      {{action.sourceSubscript}}
+    {{/if}}
+  </div>
+  <div class="columns small-3 user-name">
+    {{action.location.name}}
+    {{#if action.sourceId}}
+      <br>
+      {{action.sourceDisplayName}}
+    {{/if}}
+  </div>
+  <div class="columns small-1">{{display-time action.createdAt "HH:mm"}}</div>
+  <div class="columns small-12 description">
+    {{action.description}}
+  </div>
 </div>

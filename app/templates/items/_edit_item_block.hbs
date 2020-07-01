@@ -1,22 +1,22 @@
-<div class="row actions-list">
-  <div class="columns small-1">{{fa-icon action.arrow }}</div>
-  <div class="columns small-2">{{action.absoluteQuantity}}</div>
-  <div class="columns small-3">
-    {{action.locationSubscript}}
-    {{#if action.sourceId}}
-      <br>
-      {{action.sourceSubscript}}
-    {{/if}}
-  </div>
-  <div class="columns small-3 user-name">
-    {{action.location.name}}
-    {{#if action.sourceId}}
-      <br>
-      {{action.sourceDisplayName}}
-    {{/if}}
-  </div>
-  <div class="columns small-1">{{display-time action.createdAt "HH:mm"}}</div>
-  <div class="columns small-12 description">
-    {{action.description}}
-  </div>
-</div>
+{{#each-in action.objectChanges as |key value|}}
+  {{#if (is-not-equal key "updated_at")}}
+    <div class="row actions-list">
+      <div class="columns small-3">
+        {{startcase-string key}}
+      </div>
+      <div class="columns small-7">
+        <div>
+          {{#if value.firstObject}}
+            <div class="previous-value">{{format-display-value key value.firstObject }}</div>
+          {{else}}
+            -
+          {{/if}}
+        </div>
+        <div>{{format-display-value key value.lastObject }}</div>
+      </div>
+      <div class="columns small-2">
+        {{display-time value.lastObject "HH:mm"}}
+      </div>
+    </div>
+  {{/if}}
+{{/each-in}}

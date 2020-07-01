@@ -52,13 +52,28 @@
         padding-top: 1%;
         padding-bottom: 1%;
 
+        .action-icon {
+          margin-left: 1%;
+          margin-top: 1%;
+          font-size: 120%;
+          color: #CBD3DC;
+        }
+
+        .action {
+          font-size: 120%;
+          margin-top: 1%;
+          color: #A8B4C4;
+        }
+
         .user-name {
           text-align: center;
+          margin-top: 1%;
         }
 
         .display-day {
-          float: right;
-          padding-left: 6%;
+          margin-top: 1%;
+          padding-left: 3%;
+          text-align: center;
         }
       }
       .actions-list {
@@ -67,6 +82,10 @@
 
         .description {
           margin-top: 2%;
+        }
+
+        .previous-value {
+          text-decoration: line-through;
         }
       }
     }
