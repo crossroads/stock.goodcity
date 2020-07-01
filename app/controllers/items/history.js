@@ -4,6 +4,7 @@ import _ from "lodash";
 import SearchMixin from "stock/mixins/search_resource";
 
 export default detail.extend(SearchMixin, {
+  enableFooterActions: false,
   autoLoad: true,
   perPage: 25,
 
