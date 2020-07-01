@@ -76,7 +76,9 @@ export default Ember.TextField.extend({
   onStart(pickadate) {
     var date = this.get("selection");
     if (date) {
-      pickadate.set("select", moment(date).toDate(), { format: "ddd mmm d" });
+      pickadate.set("select", moment(new Date(date)).toDate(), {
+        format: "ddd mmm d"
+      });
     }
   },
 

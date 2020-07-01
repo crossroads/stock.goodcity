@@ -653,7 +653,7 @@ export default GoodcityController.extend(
       },
 
       setExpiryDate(value) {
-        this.set("item.expiryDate", value);
+        this.set("item.expiryDate", value.toString());
         this.runTask(this.get("item").save());
       },
 
