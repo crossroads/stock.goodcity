@@ -8,6 +8,7 @@ const ALIASES = {
 };
 
 function normalize(payload) {
+  if (!payload) return;
   _.each(ALIASES, (alias, original) => {
     if (_.has(payload, original)) {
       payload[alias] = payload[original];
