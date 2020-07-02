@@ -16,6 +16,10 @@ export default Ember.Helper.extend({
         return this.get("store")
           .peekRecord("restriction", value)
           .getWithDefault("name", "N/A");
+      case "package_type_id":
+        return this.get("store")
+          .peekRecord("code", value)
+          .getWithDefault("name", "N/A");
       default:
         return value;
     }

@@ -12,10 +12,16 @@
             -
           {{/if}}
         </div>
-        <div>{{format-display-value key value.lastObject }}</div>
+        <div>
+          {{#if value.lastObject}}
+            {{format-display-value key value.lastObject }}
+          {{else}}
+            -
+          {{/if}}
+        </div>
       </div>
       <div class="columns small-2">
-        {{display-time value.lastObject "HH:mm"}}
+        {{display-time action.objectChanges.updated_at.lastObject "HH:mm"}}
       </div>
     </div>
   {{/if}}
