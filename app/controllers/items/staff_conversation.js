@@ -1,5 +1,3 @@
-// import conversation from "stock/controllers/orders/conversation";
-
 export default Ember.Controller.extend({
   isPrivate: true,
   sortProperties: ["createdAt: asc"],
@@ -8,6 +6,7 @@ export default Ember.Controller.extend({
 
   store: Ember.inject.service(),
   subscription: Ember.inject.service(),
+  messagesUtil: Ember.inject.service("messages"),
 
   canManageItemsChat: Ember.computed.alias(
     "session.currentUser.canManageItemsChat"
@@ -74,6 +73,7 @@ export default Ember.Controller.extend({
       return;
     }
 
+    this.get("messages").pushObject(message._internalModel);
     this.get("messagesUtil").markRead(message);
 
     if (!Ember.$(".message-textbar").length) {

@@ -108,6 +108,10 @@ export default cloudinaryUrl.extend(GradeMixin, {
     async: true
   }),
 
+  messages: hasMany("message", {
+    async: true
+  }),
+
   isDispatched: Ember.computed.bool("sentOn"),
   orderCode: Ember.computed.alias("designation.code"),
   updatedAt: attr("date"),

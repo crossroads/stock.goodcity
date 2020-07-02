@@ -26,6 +26,13 @@ export default AuthorizeRoute.extend({
 
     if (this.get("canManageItemsChat")) {
       controller.send("markRead");
+      controller.on();
+    }
+  },
+
+  resetController(controller) {
+    if (this.get("canManageItemsChat")) {
+      controller.off();
     }
   }
 });

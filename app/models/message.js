@@ -17,6 +17,7 @@ export default DS.Model.extend({
     async: false
   }),
   designationId: attr(),
+  itemId: attr(),
   designation: belongsTo("designation", { async: false }),
   lookup: attr("string"),
   messageableType: attr("string"),

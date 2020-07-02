@@ -24,6 +24,10 @@ function normalize(payload) {
       m.designation_id = m.messageable_id;
     }
 
+    if (m.messageable_type == "Package") {
+      m.item_id = m.messageable_id;
+    }
+
     // This is done to handle inconsistent mapping of jsonb datatype
     if (typeof m.lookup === "object") {
       m.lookup = JSON.stringify(m.lookup);
