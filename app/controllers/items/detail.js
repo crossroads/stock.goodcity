@@ -84,6 +84,10 @@ export default GoodcityController.extend(
       return !!this.get("item.detail.length");
     },
 
+    packageSetName: Ember.computed("model", function() {
+      return this.get("model.packageSet.code.name");
+    }),
+
     showSetList: Ember.computed("_showSetList", "model.isPartOfSet", {
       get() {
         return this.get("_showSetList") && this.get("model.isPartOfSet");
@@ -570,9 +574,20 @@ export default GoodcityController.extend(
       },
 
       async updatePackageType() {
-        const pkgType = await this.get(
-          "packageTypeService"
-        ).userPickPackageType();
+        let pkgType;
+        if (this.get("model.isPartOfSet")) {
+          const allowedPackageTypes = this.get("packageTypeService").parentsOf(
+            this.get("model.code")
+          );
+          pkgType = await this.get("packageTypeService").userPickPackageType({
+            storageType: "Package",
+            subsetPackageTypes: allowedPackageTypes,
+            headerText: this.get("i18n").t("items.select_set_type")
+          });
+        } else {
+          pkgType = await this.get("packageTypeService").userPickPackageType();
+        }
+
         if (this.hasExistingPackageSubform() && !this.isSamePackage(pkgType)) {
           this.warnAndAssignNew(pkgType);
         } else {
