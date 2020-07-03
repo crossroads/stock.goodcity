@@ -1,0 +1,10 @@
+{{#if offer.company}}
+  {{fa-icon 'building' class='offer-icon'}}
+  {{offer.company.name}}
+{{else}}
+  {{fa-icon 'user' class='offer-icon'}}
+  {{offer.id}}
+{{/if}}
+{{#if isPackageOffer}}
+  <div class="delete-offer"{{action "removeOffer" offer}}>{{fa-icon 'times'}}</div>
+{{/if}}

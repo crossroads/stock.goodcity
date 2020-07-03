@@ -25,14 +25,10 @@
 <section class="main-section organisation_search_result">
   <div class="row search">
     <div class="small-12 columns">
-      {{#if isLoading}}
-        <div class="loading_screen">
-          {{partial 'loading'}}
-        </div>
-      {{else}}
-        {{#if filteredResults}}
-          <ul class="list list-activity">
-            {{#each filteredResults as |organisation|}}
+      {{#if displayResults}}
+        {{#infinite-list height="75vh" loadMore=(action "loadMoreOrganisations") as |items| }}
+          <ul class="list list-activity list-offer-items">
+            {{#each items as |organisation|}}
               <li>
               {{#link-to 'organisations.detail' organisation.id tagName='div' href=false}}
                 <div class="row">
@@ -48,17 +44,11 @@
               </li>
             {{/each}}
           </ul>
-
-          {{#infinity-loader}}
-          {{/infinity-loader}}
-
-        {{else if hasNoResults}}
-          <div class='no_result'>{{t "no_search_results"}}</div>
-        {{/if}}
+        {{/infinite-list}}
       {{/if}}
     </div>
 
   </div>
-  {{partial "sticky_footer"}}
+  {{sticky-footer}}
 </section>
 

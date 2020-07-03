@@ -1,0 +1,118 @@
+.item_details_screen {
+  .box-pallet-tabs {
+    border-bottom: 1px solid;
+    margin-bottom: 2rem;
+    text-align: center;
+
+    .tab {
+      padding: 0.7rem;
+      font-size: 1rem;
+    }
+
+    .selected {
+      border-bottom: 2px solid;
+    }
+  }
+}
+
+
+.added-item-block::-webkit-scrollbar,
+.location-wrap::-webkit-scrollbar {
+  width: 0 !important
+}
+
+.added-item-block {
+  -ms-overflow-style: none;
+  overflow: -moz-scrollbars-none;
+  list-style-type: none;
+  margin-left: 0;
+  height: 56vh;
+  overflow: scroll;
+
+  $block-height: 5rem;
+
+  li {
+    padding: 0;
+    border: 1px solid $light-text-color;
+    border-width: thin;
+    box-sizing: content-box;
+    margin-bottom: 1rem;
+    height: $block-height;
+
+    .flex {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-basis: 1;
+
+      .thumb-container {
+        padding: 0;
+        width: $block-height;
+        height: $block-height;
+        flex-shrink: 0;
+
+        .thumb {
+          object-fit: cover;
+          height: 100%;
+          width: 100%;
+        }
+      }
+
+      .details {
+        margin-left: 0.5rem;
+        padding-top: 0.5rem;
+        padding-left: 0.5rem;
+        width: 100%;
+
+        @media (max-width: 450px) {
+          width: 50%;
+        }
+
+        .content {
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          margin-bottom: 0.5rem;
+          width: 80%;
+          font-size: 0.8rem;
+          line-height: 0.8rem;
+
+          span {
+            svg {
+              color: $white;
+              margin-right: 0.2rem;
+            }
+          }
+        }
+      }
+
+      .close-button {
+        flex-shrink: 0;
+        text-align: center;
+        margin-right: 0.8rem;
+
+        span {
+          display: block;
+          font-size: 0.8em;
+          margin-top: 0.3rem;
+        }
+      }
+    }
+  }
+}
+
+.item-search-overlay {
+  .scan-button {
+    button {
+      width: unset !important
+    }
+  }
+}
+
+.location-search-for-removing {
+  .search{
+    margin: unset;
+  }
+}

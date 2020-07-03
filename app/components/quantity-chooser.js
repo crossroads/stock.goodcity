@@ -1,44 +1,49 @@
-import Ember from 'ember';
-import AjaxPromise from 'stock/utils/ajax-promise';
+import Ember from "ember";
+import AjaxPromise from "stock/utils/ajax-promise";
+import AsyncMixin, { ERROR_STRATEGIES } from "stock/mixins/async";
 const { getOwner } = Ember;
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(AsyncMixin, {
   messageBox: Ember.inject.service(),
+  packageService: Ember.inject.service(),
   store: Ember.inject.service(),
   displayChooseQtyOverlay: false,
   showErrorMessage: false,
 
   didInsertElement() {
-    this.set('displayChooseQtyOverlay', false);
-    this.set('showErrorMessage', false);
+    this.set("displayChooseQtyOverlay", false);
+    this.set("showErrorMessage", false);
   },
 
   resetValue() {
-    Ember.$('#qtySplitter').val(1);
+    Ember.$("#qtySplitter").val(1);
   },
 
   elementValue() {
-    return Ember.$('#qtySplitter').val();
+    return Ember.$("#qtySplitter").val();
   },
 
   setValueIfValid(value, isValidValue) {
-    if(isValidValue) {
-      this.set('showErrorMessage', false);
-      Ember.$('#qtySplitter').val(value);
+    if (isValidValue) {
+      this.set("showErrorMessage", false);
+      Ember.$("#qtySplitter").val(value);
     } else {
-      this.set('showErrorMessage', true);
+      this.set("showErrorMessage", true);
     }
   },
 
   actions: {
     resetValueAndToggleOverlay() {
       this.resetValue();
-      this.toggleProperty('displayChooseQtyOverlay');
+      this.toggleProperty("displayChooseQtyOverlay");
     },
 
     incrementQty() {
       let incrementedValue = +this.elementValue() + 1;
-      this.setValueIfValid(incrementedValue, incrementedValue < +this.get("item.quantity"));
+      this.setValueIfValid(
+        incrementedValue,
+        incrementedValue < +this.get("item.availableQuantity")
+      );
     },
 
     decrementQty() {
@@ -46,13 +51,15 @@ export default Ember.Component.extend({
       this.setValueIfValid(decrementedValue, decrementedValue >= 1);
     },
 
-    splitItems() {
-      const value = this.elementValue();
-      let item = this.get("item");
-      if(+value < 1 || +value >= +item.get("quantity")) {
+    async splitItems() {
+      const quantity = this.elementValue();
+      const item = this.get("item");
+
+      if (+quantity < 1 || +quantity >= +item.get("availableQuantity")) {
         this.set("showErrorMessage", true);
         return false;
       }
+
       this.set("showErrorMessage", false);
 
       await this.runTask(() => {
@@ -62,6 +69,7 @@ export default Ember.Component.extend({
       this.resetValue();
       this.set("displayChooseQtyOverlay", false);
       this.sendAction("toggleShowExtendedFooterMenu");
+
     }
   }
 });

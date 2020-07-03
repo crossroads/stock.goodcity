@@ -1,0 +1,86 @@
+<div class="row gc-orders-package-block state-{{orderPkg.state}} {{if small 'small'}}">
+  <div class="columns small-2 sub-block left {{if orderPkg.partiallyDispatched 'invert'}}">
+    {{#if orderPkg.partiallyDispatched}}
+      <div class="icon-splitter">
+        <div>
+          <div class="pkg-icon">{{fa-icon (orders-package-icon 'dispatched') size='lg'}}</div>
+          <div>{{orderPkg.dispatchedQuantity}}</div>
+        </div>
+        <div>
+          <div class="pkg-icon">{{fa-icon (orders-package-icon 'designated') size='lg'}}</div>
+          <div>{{orderPkg.undispatchedQty}}</div>
+        </div>
+      </div>
+    {{else}}
+      <div class="pkg-icon">{{fa-icon (orders-package-icon orderPkg.state) size='lg'}}</div>
+      <div>{{orderPkg.quantity}}</div>
+    {{/if}}
+  </div>
+  <div class="columns {{if readOnly 'small-10' 'small-9'}} sub-block main state-{{ orderPkg.designation.state }} {{unless packageView 'state-color'}}" {{action 'redirectToDetails'}}>
+    {{#if packageView}}
+      <div class="row">
+        <div class="columns small-10">
+          <div class="text-block">
+            <div class="line">{{fa-icon 'tag' size='lg'}} {{ orderPkg.item.inventoryNumber }}</div>
+            <div class="line">{{ orderPkg.item.notes }}</div>
+          </div>
+        </div>
+        <div class="columns small-2 no-padding">
+          <div class="thumbnail" style="background-image: url({{orderPkg.item.thumbImageUrl}})"></div>
+        </div>
+      </div>
+    {{else}}
+      <div class="text-block">
+        <div class="row line">
+          <div class="columns small-10 text-align-left">
+            {{fa-icon orderPkg.designation.transportIcon size='lg'}}
+            {{ orderPkg.designation.code }}
+          </div>
+          <div class="order-icon columns small-1 text-align-left">
+            {{fa-icon orderPkg.designation.stateIcon size='lg'}}
+          </div>
+        </div>
+        <div class="row line">
+          <div class="org-name">
+            {{#if orderPkg.designation.isGoodCityOrder}}
+              {{ orderPkg.designation.gcOrganisation.nameEn }}
+            {{else}}
+              {{ orderPkg.designation.organisation.name }}
+            {{/if}}
+          </div>
+        </div>
+      </div>
+    {{/if}}
+  </div>
+  {{#unless readOnly}}
+    <div class="columns small-1 sub-block">
+        {{action-drawer isOpen=drawerOpened actionList=actionList small=small}}
+    </div>
+  {{/unless}}
+
+  {{#unless readOnly}}
+    {{#if showQuantityInput}}
+      {{goodcity/designate-form
+        quantity=designationQty
+        editableQty=editableQty
+        confirmAction=completeQtyInput
+        cancelAction=cancelQtyInput
+        order=designationTargetOrder
+        pkg=designationTargetPackage
+        maxQuantity=maxQuantity
+      }}
+    {{/if}}
+
+    {{goodcity/dispatch-form
+      open=readyToDispatch
+      orderPkg=dispatchOrdersPackage
+      location=dispatchLocation
+      quantity=dispatchQty
+      maxQuantity=dispatchableQuantity
+      editableQty=editableQty
+      selectLocationAction=(action "pickDispatchLocation")
+      cancelDispatchAction=(action "cancelDispatch")
+      completeDispatchAction=(action "completeDispatch")
+    }}
+  {{/unless}}
+</div>

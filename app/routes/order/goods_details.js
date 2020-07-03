@@ -13,11 +13,12 @@ export default orderUserOrganisation.extend({
       .then((data) => {
         this.set("orderId", data["designation"]["id"]);
         store.pushPayload(data);
+        
         if(!data['goodcity_requests'].length){
           return new AjaxPromise("/goodcity_requests", "POST", this.get('session.authToken'), {  goodcity_request: goodcityRequestParams })
-          .then(data => {
-            store.pushPayload(data);
-          });
+            .then(data => {
+              store.pushPayload(data);
+            });
         }
     });
   },

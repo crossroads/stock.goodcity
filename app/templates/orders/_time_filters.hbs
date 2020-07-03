@@ -1,0 +1,49 @@
+<div class="time-filter-block">
+  <div class="row">
+    <div class="time-filter-title small-12 medium-12 large-12 columns">
+      {{t "order_filters.time_filter_title"}}
+    </div>
+  </div>
+
+  <div class="row time_inputs">
+      <div class=" small-6 columns date_selector">
+        <div class="small-12 columns type-of-id-text">
+          On or after
+        </div>
+        <div class="input-container">
+          {{date-picker
+            name='selectedTimeRangeAfter'
+            id='selectedTimeRangeAfter'
+            maxDate=selectedTimeRange.before
+            model=selectedTimeRange.after
+            onSelect=(action 'setAfterTime')
+          }}
+          <i class="fa fa-calendar calender_icon">{{fa-icon "calendar"}}</i>
+        </div>
+      </div>
+      <div class=" small-6 columns date_selector">
+        <div> On or before </div>
+        <div class="input-container">
+          {{date-picker
+            name='selectedTimeRangeBefore'
+            id='selectedTimeRangeBefore'
+            minDate=selectedTimeRange.after
+            model=selectedTimeRange.before
+            onSelect=(action 'setBeforeTime')
+          }}
+          <i class="fa fa-calendar calender_icon">{{fa-icon "calendar"}}</i>
+        </div>
+      </div>
+  </div>
+  {{#each presetTimeKeys as |preset|}}
+    <div
+      class="row preset {{ preset }} {{ if (is-equal selectedTimeRange.preset preset) 'selected' }}"
+      {{ action "selectTimePreset" preset }}
+    >
+      {{#if (is-equal selectedTimeRange.preset preset) }}
+        <i>{{fa-icon 'check'}}</i>
+      {{/if}}
+      {{t (concat "order_filters.time_presets." preset) }}
+    </div>
+  {{/each}}
+</div>

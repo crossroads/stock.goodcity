@@ -1,0 +1,25 @@
+<div class="set-header">
+  <div class="row">
+    <div class="small-6 columns text-align-left subtitle {{if showSetList 'hidden' }}"> {{t 'item_details.viewing_set'}} </div>
+    <div class="small-6 columns text-align-right">
+      <a {{action 'toggleSetList'}}>
+        {{#if showSetList}}
+          {{t 'item_details.hide_set'}}
+        {{else}}
+          {{t 'item_details.show_set'}}
+        {{/if}}
+      </a>
+      {{#if showSetList}}
+        {{fa-icon 'compress' size="lg"}}
+      {{else}}
+        {{fa-icon 'expand' size="lg"}}
+      {{/if}}
+    </div>
+  </div>
+  <div class="row">
+    <div class="title">
+      {{editable-line value=model.packageSet.description key="description" model=model.packageSet large=true autosave=true fitted-width=true}}
+    </div>
+    <div class="subtitle">{{model.code.name}}</div>
+  </div>
+</div>

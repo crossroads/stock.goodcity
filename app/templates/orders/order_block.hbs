@@ -1,6 +1,6 @@
 <li class="order_block">
 
-    <div class="row order_header">
+    <div class="row order_block_header">
 
       <div class="small-4 columns order_transport">
         <i>{{fa-icon order.transportIcon}}{{fa-icon 'lg'}}</i> {{ order.transportLabel }}
@@ -21,63 +21,79 @@
 
     {{#unless smallOrderBlocks}}
       <div class="row order_body">
+        <div class="small-10 columns">
 
-        {{#if (is-and order.orderTransport order.orderTransport.scheduledAt)}}
-          <div class="row">
-            <div class="small-4 columns field">
-              {{ t "order.due_date" }}
+          {{#if (is-and order.isGoodCityOrder (is-and order.orderTransport order.orderTransport.scheduledAt))}}
+            <div class="row">
+              <div class="small-6 columns field">
+                {{ t "order.due_date" }}
+              </div>
+              <div class="small-6 columns value">
+                {{  display-datetime order.orderTransport.scheduledAt format="dddd Do MMMM hh:mm a" }}
+              </div>
             </div>
-            <div class="small-8 columns value">
-              {{  display-datetime order.orderTransport.scheduledAt format="dddd Do MMMM hh:mm a" }}
+          {{else if order.shipmentDate}}
+            <div class="row">
+              <div class="small-6 columns field">
+                {{ t "order.due_date" }}
+              </div>
+              <div class="small-6 columns value">
+                {{  display-datetime order.shipmentDate format="DD MMM 'YY" }}
+              </div>
             </div>
-          </div>
-        {{/if}}
+          {{/if}}
 
-        {{#if order.createdBy}}
-          <div class="row">
-            <div class="small-4 columns field">
-              {{ t "order.submitted_by" }}
+          {{#if order.createdBy}}
+            <div class="row">
+              <div class="small-6 columns field">
+                {{ t "order.submitted_by" }}
+              </div>
+              <div class="small-6 columns value">
+                {{ order.createdBy.firstName }} {{ order.createdBy.lastName }}
+              </div>
             </div>
-            <div class="small-8 columns value">
-              {{ order.createdBy.firstName }} {{ order.createdBy.lastName }}
-            </div>
-          </div>
-        {{/if}}
+          {{/if}}
 
-        {{#if (is-or order.gcOrganisationId or order.organisationId)}}
-          <div class="row">
-            <div class="small-4 columns field">
-              {{ t "organisation_title" }}
+          {{#if (is-or order.gcOrganisationId or order.organisationId)}}
+            <div class="row">
+              <div class="small-6 columns field">
+                {{ t "organisation_title" }}
+              </div>
+              <div class="small-6 columns value">
+                {{ if order.isGoodCityOrder order.gcOrganisation.nameEn order.organisation.name }}
+              </div>
             </div>
-            <div class="small-8 columns value">
-              {{ if order.isGoodCityOrder order.gcOrganisation.nameEn order.organisation.name }}
-            </div>
-          </div>
-        {{/if}}
+          {{/if}}
 
-        {{#if order.stockitContact}}
-          <div class="row">
-            <div class="small-4 columns field">
-              {{ t "order.submitted_for_client" }}
+          {{#if order.stockitContact}}
+            <div class="row">
+              <div class="small-6 columns field">
+                {{ t "order.submitted_for_client" }}
+              </div>
+              <div class="small-6 columns value">
+                {{order.stockitContact.fullName}}
+              </div>
             </div>
-            <div class="small-8 columns value">
-              {{order.stockitContact.fullName}}
-            </div>
-          </div>
-        {{/if}}
+          {{/if}}
 
-        {{#if (is-or order.designatedOrdersPackages.length order.dispatchedOrdersPackages.length)}}
-          <div class="row order_process_summary">
-            <div class="small-4 columns field">
-              {{ t "order.process_summary" }}
+          {{#if (is-or order.designatedOrdersPackages.length order.dispatchedOrdersPackages.length)}}
+            <div class="row order_process_summary">
+              <div class="small-6 columns field">
+                {{ t "order.process_summary" }}
+              </div>
+              <div class="small-6 columns value">
+                <span>{{order.designatedOrdersPackages.length}} <i>{{fa-icon 'shopping-basket'}}</i></span>
+                <span>{{order.dispatchedOrdersPackages.length}} <i>{{fa-icon 'ship'}}</i></span>
+              </div>
             </div>
-            <div class="small-8 columns value">
-              <span>{{order.designatedOrdersPackages.length}} <i>{{fa-icon 'shopping-basket'}}</i></span>
-              <span>{{order.dispatchedOrdersPackages.length}} <i>{{fa-icon 'ship'}}</i></span>
-            </div>
-          </div>
-        {{/if}}
-
+          {{/if}}
+        </div>
+        <div class="small-2 columns order_message_bubble">
+          {{#if order.hasUnreadMessages}}
+            {{partial 'orders/unread_message_bubble'}}
+            <i>{{fa-icon 'comments' size="2x"}}</i>
+          {{/if}}
+        </div>
       </div>
     {{/unless}}
 

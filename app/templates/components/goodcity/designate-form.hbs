@@ -1,0 +1,43 @@
+<div class="designate-form {{unless canComplete 'disabled'}}">
+  {{#message-box
+    btn1Text=(t "item.designate") btn1Callback=confirmAction
+    btn2Text=(t "cancel") btn2Callback=cancelAction
+    isVisible=true
+    classNames="modal-overlay operation-confirmation orders_search_result"
+  }}
+    <p>{{fa-icon 'shopping-basket'}} {{t 'designate_form.designate_to' }}</p>
+
+    {{partial 'orders/order_block'}}
+
+    <div class="warnings">
+      {{#if suggestUndesignation}}
+        <div class="warning_text">
+          <div class="left-icon"><i>{{fa-icon 'exclamation-triangle'}}</i></div>
+          <div class="right-message">
+            {{#if (is-equal otherDesignations.length 1)}}
+              {{t "designate_form.already_fully_designated_to" orderCode=otherDesignations.firstObject.designation.code}}
+              <a {{action (toggle this "quickUndesignation")}}>{{t 'show'}}</a>
+            {{else}}
+              {{t "designate_form.already_fully_designated"}}
+              {{#link-to 'items.detail.publishing' pkg.id replace=true}}
+                {{t 'designate_form.click_to_undesignate'}}
+              {{/link-to}}
+            {{/if}}
+          </div>
+        </div>
+      {{/if}}
+    </div>
+
+    {{#if (is-and suggestUndesignation quickUndesignation) }}
+      {{goodcity/orders-package-block orderPkg=otherDesignations.firstObject small=true actionsFilter=(arr 'cancel')}}
+    {{/if}}
+
+    <div>
+      <p>
+        {{t 'designate_form.quantity_input'}}
+        {{input type="number" min="1" max="{{maxQuantity}}" value=quantity disabled=(unless editableQty true false) class="qty-input"}}
+        / {{ maxQuantity }}
+      </p>
+    </div>
+  {{/message-box}}
+</div>

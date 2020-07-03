@@ -32,7 +32,8 @@ export default Model.extend({
   }),
 
   packageCategories: Ember.computed('code', "_packageCategories.[]", function(){
-    return this.get("_packageCategories").filter(p => p.get("packageTypeCodes") && p.get("packageTypeCodes").indexOf(this.get("code")) > -1);
+    var code = this.get('code');
+    return this.get("_packageCategories").filter(p => (p.get("packageTypeCodes") || []).indexOf(code) > -1);
   }),
 
   allPackageCategories: Ember.computed('code', "_packageCategories.[]", function(){

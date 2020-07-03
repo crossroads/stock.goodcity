@@ -21,7 +21,7 @@
     <div class="small-12 columns">
       {{#unless (is-equal prevPath "contact_summary")}}
         <div class="new-user">
-          Which user is this request being made for ?
+          {{t "search_users.new_user"}}
         </div>
       {{/unless}}
       {{#if isLoading}}
@@ -47,7 +47,6 @@
               </li>
             {{/each}}
           </ul>
-          {{log model.id}}
           {{#infinity-loader}}
           {{/infinity-loader}}
 

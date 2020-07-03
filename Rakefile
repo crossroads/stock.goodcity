@@ -92,7 +92,7 @@ namespace :cordova do
   desc "Cordova build {platform}"
   task build: :prepare do
     Dir.chdir(CORDOVA_PATH) do
-      #Temporary fix for phonegap-plugin-push
+       #Temporary fix for phonegap-plugin-push
       if platform == 'android'
         sh %{ cordova plugin add phonegap-plugin-push@2.1.2 }
       else
@@ -200,9 +200,9 @@ end
 def mobile_provisioning_file
   prefix = ['~', 'Library', 'MobileDevice', 'Provisioning\ Profiles']
   file = if production_env?
-      "GoodCity_Stock.mobileprovision"
+      "GoodCityStock.mobileprovision"
     else
-      "GoodCity_Stock_Staging.mobileprovision"
+      "GoodCityStockStaging.mobileprovision"
     end
   File.join(prefix, file)
 end

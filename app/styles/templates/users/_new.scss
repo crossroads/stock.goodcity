@@ -31,6 +31,7 @@
 
   .row {
     margin-top: 0.5rem !important;
+
     @media #{$small-only} {
       margin-right: 0rem !important;
     }
@@ -38,6 +39,11 @@
 
   .item-label {
     line-height: 1.8rem;
+    text-transform: capitalize;
+  }
+
+  .field-container {
+    margin-bottom: 0.4rem;
   }
 
   .dimension-row {
@@ -54,6 +60,7 @@
         .fa {
           margin-left: 0.5rem;
         }
+
         margin-left: 0.1rem;
       }
 
@@ -72,6 +79,7 @@
 
     .value.height input {
       width: 97%;
+
       @media #{$small-only} {
         width: 93%;
       }
@@ -97,12 +105,13 @@
     }
   }
 
-  input, select {
+  input,
+  select {
     padding: 0 0.5rem;
     background: #002352 !important;
     border: 1px solid $tabbar-menu-icon-color !important;
     color: white;
-    height: 1.8rem !important;
+    height: 2.75rem !important;
   }
 
   textarea {
@@ -115,7 +124,7 @@
     padding-right: 1.5rem;
   }
 
-  .remove-text{
+  .remove-text {
     position: absolute;
     right: 3%;
     font-size: 0.9rem;
@@ -124,7 +133,9 @@
   }
 
   .image-box-row {
-    input, .input-error {
+
+    input,
+    .input-error {
       width: 89%;
     }
   }
@@ -194,7 +205,9 @@
       color: $tabbar-menu-icon-color !important;
     }
   }
-  .mobile .dialing-code label{
+
+  .mobile .dialing-code label,
+  .preferred-mobile .dialing-code label {
     @media #{$small-only} {
       font-size: 0.59rem;
     }

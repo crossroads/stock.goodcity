@@ -1,9 +1,9 @@
 <div class="row fixed_search_header search-box ui items-search">
   <div class="small-3 large-3 columns ">
-    {{#link-to 'orders.detail' model classNames="back"}}
+    {{#back-link}}
       <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-left'}}</i>
       <div class="back_text">{{model.code}}</div>
-    {{/link-to}}
+    {{/back-link}}
   </div>
   <div class="columns {{if isMobileApp 'small-7 large-9' 'small-9 large-9'}} ">
     {{focus-textfield
@@ -12,14 +12,14 @@
       placeholder=(t "search_min")
       value=searchText }}
 
-    {{#if hasSearchText}}
+    {{#if searchText}}
       <i {{action "clearSearch"}}>{{fa-icon 'times-circle'}}</i>
     {{/if}}
   </div>
 
   {{#if isMobileApp}}
     <div class="small-2 large-1 columns scan-button">
-      {{scan-barcode-button record=model route="orders.items"}}
+      {{scan-barcode-button record=model onScanComplete=(action "setScannedSearchText")}}
     </div>
   {{/if}}
 </div>
@@ -27,28 +27,17 @@
 <section class="main-section items_search_result">
   <div class="row search">
     <div class="small-12 columns">
-      {{#if isLoading}}
-        <div class="loading_screen">
-          {{partial 'loading'}}
-        </div>
-      {{/if}}
-
-      {{#if filteredResults}}
-        <ul class="list list-activity list-offer-items">
-          {{#each filteredResults as |item|}}
-            {{#designate-form order=model item=item autoDisplayOverlay=autoDisplayOverlay displaySetItems=(action "displaySetItems" item)}}
-              {{partial 'orders/item_block'}}
-            {{/designate-form}}
+      {{#if displayResults}}
+        {{#infinite-list height="85vh" loadMore=(action "loadMoreItems") as |items| }}
+          {{#each items as |item|}}
+            {{#goodcity/designate-link order=model pkg=item}}
+              {{package-summary-block model=item disableLink=true}}
+            {{/goodcity/designate-link}}
           {{/each}}
-        </ul>
-
-        {{#infinity-loader}}
-        {{/infinity-loader}}
-
-      {{else if hasNoResults}}
+        {{/infinite-list}}
+      {{else}}
         <div class='no_result'>{{t "no_search_results"}}</div>
       {{/if}}
     </div>
   </div>
-
 </section>

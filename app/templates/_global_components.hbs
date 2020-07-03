@@ -1,0 +1,42 @@
+{{!-- Service-backed components --}}
+
+{{#let-alias designationService as |s|}}
+  {{goodcity/orders-search-overlay
+    open=s.openOrderSearch
+    onSelect=s.onOrderSelected
+    searchProps=s.orderSearchProps
+  }}
+{{/let-alias}}
+
+{{#let-alias locationService as |s|}}
+  {{goodcity/locations-search-overlay
+    open=s.openLocationSearch
+    onSelect=s.onLocationSelected
+    options=s.locationSearchOptions
+  }}
+{{/let-alias}}
+
+{{#let-alias packageTypeService as |s|}}
+  {{goodcity/code-search-overlay
+    open=s.openPackageTypeSearch
+    storageType=s.packageTypeSearchOptions.storageType
+    subsetPackageTypes=s.packageTypeSearchOptions.subsetPackageTypes
+    headerText=s.packageTypeSearchOptions.headerText
+    onSelect=s.onPackageTypeSelected
+  }}
+{{/let-alias}}
+
+{{goodcity/item-search-overlay
+  open=packageService.openPackageSearch
+  associatedPackageTypes=packageService.packageSearchOptions.packageTypes
+  storageTypeName=packageService.packageSearchOptions.storageTypeName
+  onConfirm=packageService.onPackageSelected
+}}
+
+{{#let-alias offerService as |s|}}
+  {{goodcity/offers-search-overlay
+    open=s.openOfferSearch
+    onSelect=s.onOfferSelected
+    displayResults=s.displayResults
+  }}
+{{/let-alias}}

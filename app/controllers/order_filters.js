@@ -1,7 +1,8 @@
-import Ember from 'ember';
+import Ember from "ember";
 
 export default Ember.Controller.extend({
-  queryParams: ["applyStateFilter", "applyTypeFilter"],
+  queryParams: ["applyStateFilter", "applyTypeFilter", "applyTimeFilter"],
   applyStateFilter: null,
-  applyTypeFilter: null
+  applyTypeFilter: null,
+  applyTimeFilter: null
 });

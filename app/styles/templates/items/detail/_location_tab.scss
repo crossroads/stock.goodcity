@@ -1,0 +1,73 @@
+.item_details_screen .location-tab {
+  $line-height: 2rem;
+  $btn-height: $line-height;
+
+  .light-button {
+    border: 1px solid white;
+    max-width: 16rem;
+    height: $btn-height;
+    line-height: $btn-height;
+    text-align: center;
+    cursor: pointer;
+    color: white;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    &.disabled {
+      text-decoration: line-through;
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    &.centered {
+      margin: 1rem auto;
+    }
+
+    &.small {
+      max-width: 9rem;
+    }
+  }
+
+  .box-list {
+    .infinite-list-container {
+      overflow-x: hidden;
+    }
+  }
+
+  .highlight {
+    background-color: rgba(255, 255, 255, 0.1);
+    width: 95%;
+    padding-left: 0.2rem;
+  }
+
+  .row {
+    line-height: $line-height;
+
+    &.header-row {
+      color: $body-font-color;
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+
+      &.top {
+        border-bottom: 1px solid $body-font-color;
+      }
+      &.bottom {
+        border-top: 1px solid $body-font-color;
+      }
+      &:not(.top) {
+        margin-top: 2rem;
+      }
+    }
+
+    &.content-row {
+      color: white;
+      padding-top: $line-height;
+
+      &.italic {
+        font-style: italic;
+        color: $body-font-color;
+      }
+    }
+  }
+}

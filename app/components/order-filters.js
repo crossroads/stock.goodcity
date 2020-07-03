@@ -1,4 +1,6 @@
-import Ember from 'ember';
+import Ember from "ember";
+import _ from "lodash";
+import { TYPE_FILTERS, STATE_FILTERS } from "../services/filter-service";
 
 // --- Helpers
 
@@ -18,67 +20,169 @@ function isChecked(filter) {
   return Ember.$(`#${filter}`)[0].checked;
 }
 
+function startOfDay(date) {
+  return moment(date)
+    .startOf("day")
+    .toDate();
+}
+
+function endOfDay(date) {
+  return moment(date)
+    .endOf("day")
+    .toDate();
+}
+
+const STATE = "state";
+const TYPE = "type";
+const TIME = "time";
+const UNKNOWN = "unknown";
+
 // --- Component
 
 export default Ember.Component.extend({
   i18n: Ember.inject.service(),
   filterService: Ember.inject.service(),
 
-  allOrderStateFilters: ["showPriority", "submitted", "processing", "awaiting_dispatch", "dispatching", "closed", "cancelled"],
-  allOrderTypeFilters: ["appointment", "online_orders", "shipment"],
+  selectedTimeRange: {
+    preset: "",
+    after: null,
+    before: null
+  },
 
-  // To separate out "showPriority" filter as it has some different css properties than others
-  orderStateFilters: Ember.computed('allOrderStateFilters.[]', function() {
-    return this.get("allOrderStateFilters").slice(1);
+  presetTimeKeys: Ember.computed(function() {
+    return _.keys(this.get("filterService.orderTimeRangePresets"));
   }),
+
+  allOrderStateFilters: Ember.computed(function() {
+    return _.values(STATE_FILTERS);
+  }),
+
+  allOrderTypeFilters: Ember.computed(function() {
+    return _.values(TYPE_FILTERS);
+  }),
+
+  orderStateFilters: Ember.computed("allOrderStateFilters.[]", function() {
+    // Separate out "showPriority" filter as it has some different css properties than others
+    return _.without(this.get("allOrderStateFilters"), STATE_FILTERS.PRIORITY);
+  }),
+
+  filterContext: Ember.computed(
+    "applyStateFilter",
+    "applyTimeFilter",
+    "applyTypeFilter",
+    function() {
+      if (this.get("applyStateFilter")) {
+        return STATE;
+      }
+      if (this.get("applyTypeFilter")) {
+        return TYPE;
+      }
+      if (this.get("applyTimeFilter")) {
+        return TIME;
+      }
+      return UNKNOWN;
+    }
+  ),
 
   // Marks filters as selected depending on pre-selected set of filters
   didInsertElement() {
-    if (this.get("applyStateFilter")) {
-      this.filterService.get('getOrderStateFilters').forEach(checkFilter); // jshint ignore:line
-    } else if(this.get("applyTypeFilter")) {
-      this.filterService.get('getOrderTypeFilters').forEach(checkFilter); // jshint ignore:line
+    const service = this.get("filterService");
+    const context = this.get("filterContext");
+
+    switch (context) {
+      case TYPE:
+        return service.get("orderTypeFilters").forEach(checkFilter);
+      case STATE:
+        return service.get("orderStateFilters").forEach(checkFilter);
+      case TIME:
+        const { preset, after, before } = service.get("orderTimeRange");
+        return this.set("selectedTimeRange", {
+          preset,
+          after: preset ? null : after,
+          before: preset ? null : before
+        });
     }
   },
 
-  // Adds applied filters to localStorage as an array and redirects (Generic for all filters)
-  addToLocalStorageAndRedirect(filterTypes, localStorageName) {
-    let appliedFilters = filterTypes.filter(isChecked);
-    let storageName = "get" + localStorageName.charAt(0).capitalize() + localStorageName.slice(1);
-
-    window.localStorage.setItem(localStorageName, JSON.stringify(appliedFilters));
-
-    this.notifyFilterService(storageName);
-
-    this.get('router').transitionTo("orders.index");
+  // Adds applied filters to localStorage as an array and redirects
+  applyFilter(filters, name) {
+    let filterService = this.get("filterService");
+    let appliedFilters = filters.filter(isChecked);
+    filterService.set(name, appliedFilters);
+    this.navigateAway();
   },
 
-  // Removes applied filters (Generic for all filters)
-  clearFiltersFromLocalStorage(filterType) {
-    filterType.forEach(uncheckFilter); // jshint ignore:line
+  navigateAway() {
+    this.get("router").transitionTo("orders.index");
   },
 
-  notifyFilterService(serviceOrType) {
-    this.filterService.notifyPropertyChange(serviceOrType);
+  uncheckAll(filterType) {
+    this.get(filterType).forEach(uncheckFilter);
+  },
+
+  applyTimeFilters() {
+    const { preset, after, before } = this.get("selectedTimeRange");
+    this.get("filterService").setOrderTimeRange(preset || { after, before });
+    this.navigateAway();
+  },
+
+  clearTimeFilters() {
+    this.set("selectedTimeRange.preset", null);
+    this.set("selectedTimeRange.before", null);
+    this.set("selectedTimeRange.after", null);
+  },
+
+  _setRangeProperty(prop, date) {
+    this.set("selectedTimeRange.preset", null);
+    this.set(`selectedTimeRange.${prop}`, date);
   },
 
   actions: {
     applyFilters() {
       if (this.get("applyStateFilter")) {
-        this.addToLocalStorageAndRedirect(this.get("allOrderStateFilters"), "orderStateFilters");
-        this.notifyFilterService("getOrderStateFilters");
-      } else if (this.get("applyTypeFilter")) {
-        this.addToLocalStorageAndRedirect(this.get("allOrderTypeFilters"), "orderTypeFilters");
-        this.notifyFilterService("getOrderTypeFilters");
+        return this.applyFilter(
+          this.get("allOrderStateFilters"),
+          "orderStateFilters"
+        );
+      }
+
+      if (this.get("applyTypeFilter")) {
+        return this.applyFilter(
+          this.get("allOrderTypeFilters"),
+          "orderTypeFilters"
+        );
+      }
+
+      if (this.get("applyTimeFilter")) {
+        return this.applyTimeFilters();
       }
     },
 
     clearFilters() {
       if (this.get("applyStateFilter")) {
-        this.clearFiltersFromLocalStorage(this.get("allOrderStateFilters"));
-      } else if (this.get("applyTypeFilter")) {
-        this.clearFiltersFromLocalStorage(this.get("allOrderTypeFilters"));
+        return this.uncheckAll("allOrderStateFilters");
       }
+
+      if (this.get("applyTypeFilter")) {
+        return this.uncheckAll("allOrderTypeFilters");
+      }
+
+      if (this.get("applyTimeFilter")) {
+        this.clearTimeFilters();
+      }
+    },
+
+    selectTimePreset(presetKey) {
+      this.clearTimeFilters();
+      this.set("selectedTimeRange.preset", presetKey);
+    },
+
+    setBeforeTime(before) {
+      this._setRangeProperty("before", endOfDay(before));
+    },
+
+    setAfterTime(after) {
+      this._setRangeProperty("after", startOfDay(after));
     }
   }
 });

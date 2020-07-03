@@ -1,76 +1,124 @@
-import config from '../../config/environment';
-import Ember from "ember";
-import searchModule from "../search_module";
+import config from "../../config/environment";
+import _ from "lodash";
+import Cache from "stock/utils/mem-cache";
+import SearchMixin from "stock/mixins/search_resource";
 
-export default searchModule.extend({
-
-  queryParams: ['searchInput', "itemSetId", "locationFilterChanged"],
-  searchInput: "",
+/**
+ * @module Controllers/items/ItemsSearchController
+ * @augments ember/Controller
+ */
+export default Ember.Controller.extend(SearchMixin, {
+  queryParams: ["searchInput", "itemSetId"],
   itemSetId: null,
-  locationFilterChanged: null,
   isMobileApp: config.cordova.enabled,
-  displayItemOptions: false,
   displayItemOptionsList: true,
   searchModelName: "item",
-  minSearchTextLength: 2,
   requestOptions: {
-    withInventoryNumber: 'true'
+    withInventoryNumber: "true"
   },
 
-  onFilterChange() {
-    if (this.get("searchText").length > this.get("minSearchTextLength")) {
-      this.set("itemSetId", null);
-      Ember.run.debounce(this, this.applyFilter, 500);
+  packageService: Ember.inject.service(),
+  packageTypeService: Ember.inject.service(),
+
+  init() {
+    this._super(...arguments);
+    this.cache = new Cache();
+  },
+
+  /**
+   * @property {Boolean} SearchMixin configuration
+   **/
+  autoLoad: true,
+  /**
+   * @property {Number} SearchMixin configuration, perPage in response
+   **/
+  perPage: 25,
+
+  scannedItem: Ember.observer("searchInput", function() {
+    const searchInput = this.get("searchInput") || "";
+    const sanitizeString = this.sanitizeString(searchInput);
+    if (sanitizeString) {
+      this.set("searchText", sanitizeString);
     }
+  }),
+
+  scannedText: Ember.observer("searchText", function() {
+    const searchInput = this.get("searchText") || "";
+    this.set("searchInput", this.sanitizeString(searchInput));
+  }),
+
+  hasSearchText: Ember.computed("searchText", function() {
+    return Ember.$.trim(this.get("searchText")).length;
+  }),
+
+  reloadResults() {
+    this.get("cache").clear();
+    this._super();
   },
 
-  createFilterParams(){
-    let filterService = this.get('filterService');
+  createCacheKey(data) {
+    return JSON.stringify(data);
+  },
+
+  getFilterQuery() {
+    let filterService = this.get("filterService");
     let utilities = this.get("utilityMethods");
-    let itemStateFilters = filterService.get('getItemStateFilters');
-    let itemlocationFilter = filterService.get('getItemLocationFilters');
+    let itemStateFilters = filterService.get("itemStateFilterArray");
+    let itemlocationFilter = filterService.get("itemLocationFilters");
     return {
-      perPage: 25,
-      startingPage: 1,
-      modelPath: 'filteredResults',
       stockRequest: true,
       state: utilities.stringifyArray(itemStateFilters) || "received",
       location: itemlocationFilter
     };
   },
 
-  applyFilter() {
-    var searchText = this.get("searchText");
-    let UNLOAD_MODELS = [ "designation", "item", "location", "code"];
-
-    if (searchText.length) {
-      this.set("isLoading", true);
-      this.set("hasNoResults", false);
-      if(this.get("unloadAll")) {  UNLOAD_MODELS.forEach((model) => this.store.unloadAll(model)); }
-      const paginationOpts = this.createFilterParams();
-      this.infinityModel(this.get("searchModelName"),
-        paginationOpts,
-        this.buildQueryParamMap()
-      ).then(data => {
-        data.forEach(record => {
-          if (this.onItemLoaded) {
-            this.onItemLoaded(record);
-          }
-        });
-        if(this.get("searchText") === data.meta.search) {
-          this.set("filteredResults", data);
-          this.set("hasNoResults", data.get("length") === 0);
-        }
-      })
-      .finally(() => this.set("isLoading", false));
-    }
-    this.set("filteredResults", []);
-  },
-
   onItemSetIdChange: Ember.observer("itemSetId", function() {
     // wait before applying the filter
     if (this.get("itemSetId")) {
-      Ember.run.debounce(this, this.applyFilter, 0);
+      this.reloadResults();
     }
-  })
+  }),
+
+  actions: {
+    /**
+     * Load the next page of the list
+     *
+     * @param {number} pageNo the page to load
+     * @returns {Promise<Model[]>}
+     */
+    loadMoreItems(pageNo) {
+      const cache = this.get("cache");
+      const params = this.trimQuery(
+        _.merge(
+          {},
+          this.getFilterQuery(),
+          this.getSearchQuery(),
+          this.getPaginationQuery(pageNo)
+        )
+      );
+      const cacheKey = this.createCacheKey(params);
+      if (cache.has(cacheKey)) {
+        return cache.get(cacheKey);
+      }
+      return this.get("store")
+        .query("item", params)
+        .then(results => {
+          cache.set(cacheKey, results);
+          return results;
+        });
+    },
+
+    async createNewPackage() {
+      const type = await this.get("packageTypeService").userPickPackageType();
+      if (type) {
+        this.transitionToRoute("items.new", {
+          queryParams: { codeId: type.id }
+        });
+      }
+    },
+
+    clearSearch() {
+      this.set("searchText", "");
+    }
+  }
 });

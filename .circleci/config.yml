@@ -1,56 +1,54 @@
 version: 2
 
 aliases:
-
   - defaults: &defaults
       docker:
-        - image: circleci/node:boron
+        - image: circleci/node:8.15
       working_directory: ~/code
   - &restore-repo-cache
-      key: v1-stock-goodcity-{{ .Environment.CIRCLE_SHA1 }}
+    key: v1-stock-goodcity-{{ .Environment.CIRCLE_SHA1 }}
   - &restore-yarn-cache
-      keys:
-        - v1-stock-goodcity-packages-{{ checksum "yarn.lock" }}
+    keys:
+      - v1-stock-goodcity-packages-{{ checksum "yarn.lock" }}
   - &save-yarn-cache
-      key: v1-stock-goodcity-packages-{{ checksum "yarn.lock" }}
-      paths:
-        - node_modules
-        - ~/.cache/yarn
+    key: v1-stock-goodcity-packages-{{ checksum "yarn.lock" }}
+    paths:
+      - node_modules
+      - ~/.cache/yarn
   - &restore-ios-yarn-cache
-      keys:
-        - v1-stock--goodcity-ios-yarn-packages-{{ checksum "yarn.lock" }}
+    keys:
+      - v1-stock--goodcity-ios-yarn-packages-{{ checksum "yarn.lock" }}
   - &save-ios-yarn-cache
-      key: v1-stock-goodcity-ios-yarn-packages-{{ checksum "yarn.lock" }}
-      paths:
-        - node_modules
-        - ~/.cache/yarn
-  - &yarn
-    |
-      yarn install --non-interactive --cache-folder ~/.cache/yarn --frozen-lockfile
+    key: v1-stock-goodcity-ios-yarn-packages-{{ checksum "yarn.lock" }}
+    paths:
+      - node_modules
+      - ~/.cache/yarn
+  - &yarn |
+    yarn install --non-interactive --cache-folder ~/.cache/yarn --frozen-lockfile
   - &restore-bower-cache
-      key: v1-stock-goodcity-bower-{{ checksum "bower.json" }}
+    key: v1-stock-goodcity-bower-{{ checksum "bower.json" }}
   - &save-bower-cache
-      key: v1-stock-goodcity-bower-{{ checksum "bower.json" }}
-      paths:
-        - bower_components
+    key: v1-stock-goodcity-bower-{{ checksum "bower.json" }}
+    paths:
+      - bower_components
   - &restore-ios-bower-cache
-      key: v1-stock-goodcity-ios-bower-components-{{ checksum "bower.json" }}
+    key: v1-stock-goodcity-ios-bower-components-{{ checksum "bower.json" }}
   - &save-ios-bower-cache
-      key: v1-stock-goodcity-ios-bower-components-{{ checksum "bower.json" }}
-      paths:
-        - bower_components
+    key: v1-stock-goodcity-ios-bower-components-{{ checksum "bower.json" }}
+    paths:
+      - bower_components
   - &restore-bundle-cache
-      key: v1-stock-goodcity-bundle-{{ checksum "Gemfile.lock" }}
+    key: v1-stock-goodcity-bundle-{{ checksum "Gemfile.lock" }}
   - &save-bundle-cache
-      key: v1-stock-goodcity-bundle-{{ checksum "Gemfile.lock" }}
-      paths:
-        - vendor/bundle
+    key: v1-stock-goodcity-bundle-{{ checksum "Gemfile.lock" }}
+    paths:
+      - vendor/bundle
   - &restore-ios-bundler-cache
-      key: v1-stock-goodcity-ios-bundle-{{ checksum "Gemfile.lock" }}
+    key: v1-stock-goodcity-ios-bundle-{{ checksum "Gemfile.lock" }}
   - &save-ios-bundler-cache
-      key: v1-stock-goodcity-ios-bundle-{{ checksum "Gemfile.lock" }}
-      paths:
-        - vendor/bundle
+    key: v1-stock-goodcity-ios-bundle-{{ checksum "Gemfile.lock" }}
+    paths:
+      - vendor/bundle
 
 jobs:
   checkout_code:
@@ -76,7 +74,7 @@ jobs:
   test_cases:
     <<: *defaults
     docker:
-      - image: circleci/node:6-browsers
+      - image: circleci/node:8.15-browsers
     environment:
       JOBS: 1
     steps:
@@ -114,19 +112,32 @@ jobs:
   www_build:
     <<: *defaults
     environment:
-      EMBER_CLI_CORDOVA: "0"
+      JOBS: 1
     steps:
       - restore-cache: *restore-repo-cache
       - restore-cache: *restore-yarn-cache
       - restore-cache: *restore-bower-cache
       - run:
-          name: Setup Environment variables
-          command: echo 'export STAGING=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo false; else echo true; fi)' >> $BASH_ENV
+          command: npm rebuild node-sass
       - run:
+          name: Ember build
           command: |
-            npm rebuild node-sass
-            echo "Building for staging (true/false): $STAGING"
-            yarn run ember build --environment=production
+            case "$CIRCLE_BRANCH" in
+              master)
+                ENVIRONMENT=staging
+                ;;
+              preview)
+                ENVIRONMENT=preview
+                ;;
+              live)
+                ENVIRONMENT=production
+                ;;
+              *)
+                echo 'Unexpected branch deployment. Choose master|preview|live'
+                exit 1
+            esac
+            echo "Building for ENVIRONMENT: ${ENVIRONMENT}"
+            EMBER_CLI_CORDOVA=0 ENVIRONMENT=${ENVIRONMENT} yarn run ember build --environment=production
       - run: mv dist/ dist-www
       - persist_to_workspace:
           root: .
@@ -136,51 +147,84 @@ jobs:
   www-deploy:
     <<: *defaults
     docker:
-      - image: circleci/ruby:2.5.1-node
+      - image: circleci/ruby:2.5.5
     steps:
       - restore-cache: *restore-repo-cache
       - restore-cache: *restore-bundle-cache
       - run: bundle check --path=vendor/bundle || bundle install --deployment --jobs=4 --retry=3
       - save-cache: *save-bundle-cache
-      - run:
-          name: Setup Environment variables
-          command: |
-              echo 'export ASSET_HOST_URL=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo "https://stock.goodcity.hk/assets"; else echo "https://stock-staging.goodcity.hk/assets"; fi)' >> $BASH_ENV
-              echo 'export APP_VERSION=$(jq -r ".version" package.json)' >> $BASH_ENV
       - attach_workspace:
           at: ~/code
       - run: mv dist-www/ dist
       - run:
-          name: Get source map url with grep
-          command: echo 'export SOURCE_MAP_WITH_VARIABLE_NAME=$(grep sourceMappingURL dist/assets/stock-*.js)' >> $BASH_ENV
-      - run:
-          name: Remove unnecessary characters form source map
-          command: echo 'export SOURCE_MAP=$(eval echo $SOURCE_MAP_WITH_VARIABLE_NAME | cut -c22-100)' >> $BASH_ENV
-      - run:
-          name: Setup Environment
-          command: echo 'export ENVIRONMENT=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo production; else echo staging; fi)' >> $BASH_ENV
-      - run: bundle exec cap $ENVIRONMENT deploy:upload
+          name: Upload to www server
+          command: |
+            case "$CIRCLE_BRANCH" in
+              master)
+                STAGE=staging
+                ;;
+              preview)
+                STAGE=preview
+                ;;
+              live)
+                STAGE=production
+                ;;
+              *)
+                echo 'Unexpected branch deployment. Choose master|preview|live'
+                exit 1
+            esac
+            bundle exec cap $STAGE deploy:upload
       - run:
           name: Upload Source Map to Rollbar
           command: |
+            APP_VERSION=$(jq -r ".version" package.json)
+            SOURCE_MAP_WITH_VARIABLE_NAME=$(grep sourceMappingURL dist/assets/stock-*.js)
+            SOURCE_MAP=$(eval echo $SOURCE_MAP_WITH_VARIABLE_NAME | cut -c22-100)
+            case "$CIRCLE_BRANCH" in
+              master)
+                ASSET_HOST_URL=https://stock-staging.goodcity.hk/assets
+                ;;
+              preview)
+                ASSET_HOST_URL=https://stock-preview.goodcity.hk/assets
+                ;;
+              live)
+                ASSET_HOST_URL=https://stock.goodcity.hk/assets
+                ;;
+              *)
+                echo 'Unexpected branch deployment. Choose master|preview|live'
+                exit 1
+            esac
             curl https://api.rollbar.com/api/1/sourcemap/download -F access_token="${ROLLBAR_KEY}" -F version="${APP_VERSION}" -F minified_url=$ASSET_HOST_URL/$SOURCE_MAP
 
   ember_cordova_build:
     <<: *defaults
     environment:
-        EMBER_CLI_CORDOVA: "1"
+      JOBS: 1
     steps:
       - restore-cache: *restore-repo-cache
       - restore-cache: *restore-yarn-cache
       - restore-cache: *restore-bower-cache
       - run:
-          name: Setup Environment variables
-          command: echo 'export STAGING=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo false; else echo true; fi)' >> $BASH_ENV
+          command: npm rebuild node-sass
       - run:
+          name: Ember build
           command: |
-              npm rebuild node-sass
-              echo "Building for staging (true/false): $STAGING"
-              yarn run ember build --environment=production
+            case "$CIRCLE_BRANCH" in
+              master)
+                ENVIRONMENT=staging
+                ;;
+              preview)
+                ENVIRONMENT=preview
+                ;;
+              live)
+                ENVIRONMENT=production
+                ;;
+              *)
+                echo 'Unexpected branch deployment. Choose master|preview|live'
+                exit 1
+            esac
+            echo "Building for ENVIRONMENT: ${ENVIRONMENT}"
+            EMBER_CLI_CORDOVA=1 ENVIRONMENT=${ENVIRONMENT} yarn run ember build --environment=production
       - run: mv dist/ cordova/www
       - persist_to_workspace:
           root: .
@@ -207,20 +251,20 @@ jobs:
       - run:
           name: Setup Environment variables
           command: |
-              echo 'export ENVIRONMENT=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo production; else echo staging; fi)' >> $BASH_ENV
-              echo 'export PATH=$PATH:`yarn bin`' >> $BASH_ENV
-              echo 'export PATH=$PATH:$ANDROID_HOME/tools/gradle/bin' >> $BASH_ENV
+            echo 'export ENVIRONMENT=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo production; else echo staging; fi)' >> $BASH_ENV
+            echo 'export PATH=$PATH:`yarn bin`' >> $BASH_ENV
+            echo 'export PATH=$PATH:$ANDROID_HOME/tools/gradle/bin' >> $BASH_ENV
       - run:
-          name: Install Gradle 3.3
+          name: Install Gradle 4.10.3
           command: |
-            wget -O /tmp/gradle.zip https://downloads.gradle.org/distributions/gradle-3.3-bin.zip
+            wget -O /tmp/gradle.zip  https://services.gradle.org/distributions/gradle-4.10.3-all.zip
             unzip -d $ANDROID_HOME/tools /tmp/gradle.zip
-            mv $ANDROID_HOME/tools/gradle-3.3 $ANDROID_HOME/tools/gradle
+            mv $ANDROID_HOME/tools/gradle-4.10.3 $ANDROID_HOME/tools/gradle
       - run:
           name: Download Google-services file
           command: |
             yarn run azure-filestore download -d stock/$ENVIRONMENT -f google-services.json
-            mv google-services.json ~/code/cordova
+             mv ~/code/google-services.json ~/code/cordova
           working_directory: ~/code
       - run:
           name: Download Keystore File
@@ -228,6 +272,8 @@ jobs:
             yarn run azure-filestore download -f $KEYSTORE
             mv $KEYSTORE ~/code/cordova
           working_directory: ~/code
+      - run: yes | sdkmanager --licenses || exit 0
+      - run: yes | sdkmanager --update || exit 0
       - run:
           name: Download Google Play Store Key file
           command: |
@@ -239,7 +285,7 @@ jobs:
           command: bundle exec rake ${ENVIRONMENT} android app:build
           working_directory: cordova
       - store_artifacts:
-          path: cordova/platforms/android/build/outputs/apk/
+          path: cordova/platforms/android/app/build/outputs/apk/
       - run:
           name: release android build
           command: bundle exec fastlane android ${ENVIRONMENT}
@@ -247,15 +293,27 @@ jobs:
 
   ios_build_and_deploy:
     macos:
-      xcode: "10.1.0"
+      xcode: "11.0.0"
     working_directory: ~/code
     shell: /bin/bash --login -eo pipefail
     environment:
-        EMBER_CLI_CORDOVA: "1"
-        CIRCLE_ARTIFACTS: /Users/distiller/code/cordova/platforms/ios/build/device
-
+      EMBER_CLI_CORDOVA: "1"
+      CIRCLE_ARTIFACTS: /Users/distiller/code/cordova/platforms/ios/build/device
     steps:
       - checkout
+      - run:
+          name: install node@8.15.0
+          command: |
+              set +e
+              touch $BASH_ENV
+              curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.5/install.sh | bash
+              echo 'export NVM_DIR="$HOME/.nvm"' >> $BASH_ENV
+              echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> $BASH_ENV
+              echo nvm install 8.15.0 >> $BASH_ENV
+              echo nvm alias default 8.15.0 >> $BASH_ENV
+      - run:
+          name: verify node version
+          command: node --version
       - restore-cache: *restore-ios-yarn-cache
       - run: *yarn
       - save-cache: *save-ios-yarn-cache
@@ -265,15 +323,33 @@ jobs:
       - run:
           name: Setup Environment variables
           command: |
-            echo 'export STAGING=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo false; else echo true; fi)' >> $BASH_ENV
-            echo 'export ENVIRONMENT=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo production; else echo staging; fi)' >> $BASH_ENV
-            echo 'export PROVISIONING_PROFILE=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo 'GoodCity_Stock.mobileprovision'; else echo 'GoodCity_Stock_Staging.mobileprovision'; fi)' >> $BASH_ENV
-            echo 'export CERTIFICATE=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo 'Goodcity_2019.p12'; else echo 'GoodCity_2018_Development.p12'; fi)' >> $BASH_ENV
+            case "$CIRCLE_BRANCH" in
+              master)
+                echo 'export ENVIRONMENT=staging' >> $BASH_ENV
+                echo 'export CERTIFICATE=GoodCity_2020_Development.p12' >> $BASH_ENV
+                echo 'export PROVISIONING_PROFILE=GoodCityStockStaging.mobileprovision' >> $BASH_ENV
+                ;;
+              preview)
+                echo 'export ENVIRONMENT=preview' >> $BASH_ENV
+                echo 'export CERTIFICATE=GoodCity_2020_Development.p12' >> $BASH_ENV
+                echo 'export PROVISIONING_PROFILE=GoodCityStockStaging.mobileprovision' >> $BASH_ENV
+                ;;
+              live)
+                echo 'export ENVIRONMENT=production' >> $BASH_ENV
+                echo 'export CERTIFICATE=Goodcity_2020.p12' >> $BASH_ENV
+                echo 'export PROVISIONING_PROFILE=GoodCityStock.mobileprovision' >> $BASH_ENV
+                ;;
+              *)
+                echo 'Unexpected branch deployment. Choose master|preview|live'
+                exit 1
+            esac
       - run:
+          command: npm rebuild node-sass
+      - run:
+          name: Ember build
           command: |
-              npm rebuild node-sass
-              echo "Building for staging (true/false): $STAGING"
-              yarn run ember build --environment=production
+            echo "Building for ENVIRONMENT: ${ENVIRONMENT}"
+            EMBER_CLI_CORDOVA=1 ENVIRONMENT=${ENVIRONMENT} yarn run ember build --environment=production
       - run: mv dist/ cordova/www
       - persist_to_workspace:
           root: .
@@ -287,15 +363,15 @@ jobs:
       - run:
           name: Download Provisioning Profile
           command: |
-              mkdir -pv ~/Library/MobileDevice/Provisioning\ Profiles/
-              yarn run azure-filestore download -d stock/$ENVIRONMENT -f $PROVISIONING_PROFILE
-              mv $PROVISIONING_PROFILE ~/Library/MobileDevice/Provisioning\ Profiles
+            mkdir -pv ~/Library/MobileDevice/Provisioning\ Profiles/
+            yarn run azure-filestore download -d stock/$ENVIRONMENT -f $PROVISIONING_PROFILE
+            mv $PROVISIONING_PROFILE ~/Library/MobileDevice/Provisioning\ Profiles
           working_directory: ~/code
       - run:
           name: Download P12 certificate
           command: |
-              yarn run azure-filestore download -f $CERTIFICATE
-              mv $CERTIFICATE ~/code/fastlane
+            yarn run azure-filestore download -f $CERTIFICATE
+            mv $CERTIFICATE ~/code/fastlane
           working_directory: ~/code
       - run:
           name: Install CocoaPods
@@ -323,52 +399,51 @@ jobs:
           command: bundle exec fastlane ios ${ENVIRONMENT}
           working_directory: ~/code
 
-
 workflows:
-    version: 2
-    build_and_bundle:
-      jobs:
-        - checkout_code
-        - package_dependencies:
-            requires:
-              - checkout_code
-        - test_cases:
-            requires:
-              - package_dependencies
-        - upload-coverage:
-            requires:
-              - package_dependencies
-              - test_cases
-            filters:
-              branches:
-                only: /^(master|live)$/
-        - www_build:
-            requires:
-              - test_cases
-            filters:
-              branches:
-                only: /^(master|live)$/
-        - www-deploy:
-            requires:
-              - www_build
-            filters:
-              branches:
-                only: /^(master|live)$/
-        - ember_cordova_build:
-            requires:
-              - test_cases
-            filters:
-              branches:
-                only: /^(master|live)$/
-        - android_build_and_deploy:
-            requires:
-              - ember_cordova_build
-            filters:
-              branches:
-                only: /^(master|live)$/
-        - ios_build_and_deploy:
-            requires:
-              - test_cases
-            filters:
-              branches:
-                only: /^(master|live)$/
+  version: 2
+  build_and_bundle:
+    jobs:
+      - checkout_code
+      - package_dependencies:
+          requires:
+            - checkout_code
+      - test_cases:
+          requires:
+            - package_dependencies
+      # - upload-coverage:
+      #     requires:
+      #       - package_dependencies
+      #       - test_cases
+      #     filters:
+      #       branches:
+      #         only: /^(master|live)$/
+      - www_build:
+          requires:
+            - test_cases
+          filters:
+            branches:
+              only: /^(master|live|preview)$/
+      - www-deploy:
+          requires:
+            - www_build
+          filters:
+            branches:
+              only: /^(master|live|preview)$/
+      - ember_cordova_build:
+          requires:
+            - test_cases
+          filters:
+            branches:
+              only: /^(master|live)$/
+      - android_build_and_deploy:
+          requires:
+            - ember_cordova_build
+          filters:
+            branches:
+              only: /^(master|live)$/
+      - ios_build_and_deploy:
+          requires:
+            - test_cases
+          filters:
+            branches:
+              only: /^(master|live)$/

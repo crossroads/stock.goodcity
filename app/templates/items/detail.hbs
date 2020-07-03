@@ -1,54 +1,50 @@
 <section class="main-section item_details_screen">
-  <div class="search">
+  <div class="item-details-body">
     <div class="row profile_container">
-      {{#link-to "items.index" tagName='span' href=false}}
-        <div class="click-action-zone">
+      {{#back-link fallbackRoute="items"}}
+        <div class="item-page click-action-zone">
           <div class="back_link no-avatar">
             <i aria-hidden="true">{{fa-icon 'angle-left'}}</i>
           </div>
         </div>
-      {{/link-to}}
+      {{/back-link}}
       <div id="itemImage">
-        {{image-zoom item=model}}
+        {{#if showImages}}
+          {{image-zoom item=model showSetImages=true}}
+        {{/if}}
+        <div class="image-overlay {{if showSetList 'opaque' 'transparent' }}">
+          {{#if model.isPartOfSet}}
+            {{partial 'items/detail/set_header' }}
+          {{/if}}
+          <div style="visibility: {{if showSetList 'hidden' 'visible' }}">
+            {{partial 'items/detail/tabs'}}
+          </div>
+        </div>
       </div>
       <div class="image-action-list">
         {{#unless (is-or model.hasAllPackagesDispatched model.hasAllPackagesDesignated)}}
           {{#if model.quantity}}
-            {{#if (is-not model.isSet)}}
+            {{#if (is-not model.isPartOfSet)}}
               {{#if model.isSingletonItem}}
-                {{#link-to 'items.search_order' model.id (query-params isSet=model.isSet partial_qty=1) tagName='span' href=false}}
+                {{#link-to 'items.detail.publishing' model.id tagName='span' href=false}}
                   <span class="no-avatar">
                     <i aria-hidden="true">{{fa-icon 'shopping-basket'}}</i>
                   </span>
                 {{/link-to}}
-              {{else}}
-                {{!-- Disabling partial quantity designate --}}
-                {{!-- {{#link-to 'items.partial_designate' model.id (query-params isSet=model.isSet) tagName='span' href=false}}
-                  <span class="no-avatar" {{action 'partialDesignateForSet'}}>
-                    <i aria-hidden="true">{{fa-icon 'shopping-basket'}}</i>
-                  </span>
-                {{/link-to}} --}}
               {{/if}}
             {{/if}}
           {{/if}}
         {{/unless}}
 
-        {{#unless model.isSet}}
+        {{#unless model.isPartOfSet}}
           {{#if (is-and item.hasOneDesignatedPackage (is-not model.hasAllPackagesDispatched))}}
             <div class="{{unless item.hasOneDesignatedPackage 'disabled'}}">
               {{#if (is-and model.isSingletonItem model.designation.isGoodCityOrder)}}
-                <div class="no-avatar">
-                  <a href="#" {{action 'dispatchOrdersPackagePopUp' model model.firstDesignatedOrdersPackage.id}} >
-                    <i class="item-menu">{{fa-icon 'ship'}}</i>
-                  </a>
-                </div>
-              {{else}}
-                {{!-- Disabling partial quantity dispatch --}}
-                {{!-- {{#link-to 'items.partial_dispatch' item.id (query-params orderPackageId=model.firstDesignatedOrdersPackage.id) tagName='div' href=false}}
+                {{#link-to 'items.detail.publishing' model.id tagName='span' href=false}}
                   <span class="no-avatar">
-                    <i aria-hidden="true">{{fa-icon 'ship'}}</i>
+                    <i class="item-menu">{{fa-icon 'ship'}}</i>
                   </span>
-                {{/link-to}} --}}
+                {{/link-to}}
               {{/if}}
             </div>
           {{/if}}
@@ -64,22 +60,14 @@
       </div>
     </div>
 
-    {{#if model.isSet}}
-      <div class="row set_details">
-        <div class="columns small-12">
-          <div class='set_name'>{{model.setItem.description}}</div>
-          <div class='set_type'>{{model.code.name}}</div>
-        </div>
-      </div>
-    {{/if}}
-
-    {{#if model.isSet}}
-      {{#each model.setItem.sortedItems as |item|}}
-        {{partial 'items/item_detail_block'}}
-      {{/each}}
-    {{else}}
-      {{partial 'items/item_detail_block'}}
-    {{/if}}
+    <div class="row main-content {{if showSetList 'opaque' 'transparent' }}">
+      {{#if showSetList}}
+        {{partial 'items/detail/set_list' }}
+      {{else}}
+        {{!-- TAB CONTENT --}}
+        {{partial (concat 'items/detail/tabs/' tabName) }}
+      {{/if}}
+    </div>
 
   </div>
 

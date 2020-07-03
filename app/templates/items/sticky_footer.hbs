@@ -1,3 +1,5 @@
+{{#sticky-footer columns=(if enableFooterActions 4 3)}}
+
   {{#if enableFooterActions}}
     <div class="extended-footer-menu {{if showExtendedFooterMenu 'visible'}}">
       <div class="click-out-overlay" {{action (mut showExtendedFooterMenu) false}}></div>

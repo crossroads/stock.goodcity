@@ -1,6 +1,7 @@
 import Ember from "ember";
 
 export default Ember.Controller.extend({
+  subscription: Ember.inject.service(),
   model: Ember.computed({
     get() {
       return [];
@@ -10,10 +11,20 @@ export default Ember.Controller.extend({
     }
   }),
 
-  nextNotification: Ember.computed('model.[]', function() {
+  nextNotification: Ember.computed("model.[]", function() {
     //retrieveNotification is not implemented here because it needs to call itself
     return this.retrieveNotification();
   }),
+
+  init() {
+    this._super(...arguments);
+    this.get("subscription").on("notification", this, this.onNewNotification);
+  },
+
+  onNewNotification(notification) {
+    notification.date = new Date(notification.date);
+    this.get("model").pushObject(notification);
+  },
 
   retrieveNotification: function(index) {
     // not sure why but model.firstObject is undefined when there's one notification
@@ -27,15 +38,21 @@ export default Ember.Controller.extend({
     return notification;
   },
 
-   setRoute: function(notification) {
-      notification.route = ['orders.detail', notification.order_id];
-   },
+  setRoute: function(notification) {
+    if (notification.category === "message") {
+      return (notification.route = [
+        "orders.conversation",
+        notification.order_id
+      ]);
+    }
+    notification.route = ["orders.active_items", notification.order_id];
+  },
 
-   redirectToOrderDetail: function(orderId){
-      this.transitionToRoute("orders.detail", orderId);
-   },
+  redirectToOrderDetail: function(orderId) {
+    this.transitionToRoute("orders.active_items", orderId);
+  },
 
-   actions: {
+  actions: {
     view() {
       var notification = this.get("nextNotification");
       this.get("model").removeObject(notification);
@@ -43,7 +60,7 @@ export default Ember.Controller.extend({
     },
 
     unloadNotifications() {
-      this.set('model', []);
+      this.set("model", []);
     }
   }
 });

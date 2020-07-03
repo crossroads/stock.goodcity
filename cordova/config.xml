@@ -12,7 +12,7 @@
     <allow-intent href="http://*/*" launch-external="yes" />
     <allow-intent href="https://*/*" launch-external="yes" />
     <platform name="android">
-        <resource-file src="google-services.json" target="google-services.json" />
+        <resource-file src="google-services.json" target="app/google-services.json" />
         <preference name="AndroidLaunchMode" value="singleInstance" />
         <preference name="LoadUrlTimeoutValue" value="120000" />
         <preference name="SplashScreen" value="screen" />
@@ -87,6 +87,9 @@
         <host event="redirectToItem" name="stock-staging.goodcity.hk" scheme="https" />
         <host event="redirectToItem" name="stock.goodcity.hk" scheme="https" />
     </universal-links>
+    <engine name="windows" spec="~4.3.1" />
+    <engine name="android" spec="8.0.0" />
+    <engine name="ios" spec="~5.0.0" />
     <plugin name="cordova-plugin-android-permissions" spec="https://github.com/NeoLSN/cordova-plugin-android-permissions" />
     <plugin name="cordova-plugin-statusbar" spec="~2.1.1" />
     <plugin name="cordova-plugin-actionsheet" spec="https://github.com/EddyVerbruggen/cordova-plugin-actionsheet.git" />
@@ -105,7 +108,4 @@
     <plugin name="cordova-android-support-gradle-release" spec="^2.0.1">
         <variable name="ANDROID_SUPPORT_VERSION" value="27.+" />
     </plugin>
-    <engine name="windows" spec="~4.3.1" />
-    <engine name="ios" spec="^4.5.5" />
-    <engine name="android" spec="^6.3.0" />
 </widget>

@@ -113,6 +113,7 @@ $mid-blue: #1c3b65;
 $light-blue: #334f75;
 $light-blue-1: #dfe5ec;
 $light-blue-2: #003863;
+$light-blue-3: #1a3964;
 $medium-blue: #a3aab6;
 $dust-blue: #2b384a;
 $smokey-blue: #536785;
@@ -124,7 +125,8 @@ $light-gray: #787878;
 $light-gray-1: #315E81;
 
 $light-purple: #c2b8d0;
-$secondary-color: rgba(0,0,0,0);
+$cherry-red: #ED4C4E;
+$secondary-color: rgba(0, 0, 0, 0);
 $light-grey: #dee4eb;
 $org-grey: #bab3b3;
 $light-yellow: #ffdcac;
@@ -145,7 +147,13 @@ $body-bg: $dark-blue;
 // $body-font-color: $jet;
 $body-font-color: #a3aab6;
 // $body-font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
-$body-font-family: MuseoSans300, Museo300, "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+$body-font-family: MuseoSans300,
+Museo300,
+"Helvetica Neue",
+"Helvetica",
+Helvetica,
+Arial,
+sans-serif;
 // $body-font-weight: $font-weight-normal;
 // $body-font-style: normal;
 
@@ -732,9 +740,9 @@ $input-border-width: 2px;
 
 // We use these to style the prefix and postfix input elements
 // $input-prefix-bg: scale-color($white, $lightness: -5%);
-$input-prefix-bg: rgba(0,0,0,0);
+$input-prefix-bg: rgba(0, 0, 0, 0);
 // $input-prefix-border-color: scale-color($white, $lightness: -20%);
-$input-prefix-border-color: rgba(0,0,0,0);
+$input-prefix-border-color: rgba(0, 0, 0, 0);
 // $input-prefix-border-size: 1px;
 $input-prefix-border-size: 0;
 // $input-prefix-border-type: solid;
@@ -771,12 +779,12 @@ $input-error-message-font-size: rem-calc(18);
 // We use these to style the icon-bar and items
 // $include-html-icon-bar-classes: $include-html-classes;
 // $icon-bar-bg: $oil;
-$icon-bar-bg: rgba(0,0,0,0);
+$icon-bar-bg: rgba(0, 0, 0, 0);
 // $icon-bar-font-color: $white;
 $icon-bar-font-color: #a3aab6;
 // $icon-bar-font-size: 1rem;
 // $icon-bar-hover-color: $primary-color;
-$icon-bar-hover-color: rgba(0,0,0,0);
+$icon-bar-hover-color: rgba(0, 0, 0, 0);
 // $icon-bar-icon-color: $white;
 // $icon-bar-icon-size: 1.875rem;
 $icon-bar-icon-size: 1.5rem;
@@ -923,7 +931,7 @@ $off-canvas-bg: #0d1b2f;
 
 // Off Canvas Menu List Variables
 // $off-canvas-label-padding: 0.3rem rem-calc(15);
-$off-canvas-label-padding:  rem-calc(12, 20);
+$off-canvas-label-padding: rem-calc(12, 20);
 // $off-canvas-label-color: $aluminum;
 // $off-canvas-label-text-transform: uppercase;
 $off-canvas-label-text-transform: none;
@@ -931,7 +939,7 @@ $off-canvas-label-text-transform: none;
 // $off-canvas-label-font-weight: $font-weight-bold;
 $off-canvas-label-font-weight: normal;
 // $off-canvas-label-bg: $tuatara;
-$off-canvas-label-bg: rgba(0,0,0,0);
+$off-canvas-label-bg: rgba(0, 0, 0, 0);
 // $off-canvas-label-border-top: 1px solid scale-color($tuatara, $lightness: 14%);
 // $off-canvas-label-border-bottom: none;
 // $off-canvas-label-margin:0;

@@ -26,7 +26,7 @@
     <section class="main-section client-information request-add-remove-section medium-12 large-12 small-12 columns">
       {{#validatable-form onSubmit=(action 'saveGoodsDetails') as |form|}}
         {{#each sortedGcRequests as |req index|}}
-          {{add-request id=index order=order request=req num=index}}
+          {{add-request id=index order=order request=req num=index isGCRequest=true}}
         {{/each}}
         <div class='row req-more-goods'>
           <div class='large-4 columns small-4 small-offset-2 request-more link-blue add_package_link add_more_request' {{action "addRequest" on="click"}}>

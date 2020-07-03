@@ -1,0 +1,35 @@
+<section class="new-user-section request-section">
+  <div class="row request-block">
+    {{#form-control}}
+        <div class="small-12 columns add-request" >
+          <div class="small-7 columns" {{action "assingPackageType" request.id}}>
+            <label> {{t 'order.goods_details.type_label'}} </label>
+              {{input type="text" name="packageTypeDescription" value=packageTypeName pattern=".*\S.*" classNames="select-goods" required='true' disabled=true}}
+          </div>
+          <div class="small-3 columns">
+            <label> {{t 'order.goods_details.quantity_label'}} </label>
+            {{numeric-input type="number" id=(concat 'quantity' request.id) name="qty" value=request.quantity maxlength="8" required='true' pattern="\d{1,8}" classNames="add-quantity"}}
+          </div>
+          <div class='small-2 columns icon-center remove-request remove-request-click'>
+            <span class="cancel-icon" {{action "removeRequest" request.id on="click"}}>
+              {{fa-icon 'times-circle' size="lg"}}
+            </span>
+          </div>
+          <div class="small-10 columns input-error warning_empty">
+            <div class='input-error'>{{fa-icon "exclamation-triangle"}}
+              <span class="error-reason-margin">{{t "add_request.error"}}</span>
+            </div>
+          </div>
+          <div class='small-2 columns'></div>
+        </div>
+    {{/form-control}}
+  </div>
+  <div class="row">
+    <div class="small-12 columns">
+      <div class="small-10 columns req-description" style="margin-top: 0rem;">
+        <label> {{t 'order.goods_details.description_details_label'}} </label>
+        {{input type="text" id=(concat 'description' request.id) name="otherDetails" value=request.description classNames="number_input center_align_placeholder add-description"}}
+      </div>
+    </div>
+  </div>
+</section>

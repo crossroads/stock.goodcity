@@ -12,12 +12,12 @@
         {{#if ordersPackage.item.hasSingleLocation}}
           {{ordersPackage.item.firstLocationName}}
         {{else if ordersPackage.item.hasMultiLocations}}
-          Multiple
+          {{t "cancelled_order_packages.multiple"}}
         {{/if}}
       {{/unless}}
     </div>
     <div class="small-3 columns">
-      <i>{{fa-icon (if ordersPackage.item.isSet 'tags' 'tag')}}</i> {{ordersPackage.item.inventoryNumber}}
+      <i>{{fa-icon (if ordersPackage.item.isPartOfSet 'tags' 'tag')}}</i> {{ordersPackage.item.inventoryNumber}}
     </div>
   </div>
 
@@ -44,12 +44,5 @@
         </div>
       {{/link-to}}
     {{/if}}
-
-    {{#if displayItemOptions}}
-      <div class="small-3 large-2 columns">
-        {{item-options item=ordersPackage.item order=model ordersPackage=ordersPackage}}
-      </div>
-    {{/if}}
-
   </div>
 </div>

@@ -1,41 +1,40 @@
 import Ember from "ember";
-import searchModule from "./search_module";
 
-export default searchModule.extend({
+export default Ember.Controller.extend({
   minSearchTextLength: 3,
+  displayResults: false,
 
-  onSearchTextChange: Ember.observer("searchText", function(){
-    if(this.get('searchText').length){
-      Ember.run.debounce(this, this.applyFilter, 500);
-    } else {
-      this.set("filteredResults", []);
+  onSearchTextChange: Ember.observer("searchText", function() {
+    this.hideResults();
+    if (this.get("searchText").length) {
+      Ember.run.debounce(this, this.showResults, 500);
     }
   }),
 
-  applyFilter() {
-    var searchText = this.get("searchText");
-    if (searchText.length > this.get("minSearchTextLength")) {
-      this.set("isLoading", true);
-      this.set("hasNoResults", false);
-      if(this.get("unloadAll")) { this.get("store").unloadAll(); }
+  hideResults() {
+    this.set("displayResults", false);
+  },
 
-      this.infinityModel("gcOrganisation",
-        { startingPage: 1, perPage: 25, modelPath: 'filteredResults',stockRequest: true },
-        { searchText: "searchText"}).then(data => {
-          if(this.get("searchText") === data.meta.search) {
-            this.set("filteredResults", data);
-            this.set("hasNoResults", data.get("length") === 0);
-          }
-        }).finally(() => this.set("isLoading", false));
-    }
-    this.set("filteredResults", []);
+  showResults() {
+    this.set("displayResults", true);
   },
 
   actions: {
     cancelSearch() {
       Ember.$("#searchText").blur();
-      this.send("clearSearch", true);
+      this.set("searchText", "");
       this.transitionToRoute("app_menu_list");
+    },
+
+    loadMoreOrganisations(page) {
+      const params = {
+        page: page,
+        per_page: 25,
+        searchText: this.get("searchText"),
+        stockRequest: true
+      };
+
+      return this.get("store").query("gcOrganisation", params);
     }
   }
 });

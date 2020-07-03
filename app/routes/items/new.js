@@ -1,78 +1,166 @@
-import AuthorizeRoute from './../authorize';
-import AjaxPromise from 'stock/utils/ajax-promise';
-import Ember from 'ember';
+import AuthorizeRoute from "./../authorize";
+import Ember from "ember";
+import GradeMixin from "stock/mixins/grades_option";
 
-export default AuthorizeRoute.extend({
-
+export default AuthorizeRoute.extend(GradeMixin, {
   inventoryNumber: "",
   newItemRequest: "",
-  isSearchCodePreviousRoute: Ember.computed.localStorage(),
-  isSelectLocationPreviousRoute: Ember.computed.localStorage(),
+  packageService: Ember.inject.service(),
+  printerService: Ember.inject.service(),
+  session: Ember.inject.service(),
+  store: Ember.inject.service(),
 
   queryParams: {
-    codeId: "",
-    locationId: "",
-    scanLocationName: ""
+    codeId: {
+      replace: true
+    },
+    locationId: {
+      replace: true
+    },
+    scanLocationName: {
+      replace: true
+    },
+    storageType: {
+      replace: true
+    }
   },
 
-  beforeModel() {
+  beforeModel({ queryParams = {} }) {
     this._super(...arguments);
-    var searchCodePreviousRoute = this.get("isSearchCodePreviousRoute");
-    if(searchCodePreviousRoute) {
-      var newItemRequest = searchCodePreviousRoute ? true : false;
-      this.set("newItemRequest", newItemRequest);
-    } else {
-      this.transitionTo("search_code");
+
+    const hasCodeId = !!queryParams.codeId;
+
+    if (!hasCodeId) {
+      this.replaceWith("search_code");
     }
   },
 
-  model() {
-    var _this = this;
-    if(!this.controller || !this.controller.get("inventoryNumber") || !this.inventoryNumber){
-      return new AjaxPromise("/inventory_numbers", "POST", this.get('session.authToken'))
-        .then(function(data) {
-          _this.set("inventoryNumber", data.inventory_number);
-        });
-    }
+  isSubformAllowed(selectedSubform) {
+    return (
+      ["computer", "electrical", "computer_accessory", "medical"].indexOf(
+        selectedSubform
+      ) >= 0
+    );
   },
 
   afterModel() {
-    this.store.findAll('location', {reload: true});
+    this.store.findAll("location", {
+      reload: true
+    });
   },
 
-  setupController(controller, model){
-    this._super(controller, model);
-
-    controller.set('inventoryNumber', this.get('inventoryNumber'));
-    controller.set('displayInventoryOptions', false);
-    controller.set('autoGenerateInventory', true);
-    controller.set('inputInventory', false);
-    controller.set('invalidLocation', false);
-    controller.set('invalidScanResult', false);
-
-    if(this.get("newItemRequest")) {
-      this.set("newItemRequest", false);
-      controller.set('quantity', 1);
-      if(window.localStorage.getItem("isSelectLocationPreviousRoute") === "false") {
-        controller.set('caseNumber', "");
-        controller.set('length', null);
-        controller.set('width', null);
-        controller.set('height', null);
-        controller.set('selectedGrade', { name: "B", id: "B" });
-        controller.set('selectedCondition', { name: "Used", id: "U" });
-      }
-      var imageKey = controller.get("imageKeys");
-      if(imageKey && imageKey.length && window.localStorage.isSelectLocationPreviousRoute === "true") {
-        var image = this.get("store").peekAll("image").filterBy("cloudinaryId", imageKey).get("firstObject");
-        image = image || this.get("store").createRecord("image", {
-            cloudinaryId: imageKey,
-            favourite: true
-          });
-        controller.set("newUploadedImage", image);
-      } else {
-        controller.set("newUploadedImage", null);
-      }
+  setupPrinterId(controller) {
+    let allAvailablePrinters = this.get(
+      "printerService"
+    ).allAvailablePrinters();
+    let user = this.get("session.loggedInUser");
+    if (user.get("printerId")) {
+      controller.set("selectedPrinterId", user.get("printerId"));
+    } else {
+      let firstPrinterId = allAvailablePrinters[0].id;
+      this.get("printerService").updateUserDefaultPrinter(firstPrinterId);
+      controller.set("selectedPrinterId", firstPrinterId);
     }
-  }
+  },
 
+  setupController(controller, model) {
+    this._super(controller, model);
+    const store = this.get("store");
+    this.initializeController();
+
+    this.initializeAttributes();
+    this.manageSubformDetails();
+    this.setUpPackageImage();
+    this.setupPrinterId(controller);
+  },
+
+  async initializeController() {
+    const controller = this.controller;
+    if (!controller.get("inventoryNumber")) {
+      await controller.send("autoGenerateInventoryNumber");
+    }
+    controller.set("invalidLocation", false);
+    controller.set("invalidScanResult", false);
+    controller.set("labels", 1);
+    controller.set("offersLists", []);
+  },
+
+  async manageSubformDetails() {
+    const controller = this.controller;
+    const store = this.store;
+    let codeId = controller.get("codeId");
+    if (!codeId) return;
+    let selected = store.peekRecord("code", codeId);
+    if (!selected) return;
+    let selectedSubform = selected.get("subform");
+    if (!selectedSubform) return;
+    if (this.isSubformAllowed(selectedSubform)) {
+      controller.set("showAdditionalFields", true);
+      let details = await store.query(selectedSubform, {
+        distinct: "brand"
+      });
+      controller.set("packageDetails", details);
+    } else {
+      controller.set("showAdditionalFields", false);
+    }
+  },
+
+  async setUpPackageImage() {
+    const controller = this.controller;
+    const imageKey = controller.get("imageKeys");
+    if (imageKey) {
+      let image = this.get("packageService").getCloudinaryImage(imageKey);
+      image = await (image ||
+        this.store.createRecord("image", {
+          cloudinaryId: imageKey,
+          favourite: true
+        }));
+      controller.set("newUploadedImage", image);
+    } else {
+      controller.set("newUploadedImage", null);
+    }
+  },
+
+  getDefaultCondition() {
+    const conditions = this.get("store").peekAll("donor_condition");
+    return (
+      conditions.filterBy("name", "Lightly Used").get("firstObject") ||
+      conditions.get("firstObject")
+    );
+  },
+
+  async initializeAttributes() {
+    const controller = this.controller;
+    this.set("newItemRequest", false);
+    controller.set("quantity", 1);
+    controller.set("caseNumber", "");
+    controller.set("length", null);
+    controller.set("width", null);
+    controller.set("height", null);
+    controller.set("weight", null);
+    controller.set("pieces", null);
+    controller.set("selectedGrade", {
+      name: "B",
+      id: "B"
+    });
+    controller.set("imageKeys", "");
+    controller.set(
+      "restrictionId",
+      this.get("restrictionOptions").get("firstObject")
+    );
+    controller.set(
+      "saleableId",
+      this.get("saleableOptions").get("firstObject")
+    );
+    const defaultValue = await this.get("packageService").getItemValuation({
+      donorConditionId: this.getDefaultCondition().id,
+      grade: controller.get("selectedGrade").id,
+      packageTypeId: controller.get("codeId")
+    });
+
+    controller.set("defaultCondition", this.getDefaultCondition());
+    controller.set("valueHkDollar", +defaultValue.value_hk_dollar);
+    controller.set("defaultValueHkDollar", +defaultValue.value_hk_dollar);
+    this.setupPrinterId(controller);
+  }
 });

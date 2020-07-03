@@ -1,0 +1,44 @@
+<div class="item-search item-search-overlay small-9 columns" align="center">
+  {{#popup-overlay open=open}}
+    <div class="search-section">
+      <div class="row fixed_search_header_item fixed_search_header search-box ui items-search">
+        <div class="icon-holder small-2 columns">
+          <i class="back_icon" aria-hidden="true" {{ action 'cancel' }}>{{fa-icon 'angle-left' size='2x'}}</i>
+        </div>
+        <div class="input-holder small-8 columns">
+          {{focus-textfield
+            name="search-text"
+            placeholder=(t "search_min")
+            value=searchText }}
+          {{#if hasSearchText}}
+            <i {{action "clearSearch"}}>{{fa-icon 'times-circle'}}</i>
+          {{/if}}
+        </div>
+        {{#if isMobileApp}}
+          <div class="small-2 medium-2 large-2 columns scan-button">
+            {{scan-barcode-button onScanComplete=(action "setScannedSearchText")}}
+          </div>
+        {{/if}}
+      </div>
+      <section class="main-section items_search_result">
+        <div class="row search">
+          <div class="small-12 columns">
+            {{#if displayResults}}
+              {{#infinite-list height="85vh" loadMore=(action "loadMoreItems") as |items| }}
+                {{#each items as |item|}}
+                  <div class="row" {{action 'selectItem' item}}>
+                    {{package-summary-block model=item disableLink=true}}
+                  </div>
+                {{else}}
+                  <div class='no_result'>{{t "no_search_results"}}</div>
+                {{/each}}
+              {{/infinite-list}}
+            {{else}}
+              <div class='no_result'>{{t 'box_pallet.type_to_search'}}</div>
+            {{/if}}
+          </div>
+        </div>
+      </section>
+    </div>
+  {{/popup-overlay}}
+</div>

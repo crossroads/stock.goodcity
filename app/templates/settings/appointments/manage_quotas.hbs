@@ -2,7 +2,10 @@
 
   {{!-- TITLE --}}
   <nav class="tab-bar">
-    <div class="back-link"><a {{action "back" preventDefault=true}}>{{ t 'done' }}</a></div>
+    {{#back-link fallbackRoute="/" }}
+      <div class="back-link">{{ t 'done' }}</div>
+    {{/back-link}}
+
     <section class="middle tab-bar-section">
       <h1 class="title">
         {{t 'settings.appointments.title'}}
@@ -12,14 +15,14 @@
 
   {{!-- TABS --}}
   <nav class="tab-bar row">
-    <div class="columns tab preset-tab small-6 {{if isPresetsTab 'selected' 'disabled'}}"> 
+    <div class="columns tab preset-tab small-6 {{if isPresetsTab 'selected' 'disabled'}}">
       <a {{action "showDefault"}}>
-        {{ t 'settings.appointments.default_quotas' }} 
+        {{ t 'settings.appointments.default_quotas' }}
       </a>
     </div>
-    <div class="columns tab special-tab small-6 {{if isSpecialTab 'selected' 'disabled'}}"> 
+    <div class="columns tab special-tab small-6 {{if isSpecialTab 'selected' 'disabled'}}">
       <a {{action "showSpecial"}}>
-        {{ t 'settings.appointments.special_dates' }} 
+        {{ t 'settings.appointments.special_dates' }}
       </a>
     </div>
   </nav>
@@ -29,5 +32,5 @@
 
   {{partial 'settings/appointments/special_day_quotas_tab'}}
 
-  
+
 </div>

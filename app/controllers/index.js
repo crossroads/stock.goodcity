@@ -1,4 +1,5 @@
-import Ember from 'ember';
+import Ember from "ember";
+import { STATE_FILTERS, TYPE_FILTERS } from "stock/services/filter-service";
 
 export default Ember.Controller.extend({
   application: Ember.inject.controller(),
@@ -6,21 +7,20 @@ export default Ember.Controller.extend({
 
   actions: {
     logMeOut() {
-      this.get('application').send('logMeOut');
+      this.get("application").send("logMeOut");
     },
 
-    goToOrder(states, priority= false) {
-      let filterService = this.get('filterService');
+    goToOrder(states, priority = false) {
+      let filterService = this.get("filterService");
       let stateFilter = [states];
+      const { APPOINTMENT, ONLINE_ORDER } = TYPE_FILTERS;
       if (priority) {
-        stateFilter.unshift('showPriority');
+        stateFilter.unshift(STATE_FILTERS.PRIORITY);
       }
       filterService.clearFilters();
-      filterService.setStateTypeFilter(stateFilter);
-      filterService.notifyPropertyChange("getOrderStateFilters");
-      filterService.notifyPropertyChange("getOrderTypeFilters");
-      this.transitionToRoute('orders', { queryParams: { preload: true }});
+      filterService.set("orderStateFilters", stateFilter);
+      filterService.set("orderTypeFilters", [APPOINTMENT, ONLINE_ORDER]);
+      this.transitionToRoute("orders");
     }
-
   }
 });

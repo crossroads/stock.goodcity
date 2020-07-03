@@ -2,10 +2,30 @@
     Goodcity common colors
 */
 
+$goodcity-bg: #002352;
+$light-text-color: #a3aab6;
+
 $submitted-state-color: #558CC6;
 $processing-state-color: #E25955;
 $scheduled-state-color: #7DA857;
 $dispatching-state-color: #051D3F;
 $cancelled-state-color: #000000;
 $closed-state-color: #000000;
+
+$colors-by-state: (
+  "state-submitted": $submitted-state-color,
+  "state-processing": $processing-state-color,
+  "state-awaiting_dispatch": $scheduled-state-color,
+  "state-dispatching": $dispatching-state-color,
+  "state-cancelled": $cancelled-state-color,
+  "state-closed": $closed-state-color
+);
+
+@mixin auto-order-state-color($prop : 'background-color') {
+  @each $state, $color in $colors-by-state {
+    &.#{$state} {
+      #{$prop}: $color;
+    }
+  }
+}
 

@@ -9,38 +9,41 @@
     {{/if}}
   </section>
 </nav>
-
 <div class="row search">
   <div class="small-12 columns">
     <ul class="list list-activity menu-list">
-      {{#unless isMobileApp}}
-        <li class="menu-list">
-          {{language-switcher}}
-        </li>
-      {{/unless}}
+      {{!-- {{#unless isMobileApp}} --}}
+      <li class="menu-list">
+        {{language-switcher}}
+      </li>
+      {{!-- {{/unless}} --}}
       <li class="menu-list">
         <a href="#" class="menu-list-anchor" {{action 'logMeOut'}}>
           {{fa-icon 'sign-out-alt' size="lg"}}&nbsp;&nbsp;{{t "logout.logout"}}
         </a>
       </li>
-      {{#if (is-or session.currentUser.isSupervisor getCurrentUser.isSupervisor)}}
+      {{#if (is-or getCurrentUser.isSupervisor)}}
         <li class="menu-list">
           {{#link-to 'search_organisation' class="menu-list-anchor"}}
-            {{fa-icon 'user-cog' size="lg"}}&nbsp;&nbsp;Manage charity users
+            {{fa-icon 'user-cog' size="lg"}}&nbsp;&nbsp;{{t "manage_charity_users"}}
           {{/link-to}}
         </li>
       {{/if}}
-      <li class="menu-list">
-        {{#link-to 'search_code' (query-params backToNewItem=false) class='menu-list-anchor inventory'}}
-          {{fa-icon 'plus-circle' size="lg"}}&nbsp;&nbsp;{{t "add_inventory_item"}}
-        {{/link-to}}
-      </li>
-      {{#if (is-or session.currentUser.canManageAppointments getCurrentUser.canManageAppointments)}}
+      {{#each storageTypes as |storageType|}}
+        <li class="menu-list {{if storageType.disable 'disable'}}">
+          <a href="#" class="menu-list-anchor {{if storageType.disable 'disable'}}" {{action 'createInventory' storageType.name}} disabled={{storageType.disable}}>
+            {{fa-icon storageType.icon size="lg"}}&nbsp;&nbsp;{{t storageType.translation}}
+          </a>
+        </li>
+      {{/each}}
+      {{#if getCurrentUser.canManageAppointments}}
         <li class="menu-list">
           {{#link-to 'appointments' class='appointments-link menu-list-anchor'}}
             {{fa-icon 'calendar-alt' size="lg"}}&nbsp;&nbsp;{{t 'manage_inventory'}}
           {{/link-to}}
         </li>
+      {{/if}}
+      {{#if getCurrentUser.canManageOrders}}
         <li class="menu-list">
           <a href="#" class="menu-list-anchor" {{action 'createOrder'}}>
             {{fa-icon 'shopping-basket' size="lg"}}&nbsp;&nbsp;{{t 'new_order'}}
@@ -50,6 +53,4 @@
     </ul>
   </div>
 </div>
-
-{{partial "sticky_footer"}}
-
+{{sticky-footer}}

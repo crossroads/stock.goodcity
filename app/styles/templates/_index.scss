@@ -7,10 +7,10 @@
 
 .order_detail {
   text-align: center;
-  height: 4.5rem;
-  font-size: 1.5vw;
-  color:#DFE0E7;
-  border: 1.5px solid #27436C;
+  padding-bottom: 0.8rem;
+  font-size: 1.1rem;
+  color: #dfe0e7;
+  border: 1.5px solid #27436c;
 
   .order_title {
     padding-top: 5px;
@@ -18,14 +18,14 @@
   }
 
   i {
-    margin-top:25px;
+    margin-top: 25px;
     font-size: 1.1rem;
-    color: #FFFFFF;
+    color: #ffffff;
   }
 
   span {
     font-size: 1.2rem;
-    color: #FFFFFF;
+    color: #ffffff;
   }
 
   @media #{$small-only} {
@@ -33,34 +33,41 @@
   }
 
   @media screen and (max-width: 350px) {
-    .order_count span, i {
+    .order_count span,
+    i {
       font-size: 5vw;
     }
   }
 }
+
 .recent_orders {
-  padding-left: 3%;
-  padding-right: 3%;
+  padding: 0 3% 4%;
   margin-top: 15px !important;
   margin-bottom: 1rem;
 }
 
 .counts {
-  height:75vh;
-  overflow-x:scroll;
+  height: 75vh;
+  overflow-x: scroll;
 }
 
 .order_header {
   margin-bottom: 1rem !important;
   padding-top: 0;
-  border: 2px solid #27436C;
+  border: 2px solid #27436c;
   height: 4rem;
   line-height: 4rem;
 
-  .order_code  {
+  @media #{$small-only} {
+    font-size: 0.62rem;
+  }
+
+  .order_code {
     text-align: right;
   }
-  .order_transport, .order_code {
+
+  .order_transport,
+  .order_code {
     color: white;
     white-space: nowrap;
     font-weight: 700;
@@ -94,23 +101,32 @@
       text-align: center;
     }
   }
-
 }
 
 .priority_details {
-  height: 3rem;
-  padding: 5%;
+  padding: 6%;
 
   i {
-    margin-top:10px !important;
-    color: #FFFFFF;
+    margin-top: 10px !important;
+    color: #ffffff;
   }
 }
 
-.processing { background-color:#ED4C4E; }
-.awaiting_dispatch { background-color:#6FAB4A; }
-.submitted { background-color:#438BCA; }
-.dispatching { background-color:#021C41; }
+.processing {
+  background-color: #ed4c4e;
+}
+
+.awaiting_dispatch {
+  background-color: #6fab4a;
+}
+
+.submitted {
+  background-color: #438bca;
+}
+
+.dispatching {
+  background-color: #021c41;
+}
 
 .footer {
   background-color: $dark-blue;
@@ -123,6 +139,7 @@
 
   .navigation_menus {
     position: relative;
+
     .small-block-grid-5 {
       li:not(:last-child) {
         width: 22%;
@@ -155,4 +172,32 @@ em {
   font-style: inherit;
   background: #ff6;
   color: black;
+}
+
+.xy-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.unread_length {
+  @media #{$small-only} {
+    width: 1.1rem;
+    height: 1.1rem;
+    line-height: 1.2rem;
+  }
+
+  line-height: 1.3rem;
+  width: 1.2rem;
+  height: 1.2rem;
+  font-size: 0.7rem;
+  display: inline-block;
+  color: $dark-blue;
+  border-radius: 50%;
+  background: $bright-red;
+  margin-left: -1rem;
+  position: absolute;
 }

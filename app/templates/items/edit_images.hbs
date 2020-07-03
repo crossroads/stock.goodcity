@@ -30,7 +30,7 @@
     {{else}}
       <div class="center-box" style={{instructionBoxCss}}>
         <span class="center-item">
-          <p>Add Some Photos</p>
+          <p>{{t 'images.add_image'}}</p>
         </span>
       </div>
     {{/unless}}
@@ -64,7 +64,7 @@
 <div class="btm {{if isExpanded 'hidden'}}">
   <div class="row">
     <div class="small-12 columns">
-      <button {{ action "next"}} class="button expand">{{t "done"}}</button>
+      <button {{action (back-action test="test")}} class="button expand">{{t "done"}}</button>
     </div>
   </div>
 </div>

@@ -1,10 +1,12 @@
-import Model from 'ember-data/model';
-import attr from 'ember-data/attr';
-import { belongsTo } from 'ember-data/relationships';
+import Model from "ember-data/model";
+import attr from "ember-data/attr";
+import { belongsTo } from "ember-data/relationships";
 
 export default Model.extend({
-  order:                belongsTo('booking_type', { async: false }),
-  orderId:              attr('number'),
-  processChecklist:     belongsTo('booking_type', { async: false }),
-  processChecklistId:   attr('number')
+  designationId: attr("number"),
+  processChecklistId: attr("number"),
+
+  designation: belongsTo("designation", {
+    async: false
+  })
 });

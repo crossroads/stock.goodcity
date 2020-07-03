@@ -18,15 +18,14 @@
   i {
     position: absolute;
     right: 2.5%;
-    top: 0.93rem;
+    top: 0.7rem;
     color: $black;
     font-size: 1.2rem;
     cursor: pointer;
 
     @media #{$small-only} {
-      font-size: 1.2rem;
-      padding: 0.5rem 0.5rem;
-      top: 0.41rem;
+      font-size: 1rem;
+      top: 0.7rem;
     }
   }
 
@@ -51,6 +50,7 @@
   font-weight: bold;
   color: white;
   margin-top: 3rem;
+
   @media #{$small-only} {
     font-size: 0.9rem;
   }
@@ -72,7 +72,7 @@
 
   .user_name {
     text-transform: capitalize;
-    color: #FFFFFF;
+    color: #ffffff;
     font-weight: bolder;
     font-size: 0.7rem;
     padding-left: 3%;
@@ -80,19 +80,18 @@
 
   .user-mobile {
     margin-left: -35%;
-    color: #FFFFFF;
+    color: #ffffff;
   }
 
   .org_name {
     margin-left: 1vw;
     text-transform: capitalize;
-    color: #8D9CB1;
+    color: #8d9cb1;
     font-size: 0.7rem;
   }
 
   .list.list-activity {
-    margin-left: 0rem;
-    margin-right: 0rem;
+    margin: 0 0.4rem;
     margin-top: 2.5rem;
     cursor: pointer;
   }
@@ -103,14 +102,14 @@
   }
 
   .list-bottom {
-    border-bottom: 0.1px solid #FFFFFF !important;
+    border-bottom: 0.1px solid #ffffff !important;
   }
 
   .new-user {
     text-align: center;
-    color: #FFFFFF;
+    color: #ffffff;
     font-weight: 600;
-    border-bottom: 0.1px solid #FFFFFF !important;
+    border-bottom: 0.1px solid #ffffff !important;
     padding-bottom: 3%;
     font-size: 0.6rem;
     padding-top: 0%;
@@ -118,6 +117,7 @@
 
   li {
     padding: 0.8rem 1rem;
+
     @media #{$small-only} {
       font-size: 0.7rem;
     }
@@ -125,6 +125,10 @@
     .state_details {
       color: $white;
       font-weight: bold;
+    }
+
+    .prefered_contact_number {
+      text-transform: capitalize;
     }
 
     .row {
@@ -140,5 +144,79 @@
   @media #{$medium-up} {
     -webkit-transform: translate(-50%, 0);
     left: 50%;
+  }
+}
+
+.search-order {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -moz-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+
+  .back-button {
+    .back {
+      top: 0;
+      margin-top: 0;
+      @extend .search-order;
+
+      .back_text {
+        i {
+          padding: 0;
+          top: 0;
+          @media #{$small-only} {
+            font-size: 0.9rem;
+            top: 50%;
+            right: 0;
+            -webkit-transform: translateY(-50%);
+            -moz-transform: translateY(-50%);
+            -o-transform: translateY(-50%);
+            -ms-transform: translateY(-50%);
+            transform: translateY(-50%);
+          }
+        }
+      }
+    }
+    @media #{$small-only} {
+      width: 30%;
+    }
+  }
+
+  .search-wrapper {
+    @media #{$small-only} {
+      width: 70%;
+    }
+  }
+}
+
+.search-section {
+  margin: 0 auto;
+  max-width: 768px;
+
+  .fixed_search_header_item {
+    max-width: inherit;
+    width: 100%;
+    margin: inherit;
+
+    .icon-holder {
+      padding-top: 0.45rem;
+    }
+
+    .input-holder {
+      float: left;
+
+      input {
+        margin-left: 0;
+      }
+    }
+  }
+
+  .row {
+    margin: 0;
   }
 }

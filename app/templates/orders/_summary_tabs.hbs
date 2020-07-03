@@ -1,19 +1,21 @@
-<section class="main-section order_tabs order_item_list_tabs">
-  <div class="row">
-    <div class="small-12 columns tab_row">
-      <dl class="tabs" data-tab>
-        {{#link-to 'orders.contact_summary' model.id tagName="dd" classNames="small-6 medium-6 columns text-center"}}
-          {{#link-to 'orders.contact_summary' model.id}}
-            <div>{{t 'order_summary_tabs.contact'}}</div>
-          {{/link-to}}
-        {{/link-to}}
+{{#if model.isGoodCityOrder}}
+  <section class="main-section order_tabs order_item_list_tabs">
+    <div class="row">
+      <div class="small-12 columns tab_row">
+        <dl class="tabs" data-tab>
+          <dd class="small-6 medium-6 columns text-center {{if (is-equal tabName 'contact_summary') 'active'}}">
+            {{#link-to 'orders.contact_summary' model.id replace=true}}
+              <div>{{t 'order_summary_tabs.contact'}}</div>
+            {{/link-to}}
+          </dd>
 
-        {{#link-to 'orders.client_summary' model.id tagName="dd" classNames="small-6 medium-6 columns text-center"}}
-          {{#link-to 'orders.client_summary' model.id}}
-            <div>{{t "order_summary_tabs.client"}}</div>
-          {{/link-to}}
-        {{/link-to}}
-      </dl>
+          <dd class="small-6 medium-6 columns text-center {{if (is-equal tabName 'client_summary') 'active'}}">
+            {{#link-to 'orders.client_summary' model.id replace=true}}
+              <div>{{t "order_summary_tabs.client"}}</div>
+            {{/link-to}}
+          </dd>
+        </dl>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
+{{/if}}

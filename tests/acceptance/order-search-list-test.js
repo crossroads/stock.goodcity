@@ -1,100 +1,73 @@
 import Ember from "ember";
+import _ from "lodash";
 import { module, test } from "qunit";
 import startApp from "../helpers/start-app";
 import "../factories/orders_package";
 import "../factories/designation";
 import "../factories/item";
+import MockUtils from "../helpers/mock-utils";
 import FactoryGuy, { mockFindAll } from "ember-data-factory-guy";
 
-var App, designation, item, orders_package, user, bookingType;
-var mocks;
+var App, designation, item, orders_package, bookingType, filterService;
 
 module("Acceptance: Order search list", {
   beforeEach: function() {
     App = startApp({}, 2);
-    user = FactoryGuy.make("user", { mobile: "123456", email: "abc@xyz", firstName: "John", lastName: "Lennon", id: 5 });
+
+    filterService = App.__container__.lookup("service:filterService");
+    filterService.clearFilters();
+
+    MockUtils.startSession();
+    MockUtils.mockDefault();
+
     designation = FactoryGuy.make("designation", {
-      detailType: 'GoodCity'
+      detailType: "GoodCity"
     });
     item = FactoryGuy.make("item", { state: "submitted" });
-    var location = FactoryGuy.make("location");
-    bookingType = FactoryGuy.make("booking_type");
     orders_package = FactoryGuy.make("orders_package", {
       state: "designated",
       item: item,
-      designation: designation,
+      designation: designation
     });
 
-    var userProfile = {
-      user_profile: [{
-        id: 2,
-        first_name: "David",
-        last_name: "Dara51",
-        mobile: "61111111",
-        user_role_ids: [1]
-      }],
-      users: [{ id: 2, first_name: "David", last_name: "Dara51", mobile: "61111111" }, user.toJSON({ includeId: true })],
-      roles: [{ id: 4, name: "Supervisor" }],
-      user_roles: [{ id: 1, user_id: 2, role_id: 4 }]
-    };
+    MockUtils.mock({
+      url: "/api/v1/designation*",
+      responseText: {
+        designations: [designation.toJSON({ includeId: true })],
+        items: [item.toJSON({ includeId: true })],
+        orders_packages: [orders_package.toJSON({ includeId: true })],
+        meta: { search: designation.get("code") },
+        designation: designation.toJSON({ includeId: true })
+      }
+    });
 
-    $.mockjaxSettings.matchInRegistrationOrder = false;
+    mockFindAll("designation").returns({
+      json: {
+        designations: [designation.toJSON({ includeId: true })],
+        items: [item.toJSON({ includeId: true })],
+        orders_packages: [orders_package.toJSON({ includeId: true })],
+        meta: { search: designation.get("code") }
+      }
+    });
 
-    mocks = [];
-
-    mocks.push(
-      $.mockjax({
-        url: "/api/v1/auth/current_user_profil*",
-        responseText: userProfile
-      })
+    mockFindAll("orders_package").returns({
+      json: { orders_packages: [orders_package.toJSON({ includeId: true })] }
+    });
+    MockUtils.mockWithRecords(
+      "cancellation_reason",
+      _(3).times(() => FactoryGuy.make("cancellation_reason"))
     );
-
-    mocks.push(
-      $.mockjax({
-        url: "/api/v1/designation*",
-        responseText: {
-          designations: [designation.toJSON({ includeId: true })],
-          items: [item.toJSON({ includeId: true })],
-          orders_packages: [orders_package.toJSON({ includeId: true })],
-          meta: { search: designation.get("code") },
-          designation: designation.toJSON({ includeId: true })
-        }
-      }),
-      $.mockjax({url:"/api/v1/orders/summar*", responseText: {
-        "submitted":14,
-        "awaiting_dispatch":1,
-        "dispatching":1,
-        "processing":2,
-        "priority_submitted":14,
-        "priority_dispatching":1,
-        "priority_processing":2,
-        "priority_awaiting_dispatch":1
-      }})
-    );
-
-    mockFindAll('designation').returns({ json: {
-      designations: [designation.toJSON({ includeId: true })],
-      items: [item.toJSON({ includeId: true })],
-      orders_packages: [orders_package.toJSON({ includeId: true })],
-      meta: { search: designation.get("code") }
-    }});
-
-    mockFindAll('orders_package').returns({ json: {orders_packages: [orders_package.toJSON({includeId: true})]}});
-    mockFindAll('location').returns({json: {locations: [location.toJSON({includeId: true})]}});
-    mockFindAll("booking_type").returns({json: {booking_types: [bookingType.toJSON({includeId: true})]}});
-
+    MockUtils.mockWithRecords("goodcity_request", []);
 
     visit("/");
 
     andThen(function() {
       visit("/orders/");
     });
-
   },
   afterEach: function() {
     // Clear our ajax mocks
-    $.mockjaxSettings.matchInRegistrationOrder = true;
-    mocks.forEach($.mockjax.clear);
+    MockUtils.closeSession();
 
     // Stop the app
     Ember.run(App, "destroy");
@@ -104,36 +77,54 @@ module("Acceptance: Order search list", {
 // ------ Helpers
 
 function searchOrders(assert) {
-
   visit("/orders/");
 
-  andThen(function () {
-    assert.equal(currentPath(), "orders.index", "Should be on the order listing page");
-    assert.equal(Ember.$('#searchText').length, 1, "Should have an input field");
+  andThen(function() {
+    assert.equal(
+      currentPath(),
+      "orders.index",
+      "Should be on the order listing page"
+    );
+    assert.equal(
+      Ember.$("#searchText").length,
+      1,
+      "Should have an input field"
+    );
     fillIn("#searchText", designation.get("code"));
   });
 
-  andThen(function () {
-    assert.equal(Ember.$('.loading_screen').length, 0, "Should hide the loading screen");
-    assert.equal(Ember.$('.order_block').length, 1, "Should have one item displayed");
+  andThen(function() {
+    assert.equal(
+      Ember.$(".loading_screen").length,
+      0,
+      "Should hide the loading screen"
+    );
+    assert.equal(
+      Ember.$(".order_block").length,
+      1,
+      "Should have one item displayed"
+    );
   });
 }
 
 // ------ Tests
 
-test("Clicking on an order should redirect to the order details page", function (assert) {
+test("Clicking on an order should redirect to the order details page", function(assert) {
   assert.expect(5);
 
   searchOrders(assert);
 
   andThen(() => {
-    click(Ember.$('.order_block')[0]);
+    click(Ember.$(".order_block")[0]);
   });
 
   andThen(() => {
-    assert.equal(currentURL(), `/orders/${designation.get("id")}/active_items`, "Should be on the order details page");
+    assert.equal(
+      currentURL(),
+      `/orders/${designation.get("id")}/active_items`,
+      "Should be on the order details page"
+    );
   });
-
 });
 
 test("Order codes should be displayed on screen", function(assert) {
@@ -143,12 +134,13 @@ test("Order codes should be displayed on screen", function(assert) {
 
   andThen(function() {
     assert.equal(
-      find(".order_code").text().trim(),
+      find(".order_code")
+        .text()
+        .trim(),
       designation.get("code"),
       "Should be displaying the order code"
     );
   });
-
 });
 
 test("Order's state should be displayed on screen", function(assert) {
@@ -158,10 +150,54 @@ test("Order's state should be displayed on screen", function(assert) {
 
   andThen(function() {
     assert.equal(
-      find(".order_state_text").text().trim().toLowerCase(),
+      find(".order_state_text")
+        .text()
+        .trim()
+        .toLowerCase(),
       designation.get("state"),
       "Should be displaying the order's state"
     );
   });
 });
 
+test("Clearing existing filters should retrigger the search", function(assert) {
+  assert.expect(4);
+
+  let getRequestSent = false;
+
+  Ember.run(() => {
+    filterService.set("orderStateFilters", ["submitted"]);
+  });
+
+  andThen(function() {
+    const closeBtns = $("#order-state-filter .remove-filters-icon");
+    assert.equal(
+      closeBtns.length,
+      1,
+      "Should display a cancel icon next to the filter button"
+    );
+
+    MockUtils.mock({
+      url: "/api/v1/designation*",
+      type: "GET",
+      status: 200,
+      onAfterComplete: () => (getRequestSent = true),
+      response: function(req) {
+        this.responseText = JSON.stringify({ designations: [] });
+      }
+    });
+
+    click(closeBtns);
+  });
+
+  andThen(function() {
+    const closeBtns = $("#order-state-filter .remove-filters-icon");
+    assert.equal(closeBtns.length, 0, "The close button has disappeared");
+    assert.deepEqual(
+      filterService.get("orderStateFilters"),
+      [],
+      "The filters have been cleared"
+    );
+    assert.ok(getRequestSent, "The search paged refreshed the results");
+  });
+});

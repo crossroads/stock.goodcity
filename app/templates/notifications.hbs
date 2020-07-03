@@ -5,7 +5,19 @@
         <nav class="top-bar" data-topbar role="navigation">
           <div class="row">
             <a {{action 'view'}} class='notification_box'>
-              {{#if (js-x "this.category != 'message'" nextNotification)}}
+              {{#if (is-equal nextNotification.category 'message')}}
+                  <div class="small-7 small-offset-1 columns">
+                    <div class="notification-text ellipsis one-line-ellipsis">
+                      {{nextNotification.message}}
+                    </div>
+                  </div>
+                  <div class="columns small-1 notification-icons">
+                    <i class="user-icon">{{fa-icon 'arrow-circle-right'}}</i>
+                  </div>
+                  <div class="columns small-2 notification-icons">
+                    <i class="user-icon">{{fa-icon 'user-circle'}}</i>
+                  </div>
+              {{else}}
                 <div class="small-12 large-12 columns">
                   <div class="notification-text ellipsis one-line-ellipsis">
                     {{nextNotification.message}}

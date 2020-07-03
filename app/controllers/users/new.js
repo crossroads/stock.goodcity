@@ -1,7 +1,7 @@
-import config from '../../config/environment';
+import config from "../../config/environment";
 import Ember from "ember";
 const { getOwner } = Ember;
-import AjaxPromise from 'stock/utils/ajax-promise';
+import AjaxPromise from "stock/utils/ajax-promise";
 import { translationMacro as t } from "ember-i18n";
 
 export default Ember.Controller.extend({
@@ -11,8 +11,8 @@ export default Ember.Controller.extend({
   lNamePlaceholder: t("organisation.user.doe"),
   emailPlaceholder: t("organisation.user.email"),
   positionPlaceholder: t("organisation.user.position_in_organisation"),
-  mobilePhone: '',
-
+  mobilePhone: "",
+  preferredPhone: "",
   organisationId: Ember.computed.alias("model.id"),
   messageBox: Ember.inject.service(),
 
@@ -22,42 +22,63 @@ export default Ember.Controller.extend({
     this.set("mobilePhone", "");
     this.set("email", "");
     this.set("position", "");
+    this.set("preferredPhone", "");
   },
 
-  formatMobileNumber(){
-    var mobile = this.get('mobilePhone');
-    if(mobile.length){
-      return config.APP.HK_COUNTRY_CODE + this.get('mobilePhone');
-    } else {
-      return mobile;
+  formatMobileNumber() {
+    const mobile = this.get("mobilePhone");
+    if (mobile.length) {
+      return config.APP.HK_COUNTRY_CODE + mobile;
     }
+  },
+
+  getRequestParams() {
+    const preferredPhoneValue = this.get("preferredPhone");
+    const mobilePhone = this.formatMobileNumber();
+    const preferredPhone = preferredPhoneValue.length && preferredPhoneValue;
+    const params = {
+      organisation_id: this.get("organisationId"),
+      position: this.get("position"),
+      preferred_contact_number: preferredPhone,
+      user_attributes: {
+        first_name: this.get("firstName"),
+        last_name: this.get("lastName"),
+        mobile: mobilePhone,
+        email: this.get("email")
+      }
+    };
+    return {
+      organisations_user: params
+    };
   },
 
   actions: {
     saveUser() {
-      var loadingView = getOwner(this).lookup('component:loading').append();
-      var mobilePhone = this.formatMobileNumber();
-      var firstName = this.get('firstName');
-      var lastName = this.get('lastName');
-      var organisationId = this.get('organisationId');
-      var position = this.get("position");
-      var email = this.get("email");
-      new AjaxPromise("/organisations_users", "POST", this.get('session.authToken'), { organisations_user: {
-        organisation_id: organisationId, position: position, user_attributes: { first_name: firstName,
-        last_name: lastName, mobile: mobilePhone, email: email }}}).then(data =>{
+      const loadingView = getOwner(this)
+        .lookup("component:loading")
+        .append();
+      new AjaxPromise(
+        "/organisations_users",
+        "POST",
+        this.get("session.authToken"),
+        this.getRequestParams()
+      )
+        .then(data => {
           this.get("store").pushPayload(data);
           this.clearFormData();
-          this.transitionToRoute("organisations.users", organisationId);
-      }).catch(xhr => {
-        if (xhr.status === 422) {
-          this.get("messageBox").alert(xhr.responseJSON.errors);
-        } else {
-          throw xhr;
-        }
-      })
-      .finally(() =>
-        loadingView.destroy()
-      );
+          this.transitionToRoute(
+            "organisations.users",
+            this.get("organisationId")
+          );
+        })
+        .catch(xhr => {
+          if (xhr.status === 422) {
+            this.get("messageBox").alert(xhr.responseJSON.errors[0].message);
+          } else {
+            throw xhr;
+          }
+        })
+        .finally(() => loadingView.destroy());
     },
 
     cancelForm() {
@@ -65,12 +86,20 @@ export default Ember.Controller.extend({
         "You will lose all your data. Are you sure you want to cancel this item?",
         "Yes",
         () => {
-          Ember.run.later(this, function() {
-            this.transitionToRoute("organisations.users", this.get('organisationId'));
-            this.clearFormData();
-          },0);
+          Ember.run.later(
+            this,
+            function() {
+              this.transitionToRoute(
+                "organisations.users",
+                this.get("organisationId")
+              );
+              this.clearFormData();
+            },
+            0
+          );
         },
-        "No");
+        "No"
+      );
     }
   }
 });

@@ -1,0 +1,59 @@
+<div class="cmp orders search-overlay">
+  {{#popup-overlay open=open}}
+    <div class="main-container">
+      <div class="search-field search-container">
+        <div class="icon-holder close-overlay">
+          <i {{action "closeOverlay"}} class="back_icon" aria-hidden="true">{{fa-icon 'times' size='lg'}}</i>
+        </div>
+        <div class="input-holder search-overlay">
+          <div class="row">
+            <div class="small-10 medium-10 large-12 columns">
+              {{focus-textfield
+                name="searchText"
+                id=uuid
+                placeholder=(t "search_min")
+                value=searchText }}
+              {{#if searchText}}
+                <i class="pinned-right-with-scanner" {{action 'clearSearch'}}>{{fa-icon 'times-circle'}}</i>
+              {{/if}}
+            </div>
+            {{#if isMobileApp}}
+              <div class="small-2 medium-2 columns scan-button scanner">
+                {{scan-barcode-button onScanComplete=(action "setScannedSearchText")}}
+              </div>
+            {{/if}}
+          </div>
+        </div>
+      </div>
+
+      <section class="main-section orders_search_result search_result">
+        <div class="row search">
+          <div class="small-12 columns">
+            <ul class="list list-activity list-offer-items">
+              {{#if displayResults}}
+                {{#infinite-list height="85vh" loadMore=(action "loadMoreOffers") as |res| }}
+                  {{#each res as |offer|}}
+                    <li {{action "selectOffer" offer}} class="offer-result">
+                      <div class="search-offer-name">
+                        {{offer.id}}
+                        {{#if offer.createdBy}}
+                          - {{t "full_name" firstName=offer.createdBy.firstName lastName=offer.createdBy.lastName}}
+                        {{/if}}
+                        {{#if offer.company}}
+                          ({{offer.company.name}})
+                        {{/if}}
+                      </div>
+                      <div class="time">
+                        Received {{time-ago timeValue=offer.receivedAt smallPrefix=false}} ago
+                      </div>
+                    </li>
+                  {{/each}}
+                {{/infinite-list}}
+              {{/if}}
+            </ul>
+          </div>
+        </div>
+      </section>
+    </div>
+  {{/popup-overlay}}
+</div>
