@@ -13,12 +13,17 @@ export default DS.Model.extend({
   state: attr("string", {
     defaultValue: "read"
   }),
+
   sender: belongsTo("user", {
     async: false
   }),
+  designation: belongsTo("designation", { async: false }),
+  item: belongsTo("item", {
+    async: false
+  }),
+
   designationId: attr(),
   itemId: attr(),
-  designation: belongsTo("designation", { async: false }),
   lookup: attr("string"),
   messageableType: attr("string"),
   messageableId: attr("string"),

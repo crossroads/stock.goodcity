@@ -13,7 +13,7 @@ export default Ember.Controller.extend({
   ),
   sortedMessages: Ember.computed.sort("messages", "sortProperties"),
 
-  groupedMessages: Ember.computed("sortedMessages", function() {
+  groupedMessages: Ember.computed("sortedMessages.[]", function() {
     return this.groupBy(this.get("sortedMessages"), "createdDate");
   }),
 
@@ -68,7 +68,7 @@ export default Ember.Controller.extend({
     if (
       !message ||
       message.get("isRead") ||
-      message.get("designationId") != this.get("model.id")
+      message.get("itemId") != this.get("model.id")
     ) {
       return;
     }

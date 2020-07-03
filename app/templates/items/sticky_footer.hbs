@@ -76,6 +76,11 @@
   {{/link-to}}
 
   {{#link-to 'items.staff_conversation' model.id tagName='li' href=false replace=true}}
+    {{#if model.hasUnreadMessages}}
+      <div class='unread_message'>
+        {{model.unreadMessagesCount}}
+      </div>
+    {{/if}}
     <i aria-hidden="true">{{fa-icon 'comments'}}</i>
   {{/link-to}}
 
