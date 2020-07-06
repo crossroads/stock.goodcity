@@ -575,15 +575,23 @@ export default GoodcityController.extend(
 
       async updatePackageType() {
         let pkgType;
+
         if (this.get("model.isPartOfSet")) {
-          const allowedPackageTypes = this.get("packageTypeService").parentsOf(
-            this.get("model.code")
-          );
-          pkgType = await this.get("packageTypeService").userPickPackageType({
-            storageType: "Package",
-            subsetPackageTypes: allowedPackageTypes,
-            headerText: this.get("i18n").t("items.select_set_type")
+          const packageSet = this.get("model.packageSet");
+          const pkg = await this.get("packageService").userPickPackage({
+            packageTypes: this.get("packageService").allChildPackageTypes(
+              packageSet
+            ),
+            storageTypeName: "Package" // we don't add boxes to sets
           });
+
+          if (!pkg || pkg.get("packageSetId") === packageSet.get("id")) {
+            return;
+          }
+
+          return this.runTask(async () => {
+            await this.get("packageService").addToSet(pkg, packageSet);
+          }, ERROR_STRATEGIES.MODAL);
         } else {
           pkgType = await this.get("packageTypeService").userPickPackageType();
         }
