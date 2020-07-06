@@ -14,22 +14,18 @@
     </div>
   </div>
   <div class="history-block">
-    {{#if displayResults}}
-      {{#infinite-list height="100vh" loadMore=(action "loadMoreActions") as |actionGroups| }}
-        {{#each actionGroups as |group|}}
-          <div class="action-block-parent">
-            {{partial "items/action_version_header"}}
-            {{#each group.actions as |action|}}
-              {{#if action.objectChanges}}
-                {{partial "items/edit_item_block"}}
-              {{else}}
-                {{partial "items/item_action_block"}}
-              {{/if}}
-            {{/each}}
-          </div>
+    {{#each groupedActionsAndVersions as |group|}}
+      <div class="action-block-parent">
+        {{partial "items/action_version_header"}}
+        {{#each group.actions as |action|}}
+          {{#if action.objectChanges}}
+            {{partial "items/edit_item_block"}}
+          {{else}}
+            {{partial "items/item_action_block"}}
+          {{/if}}
         {{/each}}
-      {{/infinite-list}}
-    {{/if}}
+      </div>
+    {{/each}}
   </div>
   {{partial "items/sticky_footer"}}
 </div>
