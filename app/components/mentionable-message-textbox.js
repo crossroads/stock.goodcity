@@ -90,7 +90,7 @@ export default Ember.Component.extend({
       fillAttr: "name",
       noMatchTemplate: () => null,
       menuContainer: document.getElementsByClassName(
-        "message-textbar-container"
+        this.get("containerClass")
       )[0]
     });
 
@@ -137,5 +137,19 @@ export default Ember.Component.extend({
         document.execCommand("insertText", false, content);
       }
     });
+
+    // Adding event listeners for opening and closing of menu
+    // https://github.com/zurb/tribute#events
+    document
+      .querySelector(".mentionable")
+      .addEventListener("tribute-active-true", function(e) {
+        _this.setMentionsActive(true);
+      });
+
+    document
+      .querySelector(".mentionable")
+      .addEventListener("tribute-active-false", function(e) {
+        _this.setMentionsActive(false);
+      });
   }
 });
