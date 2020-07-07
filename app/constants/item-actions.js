@@ -30,6 +30,11 @@ export const ITEM_ACTIONS = [
     loss: true
   },
   {
+    name: "Undispatch",
+    icon: "reply",
+    loss: true
+  },
+  {
     name: "Move",
     icon: "map-marker",
     loss: true
@@ -37,6 +42,11 @@ export const ITEM_ACTIONS = [
   {
     name: "Edited",
     icon: "edit",
+    loss: true
+  },
+  {
+    name: "Inventory",
+    icon: "tag",
     loss: true
   }
 ];

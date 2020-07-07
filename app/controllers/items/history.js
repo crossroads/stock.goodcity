@@ -23,7 +23,9 @@ export default detail.extend({
     versions.forEach((version, index) =>
       version.set("objectChanges", results[index])
     );
-    return versions;
+    return versions.filter(
+      version => Object.keys(version.get("objectChanges")).length > 1
+    );
   },
 
   getGroupKey(isAction, action) {
@@ -39,7 +41,7 @@ export default detail.extend({
     }
   },
 
-  groupingAndSortingActions(actionsAndVersions) {
+  groupingActionsAndVersions(actionsAndVersions) {
     const groups = _.reduce(
       actionsAndVersions,
       (results, action) => {
@@ -69,6 +71,6 @@ export default detail.extend({
       ...this.get("itemActions").toArray(),
       ...this.groupedVersions().toArray()
     ].sortBy("createdAt");
-    return this.groupingAndSortingActions(actionsAndVersions);
+    return this.groupingActionsAndVersions(actionsAndVersions);
   })
 });
