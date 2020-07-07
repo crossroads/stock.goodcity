@@ -84,9 +84,13 @@ export default GoodcityController.extend(
       return !!this.get("item.detail.length");
     },
 
-    packageSetName: Ember.computed("model", function() {
-      return this.get("model.packageSet.code.name");
-    }),
+    packageSetName: Ember.computed(
+      "model.code",
+      "model.isPartOfSet",
+      function() {
+        return this.get("model.packageSet.code.name");
+      }
+    ),
 
     showSetList: Ember.computed("_showSetList", "model.isPartOfSet", {
       get() {
@@ -577,21 +581,11 @@ export default GoodcityController.extend(
         let pkgType;
 
         if (this.get("model.isPartOfSet")) {
-          const packageSet = this.get("model.packageSet");
-          const pkg = await this.get("packageService").userPickPackage({
-            packageTypes: this.get("packageService").allChildPackageTypes(
-              packageSet
-            ),
-            storageTypeName: "Package" // we don't add boxes to sets
+          pkgType = await this.get("packageTypeService").userPickPackageType({
+            subsetPackageTypes: this.get(
+              "model.packageSet.code"
+            ).defaultChildPackagesList()
           });
-
-          if (!pkg || pkg.get("packageSetId") === packageSet.get("id")) {
-            return;
-          }
-
-          return this.runTask(async () => {
-            await this.get("packageService").addToSet(pkg, packageSet);
-          }, ERROR_STRATEGIES.MODAL);
         } else {
           pkgType = await this.get("packageTypeService").userPickPackageType();
         }
