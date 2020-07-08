@@ -204,12 +204,7 @@ export default GoodcityController.extend(
     allowPublish: Ember.computed(
       "model.isSingletonItem",
       "model.availableQuantity",
-      "isBoxOrPallet",
       function() {
-        if (this.get("isBoxOrPallet")) {
-          return false;
-        }
-
         const qty = this.get("model.availableQuantity");
         if (this.get("settings.onlyPublishSingletons")) {
           return qty === 1;
