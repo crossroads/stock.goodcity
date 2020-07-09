@@ -1,0 +1,28 @@
+{{#each-in action.objectChanges as |key value|}}
+  {{#if (is-not-equal key "updated_at")}}
+    <div class="row actions-list">
+      <div class="columns small-3">
+        {{startcase-string key}}
+      </div>
+      <div class="columns small-7">
+        <div>
+          {{#if value.firstObject}}
+            <div class="previous-value">{{format-display-value key value.firstObject }}</div>
+          {{else}}
+            -
+          {{/if}}
+        </div>
+        <div>
+          {{#if value.lastObject}}
+            {{format-display-value key value.lastObject }}
+          {{else}}
+            -
+          {{/if}}
+        </div>
+      </div>
+      <div class="columns small-2">
+        {{display-time action.objectChanges.updated_at.lastObject "HH:mm"}}
+      </div>
+    </div>
+  {{/if}}
+{{/each-in}}

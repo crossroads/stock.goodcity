@@ -91,6 +91,9 @@ export default cloudinaryUrl.extend(GradeMixin, {
   itemActions: hasMany("item_action", {
     async: false
   }),
+  versions: hasMany("version", {
+    async: false
+  }),
 
   storageTypeId: attr("number"),
   storageType: belongsTo("storage_type", {

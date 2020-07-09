@@ -1,4 +1,5 @@
 import applicationSerializer from "./application";
+import _ from "lodash";
 
 // @TODO: delete this serializer after renaming item to package
 export default applicationSerializer.extend({
