@@ -20,7 +20,9 @@ export default Ember.Controller.extend(SearchMixin, {
 
   init() {
     this._super(...arguments);
-    this.cache = new Cache();
+    const cache = new Cache();
+    this.cache = cache;
+    this.session.memCache.push(cache);
   },
 
   searchProps: {
