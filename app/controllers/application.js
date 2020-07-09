@@ -41,6 +41,7 @@ export default Ember.Controller.extend({
       this.get("subscription").unwire();
       this.get("notifications").send("unloadNotifications");
       this.get("session").unloadSessionData();
+      this.session.clearCache();
       this.transitionToRoute("login");
     }
   }

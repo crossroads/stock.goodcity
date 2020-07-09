@@ -9,6 +9,7 @@ import SearchMixin from "stock/mixins/search_resource";
  * @augments ember/Controller
  */
 export default Ember.Controller.extend(SearchMixin, {
+  session: Ember.inject.service(),
   /**
    * @property {Boolean} SearchMixin configuration
    **/
@@ -21,6 +22,7 @@ export default Ember.Controller.extend(SearchMixin, {
   init() {
     this._super(...arguments);
     this.cache = new Cache();
+    this.get("session").memCache.push(this.cache);
   },
 
   searchProps: {
