@@ -1,0 +1,113 @@
+<div class="stocktake-page detail">
+
+  {{!-- TITLE --}}
+  <nav class="tab-bar">
+    {{#back-link fallbackRoute="/" }}
+      <div class="back-link">{{ t 'back' }}</div>
+    {{/back-link}}
+
+    <section class="middle tab-bar-section">
+      <h1 class="title">
+        {{ stocktake.name }}
+      </h1>
+    </section>
+  </nav>
+
+  {{!-- TABS TO SWITCH BETWEEN MODES --}}
+  <div class="content">
+    <div class="row">
+      <div class="row tabs-container">
+        <div class="tab list small-6 columns {{unless (is-equal selectedTab tabs.count) 'dimmed'}}" {{action (mut selectedTab) tabs.count}}>
+          <div>{{fa-icon 'table' size="lg"}}</div>
+          <div>{{t 'stocktakes.detail_tabs.count'}}</div>
+        </div>
+        <div class="tab list small-6 columns {{unless (is-equal selectedTab tabs.review) 'dimmed'}}" {{action (mut selectedTab) tabs.review}}>
+          <div>{{fa-icon 'tasks' size="lg"}}</div>
+          <div>{{t 'stocktakes.detail_tabs.review'}}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      {{#if saveError}}
+        <div class="top-message error-message">
+          <i>{{fa-icon 'exclamation-circle'}}</i>
+          {{t 'stocktakes.save_error'}}
+        </div>
+      {{else}}
+        <div class="top-message saving-message {{if saving 'show'}}">
+          <i>{{fa-icon 'spinner' spin=true}}</i>
+          {{t 'stocktakes.saving'}}
+        </div>
+      {{/if}}
+    </div>
+
+    {{!-- REVISION LIST --}}
+    <div class="row revision-list">
+      {{#each revisions as |revision|}}
+        {{!-- REVISION BLOCK --}}
+        {{#let-alias (pick-key (array-find revision.item.packagesLocations 'locationId' stocktake.location.id) 'quantity') as |expectedQty|}}
+          <div class="revision {{unless revision.editable 'locked'}}">
+            <div class="row">
+              {{!-- Inventory number + Package type --}}
+              <div class="columns small-2 inventory-number">{{fa-icon (storage-icon revision.item.storageTypeName)}} {{ revision.item.inventoryNumber }}</div>
+              <div class="columns small-5 code-type">{{display-package-code  item=revision.item.code}}</div>
+              <div class="columns small-5"></div>
+            </div>
+              <div class="row">
+              {{!-- Image --}}
+              <div class="columns small-2 package-image">
+                <img src="{{ revision.item.thumbImageUrl }}" />
+              </div>
+              <div class="columns small-10">
+                <div class="row">
+                  <div class="columns small-8">{{t 'stocktakes.expected_qty' }}: {{expectedQty}}</div>
+
+                  {{!-- QUANTITY INPUT --}}
+                  <div class="columns small-4 flex center quantity-input-container">
+                    <span {{action 'decrementCount' revision}}>
+                      {{fa-icon 'minus-circle' size="lg"}}
+                    </span>
+                    <span class="quantity-input">
+                      <input type="number" value={{revision.quantity}} onchange={{action "updateQuantity" revision}} min="0" >
+                    </span>
+                    <span {{action 'incrementCount' revision}}>
+                      {{fa-icon 'plus-circle' size="lg"}}
+                    </span>
+                  </div>
+                </div>
+                <div class="row">
+                  {{#if revision.editable}}
+                    {{#if revision.dirty}}
+                      {{!-- RECOUNT WARNING --}}
+                      <div class="offset-up recount-warning">
+                        <i>{{fa-icon 'exclamation-circle'}}</i>
+                        {{t 'stocktakes.requires_recount'}}
+                        <a {{action 'confirmCount' revision}}>
+                          {{t 'stocktakes.confirm_count' count=revision.quantity}}
+                        </a>
+                      </div>
+                    {{else}}
+                      {{!-- DIFF PILL --}}
+                      <div class="offset-up pill {{if revision.isDifferent 'bad' 'good'}}">
+                        {{#if revision.isGain}}
+                          <i>{{fa-icon 'exclamation-circle'}}</i>   {{t 'stocktakes.over'}} {{revision.diffAbs}}
+                        {{else if revision.isLoss}}
+                          <i>{{fa-icon 'exclamation-circle'}}</i> {{t 'stocktakes.under'}} {{revision.diffAbs}}
+                        {{else}}
+                          <i>{{fa-icon 'check-circle'}}</i> {{t 'okay'}}
+                        {{/if}}
+                      </div>
+                    {{/if}}
+                  {{/if}}
+                </div>
+              </div>
+            </div>
+
+          </div>
+        {{/let-alias}}
+      {{/each}}
+    </div>
+  </div>
+
+</div>

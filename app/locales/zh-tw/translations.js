@@ -55,7 +55,43 @@ export default {
   unavailable_order: "Sorry! This order is not available.",
   yes: "Yes",
   no: "No",
-
+  stockakes: {
+    title: "Stocktakes",
+    create_new: "Create New Stocktake",
+    confirm_create: "Create Stocktake",
+    select_location: "Select a location to stocktake",
+    name: "Name",
+    location: "Location",
+    comment: "Comment",
+    saving: "Saving changes...",
+    save_error: "An error occured. Some changes were not applied",
+    try_again: "Try again",
+    expected_qty: "Expected Qty",
+    requires_recount: "Requires (re)count",
+    confirm_count: "Confirm count is {{count}}",
+    over: "Over",
+    under: "Under",
+    states: {
+      open: "Open",
+      closed: "Closed",
+      cancelled: "Cancelled"
+    },
+    detail_tabs: {
+      count: "Count",
+      review: "Review"
+    },
+    errors: {
+      name_exists: "Another stocktake with the same name already exists",
+      stocktake_exists_for_location:
+        "Warning: A stocktake already exists for this location"
+    },
+    counts: {
+      counted: "Counted",
+      gains: "Gains",
+      losses: "Losses",
+      warnings: "Warnings"
+    }
+  },
   box_pallet: {
     indicate_amount: "指出要從以下每個位置中取多少份量",
     available: "可用的",

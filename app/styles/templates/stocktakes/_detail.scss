@@ -1,0 +1,113 @@
+.stocktake-page.detail {
+  $warning-red: #ff4353;
+  $success-green: #6fab4a;
+
+  .top-message {
+    margin: 1rem;
+
+    &.error-message {
+      color: $warning-red;
+    }
+
+    &.saving-message {
+      visibility: hidden;
+      &.show {
+        visibility: visible;  
+      }
+    }
+  }
+
+  .tabs-container {
+    margin-bottom: 0;
+  }
+
+  .revision-list {
+    overflow-y: auto;
+    max-height: 80vh;
+
+    .revision{
+
+      &.locked {
+        opacity: 0.4;
+        pointer-events: none;
+      }
+
+      margin-left: 1rem;
+      margin-right: 1rem;
+      margin-bottom: 0.5rem;
+      min-height: 3rem;
+      border-top: 1px solid white;
+      
+      .row {
+        &:first-child {
+          padding-top: 0.2rem;
+          padding-bottom: 0.2rem;
+        }
+
+        .inventory-number {
+          color: white;
+          text-align: center;
+        }
+
+        .display-package-code {
+          @include ellipsis();
+          color: inherit;
+        }
+
+        .offset-up {
+          margin-top: -0.5rem;
+        }
+
+        .recount-warning {
+          background-color: $warning-red;
+          padding: 0.2rem 2rem;
+          width: 90%;
+          margin: 0 auto;
+          color: white;
+
+          a {
+            text-decoration: underline;
+            text-underline-position: under;
+          }
+        }
+
+        .pill {
+          &.good {
+            background-color: $success-green;
+          }
+          &.bad {
+            background-color: $warning-red;
+          }
+          
+          width: 5rem;
+          text-align: center;
+          height: 1.2rem;
+          line-height: 1.1rem;
+          border-radius: 30px;
+          border: 1px solid white;
+          color: white;
+          float: right;
+          margin-right: 2rem;
+        }
+
+        .quantity-input-container {
+          span {
+            line-height: 2.5rem;
+            margin-left: 0.4rem;
+            margin-right: 0.4rem;
+          }
+
+          .quantity-input {
+            input {
+              width: 4rem;
+              height: 2.5rem;
+              text-align: center;
+              background: transparent;
+              color: white;
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -58,6 +58,15 @@
       </li>
 
 
+      {{#if (is-or getCurrentUser.canManageStocktakes getCurrentUser.canManageStocktakeRevisions)}}
+        <li class="menu-list">
+          {{#link-to 'stocktakes' class="menu-list-anchor"}}
+            {{fa-icon 'list-ol' size="lg"}}&nbsp;&nbsp;{{t 'stocktakes.title'}}
+          {{/link-to}}
+        </li>
+      {{/if}}
+
+
     </ul>
   </div>
 </div>
