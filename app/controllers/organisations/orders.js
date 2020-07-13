@@ -8,12 +8,12 @@ export default Ember.Controller.extend(SearchMixin, {
 
   actions: {
     loadOrders(pageNo) {
-      const cache = this.get("cache");
+      const organisationId = this.get("model.id");
       const params = this.trimQuery(
         _.merge({}, this.getPaginationQuery(pageNo))
       );
       return this.get("organisationService").getOrganisationOrders(
-        this.get("model.id"),
+        organisationId,
         params
       );
     }
