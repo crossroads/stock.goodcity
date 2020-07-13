@@ -7,7 +7,7 @@
     {{#if displayResults}}
       {{#infinite-list height="75vh" loadMore=(action "loadOrders") as |orders| }}
         <ul class="list list-activity">
-          {{#each loadOrders as |order|}}
+          {{#each orders as |order|}}
             {{#link-to 'orders.active_items' order.id href=false}}
               {{partial 'orders/order_block'}}
             {{/link-to}}
