@@ -7,8 +7,8 @@
 
   {{#each model.order.goodcityRequests as |request|}}
     <div class="row info">
-      <div class="small-4 columns">
-        {{request.code.name}}
+      <div class="small-4 columns display-code-client">
+        {{display-package-code item=request.code}}
       </div>
       <div class="small-5 detail columns">
         {{#if request.description}}

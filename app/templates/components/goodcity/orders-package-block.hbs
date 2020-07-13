@@ -21,7 +21,7 @@
       <div class="row">
         <div class="columns small-10">
           <div class="text-block">
-            <div class="line">{{fa-icon 'tag' size='lg'}} {{ orderPkg.item.inventoryNumber }}</div>
+            <div class="line">{{fa-icon (if orderPkg.item.packageSetId 'tags' (storage-icon orderPkg.item.storageTypeName))}} {{ orderPkg.item.inventoryNumber }}</div>
             <div class="line">{{ orderPkg.item.notes }}</div>
           </div>
         </div>
