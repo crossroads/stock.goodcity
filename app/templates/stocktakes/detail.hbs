@@ -44,7 +44,7 @@
 
     {{!-- REVISION LIST --}}
     <div class="row revision-list">
-      {{#each revisions as |revision|}}
+      {{#each filteredRevisions as |revision|}}
         {{!-- REVISION BLOCK --}}
         {{#let-alias (pick-key (array-find revision.item.packagesLocations 'locationId' stocktake.location.id) 'quantity') as |expectedQty|}}
           <div class="revision {{unless revision.editable 'locked'}}">

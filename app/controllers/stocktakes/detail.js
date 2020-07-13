@@ -23,13 +23,15 @@ export default Ember.Controller.extend(AsyncMixin, {
   tabs: Ember.computed.alias("modes"),
   selectedTab: Ember.computed.alias("mode"),
 
-  revisions: Ember.computed(
+  revisions: Ember.computed.alias("stocktake.revisions"),
+
+  filteredRevisions: Ember.computed(
     "mode",
     "stocktake",
-    "stocktake.revisions.[]",
-    "stocktake.revisions.@each.{quantity,dirty}",
+    "revisions.[]",
+    "revisions.@each.{quantity,dirty}",
     function() {
-      return this.get("stocktake.revisions").filter(rev => {
+      return this.get("revisions").filter(rev => {
         if (this.get("mode") !== this.get("modes.count")) {
           return true;
         }
