@@ -10,6 +10,7 @@ export default Model.extend({
   itemId: Ember.computed.alias("packageId"),
   item: belongsTo("item", { async: false }),
   stocktake: belongsTo("stocktake", { async: false }),
+  createdAt: attr("date"),
   quantity: attr("number"),
 
   expectedQuantity: Ember.computed(

@@ -72,6 +72,8 @@ export default {
     confirm_count: "Confirm count is {{count}}",
     over: "Over",
     under: "Under",
+    add_item: "Add Item",
+    scanner_mode: "Scanner Mode",
     errors: {
       name_exists: "Another stocktake with the same name already exists",
       stocktake_exists_for_location:

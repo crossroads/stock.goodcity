@@ -2,6 +2,7 @@ import Ember from "ember";
 import _ from "lodash";
 import AsyncMixin from "stock/mixins/async";
 import { queued } from "../../utils/helpers";
+import { ERROR_STRATEGIES } from "../../mixins/async";
 
 export default Ember.Controller.extend(AsyncMixin, {
   // ----------------------
@@ -10,6 +11,7 @@ export default Ember.Controller.extend(AsyncMixin, {
 
   store: Ember.inject.service(),
   i18n: Ember.inject.service(),
+  packageService: Ember.inject.service(),
 
   // ----------------------
   // Properties
@@ -28,16 +30,21 @@ export default Ember.Controller.extend(AsyncMixin, {
   filteredRevisions: Ember.computed(
     "mode",
     "stocktake",
-    "revisions.[]",
-    "revisions.@each.{quantity,dirty}",
+    "revisions.length",
+    "revisions.@each.{quantity,dirty,createdAt}",
     function() {
-      return this.get("revisions").filter(rev => {
-        if (this.get("mode") !== this.get("modes.count")) {
-          return true;
-        }
-        // In count mode, we only show the ones that have been counted
-        return rev.get("quantity") > 0;
-      });
+      return this.get("revisions")
+        .filter(rev => {
+          if (this.get("mode") !== this.get("modes.count")) {
+            return true;
+          }
+          // In count mode, we only show the ones that have been counted
+          return rev.get("quantity") > 0;
+        })
+        .sort((r1, r2) => {
+          if (!r1.get("createdAt")) return -1; // unsaved record at the top
+          return r1.get("createdAt") > r2.get("createdAt") ? -1 : 1;
+        });
     }
   ),
 
@@ -47,12 +54,9 @@ export default Ember.Controller.extend(AsyncMixin, {
 
   on() {
     this.set("mode", this.get("modes.review"));
-    this.addObserver("revisions.@each.quantity", this, "onRevisionsChange");
   },
 
-  off() {
-    this.removeObserver("revisions.@each.quantity", this, "onRevisionsChange");
-  },
+  off() {},
 
   // ----------------------
   // Callbacks
@@ -76,7 +80,6 @@ export default Ember.Controller.extend(AsyncMixin, {
       await revision.save();
       return true;
     } catch (e) {
-      revision.rollbackAttributes();
       this.onRevisionSaveError();
       return false;
     }
@@ -91,9 +94,7 @@ export default Ember.Controller.extend(AsyncMixin, {
 
   getChangedRevisions() {
     return this.get("revisions").filter(rev => {
-      const attrs = rev.changedAttributes();
-      const changed = _.has(attrs, "quantity") || _.has(attrs, "dirty");
-      return changed && rev.get("isValid");
+      return rev.get("hasDirtyAttributes") && rev.get("isValid");
     });
   },
 
@@ -111,22 +112,46 @@ export default Ember.Controller.extend(AsyncMixin, {
 
   actions: {
     incrementCount(revision) {
-      let qty = _.clamp(revision.get("quantity") + 1, 0, 9999);
-      revision.set("quantity", qty);
+      this.send("updateQuantity", revision, revision.get("quantity") + 1);
     },
 
     decrementCount(revision) {
-      let qty = _.clamp(revision.get("quantity") - 1, 0, 9999);
-      revision.set("quantity", qty);
+      this.send("updateQuantity", revision, revision.get("quantity") - 1);
     },
 
-    updateQuantity(revision, event) {
-      let value = Number(event.target.value) || 0;
-      revision.set("quantity", _.clamp(value, 0, 9999));
+    updateQuantity(revision, input) {
+      const num = input.target ? Number(input.target.value) : Number(input);
+
+      revision.set("quantity", _.clamp(num || 0, 0, 9999));
+      this.onRevisionsChange();
     },
 
     confirmCount(revision) {
       revision.set("dirty", false);
+      this.onRevisionsChange();
+    },
+
+    saveChanges() {
+      this.saveChanges();
+    },
+
+    async addItem() {
+      const pkg = await this.get("packageService").userPickPackage();
+
+      if (!pkg) return;
+
+      const existing = this.get("revisions").findBy("item", pkg);
+      const revision =
+        existing ||
+        this.get("store").createRecord("stocktake_revision", {
+          item: pkg,
+          dirty: false,
+          quantity: 0,
+          stocktake: this.get("stocktake"),
+          state: "pending"
+        });
+
+      this.send("incrementCount", revision);
     }
   }
 });

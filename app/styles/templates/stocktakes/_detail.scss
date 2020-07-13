@@ -17,8 +17,20 @@
     }
   }
 
+  a {
+    text-decoration: underline;
+    text-underline-position: under;
+  }
+
   .tabs-container {
     margin-bottom: 0;
+  }
+
+  .buttons-container {
+    padding-left: 1rem;
+    .button {
+      margin-right: 1rem;
+    }
   }
 
   .revision-list {
@@ -26,6 +38,12 @@
     max-height: 80vh;
 
     .revision{
+
+      &.unsaved {
+        input {
+          border-color: yellow;
+        }
+      }
 
       &.locked {
         opacity: 0.4;
@@ -64,11 +82,6 @@
           width: 90%;
           margin: 0 auto;
           color: white;
-
-          a {
-            text-decoration: underline;
-            text-underline-position: under;
-          }
         }
 
         .pill {
@@ -86,11 +99,13 @@
           border-radius: 30px;
           border: 1px solid white;
           color: white;
-          float: right;
-          margin-right: 2rem;
+          margin: 0 auto;
+          font-size: 0.7rem;
         }
 
         .quantity-input-container {
+          height: 3rem;
+
           span {
             line-height: 2.5rem;
             margin-left: 0.4rem;

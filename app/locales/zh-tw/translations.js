@@ -71,6 +71,8 @@ export default {
     confirm_count: "Confirm count is {{count}}",
     over: "Over",
     under: "Under",
+    add_item: "Add Item",
+    scanner_mode: "Scanner Mode",
     states: {
       open: "Open",
       closed: "Closed",
