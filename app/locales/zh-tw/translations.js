@@ -29,7 +29,7 @@ export default {
   details: "詳情",
   orders_in_process: "Orders In Process",
   orders: "訂單",
-  users: "用戶",
+  users_count: "用戶",
   menu: "主目錄",
   search_organisation: "搜尋機構",
   not_now: "稍後",
