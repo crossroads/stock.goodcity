@@ -21,7 +21,6 @@ export default GoodcityController.extend(preloadDataMixin, {
     authenticateUser() {
       let pin = this.get("pin");
       let otpAuthKey = this.get("session.otpAuthKey");
-
       Ember.$(".auth_error").hide();
       this.showLoadingSpinner();
       this.get("authService")
