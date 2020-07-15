@@ -86,7 +86,7 @@ export default GoodcityController.extend(
       "isBoxOrPallet",
       function() {
         this.set("isAllowedToPublish", false);
-        return +this.get("quantity") === 1 && !this.get("isBoxOrPallet");
+        return +this.get("quantity") === 1;
       }
     ),
     showDuplicateCheckbox: Ember.computed.equal("storageType", "Package"),
