@@ -48,9 +48,9 @@
 
   .select-goods {
     padding: 0.5rem !important;
-    background: #002352!important;
-    border: 1px solid #fff!important;
-    color: #fff !important;
+    background: $dark-blue !important;
+    border: 1px solid $white !important;
+    color: $white !important;
     height: 2.7rem!important;
 
     @media #{$small-only} {
