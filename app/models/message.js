@@ -27,6 +27,7 @@ export default DS.Model.extend({
   lookup: attr("string"),
   messageableType: attr("string"),
   messageableId: attr("string"),
+  unreadCount: attr("string"),
 
   parsedBody: Ember.computed("body", function() {
     let body = this.get("body");

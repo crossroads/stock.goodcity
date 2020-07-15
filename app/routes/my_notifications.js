@@ -6,7 +6,6 @@ export default AuthorizeRoute.extend({
 
     if (isExiting) {
       controller.set("notifications", []);
-      controller.set("hasLoadedReadMessages", false);
     }
   }
 });

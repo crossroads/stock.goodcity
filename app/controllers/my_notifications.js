@@ -1,25 +1,22 @@
 import Ember from "ember";
 import _ from "lodash";
-import AjaxPromise from "stock/utils/ajax-promise";
 
 const { computed } = Ember;
 
 const MSG_KEY = msg => {
   return [
     msg.get("isPrivate") ? "private" : "public",
-    msg.get("designationId") || "-",
-    msg.get("itemId") || "-"
+    msg.get("messageableType") || "-",
+    msg.get("messageableId") || "-"
   ].join("/");
 };
 
 export default Ember.Controller.extend({
-  sortProperties: ["createdAt:desc"],
-  sortedModel: Ember.computed.sort("model", "sortProperties"),
   messagesUtil: Ember.inject.service("messages"),
   store: Ember.inject.service(),
   logger: Ember.inject.service(),
   subscription: Ember.inject.service(),
-  hasLoadedReadMessages: false,
+
   displayMessages: true,
   showUnread: true,
   notifications: [],
@@ -32,25 +29,30 @@ export default Ember.Controller.extend({
   onNewNotification(notification) {
     const store = this.get("store");
     const msg = store.peekRecord("message", notification.record.id);
-    const orderId = notification.record.order_id;
+    const messageableId = notification.record.messageable_id;
     const notifications = this.get("notifications");
 
-    if (!orderId || this.session.router.currentURL !== "/my_notifications") {
+    if (
+      !messageableId ||
+      this.session.router.currentURL !== "/my_notifications"
+    ) {
       return;
     }
 
-    this.loadIfAbsent("designation", orderId).then(() => {
-      let notif = notifications.findBy("key", MSG_KEY(msg));
-      if (notif) {
-        // Update existing one
-        notifications.removeObject(notif);
-        notif.get("messages").addObject(msg);
-      } else {
-        // Create new one
-        notif = this.messagesToNotification([msg]);
-      }
-      notifications.insertAt(0, notif);
-    });
+    let notif = notifications.findBy("key", MSG_KEY(msg));
+
+    if (notif) {
+      // Update existing one
+      notifications.removeObject(notif);
+      msg.set("unreadCount", +notif.get("unreadCount") + 1);
+      notif.get("messages").addObject(msg);
+    } else {
+      // Create new one
+      msg.set("unreadCount", 1);
+      notif = this.messagesToNotification([msg]);
+    }
+
+    notifications.insertAt(0, notif);
   },
 
   /**
@@ -63,34 +65,37 @@ export default Ember.Controller.extend({
     const props = [
       "id",
       "itemId",
-      "designation",
+      "designationId",
       "sender",
       "createdAt",
       "isPrivate"
     ];
-    const lastMessage = messages.sortBy("createdAt").get("lastObject");
+    const lastMessage = messages.sortBy("id").get("lastObject");
+    let itemId = lastMessage.get("itemId");
     const item =
-      lastMessage.get("itemId") &&
-      this.get("store").peekRecord("item", lastMessage.get("itemId"));
+      itemId &&
+      (this.get("store").peekRecord("item", itemId) ||
+        this.get("store").findRecord("item", itemId));
 
     let notification = Ember.Object.create(lastMessage.getProperties(props));
     notification.setProperties({
       key: MSG_KEY(lastMessage),
       item: item,
       messages: messages,
-      isSingleMessage: computed.equal("messages.length", 1),
+      isSingleMessage: computed.equal("unreadCount", 1),
       isThread: computed.not("isSingleMessage"),
       designationId: computed.alias("messages.firstObject.designationId"),
       text: computed("messages.[]", function() {
         return this.get("messages")
-          .sortBy("createdAt")
+          .sortBy("id")
           .get("lastObject.body");
       }),
-      unreadCount: computed("messages.@each.state", "messages.[]", {
+      unreadCount: computed("messages.@each.unreadCount", "messages.[]", {
         get() {
-          return this.get("messages")
-            .filterBy("isUnread")
-            .get("length");
+          let lastMessage = this.get("messages")
+            .sortBy("id")
+            .get("lastObject");
+          return lastMessage.get("unreadCount");
         },
         set(key, value) {
           return value;
@@ -101,17 +106,17 @@ export default Ember.Controller.extend({
   },
 
   /**
-   * Transform offers into "notifications" object with more UI-friendly properties
+   * Transform messages into "notifications" object with more UI-friendly properties
    *
-   * @param {Offer} offer
+   * @param {Meesage} messages
    * @returns {Object}
    */
-  buildNotifications(order) {
-    const orderMessages = order.get("messages").filter(msg => {
+  buildNotifications(messages) {
+    const groupedMessages = messages.filter(msg => {
       return this.get("showUnread") ? msg.get("isUnread") : true;
     });
 
-    return _.chain(orderMessages)
+    return _.chain(groupedMessages)
       .groupBy(MSG_KEY)
       .map(msgs => this.messagesToNotification(msgs))
       .value();
@@ -123,25 +128,11 @@ export default Ember.Controller.extend({
    * @param {Object} data
    * @returns {Offer[]}
    */
-  toOrderModels(data) {
+  toMessageModels(data) {
     this.get("store").pushPayload(data);
     return data.map(({ id }) => {
-      return this.get("store").peekRecord("designation", id);
+      return this.get("store").peekRecord("message", id);
     });
-  },
-
-  /**
-   * Loads a record from either the store or the api
-   *
-   * @param {String} model
-   * @param {String} id
-   * @returns {Model}
-   */
-  loadIfAbsent(model, id) {
-    const store = this.get("store");
-    return Ember.RSVP.resolve(
-      store.peekRecord(model, id) || store.findRecord(model, id)
-    );
   },
 
   actions: {
@@ -157,15 +148,17 @@ export default Ember.Controller.extend({
 
       const params = {
         page: pageNo,
-        include_messages: true,
-        with_notifications: state
+        state: state,
+        only_notification: true,
+        scope: ["order", "package"]
       };
 
       return this.get("store")
-        .query("designation", params)
-        .then(orders => this.toOrderModels(orders.content))
-        .then(orders => {
-          const notifications = _.chain(orders)
+        .query("message", params)
+        .then(messages => this.toMessageModels(messages.content))
+        .then(messages => {
+          const notifications = _.chain(messages)
+            .groupBy(MSG_KEY)
             .map(o => this.buildNotifications(o))
             .flatten()
             .value();
