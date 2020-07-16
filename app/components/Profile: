@@ -1,0 +1,19 @@
+Profile:
+
+  /user/:id               (GET) - Fetch User details
+  /user/:id/following     (GET) - Fetch Following
+  /user/:id/followers     (GET) - Fetch Followers
+
+
+Status:
+  /statuses               (POST) - Create Status
+  /statuses               (GET) - Get Statuses
+
+Story:
+
+  /story                  (POST) - Create a story
+  /story/:id/like         (POST) - Like a story.
+  /story/:id/comments     (POST) - Comment on a story.
+  /story/:id/comments     (GET)  - Fetch comments of a story.
+  /story/:id/repot        (POST) - Report a post
+

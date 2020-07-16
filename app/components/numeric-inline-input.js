@@ -69,35 +69,19 @@ export default Ember.TextField.extend({
     if (val !== "") {
       this.set("value", +(+val).toFixed((this.get("maxlength") || 6) - 2));
     }
-
-    var item = this.get("item");
-    var url = `/packages/${item.get("id")}`;
-    var key = this.get("name");
-    var packageParams = {};
-    packageParams[key] = this.get("value");
-
-    if (isNaN(packageParams[key])) {
+    if (isNaN(val)) {
       this.set("value", "");
       return false;
     }
 
-    if (this.shouldUpdate(packageParams[key], this.get("previousValue"))) {
-      var loadingView = getOwner(this)
-        .lookup("component:loading")
-        .append();
-      new AjaxPromise(url, "PUT", this.get("session.authToken"), {
-        package: packageParams
-      })
-        .then(data => {
-          this.get("store").pushPayload(data);
-        })
-        .finally(() => {
-          loadingView.destroy();
-        });
+    if (this.shouldUpdate()) {
+      this.get("onSettingInput")(this.get("name"), val);
     }
   },
 
-  shouldUpdate(newValue, oldValue) {
+  shouldUpdate() {
+    let newValue = this.get("value");
+    let oldValue = this.get("previousValue");
     const dummy = Math.random();
     (newValue === "" || newValue === null) && (newValue = dummy);
     (oldValue === "" || oldValue === null) && (oldValue = dummy);
