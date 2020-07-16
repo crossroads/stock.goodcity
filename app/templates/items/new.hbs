@@ -56,7 +56,9 @@
         {{t "items.new.type"}}
       </div>
       <div class="{{if isMobileApp 'small-7 large-8' 'small-9'}} columns left">
-        {{input value=code.name disabled=true}}
+        <div class="display-code">
+          {{display-package-code  item=code}}
+        </div>
       </div>
     </div>
 

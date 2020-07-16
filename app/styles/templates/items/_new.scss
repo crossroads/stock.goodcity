@@ -11,6 +11,17 @@
     display: block !important;
   }
 
+  .display-code {
+    padding: 0.2rem 0.5rem;
+    border: 1px solid $tabbar-menu-icon-color !important;
+    color: $white;
+    height: 1.8rem !important;
+
+    @media #{$small-only} {
+      padding: 0.4rem 0.5rem;
+    }
+  }
+
   .fade-out {
     background: #f46769;
     color: $white;
