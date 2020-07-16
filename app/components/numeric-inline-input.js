@@ -53,7 +53,6 @@ export default Ember.TextField.extend({
   focusOut() {
     this.onFocusOut && setTimeout(() => this.onFocusOut(), 150);
     Ember.$(this.element).removeClass("numeric-inline-input");
-
     let val = this.get("value");
     const [regexPattern, replacePattern] = this.get("acceptFloat")
       ? [regex.FLOAT_REGEX, regex.NON_DIGIT_FLOAT_REGEX]
@@ -62,6 +61,10 @@ export default Ember.TextField.extend({
       val = val.toString().replace(replacePattern, "");
     }
     val = isNaN(val) ? null : val;
+    if (this.get("isMaxLengthRequired") && val.length < this.get("maxlength")) {
+      this.set("value", this.get("previousValue"));
+      return false;
+    }
     if (val === null) {
       this.set("value", "");
       return;
