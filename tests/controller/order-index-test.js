@@ -1,7 +1,7 @@
 import { test, moduleFor } from "ember-qunit";
 
 moduleFor("controller:orders.index", "orders.index controller", {
-  needs: ["service:i18n"]
+  needs: ["service:i18n", "service:session"]
 });
 
 test("checking default set properties", function(assert) {

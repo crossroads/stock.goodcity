@@ -31,14 +31,7 @@ export default Ember.Controller.extend({
         page: page,
         per_page: 25,
         searchText: this.get("searchText"),
-        stockRequest: true,
-        roles: [
-          "Charity",
-          "Supervisor",
-          "Reviewer",
-          "Order fulfilment",
-          "Order administrator"
-        ]
+        stockRequest: true
       };
 
       return this.get("store").query("user", params);

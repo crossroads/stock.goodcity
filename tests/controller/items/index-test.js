@@ -6,6 +6,7 @@ import Ember from "ember";
 var App;
 
 moduleFor("controller:items.index", "items.index controller", {
+  needs: ["service:session"],
   beforeEach: function() {
     App = startApp({}, 2);
     TestHelper.setup();

@@ -30,7 +30,7 @@ export default {
   save: "Save",
   details: "Details",
   orders: "Orders",
-  users: "Users",
+  users_count: "Users",
   menu: "Menu",
   search_organisation: "Search Organisation",
   not_now: "Not Now",

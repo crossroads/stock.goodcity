@@ -9,8 +9,13 @@ const remoteSearch = (authToken, cb) => {
   new AjaxPromise("/mentionable_users", "GET", authToken, {
     roles: "Order administrator, Order fulfilment"
   }).then(data => {
+    const images = data.images;
     users = data.users.map(user => {
-      return { name: user.first_name + " " + user.last_name, id: user.id };
+      return {
+        name: `${user.first_name} ${user.last_name}`,
+        id: user.id,
+        image: images.find(img => img.id === user.image_id)
+      };
     });
     users.sort((u1, u2) =>
       u1.name.toLowerCase().localeCompare(u2.name.toLowerCase())
@@ -26,6 +31,10 @@ export default Ember.Component.extend({
   classNames: "message-bar mentionable",
   disabled: false,
 
+  autoScroll: function() {
+    window.scrollTo(0, document.body.scrollHeight);
+  },
+
   didDestroyElement: function() {
     Ember.$("body").css({ "overflow-x": "hidden" });
   },
@@ -35,15 +44,15 @@ export default Ember.Component.extend({
   }.observes("value"),
 
   processValue: function() {
-    if (!this.value) {
+    // scroll to bottom if message typed and restrict if blank message is sent
+    if (!this.get("value")) {
+      this.autoScroll();
       this.element.innerText = "";
-      window.scrollTo(0, document.body.scrollHeight);
     }
   },
 
   didInsertElement: async function() {
     Ember.$("body").css({ "overflow-x": "unset" });
-
     const _this = this;
     const tribute = new Tribute({
       values: function(text, cb) {
@@ -55,9 +64,18 @@ export default Ember.Component.extend({
         return cb(users);
       },
       menuItemTemplate: item => {
-        return `<div class='item'><img class='mentionedImage' src="assets/images/user.svg"></img> ${
-          item.original.name
-        }</div>`;
+        if (item.original.image) {
+          let id = item.original.image.cloudinary_id;
+          id = id.substring(id.indexOf("/") + 1);
+
+          return `<div class='item'><img class='mentionedImage' src=${$.cloudinary.url(
+            id
+          )}></img> ${item.original.name}</div>`;
+        } else {
+          return `<div class='item'><img class='mentionedImage' src="assets/images/user.svg"></img> ${
+            item.original.name
+          }</div>`;
+        }
       },
       selectTemplate: function(item) {
         if (typeof item === "undefined") return null;
@@ -72,7 +90,7 @@ export default Ember.Component.extend({
       fillAttr: "name",
       noMatchTemplate: () => null,
       menuContainer: document.getElementsByClassName(
-        "message-textbar-container"
+        this.get("containerClass")
       )[0]
     });
 
@@ -119,5 +137,19 @@ export default Ember.Component.extend({
         document.execCommand("insertText", false, content);
       }
     });
+
+    // Adding event listeners for opening and closing of menu
+    // https://github.com/zurb/tribute#events
+    document
+      .querySelector(".mentionable")
+      .addEventListener("tribute-active-true", function(e) {
+        _this.setMentionsActive(true);
+      });
+
+    document
+      .querySelector(".mentionable")
+      .addEventListener("tribute-active-false", function(e) {
+        _this.setMentionsActive(false);
+      });
   }
 });

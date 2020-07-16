@@ -26,5 +26,32 @@ export default DS.Model.extend({
 
   user: belongsTo("user", {
     async: false
+  }),
+
+  absoluteQuantity: Ember.computed("quantity", function() {
+    return Math.abs(this.get("quantity"));
+  }),
+
+  locationSubscript: Ember.computed("quantity", function() {
+    return Number(this.get("quantity")) >= 0 ? "To" : "From";
+  }),
+
+  sourceSubscript: Ember.computed("quantity", function() {
+    return Number(this.get("quantity")) >= 0 ? "From" : "To";
+  }),
+
+  arrow: Ember.computed("quantity", function() {
+    return Number(this.get("quantity")) >= 0 ? "arrow-up" : "arrow-down";
+  }),
+
+  sourceDisplayName: Ember.computed("sourceId", "source_type", function() {
+    switch (this.get("source_type")) {
+      case "OrdersPackage":
+        return this.get("store")
+          .peekRecord("orders_package", this.get("sourceId"))
+          .getWithDefault("'order.code'", "N/A");
+      default:
+        return "";
+    }
   })
 });

@@ -67,7 +67,7 @@ export default Ember.TextField.extend({
       this.setting = true;
       Ember.run.next(() => {
         this._cb();
-        pickadate.set("select", new Date(date), { format: "ddd mmm d" });
+        pickadate.set("select", moment(date).toDate(), { format: "ddd mmm d" });
         this.setting = false;
       });
     }
@@ -76,7 +76,9 @@ export default Ember.TextField.extend({
   onStart(pickadate) {
     var date = this.get("selection");
     if (date) {
-      pickadate.set("select", new Date(date), { format: "ddd mmm d" });
+      pickadate.set("select", moment(new Date(date)).toDate(), {
+        format: "ddd mmm d"
+      });
     }
   },
 
@@ -106,7 +108,7 @@ export default Ember.TextField.extend({
             component.onStart(this);
           },
           onStart: function() {
-            this.set("select", moment(this.get("value")).format("LL"));
+            component.onStart(this);
           }
         })
       );

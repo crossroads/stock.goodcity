@@ -48,6 +48,23 @@ export default DS.Model.extend({
     }
   }),
 
+  plainBody: Ember.computed("body", function() {
+    let body = this.get("body");
+    let lookup = this.get("lookup");
+    lookup = JSON.parse(lookup);
+    if (!lookup) {
+      return body;
+    } else {
+      Object.keys(lookup).forEach(key => {
+        body = body.replace(
+          new RegExp(`\\[:${key}\\]`, "g"),
+          lookup[key].display_name
+        );
+      });
+    }
+    return body;
+  }),
+
   myMessage: Ember.computed("sender", function() {
     return this.get("sender.id") === this.get("session.currentUser.id");
   }),

@@ -84,6 +84,14 @@ export default GoodcityController.extend(
       return !!this.get("item.detail.length");
     },
 
+    packageSetName: Ember.computed(
+      "model.code",
+      "model.isPartOfSet",
+      function() {
+        return this.get("model.packageSet.code.name");
+      }
+    ),
+
     showSetList: Ember.computed("_showSetList", "model.isPartOfSet", {
       get() {
         return this.get("_showSetList") && this.get("model.isPartOfSet");
@@ -204,12 +212,7 @@ export default GoodcityController.extend(
     allowPublish: Ember.computed(
       "model.isSingletonItem",
       "model.availableQuantity",
-      "isBoxOrPallet",
       function() {
-        if (this.get("isBoxOrPallet")) {
-          return false;
-        }
-
         const qty = this.get("model.availableQuantity");
         if (this.get("settings.onlyPublishSingletons")) {
           return qty === 1;
@@ -570,9 +573,18 @@ export default GoodcityController.extend(
       },
 
       async updatePackageType() {
-        const pkgType = await this.get(
-          "packageTypeService"
-        ).userPickPackageType();
+        let pkgType;
+
+        if (this.get("model.isPartOfSet")) {
+          pkgType = await this.get("packageTypeService").userPickPackageType({
+            subsetPackageTypes: this.get(
+              "model.packageSet.code"
+            ).defaultChildPackagesList()
+          });
+        } else {
+          pkgType = await this.get("packageTypeService").userPickPackageType();
+        }
+
         if (this.hasExistingPackageSubform() && !this.isSamePackage(pkgType)) {
           this.warnAndAssignNew(pkgType);
         } else {
@@ -653,7 +665,7 @@ export default GoodcityController.extend(
       },
 
       setExpiryDate(value) {
-        this.set("item.expiryDate", value);
+        this.set("item.expiryDate", value.toString());
         this.runTask(this.get("item").save());
       },
 

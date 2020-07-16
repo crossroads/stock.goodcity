@@ -17,10 +17,20 @@ export default detail.extend({
   model: null,
   messages: [],
   noMessage: Ember.computed.empty("messages"),
+  isMentionsActive: false,
 
-  displayChatNote: Ember.computed("noMessage", "disabled", function() {
-    return this.get("noMessage") && !this.get("disabled");
-  }),
+  displayChatNote: Ember.computed(
+    "noMessage",
+    "disabled",
+    "isMentionsActive",
+    function() {
+      return (
+        this.get("noMessage") &&
+        !this.get("isMentionsActive") &&
+        !this.get("disabled")
+      );
+    }
+  ),
 
   sortedMessages: Ember.computed.sort("messages", "sortProperties"),
 
@@ -84,6 +94,7 @@ export default detail.extend({
       return;
     }
 
+    this.get("messages").pushObject(message._internalModel);
     this.get("messagesUtil").markRead(message);
 
     if (!Ember.$(".message-textbar").length) {
@@ -105,6 +116,10 @@ export default detail.extend({
     setMessageContext: function(message) {
       this.set("body", message.parsedText);
       this.set("displayText", message.displayText);
+    },
+
+    setMentionsActive: function(val) {
+      this.set("isMentionsActive", val);
     },
 
     sendMessage() {

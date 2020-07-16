@@ -6,6 +6,7 @@ export default Ember.Service.extend({
   authToken: Ember.computed.localStorage(),
   otpAuthKey: Ember.computed.localStorage(),
   language: Ember.computed.localStorage(),
+  memCache: [],
   isLoggedIn: Ember.computed.notEmpty("authToken"),
   store: Ember.inject.service(),
   deviceId: Math.random()
@@ -25,6 +26,12 @@ export default Ember.Service.extend({
     this.set("authToken", null);
     this.set("language", null);
     this.set("otpAuthKey", null);
+  },
+
+  clearCache() {
+    const memCache = this.get("memCache");
+    memCache.map(cache => (cache.cache = {}));
+    memCache.set("memCache", []);
   },
 
   unloadSessionData() {
