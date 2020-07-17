@@ -62,7 +62,7 @@ export default Ember.Service.extend({
       "PUT",
       this.get("session.authToken"),
       {
-        scope: "order"
+        scope: ["order", "package"]
       }
     ).then(() => {
       this.get("store")

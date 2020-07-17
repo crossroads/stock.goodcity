@@ -15,10 +15,10 @@
   </div>
   <hr />
 
-  <section class="main-section items-messages-section {{if canManageItemsChat '' 'not-accessible'}}">
+  <section class="main-section items-messages-section {{if canManageItemMessages '' 'not-accessible'}}">
     {{partial "orders/message_template"}}
 
-    {{#unless canManageItemsChat}}
+    {{#unless canManageItemMessages}}
       <div class="permission-error">
         {{t "messages.item_chat_permission_error"}}
       </div>

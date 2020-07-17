@@ -3,14 +3,14 @@ import Ember from "ember";
 
 export default AuthorizeRoute.extend({
   i18n: Ember.inject.service(),
-  canManageItemsChat: Ember.computed.alias(
-    "session.currentUser.canManageItemsChat"
+  canManageItemMessages: Ember.computed.alias(
+    "session.currentUser.canManageItemMessages"
   ),
 
   model(params) {
     return Ember.RSVP.hash({
       item: this.loadIfAbsent("item", params.item_id),
-      messages: this.get("canManageItemsChat")
+      messages: this.get("canManageItemMessages")
         ? this.store.query("message", {
             package_id: params.item_id,
             is_private: true
@@ -24,14 +24,14 @@ export default AuthorizeRoute.extend({
     controller.set("messages", model.messages);
     controller.set("model", model.item);
 
-    if (this.get("canManageItemsChat")) {
+    if (this.get("canManageItemMessages")) {
       controller.send("markRead");
       controller.on();
     }
   },
 
   resetController(controller) {
-    if (this.get("canManageItemsChat")) {
+    if (this.get("canManageItemMessages")) {
       controller.off();
     }
   }

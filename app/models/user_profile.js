@@ -70,10 +70,10 @@ export default Addressable.extend({
     );
   }),
 
-  canManageItemsChat: Ember.computed("roles", function() {
+  canManageItemMessages: Ember.computed("roles", function() {
     const roles = this.get("roles");
     return roles.find(
-      r => r.get("permissionNames").indexOf("can_manage_packages_chat") >= 0
+      r => r.get("permissionNames").indexOf("can_manage_package_messages") >= 0
     );
   }),
 

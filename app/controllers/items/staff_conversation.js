@@ -8,8 +8,8 @@ export default Ember.Controller.extend({
   subscription: Ember.inject.service(),
   messagesUtil: Ember.inject.service("messages"),
 
-  canManageItemsChat: Ember.computed.alias(
-    "session.currentUser.canManageItemsChat"
+  canManageItemMessages: Ember.computed.alias(
+    "session.currentUser.canManageItemMessages"
   ),
   sortedMessages: Ember.computed.sort("messages", "sortProperties"),
 
@@ -92,6 +92,10 @@ export default Ember.Controller.extend({
   },
 
   actions: {
+    setMentionsActive: function(val) {
+      this.set("isMentionsActive", val);
+    },
+
     setMessageContext: function(message) {
       this.set("body", message.parsedText);
       this.set("displayText", message.displayText);
