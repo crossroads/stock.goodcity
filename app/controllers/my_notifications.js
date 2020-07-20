@@ -1,5 +1,6 @@
 import Ember from "ember";
 import _ from "lodash";
+import AjaxPromise from "stock/utils/ajax-promise";
 
 const { computed } = Ember;
 
@@ -130,7 +131,7 @@ export default Ember.Controller.extend({
    */
   toMessageModels(data) {
     this.get("store").pushPayload(data);
-    return data.map(({ id }) => {
+    return data.messages.map(({ id }) => {
       return this.get("store").peekRecord("message", id);
     });
   },
@@ -149,13 +150,16 @@ export default Ember.Controller.extend({
       const params = {
         page: pageNo,
         state: state,
-        only_notification: true,
-        scope: ["order", "package"]
+        messageable_type: ["order", "package"]
       };
 
-      return this.get("store")
-        .query("message", params)
-        .then(messages => this.toMessageModels(messages.content))
+      return new AjaxPromise(
+        "/messages/notifications",
+        "GET",
+        this.get("session.authToken"),
+        params
+      )
+        .then(data => this.toMessageModels(data))
         .then(messages => {
           const notifications = _.chain(messages)
             .groupBy(MSG_KEY)

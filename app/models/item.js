@@ -394,7 +394,6 @@ export default cloudinaryUrl.extend(GradeMixin, {
     }
   ),
 
-  // unread order messages
   unreadMessagesCount: Ember.computed("messages.@each.state", function() {
     return this.get("messages").filterBy("state", "unread").length;
   }),

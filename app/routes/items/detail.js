@@ -107,6 +107,14 @@ export default AuthorizeRoute.extend({
     return Ember.RSVP.all(ids.map(id => this.loadImage(id)));
   },
 
+  preloadMessages(item) {
+    return this.get("store").query("message", {
+      is_private: true,
+      messageable_id: item.id,
+      messageable_type: "Package"
+    });
+  },
+
   /**
    * Loads an image if not available
    *
@@ -150,6 +158,7 @@ export default AuthorizeRoute.extend({
     if (loadImages) {
       await this.preloadImages(item);
     }
+    await this.preloadMessages(item);
     return item;
   }
 });
