@@ -66,7 +66,7 @@ export default detail.extend({
     return _.values(groups);
   },
 
-  groupedActionsAndVersions: Ember.computed("model", "itemActions", function() {
+  groupedActionsAndVersions: Ember.computed("model", function() {
     let actionsAndVersions = [
       ...this.get("itemActions").toArray(),
       ...this.groupedVersions().toArray()
