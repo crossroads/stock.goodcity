@@ -63,7 +63,18 @@
         {{/if}}
 
         {{#if (is-equal mode modes.review)}}
-          <div class="columns small-6 checkbox-container">
+          <button class="button" disabled="{{if stocktake.cannotCommit true}}" {{action 'commit'}}>
+            {{t 'stocktakes.commit_stocktake'}}
+          </button>
+          <button class="button light" {{action 'cancelStocktake'}}>
+            {{t 'stocktakes.cancel_stocktake'}}
+          </button>
+        {{/if}}
+      </div>
+
+      {{#if (is-equal mode modes.review)}}
+        <div class="row buttons-container flex">
+          <div class="checkbox-container">
             <div>{{t 'stocktakes.only_show_variances'}}</div>
             <div class="checkbox" {{action (toggle this "onlyShowVariances")}}>
               {{#if onlyShowVariances}}
@@ -71,13 +82,16 @@
               {{/if}}
             </div>
           </div>
-          <div class="columns small-6">
-            <button class="button" disabled="{{if stocktake.cannotCommit true}}" {{action 'commit'}}>
-              {{t 'stocktakes.commit_stocktake'}}
-            </button>
+          <div class="checkbox-container">
+            <div>{{t 'stocktakes.only_show_warnings'}}</div>
+            <div class="checkbox" {{action (toggle this "onlyShowWarnings")}}>
+              {{#if onlyShowWarnings}}
+                <i>{{fa-icon 'check'}}</i>
+              {{/if}}
+            </div>
           </div>
-        {{/if}}
-      </div>
+        </div>
+      {{/if}}
     {{/if}}
 
     {{!-- REVISION LIST --}}

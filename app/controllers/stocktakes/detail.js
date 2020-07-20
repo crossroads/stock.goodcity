@@ -1,9 +1,28 @@
 import Ember from "ember";
 import _ from "lodash";
 import AsyncMixin from "stock/mixins/async";
-import { queued } from "../../utils/helpers";
+import { queued } from "../../utils/async";
 import { ERROR_STRATEGIES, ASYNC_BEHAVIOURS } from "../../mixins/async";
 
+/**
+ * @enum {function}
+ * @readonly
+ * @memberof Controllers/stocktakes/StocktakeDetailController
+ * @static
+ */
+const SORTING = {
+  BY_CREATION: (rev1, rev2) => {
+    if (!rev1.get("createdAt")) {
+      return -1; // Unsaved records at the top
+    }
+    return rev1.get("createdAt") > rev2.get("createdAt") ? -1 : 1;
+  }
+};
+
+/**
+ * @module Controllers/stocktakes/StocktakeDetailController
+ * @augments ember/Controller
+ */
 export default Ember.Controller.extend(AsyncMixin, {
   // ----------------------
   // Dependencies
@@ -33,28 +52,23 @@ export default Ember.Controller.extend(AsyncMixin, {
     "mode",
     "stocktake",
     "onlyShowVariances",
+    "onlyShowWarnings",
     "revisions.length",
-    "revisions.@each.{quantity,dirty,createdAt}",
+    "revisions.@each.{quantity,createdAt}",
     function() {
+      const modes = this.get("modes");
+      const filters = {
+        [modes.count]: [rev => rev.get("quantity") > 0],
+        [modes.review]: [
+          rev =>
+            this.get("onlyShowVariances") ? rev.get("hasVariance") : true,
+          rev => (this.get("onlyShowWarnings") ? rev.get("warning") : true)
+        ]
+      }[this.get("mode")];
+
       return this.get("revisions")
-        .filter(rev => {
-          if (this.get("mode") === this.get("modes.count")) {
-            // In count mode, we only show the ones that have been counted
-            return rev.get("quantity") > 0;
-          }
-
-          if (this.get("mode") === this.get("modes.review")) {
-            return this.get("onlyShowVariances")
-              ? rev.get("hasVariance")
-              : true;
-          }
-
-          return true;
-        })
-        .sort((r1, r2) => {
-          if (!r1.get("createdAt")) return -1; // unsaved record at the top
-          return r1.get("createdAt") > r2.get("createdAt") ? -1 : 1;
-        });
+        .filter(_.overEvery(filters))
+        .sort(SORTING.BY_CREATION);
     }
   ),
 
@@ -172,6 +186,21 @@ export default Ember.Controller.extend(AsyncMixin, {
     commit() {
       this.runTask(() => {
         return this.get("stocktakeService").commitStocktake(
+          this.get("stocktake")
+        );
+      }, ERROR_STRATEGIES.MODAL);
+    },
+
+    /**
+     * Cancels the stocktake
+     */
+    async cancelStocktake() {
+      const confirmed = await this.modalConfirm("stocktakes.confirm_cancel");
+
+      if (!confirmed) return;
+
+      this.runTask(() => {
+        return this.get("stocktakeService").cancelStocktake(
           this.get("stocktake")
         );
       }, ERROR_STRATEGIES.MODAL);

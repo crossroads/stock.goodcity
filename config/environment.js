@@ -112,11 +112,11 @@ module.exports = function(environment) {
 
   if (environment === "development") {
     ENV.APP.ORIGIN = "localhost";
-    ENV.APP.API_HOST_URL = "https://caa3150a0577.ngrok.io";
+    ENV.APP.API_HOST_URL = "http://localhost:3000";
     ENV.APP.SOCKETIO_WEBSERVICE_URL = "http://localhost:1337/goodcity";
     ENV.cordova.FcmSenderId = "535052654081";
     ENV.contentSecurityPolicy["connect-src"] = [
-      "https://caa3150a0577.ngrok.io",
+      "http://localhost:3000",
       "https://api.cloudinary.com",
       "http://localhost:4203",
       "http://localhost:1337",

@@ -188,10 +188,40 @@ export default Ember.Mixin.create({
     });
   },
 
-  modalAlert(key, cb = _.noop) {
+  tryTranslate(str) {
     const i18n = this.get("i18n");
-    const text = i18n.exists(key) ? i18n.t(key) : key;
+    return i18n.exists(str) ? i18n.t(str) : str;
+  },
 
-    this.get("messageBox").alert(text, cb);
+  modalAlert(key, cb = _.noop) {
+    const deferred = Ember.RSVP.defer();
+    const text = this.tryTranslate(key);
+
+    this.get("messageBox").alert(text, () => {
+      deferred.resolve(cb());
+    });
+
+    return deferred.promise;
+  },
+
+  modalConfirm(bodyText, confirmText = "confirm", cb = _.noop) {
+    const deferred = Ember.RSVP.defer();
+
+    const onConfirm = () => {
+      cb();
+      deferred.resolve(true);
+    };
+
+    const onCancel = () => deferred.resolve(false);
+
+    this.get("messageBox").custom(
+      this.tryTranslate(bodyText),
+      this.tryTranslate(confirmText),
+      onConfirm,
+      this.tryTranslate("cancel"),
+      onCancel
+    );
+
+    return deferred.promise;
   }
 });

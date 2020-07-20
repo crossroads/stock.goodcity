@@ -49,6 +49,13 @@
 
   .buttons-container {
     padding-left: 1rem;
+    height: 2.5rem;
+    margin-bottom: 1rem;
+
+    button {
+      @include ellipsis();
+      height: 2.5rem;
+    }
 
     .columns {
       text-align: center;

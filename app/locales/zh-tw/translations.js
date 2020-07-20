@@ -74,7 +74,10 @@ export default {
     add_item: "Add Item",
     scanner_mode: "Scanner Mode",
     commit_stocktake: "Commit Stocktake",
+    cancel_stocktake: "Cancel Stocktake",
     only_show_variances: "Only show variances",
+    only_show_warnings: "Only show warnings",
+    confirm_cancel: "This stocktake will be cancelled. Are you sure ?",
     tips: {
       start_counting: "Items you count will appear here",
       review_tab:
@@ -238,6 +241,7 @@ export default {
     private: "未被刊登",
     state_filter_title: "物件狀態",
     in_stock: "有貨存",
+    confirm: "Confirm",
     process: "Processed",
     loss: "Lost",
     pack: "Packed",

@@ -16,6 +16,7 @@ export default {
   label: "Label",
   location: "Location",
   in_stock: "In Stock",
+  confirm: "Confirm",
   QuotaExceededError:
     "Site may not work in Safari's <b>private mode.</b> Please try</br><ul><li><a href='https://itunes.apple.com/in/app/goodcitystock.hk/id1144806764?mt=8' style='color: black!important; background-color: #dee4eb !important;'>Downloading the iOS App</a></li><li>Using regular (not private) mode in Safari</li><li>Using Chrome's private browsing mode</li></ul>",
   search_min: "Search (min 3 characters)",
@@ -75,7 +76,10 @@ export default {
     add_item: "Add Item",
     scanner_mode: "Scanner Mode",
     commit_stocktake: "Commit Stocktake",
+    cancel_stocktake: "Cancel Stocktake",
     only_show_variances: "Only show variances",
+    only_show_warnings: "Only show warnings",
+    confirm_cancel: "This stocktake will be cancelled. Are you sure ?",
     tips: {
       start_counting: "Items you count will appear here",
       review_tab:
