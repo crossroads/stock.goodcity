@@ -59,6 +59,11 @@ export default Ember.Service.extend({
     return deferred.promise;
   },
 
+  /**
+   * Tries to scan a bar code and returns the scanned text
+   *
+   * @returns {Promise<string>}
+   */
   async scan() {
     const scanner = this.getScanner();
     const allowed = await this.requestPermission();
@@ -82,6 +87,11 @@ export default Ember.Service.extend({
     return deferred.promise;
   },
 
+  /**
+   * Tries to scan a bar code and returns the package associated with the inventory number scanned
+   *
+   * @returns {Promise<Package>}
+   */
   async scanPackage() {
     const inventoryNumber = await this.scan();
 
