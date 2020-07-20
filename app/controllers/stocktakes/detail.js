@@ -66,10 +66,6 @@ export default Ember.Controller.extend(AsyncMixin, {
     this.set("mode", this.get("modes.count"));
   },
 
-  on() {},
-
-  off() {},
-
   // ----------------------
   // Callbacks
   // ----------------------
