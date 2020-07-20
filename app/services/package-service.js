@@ -42,7 +42,9 @@ export default ApiBaseService.extend(NavigationAwareness, {
     const id = toID(pkg);
     const data = await this.GET(`/packages/${id}/versions`);
     store.pushPayload(data);
-    return data.versions;
+    return _.get(data, "versions", []).map(it =>
+      store.peekRecord("version", it.id)
+    );
   },
 
   async updatePackage(pkg, pkgParams, opts = {}) {
