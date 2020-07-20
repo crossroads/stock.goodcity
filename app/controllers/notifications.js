@@ -42,9 +42,9 @@ export default Ember.Controller.extend({
     let route;
 
     if (notification.category === "message") {
-      if (notification.messageable_type == "Package") {
+      if (notification.messageable_type === "Package") {
         route = ["items.staff_conversation", notification.package_id];
-      } else if (notification.messageable_type == "Order") {
+      } else if (notification.messageable_type === "Order") {
         route = ["orders.conversation", notification.order_id];
       }
     } else {
