@@ -69,12 +69,11 @@ export default Ember.Controller.extend(AsyncMixin, {
   stocktakeAtLocationAlreadyExists: Ember.computed(
     "selectedLocation",
     "stocktakes.[]",
-    "stocktakes.@each.location",
+    "stocktakes.@each.{location,state}",
     function() {
-      return !!this.get("stocktakes").findBy(
-        "location",
-        this.get("selectedLocation")
-      );
+      return !!this.get("stocktakes")
+        .filterBy("isOpen")
+        .findBy("location", this.get("selectedLocation"));
     }
   ),
 
@@ -145,16 +144,17 @@ export default Ember.Controller.extend(AsyncMixin, {
 
     async confirmNewStocktake() {
       this.runTask(async () => {
-        await this.get("store")
-          .createRecord("stocktake", {
-            name: this.get("newStocktakeName"),
-            location: this.get("selectedLocation"),
-            comment: this.get("newStocktakeComment"),
-            state: "open"
-          })
-          .save();
+        const stocktake = this.get("store").createRecord("stocktake", {
+          name: this.get("newStocktakeName"),
+          location: this.get("selectedLocation"),
+          comment: this.get("newStocktakeComment"),
+          state: "open"
+        });
+
+        await stocktake.save();
 
         this.resetState();
+        this.transitionToRoute("stocktakes.detail", stocktake.get("id"));
       }, ERROR_STRATEGIES.MODAL);
     },
 

@@ -30,6 +30,18 @@ export default ApiBaseService.extend(NavigationAwareness, {
     return this.POST(`/packages`, pkgParams);
   },
 
+  async findPackageByInventoryNumber(inventoryNum) {
+    const payload = await this.GET(`/packages`, {
+      inventory_number: inventoryNum
+    });
+
+    this.get("store").pushPayload(payload);
+
+    return this.get("store")
+      .peekAll("item")
+      .findBy("inventoryNumber", inventoryNum);
+  },
+
   loadSubform(detailType, detailId) {
     return this.get("store").findRecord(
       _.snakeCase(detailType).toLowerCase(),

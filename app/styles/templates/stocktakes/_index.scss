@@ -32,8 +32,10 @@
     text-align: center;
 
     .tab {
+      @include ellipsis();
       padding: 0.7rem;
       font-size: 1rem;
+      min-height: 3rem;
 
       &.selected {
         border-bottom: 2px solid;

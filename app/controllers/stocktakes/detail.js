@@ -2,7 +2,7 @@ import Ember from "ember";
 import _ from "lodash";
 import AsyncMixin from "stock/mixins/async";
 import { queued } from "../../utils/helpers";
-import { ERROR_STRATEGIES } from "../../mixins/async";
+import { ERROR_STRATEGIES, ASYNC_BEHAVIOURS } from "../../mixins/async";
 
 export default Ember.Controller.extend(AsyncMixin, {
   // ----------------------
@@ -11,7 +11,9 @@ export default Ember.Controller.extend(AsyncMixin, {
 
   store: Ember.inject.service(),
   i18n: Ember.inject.service(),
+  barcodeService: Ember.inject.service(),
   packageService: Ember.inject.service(),
+  stocktakeService: Ember.inject.service(),
 
   // ----------------------
   // Properties
@@ -30,16 +32,24 @@ export default Ember.Controller.extend(AsyncMixin, {
   filteredRevisions: Ember.computed(
     "mode",
     "stocktake",
+    "onlyShowVariances",
     "revisions.length",
     "revisions.@each.{quantity,dirty,createdAt}",
     function() {
       return this.get("revisions")
         .filter(rev => {
-          if (this.get("mode") !== this.get("modes.count")) {
-            return true;
+          if (this.get("mode") === this.get("modes.count")) {
+            // In count mode, we only show the ones that have been counted
+            return rev.get("quantity") > 0;
           }
-          // In count mode, we only show the ones that have been counted
-          return rev.get("quantity") > 0;
+
+          if (this.get("mode") === this.get("modes.review")) {
+            return this.get("onlyShowVariances")
+              ? rev.get("hasVariance")
+              : true;
+          }
+
+          return true;
         })
         .sort((r1, r2) => {
           if (!r1.get("createdAt")) return -1; // unsaved record at the top
@@ -52,9 +62,11 @@ export default Ember.Controller.extend(AsyncMixin, {
   // Lifecycle
   // ----------------------
 
-  on() {
-    this.set("mode", this.get("modes.review"));
+  init() {
+    this.set("mode", this.get("modes.count"));
   },
+
+  on() {},
 
   off() {},
 
@@ -135,14 +147,18 @@ export default Ember.Controller.extend(AsyncMixin, {
       this.saveChanges();
     },
 
-    async addItem() {
-      const pkg = await this.get("packageService").userPickPackage();
+    /**
+     * Will increment the revision for this pacakge by 1, or create it
+     *
+     * @param {Package} pkg
+     */
+    async addItem(pkg) {
+      pkg = pkg || (await this.get("packageService").userPickPackage());
 
       if (!pkg) return;
 
-      const existing = this.get("revisions").findBy("item", pkg);
       const revision =
-        existing ||
+        this.get("revisions").findBy("item", pkg) ||
         this.get("store").createRecord("stocktake_revision", {
           item: pkg,
           dirty: false,
@@ -152,6 +168,30 @@ export default Ember.Controller.extend(AsyncMixin, {
         });
 
       this.send("incrementCount", revision);
+    },
+
+    /**
+     * Will try to process the Stocktake
+     */
+    commit() {
+      this.runTask(() => {
+        return this.get("stocktakeService").commitStocktake(
+          this.get("stocktake")
+        );
+      }, ERROR_STRATEGIES.MODAL);
+    },
+
+    /**
+     * Counts a package by scanning a barcode
+     */
+    scanPackage() {
+      this.runTask(async () => {
+        const pkg = await this.get("barcodeService").scanPackage();
+
+        if (pkg) {
+          this.send("addItem", pkg);
+        }
+      }, ASYNC_BEHAVIOURS.DISCREET);
     }
   }
 });

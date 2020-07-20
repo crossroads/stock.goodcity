@@ -33,6 +33,23 @@ export const ERROR_STRATEGIES = {
   ROLLBAR: 4
 };
 
+/**
+ * @enum {number}
+ * @readonly
+ * @memberof AsyncMixin
+ * @static
+ */
+export const ASYNC_BEHAVIOURS = {
+  DISCREET: {
+    showSpinner: false,
+    errorStrategy: ERROR_STRATEGIES.ROLLBAR
+  },
+  LOUD: {
+    showSpinner: true,
+    errorStrategy: ERROR_STRATEGIES.MODAL
+  }
+};
+
 export default Ember.Mixin.create({
   logger: Ember.inject.service(),
   messageBox: Ember.inject.service(),
@@ -171,7 +188,10 @@ export default Ember.Mixin.create({
     });
   },
 
-  i18nAlert(key, cb) {
-    this.get("messageBox").alert(this.get("i18n").t(key), cb);
+  modalAlert(key, cb = _.noop) {
+    const i18n = this.get("i18n");
+    const text = i18n.exists(key) ? i18n.t(key) : key;
+
+    this.get("messageBox").alert(text, cb);
   }
 });

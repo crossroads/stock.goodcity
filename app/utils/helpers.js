@@ -32,7 +32,7 @@ export function times(setA, setB, func) {
  * @param {...any} args arguments
  * @returns {array} [promise, job]
  */
-export function useDefer(func, scope, ...args) {
+export function deferredFunc(func, scope, ...args) {
   const deferred = Ember.RSVP.defer();
 
   const trigger = async () => {
@@ -66,9 +66,9 @@ export function queued(func) {
   };
 
   return function(...args) {
-    const [promise, job] = useDefer(func, this, ...args);
+    const [promise, trigger] = deferredFunc(func, this, ...args);
 
-    queue.push(job);
+    queue.push(trigger);
 
     if (queue.length === 1) {
       next(); // start

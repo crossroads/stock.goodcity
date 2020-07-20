@@ -2,6 +2,27 @@
   $warning-red: #ff4353;
   $success-green: #6fab4a;
 
+  .status-bar {
+    color: white;
+    text-align: center;
+    line-height: 2rem;
+    height: 2rem;
+    font-family: $header-font-family;
+    width: 100%;
+
+    &.state-closed {
+      background-color: #6fab4a;
+    }
+  
+    &.state-cancelled {
+      background-color: black;
+    }
+
+    &.state-open {
+      display: none;
+    }
+  }
+
   .top-message {
     margin: 1rem;
 
@@ -28,8 +49,39 @@
 
   .buttons-container {
     padding-left: 1rem;
-    .button {
+
+    .columns {
+      text-align: center;
+    }
+
+    .checkbox-container {
+      padding-top: 0.5rem;
+      display: flex;
+      flex-wrap: nowrap;
+      justify-content: center;
+      .checkbox {
+        width: 1rem;
+        height: 1rem;
+        border: 1px solid gray;
+        margin-left: 0.5rem;
+        i { color: white }
+      }
+    }
+    >* {
       margin-right: 1rem;
+    }
+  }
+
+  .tips {
+    padding-top: 3rem;
+    opacity: 0.4;
+    .tip {
+      width: 100%;
+      padding: 0.5rem 4rem;
+      color: white;
+      text-align: center;
+      font-family: $header-font-family;
+      font-size: 1.1rem;
     }
   }
 
@@ -52,9 +104,9 @@
 
       margin-left: 1rem;
       margin-right: 1rem;
-      margin-bottom: 0.5rem;
+      padding-bottom: 0.5rem;
       min-height: 3rem;
-      border-top: 1px solid white;
+      border-bottom: 1px solid white;
       
       .row {
         &:first-child {
@@ -76,7 +128,7 @@
           margin-top: -0.5rem;
         }
 
-        .recount-warning {
+        .warning-box {
           background-color: $warning-red;
           padding: 0.2rem 2rem;
           width: 90%;

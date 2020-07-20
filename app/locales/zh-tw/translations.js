@@ -73,6 +73,18 @@ export default {
     under: "Under",
     add_item: "Add Item",
     scanner_mode: "Scanner Mode",
+    commit_stocktake: "Commit Stocktake",
+    only_show_variances: "Only show variances",
+    tips: {
+      start_counting: "Items you count will appear here",
+      review_tab:
+        "Head over to the 'Review' tab to see the full list of expected items"
+    },
+    errors: {
+      name_exists: "Another stocktake with the same name already exists",
+      stocktake_exists_for_location:
+        "Warning: A stocktake already exists for this location"
+    },
     states: {
       open: "Open",
       closed: "Closed",
@@ -81,11 +93,6 @@ export default {
     detail_tabs: {
       count: "Count",
       review: "Review"
-    },
-    errors: {
-      name_exists: "Another stocktake with the same name already exists",
-      stocktake_exists_for_location:
-        "Warning: A stocktake already exists for this location"
     },
     counts: {
       counted: "Counted",

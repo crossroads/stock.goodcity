@@ -12,6 +12,7 @@ export default Model.extend({
   stocktake: belongsTo("stocktake", { async: false }),
   createdAt: attr("date"),
   quantity: attr("number"),
+  warning: attr("string"),
 
   expectedQuantity: Ember.computed(
     "stocktake.location",
@@ -26,6 +27,8 @@ export default Model.extend({
       return pkgLoc ? pkgLoc.get("quantity") : 0;
     }
   ),
+
+  isProcessed: Ember.computed.equal("state", "processed"),
 
   diff: Ember.computed("quantity", "expectedQuantity", function() {
     return this.get("quantity") - this.get("expectedQuantity");
@@ -43,7 +46,7 @@ export default Model.extend({
     return this.get("diff") < 0;
   }),
 
-  isDifferent: Ember.computed("diff", function() {
+  hasVariance: Ember.computed("diff", function() {
     return this.get("diff") !== 0;
   }),
 

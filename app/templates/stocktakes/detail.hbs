@@ -13,8 +13,14 @@
     </section>
   </nav>
 
-  {{!-- TABS TO SWITCH BETWEEN MODES --}}
   <div class="content">
+    <div class="row">
+      <div class="status-bar state-{{stocktake.state}}">
+        {{t (concat 'stocktakes.states.' stocktake.state)}}
+      </div>
+    </div>
+
+    {{!-- TABS TO SWITCH BETWEEN MODES --}}
     <div class="row">
       <div class="row tabs-container">
         <div class="tab list small-6 columns {{unless (is-equal selectedTab tabs.count) 'dimmed'}}" {{action (mut selectedTab) tabs.count}}>
@@ -44,18 +50,47 @@
       {{/if}}
     </div>
 
-    {{!-- ADD ITEM BUTTON(S) --}}
-    <div class="row buttons-container flex">
-      <button class="button">
-        {{fa-icon 'qrcode'}} {{t 'stocktakes.scanner_mode'}}
-      </button>
-      <button class="button" {{action 'addItem'}}>
-        {{fa-icon 'plus'}} {{t 'stocktakes.add_item'}}
-      </button>
-    </div>
+    {{!-- ACTION BUTTONS --}}
+    {{#if stocktake.isOpen}}
+      <div class="row buttons-container flex">
+        {{#if (is-equal mode modes.count)}}
+          <button class="button" {{action 'scanPackage'}}>
+            {{fa-icon 'qrcode'}} {{t 'stocktakes.scanner_mode'}}
+          </button>
+          <button class="button" {{action 'addItem'}}>
+            {{fa-icon 'plus'}} {{t 'stocktakes.add_item'}}
+          </button>
+        {{/if}}
+
+        {{#if (is-equal mode modes.review)}}
+          <div class="columns small-6 checkbox-container">
+            <div>{{t 'stocktakes.only_show_variances'}}</div>
+            <div class="checkbox" {{action (toggle this "onlyShowVariances")}}>
+              {{#if onlyShowVariances}}
+                <i>{{fa-icon 'check'}}</i>
+              {{/if}}
+            </div>
+          </div>
+          <div class="columns small-6">
+            <button class="button" disabled="{{if stocktake.cannotCommit true}}" {{action 'commit'}}>
+              {{t 'stocktakes.commit_stocktake'}}
+            </button>
+          </div>
+        {{/if}}
+      </div>
+    {{/if}}
 
     {{!-- REVISION LIST --}}
     <div class="row revision-list">
+      {{#if (is-equal mode 'count')}}
+        {{#if (is-equal filteredRevisions.length 0)}}
+          <div class="tips">
+            <div class="tip">{{t 'stocktakes.tips.start_counting'}}</div>
+            <div class="tip">{{t 'stocktakes.tips.review_tab'}}</div>
+          </div>
+        {{/if}}
+      {{/if}}
+
       {{#each filteredRevisions as |revision|}}
         {{!-- REVISION BLOCK --}}
         {{#let-alias (pick-key (array-find revision.item.packagesLocations 'locationId' stocktake.location.id) 'quantity' 0) as |expectedQty|}}
@@ -69,11 +104,19 @@
               <div class="row">
               {{!-- Image --}}
               <div class="columns small-2 package-image">
-                <img src="{{ revision.item.thumbImageUrl }}" />
+                {{#link-to 'items.detail' revision.item.id}}
+                  <img src="{{ revision.item.thumbImageUrl }}" />
+                {{/link-to}}
               </div>
               <div class="columns small-10">
                 <div class="row">
-                  <div class="columns small-6">{{t 'stocktakes.expected_qty' }}: {{expectedQty}}</div>
+                  <div class="columns small-6">
+                    {{#if stocktake.isOpen}}
+                      {{t 'stocktakes.expected_qty' }}: {{expectedQty}}
+                    {{else if revision.isProcessed}}
+                      {{fa-icon 'check-circle' size="lg"}}
+                    {{/if}}
+                  </div>
 
                   {{!-- QUANTITY INPUT --}}
                   <div class="columns small-6 flex center quantity-input-container">
@@ -90,20 +133,26 @@
                 </div>
                 <div class="row">
                   {{#if revision.editable}}
-                    {{#if revision.dirty}}
-                      {{!-- RECOUNT WARNING --}}
-                      <div class="columns small-12 offset-up recount-warning">
+                    {{#if (is-or revision.dirty revision.warning)}}
+                      {{!-- WARNING --}}
+                      <div class="columns small-12 offset-up warning-box">
                         <i>{{fa-icon 'exclamation-circle'}}</i>
-                        {{t 'stocktakes.requires_recount'}}
-                        <a {{action 'confirmCount' revision}}>
-                          {{t 'stocktakes.confirm_count' count=revision.quantity}}
-                        </a>
+                        {{#if revision.dirty}}
+                          {{t 'stocktakes.requires_recount'}}
+                          {{#unless revision.hasDirtyAttributes}}
+                            <a {{action 'confirmCount' revision}}>
+                              {{t 'stocktakes.confirm_count' count=revision.quantity}}
+                            </a>
+                          {{/unless}}
+                        {{else if revision.warning}}
+                          {{revision.warning}}
+                        {{/if}}
                       </div>
                     {{else}}
                       {{!-- DIFF PILL --}}
                       <div class="columns small-6">{{!-- padding --}}</div> 
                       <div class="columns small-6">
-                        <div class="offset-up pill {{if revision.isDifferent 'bad' 'good'}}">
+                        <div class="offset-up pill {{if revision.hasVariance 'bad' 'good'}}">
                           {{#if revision.isGain}}
                             <i>{{fa-icon 'exclamation-circle'}}</i>   {{t 'stocktakes.over'}} {{revision.diffAbs}}
                           {{else if revision.isLoss}}
