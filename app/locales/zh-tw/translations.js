@@ -171,7 +171,8 @@ export default {
     home: "主目錄",
     orders: "訂單",
     items: "物資",
-    goto: "前往"
+    goto: "前往",
+    alerts: "Alerts"
   },
   beneficiary_warning: {
     delete_title: "移除受惠者?",
