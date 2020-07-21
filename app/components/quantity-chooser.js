@@ -69,7 +69,6 @@ export default Ember.Component.extend(AsyncMixin, {
       this.resetValue();
       this.set("displayChooseQtyOverlay", false);
       this.sendAction("toggleShowExtendedFooterMenu");
-
     }
   }
 });

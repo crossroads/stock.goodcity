@@ -1,5 +1,5 @@
 import Ember from "ember";
-import config from "../../config/environment";
+import config from "stock/config/environment";
 import detail from "./detail";
 
 export default detail.extend({
@@ -15,16 +15,26 @@ export default detail.extend({
   i18n: Ember.inject.service(),
   sortProperties: ["createdAt: asc"],
   model: null,
-  noMessage: Ember.computed.empty("model.messages"),
+  messages: [],
+  noMessage: Ember.computed.empty("messages"),
+  isMentionsActive: false,
 
-  displayChatNote: Ember.computed("noMessage", "disabled", function() {
-    return this.get("noMessage") && !this.get("disabled");
-  }),
+  displayChatNote: Ember.computed(
+    "noMessage",
+    "disabled",
+    "isMentionsActive",
+    function() {
+      return (
+        this.get("noMessage") &&
+        !this.get("isMentionsActive") &&
+        !this.get("disabled")
+      );
+    }
+  ),
 
-  sortedMessages: Ember.computed.sort("model.messages", "sortProperties"),
+  sortedMessages: Ember.computed.sort("messages", "sortProperties"),
 
-  groupedMessages: Ember.computed("sortedMessages", function() {
-    this.autoScroll();
+  groupedMessages: Ember.computed("sortedMessages", "messages.[]", function() {
     return this.groupBy(this.get("sortedMessages"), "createdDate");
   }),
 
@@ -38,11 +48,6 @@ export default detail.extend({
       this,
       this.markReadAndScroll
     );
-  },
-
-  autoScroll() {
-    // scroll the messages screen to bottom
-    window.scrollTo(0, document.body.scrollHeight);
   },
 
   groupBy: function(content, key) {
@@ -68,8 +73,10 @@ export default detail.extend({
     var message = this.store.createRecord("message", values);
     message
       .save()
-      .then(() => {
+      .then(data => {
         this.set("body", "");
+        this.get("messages").pushObject(data._internalModel);
+        this.set("displayText", "");
       })
       .catch(error => {
         this.store.unloadRecord(message);
@@ -87,6 +94,7 @@ export default detail.extend({
       return;
     }
 
+    this.get("messages").pushObject(message._internalModel);
     this.get("messagesUtil").markRead(message);
 
     if (!Ember.$(".message-textbar").length) {
@@ -105,10 +113,24 @@ export default detail.extend({
   },
 
   actions: {
+    setMessageContext: function(message) {
+      this.set("body", message.parsedText);
+      this.set("displayText", message.displayText);
+    },
+
+    setMentionsActive: function(val) {
+      this.set("isMentionsActive", val);
+    },
+
     sendMessage() {
       Ember.$("textarea").trigger("blur");
-      var values = this.getProperties("body");
-      values.body = values.body.trim();
+      const values = {};
+      values.body = this.get("body").trim();
+      values.body = Ember.Handlebars.Utils.escapeExpression(values.body || "");
+      values.body = values.body.replace(/(\r\n|\n|\r)/gm, "<br>");
+      if (!values.body) {
+        return;
+      }
       values.designation = this.get("model");
       values.createdAt = new Date();
       values.isPrivate = this.get("isPrivate");
@@ -116,11 +138,11 @@ export default detail.extend({
         "user",
         this.get("session.currentUser.id")
       );
+      values.messageableType = "Order";
+      values.messageableId = this.get("model.id");
       this.createMessage(values);
-
-      // Animate and scroll to bottom
-      this.autoScroll();
     },
+
     markRead() {
       this.get("sortedMessages")
         .filterBy("state", "unread")

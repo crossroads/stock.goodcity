@@ -1,0 +1,144 @@
+<nav class="tab-bar">
+  <section class="left-small">
+    {{#link-to "manage_users" class="user-back-link"}}
+      <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-left'}}</i>
+      <div>{{t "back"}}</div>
+    {{/link-to}}
+  </section>
+
+  <section class="middle tab-bar-section">
+
+    <h1 class="title">
+      {{model.fullName}}
+    </h1>
+  </section>
+</nav>
+
+<section class="order-booking-tab user-details-section">
+  <div class="data-section">
+
+    <div class="data-rows">
+      <div class="row">
+        <div class="columns small-4 text-prefix">
+          {{t 'users.first_name'}}:
+        </div>
+        <div class="columns small-8 text">
+          {{ model.firstName }}
+        </div>
+      </div>
+    </div>
+
+    <div class="data-rows">
+      <div class="row">
+        <div class="columns small-4 text-prefix">
+          {{t 'users.last_name'}}:
+        </div>
+        <div class="columns small-8 text">
+          {{ model.lastName }}
+        </div>
+      </div>
+    </div>
+
+    <div class="data-rows">
+      <div class="row">
+        <div class="columns small-4 text-prefix">
+          {{t 'users.image'}}:
+        </div>
+        <div class="columns small-8 text">
+          <div class="content user-img">
+            {{#if model.image}}
+              <div class="image-zoom-container" id='image-1'>
+                {{image-zoom item=model}}
+              </div>
+            {{else}}
+              {{#link-to 'items.detail' model.id}}
+                <img src={{blankImage}} />
+              {{/link-to}}
+            {{/if}}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="data-rows">
+      <div class="row">
+        <div class="columns small-4 text-prefix">
+          {{t 'users.mobile'}}:
+        </div>
+        <div class="columns small-8 text">
+          {{ model.mobile }}
+
+          {{#if model.isMobileVerified}}
+            <i>{{fa-icon 'check-circle'}}</i>
+          {{/if}}
+        </div>
+      </div>
+    </div>
+
+    <div class="data-rows">
+      <div class="row">
+        <div class="columns small-4 text-prefix">
+          {{t 'users.email'}}:
+        </div>
+        <div class="columns small-8 text">
+          {{ model.email }}
+
+          {{#if model.isEmailVerified}}
+            <i>{{fa-icon 'check-circle'}}</i>
+          {{/if}}
+        </div>
+      </div>
+    </div>
+
+    <div class="data-rows">
+      <div class="row">
+        <div class="columns small-4 text-prefix">
+          {{t 'users.roles'}}:
+        </div>
+        <div class="columns small-8 text">
+          {{#each model.roles as |role|}}
+            {{role.name}},
+          {{/each}}
+        </div>
+      </div>
+    </div>
+
+    <div class="data-rows">
+      <div class="row">
+        <div class="columns small-4 text-prefix">
+          {{t 'users.registered_on'}}:
+        </div>
+        <div class="columns small-8 text">
+          {{time-ago timeValue=model.createdAt smallPrefix=false}}
+        </div>
+      </div>
+    </div>
+
+    <div class="data-rows">
+      <div class="row">
+        <div class="columns small-4 text-prefix">
+          {{t 'users.last_connected_on'}}:
+        </div>
+        <div class="columns small-8 text">
+          {{time-ago timeValue=model.lastDisconnected smallPrefix=false}}
+        </div>
+      </div>
+    </div>
+
+    <div class="data-rows">
+      <div class="row">
+        <div class="columns small-4 text-prefix">
+          {{t 'users.disabled'}}:
+        </div>
+        <div class="columns small-8 text">
+          {{#if model.disabled}}
+            {{t "yes"}}
+          {{else}}
+            {{t 'no'}}
+          {{/if}}
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>

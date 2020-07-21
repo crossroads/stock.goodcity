@@ -16,6 +16,11 @@
             <div class='input-error'>{{t "items.new.validation_errors.quantity"}}</div>
           {{/form-control}}
         </div>
+        {{#if successfullyDuplicated}}
+          <div class="fade-out">
+            {{t "items.new.duplicate_successful_message" inventoryNo=previousInventoryNumber }}
+          </div>
+        {{/if}}
       </div>
 
       <div class="row">
@@ -51,7 +56,9 @@
         {{t "items.new.type"}}
       </div>
       <div class="{{if isMobileApp 'small-7 large-8' 'small-9'}} columns left">
-        {{input value=code.name disabled=true}}
+        <div class="display-code">
+          {{display-package-code  item=code}}
+        </div>
       </div>
     </div>
 

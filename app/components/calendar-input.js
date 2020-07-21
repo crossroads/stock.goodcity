@@ -7,7 +7,7 @@ const MIN_DATE = moment()
 const DEFAULT_PICKADATE_CONFIG = {
   selectMonths: true,
   selectYears: true,
-  format: "ddd mmm d",
+  formatSubmit: "ddd mmm d",
   monthsFull: moment.months(),
   monthsShort: moment.monthsShort(),
   weekdaysShort: moment.weekdaysShort(),
@@ -47,6 +47,14 @@ export default Ember.TextField.extend({
     return selected.getTime() === date.getTime();
   },
 
+  _cb() {
+    const onSelect = this.get("onSelect");
+    if (onSelect) {
+      const date = this.get("selection");
+      onSelect(date);
+    }
+  },
+
   onClose(pickadate) {
     Ember.$(document.activeElement).blur();
     if (this.setting) {
@@ -58,7 +66,8 @@ export default Ember.TextField.extend({
       this.set("selection", date);
       this.setting = true;
       Ember.run.next(() => {
-        pickadate.set("select", new Date(date), { format: "ddd mmm d" });
+        this._cb();
+        pickadate.set("select", moment(date).toDate(), { format: "ddd mmm d" });
         this.setting = false;
       });
     }
@@ -67,7 +76,9 @@ export default Ember.TextField.extend({
   onStart(pickadate) {
     var date = this.get("selection");
     if (date) {
-      pickadate.set("select", new Date(date), { format: "ddd mmm d" });
+      pickadate.set("select", moment(new Date(date)).toDate(), {
+        format: "ddd mmm d"
+      });
     }
   },
 
@@ -95,6 +106,9 @@ export default Ember.TextField.extend({
           },
           onOpen: function() {
             component.onStart(this);
+          },
+          onStart: function() {
+            component.onStart(this);
           }
         })
       );
@@ -105,5 +119,9 @@ export default Ember.TextField.extend({
         Ember.$("[id$=selectedDate]").trigger("blur");
       });
     });
+  },
+
+  willDestroyElement() {
+    this.set("selection", null);
   }
 });

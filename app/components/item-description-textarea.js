@@ -23,16 +23,19 @@ export default AutoResizableTextarea.extend({
     var item = this.get("item");
     var url = `/packages/${item.get("id")}`;
     var key = this.get("name");
-    var value = this.attrs.value.value || "";
+    const value = this.get("value") ? this.get("value").trim() : "";
     var packageParams = {};
-    packageParams[key] = this.get("value").trim() || "";
+    packageParams[key] = value;
 
+    if (value === "" && this.get("required")) {
+      this.$().focus();
+      return false;
+    }
     if (
       packageParams[key].toString() !==
-        this.get("previousValue")
-          .toString()
-          .trim() &&
-      value !== ""
+      this.get("previousValue")
+        .toString()
+        .trim()
     ) {
       var loadingView = getOwner(this)
         .lookup("component:loading")
@@ -47,12 +50,7 @@ export default AutoResizableTextarea.extend({
           loadingView.destroy();
         });
     }
-    this.element.value = value.trim();
-    if (this.element.value === "") {
-      this.$().focus();
-      return false;
-    }
-    Ember.$(this.element).removeClass("item-description-textarea");
+    Ember.$(this.element).removeClass("item-description-textarea-withbg");
   },
 
   focusIn() {
@@ -60,9 +58,7 @@ export default AutoResizableTextarea.extend({
   },
 
   addCssStyle() {
-    if (!this.get("noCss")) {
-      Ember.$(this.element).addClass("item-description-textarea");
-    }
+    Ember.$(this.element).addClass("item-description-textarea-withbg");
     this.set("previousValue", this.get("value") || "");
   },
 

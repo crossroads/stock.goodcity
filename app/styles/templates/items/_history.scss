@@ -39,5 +39,55 @@
       width: 90%;
       background-color: #001C42;
     }
+
+    .action-block-parent {
+      margin-right: 13%;
+      width: 96%;
+      margin-top: 5%;
+      margin-left: 2%;
+
+      .block-header {
+        padding-right: 3%;
+        background: #334F75;
+        padding-top: 1%;
+        padding-bottom: 1%;
+
+        .action-icon {
+          margin-left: 1%;
+          margin-top: 1%;
+          font-size: 120%;
+          color: #CBD3DC;
+        }
+
+        .action {
+          font-size: 120%;
+          margin-top: 1%;
+          color: #A8B4C4;
+        }
+
+        .user-name {
+          text-align: center;
+          margin-top: 1%;
+        }
+
+        .display-day {
+          margin-top: 1%;
+          padding-left: 3%;
+          text-align: center;
+        }
+      }
+      .actions-list {
+        padding-top: 2%;
+        padding-bottom: 1%;
+
+        .description {
+          margin-top: 2%;
+        }
+
+        .previous-value {
+          text-decoration: line-through;
+        }
+      }
+    }
   }
 }

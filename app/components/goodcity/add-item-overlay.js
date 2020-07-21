@@ -10,11 +10,6 @@ export default Ember.Component.extend({
 
   pkgLocations: Ember.computed.alias("pkg.packagesLocations"),
 
-  pkgLocationName: Ember.computed("pkg.packagesLocations", function() {
-    let pkgLocations = this.get("pkgLocations");
-    return pkgLocations && pkgLocations.get("firstObject.location.name");
-  }),
-
   calculateSumFor(attribute) {
     let quantities = [];
     if (this.get("pkg.packagesLocations")) {

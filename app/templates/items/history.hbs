@@ -13,83 +13,19 @@
       {{t "items.history"}}
     </div>
   </div>
-  <hr/>
   <div class="history-block">
-  {{#if model.isPartOfSet}}
-    {{#if model.packageSet.hasActiveOrders}}
-      <div class="row history-header">
-        <div class="columns small-4 medium-4 large-4">
-          {{t "items.order_code"}}
-        </div>
-        <div class="columns small-4 medium-4 large-4 qty">
-          {{t "items.quantity"}}
-        </div>
-        <div class="columns small-4 medium-4 large-4 inventory-number">
-          {{t "items.number"}}
-        </div>
-      </div>
-      {{#each model.packageSet.designatedAndDispatchedOrdersPackages as |ordersPackage|}}
-        <div class="row {{ordersPackage.state}}">
-          {{#link-to 'orders.active_items' ordersPackage.designation.id href=false}}
-            <div class="columns small-4 medium-4 large-4">
-              {{#if (is-equal ordersPackage.state "designated")}}
-                <i>{{fa-icon 'shopping-basket'}}</i>
-              {{else if (is-equal ordersPackage.state "dispatched")}}
-                <i>{{fa-icon 'ship'}}</i>
-              {{/if}}
-              {{ordersPackage.designation.code}}
-            </div>
-            <div class="columns small-4 medium-4 large-4 qty">
-              {{ordersPackage.quantity}}
-            </div>
-            <div class="columns small-4 medium-4 large-4 inventory-number">
-              <i>{{fa-icon 'tags'}}</i>{{ordersPackage.item.inventoryNumber}}
-            </div>
-          {{/link-to}}
-        </div>
-      {{/each}}
-    {{else}}
-      <div class="row history-unavailable">
-        {{t "items.no_history"}}
-      </div>
-    {{/if}}
-  {{else if model.desinatedAndDisaptchedItemPackages}}
-    <div class="row history-header">
-      <div class="columns small-4 medium-4 large-4">
-        {{t "items.order_code"}}
-      </div>
-      <div class="columns small-4 medium-4 large-4 qty">
-        {{t "items.quantity"}}
-      </div>
-      <div class="columns small-4 medium-4 large-4 inventory-number">
-        {{t "items.number"}}
-      </div>
-    </div>
-    {{#each model.ordersPackagesWithStateDesignatedAndDispatched as |ordersPackage|}}
-      <div class="row {{ordersPackage.state}}">
-        {{#link-to 'orders.active_items' ordersPackage.designation.id href=false}}
-          <div class="columns small-4 medium-4 large-4">
-            {{#if (is-equal ordersPackage.state "designated")}}
-              <i>{{fa-icon 'shopping-basket'}}</i>
-            {{else if (is-equal ordersPackage.state "dispatched")}}
-              <i>{{fa-icon 'ship'}}</i>
-            {{/if}}
-            {{ordersPackage.designation.code}}
-          </div>
-          <div class="columns small-4 medium-4 large-4 qty">
-            {{ordersPackage.quantity}}
-          </div>
-          <div class="columns small-4 medium-4 large-4 inventory-number">
-            <i>{{fa-icon 'tag'}}</i>{{model.inventoryNumber}}
-          </div>
-        {{/link-to}}
+    {{#each groupedActionsAndVersions as |group|}}
+      <div class="action-block-parent">
+        {{partial "items/action_version_header"}}
+        {{#each group.actions as |action|}}
+          {{#if action.objectChanges}}
+            {{partial "items/edit_item_block"}}
+          {{else}}
+            {{partial "items/item_action_block"}}
+          {{/if}}
+        {{/each}}
       </div>
     {{/each}}
-  {{else}}
-    <div class="row history-unavailable">
-      {{t "items.no_history"}}
-    </div>
-  {{/if}}
   </div>
   {{partial "items/sticky_footer"}}
 </div>

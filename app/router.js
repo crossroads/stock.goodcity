@@ -17,6 +17,15 @@ Router.map(function() {
   this.route("item_filters");
   this.route("my_notifications");
 
+  // Users
+  this.route("manage_users");
+  this.route("add_user", {
+    path: "/users/new"
+  });
+  this.route("user_details", {
+    path: "/users/:user_id"
+  });
+
   this.route("items", function() {
     this.route("new");
 
@@ -43,6 +52,9 @@ Router.map(function() {
     this.route("active_items", { path: "/:order_id/active_items" });
     this.route("requested_items", { path: "/:order_id/requested_items" });
     this.route("conversation", { path: "/:order_id/conversation" });
+    this.route("staff_conversation", {
+      path: "/:order_id/staff_conversation"
+    });
     this.route("order_types", { path: "/:order_id/order_types" });
     this.route("items", { path: "/:order_id/items" });
     this.route("contact", { path: "/:order_id/contact" });

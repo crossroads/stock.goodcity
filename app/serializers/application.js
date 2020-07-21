@@ -8,10 +8,26 @@ const ALIASES = {
 };
 
 function normalize(payload) {
+  if (!payload) return;
   _.each(ALIASES, (alias, original) => {
     if (_.has(payload, original)) {
       payload[alias] = payload[original];
       delete payload[original];
+    }
+  });
+
+  const messages = _.flatten([payload.messages, payload.message]).filter(
+    _.identity
+  );
+
+  _.each(messages, m => {
+    if (m.messageable_type == "Order") {
+      m.designation_id = m.messageable_id;
+    }
+
+    // This is done to handle inconsistent mapping of jsonb datatype
+    if (typeof m.lookup === "object") {
+      m.lookup = JSON.stringify(m.lookup);
     }
   });
 }

@@ -18,6 +18,45 @@ export default DS.Model.extend({
   }),
   designationId: attr(),
   designation: belongsTo("designation", { async: false }),
+  lookup: attr("string"),
+  messageableType: attr("string"),
+  messageableId: attr("string"),
+
+  parsedBody: Ember.computed("body", function() {
+    let body = this.get("body");
+    let lookup = this.get("lookup");
+    if (!lookup) {
+      return body;
+    } else {
+      lookup = JSON.parse(lookup);
+      Object.keys(lookup).forEach(key => {
+        body = body.replace(
+          new RegExp(`\\[:${key}\\]`, "g"),
+          `<span class='mentioned-message-display'>@${
+            lookup[key].display_name
+          }</span>`
+        );
+      });
+      return body;
+    }
+  }),
+
+  plainBody: Ember.computed("body", function() {
+    let body = this.get("body");
+    let lookup = this.get("lookup");
+    lookup = JSON.parse(lookup);
+    if (!lookup) {
+      return body;
+    } else {
+      Object.keys(lookup).forEach(key => {
+        body = body.replace(
+          new RegExp(`\\[:${key}\\]`, "g"),
+          lookup[key].display_name
+        );
+      });
+    }
+    return body;
+  }),
 
   myMessage: Ember.computed("sender", function() {
     return this.get("sender.id") === this.get("session.currentUser.id");

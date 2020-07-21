@@ -12,8 +12,8 @@
     <div class="row req-second-row">
       <div class="columns small-4 request-type">Type </div>
       <div class="columns small-8 request-value">
-        <div class="columns small-8 request-value" {{action 'assingPackageType' request.id}}>
-          {{input value=request.code.name class="item-type" disabled=true}}
+        <div {{action 'assingPackageType' request.id}}>
+          {{display-package-code  item=request.code}}
         </div>
       </div>
     </div>

@@ -18,6 +18,7 @@
 @import "client_information";
 @import "goods_details";
 @import "appointment_details";
+@import "mentions";
 
 @import "node_modules/ember-searchable-select/app/styles/ember-searchable-select/style";
 @import "templates/index";
@@ -53,4 +54,5 @@
 @import "templates/users/new";
 @import "templates/notifications";
 @import "templates/appointments";
+@import "templates/user_details";
 @import "templates/components/package_summary_block"

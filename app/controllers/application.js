@@ -10,6 +10,7 @@ export default Ember.Controller.extend({
   packageService: Ember.inject.service(),
   packageTypeService: Ember.inject.service(),
   offerService: Ember.inject.service(),
+  messagesUtil: Ember.inject.service("messages"),
   app_id: config.APP.ANDROID_APP_ID,
   ios_app_id: config.APP.APPLE_APP_ID,
   appTitle: config.APP.TITLE,
@@ -40,6 +41,7 @@ export default Ember.Controller.extend({
       this.get("subscription").unwire();
       this.get("notifications").send("unloadNotifications");
       this.get("session").unloadSessionData();
+      this.session.clearCache();
       this.transitionToRoute("login");
     }
   }
