@@ -11,10 +11,7 @@ export default ApiBaseService.extend({
     const pagination = _.pick(opts, ["page", "per_page"]);
     const id = toID(order);
 
-    const data = await this.GET(
-      `/gc_organisations/${id}/organisation_orders`,
-      pagination
-    );
+    const data = await this.GET(`/gc_organisations/${id}/orders`, pagination);
     store.pushPayload(data);
     return store.peekRecord("gc_organisation", id).get("designations");
   }

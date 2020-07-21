@@ -37,6 +37,16 @@ export default ApiBaseService.extend(NavigationAwareness, {
     );
   },
 
+  async getPackageVersions(pkg) {
+    const store = this.get("store");
+    const id = toID(pkg);
+    const data = await this.GET(`/packages/${id}/versions`);
+    store.pushPayload(data);
+    return _.get(data, "versions", []).map(it =>
+      store.peekRecord("version", it.id)
+    );
+  },
+
   async updatePackage(pkg, pkgParams, opts = {}) {
     const { reloadDeps = false } = opts;
     const pkgId = toID(pkg);
