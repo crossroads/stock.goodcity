@@ -175,7 +175,7 @@ export default {
     orders: "Orders",
     items: "Items",
     goto: "Goto",
-    alerts: "alerts"
+    alerts: "Alerts"
   },
   my_notifications: {
     heading: "{{name}}'s Order",
