@@ -804,7 +804,12 @@ export default {
       loss: "Loss (decrease)",
       trash: "Trash",
       recycle: "Recycle",
-      gain: "Gain (increase)"
+      gain: "Gain (increase)",
+      dispatch: "Dispatch",
+      undispatch: "Undispatch",
+      move: "Move",
+      edited: "Edit",
+      inventory: "Inventory"
     }
   },
   modify_designation: {
