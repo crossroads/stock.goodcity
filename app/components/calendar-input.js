@@ -86,8 +86,7 @@ export default Ember.TextField.extend({
     }
   },
 
-  didReceiveAttrs() {
-    this._super(...arguments);
+  initializeConfig() {
     this.set("datePickerConfig", DEFAULT_PICKADATE_CONFIG);
     const enablePastDate = this.get("enablePastDate");
     if (enablePastDate) {
@@ -100,6 +99,7 @@ export default Ember.TextField.extend({
 
   didInsertElement() {
     const component = this;
+    this.initializeConfig();
 
     Ember.run.scheduleOnce("afterRender", this, function() {
       Ember.$(".pickadate").pickadate(
