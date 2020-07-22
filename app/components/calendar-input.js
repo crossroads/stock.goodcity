@@ -20,7 +20,6 @@ const DEFAULT_PICKADATE_CONFIG = {
 export default Ember.TextField.extend({
   tagName: "input",
   classNames: "pickadate",
-  formatted: "false",
   attributeBindings: [
     "name",
     "type",
@@ -79,7 +78,6 @@ export default Ember.TextField.extend({
   onStart(pickadate) {
     var date = this.get("selection");
     if (date) {
-      this.set("formatted", true);
       pickadate.set("select", moment(new Date(date)).toDate(), {
         format: this.get("datePickerConfig.formatSubmit")
       });
@@ -113,11 +111,6 @@ export default Ember.TextField.extend({
           },
           onStart: function() {
             component.onStart(this);
-          },
-          onRender: function() {
-            if (!component.get("formatted")) {
-              component.onStart(this);
-            }
           }
         })
       );
