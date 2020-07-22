@@ -669,6 +669,17 @@ export default GoodcityController.extend(
         this.runTask(this.get("item").save());
       },
 
+      clearExpiryDate() {
+        // Need to refer pickadate since this action is out of the
+        // calendar-input component
+        const picker = Ember.$(".pickadate")
+          .pickadate()
+          .pickadate("picker");
+        picker.clear();
+        this.set("item.expiryDate", null);
+        this.runTask(this.get("item").save());
+      },
+
       /**
        *
        * @param {Object} item - Model to persist
