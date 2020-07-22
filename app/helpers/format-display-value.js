@@ -18,7 +18,7 @@ export default Ember.Helper.extend({
   getSaleable(value) {
     const saleable = _.find(SALEABLE_OPTIONS, [
       "value",
-      value ? value.toString() : value
+      _.isNull(value) ? value : value.toString()
     ]);
     return this.get("i18n").t(saleable.translation_key).string;
   },
