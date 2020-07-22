@@ -70,6 +70,21 @@ export default Addressable.extend({
     );
   }),
 
+  canManageStocktakes: Ember.computed("roles", function() {
+    const roles = this.get("roles");
+    return roles.find(
+      r => r.get("permissionNames").indexOf("can_manage_stocktakes") >= 0
+    );
+  }),
+
+  canManageStocktakeRevisions: Ember.computed("roles", function() {
+    const roles = this.get("roles");
+    return roles.find(
+      r =>
+        r.get("permissionNames").indexOf("can_manage_stocktake_revisions") >= 0
+    );
+  }),
+
   canDisableUsers: Ember.computed("roles", function() {
     const roles = this.get("roles");
     return roles.find(

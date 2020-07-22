@@ -16,6 +16,7 @@ export default {
   label: "Label",
   location: "Location",
   in_stock: "In Stock",
+  confirm: "Confirm",
   QuotaExceededError:
     "Site may not work in Safari's <b>private mode.</b> Please try</br><ul><li><a href='https://itunes.apple.com/in/app/goodcitystock.hk/id1144806764?mt=8' style='color: black!important; background-color: #dee4eb !important;'>Downloading the iOS App</a></li><li>Using regular (not private) mode in Safari</li><li>Using Chrome's private browsing mode</li></ul>",
   search_min: "Search (min 3 characters)",
@@ -56,7 +57,55 @@ export default {
   unavailable_order: "Sorry! This order is not available.",
   yes: "Yes",
   no: "No",
-
+  stocktakes: {
+    title: "Stocktakes",
+    create_new: "Create New Stocktake",
+    confirm_create: "Create Stocktake",
+    select_location: "Select a location to stocktake",
+    name: "Name",
+    location: "Location",
+    comment: "Comment",
+    saving: "Saving changes...",
+    save_error: "An error occured. Some changes were not applied",
+    try_again: "Try again",
+    expected_qty: "Expected Qty",
+    requires_recount: "Requires (re)count.",
+    confirm_count: "Confirm count is {{count}}",
+    over: "Over",
+    under: "Under",
+    add_item: "Add Item",
+    scanner_mode: "Scanner Mode",
+    commit_stocktake: "Commit Stocktake",
+    cancel_stocktake: "Cancel Stocktake",
+    only_show_variances: "Only show variances",
+    only_show_warnings: "Only show warnings",
+    confirm_cancel: "This stocktake will be cancelled. Are you sure ?",
+    tips: {
+      start_counting: "Items you count will appear here",
+      review_tab:
+        "Head over to the 'Review' tab to see the full list of expected items"
+    },
+    errors: {
+      name_exists: "Another stocktake with the same name already exists",
+      stocktake_exists_for_location:
+        "Warning: A stocktake already exists for this location"
+    },
+    states: {
+      open: "Open",
+      closed: "Closed",
+      cancelled: "Cancelled"
+    },
+    detail_tabs: {
+      count: "Count",
+      review: "Review"
+    },
+    counts: {
+      counted: "Counted",
+      gains: "Gains",
+      losses: "Losses",
+      warnings: "Warnings"
+    }
+  },
   box_pallet: {
     indicate_amount:
       "Indicate how many are you taking from each of the locations below.",

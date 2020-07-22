@@ -22,12 +22,17 @@ export default Ember.Helper.helper(function([self, propName, min, max]) {
       num = Number(input);
     }
 
+    if (isNaN(num)) {
+      num = 0;
+    }
+
     if (num < min) {
       num = min;
     }
     if (num > max) {
       num = max;
     }
+
     Ember.set(self, propName, num);
   };
 });
