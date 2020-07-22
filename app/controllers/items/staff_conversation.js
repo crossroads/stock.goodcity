@@ -10,6 +10,7 @@ export default Ember.Controller.extend(MessageBase, {
 
   actions: {
     sendMessage() {
+      Ember.$("textarea").trigger("blur");
       let values = this.prepareMessageObject("Package");
       this.createMessage(values);
     }

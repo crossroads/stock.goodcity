@@ -22,9 +22,17 @@ export default Ember.Controller.extend({
   showUnread: true,
   notifications: [],
 
-  init() {
+  on() {
     // When a new message arrives, we move it to the top
     this.get("subscription").on("change:message", this, this.onNewNotification);
+  },
+
+  off() {
+    this.get("subscription").off(
+      "change:message",
+      this,
+      this.onNewNotification
+    );
   },
 
   onNewNotification(notification) {
@@ -109,7 +117,7 @@ export default Ember.Controller.extend({
   /**
    * Transform messages into "notifications" object with more UI-friendly properties
    *
-   * @param {Meesage} messages
+   * @param {Message} messages
    * @returns {Object}
    */
   buildNotifications(messages) {
@@ -145,7 +153,7 @@ export default Ember.Controller.extend({
      * @returns
      */
     loadMoreMessages(pageNo) {
-      const state = this.get("showUnread") ? "unread" : "all";
+      const state = this.get("showUnread") ? "unread" : "";
 
       const params = {
         page: pageNo,

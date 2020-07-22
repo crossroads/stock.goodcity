@@ -62,7 +62,6 @@ export default Ember.Mixin.create({
   },
 
   prepareMessageObject: function(messageableType) {
-    Ember.$("textarea").trigger("blur");
     const values = {};
     values.body = this.get("body").trim();
     values.body = Ember.Handlebars.Utils.escapeExpression(values.body || "");
@@ -83,35 +82,39 @@ export default Ember.Mixin.create({
     return values;
   },
 
+  markReadAndScroll: function({ record }) {
+    let message = this.store.peekRecord("message", record.id);
+    if (
+      !message ||
+      message.get("isRead") ||
+      !(
+        message.get("messageableId") == this.get("model.id") &&
+        message.get("messageableType") == this.get("model.messageableName") &&
+        message.get("isPrivate") == this.get("isPrivate")
+      )
+    ) {
+      return;
+    }
+
+    this.get("messages").pushObject(message._internalModel);
+    this.get("messagesUtil").markRead(message);
+
+    if (!Ember.$(".message-textbar").length) {
+      return;
+    }
+
+    let scrollOffset = Ember.$(document).height();
+    let screenHeight = document.documentElement.clientHeight;
+    let pageHeight = document.documentElement.scrollHeight;
+
+    if (pageHeight > screenHeight) {
+      Ember.run.later(this, function() {
+        window.scrollTo(0, scrollOffset);
+      });
+    }
+  },
+
   actions: {
-    markReadAndScroll: function({ record }) {
-      let message = this.store.peekRecord("message", record.id);
-      if (
-        !message ||
-        message.get("isRead") ||
-        message.get("itemId") != this.get("model.id")
-      ) {
-        return;
-      }
-
-      this.get("messages").pushObject(message._internalModel);
-      this.get("messagesUtil").markRead(message);
-
-      if (!Ember.$(".message-textbar").length) {
-        return;
-      }
-
-      let scrollOffset = Ember.$(document).height();
-      let screenHeight = document.documentElement.clientHeight;
-      let pageHeight = document.documentElement.scrollHeight;
-
-      if (pageHeight > screenHeight) {
-        Ember.run.later(this, function() {
-          window.scrollTo(0, scrollOffset);
-        });
-      }
-    },
-
     markRead() {
       this.get("sortedMessages")
         .filterBy("state", "unread")

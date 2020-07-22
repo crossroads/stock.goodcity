@@ -16,6 +16,7 @@ function SUM(ordersPkgs) {
  *
  */
 export default cloudinaryUrl.extend(GradeMixin, {
+  messageableName: "Package",
   notes: attr("string"),
   grade: attr("string"),
   inventoryNumber: attr("string"),

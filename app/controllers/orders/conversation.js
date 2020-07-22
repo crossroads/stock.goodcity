@@ -29,6 +29,7 @@ export default detail.extend(MessageBase, {
 
   actions: {
     sendMessage() {
+      Ember.$("textarea").trigger("blur");
       let values = this.prepareMessageObject("Order");
       this.createMessage(values);
     }
