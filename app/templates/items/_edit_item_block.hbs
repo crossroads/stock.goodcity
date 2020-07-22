@@ -5,19 +5,11 @@
         {{startcase-string key}}
       </div>
       <div class="columns small-7">
-        <div>
-          {{#if value.firstObject}}
-            <div class="previous-value">{{format-display-value key value.firstObject }}</div>
-          {{else}}
-            -
-          {{/if}}
+        <div id="previous-value">
+          <div class="previous-value">{{format-display-value key value.firstObject }}</div>
         </div>
-        <div>
-          {{#if value.lastObject}}
-            {{format-display-value key value.lastObject }}
-          {{else}}
-            -
-          {{/if}}
+        <div id="current-value">
+          {{format-display-value key value.lastObject }}
         </div>
       </div>
       <div class="columns small-2">
