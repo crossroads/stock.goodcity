@@ -63,8 +63,12 @@
   .options_menu_list {
     margin-top: 3rem;
     background: black;
+    z-index: 1000;
+    max-height: 15rem;
+    overflow-y: scroll;
 
     @media #{$small-only} {
+      margin-top: -1.5em;
       margin-right: 10%;
     }
 
