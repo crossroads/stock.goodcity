@@ -149,14 +149,13 @@
           {{calendar-input
             name='expiry_date'
             id='expiry_date'
-            value=item.expiryDate
             enablePastDate=true
             selection=item.expiryDate
             onSelect=(action 'setExpiryDate')
             placeholder='Select Expiry'
           }}
         </div>
-        <i {{action 'setExpiryDate' ''}} class="expiry_date_cancel">{{fa-icon 'times-circle' size="1x"}}</i>
+        <i {{action 'clearExpiryDate'}} class="expiry_date_cancel">{{fa-icon 'times-circle' size="1x"}}</i>
       </div>
     {{/if}}
 

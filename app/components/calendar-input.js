@@ -67,7 +67,9 @@ export default Ember.TextField.extend({
       this.setting = true;
       Ember.run.next(() => {
         this._cb();
-        pickadate.set("select", moment(date).toDate(), { format: "ddd mmm d" });
+        pickadate.set("select", moment(date).toDate(), {
+          format: this.get("datePickerConfig.formatSubmit")
+        });
         this.setting = false;
       });
     }
@@ -77,13 +79,12 @@ export default Ember.TextField.extend({
     var date = this.get("selection");
     if (date) {
       pickadate.set("select", moment(new Date(date)).toDate(), {
-        format: "ddd mmm d"
+        format: this.get("datePickerConfig.formatSubmit")
       });
     }
   },
 
-  didReceiveAttrs() {
-    this._super(...arguments);
+  initializeConfig() {
     this.set("datePickerConfig", DEFAULT_PICKADATE_CONFIG);
     const enablePastDate = this.get("enablePastDate");
     if (enablePastDate) {
@@ -96,6 +97,7 @@ export default Ember.TextField.extend({
 
   didInsertElement() {
     const component = this;
+    this.initializeConfig();
 
     Ember.run.scheduleOnce("afterRender", this, function() {
       Ember.$(".pickadate").pickadate(
@@ -119,9 +121,5 @@ export default Ember.TextField.extend({
         Ember.$("[id$=selectedDate]").trigger("blur");
       });
     });
-  },
-
-  willDestroyElement() {
-    this.set("selection", null);
   }
 });
