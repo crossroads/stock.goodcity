@@ -32,7 +32,7 @@
       {{goodcity/orders-package-block orderPkg=otherDesignations.firstObject small=true actionsFilter=(arr 'cancel')}}
     {{/if}}
 
-    <div>
+    <div class='designate-quantity'>
       <p>
         {{t 'designate_form.quantity_input'}}
         {{input type="number" min="1" max="{{maxQuantity}}" value=quantity disabled=(unless editableQty true false) class="qty-input"}}

@@ -63,20 +63,4 @@
       {{/each}}
     </div>
   {{/if}}
-
-  {{#if allowItemActions}}
-    {{#if sortedItemActions}}
-      <div class="row">
-        <div class="tab-title">
-          {{fa-icon 'random'}}
-          Actions History
-        </div>
-
-        {{#each sortedItemActions as |itemAction|}}
-        {{goodcity/item-action-block action=itemAction }}
-        {{/each}}
-      </div>
-    {{/if}}
-  {{/if}}
-
 </div>

@@ -35,6 +35,13 @@ $header-height: 3em;
           margin-right: 0.5em;
           margin-left: 0.5em;
         }
+
+        @media #{$small-only} {
+          font-size: 12px;
+          svg{
+            display: none;
+          }
+        }
       }
 
       .order_state {
@@ -46,6 +53,9 @@ $header-height: 3em;
 
         .order_state_text {
           padding-right: 1em;
+          @media screen {
+            font-size: 14px;
+          }
         }
 
         .order_state_icon {
@@ -94,6 +104,10 @@ $header-height: 3em;
         color: white;
         padding-left: 0.5em;
         padding-right: 1rem;
+      }
+
+      @media #{$small-only} {
+        font-size: 12px;
       }
     }
     .order_message_bubble {
