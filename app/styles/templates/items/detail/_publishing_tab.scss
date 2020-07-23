@@ -68,6 +68,7 @@
     overflow-y: scroll;
 
     @media #{$small-only} {
+      margin-top: -1.5em;
       margin-right: 10%;
     }
 
