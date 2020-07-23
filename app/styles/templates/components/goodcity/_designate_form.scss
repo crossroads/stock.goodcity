@@ -7,6 +7,10 @@
     border-color: grey;
   }
 
+  @media #{$small-only} {
+   width: 4.5rem;
+  }
+
   .modal-overlay.operation-confirmation {
     text-align: left;
 
@@ -96,7 +100,7 @@
           color: $coral-red;
         }
       }
-    
+
       .red-warning {
         color: $coral-red !important;
       }

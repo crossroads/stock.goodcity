@@ -24,6 +24,14 @@
     color: white;
   }
 
+  .switch-label {
+    @media #{$small-only} {
+      svg {
+        display: none;
+      }
+    }
+  }
+
   .toggle-switch {
     @include spaced-out(1);
   }
@@ -44,11 +52,24 @@
   .designate-options {
     > div {
       display: inline-block;
+      top: 2px;
     }
 
     button {
       margin-left: 0 !important;
       margin-right: 0 !important;
+      @media #{$small-only} {
+        font-size: 12px !important;
+        svg {
+          display: none;
+        }
+      }
+    }
+
+    @media #{$small-only} {
+      .options-arrow {
+        left: 10px;
+      }
     }
 
     .options-arrow:focus {
@@ -68,7 +89,6 @@
     overflow-y: scroll;
 
     @media #{$small-only} {
-      margin-top: -1.5em;
       margin-right: 10%;
     }
 
