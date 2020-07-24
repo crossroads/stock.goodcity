@@ -99,6 +99,10 @@ export default Ember.Mixin.create({
     this.get("messages").pushObject(message._internalModel);
     this.get("messagesUtil").markRead(message);
 
+    this.scrollToBottom();
+  },
+
+  scrollToBottom() {
     if (!Ember.$(".message-textbar").length) {
       return;
     }

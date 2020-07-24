@@ -41,6 +41,21 @@ export default Ember.Service.extend({
     });
   },
 
+  queryNotifications(page, state) {
+    const params = {
+      page: page,
+      state: state,
+      messageable_type: ["order", "package"]
+    };
+
+    return new AjaxPromise(
+      "/messages/notifications",
+      "GET",
+      this.get("session.authToken"),
+      params
+    );
+  },
+
   markRead: function(message) {
     if (message.get("isUnread")) {
       var adapter = getOwner(this).lookup("adapter:application");

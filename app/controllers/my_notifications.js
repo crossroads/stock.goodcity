@@ -155,18 +155,8 @@ export default Ember.Controller.extend({
     loadMoreMessages(pageNo) {
       const state = this.get("showUnread") ? "unread" : "";
 
-      const params = {
-        page: pageNo,
-        state: state,
-        messageable_type: ["order", "package"]
-      };
-
-      return new AjaxPromise(
-        "/messages/notifications",
-        "GET",
-        this.get("session.authToken"),
-        params
-      )
+      this.get("messagesUtil")
+        .queryNotifications(pageNo, state)
         .then(data => this.toMessageModels(data))
         .then(messages => {
           const notifications = _.chain(messages)
