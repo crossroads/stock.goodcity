@@ -28,7 +28,7 @@ export default detail.extend({
   },
 
   getGroupKey(isAction, action) {
-    const createdAt = moment(action.get("createdAt")).format("LL");
+    const createdAt = moment(action.get("createdAt")).format("LLL");
     if (isAction) {
       return `${action.get("user.fullName")}/${action.get(
         "action"
@@ -66,7 +66,7 @@ export default detail.extend({
   },
 
   groupedActionsAndVersions: Ember.computed(
-    "model",
+    "model.detail",
     "versions",
     "itemActions",
     function() {
