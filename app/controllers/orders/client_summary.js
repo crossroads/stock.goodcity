@@ -26,11 +26,11 @@ export default detail.extend(AsyncMixin, {
 
     updateMobileNumber(field, value) {
       const beneficiary = this.get("model.beneficiary");
-      const phoenNumber = field === "phone_number" ? "+852" + value : value;
+      const phoneNumber = field === "phone_number" ? "+852" + value : value;
       this.runTask(
         this.get("designationService").updateBeneficiary(beneficiary.id, {
           beneficiary: {
-            [field]: phoenNumber
+            [field]: phoneNumber
           }
         })
       );
