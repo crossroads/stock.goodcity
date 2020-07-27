@@ -26,6 +26,10 @@ Router.map(function() {
     path: "/users/:user_id"
   });
 
+  this.route("stocktakes", function() {
+    this.route("detail", { path: "/:stocktake_id" });
+  });
+
   this.route("items", function() {
     this.route("new");
 

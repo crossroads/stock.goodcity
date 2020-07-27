@@ -1,0 +1,108 @@
+@import "./detail";
+
+.stocktake-page {
+
+  .tab-bar {
+    margin-bottom: 0;
+  }
+
+  .button {
+    &.light {
+      border: 1px solid white;
+      background-color: transparent;
+    }
+  }
+
+  .flex {
+    display: flex;
+    &.space-around {
+      justify-content: space-around;
+    }
+    &.space-between {
+      justify-content: space-between;
+    }
+    &.center {
+      justify-content: center;
+    }
+  }
+
+  .tabs-container {
+    border-bottom: 1px solid;
+    margin-bottom: 2rem;
+    text-align: center;
+
+    .tab {
+      @include ellipsis();
+      padding: 0.7rem;
+      font-size: 1rem;
+      min-height: 3rem;
+
+      &.selected {
+        border-bottom: 2px solid;
+      }
+
+      &.dimmed {
+        opacity: 0.6;
+      }
+    }
+  }
+
+  &.selection {
+    .stocktake-list {
+      overflow-y: auto;
+
+      .stocktake {
+        width: 100%;
+        height: 6rem;
+        padding: 1.5rem;
+        border-bottom: 1px solid white;
+
+        .stocktake-header {
+          font-family: $header-font-family;
+          line-height: 1.2em;
+          font-size: 1.2em;
+          .state {
+            text-transform: capitalize;
+          }
+        }
+
+        .stocktake-details {
+          margin-top: 1rem;
+        }
+      }
+    }
+
+    .create-form {
+      .row {
+        $row-height: 2.5rem;
+
+        margin-bottom: 1.5rem;
+
+        .error {
+          color: #f46769;
+          position: absolute;
+        }
+
+        .warning {
+          text-align: center;
+          color: yellow;
+        }
+
+        .input-label {
+          color: white;
+          line-height: $row-height;
+          padding-left: 1rem;
+        }
+
+        input {
+          background: transparent;
+          color: white;
+          border-color: gray;
+          border-width: 1px;
+          height: $row-height;
+          margin-bottom: 0;
+        }
+      }
+    }
+  }
+}

@@ -7,6 +7,16 @@
     border-color: grey;
   }
 
+  @media #{$small-only} {
+   width: 4.5rem;
+  }
+  .designate-quantity {
+    @media #{$small-only} {
+      p {
+        font-size: 16px;
+      }
+    }
+  }
   .modal-overlay.operation-confirmation {
     text-align: left;
 
@@ -96,7 +106,7 @@
           color: $coral-red;
         }
       }
-    
+
       .red-warning {
         color: $coral-red !important;
       }

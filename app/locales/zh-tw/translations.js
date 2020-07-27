@@ -55,7 +55,55 @@ export default {
   unavailable_order: "Sorry! This order is not available.",
   yes: "Yes",
   no: "No",
-
+  stockakes: {
+    title: "Stocktakes",
+    create_new: "Create New Stocktake",
+    confirm_create: "Create Stocktake",
+    select_location: "Select a location to stocktake",
+    name: "Name",
+    location: "Location",
+    comment: "Comment",
+    saving: "Saving changes...",
+    save_error: "An error occured. Some changes were not applied",
+    try_again: "Try again",
+    expected_qty: "Expected Qty",
+    requires_recount: "Requires (re)count",
+    confirm_count: "Confirm count is {{count}}",
+    over: "Over",
+    under: "Under",
+    add_item: "Add Item",
+    scanner_mode: "Scanner Mode",
+    commit_stocktake: "Commit Stocktake",
+    cancel_stocktake: "Cancel Stocktake",
+    only_show_variances: "Only show variances",
+    only_show_warnings: "Only show warnings",
+    confirm_cancel: "This stocktake will be cancelled. Are you sure ?",
+    tips: {
+      start_counting: "Items you count will appear here",
+      review_tab:
+        "Head over to the 'Review' tab to see the full list of expected items"
+    },
+    errors: {
+      name_exists: "Another stocktake with the same name already exists",
+      stocktake_exists_for_location:
+        "Warning: A stocktake already exists for this location"
+    },
+    states: {
+      open: "Open",
+      closed: "Closed",
+      cancelled: "Cancelled"
+    },
+    detail_tabs: {
+      count: "Count",
+      review: "Review"
+    },
+    counts: {
+      counted: "Counted",
+      gains: "Gains",
+      losses: "Losses",
+      warnings: "Warnings"
+    }
+  },
   box_pallet: {
     indicate_amount: "指出要從以下每個位置中取多少份量",
     available: "可用的",
@@ -171,7 +219,8 @@ export default {
     home: "主目錄",
     orders: "訂單",
     items: "物資",
-    goto: "前往"
+    goto: "前往",
+    alerts: "Alerts"
   },
   beneficiary_warning: {
     delete_title: "移除受惠者?",
@@ -193,6 +242,7 @@ export default {
     private: "未被刊登",
     state_filter_title: "物件狀態",
     in_stock: "有貨存",
+    confirm: "Confirm",
     process: "Processed",
     loss: "Lost",
     pack: "Packed",
@@ -780,7 +830,12 @@ export default {
       loss: "Loss (decrease)",
       trash: "Trash",
       recycle: "Recycle",
-      gain: "Gain (increase)"
+      gain: "Gain (increase)",
+      dispatch: "Dispatch",
+      undispatch: "Undispatch",
+      move: "Move",
+      edited: "Edit",
+      inventory: "Inventory"
     }
   },
   modify_designation: {

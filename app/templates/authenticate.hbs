@@ -20,7 +20,9 @@
 
         <div class="row">
           <div class="small-8 columns">
-            {{input type="text" name="pin" id="pin" placeholder="XXXX" maxlength="4" required="true" pattern="[0-9]{4}" value=pin }}
+            {{#form-control}}
+              {{numeric-input classNames="number_input center_align_placeholder" value=pin name="pin" id="pin" maxlength="4" placeholder="XXXX" required='true' pattern=".{4,}" autoFocus=true}}
+            {{/form-control}}
           </div>
           <div class="small-4 columns">
             <button id="submit_pin" type="submit" class="button expand" {{action 'authenticateUser'}}>{{t "ok"}}</button>

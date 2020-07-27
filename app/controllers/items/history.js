@@ -6,8 +6,7 @@ export default detail.extend({
   enableFooterActions: false,
 
   groupedVersions() {
-    let versions = this.get("model.versions").toArray();
-
+    let versions = this.get("versions").toArray();
     let results = _.map(versions, function(version) {
       return _.omit(version.get("objectChanges"), [
         "available_quantity",
@@ -66,11 +65,16 @@ export default detail.extend({
     return _.values(groups);
   },
 
-  groupedActionsAndVersions: Ember.computed("model", "itemActions", function() {
-    let actionsAndVersions = [
-      ...this.get("itemActions").toArray(),
-      ...this.groupedVersions().toArray()
-    ].sortBy("createdAt");
-    return this.groupingActionsAndVersions(actionsAndVersions);
-  })
+  groupedActionsAndVersions: Ember.computed(
+    "model",
+    "versions",
+    "itemActions",
+    function() {
+      let actionsAndVersions = [
+        ...this.get("itemActions").toArray(),
+        ...this.groupedVersions().toArray()
+      ].sortBy("createdAt");
+      return this.groupingActionsAndVersions(actionsAndVersions);
+    }
+  )
 });

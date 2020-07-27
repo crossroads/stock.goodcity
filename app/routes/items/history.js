@@ -2,14 +2,17 @@ import Ember from "ember";
 import AuthorizeRoute from "./../authorize";
 
 export default AuthorizeRoute.extend({
-  model(params) {
+  packageService: Ember.inject.service(),
+
+  model({ item_id }) {
     const queryParams = {
-      package_id: params.item_id,
+      package_id: item_id,
       per_page: 100
     };
     return Ember.RSVP.hash({
-      item: this.store.findRecord("item", params.item_id, { reload: true }),
-      itemActions: this.store.query("item_action", queryParams)
+      item: this.store.findRecord("item", item_id, { reload: true }),
+      itemActions: this.store.query("item_action", queryParams),
+      versions: this.get("packageService").getPackageVersions(item_id)
     });
   },
 
@@ -21,8 +24,9 @@ export default AuthorizeRoute.extend({
     }
   },
 
-  setupController(controller, { item, itemActions }) {
+  setupController(controller, { item, itemActions, versions }) {
     controller.set("model", item);
+    controller.set("versions", versions);
     controller.set("itemActions", itemActions);
   },
 

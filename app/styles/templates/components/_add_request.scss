@@ -38,7 +38,7 @@
 
 .add-request, .req-description{
   margin-top: 1rem;
-  .select-goods, .add-quantity, .add-description {
+  .add-quantity, .add-description {
     padding: 0 .5rem !important;
     background: #002352!important;
     border: 1px solid #fff!important;
@@ -46,6 +46,17 @@
     height: 2.7rem!important;
   }
 
+  .select-goods {
+    padding: 0.5rem !important;
+    background: $dark-blue !important;
+    border: 1px solid $white !important;
+    color: $white !important;
+    height: 2.7rem!important;
+
+    @media #{$small-only} {
+      padding-top: 0.7rem !important;
+    }
+  }
 }
 
 .request-add-remove-section{

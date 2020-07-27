@@ -23,6 +23,10 @@
   overflow: hidden;
   line-height: 30px;
 
+  @media #{$small-only} {
+    width: 120px
+  }
+
   input {
     opacity: 0;
     width: 0;
@@ -46,6 +50,14 @@
         -ms-transform: translateX($translate-x);
         transform: translateX($translate-x);
       }
+      @media #{$small-only} {
+        &:before, .switch-label  {
+          $translate-x: 120px - $handle-width - 2*$padding;
+          -webkit-transform: translateX($translate-x);
+          -ms-transform: translateX($translate-x);
+          transform: translateX($translate-x);
+        }
+      }
     }
   }
 
@@ -61,7 +73,9 @@
     background-color: #051D3F;
     border-radius: 5px;
     border: 1px solid white;
-
+    @media #{$small-only} {
+     font-size: 14px;
+    }
     &:before {
       @include animated();
 
@@ -79,7 +93,9 @@
       @include animated();
 
       $label-width: $slider-width;
-
+      @media #{$small-only} {
+        label-width: 120px;
+      }
       position: absolute;
       width: $slider-width - $padding * 2;
       &.off {
@@ -88,6 +104,9 @@
       &.on {
         right: $label-width;
         text-align: right;
+        @media #{$small-only} {
+          right: 120px;
+        }
       }
     }
   }

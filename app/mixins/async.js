@@ -33,6 +33,23 @@ export const ERROR_STRATEGIES = {
   ROLLBAR: 4
 };
 
+/**
+ * @enum {number}
+ * @readonly
+ * @memberof AsyncMixin
+ * @static
+ */
+export const ASYNC_BEHAVIOURS = {
+  DISCREET: {
+    showSpinner: false,
+    errorStrategy: ERROR_STRATEGIES.ROLLBAR
+  },
+  LOUD: {
+    showSpinner: true,
+    errorStrategy: ERROR_STRATEGIES.MODAL
+  }
+};
+
 export default Ember.Mixin.create({
   logger: Ember.inject.service(),
   messageBox: Ember.inject.service(),
@@ -171,7 +188,40 @@ export default Ember.Mixin.create({
     });
   },
 
-  i18nAlert(key, cb) {
-    this.get("messageBox").alert(this.get("i18n").t(key), cb);
+  tryTranslate(str) {
+    const i18n = this.get("i18n");
+    return i18n.exists(str) ? i18n.t(str) : str;
+  },
+
+  modalAlert(key, cb = _.noop) {
+    const deferred = Ember.RSVP.defer();
+    const text = this.tryTranslate(key);
+
+    this.get("messageBox").alert(text, () => {
+      deferred.resolve(cb());
+    });
+
+    return deferred.promise;
+  },
+
+  modalConfirm(bodyText, confirmText = "confirm", cb = _.noop) {
+    const deferred = Ember.RSVP.defer();
+
+    const onConfirm = () => {
+      cb();
+      deferred.resolve(true);
+    };
+
+    const onCancel = () => deferred.resolve(false);
+
+    this.get("messageBox").custom(
+      this.tryTranslate(bodyText),
+      this.tryTranslate(confirmText),
+      onConfirm,
+      this.tryTranslate("cancel"),
+      onCancel
+    );
+
+    return deferred.promise;
   }
 });
