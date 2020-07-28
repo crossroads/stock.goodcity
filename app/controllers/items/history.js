@@ -16,7 +16,8 @@ export default detail.extend({
         "id",
         "detail_type_id",
         "created_at",
-        "received_at"
+        "received_at",
+        "updated_by_id"
       ]);
     });
     versions.forEach((version, index) =>
