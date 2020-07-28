@@ -74,6 +74,12 @@ export default Ember.Component.extend({
     return promises;
   },
 
+  resetPackageDefaultAddableQuantity() {
+    this.get("pkg.packagesLocations").map(pkgloc => {
+      pkgloc.set("defaultAddableQuantity", pkgloc.get("quantity"));
+    });
+  },
+
   actions: {
     moveItemToBox() {
       let pkg = this.get("pkg");
@@ -88,11 +94,13 @@ export default Ember.Component.extend({
         this.get("pkgLocations").map(pkgLocation => {
           pkgLocation.rollbackAttributes();
         });
+        this.resetPackageDefaultAddableQuantity();
       }
     },
 
     cancelMove() {
       this.set("open", false);
+      this.resetPackageDefaultAddableQuantity();
     }
   }
 });
