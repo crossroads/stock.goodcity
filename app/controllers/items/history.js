@@ -35,8 +35,8 @@ export default detail.extend({
         "action"
       )}/${createdAt}`;
     } else {
-      return `${action.get("whodunnitName")}/${action.get(
-        "state"
+      return `${action.get("whodunnitName")}/${this.get(
+        "model.state"
       )}/${createdAt}`;
     }
   },

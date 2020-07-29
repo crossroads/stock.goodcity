@@ -1,6 +1,5 @@
 import Ember from "ember";
 import AuthorizeRoute from "./../authorize";
-import _ from "lodash";
 
 export default AuthorizeRoute.extend({
   packageService: Ember.inject.service(),
@@ -25,17 +24,10 @@ export default AuthorizeRoute.extend({
     }
   },
 
-  async setupController(controller, { item, itemActions, versions }) {
-    let detailType = item.get("detailType");
+  setupController(controller, { item, itemActions, versions }) {
     controller.set("model", item);
     controller.set("versions", versions);
     controller.set("itemActions", itemActions);
-    if (detailType) {
-      let details = await this.store.query(_.snakeCase(detailType), {
-        distinct: "brand"
-      });
-      controller.set("packageDetails", details);
-    }
   },
 
   resetController(controller, isExiting) {
