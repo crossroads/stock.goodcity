@@ -15,18 +15,6 @@ export default Ember.Mixin.create({
     return this.groupBy(this.get("sortedMessages"), "createdDate");
   }),
 
-  on() {
-    this.get("subscription").on("change:message", this, this.markReadAndScroll);
-  },
-
-  off() {
-    this.get("subscription").off(
-      "change:message",
-      this,
-      this.markReadAndScroll
-    );
-  },
-
   groupBy: function(content, key) {
     var result = [];
     var object, value;
@@ -82,7 +70,7 @@ export default Ember.Mixin.create({
     return values;
   },
 
-  markReadAndScroll: function({ record }) {
+  markMessageAsRead: function(record) {
     let message = this.store.peekRecord("message", record.id);
     if (
       !message ||
@@ -98,24 +86,6 @@ export default Ember.Mixin.create({
 
     this.get("messages").pushObject(message._internalModel);
     this.get("messagesUtil").markRead(message);
-
-    this.scrollToBottom();
-  },
-
-  scrollToBottom() {
-    if (!Ember.$(".message-textbar").length) {
-      return;
-    }
-
-    let scrollOffset = Ember.$(document).height();
-    let screenHeight = document.documentElement.clientHeight;
-    let pageHeight = document.documentElement.scrollHeight;
-
-    if (pageHeight > screenHeight) {
-      Ember.run.later(this, function() {
-        window.scrollTo(0, scrollOffset);
-      });
-    }
   },
 
   actions: {

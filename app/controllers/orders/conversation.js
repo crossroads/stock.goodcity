@@ -27,6 +27,39 @@ export default detail.extend(MessageBase, {
     }
   ),
 
+  on() {
+    this.get("subscription").on("change:message", this, this.markReadAndScroll);
+  },
+
+  off() {
+    this.get("subscription").off(
+      "change:message",
+      this,
+      this.markReadAndScroll
+    );
+  },
+
+  markReadAndScroll: function({ record }) {
+    this.markMessageAsRead(record);
+    this.scrollToBottom();
+  },
+
+  scrollToBottom() {
+    if (!Ember.$(".message-textbar").length) {
+      return;
+    }
+
+    let scrollOffset = Ember.$(document).height();
+    let screenHeight = document.documentElement.clientHeight;
+    let pageHeight = document.documentElement.scrollHeight;
+
+    if (pageHeight > screenHeight) {
+      Ember.run.later(this, function() {
+        window.scrollTo(0, scrollOffset);
+      });
+    }
+  },
+
   actions: {
     sendMessage() {
       Ember.$("textarea").trigger("blur");
