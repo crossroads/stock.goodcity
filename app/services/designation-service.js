@@ -2,6 +2,7 @@ import Ember from "ember";
 import ApiBaseService from "./api-base-service";
 import NavigationAwareness from "../mixins/navigation_aware";
 import _ from "lodash";
+import { toID } from "stock/utils/helpers";
 
 function ID(modelOrId) {
   if (modelOrId.get) {
@@ -155,6 +156,19 @@ export default ApiBaseService.extend(NavigationAwareness, {
     });
 
     return deferred.promise;
+  },
+
+  /**
+   * Updates Beneficiary
+   *
+   * @param {String|Model} beneficiary
+   * @param {object} params
+   * @returns {Promise<Model>}
+   */
+  updateBeneficiary(beneficiary, params) {
+    const id = ID(beneficiary);
+    const url = `/beneficiaries/${id}`;
+    return this.PUT(url, params);
   },
 
   onNavigation() {

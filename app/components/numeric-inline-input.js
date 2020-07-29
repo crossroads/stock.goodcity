@@ -53,7 +53,6 @@ export default Ember.TextField.extend({
   focusOut() {
     this.onFocusOut && setTimeout(() => this.onFocusOut(), 150);
     Ember.$(this.element).removeClass("numeric-inline-input");
-
     let val = this.get("value");
     const [regexPattern, replacePattern] = this.get("acceptFloat")
       ? [regex.FLOAT_REGEX, regex.NON_DIGIT_FLOAT_REGEX]
@@ -62,6 +61,10 @@ export default Ember.TextField.extend({
       val = val.toString().replace(replacePattern, "");
     }
     val = isNaN(val) ? null : val;
+    if (this.get("isMaxLengthRequired") && val.length < this.get("maxlength")) {
+      this.set("value", this.get("previousValue"));
+      return false;
+    }
     if (val === null) {
       this.set("value", "");
       return;
@@ -69,35 +72,19 @@ export default Ember.TextField.extend({
     if (val !== "") {
       this.set("value", +(+val).toFixed((this.get("maxlength") || 6) - 2));
     }
-
-    var item = this.get("item");
-    var url = `/packages/${item.get("id")}`;
-    var key = this.get("name");
-    var packageParams = {};
-    packageParams[key] = this.get("value");
-
-    if (isNaN(packageParams[key])) {
+    if (isNaN(val)) {
       this.set("value", "");
       return false;
     }
 
-    if (this.shouldUpdate(packageParams[key], this.get("previousValue"))) {
-      var loadingView = getOwner(this)
-        .lookup("component:loading")
-        .append();
-      new AjaxPromise(url, "PUT", this.get("session.authToken"), {
-        package: packageParams
-      })
-        .then(data => {
-          this.get("store").pushPayload(data);
-        })
-        .finally(() => {
-          loadingView.destroy();
-        });
+    if (this.shouldUpdate()) {
+      this.get("onSettingInput")(this.get("name"), val);
     }
   },
 
-  shouldUpdate(newValue, oldValue) {
+  shouldUpdate() {
+    let newValue = this.get("value");
+    let oldValue = this.get("previousValue");
     const dummy = Math.random();
     (newValue === "" || newValue === null) && (newValue = dummy);
     (oldValue === "" || oldValue === null) && (oldValue = dummy);

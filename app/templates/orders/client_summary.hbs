@@ -89,14 +89,20 @@
             {{t "order_client_summary.client_phone"}}
           </div>
           <div id="phone_number" class="small-7 columns">
-            {{t 'mobile_prefix'}} {{beneficiary-inline-number-input
+            {{t 'mobile_prefix'}}
+            {{numeric-inline-input
               name="phone_number"
               maxlength=8
               id="beneficiary-phone-input"
+              acceptFloat=true
               disabled=(if model.isEditAllowed "" true)
+              class='numeric-input valuation-input'
               class="numeric-input beneficiary-inline-input"
               value=model.beneficiary.mobileWithoutCountryCode
-              beneficiary=model.beneficiary}}
+              isMaxLengthRequired=true
+              type='tel'
+              onSettingInput=(action 'updateMobileNumber')
+            }}
           </div>
         </div>
 

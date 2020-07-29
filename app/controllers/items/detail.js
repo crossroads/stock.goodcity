@@ -408,6 +408,16 @@ export default GoodcityController.extend(
     },
 
     actions: {
+      updatePackage(field, value) {
+        this.runTask(
+          this.get("packageService").updatePackage(this.get("item.id"), {
+            package: {
+              [field]: value
+            }
+          })
+        );
+      },
+
       /**
        * Add Offer to Package
        */
