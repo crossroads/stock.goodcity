@@ -16,6 +16,11 @@
         }
       }
     }
+    .designate-button {
+      @media only screen and (max-width: 400px) {
+        width: 92px;
+      }
+    }
   }
 
   .tab-title {

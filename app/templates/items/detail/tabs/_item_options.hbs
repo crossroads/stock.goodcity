@@ -1,8 +1,8 @@
-<a {{action "toggleItemOptions"}}>
-  <button class="button options-arrow">
+
+  <button {{action "toggleItemOptions"}} class="button options-arrow">
     <div class="icon-holder">{{fa-icon 'caret-down' }}</div>
   </button>
-</a>
+
 
 <div class="options_menu_list {{if displayItemOptions '' 'hidden'}}">
   {{#each itemActions as |action|}}
