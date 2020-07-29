@@ -140,6 +140,9 @@
   border-top: 1px solid;
   padding-top: 0.7rem;
   z-index: 100;
+  @media #{$small-only} {
+    height: 90px;
+  }
 
   .navigation_menus {
     position: relative;
