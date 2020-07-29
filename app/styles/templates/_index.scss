@@ -133,7 +133,6 @@
 }
 
 .footer {
-  height: 90px;
   background-color: $dark-blue;
   position: fixed;
   bottom: 0;
@@ -141,6 +140,9 @@
   border-top: 1px solid;
   padding-top: 0.7rem;
   z-index: 100;
+  @media #{$small-only} {
+    height: 90px;
+  }
 
   .navigation_menus {
     position: relative;
