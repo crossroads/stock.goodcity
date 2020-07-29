@@ -483,6 +483,7 @@
   }
 
   .footer {
+    height: 80px;
     .extended-footer-menu {
       .click-out-overlay {
         position: absolute;
@@ -503,7 +504,7 @@
       }
 
       .row {
-        min-height: 90px;
+        min-height: 80px;
 
         .columns {
           min-height: 100%;
