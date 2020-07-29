@@ -24,7 +24,7 @@ export default Ember.Service.extend({
   },
 
   appLoad() {
-    if (!config.cordova.enabled) {
+    if (!config.cordova.enabled || config.environment === "development") {
       return;
     }
     this.initiatePushNotifications();
