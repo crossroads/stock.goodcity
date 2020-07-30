@@ -4,6 +4,7 @@ import attr from "ember-data/attr";
 import { belongsTo, hasMany } from "ember-data/relationships";
 
 export default Model.extend({
+  messageableName: "Order",
   i18n: Ember.inject.service(),
   utilityMethods: Ember.inject.service(),
 

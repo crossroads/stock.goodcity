@@ -68,18 +68,25 @@
   {{/if}}
 
   {{#link-to 'items.detail' model tagName='li' href=false replace=true}}
-    <i aria-hidden="true">{{fa-icon 'file-alt'}}</i> {{t 'footer.details'}}
+    <i aria-hidden="true">{{fa-icon 'file-alt'}}</i>
   {{/link-to}}
 
   {{#link-to 'items.history' model.id tagName='li' href=false replace=true}}
-    <li><i aria-hidden="true">{{fa-icon 'clock'}}</i>{{t 'footer.history'}}</li>
+    <i aria-hidden="true">{{fa-icon 'clock'}}</i>
   {{/link-to}}
 
-  <li><i aria-hidden="true">{{fa-icon 'comments'}}</i>{{t 'footer.staff'}}</li>
+  {{#link-to 'items.staff_conversation' model.id tagName='li' href=false replace=true}}
+    {{#if model.hasUnreadMessages}}
+      <div class='unread_message'>
+        {{model.unreadMessagesCount}}
+      </div>
+    {{/if}}
+    <i aria-hidden="true">{{fa-icon 'comments'}}</i>
+  {{/link-to}}
 
   {{#if enableFooterActions}}
     <li class="menu" {{action (toggle this "showExtendedFooterMenu")}}>
-      <i>{{fa-icon 'bars'}}</i> {{t "items.action_label"}}
+      <i>{{fa-icon 'bars'}}</i>
     </li>
   {{/if}}
 {{/sticky-footer}}

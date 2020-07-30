@@ -41,9 +41,11 @@ Router.map(function() {
       this.route("location");
       this.route("publishing");
     });
+
     this.route("history", { path: "/:item_id/history" });
     this.route("edit_images", { path: "/:item_id/edit_images" });
     this.route("partial_dispatch", { path: "/:item_id/partial_dispatch" });
+    this.route("staff_conversation", { path: "/:item_id/staff_conversation" });
   });
 
   this.route("orders", function() {

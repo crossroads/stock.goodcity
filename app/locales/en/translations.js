@@ -127,6 +127,8 @@ export default {
   messages: {
     you: "You",
     chat_note: "Chat about this order with the user",
+    item_chat_permission_error:
+      "You are not authorized to send messages on items.",
     send: "Send",
     day: {
       today: "Today",
@@ -859,7 +861,8 @@ export default {
       move: "Move",
       edited: "Edit",
       inventory: "Inventory"
-    }
+    },
+    staff: "Staff Conversation"
   },
   modify_designation: {
     designation_to: "Designation to",

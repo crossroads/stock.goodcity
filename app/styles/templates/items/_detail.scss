@@ -1030,3 +1030,18 @@
     display: inline !important;
   }
 }
+
+.item_details_screen,
+.history,
+.items-messages-section {
+  .footer {
+    background-color: $black;
+    @media #{$small-only} {
+      border-radius: 0 0 35px 35px;
+    }
+  }
+}
+
+.navigation_menus .unread_message {
+  margin-left: 0;
+}

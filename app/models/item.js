@@ -16,6 +16,7 @@ function SUM(ordersPkgs) {
  *
  */
 export default cloudinaryUrl.extend(GradeMixin, {
+  messageableName: "Package",
   notes: attr("string"),
   grade: attr("string"),
   inventoryNumber: attr("string"),
@@ -108,6 +109,10 @@ export default cloudinaryUrl.extend(GradeMixin, {
   offer: belongsTo("offer", { async: false }),
   imageIds: attr(),
   images: hasMany("image", {
+    async: true
+  }),
+
+  messages: hasMany("message", {
     async: true
   }),
 
@@ -389,6 +394,14 @@ export default cloudinaryUrl.extend(GradeMixin, {
       return this.get("packagesLocations").mapBy("location");
     }
   ),
+
+  unreadMessagesCount: Ember.computed("messages.@each.state", function() {
+    return this.get("messages").filterBy("state", "unread").length;
+  }),
+
+  hasUnreadMessages: Ember.computed("unreadMessagesCount", function() {
+    return this.get("unreadMessagesCount") > 0;
+  }),
 
   imageUrlList: Ember.computed(
     "images",

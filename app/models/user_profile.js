@@ -70,6 +70,13 @@ export default Addressable.extend({
     );
   }),
 
+  canManageItemMessages: Ember.computed("roles", function() {
+    const roles = this.get("roles");
+    return roles.find(
+      r => r.get("permissionNames").indexOf("can_manage_package_messages") >= 0
+    );
+  }),
+
   canManageStocktakes: Ember.computed("roles", function() {
     const roles = this.get("roles");
     return roles.find(
