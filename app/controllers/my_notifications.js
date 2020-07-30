@@ -50,18 +50,25 @@ export default Ember.Controller.extend({
 
     let notif = notifications.findBy("key", MSG_KEY(msg));
 
-    if (notif) {
-      // Update existing one
-      notifications.removeObject(notif);
-      msg.set("unreadCount", +notif.get("unreadCount") + 1);
-      notif.get("messages").addObject(msg);
-    } else {
-      // Create new one
-      msg.set("unreadCount", 1);
-      notif = this.messagesToNotification([msg]);
+    if (notification.operation === "create") {
+      if (notif) {
+        // Update existing one
+        notifications.removeObject(notif);
+        msg.set("unreadCount", +notif.get("unreadCount") + 1);
+        notif.get("messages").addObject(msg);
+      } else {
+        // Create new one
+        msg.set("unreadCount", 1);
+        notif = this.messagesToNotification([msg]);
+      }
+      notifications.insertAt(0, notif);
+    } else if (
+      notification.operation === "update" &&
+      notif &&
+      notification.record.state === "read"
+    ) {
+      notif.set("unreadCount", 0);
     }
-
-    notifications.insertAt(0, notif);
   },
 
   /**

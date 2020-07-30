@@ -15,11 +15,16 @@ export default Ember.Service.extend({
     this.get("subscription").on("change:message", this, this.onNewNotification);
   },
 
-  onNewNotification({ record: { id } }) {
-    const msg = this.get("store").peekRecord("message", id);
+  onNewNotification(notification) {
+    const msg = this.get("store").peekRecord("message", notification.record.id);
 
-    if (msg.get("isUnread")) {
+    if (notification.operation === "create" && msg.get("isUnread")) {
       this._incrementCount();
+    } else if (
+      notification.operation === "update" &&
+      notification.record.state === "read"
+    ) {
+      this._decrementCount();
     }
   },
 
