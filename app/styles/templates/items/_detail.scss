@@ -1036,6 +1036,8 @@
 .items-messages-section {
   .footer {
     background-color: $black;
+    height: 50px;
+
     @media #{$small-only} {
       border-radius: 0 0 35px 35px;
     }
