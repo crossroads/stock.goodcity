@@ -41,11 +41,22 @@ export default Addressable.extend({
     }
   }),
 
+  isOrderAdministrator: Ember.computed("roleNames", function() {
+    if (this.get("roleNames") && this.get("roleNames").length) {
+      return this.get("roleNames").indexOf("Order administrator") >= 0;
+    }
+  }),
+
   canViewDashboard: Ember.computed(
     "isOrderFulfilmentUser",
     "isSupervisor",
+    "isOrderAdministrator",
     function() {
-      return this.get("isOrderFulfilmentUser") || this.get("isSupervisor");
+      return (
+        this.get("isOrderFulfilmentUser") ||
+        this.get("isSupervisor") ||
+        this.get("isOrderAdministrator")
+      );
     }
   ),
 
