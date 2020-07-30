@@ -248,12 +248,13 @@ export default GoodcityController.extend(
     }),
 
     isInvalidDimension: Ember.computed("length", "width", "height", function() {
-      const length = this.get("length");
-      const width = this.get("width");
-      const height = this.get("height");
+      const length = parseInt(this.get("length"));
+      const width = parseInt(this.get("width"));
+      const height = parseInt(this.get("height"));
+
       const dimensionsCount = _.filter(
         [length, width, height],
-        item => Number(item) <= 0
+        dimension => !isNaN(dimension)
       ).length;
       return _.inRange(dimensionsCount, 1, 3);
     }),
