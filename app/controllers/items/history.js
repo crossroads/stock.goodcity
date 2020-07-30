@@ -17,6 +17,8 @@ export default detail.extend({
         "detail_type_id",
         "created_at",
         "received_at",
+        "offer_id",
+        "detail_id",
         "updated_by_id"
       ]);
     });
@@ -29,7 +31,7 @@ export default detail.extend({
   },
 
   getGroupKey(isAction, action) {
-    const createdAt = moment(action.get("createdAt")).format("LLL");
+    const createdAt = moment(action.get("createdAt")).format("LL");
     if (isAction) {
       return `${action.get("user.fullName")}/${action.get(
         "action"
@@ -49,21 +51,27 @@ export default detail.extend({
         const isItemAction = !!action.get("user.fullName");
         const groupKey = this.getGroupKey(isItemAction, action);
 
-        results[groupKey] = results[groupKey] || {
+        const lastGroup = _.last(results);
+        if (lastGroup && lastGroup.key === groupKey) {
+          lastGroup.actions.push(action);
+          return results;
+        }
+
+        const newGroup = {
           key: groupKey,
           type: isItemAction ? action.get("action").capitalize() : "Edited",
           date: createdAt,
           user: isItemAction
             ? action.get("user.fullName")
             : action.get("whodunnitName"),
-          actions: []
+          actions: [action]
         };
-        results[groupKey].actions.push(action);
+        results.push(newGroup);
         return results;
       },
-      {}
+      []
     );
-    return _.values(groups);
+    return groups;
   },
 
   groupedActionsAndVersions: Ember.computed(
