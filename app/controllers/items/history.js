@@ -82,7 +82,9 @@ export default detail.extend({
       let actionsAndVersions = [
         ...this.get("itemActions").toArray(),
         ...this.groupedVersions().toArray()
-      ].sortBy("createdAt");
+      ]
+        .sortBy("createdAt")
+        .reverse();
       return this.groupingActionsAndVersions(actionsAndVersions);
     }
   )

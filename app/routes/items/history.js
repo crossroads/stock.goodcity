@@ -22,6 +22,7 @@ export default AuthorizeRoute.extend({
         this.store.findRecord("item", item.get("id"), { reload: true });
       });
     }
+    Ember.$("body").animate({ scrollTop: 0 });
   },
 
   setupController(controller, { item, itemActions, versions }) {
