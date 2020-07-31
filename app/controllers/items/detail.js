@@ -663,6 +663,7 @@ export default GoodcityController.extend(
        */
       openTab(tabName) {
         this.replaceRoute(`items.detail.${tabName}`);
+        this.clearMoveParams();
       },
 
       setCountryValue(value) {
