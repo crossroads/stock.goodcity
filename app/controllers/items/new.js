@@ -198,7 +198,11 @@ export default GoodcityController.extend(
         : this.set(`inputFieldValues.${fieldAtributes.value}`, null);
     },
 
-    showPiecesInput: Ember.computed("codeId", function() {
+    showPiecesInput: Ember.computed("codeId", "isBoxOrPallet", function() {
+      if (this.get("isBoxOrPallet")) {
+        return false;
+      }
+
       let codeId = this.get("codeId");
       if (codeId) {
         let selected = this.get("store").peekRecord("code", codeId);

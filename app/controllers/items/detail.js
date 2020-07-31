@@ -71,8 +71,15 @@ export default GoodcityController.extend(
     ],
     currentRoute: Ember.computed.alias("application.currentPath"),
     pkg: Ember.computed.alias("model"),
-    showPieces: Ember.computed.alias("model.code.allow_pieces"),
     allowItemActions: Ember.computed.alias("settings.allowItemActions"),
+
+    showPieces: Ember.computed(
+      "item.code.allow_pieces",
+      "isBoxOrPallet",
+      function() {
+        return this.get("item.code.allow_pieces") && !this.get("isBoxOrPallet");
+      }
+    ),
 
     sortActionsBy: ["id:desc"],
     sortedItemActions: Ember.computed.sort(
