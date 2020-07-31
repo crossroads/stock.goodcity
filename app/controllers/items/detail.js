@@ -662,8 +662,8 @@ export default GoodcityController.extend(
        * @param {String} tabName The tab we wish to open
        */
       openTab(tabName) {
-        this.replaceRoute(`items.detail.${tabName}`);
         this.clearMoveParams();
+        this.replaceRoute(`items.detail.${tabName}`);
       },
 
       setCountryValue(value) {
