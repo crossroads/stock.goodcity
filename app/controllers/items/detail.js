@@ -75,12 +75,9 @@ export default GoodcityController.extend(
 
     showPieces: Ember.computed(
       "item.code.allow_pieces",
-      "item.storageTypeName",
+      "isBoxOrPallet",
       function() {
-        return (
-          this.get("item.code.allow_pieces") &&
-          this.get("item.storageTypeName") !== "Box"
-        );
+        return this.get("item.code.allow_pieces") && !this.get("isBoxOrPallet");
       }
     ),
 
