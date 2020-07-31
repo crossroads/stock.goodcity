@@ -31,6 +31,7 @@ export default cloudinaryUrl.extend(GradeMixin, {
   offerId: attr("number"),
   expiryDate: attr("string"),
   comment: attr("string"),
+  state: attr("string"),
 
   onHandQuantity: attr("number"),
   availableQuantity: attr("number"),
