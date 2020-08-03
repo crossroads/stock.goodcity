@@ -91,6 +91,10 @@ function normalize(payload) {
 }
 
 export default ActiveModelSerializer.extend({
+  init() {
+    return this._super(...arguments);
+  },
+
   normalizeResponse(store, primaryModelClass, payload, id, requestType) {
     normalize(payload);
     return this._super(...arguments);

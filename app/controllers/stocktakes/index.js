@@ -88,6 +88,11 @@ export default Ember.Controller.extend(AsyncMixin, {
   // Lifecycle
   // ----------------------
 
+  init() {
+    this._super(...arguments);
+    this.set("selectedTab", this.get("tabs.open"));
+  },
+
   on() {
     this.resetState();
   },
@@ -109,7 +114,6 @@ export default Ember.Controller.extend(AsyncMixin, {
   },
 
   async resetState() {
-    this.set("selectedTab", this.get("tabs.open"));
     this.set("selectedLocation", null);
     this.set("newStocktakeName", "");
     this.set("newStocktakeComment", "");
@@ -122,8 +126,10 @@ export default Ember.Controller.extend(AsyncMixin, {
       headerText
     });
 
-    this.set("selectedLocation", location);
-    this.set("newStocktakeName", this.generateStocktakeName(location));
+    if (location) {
+      this.set("selectedLocation", location);
+      this.set("newStocktakeName", this.generateStocktakeName(location));
+    }
 
     return location;
   },
