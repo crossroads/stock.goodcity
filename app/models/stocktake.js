@@ -3,6 +3,8 @@ import attr from "ember-data/attr";
 import { belongsTo, hasMany } from "ember-data/relationships";
 
 export default Model.extend({
+  createdAt: attr("date"),
+  updatedAt: attr("date"),
   name: attr("string"),
   state: attr("string"),
   comment: attr("string"),
