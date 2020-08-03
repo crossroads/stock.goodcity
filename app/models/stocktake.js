@@ -13,6 +13,7 @@ export default Model.extend({
   createdBy: belongsTo("user", { async: true }),
 
   isOpen: Ember.computed.equal("state", "open"),
+  isClosed: Ember.computed.equal("state", "closed"),
 
   dirtyRevisions: Ember.computed.filterBy("revisions", "dirty", true),
   cleanRevisions: Ember.computed.filterBy("revisions", "dirty", false),

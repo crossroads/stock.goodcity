@@ -21,18 +21,20 @@
     </div>
 
     {{!-- TABS TO SWITCH BETWEEN MODES --}}
-    <div class="row">
-      <div class="row tabs-container">
-        <div class="tab list small-6 columns {{unless (is-equal selectedTab tabs.count) 'dimmed'}}" {{action (mut selectedTab) tabs.count}}>
-          <div>{{fa-icon 'table' size="lg"}}</div>
-          <div>{{t 'stocktakes.detail_tabs.count'}}</div>
-        </div>
-        <div class="tab list small-6 columns {{unless (is-equal selectedTab tabs.review) 'dimmed'}}" {{action (mut selectedTab) tabs.review}}>
-          <div>{{fa-icon 'tasks' size="lg"}}</div>
-          <div>{{t 'stocktakes.detail_tabs.review'}}</div>
+    {{#if stocktake.isOpen}}
+      <div class="row">
+        <div class="row tabs-container">
+          <div class="tab list small-6 columns {{unless (is-equal selectedTab tabs.count) 'dimmed'}}" {{action (mut selectedTab) tabs.count}}>
+            <div>{{fa-icon 'table' size="lg"}}</div>
+            <div>{{t 'stocktakes.detail_tabs.count'}}</div>
+          </div>
+          <div class="tab list small-6 columns {{unless (is-equal selectedTab tabs.review) 'dimmed'}}" {{action (mut selectedTab) tabs.review}}>
+            <div>{{fa-icon 'tasks' size="lg"}}</div>
+            <div>{{t 'stocktakes.detail_tabs.review'}}</div>
+          </div>
         </div>
       </div>
-    </div>
+    {{/if}}
 
     {{!--  SAVING/ERROR MESSAGE --}}
     <div class="row">
@@ -136,11 +138,13 @@
                       {{t 'stocktakes.expected_qty' }}: {{expectedQty}}
                     {{else if revision.isProcessed}}
                       {{fa-icon 'check-circle' size="lg"}}
+                      {{t 'stocktakes.recorded_change' }}: 
+                      {{signed-number revision.diff}}
                     {{/if}}
                   </div>
 
                   {{!-- Input --}}
-                  <div class="flex center quantity-input-container">
+                  <div class="flex center quantity-input-container {{unless revision.isOpen 'hide'}}">
                     <span {{action 'decrementCount' revision}}>
                       {{fa-icon 'minus-circle' size="lg"}}
                     </span>

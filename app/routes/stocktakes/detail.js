@@ -10,5 +10,10 @@ export default AuthorizeRoute.extend({
 
   setupController(controller, { stocktake }) {
     controller.set("stocktake", stocktake);
+    controller.on();
+  },
+
+  resetController(controller) {
+    controller.off();
   }
 });

@@ -178,6 +178,8 @@
         .quantity-input-container {
           height: 3rem;
 
+          &.hide { visibility: hidden; }
+
           span {
             line-height: 2.5rem;
             margin-left: 0.4rem;

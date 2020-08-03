@@ -16,6 +16,14 @@ const SORTING = {
       return -1; // Unsaved records at the top
     }
     return rev1.get("createdAt") > rev2.get("createdAt") ? -1 : 1;
+  },
+  BY_INVENTORY_NUM: (rev1, rev2) => {
+    const [n1, n2] = [rev1, rev2]
+      .map(r => r.getWithDefault("item.inventoryNumber", "0"))
+      .map(inv => inv.replace(/[^0-9]/g, ""))
+      .map(Number);
+
+    return n1 < n2 ? -1 : 1;
   }
 };
 
@@ -68,7 +76,7 @@ export default Ember.Controller.extend(AsyncMixin, {
 
       return this.get("revisions")
         .filter(_.overEvery(filters))
-        .sort(SORTING.BY_CREATION);
+        .sort(SORTING.BY_INVENTORY_NUM);
     }
   ),
 
@@ -78,6 +86,18 @@ export default Ember.Controller.extend(AsyncMixin, {
 
   init() {
     this.set("mode", this.get("modes.count"));
+  },
+
+  on() {
+    if (!this.get("stocktake.isOpen")) {
+      this.set("mode", this.get("modes.review"));
+      this.set("onlyShowWarnings", false);
+      this.set("onlyShowVariances", false);
+    }
+  },
+
+  off() {
+    // no-op
   },
 
   // ----------------------
