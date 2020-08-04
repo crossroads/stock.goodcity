@@ -64,9 +64,6 @@ export default GoodcityController.extend(
     locationService: Ember.inject.service(),
     packageService: Ember.inject.service(),
     printerService: Ember.inject.service(),
-    isInventoryPresent: Ember.computed("inventoryNumber", function() {
-      return !!this.get("inventoryNumber");
-    }),
     cancelWarning: t("items.new.cancel_warning"),
     displayFields: Ember.computed("code", function() {
       let subform = this.get("code.subform");
