@@ -3,6 +3,8 @@ import attr from "ember-data/attr";
 import { belongsTo, hasMany } from "ember-data/relationships";
 
 export default Model.extend({
+  createdAt: attr("date"),
+  updatedAt: attr("date"),
   name: attr("string"),
   state: attr("string"),
   comment: attr("string"),
@@ -13,6 +15,7 @@ export default Model.extend({
   createdBy: belongsTo("user", { async: true }),
 
   isOpen: Ember.computed.equal("state", "open"),
+  isClosed: Ember.computed.equal("state", "closed"),
 
   dirtyRevisions: Ember.computed.filterBy("revisions", "dirty", true),
   cleanRevisions: Ember.computed.filterBy("revisions", "dirty", false),

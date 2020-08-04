@@ -34,6 +34,8 @@ export const ERROR_STRATEGIES = {
 };
 
 /**
+ * Presets of configs for runTask()
+ *
  * @enum {number}
  * @readonly
  * @memberof AsyncMixin
@@ -57,18 +59,22 @@ export default Ember.Mixin.create({
 
   ERROR_STRATEGIES,
 
-  // ---- Helpers
+  // ----------------------
+  // Private Helpers
+  // ----------------------
 
   __tasksCount: 0,
   __loadingView: null,
   __modalActive: false,
 
-  __incrementTaskCount(val = 1) {
-    this.__tasksCount += val;
-    if (this.__tasksCount > 0) {
+  __incrementTaskCount(step = 1) {
+    const count = this.get("__tasksCount") + step;
+
+    this.set("__tasksCount", _.clamp(count, 0, Infinity));
+
+    if (this.get("hasRunningTasks")) {
       this.showLoadingSpinner();
     } else {
-      this.__tasksCount = 0;
       this.hideLoadingSpinner();
     }
   },
@@ -128,7 +134,17 @@ export default Ember.Mixin.create({
     );
   },
 
-  // --- Mixin api
+  // ----------------------
+  // Mixin computed props
+  // ----------------------
+
+  hasRunningTasks: Ember.computed("__tasksCount", function() {
+    return this.get("__tasksCount") > 0;
+  }),
+
+  // ----------------------
+  // Mixin api
+  // ----------------------
 
   /**
    * Runs the asynchronous task, showing and hiding loading spinners accordingly

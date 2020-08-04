@@ -115,15 +115,27 @@
       min-height: 3rem;
       border-bottom: 1px solid white;
       
-      .row {
+      .row, .flex{
+        white-space: nowrap;
         &:first-child {
           padding-top: 0.2rem;
           padding-bottom: 0.2rem;
         }
 
+        .package-image {
+          background: black;
+          img {
+            object-fit: contain;
+            height: 6rem;
+            min-width: 3rem;
+          }
+        }
+
         .inventory-number {
+          white-space: nowrap;
           color: white;
           text-align: center;
+          margin-right: 0.5rem;
         }
 
         .display-package-code {
@@ -141,6 +153,7 @@
           width: 90%;
           margin: 0 auto;
           color: white;
+          white-space: normal;
         }
 
         .pill {
@@ -158,12 +171,14 @@
           border-radius: 30px;
           border: 1px solid white;
           color: white;
-          margin: 0 auto;
           font-size: 0.7rem;
+          margin-right: 1.5rem;
         }
 
         .quantity-input-container {
           height: 3rem;
+
+          &.hide { visibility: hidden; }
 
           span {
             line-height: 2.5rem;

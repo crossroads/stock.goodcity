@@ -15,6 +15,12 @@
 
   .flex {
     display: flex;
+    &.no-wrap {
+      flex-wrap: nowrap;
+    }
+    &.wrap {
+      flex-wrap: wrap;
+    }
     &.space-around {
       justify-content: space-around;
     }
@@ -23,6 +29,17 @@
     }
     &.center {
       justify-content: center;
+    }
+    &.end {
+      justify-content: flex-end;
+    }
+
+    >.grow {
+      flex-grow: 1;
+    }
+
+    &.gutter-small {
+      >* { margin-right: 0.5rem; }
     }
   }
 
@@ -61,6 +78,9 @@
           font-family: $header-font-family;
           line-height: 1.2em;
           font-size: 1.2em;
+          .name {
+            @include ellipsis();
+          }
           .state {
             text-transform: capitalize;
           }
@@ -68,6 +88,9 @@
 
         .stocktake-details {
           margin-top: 1rem;
+          .counts-text {
+            @include ellipsis();
+          }
         }
       }
     }

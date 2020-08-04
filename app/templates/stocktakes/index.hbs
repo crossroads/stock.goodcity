@@ -47,9 +47,9 @@
                 <div class="name">{{ stocktake.name }}</div>
                 <div class="state">{{ stocktake.state }}</div>
               </div>
-              <div class="stocktake-details flex space-between">
+              <div class="stocktake-details flex space-between wrap">
                 <span class="location">{{ stocktake.location.displayName }}</span>
-                <span class="counts">
+                <span class="counts-text">
                   {{ stocktake.cleanRevisions.length }} {{t 'stocktakes.counts.counted'}} |
                   {{ stocktake.gainRevisions.length }} {{t 'stocktakes.counts.gains'}} |
                   {{ stocktake.lossRevisions.length }} {{t 'stocktakes.counts.losses'}} |
@@ -73,13 +73,15 @@
           <div class="small-3 columns input-label">{{ t 'stocktakes.name' }}</div>
           <div class="small-9 columns">
             <div>{{input value=newStocktakeName disabled=false}}</div>
-            {{#if invalidStocktakeName}}
-              {{#if missingStocktakeName}}
-                <div class="error">{{ t 'incomplete_form' }}</div>
-              {{else if stocktakeNameAlreadyExists}}
-                <div class="error">{{ t 'stocktakes.errors.name_exists' }}</div>
+            {{#unless hasRunningTasks}}
+              {{#if invalidStocktakeName}}
+                {{#if missingStocktakeName}}
+                  <div class="error">{{ t 'incomplete_form' }}</div>
+                {{else if stocktakeNameAlreadyExists}}
+                  <div class="error">{{ t 'stocktakes.errors.name_exists' }}</div>
+                {{/if}}
               {{/if}}
-            {{/if}}
+            {{/unless}}
           </div>
         </div>
         <div class="row">
@@ -96,9 +98,11 @@
         </div>
         <div class="row">
           <div class="small-12 columns">
-            {{#if stocktakeAtLocationAlreadyExists}}
-              <div class="warning">{{ t 'stocktakes.errors.stocktake_exists_for_location' }}</div>
-            {{/if}}
+            {{#unless hasRunningTasks}}
+              {{#if stocktakeAtLocationAlreadyExists}}
+                <div class="warning">{{ t 'stocktakes.errors.stocktake_exists_for_location' }}</div>
+              {{/if}}
+            {{/unless}}
           </div>
         </div>
         <div class="row flex space-around">

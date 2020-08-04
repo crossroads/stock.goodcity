@@ -6,12 +6,12 @@ import { belongsTo, hasMany } from "ember-data/relationships";
 export default Model.extend({
   dirty: attr("boolean"),
   state: attr("string"),
-  packageId: attr("number"),
-  itemId: Ember.computed.alias("packageId"),
+  itemId: attr("number"),
   item: belongsTo("item", { async: false }),
   stocktake: belongsTo("stocktake", { async: false }),
   createdAt: attr("date"),
   quantity: attr("number"),
+  processedDelta: attr("number"),
   warning: attr("string"),
 
   expectedQuantity: Ember.computed(
@@ -29,9 +29,21 @@ export default Model.extend({
   ),
 
   isProcessed: Ember.computed.equal("state", "processed"),
+  isCancelled: Ember.computed.equal("state", "cancelled"),
 
-  diff: Ember.computed("quantity", "expectedQuantity", function() {
+  computedDelta: Ember.computed("quantity", "expectedQuantity", function() {
     return this.get("quantity") - this.get("expectedQuantity");
+  }),
+
+  diff: Ember.computed("state", "processedDelta", "computedDelta", function() {
+    switch (this.get("state")) {
+      case "cancelled":
+        return 0;
+      case "processed":
+        return this.get("processedDelta");
+      default:
+        return this.get("computedDelta");
+    }
   }),
 
   diffAbs: Ember.computed("diff", function() {
