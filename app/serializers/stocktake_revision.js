@@ -1,5 +1,4 @@
 import ApplicationSerializer from "./application";
-import _ from "lodash";
 
 export default ApplicationSerializer.extend({
   keyForRelationship(key, typeClass, method) {
