@@ -291,6 +291,11 @@
         <div class="small-4 columns inventory-number">
           {{#if inputInventory}}
             {{input value=inventoryNumber}}
+            {{#unless isInventoryPresent}}
+              <div class="input-error show-validation">
+                {{t "items.new.validation_errors.blank_inventory_number"}}
+              </div>
+            {{/unless}}
           {{else}}
             {{inventoryNumber}}
           {{/if}}

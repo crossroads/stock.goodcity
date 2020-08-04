@@ -844,7 +844,8 @@ export default {
         blank_location: "Location can't be blank.",
         quantity: "Quantity cannot be blank.",
         blank_notification: "Location cannot be blank.",
-        blank_valuation: "Value cannot be blank."
+        blank_valuation: "Value cannot be blank.",
+        blank_inventory_number: "Inventory number cannot be blank."
       }
     },
     select_set_type: "Select a type for the new set",
