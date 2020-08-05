@@ -45,7 +45,11 @@ export default Ember.Controller.extend({
       if (notification.messageable_type === "Package") {
         route = ["items.staff_conversation", notification.package_id];
       } else if (notification.messageable_type === "Order") {
-        route = ["orders.conversation", notification.order_id];
+        if (notification.is_private) {
+          route = ["orders.staff_conversation", notification.messageable_id];
+        } else {
+          route = ["orders.conversation", notification.messageable_id];
+        }
       }
     } else {
       route = ["orders.active_items", notification.order_id];
