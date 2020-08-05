@@ -6,7 +6,7 @@
       <div class="row">
         <div class="small-12 columns">
           <ul class="flex">
-            <li class="menu {{if item.isBoxPallet 'disabled'}}"
+            <li class="menu {{if (is-or item.isBoxPallet item.isPartOfSet) 'disabled'}}"
               {{action (
                 multi-actions
                   (action 'makeCurrentPackageASet')

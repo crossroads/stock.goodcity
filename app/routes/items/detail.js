@@ -67,6 +67,7 @@ export default AuthorizeRoute.extend({
     controller.set("callOrderObserver", false);
     controller.set("backLinkPath", this.get("itemBackLinkPath"));
     controller.set("active", true);
+    controller.set("showExtendedFooterMenu", false);
 
     const defaultValue = await this.get("packageService").getItemValuation({
       donorConditionId: model.get("donorCondition.id"),
