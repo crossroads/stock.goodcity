@@ -214,7 +214,7 @@ export default Ember.Mixin.create({
     const text = this.tryTranslate(key, props);
 
     this.get("messageBox").alert(text, () => {
-      deferred.resolve(cb());
+      deferred.resolve(null);
     });
 
     return deferred.promise;

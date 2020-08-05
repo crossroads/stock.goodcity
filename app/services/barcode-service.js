@@ -2,11 +2,15 @@ import Ember from "ember";
 import _ from "lodash";
 import config from "../config/environment";
 import { buildCameraView } from "../utils/barcode-ui";
+import { cached } from "../utils/cache";
+
+/**
+ * @typedef {Object} ScanSession
+ * @property {function} stop - Stops the scanner
+ */
 
 const SCAN_DELAY = 1500;
-const LICENSE_KEY =
-  "ARBushhVB+A7HWv5WD/nPoFEoQ9BH5EHPkfSQFJYz4JbShzStUOfkWtxoLFTTNQ6izbPWRogpWLQd/w1tEGMmpZTsKFBX3KbW0sqVctVVj54TJ8OEHvXqvZWpIVaW6TZSD44zSBCoLNdOFwaVjFmVbYxc8dGO4WNzQ5oa+hYopIK+X0G3nWxwn1w2F2jasUZ20elxWyJWZ7XDlefc7gUiCfKSgxFpbzVhJkWoAZn1rL8YC1wbn5anSjVA/fF5mQvKWvqGpaLBq0OKxP3aEsvr7ionTuTctWczmr7/cGwloCXvF9DFk3bCtnjr5Z34ff955dkA6TIBtelVwKBZeve9r7qSK1OT+xSI8zCrS0yVAzuxcmP9kJU3zMJdmxJeA9Kinzi1urVXHixBP/1BtX/wtxwuK0h5BfKjfFrIDUMFi2uokh6x4jd1yYyvUCaF5/bnrocihozwaAn86wdtY7QJZ4iK8XqN/a8jlT1C2NbENPMCR/JQoLuz/o+7yuNjpIY51OqPz/vIkXuE20V4GalmbLgjAhUtiUST6XfPYLSm5eZLOzi+sOimBySanbYKC3zEdQU0hoZPt3L+nV5NbtRyY1ZrSvxR9i/kFxbK7IUa0ESzHZNGG5xibOX0h87djTLXNlnAY7r89h2z34b/liT+RKRfxgt2OX7btcB2oMSAcoF8/s6w+XkpiHSpNi+c2WhRB5TqgfM/ZnfDvIb/ugmWpja8fgp2GOVYtv6zNvrreiOqMY+eLjk8YFy8N/k0GcR5eiBnAYRqoCbVHLhjBlj+dKY1MRRD1jGVjEYQGSuOiVyk5CSTNw0NFRee6bVk3M=";
-
+const LICENSE_KEY = config.APP.SCANDIT_LICENSE_KEY;
 export default Ember.Service.extend({
   messageBox: Ember.inject.service(),
   packageService: Ember.inject.service(),
@@ -14,47 +18,70 @@ export default Ember.Service.extend({
   isMobileApp: config.cordova.enabled,
   paramName: null,
 
-  enabled() {
-    return this.get("isMobileApp") && !!window.Scandit;
-  },
+  // ----------------------
+  // Private helpers
+  // ----------------------
 
-  createCapture(htmlElement, callback) {
-    const context = Scandit.DataCaptureContext.forLicenseKey(LICENSE_KEY);
+  __getContext: cached(function() {
+    this.context = Scandit.DataCaptureContext.forLicenseKey(LICENSE_KEY);
+    this.context.setFrameSource(this.__getCamera());
+    return this.context;
+  }),
 
-    // --- Setup camera
-
+  __getCamera: cached(function() {
     const cameraSettings = Scandit.BarcodeCapture.recommendedCameraSettings;
     const camera = Scandit.Camera.default;
 
-    if (!camera) {
-      return;
+    if (camera) {
+      camera.applySettings(cameraSettings);
     }
 
-    camera.applySettings(cameraSettings);
-    context.setFrameSource(camera);
+    return camera;
+  }),
 
-    // --- Set barcode types
-
+  __getCapture: cached(function() {
+    const context = this.__getContext();
     const settings = new Scandit.BarcodeCaptureSettings();
-    settings.enableSymbology(Scandit.Symbology.Code128);
-    settings.enableSymbology(Scandit.Symbology.QR);
 
-    // --- Create the capture
+    settings.enableSymbologies([
+      /* Scandit.Symbology.Code128, */
+      Scandit.Symbology.QR
+    ]);
 
-    const capture = Scandit.BarcodeCapture.forContext(context, settings);
+    return Scandit.BarcodeCapture.forContext(context, settings);
+  }),
 
-    const enableScan = () => {
-      capture.isEnabled = true;
-    };
-    const disableScan = () => {
-      capture.isEnabled = false;
-    };
+  __cameraOn() {
+    this.__getCamera().switchToDesiredState(Scandit.FrameSourceState.On);
+  },
+
+  __cameraOff() {
+    this.__getCamera().switchToDesiredState(Scandit.FrameSourceState.Off);
+  },
+
+  __enableScan() {
+    this.__getCapture().isEnabled = true;
+  },
+
+  __disableScan() {
+    this.__getCapture().isEnabled = false;
+  },
+
+  /**
+   * Starts a scan session
+   *
+   * @param {HTMLElement} htmlElement
+   * @param {function} callback
+   * @returns {ScanSession}
+   */
+  __newScanSession(htmlElement, callback) {
+    const capture = this.__getCapture();
 
     const listener = {
       didScan: (barcodeCapture, session) => {
-        disableScan();
+        this.__disableScan();
         callback(barcodeCapture, session);
-        Ember.run.debounce(enableScan, SCAN_DELAY);
+        Ember.run.debounce(this, this.__enableScan, SCAN_DELAY);
       }
     };
 
@@ -62,7 +89,7 @@ export default Ember.Service.extend({
 
     // --- Connect to the UI
 
-    const view = Scandit.DataCaptureView.forContext(context);
+    const view = Scandit.DataCaptureView.forContext(this.__getContext());
     const overlay = buildCameraView(htmlElement);
 
     view.connectToElement(overlay.element);
@@ -72,22 +99,34 @@ export default Ember.Service.extend({
       view
     );
 
-    camera.switchToDesiredState(Scandit.FrameSourceState.On);
-
-    enableScan();
+    this.__cameraOn();
+    this.__enableScan();
 
     // --- Create stop callback
 
     const stop = () => {
+      this.__cameraOff();
       overlay.destroy();
       capture.removeListener(listener);
-      camera.switchToDesiredState(Scandit.FrameSourceState.Off);
-      Ember.run.debounce(disableScan, SCAN_DELAY + 100);
+      Ember.run.debounce(this, this.__disableScan, SCAN_DELAY + 100);
     };
 
     overlay.onCloseButtonPressed(stop);
 
     return { stop };
+  },
+
+  // ----------------------
+  // Service API
+  // ----------------------
+
+  /**
+   * Returns true if scanning is possible
+   *
+   * @returns {boolean}
+   */
+  enabled() {
+    return this.get("isMobileApp") && !!window.Scandit && this.__getCamera();
   },
 
   /**
@@ -130,7 +169,7 @@ export default Ember.Service.extend({
   /**
    * Tries to scan a bar code and returns the scanned text
    *
-   * @returns {Promise<string>}
+   * @returns {Promise<ScanSession|null>}
    */
   async scanMultiple(opts = {}) {
     const allowed = this.enabled() && (await this.requestPermission());
@@ -138,7 +177,7 @@ export default Ember.Service.extend({
 
     if (!allowed) return null;
 
-    const capture = this.createCapture(
+    const scanner = this.__newScanSession(
       previewElement,
       (barcodeCapture, session) => {
         const { newlyRecognizedBarcodes } = session;
@@ -149,57 +188,32 @@ export default Ember.Service.extend({
       }
     );
 
-    return capture;
+    return scanner;
   },
 
   /**
-   *
+   * Returns a promise that resolves once one code has been read
    *
    * @param {object} [opts={}]
    * @param {HTMLElement} [opts.htmlElement]
+   * @returns {Promise<string|null>}
    */
   async scanOne(opts = {}) {
     const deferred = Ember.RSVP.defer();
     const { previewElement = null } = opts;
 
-    const capture = await this.scanMultiple({
+    const scanner = await this.scanMultiple({
       previewElement,
       onBarcode(code) {
         deferred.resolve(code);
-        capture.stop();
+        scanner.stop();
       }
     });
 
+    if (!scanner) deferred.resolve(null);
+
     return deferred.promise;
   },
-
-  // /**
-  //  * Tries to scan a bar code and returns the scanned text
-  //  *
-  //  * @returns {Promise<string>}
-  //  */
-  // async scan() {
-  //   const scanner = this.getScanner();
-  //   const allowed = await this.requestPermission();
-  //   const deferred = Ember.RSVP.defer();
-
-  //   if (!allowed) return null;
-
-  //   const onSuccess = res => {
-  //     if (res.cancelled || !res.text) {
-  //       return deferred.resolve(null);
-  //     }
-
-  //     const scannedText = res.text.substring(res.text.lastIndexOf("=") + 1);
-  //     deferred.resolve(scannedText);
-  //   };
-
-  //   const onError = e => deferred.reject(e);
-
-  //   scanner.scan(onSuccess, onError, SCAN_OPTIONS);
-
-  //   return deferred.promise;
-  // },
 
   /**
    * Tries to scan a bar code and returns the package associated with the inventory number scanned

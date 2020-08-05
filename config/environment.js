@@ -66,6 +66,8 @@ module.exports = function(environment) {
       HK_COUNTRY_CODE: "+852",
       HK_TIME_ZONE: "Asia/Hong_Kong",
 
+      SCANDIT_LICENSE_KEY: process.env.SCANDIT_LICENSE_KEY,
+
       PRELOAD_TYPES: [
         "booking_type",
         "purpose",
@@ -112,11 +114,11 @@ module.exports = function(environment) {
 
   if (environment === "development") {
     ENV.APP.ORIGIN = "localhost";
-    ENV.APP.API_HOST_URL = "https://f0dec179e63b.ngrok.io";
+    ENV.APP.API_HOST_URL = "https://9c25daa03be4.ngrok.io";
     ENV.APP.SOCKETIO_WEBSERVICE_URL = "http://localhost:1337/goodcity";
     ENV.cordova.FcmSenderId = "535052654081";
     ENV.contentSecurityPolicy["connect-src"] = [
-      "https://f0dec179e63b.ngrok.io",
+      "https://9c25daa03be4.ngrok.io",
       "https://api.cloudinary.com",
       "http://localhost:4203",
       "http://localhost:1337",

@@ -35,7 +35,8 @@ function addStopButton(parent, callback) {
     "z-index": "1000",
     position: "relative",
     margin: "20px auto",
-    "line-height": "20px"
+    "line-height": "20px",
+    "text-align": "center"
   });
 
   parent.append(button);
