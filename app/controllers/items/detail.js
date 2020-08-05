@@ -623,6 +623,11 @@ export default GoodcityController.extend(
         this.set("openPackageSearch", true);
       },
 
+      setScannedSearchText(searchedText) {
+        this.set("searchText", searchedText);
+        this.send("openItemsSearch");
+      },
+
       /**
        * Applies the original item valuation when it was loaded.
        * It is like resetting to the value when item was displayed
