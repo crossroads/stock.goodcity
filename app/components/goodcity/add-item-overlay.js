@@ -55,7 +55,7 @@ export default Ember.Component.extend({
     let promises = [];
     this.get("pkgLocations").map(pkgLocation => {
       let selectedQuantity = pkgLocation.get("defaultAddableQuantity");
-      if (pkgLocation.get("hasDirtyAttributes") && selectedQuantity) {
+      if (selectedQuantity) {
         const params = {
           item_id: this.get("pkg").id,
           task: "pack",
