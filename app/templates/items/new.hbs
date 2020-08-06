@@ -66,14 +66,14 @@
       <div class="small-3 columns item-label">
         {{t "items.new.description"}}
       </div>
-      <div class="small-6 large-7 columns description-block">
+      <div class="small-6 medium-7 large-7 columns description-block">
         {{#form-control}}
           <i class="remove-text" aria-hidden="true" {{action "clearDescription"}}>{{fa-icon 'times-circle'}}</i>
           {{auto-resize-textarea data-autoresize=true name="description" value=description required="required" pattern=".*\S.*" id="description"}}
           <div class='input-error'>{{t 'items.new.validation_errors.description'}}</div>
         {{/form-control}}
       </div>
-      <div class="small-3 large-2">
+      <div class="small-3 medium-2 large-2">
         <a {{action "triggerUpload"}} class="{{unless isReady 'disabled'}}">
           <span class="image-box">
             {{#if newUploadedImage}}
