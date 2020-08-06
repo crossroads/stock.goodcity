@@ -69,7 +69,6 @@ export default Ember.Component.extend({
           )
         );
       }
-      pkgLocation.rollbackAttributes();
     });
     return promises;
   },
@@ -91,10 +90,6 @@ export default Ember.Component.extend({
         } else {
           this.resolveAddItemPromises();
         }
-        this.get("pkgLocations").map(pkgLocation => {
-          pkgLocation.rollbackAttributes();
-        });
-        this.resetPackageDefaultAddableQuantity();
       }
     },
 
