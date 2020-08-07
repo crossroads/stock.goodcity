@@ -586,8 +586,9 @@ export default GoodcityController.extend(
               this.get("store").pushPayload(data);
               this.set("associatedPackages", data.items);
               if (data.packages_locations.length > 0) {
+                let record;
                 data.packages_locations.map(pkgloc => {
-                  var record = this.get("store").peekRecord(
+                  record = this.get("store").peekRecord(
                     "packages_location",
                     pkgloc.id
                   );
