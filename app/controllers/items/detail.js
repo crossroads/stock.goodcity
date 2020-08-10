@@ -585,6 +585,16 @@ export default GoodcityController.extend(
             .then(data => {
               this.get("store").pushPayload(data);
               this.set("associatedPackages", data.items);
+              if (data.packages_locations.length > 0) {
+                let record;
+                data.packages_locations.map(pkgloc => {
+                  record = this.get("store").peekRecord(
+                    "packages_location",
+                    pkgloc.id
+                  );
+                  record.set("defaultAddableQuantity", pkgloc.quantity);
+                });
+              }
             })
         );
       },
