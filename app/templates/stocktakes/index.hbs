@@ -47,6 +47,11 @@
                 <div class="name">{{ stocktake.name }}</div>
                 <div class="state">{{ stocktake.state }}</div>
               </div>
+              {{#if stocktake.comment}}
+                <div class="stocktake-details">
+                  {{stocktake.comment}}
+                </div>
+              {{/if}}
               <div class="stocktake-details flex space-between wrap">
                 <span class="location">{{ stocktake.location.displayName }}</span>
                 <span class="counts-text">

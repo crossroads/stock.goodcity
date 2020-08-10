@@ -106,7 +106,11 @@
         {{/if}}
       {{/if}}
 
-      {{#each filteredRevisions as |revision|}}
+      {{#ember-collection
+        items=filteredRevisions
+        class="ember-collection--no-sidebars"
+        cell-layout=(ember-collection-layouts/fixed-grid-layout 800 160) as |revision index|
+      }}
         {{!-- REVISION BLOCK --}}
         {{#let-alias (pick-key (array-find revision.item.packagesLocations 'locationId' stocktake.location.id) 'quantity' 0) as |expectedQty|}}
           <div class="revision {{unless revision.editable 'locked'}} {{if revision.hasDirtyAttributes 'unsaved'}}">
@@ -196,7 +200,7 @@
             </div>
           </div>
         {{/let-alias}}
-      {{/each}}
+      {{/ember-collection}}
     </div>
   </div>
 
