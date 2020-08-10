@@ -77,7 +77,9 @@ export default Ember.Controller.extend(AsyncMixin, {
     }
   ),
 
-  missingStocktakeName: Ember.computed.empty("newStocktakeName"),
+  missingStocktakeName: Ember.computed("newStocktakeName", function() {
+    return (this.get("newStocktakeName") || "").trim().length === 0;
+  }),
   invalidStocktakeName: Ember.computed.or(
     "stocktakeNameAlreadyExists",
     "missingStocktakeName"
@@ -151,7 +153,7 @@ export default Ember.Controller.extend(AsyncMixin, {
     async confirmNewStocktake() {
       this.runTask(async () => {
         const stocktake = this.get("store").createRecord("stocktake", {
-          name: this.get("newStocktakeName"),
+          name: this.get("newStocktakeName").trim(),
           location: this.get("selectedLocation"),
           comment: this.get("newStocktakeComment"),
           state: "open"

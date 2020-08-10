@@ -2,6 +2,13 @@
   $warning-red: #ff4353;
   $success-green: #6fab4a;
 
+  position: fixed;
+  width: 100%;
+
+  .title {
+    white-space: nowrap;
+  }
+
   .status-bar {
     color: white;
     text-align: center;
@@ -94,9 +101,18 @@
 
   .revision-list {
     overflow-y: auto;
-    max-height: 80vh;
+    height: 60vh;
+    position: relative;
+
+    .ember-collection--no-sidebars {
+      & > div {
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+      }
+    }
 
     .revision{
+      max-width: 95vw;
 
       &.unsaved {
         input {
