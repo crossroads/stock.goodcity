@@ -9,7 +9,7 @@ function buildOverlay(parent = document.body, style = {}) {
     width: "100%",
     height: "100%",
     position: parent === document.body ? "fixed" : "absolute",
-    "z-index": "1000",
+    "z-index": "2000",
     top: "0px",
     left: "0px",
     "background-color": "black",

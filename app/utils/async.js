@@ -83,3 +83,34 @@ export function queued(func) {
     return promise;
   };
 }
+
+/**
+ * Prevents a function from being called multiple times, e.g if a user spam clicks a button
+ * Once the first call of the function is finished, it can be called again
+ *
+ * @export
+ * @param {function} func the original function to be called
+ * @returns {Promise<any>}
+ */
+export function singleRunner(func) {
+  let promise = null;
+
+  return function(...args) {
+    if (promise) {
+      // A previous call is still running
+      return promise;
+    }
+
+    promise = Ember.RSVP.resolve(func.apply(this, args));
+
+    return promise
+      .then(res => {
+        promise = null;
+        return res;
+      })
+      .catch(err => {
+        promise = null;
+        return Ember.RSVP.reject(err);
+      });
+  };
+}

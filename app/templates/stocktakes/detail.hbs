@@ -43,7 +43,7 @@
     {{/if}}
 
     {{!--  SAVING/ERROR MESSAGE --}}
-    <div class="row">
+    <div class="row message-zone">
       {{#if saveError}}
         <div class="top-message error-message">
           <i>{{fa-icon 'exclamation-circle'}}</i>
@@ -108,7 +108,7 @@
     {{/if}}
 
     {{!-- REVISION LIST --}}
-    <div class="row revision-list">
+    <div class="row revision-list {{if isScanning 'small'}}">
       {{#if (is-equal mode 'count')}}
         {{#if (is-equal filteredRevisions.length 0)}}
           <div class="tips">

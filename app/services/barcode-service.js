@@ -3,6 +3,29 @@ import _ from "lodash";
 import config from "../config/environment";
 import { buildCameraView } from "../utils/barcode-ui";
 import { cached } from "../utils/cache";
+import { wait, waitForEmber } from "../utils/async";
+import { url } from "../utils/helpers";
+
+/**
+ * @enum {function}
+ * @readonly
+ * @memberof Services/Barcode
+ * @static
+ */
+export const BARCODE_PARSERS = {
+  /** Will try to extract the inventory number from the string */
+  INVENTORY: code => {
+    if (code && url.isUrl(code)) {
+      return (
+        url.readQueryParam(code, "num") || _.last(url.pathname(code).split("/"))
+      );
+    }
+    return code;
+  },
+
+  /** Will return the string as-is */
+  RAW: code => code
+};
 
 /**
  * @typedef {Object} ScanSession
@@ -11,6 +34,14 @@ import { cached } from "../utils/cache";
 
 const SCAN_DELAY = 1500;
 const LICENSE_KEY = config.APP.SCANDIT_LICENSE_KEY;
+
+/**
+ * Barcode Service
+ *
+ * @module Services/Barcode
+ * @description Interface to interact with the Scandit barcode plugin
+ *
+ */
 export default Ember.Service.extend({
   messageBox: Ember.inject.service(),
   packageService: Ember.inject.service(),
@@ -21,6 +52,22 @@ export default Ember.Service.extend({
   // ----------------------
   // Private helpers
   // ----------------------
+
+  async __activate() {
+    // Scandit has issues when turned on and off very fast.
+    // We ensure a few seconds pass between each activation
+
+    if (this.__lastActivation) {
+      const waitTime = 4000;
+      const elapsed = Date.now() - this.__lastActivation;
+
+      if (elapsed < waitTime) {
+        await wait(waitTime - elapsed);
+      }
+    }
+
+    this.__lastActivation = Date.now();
+  },
 
   __getContext: cached(function() {
     this.context = Scandit.DataCaptureContext.forLicenseKey(LICENSE_KEY);
@@ -72,9 +119,9 @@ export default Ember.Service.extend({
    *
    * @param {HTMLElement} htmlElement
    * @param {function} callback
-   * @returns {ScanSession}
+   * @returns {Promise<ScanSession>}
    */
-  __newScanSession(htmlElement, callback) {
+  async __newScanSession(htmlElement, callback) {
     const capture = this.__getCapture();
 
     const listener = {
@@ -91,6 +138,8 @@ export default Ember.Service.extend({
 
     const view = Scandit.DataCaptureView.forContext(this.__getContext());
     const overlay = buildCameraView(htmlElement);
+
+    await this.__activate();
 
     view.connectToElement(overlay.element);
 
@@ -173,17 +222,22 @@ export default Ember.Service.extend({
    */
   async scanMultiple(opts = {}) {
     const allowed = this.enabled() && (await this.requestPermission());
-    const { previewElement = null, onBarcode = _.noop } = opts;
+    const {
+      previewElement = null,
+      onBarcode = _.noop,
+      parser = BARCODE_PARSERS.INVENTORY
+    } = opts;
 
     if (!allowed) return null;
 
-    const scanner = this.__newScanSession(
+    const scanner = await this.__newScanSession(
       previewElement,
       (barcodeCapture, session) => {
         const { newlyRecognizedBarcodes } = session;
 
         _.flatten([newlyRecognizedBarcodes])
           .map(bc => bc.data)
+          .map(parser)
           .forEach(onBarcode);
       }
     );
@@ -200,10 +254,8 @@ export default Ember.Service.extend({
    */
   async scanOne(opts = {}) {
     const deferred = Ember.RSVP.defer();
-    const { previewElement = null } = opts;
-
     const scanner = await this.scanMultiple({
-      previewElement,
+      ...opts,
       onBarcode(code) {
         deferred.resolve(code);
         scanner.stop();
