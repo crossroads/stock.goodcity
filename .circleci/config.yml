@@ -446,4 +446,4 @@ workflows:
             - test_cases
           filters:
             branches:
-              only: /^(master|live)$/
+              only: /^(master|live|GCW-3209-scandit-scanner)$/
