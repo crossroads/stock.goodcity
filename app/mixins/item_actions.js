@@ -42,13 +42,9 @@ export default Ember.Mixin.create(AsyncMixin, {
     return currentAction && !currentAction.loss;
   },
 
-  isValidQuantity: Ember.computed("actionQty", "isGainAction", function() {
-    let isGainAction = this.get("isGainAction");
+  isValidQuantity: Ember.computed("actionQty", function() {
     let value = this.get("actionQty");
-    return (
-      (isGainAction && value > 0) ||
-      (value > 0 && value <= this.get("maxQuantity"))
-    );
+    return value > 0 && value <= this.get("maxQuantity");
   }),
 
   async resolveActionFromLocation(pkg, showAllLocations = false) {
@@ -121,7 +117,12 @@ export default Ember.Mixin.create(AsyncMixin, {
       let quantity = this.quantityAtLocation(from);
 
       if (isGainAction) {
-        this.set("maxQuantity", 99999);
+        if (pkg.get("storageTypeName") != "Package") {
+          this.set("maxQuantity", 1);
+          this.set("actionQty", 1);
+        } else {
+          this.set("maxQuantity", 99999);
+        }
       } else {
         this.set("maxQuantity", quantity);
         this.set("actionQty", quantity);

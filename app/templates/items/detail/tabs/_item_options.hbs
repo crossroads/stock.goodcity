@@ -8,11 +8,12 @@
   {{#each itemActions as |action|}}
     {{#if action.loss}}
       <div class="option_menu {{if item.availableQuantity '' 'disabled'}}"
-        onclick={{if item.availableQuantity (action 'triggerItemAction' item action.name)}} >
+        {{action 'triggerItemAction' item action.name}} >
         {{fa-icon action.icon}} {{action.displayName}}
       </div>
     {{else}}
-      <div class="option_menu" {{action "triggerItemAction" item action.name}}>
+      <div class="option_menu {{if isGainValidInBoxOrPallet 'disabled'}}"
+      {{action "triggerItemAction" item action.name}}>
         {{fa-icon action.icon}} {{action.displayName}}
       </div>
     {{/if}}

@@ -259,6 +259,19 @@ export default GoodcityController.extend(
       return ["Box", "Pallet"].indexOf(this.get("item.storageTypeName")) > -1;
     }),
 
+    isGainValidInBoxOrPallet: Ember.computed(
+      "model.onHandQuantity",
+      "model.dispatchedQuantity",
+      "isBoxOrPallet",
+      function() {
+        return (
+          this.get("isBoxOrPallet") &&
+          (!!this.get("model.onHandQuantity") ||
+            !!this.get("model.dispatchedQuantity"))
+        );
+      }
+    ),
+
     conditions: Ember.computed(function() {
       return this.get("store").peekAll("donor_condition");
     }),
