@@ -260,7 +260,7 @@ export default GoodcityController.extend(
     }),
 
     //Added to avoid gain in box or pallet if the quantity is present in dispatched , designated or available quantity
-    isGainValidInBoxOrPallet: Ember.computed(
+    isGainInvalidInBoxOrPallet: Ember.computed(
       "model.onHandQuantity",
       "model.dispatchedQuantity",
       "isBoxOrPallet",

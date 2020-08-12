@@ -22,7 +22,7 @@
                   <i>{{fa-icon action.icon}}</i> {{action.displayName}}
                 </li>
               {{else}}
-                <li class="menu {{if (is-and allowItemActions isGainValidInBoxOrPallet) 'disabled'}}"
+                <li class="menu {{if (is-and allowItemActions isGainInvalidInBoxOrPallet) 'disabled'}}"
                   {{action (
                     multi-actions
                       (action "triggerItemAction" item action.name)
