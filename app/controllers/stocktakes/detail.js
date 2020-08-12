@@ -80,6 +80,10 @@ export default Ember.Controller.extend(AsyncMixin, {
     }
   ),
 
+  canScan: Ember.computed(function() {
+    return this.get("barcodeService").enabled();
+  }),
+
   // ----------------------
   // Lifecycle
   // ----------------------
