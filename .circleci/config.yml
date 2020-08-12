@@ -224,7 +224,7 @@ jobs:
                 exit 1
             esac
             echo "Building for ENVIRONMENT: ${ENVIRONMENT}"
-            EMBER_CLI_CORDOVA=1 ENVIRONMENT=${ENVIRONMENT} yarn run ember build --environment=production
+            EMBER_CLI_CORDOVA=1 SCANDIT_LICENSE_KEY=${SCANDIT_LICENSE_KEY_ANDROID} ENVIRONMENT=${ENVIRONMENT} yarn run ember build --environment=production
       - run: mv dist/ cordova/www
       - persist_to_workspace:
           root: .
@@ -329,7 +329,7 @@ jobs:
                 echo 'export CERTIFICATE=GoodCity_2020_Development.p12' >> $BASH_ENV
                 echo 'export PROVISIONING_PROFILE=GoodCityStockStaging.mobileprovision' >> $BASH_ENV
                 ;;
-                GCW-3209-scandit-scanner)
+              GCW-3209-scandit-scanner)
                 echo 'export ENVIRONMENT=staging' >> $BASH_ENV
                 echo 'export CERTIFICATE=GoodCity_2020_Development.p12' >> $BASH_ENV
                 echo 'export PROVISIONING_PROFILE=GoodCityStockStaging.mobileprovision' >> $BASH_ENV
@@ -354,7 +354,7 @@ jobs:
           name: Ember build
           command: |
             echo "Building for ENVIRONMENT: ${ENVIRONMENT}"
-            EMBER_CLI_CORDOVA=1 ENVIRONMENT=${ENVIRONMENT} yarn run ember build --environment=production
+            EMBER_CLI_CORDOVA=1 SCANDIT_LICENSE_KEY=${SCANDIT_LICENSE_KEY_IOS} ENVIRONMENT=${ENVIRONMENT} yarn run ember build --environment=production
       - run: mv dist/ cordova/www
       - persist_to_workspace:
           root: .
