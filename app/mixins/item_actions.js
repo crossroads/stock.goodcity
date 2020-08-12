@@ -42,13 +42,9 @@ export default Ember.Mixin.create(AsyncMixin, {
     return currentAction && !currentAction.loss;
   },
 
-  isValidQuantity: Ember.computed("actionQty", "isGainAction", function() {
-    let isGainAction = this.get("isGainAction");
+  isValidQuantity: Ember.computed("actionQty", function() {
     let value = this.get("actionQty");
-    return (
-      (isGainAction && value > 0 && value <= this.get("maxQuantity")) ||
-      (value > 0 && value <= this.get("maxQuantity"))
-    );
+    return value > 0 && value <= this.get("maxQuantity");
   }),
 
   async resolveActionFromLocation(pkg, showAllLocations = false) {
