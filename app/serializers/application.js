@@ -68,6 +68,21 @@ function normalizeMessages(payload) {
 }
 
 /**
+ * Normalizes Images before
+ *
+ * @param {object} payload
+ */
+function normalizeImages(payload) {
+  const images = readRecords(payload, "image");
+
+  _.each(images, m => {
+    if (m.imageable_type == "Package") {
+      m.item_id = m.imageable_id;
+    }
+  });
+}
+
+/**
  * Maps record keys, e.g transform package_id into item_id
  *
  * @param {object} payload
@@ -92,6 +107,7 @@ function normalize(payload) {
   normalizeKeys(payload);
   normalizeModelNames(payload);
   normalizeMessages(payload);
+  normalizeImages(payload);
 }
 
 export default ActiveModelSerializer.extend({

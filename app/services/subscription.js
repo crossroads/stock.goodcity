@@ -188,7 +188,10 @@ export default Ember.Service.extend(Ember.Evented, AsyncMixin, {
     let { item: payload, operation, sender, device_id: deviceId } = data;
     let rawType = Object.keys(payload)[0].toLowerCase();
     let type = this.resolveTypeAliases(rawType);
-    let record = Ember.$.extend({}, payload[rawType]);
+    let record = Ember.$.extend(
+      {},
+      payload[rawType] || payload[_.capitalize(rawType)]
+    );
     return { payload, record, operation, type, rawType, sender, deviceId };
   },
 
@@ -283,7 +286,7 @@ export default Ember.Service.extend(Ember.Evented, AsyncMixin, {
       case "delete":
         let existingItem = this.get("store").peekRecord(type, record.id);
         if (existingItem) {
-          this.get("store").unloadRecord(existingItem);
+          existingItem.destroyRecord();
         }
         break;
       default:
