@@ -8,12 +8,17 @@
   }
 
   .menu-section {
-    background-color: #8091A9;
-    padding: 2%;
+    background-color: $tabbar-menu-icon-color;
+    padding: 1%;
     color: white;
-    font-size: 120%;
+    font-size: 90%;
     margin-top: 3%;
     margin-bottom: 3%;
+
+    @media #{$small-only} {
+      font-size: 120%;
+      padding: 2%;
+    }
   }
 
   .menu-margin {
