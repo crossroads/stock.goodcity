@@ -329,11 +329,6 @@ jobs:
                 echo 'export CERTIFICATE=GoodCity_2020_Development.p12' >> $BASH_ENV
                 echo 'export PROVISIONING_PROFILE=GoodCityStockStaging.mobileprovision' >> $BASH_ENV
                 ;;
-              GCW-3209-scandit-scanner)
-                echo 'export ENVIRONMENT=staging' >> $BASH_ENV
-                echo 'export CERTIFICATE=GoodCity_2020_Development.p12' >> $BASH_ENV
-                echo 'export PROVISIONING_PROFILE=GoodCityStockStaging.mobileprovision' >> $BASH_ENV
-                ;;
               preview)
                 echo 'export ENVIRONMENT=preview' >> $BASH_ENV
                 echo 'export CERTIFICATE=GoodCity_2020_Development.p12' >> $BASH_ENV
@@ -451,4 +446,4 @@ workflows:
             - test_cases
           filters:
             branches:
-              only: /^(master|live|GCW-3209-scandit-scanner)$/
+              only: /^(master|live)$/
