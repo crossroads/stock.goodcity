@@ -1,5 +1,5 @@
 <div class="app-menu-list">
-  <nav class="tab-bar margin-bottom-none">
+  <div class="tab-bar margin-bottom-none top-menu">
     <div class="row">
       <div class="small-4 columns center">
         {{#if stockAppVersion}}
@@ -19,7 +19,7 @@
         </a>
       </div>
     </div>
-  </nav>
+  </div>
 
   <div class="row">
     <div class="menu-section margin-top-none">
@@ -51,7 +51,7 @@
 
   <div class="row">
     <div class="menu-section">
-      {{t 'create_new_order'}}
+      {{t 'new_order_menu'}}
     </div>
     <div class="row menu-margin">
       <div class="small-4 columns menu-option">
@@ -66,7 +66,7 @@
 
   <div class="row">
     <div class="menu-section">
-      {{t 'create_new_item'}}
+      {{t 'new_item_menu'}}
     </div>
     <div class="row menu-margin">
       {{#each storageTypes as |storageType|}}
