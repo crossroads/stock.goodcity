@@ -1,0 +1,49 @@
+.app-menu-list {
+  .center {
+    text-align: center;
+  }
+
+  .top-menu {
+    display: flex;
+  }
+
+  .menu-section {
+    background-color: $tabbar-menu-icon-color;
+    padding: 1%;
+    color: white;
+    font-size: 90%;
+    margin-top: 3%;
+    margin-bottom: 3%;
+
+    @media #{$small-only} {
+      font-size: 120%;
+      padding: 2%;
+    }
+  }
+
+  .menu-margin {
+    margin-top: 5%;
+    margin-bottom: 2%;
+  }
+
+  .margin-top-none {
+    margin-top: 0;
+  }
+
+  .margin-bottom-none {
+    margin-bottom: 0;
+  }
+
+  .menu-option {
+    text-align: center;
+    font-size: 90%;
+
+    @media #{$small-only} {
+      font-size: 120%;
+    }
+  }
+
+  .option-subtext {
+    margin-top: 5%;
+  }
+}
