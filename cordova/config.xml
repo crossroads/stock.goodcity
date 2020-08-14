@@ -1,13 +1,19 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget android-versionCode="0" id="hk.goodcity.stockstaging" ios-CFBundleVersion="0" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget android-versionCode="80001" id="hk.goodcity.stockstaging" ios-CFBundleVersion="1" version="0.0.1" xmlns="http://www.w3.org/ns/widgets">
     <name>S. Stock</name>
     <description>
-    GoodCity Stock Application
-  </description>
+        GoodCity Stock Application
+    </description>
     <author href="https://www.crossroads.org.hk">Crossroads</author>
     <content src="index.html" />
     <hook src="scripts/update_build_number.py" type="before_prepare" />
+    <hook src="scripts/setup_gradle_properties.js" type="before_build" />
     <access origin="*" />
+    <httpProtocol>
+        <customHeaders>
+            <add name="Access-Control-Allow-Origin" value="*" />
+        </customHeaders>
+    </httpProtocol>
     <preference name="DisallowOverscroll" value="true" />
     <allow-intent href="http://*/*" launch-external="yes" />
     <allow-intent href="https://*/*" launch-external="yes" />
@@ -104,8 +110,10 @@
     <plugin name="cordova-plugin-inappbrowser" spec="https://github.com/apache/cordova-plugin-inappbrowser.git" />
     <plugin name="cordova-plugin-dialogs" spec="https://github.com/apache/cordova-plugin-dialogs.git" />
     <plugin name="cordova-plugin-deeplinks" spec="https://github.com/e-imaxina/cordova-plugin-deeplinks.git" />
-    <plugin name="phonegap-plugin-barcodescanner" spec="^7.0.0" />
     <plugin name="cordova-android-support-gradle-release" spec="^2.0.1">
         <variable name="ANDROID_SUPPORT_VERSION" value="27.+" />
     </plugin>
+    <plugin name="scandit-cordova-datacapture-core" spec="^6.4.0" />
+    <plugin name="scandit-cordova-datacapture-barcode" spec="^6.4.0" />
+    <plugin name="cordova-plugin-androidx-adapter" spec="^1.1.1" />
 </widget>

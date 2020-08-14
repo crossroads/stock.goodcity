@@ -35,8 +35,15 @@
       </div>
     </div>
 
+    {{#if isScanning}}
+      <div class="row scanner-overlay">
+        <div class="scanner-preview {{if isScanning 'show'}}" id="{{scannerPreviewId}}"></div>
+        <div class="scanner-error {{if scannerError 'active'}}">{{scannerError}}</div>
+      </div>
+    {{/if}}
+
     {{!--  SAVING/ERROR MESSAGE --}}
-    <div class="row">
+    <div class="row message-zone">
       {{#if saveError}}
         <div class="top-message error-message">
           <i>{{fa-icon 'exclamation-circle'}}</i>
@@ -55,9 +62,16 @@
     {{#if stocktake.isOpen}}
       <div class="row buttons-container flex">
         {{#if (is-equal mode modes.count)}}
-          <button class="button" {{action 'scanPackage'}}>
-            {{fa-icon 'qrcode'}} {{t 'stocktakes.scanner_mode'}}
-          </button>
+          {{#if canScan }}
+            <button class="button {{if isScanning 'light'}}" {{action 'toggleScanning'}}>
+              {{fa-icon 'qrcode'}} 
+              {{#if isScanning}}
+                {{t 'stocktakes.stop_scanning'}}
+              {{else}}
+                {{t 'stocktakes.scanner_mode'}}
+              {{/if}}
+            </button>
+          {{/if}}
           <button class="button" {{action 'addItem'}}>
             {{fa-icon 'plus'}} {{t 'stocktakes.add_item'}}
           </button>
@@ -96,7 +110,7 @@
     {{/if}}
 
     {{!-- REVISION LIST --}}
-    <div class="row revision-list">
+    <div class="row revision-list {{if isScanning 'small'}}">
       {{#if (is-equal mode 'count')}}
         {{#if (is-equal filteredRevisions.length 0)}}
           <div class="tips">

@@ -30,9 +30,9 @@ export default Ember.Component.extend(AsyncMixin, {
       }
 
       try {
-        this.redirect(await scanner.scan());
+        this.redirect(await scanner.scanOne());
       } catch (e) {
-        this.modalAlert("Scanning failed: " + error);
+        this.modalAlert("Scanning failed: " + e);
       }
     }
   }

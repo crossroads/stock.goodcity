@@ -204,17 +204,17 @@ export default Ember.Mixin.create({
     });
   },
 
-  tryTranslate(str) {
+  tryTranslate(str, props = {}) {
     const i18n = this.get("i18n");
-    return i18n.exists(str) ? i18n.t(str) : str;
+    return i18n.exists(str) ? i18n.t(str, props) : str;
   },
 
-  modalAlert(key, cb = _.noop) {
+  modalAlert(key, props = {}) {
     const deferred = Ember.RSVP.defer();
-    const text = this.tryTranslate(key);
+    const text = this.tryTranslate(key, props);
 
     this.get("messageBox").alert(text, () => {
-      deferred.resolve(cb());
+      deferred.resolve(null);
     });
 
     return deferred.promise;

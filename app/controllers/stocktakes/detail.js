@@ -80,6 +80,10 @@ export default Ember.Controller.extend(AsyncMixin, {
     }
   ),
 
+  canScan: Ember.computed(function() {
+    return this.get("barcodeService").enabled();
+  }),
+
   // ----------------------
   // Lifecycle
   // ----------------------
@@ -94,10 +98,14 @@ export default Ember.Controller.extend(AsyncMixin, {
       this.set("onlyShowWarnings", false);
       this.set("onlyShowVariances", false);
     }
+
+    this.set("scannerPreviewId", `stocktake-scanner-preview-${_.uniqueId()}`);
+    this.addObserver("mode", this, this.stopScanning);
   },
 
   off() {
-    // no-op
+    this.stopScanning();
+    this.removeObserver("mode", this, this.stopScanning);
   },
 
   // ----------------------
@@ -140,6 +148,29 @@ export default Ember.Controller.extend(AsyncMixin, {
     });
   },
 
+  async onBarcodeScanned(inventoryNumber) {
+    if (!inventoryNumber) return;
+
+    const pkg = await this.get("packageService").findPackageByInventoryNumber(
+      inventoryNumber
+    );
+
+    if (pkg) {
+      this.send("addItem", pkg);
+    } else {
+      this.showScannerError(
+        this.get("i18n").t("stocktakes.unknown_inventory_number", {
+          code: inventoryNumber
+        })
+      );
+      Ember.run.debounce(this, this.showScannerError, "", 3000);
+    }
+  },
+
+  showScannerError(text) {
+    this.set("scannerError", text);
+  },
+
   saveChanges: queued(async function() {
     const revisions = this.getChangedRevisions();
 
@@ -147,6 +178,46 @@ export default Ember.Controller.extend(AsyncMixin, {
       await this.trySaveAll(revisions);
     }
   }),
+
+  // ----------------------
+  // Scanner
+  // ----------------------
+
+  /**
+   * Counts a package by scanning a barcode
+   */
+  startScanning() {
+    if (this.get("isScanning")) {
+      return;
+    }
+
+    this.set("isScanning", true);
+
+    Ember.run.scheduleOnce("afterRender", this, async () => {
+      try {
+        const scanner = await this.get("barcodeService").scanMultiple({
+          previewElement: document.getElementById(this.get("scannerPreviewId")),
+          onBarcode: this.onBarcodeScanned.bind(this)
+        });
+
+        this.set("scanner", scanner);
+      } catch (e) {
+        this.modalAlert("stocktakes.scanning_failure");
+        this.set("isScanning", false);
+      }
+    });
+  },
+
+  stopScanning() {
+    if (!this.get("isScanning")) {
+      return;
+    }
+
+    this.get("scanner").stop();
+
+    this.set("isScanning", false);
+    this.set("scanner", null);
+  },
 
   // ----------------------
   // Actions
@@ -204,6 +275,7 @@ export default Ember.Controller.extend(AsyncMixin, {
      * Will try to process the Stocktake
      */
     commit() {
+      this.stopScanning();
       this.runTask(() => {
         return this.get("stocktakeService").commitStocktake(
           this.get("stocktake")
@@ -219,6 +291,8 @@ export default Ember.Controller.extend(AsyncMixin, {
 
       if (!confirmed) return;
 
+      this.stopScanning();
+
       this.runTask(() => {
         return this.get("stocktakeService").cancelStocktake(
           this.get("stocktake")
@@ -226,17 +300,12 @@ export default Ember.Controller.extend(AsyncMixin, {
       }, ERROR_STRATEGIES.MODAL);
     },
 
-    /**
-     * Counts a package by scanning a barcode
-     */
-    scanPackage() {
-      this.runTask(async () => {
-        const pkg = await this.get("barcodeService").scanPackage();
-
-        if (pkg) {
-          this.send("addItem", pkg);
-        }
-      }, ASYNC_BEHAVIOURS.DISCREET);
+    toggleScanning() {
+      if (this.get("isScanning")) {
+        this.stopScanning();
+      } else {
+        this.startScanning();
+      }
     }
   }
 });
