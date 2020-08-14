@@ -17,7 +17,7 @@
     <allow-intent href="http://*/*" launch-external="yes" />
     <allow-intent href="https://*/*" launch-external="yes" />
     <platform name="android">
-        <hook src="scripts/setup_gradle_properties.py" type="after_platform_add" />
+        <hook src="scripts/setup_gradle_properties.js" type="after_platform_add" />
         <resource-file src="google-services.json" target="app/google-services.json" />
         <preference name="AndroidLaunchMode" value="singleInstance" />
         <preference name="LoadUrlTimeoutValue" value="120000" />
