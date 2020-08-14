@@ -41,8 +41,8 @@ export default Ember.Component.extend(AsyncMixin, {
 
     async removeRequest(reqId) {
       const req = this.get("store").peekRecord("goodcity_request", reqId);
-      this.runTask(
-        await this.get("goodcityRequestService").deleteRequest(reqId)
+      await this.runTask(
+        this.get("goodcityRequestService").deleteRequest(reqId)
       );
       this.get("store").unloadRecord(req);
     },
