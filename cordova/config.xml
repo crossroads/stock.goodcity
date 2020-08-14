@@ -7,7 +7,7 @@
     <author href="https://www.crossroads.org.hk">Crossroads</author>
     <content src="index.html" />
     <hook src="scripts/update_build_number.py" type="before_prepare" />
-    <hook src="scripts/setup_gradle_properties.js" type="before_build" />
+    <hook src="scripts/setup_gradle_properties.js" type="after_prepare" />
     <access origin="*" />
     <httpProtocol>
         <customHeaders>
