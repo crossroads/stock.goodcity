@@ -213,6 +213,9 @@ jobs:
               master)
                 ENVIRONMENT=staging
                 ;;
+              GCW-3252-update-fastlane)
+                ENVIRONMENT=staging
+                ;;
               preview)
                 ENVIRONMENT=preview
                 ;;
@@ -440,7 +443,7 @@ workflows:
             - ember_cordova_build
           filters:
             branches:
-              only: /^(master|live)$/
+              only: /^(master|live|GCW-3252-update-fastlane)$/
       - ios_build_and_deploy:
           requires:
             - test_cases
