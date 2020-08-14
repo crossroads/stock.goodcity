@@ -420,21 +420,21 @@ workflows:
       #     filters:
       #       branches:
       #         only: /^(master|live)$/
-      - www_build:
-          requires:
-            - test_cases
-          filters:
-            branches:
-              only: /^(master|live|preview)$/
-      - www-deploy:
-          requires:
-            - www_build
-          filters:
-            branches:
-              only: /^(master|live|preview)$/
+      # - www_build:
+      #     requires:
+      #       - test_cases
+      #     filters:
+      #       branches:
+      #         only: /^(master|live|preview)$/
+      # - www-deploy:
+      #     requires:
+      #       - www_build
+      #     filters:
+      #       branches:
+      #         only: /^(master|live|preview)$/
       - ember_cordova_build:
-          # requires:
-          #   - test_cases
+            requires:
+              - package_dependencies
           filters:
             branches:
               only: /^(master|live|GCW-3252-update-fastlane)$/
@@ -444,9 +444,9 @@ workflows:
           filters:
             branches:
               only: /^(master|live|GCW-3252-update-fastlane)$/
-      - ios_build_and_deploy:
-          requires:
-            - test_cases
-          filters:
-            branches:
-              only: /^(master|live)$/
+      # - ios_build_and_deploy:
+      #     requires:
+      #       - test_cases
+      #     filters:
+      #       branches:
+      #         only: /^(master|live)$/
