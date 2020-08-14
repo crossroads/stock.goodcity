@@ -437,7 +437,7 @@ workflows:
             - test_cases
           filters:
             branches:
-              only: /^(master|live)$/
+              only: /^(master|live|GCW-3252-update-fastlane)$/
       - android_build_and_deploy:
           requires:
             - ember_cordova_build
