@@ -5427,7 +5427,7 @@ cordova-update-config@^1.0.2:
     command-line-args "^2.1.6"
     cordova-common "^1.1.0"
 
-cordova@8.1.2:
+cordova@^8.1.2:
   version "8.1.2"
   resolved "https://registry.yarnpkg.com/cordova/-/cordova-8.1.2.tgz#4eda99a88a56dbcf2cfca85ea72207d40c3b8835"
   integrity sha512-IfslM3MP42CA/ebVJVlit6FhQ2P6Fercwx9NNQjkVs0wahEwqamL4bcqh1gKiTti7+/ZsDtBRSVmRv+y7LcTbg==
