@@ -94,7 +94,7 @@ namespace :cordova do
     Dir.chdir(CORDOVA_PATH) do
        #Temporary fix for phonegap-plugin-push
       if platform == 'android'
-        sh %{ cordova plugin add phonegap-plugin-push@2.3.0 }
+        sh %{ cordova plugin add phonegap-plugin-push@2.1.2 }
       else
         sh %{ cordova plugin add phonegap-plugin-push@1.9.2 --variable SENDER_ID="XXXXXXX" }
       end

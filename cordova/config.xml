@@ -116,4 +116,5 @@
     <plugin name="scandit-cordova-datacapture-core" spec="^6.4.0" />
     <plugin name="scandit-cordova-datacapture-barcode" spec="^6.4.0" />
     <plugin name="cordova-plugin-androidx-adapter" spec="^1.1.1" />
+    <plugin name="cordova-plugin-androidx" spec="^2.0.0" />
 </widget>
