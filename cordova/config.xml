@@ -17,7 +17,6 @@
     <allow-intent href="http://*/*" launch-external="yes" />
     <allow-intent href="https://*/*" launch-external="yes" />
     <platform name="android">
-        <hook src="scripts/setup_gradle_properties.py" type="after_prepare" />
         <resource-file src="google-services.json" target="app/google-services.json" />
         <preference name="AndroidLaunchMode" value="singleInstance" />
         <preference name="LoadUrlTimeoutValue" value="120000" />
@@ -117,4 +116,5 @@
     <plugin name="scandit-cordova-datacapture-barcode" spec="^6.4.0" />
     <plugin name="cordova-plugin-androidx-adapter" spec="^1.1.1" />
     <plugin name="cordova-plugin-androidx" spec="^2.0.0" />
+    <plugin name="cordova-plugin-fcm" spec="^2.1.2" />
 </widget>
