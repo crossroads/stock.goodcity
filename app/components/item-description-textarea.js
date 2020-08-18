@@ -9,7 +9,17 @@ export default AutoResizableTextarea.extend({
   item: null,
 
   didInsertElement() {
-    Ember.$(".description-error").hide();
+    const value = this.get("value") ? this.get("value").trim() : "";
+    if (value == "" && this.get("require")) {
+      this.$().focus();
+      Ember.$(this.element)
+        .siblings()
+        .show();
+    } else {
+      Ember.$(this.element)
+        .siblings()
+        .hide();
+    }
   },
 
   keyDown() {
@@ -27,8 +37,11 @@ export default AutoResizableTextarea.extend({
     var packageParams = {};
     packageParams[key] = value;
 
-    if (value === "" && this.get("required")) {
+    if (value == "" && this.get("require")) {
       this.$().focus();
+      Ember.$(this.element)
+        .siblings()
+        .show();
       return false;
     }
     if (
@@ -45,6 +58,9 @@ export default AutoResizableTextarea.extend({
       })
         .then(data => {
           this.get("store").pushPayload(data);
+          Ember.$(this.element)
+            .siblings()
+            .hide();
         })
         .finally(() => {
           loadingView.destroy();
