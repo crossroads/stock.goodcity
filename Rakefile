@@ -30,9 +30,11 @@ require "json"
 require "fileutils"
 require "rake/clean"
 require 'plist'
+require 'nokogiri'
 
 ROOT_PATH = File.dirname(__FILE__)
 CORDOVA_PATH = "#{ROOT_PATH}/cordova".freeze
+CONFIG_XML_PATH = "#{CORDOVA_PATH}/config.xml".freeze
 CLEAN.include("dist", "cordova/www", "#{CORDOVA_PATH}/platforms/android/build",
   "#{CORDOVA_PATH}/platforms/ios/build")
 CLOBBER.include('cordova/platforms', 'cordova/plugins')
@@ -42,6 +44,27 @@ TESTFAIRY_PLUGIN_URL = 'https://github.com/testfairy/testfairy-cordova-plugin'.f
 TESTFAIRY_PLUGIN_NAME = 'com.testfairy.cordova-plugin'.freeze
 KEYSTORE_FILE = "#{CORDOVA_PATH}/goodcity.keystore".freeze
 BUILD_JSON_FILE = "#{CORDOVA_PATH}/build.json".freeze
+
+def add_plugin(name, version, variables = {})
+  xml = File.read(CONFIG_XML_PATH)
+  doc = Nokogiri.XML(xml)
+  widget = doc.at_css('widget')
+
+  plugin = Nokogiri::XML::Node.new "plugin", doc
+  plugin['spec'] = version
+  plugin['name'] =  name
+
+  variables.each do |n, v|
+    var = Nokogiri::XML::Node.new "variable", doc
+    var['name'] = n
+    var['value'] = v
+    plugin.add_child(var)
+  end
+
+  widget.add_child(plugin)
+
+  File.write(CONFIG_XML_PATH, doc.to_xml)
+end
 
 # Default task
 task default: %w[app:build]
@@ -78,9 +101,9 @@ namespace :cordova do
 
     #Temporary fix for phonegap-plugin-push
     if platform == 'android'
-      sh %{ cordova plugin add phonegap-plugin-push@2.1.2 }
+      add_plugin('phonegap-plugin-push', '2.1.2')
     elsif platform == 'ios'
-      sh %{ cordova plugin add phonegap-plugin-push@1.9.2 --variable SENDER_ID="XXXXXXX" }
+      add_plugin('phonegap-plugin-push', '1.9.2', { SENDER_ID: 'XXXXXXX' })
     end
 
     log("Preparing app for #{platform}")
