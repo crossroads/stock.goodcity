@@ -81,10 +81,16 @@ namespace :cordova do
       system({"ENVIRONMENT" => environment}, "cordova prepare #{platform}")
     end
 
+    #Temporary fix for phonegap-plugin-push
+    if platform == 'android'
+      sh %{ cordova plugin add phonegap-plugin-push@2.1.2 }
+    end
+
     if platform == "ios"
       Dir.chdir(CORDOVA_PATH) do
         sh %{ cordova plugin add #{TESTFAIRY_PLUGIN_URL} } if environment == "staging"
         sh %{ cordova plugin remove #{TESTFAIRY_PLUGIN_NAME}; true } if environment == "production"
+        sh %{ cordova plugin add phonegap-plugin-push@1.9.2 --variable SENDER_ID="XXXXXXX" }
       end
     end
   end
@@ -92,12 +98,6 @@ namespace :cordova do
   desc "Cordova build {platform}"
   task build: :prepare do
     Dir.chdir(CORDOVA_PATH) do
-       #Temporary fix for phonegap-plugin-push
-      if platform == 'android'
-        sh %{ cordova plugin add phonegap-plugin-push@2.3.0 }
-      else
-        sh %{ cordova plugin add phonegap-plugin-push@1.9.2 --variable SENDER_ID="XXXXXXX" }
-      end
       build = (environment == "staging" && platform == 'android') ? "debug" : "release"
       extra_params = (platform === "android") ? '' : ios_build_config
       system({"ENVIRONMENT" => environment}, "cordova compile #{platform} --#{build} --device #{extra_params}")
