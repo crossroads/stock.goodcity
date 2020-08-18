@@ -9,17 +9,24 @@ export default AutoResizableTextarea.extend({
   item: null,
 
   didInsertElement() {
-    const value = this.get("value") ? this.get("value").trim() : "";
-    if (value == "" && this.get("require")) {
-      this.$().focus();
-      Ember.$(this.element)
-        .siblings()
-        .show();
-    } else {
-      Ember.$(this.element)
-        .siblings()
-        .hide();
+    const value = (this.get("value") || "").trim();
+    if (!value && this.get("require")) {
+      return this.showSiblings();
     }
+    this.hideSiblings();
+  },
+
+  showSiblings() {
+    this.$().focus();
+    Ember.$(this.element)
+      .siblings()
+      .show();
+  },
+
+  hideSiblings() {
+    Ember.$(this.element)
+      .siblings()
+      .hide();
   },
 
   keyDown() {
@@ -33,15 +40,12 @@ export default AutoResizableTextarea.extend({
     var item = this.get("item");
     var url = `/packages/${item.get("id")}`;
     var key = this.get("name");
-    const value = this.get("value") ? this.get("value").trim() : "";
+    const value = (this.get("value") || "").trim();
     var packageParams = {};
     packageParams[key] = value;
 
-    if (value == "" && this.get("require")) {
-      this.$().focus();
-      Ember.$(this.element)
-        .siblings()
-        .show();
+    if (!value && this.get("require")) {
+      this.showSiblings();
       return false;
     }
     if (
@@ -58,9 +62,7 @@ export default AutoResizableTextarea.extend({
       })
         .then(data => {
           this.get("store").pushPayload(data);
-          Ember.$(this.element)
-            .siblings()
-            .hide();
+          this.hideSiblings();
         })
         .finally(() => {
           loadingView.destroy();
