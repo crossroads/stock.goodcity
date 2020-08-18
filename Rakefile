@@ -76,21 +76,21 @@ namespace :cordova do
     build_details.map{|key, value| log("#{key.upcase}: #{value}")}
     sh %{ cd #{CORDOVA_PATH}; cordova-update-config --appname "#{app_name}" --appid #{app_id} --appversion #{app_version} }
 
+    #Temporary fix for phonegap-plugin-push
+    if platform == 'android'
+      sh %{ cordova plugin add phonegap-plugin-push@2.1.2 }
+    elsif platform == 'ios'
+      sh %{ cordova plugin add phonegap-plugin-push@1.9.2 --variable SENDER_ID="XXXXXXX" }
+    end
+
     log("Preparing app for #{platform}")
     Dir.chdir(CORDOVA_PATH) do
       system({"ENVIRONMENT" => environment}, "cordova prepare #{platform}")
     end
 
-    #Temporary fix for phonegap-plugin-push
-    if platform == 'android'
-      sh %{ cordova plugin add phonegap-plugin-push@2.1.2 }
-    end
-
     if platform == "ios"
       Dir.chdir(CORDOVA_PATH) do
         sh %{ cordova plugin add #{TESTFAIRY_PLUGIN_URL} } if environment == "staging"
-        sh %{ cordova plugin remove #{TESTFAIRY_PLUGIN_NAME}; true } if environment == "production"
-        sh %{ cordova plugin add phonegap-plugin-push@1.9.2 --variable SENDER_ID="XXXXXXX" }
       end
     end
   end
