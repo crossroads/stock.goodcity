@@ -8,5 +8,5 @@ export default Model.extend({
   userId: attr("number"),
   tag: attr("string"),
   printer: belongsTo("printer", { async: false }),
-  user: belongsTo("user", { async: true })
+  user: belongsTo("user", { async: false })
 });
