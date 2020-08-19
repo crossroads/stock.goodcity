@@ -50,15 +50,15 @@ export default AuthorizeRoute.extend(GradeMixin, {
   },
 
   setupPrinterId(controller) {
-    let allAvailablePrinters = this.get(
-      "printerService"
-    ).allAvailablePrinters();
-    let user = this.get("session.currentUser");
-    if (user.get("printerId")) {
-      controller.set("selectedPrinterId", user.get("printerId"));
+    let defaultPrinter = this.get("printerService").getDefaultPrinter();
+    if (defaultPrinter) {
+      controller.set("selectedPrinterId", defaultPrinter.id);
     } else {
+      let allAvailablePrinters = this.get(
+        "printerService"
+      ).allAvailablePrinters();
       let firstPrinterId = allAvailablePrinters[0].id;
-      this.get("printerService").updateUserDefaultPrinter(firstPrinterId);
+      this.get("printerService").addDefaultPrinter(firstPrinterId);
       controller.set("selectedPrinterId", firstPrinterId);
     }
   },
@@ -67,7 +67,6 @@ export default AuthorizeRoute.extend(GradeMixin, {
     this._super(controller, model);
     const store = this.get("store");
     this.initializeController();
-
     this.initializeAttributes();
     this.manageSubformDetails();
     this.setUpPackageImage();

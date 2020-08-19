@@ -6,5 +6,6 @@ export default Model.extend({
   name: attr("string"),
   user: hasMany("user", {
     async: false
-  })
+  }),
+  printersUsers: hasMany("printersUsers", { async: false })
 });
