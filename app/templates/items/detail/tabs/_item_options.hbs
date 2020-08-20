@@ -12,7 +12,7 @@
         {{fa-icon action.icon}} {{action.displayName}}
       </div>
     {{else}}
-      <div class="option_menu" {{action "triggerItemAction" item action.name}}>
+      <div class="option_menu {{if isGainInvalidInBoxOrPallet 'disabled'}}" onclick={{if isGainInvalidInBoxOrPallet ''  (action "triggerItemAction" item action.name)}}>
         {{fa-icon action.icon}} {{action.displayName}}
       </div>
     {{/if}}
