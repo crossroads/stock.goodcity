@@ -19,7 +19,7 @@
       </div>
       <div class="columns small-6 description">
         {{#form-control}}
-          {{item-description-textarea data-autoresize=true name="notes" value=item.notes  class="description-textarea-withbg" required="required" id=(concat 'desc' item.id) pattern=".*\S.*" item=item}}
+          {{item-description-textarea data-autoresize=true name="notes" value=item.notes  class="description-textarea-withbg" require="true" id=(concat 'desc' item.id) pattern=".*\S.*" item=item}}
           <div class='description-error'>
             {{t 'item_details.validation_errors.description'}}
           </div>
