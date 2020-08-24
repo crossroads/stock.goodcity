@@ -197,7 +197,8 @@ export default Ember.Controller.extend(AsyncMixin, {
       try {
         const scanner = await this.get("barcodeService").scanMultiple({
           previewElement: document.getElementById(this.get("scannerPreviewId")),
-          onBarcode: this.onBarcodeScanned.bind(this)
+          onBarcode: this.onBarcodeScanned.bind(this),
+          onStop: this.stopScanning.bind(this)
         });
 
         this.set("scanner", scanner);
@@ -213,9 +214,8 @@ export default Ember.Controller.extend(AsyncMixin, {
       return;
     }
 
-    this.get("scanner").stop();
-
     this.set("isScanning", false);
+    this.get("scanner").stop();
     this.set("scanner", null);
   },
 
