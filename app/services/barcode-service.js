@@ -117,17 +117,19 @@ export default Ember.Service.extend({
   /**
    * Starts a scan session
    *
-   * @param {HTMLElement} htmlElement
-   * @param {function} callback
+   * @param {object} cfg
+   * @param {HTMLElement} cfg.previewElement
+   * @param {function} cfg.onStop
+   * @param {function} cfg.onCapture
    * @returns {Promise<ScanSession>}
    */
-  async __newScanSession(htmlElement, callback) {
+  async __newScanSession({ previewElement, onCapture, onStop }) {
     const capture = this.__getCapture();
 
     const listener = {
       didScan: (barcodeCapture, session) => {
         this.__disableScan();
-        callback(barcodeCapture, session);
+        onCapture(barcodeCapture, session);
         Ember.run.debounce(this, this.__enableScan, SCAN_DELAY);
       }
     };
@@ -137,28 +139,29 @@ export default Ember.Service.extend({
     // --- Connect to the UI
 
     const view = Scandit.DataCaptureView.forContext(this.__getContext());
-    const overlay = buildCameraView(htmlElement);
+    const overlay = buildCameraView(previewElement);
 
     await this.__activate();
 
     view.connectToElement(overlay.element);
 
-    const captureOverlay = Scandit.BarcodeCaptureOverlay.withBarcodeCaptureForView(
-      capture,
-      view
-    );
+    Scandit.BarcodeCaptureOverlay.withBarcodeCaptureForView(capture, view);
 
     this.__cameraOn();
     this.__enableScan();
 
     // --- Create stop callback
 
-    const stop = () => {
+    const stop = cached(() => {
+      document.removeEventListener("pause", stop);
       this.__cameraOff();
       overlay.destroy();
       capture.removeListener(listener);
       Ember.run.debounce(this, this.__disableScan, SCAN_DELAY + 100);
-    };
+      onStop();
+    });
+
+    document.addEventListener("pause", stop);
 
     overlay.onCloseButtonPressed(stop);
 
@@ -225,14 +228,16 @@ export default Ember.Service.extend({
     const {
       previewElement = null,
       onBarcode = _.noop,
+      onStop = _.noop,
       parser = BARCODE_PARSERS.INVENTORY
     } = opts;
 
     if (!allowed) return null;
 
-    const scanner = await this.__newScanSession(
+    const scanner = await this.__newScanSession({
       previewElement,
-      (barcodeCapture, session) => {
+      onStop,
+      onCapture(barcodeCapture, session) {
         const { newlyRecognizedBarcodes } = session;
 
         _.flatten([newlyRecognizedBarcodes])
@@ -240,7 +245,7 @@ export default Ember.Service.extend({
           .map(parser)
           .forEach(onBarcode);
       }
-    );
+    });
 
     return scanner;
   },
@@ -259,6 +264,9 @@ export default Ember.Service.extend({
       onBarcode(code) {
         deferred.resolve(code);
         scanner.stop();
+      },
+      onStop() {
+        deferred.resolve("");
       }
     });
 
