@@ -38,6 +38,9 @@
     }
   }
 
+  .quota-qty {
+    font-size: 1rem;
+  }
   .settings-section {
     display: none;
 
@@ -93,12 +96,12 @@
 
     // Icons
 
-    i.fa {
+    i  {
       font-size: 1rem;
     }
 
-    .delete-btn i.fa {
-      color: #e25956;
+    .delete-btn {
+      font-size: 1rem;
     }
 
     // Buttons
