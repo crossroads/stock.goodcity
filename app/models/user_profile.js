@@ -47,19 +47,6 @@ export default Addressable.extend({
     }
   }),
 
-  canViewDashboard: Ember.computed(
-    "isOrderFulfilmentUser",
-    "isSupervisor",
-    "isOrderAdministrator",
-    function() {
-      return (
-        this.get("isOrderFulfilmentUser") ||
-        this.get("isSupervisor") ||
-        this.get("isOrderAdministrator")
-      );
-    }
-  ),
-
   canManageAppointments: Ember.computed("roles", function() {
     const roles = this.get("roles");
     return roles.find(
