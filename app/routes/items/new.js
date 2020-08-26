@@ -57,9 +57,11 @@ export default AuthorizeRoute.extend(GradeMixin, {
       let allAvailablePrinters = this.get(
         "printerService"
       ).allAvailablePrinters();
-      let firstPrinterId = allAvailablePrinters[0].id;
-      this.get("printerService").addDefaultPrinter(firstPrinterId);
-      controller.set("selectedPrinterId", firstPrinterId);
+      if (allAvailablePrinters.length) {
+        let firstPrinterId = allAvailablePrinters[0].id;
+        this.get("printerService").addDefaultPrinter(firstPrinterId);
+        controller.set("selectedPrinterId", firstPrinterId);
+      }
     }
   },
 
