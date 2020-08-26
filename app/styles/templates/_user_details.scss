@@ -1,6 +1,93 @@
+.user-details-heading {
+  border: none;
+  margin-bottom: 0;
+  height: 2.5rem;
+}
+
 .user-details-section {
-  .user-img img {
+  .user-img {
     width: 150px;
+    margin: auto;
+    margin-top: 1rem;
+
+    img {
+      width: 150px;
+      border-radius: 50%;
+    }
+  }
+
+  .last-online-time {
+    text-align: center;
+
+    div {
+      display: inline-block;
+    }
+  }
+
+  .contact-icons {
+    margin: auto;
+    text-align: center;
+    margin-bottom: 2rem;
+    margin-top: 2rem;
+
+    span.icon-badge {
+      line-height: 3rem;
+      width: 3rem;
+      height: 3rem;
+      font-size: 1.5rem;
+      display: inline-block;
+      color: #fff;
+      text-transform: uppercase;
+      text-align: center;
+      border-radius: 50%;
+      background: #ee4c4e;
+      font-weight: 700;
+      margin: 0.5rem;
+      margin-top: 0;
+
+      @media #{$small-only} {
+        font-size: 1.2rem;
+      }
+    }
+  }
+
+  .stock-app-roles {
+    border-bottom: 1px solid $white;
+  }
+
+  .staff-role-heading {
+    padding: 1rem;
+    padding-bottom: 0.5rem;
+  }
+
+  .contact-details-link,
+  .app-roles {
+    padding: 1rem;
+    padding-right: 0.5rem;
+    background-color: #1a3964;
+    color: white;
+
+    .arrow-icon {
+      float: right;
+    }
+  }
+
+  ul.organisations-list {
+    list-style: none;
+    margin: 0;
+
+    li {
+      border-bottom: 1px solid white;
+
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+  }
+
+  .disable-user-link {
+    padding: 4rem 1rem;
+    text-align: center;
   }
 }
 
