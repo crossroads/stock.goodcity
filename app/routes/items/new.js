@@ -53,7 +53,7 @@ export default AuthorizeRoute.extend(GradeMixin, {
     let allAvailablePrinters = this.get(
       "printerService"
     ).allAvailablePrinters();
-    let user = this.get("session.loggedInUser");
+    let user = this.get("session.currentUser");
     if (user.get("printerId")) {
       controller.set("selectedPrinterId", user.get("printerId"));
     } else {
@@ -162,6 +162,5 @@ export default AuthorizeRoute.extend(GradeMixin, {
     controller.set("defaultCondition", this.getDefaultCondition());
     controller.set("valueHkDollar", +defaultValue.value_hk_dollar);
     controller.set("defaultValueHkDollar", +defaultValue.value_hk_dollar);
-    this.setupPrinterId(controller);
   }
 });

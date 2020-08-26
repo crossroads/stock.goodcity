@@ -94,7 +94,6 @@ module.exports = function(environment) {
         "packages_location",
         "stockit_contact",
         "goodcity_request",
-        "donor_condition",
         "purpose",
         "orders_process_checklist"
       ]
