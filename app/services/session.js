@@ -32,8 +32,8 @@ export default Ember.Service.extend({
 
   unloadSessionData() {
     const store = this.get("store");
-    config.APP.USER_DATA_TYPES.forEach(async name => {
-      await store.unloadAll(name);
+    config.APP.USER_DATA_TYPES.forEach(name => {
+      store.unloadAll(name);
     });
   }
 });
