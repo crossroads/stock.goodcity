@@ -6,16 +6,9 @@ export default AuthorizeRoute.extend({
   },
 
   model() {
+    let districts = this.store.query("district", {});
     return Ember.RSVP.hash({
-      roles: this.store.findAll("role")
+      districts
     });
-  },
-
-  setupController(controller, model) {
-    this._super(controller, model);
-    let existingRoleIds = [...this.controller.get("selectedRoleIds")].map(
-      num => +num
-    );
-    this.controller.set("existingRoleIds", existingRoleIds);
   }
 });

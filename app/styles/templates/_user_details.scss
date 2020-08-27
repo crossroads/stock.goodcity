@@ -16,11 +16,19 @@
   text-align: center;
 }
 
+.title-select {
+  float: left !important;
+  width: 5rem;
+}
+
 .add-user-form {
   input {
     height: 1.8rem !important;
   }
 
+  select {
+    height: 1.8rem !important;
+  }
   input[type="checkbox"] {
     position: initial;
   }

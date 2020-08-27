@@ -5,77 +5,63 @@ import Ember from "ember";
 const { getOwner } = Ember;
 
 export default Ember.Controller.extend(AsyncMixin, ImageUploadMixin, {
-  queryParams: ["organisationId"],
-  organisationId: null,
-  organisationName: null,
-  existingRoleIds: [],
-  selectedRoleIds: [],
-  mobilePhone: "",
   newUploadedImage: null,
-  disabled: false,
-  activeUser: Ember.computed.not("disabled"),
-
   i18n: Ember.inject.service(),
   messageBox: Ember.inject.service(),
-  session: Ember.inject.service(),
-  userImageKeys: Ember.computed.localStorage(),
-  isMobileApp: config.cordova.enabled,
+
+  titles: Ember.computed(function() {
+    let translation = this.get("i18n");
+    let mr = translation.t("order.user_title.mr");
+    let mrs = translation.t("order.user_title.mrs");
+    let miss = translation.t("order.user_title.miss");
+    let ms = translation.t("order.user_title.ms");
+
+    return [
+      { name: mr, id: "Mr" },
+      { name: mrs, id: "Mrs" },
+      { name: miss, id: "Miss" },
+      { name: ms, id: "Ms" }
+    ];
+  }),
+
+  setEmailorMobile: Ember.computed("email", "mobilePhone", function() {
+    const email = this.get("email");
+    const mobile = this.get("mobilePhone");
+
+    if (/^[456789]\d{7}/.test(mobile)) {
+      c;
+      return false;
+    } else {
+      return true;
+    }
+  }),
+
+  districts: Ember.computed(function() {
+    return this.get("store")
+      .peekAll("district")
+      .sortBy("name");
+  }),
+
+  languages: Ember.computed(function() {
+    let translation = this.get("i18n");
+    let English = translation.t("organisation.user.languages.english");
+    let Chinese = translation.t("organisation.user.languages.chinese");
+
+    return [{ name: English, id: "English" }, { name: Chinese, id: "Chinese" }];
+  }),
 
   locale: function(str) {
     return this.get("i18n").t(str);
   },
 
-  canManageUserRoles: Ember.computed("allRoles.[]", function() {
-    return (
-      this.get("allRoles").length &&
-      this.get("session.currentUser.canManageUserRoles")
-    );
-  }),
-
-  allRoles: Ember.computed("model.roles.[]", function() {
-    let roles = this.get("model.roles");
-    let maxRoleLevel = this.get("getCurrentUser.maxRoleLevel");
-    return (
-      roles &&
-      roles
-        .rejectBy("name", "System")
-        .filter(role => role.get("level") <= maxRoleLevel)
-        .sortBy("name")
-    );
-  }),
-
-  getCurrentUser: Ember.computed(function() {
-    let store = this.get("store");
-    let currentUser = store.peekAll("user_profile").get("firstObject") || null;
-    return currentUser;
-  }).volatile(),
-
-  charityRoleId: Ember.computed("model.roles.[]", function() {
-    let store = this.get("store");
-    let allRoles = store.peekAll("role");
-    let charityRole = allRoles.find(role => role.get("name") === "Charity");
-    return charityRole && charityRole.get("id");
-  }),
-
-  organisationChanged: Ember.observer("organisationId", function() {
-    if (this.get("organisationId")) {
-      let store = this.get("store");
-      let organisation = store.peekRecord(
-        "gc_organisation",
-        this.get("organisationId")
-      );
-      this.set("organisationName", organisation && organisation.get("nameEn"));
-    }
-  }),
-
   clearFormData() {
+    this.set("selectedTitle", null);
     this.set("firstName", "");
     this.set("lastName", "");
     this.set("mobilePhone", "");
     this.set("email", "");
-    this.set("selectedRoleIds", []);
-    this.set("disabled", false);
-    this.set("organisationName", "");
+    this.set("selectedDistrict", null);
+    this.set("selectedLanguage", null);
     this.set("newUploadedImage", null);
   },
 
@@ -93,9 +79,7 @@ export default Ember.Controller.extend(AsyncMixin, ImageUploadMixin, {
       firstName: this.get("firstName"),
       lastName: this.get("lastName"),
       mobile: mobilePhone,
-      email: this.get("email"),
-      disabled: this.get("disabled"),
-      organisations_users_ids: [this.get("organisationId")]
+      email: this.get("email")
     };
   },
 
@@ -107,24 +91,9 @@ export default Ember.Controller.extend(AsyncMixin, ImageUploadMixin, {
   },
 
   actions: {
-    searchOrganization() {
-      this.replaceRoute("search_organisation", {
-        queryParams: {
-          redirectToPath: "add_user"
-        }
-      });
-    },
-
-    setSelectedIds(id, isSelected) {
-      if (isSelected) {
-        this.get("selectedRoleIds").pushObject(id);
-      } else {
-        this.get("selectedRoleIds").removeObject(id);
-      }
-
-      let hasCharityRole =
-        this.get("selectedRoleIds").indexOf(this.get("charityRoleId")) >= 0;
-      this.set("displayOrganizationInput", hasCharityRole);
+    back() {
+      this.clearFormData();
+      this.transitionToRoute("manage_users");
     },
 
     saveUser() {
@@ -132,8 +101,6 @@ export default Ember.Controller.extend(AsyncMixin, ImageUploadMixin, {
         "user",
         this.getRequestParams()
       );
-
-      newUser.set("userRoleIds", this.getWithDefault("selectedRoleIds", []));
 
       return this.runTask(async () => {
         newUser.set("image", await this.saveImage());

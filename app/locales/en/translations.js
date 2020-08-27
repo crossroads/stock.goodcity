@@ -660,10 +660,16 @@ export default {
       mobile: "Mobile",
       email: "Email",
       position: "Position",
+      district: "District",
+      preferred_language: "Preferred Language",
       phone_number: "Phone Number",
       john: "John",
       doe: "Doe",
       position_in_organisation: "Position within organisation",
+      languages: {
+        english: "English",
+        chinese: "Chinese"
+      },
       validation_error: {
         email: "Email should be valid.",
         first_name: "First name can't be blank",

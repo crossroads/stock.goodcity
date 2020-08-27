@@ -635,10 +635,16 @@ export default {
       mobile: "手提電話號碼",
       email: "電郵",
       position: "職位",
+      district: "District",
+      preferred_language: "Preferred Language",
       phone_number: "電話號碼",
       john: "大文",
       doe: "陳",
       position_in_organisation: "機構內的職稱",
+      languages: {
+        english: "English",
+        chinese: "Chinese"
+      },
       validation_error: {
         email: "請輸入有效的電郵地址",
         mobile: "手提電話號碼必須為8個數字",
