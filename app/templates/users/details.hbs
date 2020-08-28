@@ -35,10 +35,12 @@
     {{/if}}
   </div>
 
-  <div class="row contact-details-link">
-    Contact Details
-    <span class='arrow-icon'>{{fa-icon 'angle-right'}}</span>
-  </div>
+  {{#link-to "users.contact_details" model.id}}
+    <div class="row contact-details-link">
+      Contact Details
+      <span class='arrow-icon'>{{fa-icon 'angle-right'}}</span>
+    </div>
+  {{/link-to}}
 
   <div class="row staff-role-heading">
     Staff / Volunteer Roles
