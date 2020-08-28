@@ -14,7 +14,7 @@ export default AuthorizeRoute.extend({
     const data = await this.store.findAll("organisationType");
     this.store.pushPayload(data);
     this.controller.set("organisationTypes", data);
-    this.controller.set("defaultOrganisationType", data.get("firstObject"));
+    this.controller.set("selectedOrganisationType", data.get("firstObject"));
   },
 
   async initializeAttributes() {

@@ -117,6 +117,26 @@ form {
   margin: 1rem;
 }
 
+.error-wrapper {
+  display: flex;
+  justify-content: flex-start;
+  padding-left: 41.3%;
+  margin-top: -1em;
+  @media #{$small-only} {
+    padding-left: 35%;
+  }
+  .error-message {
+    background: #f46769;
+    color: #fff;
+    padding: .2rem;
+    width: 66%;
+
+    @media #{$small-only} {
+      width: 85%;
+    }
+  }
+}
+
 input {
   background: #002352 !important;
   color: white !important;

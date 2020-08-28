@@ -4,23 +4,33 @@
   </h2>
 </div>
 
-{{#validatable-form as |form|}}
+{{#validatable-form onSubmit=(action 'createOrganisation') as |form| }}
   <div class="form-container">
       <ul class="wrapper">
         <li class="form-row">
           <label for="name_en">Name EN</label>
-          <input type="text" >
+          {{input type="text" autocomplete='off' value=name_en autoComplete=false}}
         </li>
       </ul>
+      {{#if name_en_error}}
+        <div class="error-wrapper">
+            <div class='error-message'>Name cannot be blank.</div>
+        </div>
+      {{/if}}
   </div>
 
   <div class="form-container">
     <ul class="wrapper">
       <li class="form-row">
         <label for="name_zh">Name ZH</label>
-        <input type="text">
+        {{input type="text" autocomplete='off' value=name_zh autoComplete=false}}
       </li>
     </ul>
+    {{#if name_zh_error}}
+      <div class="error-wrapper">
+        <div class='error-message'>Name cannot be blank.</div>
+      </div>
+    {{/if}}
   </div>
 
   <div class="form-container">
@@ -29,8 +39,9 @@
         <label for="name_zh">Type</label>
         <div class="organisation-type">
           {{select-list
+            on-change=(action 'changeOrganisationType')
             content=organisationTypes
-            value=defaultOrganisationType
+            value=selectedOrganisationType
             classNames='condition'
             idNames='condition-select' }}
         </div>
@@ -95,6 +106,11 @@
         </div>
       </li>
     </ul>
+    {{#if country_error}}
+      <div class="error-wrapper">
+        <div class='error-message'>Country cannot be blank.</div>
+      </div>
+    {{/if}}
   </div>
 
   <div class="button-container">
