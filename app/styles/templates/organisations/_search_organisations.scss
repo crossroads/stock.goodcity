@@ -1,7 +1,32 @@
+.organisation_search_container{
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  height: 3rem;
+  border-bottom: 1px solid;
+  position: fixed;
+  width: 100%;
+}
+
+.search-box-container {
+  position: fixed;
+  margin-top: 3rem;
+}
+
+.search-box {
+  background: none;
+}
+
+
 .organisations_search {
   input {
-    width: 98%;
+    width: 38em;
+    border-radius: 0px;
+    @media #{$small-only} {
+      width: 16rem;
+    }
   }
+
   a {
     text-decoration: none;
     top: 0.5rem;

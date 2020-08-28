@@ -1,0 +1,124 @@
+.header-container {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  margin-top: 1rem;
+  border-bottom: 1px solid;
+}
+
+.form-container {
+  list-style-type: none;
+  padding: 0;
+  border-radius: 3px;
+  .wrapper {
+    margin-bottom: 0px;
+  }
+}
+.form-row{
+  display: flex;
+  justify-content: flex-end;
+  padding: .5em;
+  padding-left: 20%;
+  padding-right: 20%;
+  @media #{$small-only} {
+    padding-left: 0;
+    padding-right: 10%;
+  }
+}
+.form-row > label {
+  padding: .5em 1em .5em 0;
+  flex: 1;
+  cursor: default;
+}
+.form-row > input {
+  flex: 2;
+  cursor: default;
+}
+.form-row > input,
+.form-row > button {
+  padding: .5em;
+}
+.form-row > button {
+  border: 0;
+}
+
+form {
+  .form-container {
+    label {
+      font-size: 18px;
+    }
+
+    .description {
+      width: 66%;
+
+      textarea {
+        height: 5rem;
+        background-color: #002352!important;
+        color: white;
+        border: 1px solid #8091a9!important;
+      }
+    }
+
+    .organisation-type {
+      width: 66%;
+
+      .condition {
+        width: 50%;
+      }
+
+      select {
+        background-color: #002352!important;
+        color: white;
+        border: 1px solid #8091a9!important;
+      }
+    }
+
+    .organisation-country {
+      $dropdown-body: #000000;
+      a {
+        min-height: 2rem;
+        border: 1px solid #8091a9!important;
+      }
+      width: 66%;
+      .Searchable-select__search{
+        background-color: $dropdown-body;
+      }
+      .Searchable-select__options-list {
+        background-color: $dropdown-body;
+      }
+    }
+
+    select {
+      background-color: #002352!important;
+      color: white;
+      border: 1px solid #8091a9!important;
+    }
+  }
+  ul > li:hover {
+    background-color: inherit;
+    cursor: default;
+  }
+}
+
+.button-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 20%;
+  padding-right: 18%;
+  @media #{$small-only} {
+    padding-left: 0%;
+    padding-right: 4%;
+  }
+}
+
+.button-wrapper {
+  width: 100%;
+  margin: 1rem;
+}
+
+input {
+  background: #002352 !important;
+  color: white !important;
+  border: 1px solid #8091a9!important;
+}

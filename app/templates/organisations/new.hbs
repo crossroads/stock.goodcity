@@ -1,0 +1,113 @@
+<div class="header-container">
+  <h2>
+    New Organisation
+  </h2>
+</div>
+
+{{#validatable-form as |form|}}
+  <div class="form-container">
+      <ul class="wrapper">
+        <li class="form-row">
+          <label for="name_en">Name EN</label>
+          <input type="text" >
+        </li>
+      </ul>
+  </div>
+
+  <div class="form-container">
+    <ul class="wrapper">
+      <li class="form-row">
+        <label for="name_zh">Name ZH</label>
+        <input type="text">
+      </li>
+    </ul>
+  </div>
+
+  <div class="form-container">
+    <ul class="wrapper">
+      <li class="form-row">
+        <label for="name_zh">Type</label>
+        <div class="organisation-type">
+          {{select-list
+            content=organisationTypes
+            value=defaultOrganisationType
+            classNames='condition'
+            idNames='condition-select' }}
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="form-container">
+    <ul class="wrapper">
+      <li class="form-row">
+        <label for="description_en">Description EN</label>
+        <div class="description">
+          <textarea name="description_en"></textarea>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="form-container">
+    <ul class="wrapper">
+      <li class="form-row">
+        <label for="description_zh">Description ZH</label>
+        <div class="description">
+          <textarea name="description_zh"></textarea>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="form-container">
+    <ul class="wrapper">
+      <li class="form-row">
+        <label for="registration">Registration</label>
+        <input type="text">
+      </li>
+    </ul>
+  </div>
+
+  <div class="form-container">
+    <ul class="wrapper">
+      <li class="form-row">
+        <label for="website">Website</label>
+        <input type="text">
+      </li>
+    </ul>
+  </div>
+
+  <div class="form-container">
+    <ul class="wrapper">
+      <li class="form-row">
+        <label for="country">Country</label>
+        <div class="organisation-country">
+          {{searchable-select
+            content=resultArray
+            sortBy="name"
+            optionLabelKey="nameEn"
+            selected=selected
+            on-change=(action "setCountryValue")
+            isClearable=false
+            prompt=""
+            on-search=(action "onSearch" "country")}}
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="button-container">
+    <div class="button-wrapper">
+      <a class="button secondary expand">{{t "cancel"}}</a>
+    </div>
+    <div class="button-wrapper">
+      <a {{action 'submit' target=form}} class="button expand">
+        {{t "save"}}
+      </a>
+    </div>
+  </div>
+
+{{/validatable-form}}
+
+{{partial "loading_image"}}

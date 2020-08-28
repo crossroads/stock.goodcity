@@ -22,6 +22,10 @@ export default Ember.Controller.extend({
   },
 
   actions: {
+    addOrganisation() {
+      this.replaceRoute("organisations.add_organisation");
+    },
+
     cancelSearch() {
       Ember.$("#searchText").blur();
       this.set("searchText", "");
