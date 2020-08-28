@@ -434,7 +434,7 @@ workflows:
             - test_cases
           filters:
             branches:
-              only: /^(master|live)$/
+              only: /^(master|live|GCW-3067-remove-webview-api)$/
       - android_build_and_deploy:
           requires:
             - ember_cordova_build
@@ -446,4 +446,4 @@ workflows:
             - test_cases
           filters:
             branches:
-              only: /^(master|live)$/
+              only: /^(master|live|GCW-3067-remove-webview-api)$/
