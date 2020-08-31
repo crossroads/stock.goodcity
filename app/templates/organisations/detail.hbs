@@ -3,18 +3,16 @@
 <section class="main-section">
   {{partial 'organisations/organisation_tabs'}}
 
-  <div class="row">
-    <div class="small-4 columns">
-      {{t 'organisation.name'}}:
-    </div>
-    {{#if model.nameEn}}
-      <div class="small-8 columns">
-        {{apply-line-break model.nameEn}}
-      </div>
-    {{/if}}
-    {{#if model.nameZhTw}}
-      <div class="small-8 columns">
-        {{apply-line-break model.nameZhTw}}
+  <div class="form-container">
+    <ul class="wrapper">
+      <li class="form-row">
+        <label for="name_en">Name EN</label>
+        {{input type="text" focusOut=(action 'onFocusOut') autocomplete='off' value=name_en autoComplete=false}}
+      </li>
+    </ul>
+    {{#if name_en_error}}
+      <div class="error-wrapper">
+        <div class='error-message'>Name cannot be blank.</div>
       </div>
     {{/if}}
   </div>

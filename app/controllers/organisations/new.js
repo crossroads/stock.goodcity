@@ -1,16 +1,20 @@
 import Ember from "ember";
+
+import GoodcityController from "../goodcity_controller";
 import SearchOptionMixin from "stock/mixins/search_option";
 
-export default Ember.Controller.extend(SearchOptionMixin, {
+export default GoodcityController.extend(SearchOptionMixin, {
   selected: {},
   name_en: "",
-  name_zh: "",
+  name_zh_tw: "",
   validate: false,
+  organisationService: Ember.inject.service(),
+
   name_en_error: Ember.computed("name_en", "validate", function() {
     return this.get("validate") && !this.get("name_en").trim().length;
   }),
-  name_zh_error: Ember.computed("name_zh", "validate", function() {
-    return this.get("validate") && !this.get("name_zh").trim().length;
+  name_zh_tw_error: Ember.computed("name_zh_tw", "validate", function() {
+    return this.get("validate") && !this.get("name_zh_tw").trim().length;
   }),
   country_error: Ember.computed("countryValue", "validate", function() {
     return this.get("validate") && !this.get("countryValue");
@@ -24,7 +28,23 @@ export default Ember.Controller.extend(SearchOptionMixin, {
         !this.get("name_zh_error") &&
         !this.get("country_error")
       ) {
-        console.log("save the organisation");
+        this.showLoadingSpinner();
+        const organisation = {
+          name_en: this.get("name_en"),
+          name_zh_tw: this.get("name_zh_tw"),
+          description_en: this.get("description_en"),
+          description_zh_tw: this.get("description_zh_tw"),
+          registration: this.get("registration"),
+          website: this.get("website"),
+          country_id: this.get("countryValue").country_id
+        };
+
+        this.get("organisationService")
+          .create(organisation)
+          .then(data => {
+            this.replaceRoute("organisations.detail", data.organisation.id);
+            this.hideLoadingSpinner();
+          });
       }
     },
 

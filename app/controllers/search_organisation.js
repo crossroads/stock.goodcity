@@ -23,7 +23,7 @@ export default Ember.Controller.extend({
 
   actions: {
     addOrganisation() {
-      this.replaceRoute("organisations.add_organisation");
+      this.replaceRoute("organisations.new");
     },
 
     cancelSearch() {

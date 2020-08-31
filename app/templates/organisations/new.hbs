@@ -22,11 +22,11 @@
   <div class="form-container">
     <ul class="wrapper">
       <li class="form-row">
-        <label for="name_zh">Name ZH</label>
-        {{input type="text" autocomplete='off' value=name_zh autoComplete=false}}
+        <label for="name_zh_tw">Name ZH</label>
+        {{input type="text" autocomplete='off' value=name_zh_tw autoComplete=false}}
       </li>
     </ul>
-    {{#if name_zh_error}}
+    {{#if name_zh_tw_error}}
       <div class="error-wrapper">
         <div class='error-message'>Name cannot be blank.</div>
       </div>
@@ -54,7 +54,7 @@
       <li class="form-row">
         <label for="description_en">Description EN</label>
         <div class="description">
-          <textarea name="description_en"></textarea>
+          {{auto-resize-textarea data-autoresize=true name="description_en" value=description_en pattern=".*\S.*"}}
         </div>
       </li>
     </ul>
@@ -65,7 +65,7 @@
       <li class="form-row">
         <label for="description_zh">Description ZH</label>
         <div class="description">
-          <textarea name="description_zh"></textarea>
+          {{auto-resize-textarea data-autoresize=true name="description_zh_tw" value=description_zh_tw pattern=".*\S.*"}}
         </div>
       </li>
     </ul>
@@ -75,7 +75,7 @@
     <ul class="wrapper">
       <li class="form-row">
         <label for="registration">Registration</label>
-        <input type="text">
+        {{input type="text" autocomplete='off' value=registration autoComplete=false}}
       </li>
     </ul>
   </div>
@@ -84,7 +84,7 @@
     <ul class="wrapper">
       <li class="form-row">
         <label for="website">Website</label>
-        <input type="text">
+        {{input type="text" autocomplete='off' value=website autoComplete=false}}
       </li>
     </ul>
   </div>
