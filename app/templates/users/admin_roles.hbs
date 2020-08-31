@@ -1,0 +1,139 @@
+<nav class="tab-bar user-details-heading">
+  <section class="left-small">
+    {{#link-to "users.details" model.id class="user-back-link"}}
+      <div>{{t "cancel"}}</div>
+    {{/link-to}}
+  </section>
+
+  <section class="middle tab-bar-section">
+    <h1 class="title">
+      Admin App Details
+    </h1>
+  </section>
+</nav>
+
+<section class="user-details-section role-access-form">
+  <div class="row">
+    <div class="columns small-12">
+
+      <div class="access-heading">
+        Access Status for {{model.fullName}}
+      </div>
+
+      <div class="custom_radio_buttons" for="admin_role_access">
+        {{radio-button
+          name="adminRoleAccess"
+          id="noAccess"
+          value="noAccess"
+          selection=adminRoleAccess
+          required='true'}}
+        <label class="radio-button-text align-text hire_vehicle" for="noAccess">
+            <div class="label-position ggv-label self-label">
+              No Access
+              <i>{{fa-icon "times-circle"}}</i>
+            </div>
+        </label>
+      </div>
+
+      <div class="custom_radio_buttons" for="admin_role_access">
+        {{radio-button
+            name="adminRoleAccess"
+            id="accessTill"
+            value="accessTill"
+            selection=adminRoleAccess
+            required='true'}}
+        <label class="radio-button-text align-text hire_vehicle" for="accessTill">
+            <div class="label-position ggv-label self-label">
+              Access Until
+            </div>
+        </label>
+      </div>
+
+      <div class="custom_radio_buttons" for="admin_role_access">
+        {{radio-button
+              name="adminRoleAccess"
+              id="accessForever"
+              value="accessForever"
+              selection=adminRoleAccess
+              required='true'}}
+        <label class="radio-button-text align-text hire_vehicle" for="accessForever">
+            <div class="label-position ggv-label self-label">
+              Access Forever
+              <i>{{fa-icon "check-circle"}}</i>
+            </div>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  {{#unless noAdminAppAccess}}
+    <div class="row">
+      <div class="columns small-12 roles-selection">
+
+        <div class="access-heading">
+          Role assigned for processing offers
+        </div>
+
+        <div class="time_inputs id-type-radio-input row">
+          <div class='custom_radio_buttons small-12 columns'>
+            {{input type="checkbox" name="labor" checked=hasReviewerRole id='reviewer_role'}}
+            <label class="checkbox-left" for='reviewer_role'>
+              Reviewer
+              <div class="role-info"> This role is for reviewing offers.</div>
+            </label>
+          </div>
+        </div>
+
+        <div class="time_inputs id-type-radio-input row">
+          <div class='custom_radio_buttons small-12 columns'>
+            {{input type="checkbox" name="labor" checked=hasSupervisorRole id='supervisor_role'}}
+            <label class="checkbox-left" for='supervisor_role'>
+              Supervisor
+              <div class="role-info"> This role is for managing offers.</div>
+            </label>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    {{#if roleError}}
+      <div class="row">
+        <div class="roles-error">
+          <i>{{fa-icon 'exclamation-triangle'}}</i>
+          <span>Access to Admin App requires at least one role to be assigned.</span>
+        </div>
+      </div>
+    {{/if}}
+
+    <div class="row">
+      <div class="columns small-8 printer-selection ui">
+
+        <div class="printer-heading">
+          Preferred Label Printer in Admin App
+        </div>
+
+        {{select-list
+          content=printers
+          on-change=(action "onPrinterChange")
+          selectedValue=defaultPrinter
+          selectArrow=true
+          value=defaultPrinter
+          classNames='printer-list'
+          idNames='condition-select' }}
+
+      </div>
+    </div>
+  {{/unless}}
+
+  <div class="row">
+    <div class="small-6 columns">
+      <a {{action 'cancelForm'}} class="button secondary expand">{{t "cancel"}}</a>
+    </div>
+    <div class="small-6 columns">
+      <a {{action 'saveUserRoles'}} class="button expand {{if roleError 'disabled'}}">
+        {{t "save"}}
+      </a>
+    </div>
+  </div>
+</section>
