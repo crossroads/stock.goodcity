@@ -19,12 +19,14 @@
 
 
 .organisations_search {
+  $text-color: rgba(0, 0, 0, 0.75);
+  $background-color: #fff;
+
   input {
-    width: 38em;
+    width: 90%;
     border-radius: 0px;
-    @media #{$small-only} {
-      width: 16rem;
-    }
+    background-color: $background-color !important;
+    color: $text-color !important;
   }
 
   a {
@@ -72,7 +74,7 @@
 }
 
 .organisation_search_result{
-  padding-top: 3rem;
+  padding-top: 5rem;
 }
 
 .organisation_orders {

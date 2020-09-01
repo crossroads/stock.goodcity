@@ -21,11 +21,14 @@ export default AuthorizeRoute.extend({
     const country = await this.store.query("country", {
       searchText: "China - Hong Kong"
     });
-
+    const countryObj = country.get("firstObject");
     this.store.pushPayload(country);
     this.controller.set("country", {
-      id: country.get("firstObject.id"),
-      nameEn: country.get("firstObject.nameEn")
+      id: countryObj.get("id"),
+      nameEn: countryObj.get("nameEn")
+    });
+    this.controller.set("countryValue", {
+      country_id: countryObj.get("id")
     });
   },
 

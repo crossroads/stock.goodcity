@@ -12,9 +12,7 @@ export default GoodcityController.extend(SearchOptionMixin, {
   name_en_error: Ember.computed("name_en", "validate", function() {
     return this.get("validate") && !this.get("name_en").trim().length;
   }),
-  name_zh_tw_error: Ember.computed("name_zh_tw", "validate", function() {
-    return this.get("validate") && !this.get("name_zh_tw").trim().length;
-  }),
+
   country_error: Ember.computed("countryValue", "validate", function() {
     return this.get("validate") && !this.get("countryValue");
   }),
@@ -22,11 +20,7 @@ export default GoodcityController.extend(SearchOptionMixin, {
   actions: {
     createOrganisation(p) {
       this.send("validateFields");
-      if (
-        !this.get("name_en_error") &&
-        !this.get("name_zh_error") &&
-        !this.get("country_error")
-      ) {
+      if (!this.get("name_en_error") && !this.get("country_error")) {
         this.showLoadingSpinner();
         const organisation = {
           name_en: this.get("name_en"),

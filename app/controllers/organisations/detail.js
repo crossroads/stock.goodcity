@@ -9,9 +9,7 @@ export default Ember.Controller.extend(SearchOptionMixin, AsyncMixin, {
   name_en_error: Ember.computed("model.nameEn", "validate", function() {
     return this.get("validate") && !this.get("model.nameEn").trim().length;
   }),
-  name_zh_tw_error: Ember.computed("model.nameZhTw", "validate", function() {
-    return this.get("validate") && !this.get("model.nameZhTw").trim().length;
-  }),
+
   country_error: Ember.computed("countryValue", "validate", function() {
     return this.get("validate") && !this.get("countryValue");
   }),
@@ -22,16 +20,11 @@ export default Ember.Controller.extend(SearchOptionMixin, AsyncMixin, {
       Object.keys(changedAttrs).map(attr => {
         switch (attr) {
           case "nameEn":
-          case "nameZhTw":
             this.set("validate", true);
         }
       });
 
-      if (
-        !this.get("name_en_error") &&
-        !this.get("name_zh_error") &&
-        !this.get("country_error")
-      ) {
+      if (!this.get("name_en_error") && !this.get("country_error")) {
         this.send("update", this.get("model"));
       }
     },
@@ -40,10 +33,10 @@ export default Ember.Controller.extend(SearchOptionMixin, AsyncMixin, {
       this.runTask(async () => {
         try {
           const organisation = {
-            name_en: this.get("model.name_en"),
-            name_zh_tw: this.get("model.name_zh_tw"),
-            description_en: this.get("model.description_en"),
-            description_zh_tw: this.get("model.description_zh_tw"),
+            name_en: this.get("model.nameEn"),
+            name_zh_tw: this.get("model.nameZhTw"),
+            description_en: this.get("model.descriptionEn"),
+            description_zh_tw: this.get("model.descriptionZhTw"),
             registration: this.get("model.registration"),
             website: this.get("model.website")
           };

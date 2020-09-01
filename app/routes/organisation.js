@@ -22,6 +22,8 @@ export default AuthorizeRoute.extend({
       id: country.get("id"),
       nameEn: country.get("nameEn")
     });
+
+    this.controller.set("countryValue", { country_id: country.get("id") });
   },
 
   async setOrganisationUsers(model) {
