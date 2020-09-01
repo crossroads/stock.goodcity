@@ -4,7 +4,6 @@ import GoodcityController from "../goodcity_controller";
 import SearchOptionMixin from "stock/mixins/search_option";
 
 export default GoodcityController.extend(SearchOptionMixin, {
-  selected: {},
   name_en: "",
   name_zh_tw: "",
   validate: false,
@@ -52,10 +51,6 @@ export default GoodcityController.extend(SearchOptionMixin, {
       this.set("validate", true);
     },
 
-    onConditionChange() {
-      console.log("action");
-    },
-
     onSearch(field, searchText) {
       this.onSearchCountry(field, searchText);
     },
@@ -65,13 +60,10 @@ export default GoodcityController.extend(SearchOptionMixin, {
     },
 
     setCountryValue(value) {
-      let CountryName = this.get("store")
+      const countryName = this.get("store")
         .peekRecord("country", value.id)
         .get("nameEn");
-      this.set("selected", {
-        id: value.id,
-        nameEn: CountryName
-      });
+      this.set("country", { id: value.id, nameEn: countryName });
       this.set("countryValue", {
         country_id: value.id
       });

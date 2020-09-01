@@ -10,6 +10,7 @@ export default Model.extend({
   website: attr("string"),
   registration: attr("string"),
   ordersCount: attr("string"),
+  countryId: attr("string"),
   usersCount: Ember.computed.alias("organisationsUsers.length"),
 
   organisationsUsers: hasMany("organisations_user", { async: false }),

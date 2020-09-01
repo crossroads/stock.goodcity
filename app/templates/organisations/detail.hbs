@@ -7,7 +7,7 @@
     <ul class="wrapper">
       <li class="form-row">
         <label for="name_en">Name EN</label>
-        {{input type="text" focusOut=(action 'onFocusOut') autocomplete='off' value=name_en autoComplete=false}}
+        {{input type="text" focusOut=(action 'updateOrganisation') autocomplete='off' value=model.nameEn autoComplete=false}}
       </li>
     </ul>
     {{#if name_en_error}}
@@ -17,31 +17,97 @@
     {{/if}}
   </div>
 
-  <div class="row">
-    <div class="small-4 columns">
-      {{t 'organisation.description'}}:
-    </div>
-    {{#if model.descriptionEn}}
-      <div class="small-8 columns">
-        {{apply-line-break model.descriptionEn}}
-      </div>
-    {{/if}}
-    {{#if model.descriptionZhTw}}
-      <div class="small-8 columns">
-        {{apply-line-break model.descriptionZhTw}}
+  <div class="form-container">
+    <ul class="wrapper">
+      <li class="form-row">
+        <label for="name_zh_tw">Name EN</label>
+        {{input type="text" focusOut=(action 'updateOrganisation') autocomplete='off' value=model.nameZhTw autoComplete=false}}
+      </li>
+    </ul>
+    {{#if name_zh_tw_error}}
+      <div class="error-wrapper">
+        <div class='error-message'>Name cannot be blank.</div>
       </div>
     {{/if}}
   </div>
 
-  <div class="row">
-    <div class="small-4 columns">
-      {{t 'organisation.registration'}}:
-    </div>
-    <div class="small-8 columns">
-      <a href= {{model.website}} target="_blank">
-        {{apply-line-break model.registration}}
-        <i aria-hidden="true">{{fa-icon 'external-link'}}</i>
-      </a>
-    </div>
+  <div class="form-container">
+    <ul class="wrapper">
+      <li class="form-row">
+        <label for="name_zh">Type</label>
+        <div class="organisation-type">
+          {{select-list
+            on-change=(action 'updateOrganisation')
+            content=organisationTypes
+            value=selectedOrganisationType
+            classNames='condition'
+            idNames='condition-select' }}
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="form-container">
+    <ul class="wrapper">
+      <li class="form-row">
+        <label for="description_en">Description EN</label>
+        <div class="description">
+          {{auto-resize-textarea data-autoresize=true name="description_en" value=model.descriptionEn focusOut=(action 'updateOrganisation') pattern=".*\S.*"}}
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="form-container">
+    <ul class="wrapper">
+      <li class="form-row">
+        <label for="description_zh_tw">Description EN</label>
+        <div class="description">
+          {{auto-resize-textarea data-autoresize=true name="description_en" value=model.descriptionZhTw focusOut=(action 'updateOrganisation') pattern=".*\S.*"}}
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="form-container">
+    <ul class="wrapper">
+      <li class="form-row">
+        <label for="registration">Registration</label>
+        {{input type="text" autocomplete='off' value=model.registration autoComplete=false}}
+      </li>
+    </ul>
+  </div>
+
+  <div class="form-container">
+    <ul class="wrapper">
+      <li class="form-row">
+        <label for="website">Website</label>
+        {{input type="text" autocomplete='off' value=model.website autoComplete=false}}
+      </li>
+    </ul>
+  </div>
+
+  <div class="form-container">
+    <ul class="wrapper">
+      <li class="form-row">
+        <label for="country">Country</label>
+        <div class="organisation-country">
+          {{searchable-select
+            content=resultArray
+            sortBy="name"
+            optionLabelKey="nameEn"
+            selected=country
+            on-change=(action "updateOrganisation")
+            isClearable=false
+            prompt=""
+            on-search=(action "onSearch" "country")}}
+        </div>
+      </li>
+    </ul>
+    {{#if country_error}}
+      <div class="error-wrapper">
+        <div class='error-message'>Country cannot be blank.</div>
+      </div>
+    {{/if}}
   </div>
 </section>

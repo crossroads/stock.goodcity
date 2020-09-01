@@ -17,7 +17,20 @@ export default AuthorizeRoute.extend({
     this.controller.set("selectedOrganisationType", data.get("firstObject"));
   },
 
+  async initializeCountry() {
+    const country = await this.store.query("country", {
+      searchText: "China - Hong Kong"
+    });
+
+    this.store.pushPayload(country);
+    this.controller.set("country", {
+      id: country.get("firstObject.id"),
+      nameEn: country.get("firstObject.nameEn")
+    });
+  },
+
   async initializeAttributes() {
     await this.initializeOrganisationTypes();
+    await this.initializeCountry();
   }
 });
