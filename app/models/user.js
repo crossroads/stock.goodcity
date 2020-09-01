@@ -13,14 +13,13 @@ export default Addressable.extend({
   lastConnected: attr("date"),
   lastDisconnected: attr("date"),
   i18n: Ember.inject.service(),
-  printerId: attr("number"),
   userRoleIds: attr(""),
 
   isEmailVerified: attr("boolean"),
   isMobileVerified: attr("boolean"),
   disabled: attr("boolean"),
 
-  printer: belongsTo("printer", { async: false }),
+  printersUsers: hasMany("printersUsers", { async: false }),
 
   image: belongsTo("image", {
     async: false
