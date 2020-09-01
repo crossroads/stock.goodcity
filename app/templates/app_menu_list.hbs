@@ -38,6 +38,12 @@
           <div class="option-subtext">{{t 'manage_users'}}</div>
         {{/link-to}}
       </div>
+      <div class="small-4 columns menu-option">
+        {{#link-to 'search_organisation' class="menu-list-anchor"}}
+          {{fa-icon 'building' size="lg"}}
+          <div class="option-subtext">{{t 'search_organisation'}}</div>
+        {{/link-to}}
+      </div>
       {{#if (is-or getCurrentUser.canManageStocktakes getCurrentUser.canManageStocktakeRevisions)}}
         <div class="small-4 columns menu-option">
           {{#link-to 'stocktakes' class="menu-list-anchor"}}

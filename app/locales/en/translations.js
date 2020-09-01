@@ -51,6 +51,7 @@ export default {
   manage_inventory: "Quotas",
   manage_users: "Manage Users",
   search_user: "Search User",
+  search_organisation: "Organisations",
   new_order: "+ HK Orders",
   full_name: "{{firstName}} {{lastName}}",
   mobile_prefix: "+852",
@@ -654,6 +655,22 @@ export default {
     name: "Name",
     description: "Description",
     registration: "Registration",
+
+    name_en: "Name EN",
+    name_zh_tw: "Name ZH",
+    description_en: "Description EN",
+    description_zh_tw: "Description ZH",
+    new: "New Organisation",
+    registration: "Registration",
+    website: "Website",
+    country: "Country",
+    type: "Type",
+
+    validation_error: {
+      name: "Name cannot be blank.",
+      country: "Country cannot be blank."
+    },
+
     user: {
       first_name: "First Name",
       last_name: "Family Name",

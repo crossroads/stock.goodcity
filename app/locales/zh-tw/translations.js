@@ -629,6 +629,18 @@ export default {
     name: "姓名",
     description: "機構概要",
     registration: "註冊編號",
+    name_en: "Name EN",
+    name_zh_tw: "Name ZH",
+    description_en: "Description EN",
+    description_zh_tw: "Description ZH",
+    new: "New Organisation",
+    registration: "Registration",
+    website: "Website",
+    country: "Country",
+    validation_error: {
+      name: "Name cannot be blank.",
+      country: "Country cannot be blank."
+    },
     user: {
       first_name: "名",
       last_name: "姓",
