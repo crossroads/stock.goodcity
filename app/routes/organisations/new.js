@@ -1,5 +1,6 @@
 import Ember from "ember";
 
+import config from "stock/config/environment";
 import AuthorizeRoute from "./../authorize";
 
 export default AuthorizeRoute.extend({
@@ -17,9 +18,10 @@ export default AuthorizeRoute.extend({
     this.controller.set("selectedOrganisationType", data.get("firstObject"));
   },
 
+  // Initialize country to 'China - Hong Kong (Special Administrative Region)'
   async initializeCountry() {
     const country = await this.store.query("country", {
-      searchText: "China - Hong Kong"
+      searchText: config.APP.DEFAULT_COUNTRY
     });
     const countryObj = country.get("firstObject");
     this.store.pushPayload(country);

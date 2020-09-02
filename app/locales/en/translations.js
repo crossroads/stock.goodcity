@@ -665,7 +665,8 @@ export default {
     website: "Website",
     country: "Country",
     type: "Type",
-
+    cancel_warning:
+      "You will lose all your data. Are you sure you want to cancel this?",
     validation_error: {
       name: "Name cannot be blank.",
       country: "Country cannot be blank.",

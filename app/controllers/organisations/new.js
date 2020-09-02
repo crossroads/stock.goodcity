@@ -1,14 +1,17 @@
 import Ember from "ember";
 
-import GoodcityController from "../goodcity_controller";
 import SearchOptionMixin from "stock/mixins/search_option";
+import GoodcityController from "../goodcity_controller";
 
 export default GoodcityController.extend(SearchOptionMixin, {
+  organisationService: Ember.inject.service(),
+  messageBox: Ember.inject.service(),
+  i18n: Ember.inject.service(),
+
   name_en: "",
   name_zh_tw: "",
   website: "",
   validate: false,
-  organisationService: Ember.inject.service(),
 
   name_en_error: Ember.computed("name_en", "validate", function() {
     return this.get("validate") && !this.get("name_en").trim().length;
@@ -27,6 +30,13 @@ export default GoodcityController.extend(SearchOptionMixin, {
   }),
 
   actions: {
+    /**
+     * Create new organisation if
+     *      nameEn is present
+     *      country is present
+     *      type is present
+     *      website has a valid format iff its present
+     */
     createOrganisation(p) {
       this.send("validateFields");
       if (
@@ -57,6 +67,44 @@ export default GoodcityController.extend(SearchOptionMixin, {
 
     validateFields() {
       this.set("validate", true);
+    },
+
+    clearForm() {
+      this.setProperties({
+        name_en: "",
+        name_zh_tw: "",
+        description_en: "",
+        description_zh_tw: "",
+        registration: "",
+        website: "",
+        country_id: "",
+        organisation_type_id: ""
+      });
+    },
+
+    cancel() {
+      const cancel = () => {
+        Ember.run.later(this, function() {
+          this.setProperties({
+            name_en: "",
+            name_zh_tw: "",
+            description_en: "",
+            description_zh_tw: "",
+            registration: "",
+            website: "",
+            country_id: "",
+            organisation_type_id: ""
+          });
+          this.replaceRoute("/");
+        });
+      };
+
+      this.get("messageBox").custom(
+        this.get("i18n").t("organisation.cancel_warning"),
+        "Yes",
+        cancel,
+        "No"
+      );
     },
 
     onSearch(field, searchText) {

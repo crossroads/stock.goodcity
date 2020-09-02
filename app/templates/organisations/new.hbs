@@ -115,7 +115,7 @@
 
   <div class="button-container">
     <div class="button-wrapper">
-      <a class="button secondary expand">{{t "cancel"}}</a>
+      <a {{action 'cancel'}}  class="button secondary expand">{{t "cancel"}}</a>
     </div>
     <div class="button-wrapper">
       <a {{action 'submit' target=form}} class="button expand">

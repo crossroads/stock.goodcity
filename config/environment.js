@@ -65,6 +65,7 @@ module.exports = function(environment) {
       NAMESPACE: "api/v1",
       HK_COUNTRY_CODE: "+852",
       HK_TIME_ZONE: "Asia/Hong_Kong",
+      DEFAULT_COUNTRY: "China - Hong Kong (Special Administrative Region)",
 
       SCANDIT_LICENSE_KEY: process.env.SCANDIT_LICENSE_KEY,
 

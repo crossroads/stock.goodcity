@@ -17,6 +17,7 @@ export default AuthorizeRoute.extend({
     this.setCountry(model);
   },
 
+  // set the selected country value
   async setCountry(model) {
     const country = model.get("country");
     this.controller.set("country", {
@@ -27,6 +28,7 @@ export default AuthorizeRoute.extend({
     this.controller.set("countryValue", { country_id: country.get("id") });
   },
 
+  // set organisation users
   async setOrganisationUsers(model) {
     let gcOrganisationUsers = this.store
       .peekAll("organisationsUser")
@@ -34,6 +36,8 @@ export default AuthorizeRoute.extend({
     this.controller.set("gcOrganisationUsers", gcOrganisationUsers);
   },
 
+  // fetch all organisation type if required
+  // set the selected organisation type
   async setOrganisationTypes(model) {
     const data = await this.getOrganisationTypes();
     this.controller.set("organisationTypes", data);

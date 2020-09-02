@@ -3,11 +3,9 @@ import _ from "lodash";
 
 import ApiBaseService from "./api-base-service";
 import { toID } from "stock/utils/helpers";
-import AjaxPromise from "stock/utils/ajax-promise";
 
 export default ApiBaseService.extend({
   store: Ember.inject.service(),
-  session: Ember.inject.service(),
 
   async getOrganisationOrders(order, opts = {}) {
     const store = this.get("store");
