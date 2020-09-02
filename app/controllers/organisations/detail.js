@@ -43,7 +43,7 @@ export default Ember.Controller.extend(SearchOptionMixin, AsyncMixin, {
       if (
         !this.get("name_en_error") &&
         !this.get("country_error") &&
-        !!this.get("website_error")
+        !this.get("website_error")
       ) {
         this.send("update", this.get("model"));
       }
