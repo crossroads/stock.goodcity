@@ -21,6 +21,10 @@
     }
   }
 
+  .menu-svg {
+    display: inline-block;
+  }
+
   .menu-margin {
     margin-top: 5%;
     margin-bottom: 2%;
@@ -44,6 +48,7 @@
   }
 
   .option-subtext {
-    margin-top: 5%;
+    padding-top: 5%;
+    display: inline-block;
   }
 }
