@@ -233,7 +233,10 @@ export default GoodcityController.extend(AsyncMixin, SearchMixin, {
   },
 
   async verifyOrgApproval(cb) {
-    if (this.get("organisationsUser.isApproved")) {
+    if (
+      !this.get("isGoodCityOrder") ||
+      this.get("organisationsUser.isApproved")
+    ) {
       return cb();
     }
 
