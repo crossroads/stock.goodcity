@@ -189,7 +189,15 @@ export default {
     country: "Country",
     shipment_number: "Shipment number",
     people_helped: "Number benefiting",
-    description: "Description of need"
+    description: "Description of need",
+    approval_status: "Approval status",
+    approval_directions: `Please review the contact before processing their order. If they are eligible to request goods on behalf of the selected organisation “Authorize” them. If not, “Deny”`,
+    approve: "Approve",
+    deny: "Deny",
+    status_approved: "Approved",
+    status_pending: "Pending",
+    status_denied: "Denied",
+    status_expired: "Expired"
   },
   order_tabs: {
     summary: "總結",
@@ -410,6 +418,8 @@ export default {
     for_client: "For client / beneficiary (personal use)",
     for_charity_sale: "For charity sale, bartering (any form of trade)",
     title: "Title",
+    cannot_process_unless_approved:
+      "An organisation user must be approved before the order can be processed",
     client_information: {
       title: "受惠者資料",
       is_order_client: "您正在代替受惠者下訂單?",
