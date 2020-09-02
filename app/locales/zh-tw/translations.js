@@ -639,7 +639,8 @@ export default {
     country: "Country",
     validation_error: {
       name: "Name cannot be blank.",
-      country: "Country cannot be blank."
+      country: "Country cannot be blank.",
+      website: "Website format invalid."
     },
     user: {
       first_name: "名",

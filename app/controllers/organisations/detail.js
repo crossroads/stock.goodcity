@@ -6,6 +6,7 @@ import AsyncMixin, { ERROR_STRATEGIES } from "stock/mixins/async";
 export default Ember.Controller.extend(SearchOptionMixin, AsyncMixin, {
   organisationService: Ember.inject.service(),
   organisation: Ember.computed.alias("model"),
+
   name_en_error: Ember.computed("model.nameEn", "validate", function() {
     return this.get("validate") && !this.get("model.nameEn").trim().length;
   }),
@@ -29,6 +30,20 @@ export default Ember.Controller.extend(SearchOptionMixin, AsyncMixin, {
       }
     },
 
+    updateCountry(value) {
+      const countryName = this.get("store")
+        .peekRecord("country", value.id)
+        .get("nameEn");
+      this.set("country", { id: value.id, nameEn: countryName });
+      this.set("countryValue", { country_id: value.id });
+      this.send("updateOrganisation");
+    },
+
+    updateOrganisationType({ id, name }) {
+      this.set("selectedOrganisationType", { id, name });
+      this.send("updateOrganisation");
+    },
+
     update() {
       this.runTask(async () => {
         try {
@@ -38,7 +53,9 @@ export default Ember.Controller.extend(SearchOptionMixin, AsyncMixin, {
             description_en: this.get("model.descriptionEn"),
             description_zh_tw: this.get("model.descriptionZhTw"),
             registration: this.get("model.registration"),
-            website: this.get("model.website")
+            website: this.get("model.website"),
+            country_id: this.get("countryValue").country_id,
+            organisation_type_id: this.get("selectedOrganisationType").id
           };
           await this.get("organisationService").update(
             organisation,

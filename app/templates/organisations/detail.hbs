@@ -32,9 +32,10 @@
         <label for="name_zh">{{t 'organisation.type'}}</label>
         <div class="organisation-type">
           {{select-list
-            on-change=(action 'updateOrganisation')
+            on-change=(action 'updateOrganisationType')
             content=organisationTypes
             value=selectedOrganisationType
+            selectedValue=selectedOrganisationType
             classNames='condition'
             idNames='condition-select' }}
         </div>
@@ -92,7 +93,7 @@
             sortBy="name"
             optionLabelKey="nameEn"
             selected=country
-            on-change=(action "updateOrganisation")
+            on-change=(action "updateCountry")
             isClearable=false
             prompt=""
             on-search=(action "onSearch" "country")}}

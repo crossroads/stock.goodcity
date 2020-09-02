@@ -6,6 +6,7 @@ import SearchOptionMixin from "stock/mixins/search_option";
 export default GoodcityController.extend(SearchOptionMixin, {
   name_en: "",
   name_zh_tw: "",
+  website: "",
   validate: false,
   organisationService: Ember.inject.service(),
 
@@ -17,10 +18,22 @@ export default GoodcityController.extend(SearchOptionMixin, {
     return this.get("validate") && !this.get("countryValue");
   }),
 
+  website_error: Ember.computed("website", "validate", function() {
+    const websiteRegEx = new RegExp(
+      `^(www\.|https?:\/\/(www\.)?)[a-zA-Z0-9-]+\.[a-zA-Z]+\.?[a-zA-Z0-9-#.]*[a-z]$`
+    );
+
+    return this.get("website") && !this.get("website").match(websiteRegEx);
+  }),
+
   actions: {
     createOrganisation(p) {
       this.send("validateFields");
-      if (!this.get("name_en_error") && !this.get("country_error")) {
+      if (
+        !this.get("name_en_error") &&
+        !this.get("country_error") &&
+        !this.get("website_error")
+      ) {
         this.showLoadingSpinner();
         const organisation = {
           name_en: this.get("name_en"),
@@ -29,7 +42,8 @@ export default GoodcityController.extend(SearchOptionMixin, {
           description_zh_tw: this.get("description_zh_tw"),
           registration: this.get("registration"),
           website: this.get("website"),
-          country_id: this.get("countryValue").country_id
+          country_id: this.get("countryValue").country_id,
+          organisation_type_id: this.get("selectedOrganisationType").id
         };
 
         this.get("organisationService")
