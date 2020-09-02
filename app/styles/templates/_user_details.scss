@@ -2,10 +2,6 @@
   border: none;
   margin-bottom: 0;
   height: 2.5rem;
-
-  .left-small div {
-    margin-left: 0;
-  }
 }
 
 .user-details-section {
@@ -147,6 +143,7 @@
 
   .custom_radio_buttons {
     height: 2.5rem;
+    padding: 0.5rem 0;
 
     label {
       font-size: 0.8rem;
@@ -156,6 +153,10 @@
       i {
         vertical-align: middle;
         margin-left: 0.2rem;
+
+        &.calendar-icon {
+          margin-left: -1rem;
+        }
       }
     }
 
@@ -199,6 +200,27 @@
       font-size: 0.7rem;
       margin: 0.4rem 0;
       font-style: italic;
+    }
+  }
+
+  .calendar_input {
+    display: inline-block;
+    padding: 0;
+
+    input {
+      padding: 0.2rem 0.5rem !important;
+      margin-left: 0.5rem !important;
+      width: 7rem;
+      margin-top: 0 !important;
+
+      background-color: #002352 !important;
+      color: white;
+      border: 1px solid white !important;
+
+      @media #{$large-only} {
+        width: 11rem;
+        font-size: 1rem;
+      }
     }
   }
 

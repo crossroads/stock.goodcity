@@ -1,7 +1,8 @@
 <nav class="tab-bar user-details-heading">
   <section class="left-small">
     {{#link-to "users.details" model.id class="user-back-link"}}
-      <div>{{t "cancel"}}</div>
+      <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-left'}}</i>
+      <div>{{t "back"}}</div>
     {{/link-to}}
   </section>
 
@@ -27,8 +28,8 @@
           value="noAccess"
           selection=adminRoleAccess
           required='true'}}
-        <label class="radio-button-text align-text hire_vehicle" for="noAccess">
-            <div class="label-position ggv-label self-label">
+        <label class="radio-button-text align-text expiry-date" for="noAccess">
+            <div class="label-position">
               No Access
               <i>{{fa-icon "times-circle"}}</i>
             </div>
@@ -42,9 +43,19 @@
             value="accessTill"
             selection=adminRoleAccess
             required='true'}}
-        <label class="radio-button-text align-text hire_vehicle" for="accessTill">
-            <div class="label-position ggv-label self-label">
+        <label class="radio-button-text align-text" for="accessTill">
+            <div class="label-position">
               Access Until
+              <div class="calendar_input ui">
+                {{calendar-input
+                  name='role_expiry_date'
+                  id='role_expiry_date'
+                  value=roleExpiryDate
+                  formatSubmit="DD/MMM/YYYY"
+                  enablePastDate=false
+                  selection=expiry_date}}
+              </div>
+              <i class="calendar-icon">{{fa-icon "calendar-check"}}</i>
             </div>
         </label>
       </div>
@@ -56,8 +67,8 @@
               value="accessForever"
               selection=adminRoleAccess
               required='true'}}
-        <label class="radio-button-text align-text hire_vehicle" for="accessForever">
-            <div class="label-position ggv-label self-label">
+        <label class="radio-button-text align-text expiry-date" for="accessForever">
+            <div class="label-position">
               Access Forever
               <i>{{fa-icon "check-circle"}}</i>
             </div>
@@ -115,7 +126,6 @@
 
         {{select-list
           content=printers
-          on-change=(action "onPrinterChange")
           selectedValue=defaultPrinter
           selectArrow=true
           value=defaultPrinter
@@ -128,7 +138,9 @@
 
   <div class="row">
     <div class="small-6 columns">
-      <a {{action 'cancelForm'}} class="button secondary expand">{{t "cancel"}}</a>
+      {{#link-to "users.details" model.id class="button secondary expand"}}
+        {{t "cancel"}}
+      {{/link-to}}
     </div>
     <div class="small-6 columns">
       <a {{action 'saveUserRoles'}} class="button expand {{if roleError 'disabled'}}">

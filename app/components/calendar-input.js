@@ -86,11 +86,20 @@ export default Ember.TextField.extend({
 
   initializeConfig() {
     this.set("datePickerConfig", DEFAULT_PICKADATE_CONFIG);
+
     const enablePastDate = this.get("enablePastDate");
     if (enablePastDate) {
       this.set("datePickerConfig", {
         ...DEFAULT_PICKADATE_CONFIG,
         min: MIN_DATE
+      });
+    }
+
+    const formatSubmit = this.get("formatSubmit");
+    if (formatSubmit) {
+      this.set("datePickerConfig", {
+        ...DEFAULT_PICKADATE_CONFIG,
+        formatSubmit: formatSubmit
       });
     }
   },

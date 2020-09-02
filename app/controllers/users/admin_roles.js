@@ -14,6 +14,20 @@ export default Ember.Controller.extend({
     );
   }),
 
+  reviewerRoleId: Ember.computed(function() {
+    return this.store
+      .peekAll("role")
+      .find(role => role.get("name") === "Reviewer")
+      .get("id");
+  }),
+
+  supervisorRoleId: Ember.computed(function() {
+    return this.store
+      .peekAll("role")
+      .find(role => role.get("name") === "Supervisor")
+      .get("id");
+  }),
+
   adminRoleAccess: Ember.computed("user.roles.[]", {
     get() {
       if (this.get("noAdminAppRole")) {
@@ -29,15 +43,22 @@ export default Ember.Controller.extend({
     }
   }),
 
-  roleExpiryDate: Ember.computed("user.userRoles.[]", function() {
-    let expiryDates = this.get("user.userRoles")
-      .filter(
-        row =>
-          _.includes(["Reviewer", "Supervisor"], row.get("role.name")) &&
-          !!row.get("expiryDate")
-      )
-      .map(row => row.get("expiryDate"));
-    return _.max(expiryDates);
+  roleExpiryDate: Ember.computed("user.userRoles.[]", {
+    get() {
+      let expiryDates = this.get("user.userRoles")
+        .filter(
+          row =>
+            _.includes(["Reviewer", "Supervisor"], row.get("role.name")) &&
+            !!row.get("expiryDate")
+        )
+        .map(row => row.get("expiryDate"));
+
+      let date = _.max(expiryDates);
+      return date ? moment(date).format("DD/MMM/YYYY") : "";
+    },
+    set(_, value) {
+      return value;
+    }
   }),
 
   hasReviewerRole: Ember.computed("user.roles.[]", {
@@ -77,11 +98,57 @@ export default Ember.Controller.extend({
     this.set("defaultPrinter", printers[0]);
   },
 
-  actions: {
-    onPrinterChange() {},
+  deleteUserRole(roleId) {
+    let userRole = this.get("store")
+      .peekAll("user_role")
+      .find(
+        userRole =>
+          userRole.get("roleId") === +roleId &&
+          userRole.get("userId") === +this.get("user.id")
+      );
+    userRole && userRole.destroyRecord();
+  },
 
+  assignRole(roleId, date) {
+    let params = {
+      userId: +this.get("user.id"),
+      roleId: +roleId
+      // expiryDate: date
+    };
+    let role = this.get("store").createRecord("userRole", params);
+    return role.save();
+  },
+
+  actions: {
     cancelForm() {},
 
-    saveUserRoles() {}
+    saveUserRoles() {
+      let roleExpiryDate;
+      let userRoleIds = this.get("user.roles").map(role => role.id);
+
+      let adminRoleAccess = this.get("adminRoleAccess");
+
+      if (adminRoleAccess === "noAccess") {
+        if (_.includes(userRoleIds, this.get("reviewerRoleId"))) {
+          this.deleteUserRole(this.get("reviewerRoleId"));
+        }
+
+        if (_.includes(userRoleIds, this.get("supervisorRoleId"))) {
+          this.deleteUserRole(this.get("supervisorRoleId"));
+        }
+      } else {
+        if (adminRoleAccess === "accessTill") {
+          roleExpiryDate = this.get("roleExpiryDate");
+        }
+
+        if (this.get("hasReviewerRole")) {
+          this.assignRole(this.get("reviewerRoleId"), roleExpiryDate);
+        }
+
+        if (this.get("hasSupervisorRole")) {
+          this.assignRole(this.get("supervisorRoleId"), roleExpiryDate);
+        }
+      }
+    }
   }
 });
