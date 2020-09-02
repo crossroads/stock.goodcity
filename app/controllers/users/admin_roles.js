@@ -3,10 +3,33 @@ import _ from "lodash";
 
 export default Ember.Controller.extend({
   printerService: Ember.inject.service(),
-  printers: [],
-  defaultPrinter: "",
+  apiBaseService: Ember.inject.service(),
+
   user: Ember.computed.alias("model"),
   noAdminAppAccess: Ember.computed.equal("adminRoleAccess", "noAccess"),
+
+  printers: Ember.computed(function() {
+    return this.get("printerService").allAvailablePrinters();
+  }),
+
+  selectedPrinterDisplay: Ember.computed(
+    "model.id",
+    "selectedPrinterId",
+    function() {
+      const printerId = this.get("selectedPrinterId");
+      if (printerId) {
+        const printer = this.store.peekRecord("printer", printerId);
+        return {
+          name: printer.get("name"),
+          id: printer.id
+        };
+      } else {
+        return this.get("printerService").getDefaultPrinterForUser(
+          this.get("user.id")
+        );
+      }
+    }
+  ),
 
   roleError: Ember.computed("noAdminAppRole", "adminRoleAccess", function() {
     return (
@@ -91,13 +114,6 @@ export default Ember.Controller.extend({
     }
   ),
 
-  init() {
-    let printers = this.get("printerService").allAvailablePrinters();
-
-    this.set("printers", printers);
-    this.set("defaultPrinter", printers[0]);
-  },
-
   deleteUserRole(roleId) {
     let userRole = this.get("store")
       .peekAll("user_role")
@@ -110,16 +126,23 @@ export default Ember.Controller.extend({
   },
 
   assignRole(roleId, date) {
-    let params = {
-      userId: +this.get("user.id"),
-      roleId: +roleId
-      // expiryDate: date
-    };
-    let role = this.get("store").createRecord("userRole", params);
-    return role.save();
+    this.get("apiBaseService")
+      .POST(`/user_roles`, {
+        user_role: {
+          role_id: roleId,
+          user_id: +this.get("user.id"),
+          expiry_date: date
+        }
+      })
+      .then(data => this.get("store").pushPayload(data));
   },
 
   actions: {
+    setPrinterValue(value) {
+      const printerId = value.id;
+      this.set("selectedPrinterId", printerId);
+    },
+
     cancelForm() {},
 
     saveUserRoles() {
@@ -148,6 +171,12 @@ export default Ember.Controller.extend({
         if (this.get("hasSupervisorRole")) {
           this.assignRole(this.get("supervisorRoleId"), roleExpiryDate);
         }
+
+        let printerId = this.get("selectedPrinterId");
+        this.get("printerService").addDefaultPrinter(
+          printerId,
+          this.get("user.id")
+        );
       }
     }
   }

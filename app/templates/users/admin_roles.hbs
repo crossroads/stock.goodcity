@@ -126,9 +126,10 @@
 
         {{select-list
           content=printers
-          selectedValue=defaultPrinter
+          on-change=(action "setPrinterValue")
+          selectedValue=selectedPrinterDisplay
           selectArrow=true
-          value=defaultPrinter
+          value=selectedPrinterDisplay
           classNames='printer-list'
           idNames='condition-select' }}
 
