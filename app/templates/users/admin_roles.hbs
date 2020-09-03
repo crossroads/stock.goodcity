@@ -18,7 +18,7 @@
     <div class="columns small-12">
 
       <div class="access-heading">
-        Access Status for {{model.fullName}}
+        Access Status for {{user.fullName}}
       </div>
 
       <div class="custom_radio_buttons" for="admin_role_access">
@@ -28,11 +28,11 @@
           value="noAccess"
           selection=adminRoleAccess
           required='true'}}
-        <label class="radio-button-text align-text expiry-date" for="noAccess">
-            <div class="label-position">
-              No Access
-              <i>{{fa-icon "times-circle"}}</i>
-            </div>
+        <label class="radio-button-text align-text" for="noAccess">
+          <div class="label-position">
+            No Access
+            <i>{{fa-icon "times-circle"}}</i>
+          </div>
         </label>
       </div>
 

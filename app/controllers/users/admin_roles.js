@@ -65,16 +65,10 @@ export default Ember.Controller.extend({
 
   roleExpiryDate: Ember.computed("user.userRoles.[]", {
     get() {
-      let expiryDates = this.get("user.userRoles")
-        .filter(
-          row =>
-            _.includes(["Reviewer", "Supervisor"], row.get("role.name")) &&
-            !!row.get("expiryDate")
-        )
-        .map(row => row.get("expiryDate"));
-
-      let date = _.max(expiryDates);
-      return date ? moment(date).format("DD/MMM/YYYY") : "";
+      return this.get("userService").getRoleExpiryDate(this.get("user"), [
+        "Reviewer",
+        "Supervisor"
+      ]);
     },
     set(_, value) {
       return value;

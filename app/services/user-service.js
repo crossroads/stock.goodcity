@@ -1,5 +1,6 @@
 import Ember from "ember";
 import ApiBaseService from "./api-base-service";
+import _ from "lodash";
 
 export default ApiBaseService.extend({
   store: Ember.inject.service(),
@@ -10,6 +11,19 @@ export default ApiBaseService.extend({
       .peekAll("role")
       .find(role => role.get("name") === roleName)
       .get("id");
+  },
+
+  getRoleExpiryDate(user, roles) {
+    let expiryDates = user
+      .get("userRoles")
+      .filter(
+        row =>
+          _.includes(roles, row.get("role.name")) && !!row.get("expiryDate")
+      )
+      .map(row => row.get("expiryDate"));
+
+    let date = _.max(expiryDates);
+    return date ? moment(date).format("DD/MMM/YYYY") : "";
   },
 
   hasRole(user, roleName) {
