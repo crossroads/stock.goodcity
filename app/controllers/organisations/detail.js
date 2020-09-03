@@ -15,12 +15,15 @@ export default Ember.Controller.extend(SearchOptionMixin, AsyncMixin, {
     return this.get("validate") && !this.get("countryValue");
   }),
 
-  website_error: Ember.computed("website", "validate", function() {
+  website_error: Ember.computed("model.website", "validate", function() {
     const websiteRegEx = new RegExp(
       `^(www\.|https?:\/\/(www\.)?)[a-zA-Z0-9-]+\.[a-zA-Z]+\.?[a-zA-Z0-9-#.]*[a-z]$`
     );
 
-    return this.get("website") && !this.get("website").match(websiteRegEx);
+    return (
+      this.get("model.website") &&
+      !this.get("model.website").match(websiteRegEx)
+    );
   }),
 
   actions: {
@@ -32,14 +35,7 @@ export default Ember.Controller.extend(SearchOptionMixin, AsyncMixin, {
      *      website has a valid format iff its present
      */
     updateOrganisation() {
-      const changedAttrs = this.get("model").changedAttributes();
-      Object.keys(changedAttrs).map(attr => {
-        switch (attr) {
-          case "nameEn":
-            this.set("validate", true);
-        }
-      });
-
+      this.set("validate", true);
       if (
         !this.get("name_en_error") &&
         !this.get("country_error") &&

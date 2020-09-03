@@ -41,7 +41,6 @@ export default AuthorizeRoute.extend({
   async setOrganisationTypes(model) {
     const data = await this.getOrganisationTypes();
     this.controller.set("organisationTypes", data);
-
     const selectedOrganisationType = this.store.peekRecord(
       "organisationType",
       model.get("organisationTypeId")

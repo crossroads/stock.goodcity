@@ -81,6 +81,11 @@
         {{input type="text" focusOut=(action 'updateOrganisation') autocomplete='off' value=model.website autoComplete=false}}
       </li>
     </ul>
+    {{#if website_error}}
+      <div class="error-wrapper">
+        <div class='error-message'>{{t 'organisation.validation_error.website'}}</div>
+      </div>
+    {{/if}}
   </div>
 
   <div class="form-container">
