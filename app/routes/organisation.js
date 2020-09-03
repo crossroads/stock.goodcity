@@ -24,8 +24,6 @@ export default AuthorizeRoute.extend({
       id: country.get("id"),
       nameEn: country.get("nameEn")
     });
-
-    this.controller.set("countryValue", { country_id: country.get("id") });
   },
 
   // set organisation users
@@ -50,12 +48,10 @@ export default AuthorizeRoute.extend({
 
   async getOrganisationTypes() {
     const organisationTypes = this.store.peekAll("organisationTypes");
-    if (organisationTypes.content.length) {
+    if (organisationTypes.get("length")) {
       return organisationTypes;
     } else {
-      return await this.store.findAll("organisationType", {
-        reload: true
-      });
+      return await this.store.findAll("organisationType", { reload: true });
     }
   }
 });

@@ -6,16 +6,17 @@ import AsyncMixin, { ERROR_STRATEGIES } from "stock/mixins/async";
 export default Ember.Controller.extend(SearchOptionMixin, AsyncMixin, {
   organisationService: Ember.inject.service(),
   organisation: Ember.computed.alias("model"),
+  showError: false,
 
-  name_en_error: Ember.computed("model.nameEn", "validate", function() {
-    return this.get("validate") && !this.get("model.nameEn").trim().length;
+  isInValidNameEn: Ember.computed("model.nameEn", function() {
+    return !this.get("model.nameEn").trim().length;
   }),
 
-  country_error: Ember.computed("countryValue", "validate", function() {
-    return this.get("validate") && !this.get("countryValue");
+  isInValidCountry: Ember.computed("country", function() {
+    return !this.get("country.id");
   }),
 
-  website_error: Ember.computed("model.website", "validate", function() {
+  isInValidWebsite: Ember.computed("model.website", function() {
     const websiteRegEx = new RegExp(
       `^(www\.|https?:\/\/(www\.)?)[a-zA-Z0-9-]+\.[a-zA-Z]+\.?[a-zA-Z0-9-#.]*[a-z]$`
     );
@@ -35,13 +36,14 @@ export default Ember.Controller.extend(SearchOptionMixin, AsyncMixin, {
      *      website has a valid format iff its present
      */
     updateOrganisation() {
-      this.set("validate", true);
       if (
-        !this.get("name_en_error") &&
-        !this.get("country_error") &&
-        !this.get("website_error")
+        !this.get("isInValidNameEn") &&
+        !this.get("isInValidCountry") &&
+        !this.get("isInValidWebsite")
       ) {
-        this.send("update", this.get("model"));
+        this.send("update");
+      } else {
+        this.set("showError", true);
       }
     },
 
@@ -50,7 +52,6 @@ export default Ember.Controller.extend(SearchOptionMixin, AsyncMixin, {
         .peekRecord("country", value.id)
         .get("nameEn");
       this.set("country", { id: value.id, nameEn: countryName });
-      this.set("countryValue", { country_id: value.id });
       this.send("updateOrganisation");
     },
 
@@ -69,8 +70,8 @@ export default Ember.Controller.extend(SearchOptionMixin, AsyncMixin, {
             description_zh_tw: this.get("model.descriptionZhTw"),
             registration: this.get("model.registration"),
             website: this.get("model.website"),
-            country_id: this.get("countryValue").country_id,
-            organisation_type_id: this.get("selectedOrganisationType").id
+            country_id: this.get("country.id"),
+            organisation_type_id: this.get("selectedOrganisationType.id")
           };
           await this.get("organisationService").update(
             organisation,

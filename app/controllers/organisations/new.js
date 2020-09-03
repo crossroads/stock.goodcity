@@ -2,26 +2,28 @@ import Ember from "ember";
 
 import SearchOptionMixin from "stock/mixins/search_option";
 import GoodcityController from "../goodcity_controller";
+import AsyncMixin from "stock/mixins/async";
 
-export default GoodcityController.extend(SearchOptionMixin, {
+export default GoodcityController.extend(SearchOptionMixin, AsyncMixin, {
   organisationService: Ember.inject.service(),
   messageBox: Ember.inject.service(),
   i18n: Ember.inject.service(),
 
+  showError: false,
   name_en: "",
   name_zh_tw: "",
   website: "",
   validate: false,
 
-  name_en_error: Ember.computed("name_en", "validate", function() {
-    return this.get("validate") && !this.get("name_en").trim().length;
+  isInValidNameEn: Ember.computed("name_en", function() {
+    return !this.get("name_en").trim().length;
   }),
 
-  country_error: Ember.computed("countryValue", "validate", function() {
-    return this.get("validate") && !this.get("countryValue");
+  isInValidCountry: Ember.computed("country", function() {
+    return !this.get("country");
   }),
 
-  website_error: Ember.computed("website", "validate", function() {
+  isInValidWebsite: Ember.computed("website", function() {
     const websiteRegEx = new RegExp(
       `^(www\.|https?:\/\/(www\.)?)[a-zA-Z0-9-]+\.[a-zA-Z]+\.?[a-zA-Z0-9-#.]*[a-z]$`
     );
@@ -37,12 +39,11 @@ export default GoodcityController.extend(SearchOptionMixin, {
      *      type is present
      *      website has a valid format iff its present
      */
-    createOrganisation(p) {
-      this.send("validateFields");
+    createOrganisation() {
       if (
-        !this.get("name_en_error") &&
-        !this.get("country_error") &&
-        !this.get("website_error")
+        !this.get("isInValidNameEn") &&
+        !this.get("isInValidCountry") &&
+        !this.get("isInValidWebsite")
       ) {
         this.showLoadingSpinner();
         const organisation = {
@@ -52,7 +53,7 @@ export default GoodcityController.extend(SearchOptionMixin, {
           description_zh_tw: this.get("description_zh_tw"),
           registration: this.get("registration"),
           website: this.get("website"),
-          country_id: this.get("countryValue").country_id,
+          country_id: this.get("country.id"),
           organisation_type_id: this.get("selectedOrganisationType").id
         };
 
@@ -62,11 +63,9 @@ export default GoodcityController.extend(SearchOptionMixin, {
             this.replaceRoute("organisations.detail", data.organisation.id);
             this.hideLoadingSpinner();
           });
+      } else {
+        this.set("showError", true);
       }
-    },
-
-    validateFields() {
-      this.set("validate", true);
     },
 
     clearForm() {
@@ -82,29 +81,21 @@ export default GoodcityController.extend(SearchOptionMixin, {
       });
     },
 
-    cancel() {
-      const cancel = () => {
+    async cancel() {
+      const resetForm = () => {
         Ember.run.later(this, function() {
-          this.setProperties({
-            name_en: "",
-            name_zh_tw: "",
-            description_en: "",
-            description_zh_tw: "",
-            registration: "",
-            website: "",
-            country_id: "",
-            organisation_type_id: ""
-          });
+          this.send("clearForm");
           this.replaceRoute("/");
         });
       };
 
-      this.get("messageBox").custom(
-        this.get("i18n").t("organisation.cancel_warning"),
-        "Yes",
-        cancel,
-        "No"
-      );
+      const confirmed = await this.modalConfirm("organisation.cancel_warning");
+
+      if (!confirmed) {
+        return;
+      }
+
+      return resetForm();
     },
 
     onSearch(field, searchText) {
@@ -120,9 +111,6 @@ export default GoodcityController.extend(SearchOptionMixin, {
         .peekRecord("country", value.id)
         .get("nameEn");
       this.set("country", { id: value.id, nameEn: countryName });
-      this.set("countryValue", {
-        country_id: value.id
-      });
     }
   }
 });

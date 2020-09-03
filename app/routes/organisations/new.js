@@ -29,9 +29,6 @@ export default AuthorizeRoute.extend({
       id: countryObj.get("id"),
       nameEn: countryObj.get("nameEn")
     });
-    this.controller.set("countryValue", {
-      country_id: countryObj.get("id")
-    });
   },
 
   async initializeAttributes() {
