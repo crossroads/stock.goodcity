@@ -5,6 +5,10 @@
   $background-color: #002352;
   $error-background: #f46769;
 
+  form {
+    margin-top: 12px;
+  }
+
   .header-container {
     display: flex;
     align-items: stretch;
@@ -40,6 +44,9 @@
   .form-row > input {
     flex: 2;
     cursor: default;
+    @media #{$small-only} {
+      font-size: 13px;
+    }
   }
   .form-row > input,
   .form-row > button {
@@ -53,6 +60,9 @@
     .form-container {
       label {
         font-size: 18px;
+        @media #{$small-only} {
+          font-size: 13px;
+        }
       }
 
       .description {
@@ -63,6 +73,10 @@
           background-color: $background-color !important;
           color: white;
           border: 1px solid $input-border!important;
+          font-size: 18px;
+          @media #{$small-only} {
+            font-size: 13px;
+          }
         }
       }
 
@@ -77,6 +91,9 @@
           background-color: $background-color !important;
           color: white;
           border: 1px solid $input-border!important;
+          @media #{$small-only} {
+            font-size: 13px;
+          }
         }
       }
 
@@ -86,6 +103,12 @@
           border: 1px solid $input-border!important;
         }
         width: 66%;
+        .Searchable-select {
+          font-size: 18px;
+          @media #{$small-only} {
+            font-size: 13px;
+          }
+        }
         .Searchable-select__search{
           background-color: $dropdown-body;
         }
