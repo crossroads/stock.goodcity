@@ -26,13 +26,13 @@ export default ApiBaseService.extend({
     });
   },
 
-  addDefaultPrinter(printer, userId) {
+  addDefaultPrinter(printer, userId, tag) {
     const id = toID(printer);
     this.POST(`/printers_users`, {
       printers_users: {
         printer_id: id,
         user_id: userId || this.get("session.currentUser.id"),
-        tag: "stock"
+        tag: tag || "stock"
       }
     }).then(data => this.get("store").pushPayload(data));
   },
@@ -41,7 +41,8 @@ export default ApiBaseService.extend({
     return this.__getStockPrintersUsers().get("firstObject.printer");
   },
 
-  getDefaultPrinterForUser(userId) {
+  getDefaultPrinterForUser(userId, tag) {
+    tag = tag || "stock";
     var printers_user = this.get("store")
       .peekAll("printers_user")
       .find(row => row.get("tag") === "stock" && row.get("userId") === +userId);

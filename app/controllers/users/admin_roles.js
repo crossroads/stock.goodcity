@@ -28,7 +28,8 @@ export default Ember.Controller.extend({
         };
       } else {
         let printer = this.get("printerService").getDefaultPrinterForUser(
-          this.get("user.id")
+          this.get("user.id"),
+          "admin"
         );
         this.set("selectedPrinterId", printer.id);
         return printer;
@@ -155,7 +156,11 @@ export default Ember.Controller.extend({
         }
 
         let printerId = this.get("selectedPrinterId");
-        this.get("printerService").addDefaultPrinter(printerId, userId);
+        this.get("printerService").addDefaultPrinter(
+          printerId,
+          userId,
+          "admin"
+        );
 
         this.transitionToRoute("users.details", userId);
       }
