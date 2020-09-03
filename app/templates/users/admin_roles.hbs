@@ -1,6 +1,6 @@
 <nav class="tab-bar user-details-heading">
   <section class="left-small">
-    {{#link-to "users.details" model.id class="user-back-link"}}
+    {{#link-to "users.details" user.id class="user-back-link"}}
       <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-left'}}</i>
       <div>{{t "back"}}</div>
     {{/link-to}}
@@ -139,9 +139,9 @@
 
   <div class="row">
     <div class="small-6 columns">
-      {{#link-to "users.details" model.id class="button secondary expand"}}
+      <a {{action 'cancelForm'}} class="button secondary expand">
         {{t "cancel"}}
-      {{/link-to}}
+      </a>
     </div>
     <div class="small-6 columns">
       <a {{action 'saveUserRoles'}} class="button expand {{if roleError 'disabled'}}">
