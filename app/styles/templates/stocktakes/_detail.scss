@@ -1,0 +1,256 @@
+.stocktake-page.detail {
+  $warning-red: #ff4353;
+  $success-green: #6fab4a;
+
+  position: fixed;
+  width: 100%;
+
+  .title {
+    white-space: nowrap;
+  }
+
+  .scanner-overlay {
+    .scanner-preview {
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+      height: 30vh;
+      display: none;
+      position: relative;
+
+      &.show {
+        display: block;
+      }
+    }
+
+    .scanner-error {
+      background-color: $warning-red;
+      color: white;
+      width: 100%;
+      height: 2rem;
+      padding: 0.5rem;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+
+      &.active {
+        opacity: 1;
+      }
+    }
+  }
+
+  .status-bar {
+    color: white;
+    text-align: center;
+    line-height: 2rem;
+    height: 2rem;
+    font-family: $header-font-family;
+    width: 100%;
+
+    &.state-closed {
+      background-color: #6fab4a;
+    }
+  
+    &.state-cancelled {
+      background-color: black;
+    }
+
+    &.state-open {
+      display: none;
+    }
+  }
+
+  .message-zone {
+    height: 7vh;
+
+    .top-message {
+      margin: 1rem;
+
+      &.error-message {
+        color: $warning-red;
+      }
+
+      &.saving-message {
+        visibility: hidden;
+        &.show {
+          visibility: visible;  
+        }
+      }
+    }
+  }
+
+  a {
+    text-decoration: underline;
+    text-underline-position: under;
+  }
+
+  .tabs-container {
+    margin-bottom: 0;
+    height: 12vh;
+  }
+
+  .buttons-container {
+    padding-left: 1rem;
+    height: 7vh;
+    margin-bottom: 1rem;
+
+    button {
+      @include ellipsis();
+      height: 2.5rem;
+    }
+
+    .columns {
+      text-align: center;
+    }
+
+    .checkbox-container {
+      padding-top: 0.5rem;
+      display: flex;
+      flex-wrap: nowrap;
+      justify-content: center;
+      .checkbox {
+        width: 1rem;
+        height: 1rem;
+        border: 1px solid gray;
+        margin-left: 0.5rem;
+        i { color: white }
+      }
+    }
+    >* {
+      margin-right: 1rem;
+    }
+  }
+
+  .tips {
+    padding-top: 3rem;
+    opacity: 0.4;
+    .tip {
+      width: 100%;
+      padding: 0.5rem 4rem;
+      color: white;
+      text-align: center;
+      font-family: $header-font-family;
+      font-size: 1.1rem;
+    }
+  }
+
+  .revision-list {
+    overflow-y: auto;
+    height: 60vh;
+    position: relative;
+
+    .ember-collection--no-sidebars {
+      & > div {
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+      }
+    }
+
+    &.small {
+      height: 20vh;
+    }
+
+    .revision{
+      max-width: 95vw;
+
+      &.unsaved {
+        input {
+          border-color: yellow;
+        }
+      }
+
+      &.locked {
+        opacity: 0.4;
+        pointer-events: none;
+      }
+
+      margin-left: 1rem;
+      margin-right: 1rem;
+      padding-bottom: 0.5rem;
+      min-height: 3rem;
+      border-bottom: 1px solid white;
+      
+      .row, .flex{
+        white-space: nowrap;
+        &:first-child {
+          padding-top: 0.2rem;
+          padding-bottom: 0.2rem;
+        }
+
+        .package-image {
+          background: black;
+          img {
+            object-fit: contain;
+            height: 6rem;
+            min-width: 3rem;
+          }
+        }
+
+        .inventory-number {
+          white-space: nowrap;
+          color: white;
+          text-align: center;
+          margin-right: 0.5rem;
+        }
+
+        .display-package-code {
+          @include ellipsis();
+          color: inherit;
+        }
+
+        .offset-up {
+          margin-top: -0.5rem;
+        }
+
+        .warning-box {
+          background-color: $warning-red;
+          padding: 0.2rem 2rem;
+          width: 90%;
+          margin: 0 auto;
+          color: white;
+          white-space: normal;
+        }
+
+        .pill {
+          &.good {
+            background-color: $success-green;
+          }
+          &.bad {
+            background-color: $warning-red;
+          }
+          
+          width: 5rem;
+          text-align: center;
+          height: 1.2rem;
+          line-height: 1.1rem;
+          border-radius: 30px;
+          border: 1px solid white;
+          color: white;
+          font-size: 0.7rem;
+          margin-right: 1.5rem;
+        }
+
+        .quantity-input-container {
+          height: 3rem;
+
+          &.hide { visibility: hidden; }
+
+          span {
+            line-height: 2.5rem;
+            margin-left: 0.4rem;
+            margin-right: 0.4rem;
+          }
+
+          .quantity-input {
+            input {
+              width: 4rem;
+              height: 2.5rem;
+              text-align: center;
+              background: transparent;
+              color: white;
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,6 +1,6 @@
 <section class="main-section start_page">
   <div class="row">
-    {{#if session.currentUser.canViewDashboard}}
+    {{#if session.currentUser.canManageOrders}}
       <div class="small-12 columns summary recent_orders">
         <h2>{{t 'orders_in_process'}}</h2>
         <div class="row">

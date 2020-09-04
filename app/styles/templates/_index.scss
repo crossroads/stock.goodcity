@@ -140,9 +140,16 @@
   border-top: 1px solid;
   padding-top: 0.7rem;
   z-index: 100;
+  @media #{$small-only} {
+    height: 90px;
+  }
 
   .navigation_menus {
     position: relative;
+
+    .list li {
+      margin-bottom: 0 !important;
+    }
 
     .small-block-grid-5 {
       li:not(:last-child) {
@@ -160,7 +167,7 @@
 
       i {
         display: block;
-        font-size: 1.5rem;
+        font-size: 1.2rem;
         margin-bottom: 0.3rem;
       }
     }

@@ -71,8 +71,15 @@ export default GoodcityController.extend(
     ],
     currentRoute: Ember.computed.alias("application.currentPath"),
     pkg: Ember.computed.alias("model"),
-    showPieces: Ember.computed.alias("model.code.allow_pieces"),
     allowItemActions: Ember.computed.alias("settings.allowItemActions"),
+
+    showPieces: Ember.computed(
+      "item.code.allow_pieces",
+      "isBoxOrPallet",
+      function() {
+        return this.get("item.code.allow_pieces") && !this.get("isBoxOrPallet");
+      }
+    ),
 
     sortActionsBy: ["id:desc"],
     sortedItemActions: Ember.computed.sort(
@@ -252,6 +259,20 @@ export default GoodcityController.extend(
       return ["Box", "Pallet"].indexOf(this.get("item.storageTypeName")) > -1;
     }),
 
+    //Added to avoid gain in box or pallet if the quantity is present in dispatched , designated or available quantity
+    isGainInvalidInBoxOrPallet: Ember.computed(
+      "model.onHandQuantity",
+      "model.dispatchedQuantity",
+      "isBoxOrPallet",
+      function() {
+        return (
+          this.get("isBoxOrPallet") &&
+          (!!this.get("model.onHandQuantity") ||
+            !!this.get("model.dispatchedQuantity"))
+        );
+      }
+    ),
+
     conditions: Ember.computed(function() {
       return this.get("store").peekAll("donor_condition");
     }),
@@ -408,6 +429,16 @@ export default GoodcityController.extend(
     },
 
     actions: {
+      updatePackage(field, value) {
+        this.runTask(
+          this.get("packageService").updatePackage(this.get("item.id"), {
+            package: {
+              [field]: value
+            }
+          })
+        );
+      },
+
       /**
        * Add Offer to Package
        */
@@ -568,6 +599,16 @@ export default GoodcityController.extend(
             .then(data => {
               this.get("store").pushPayload(data);
               this.set("associatedPackages", data.items);
+              if (data.packages_locations.length > 0) {
+                let record;
+                data.packages_locations.map(pkgloc => {
+                  record = this.get("store").peekRecord(
+                    "packages_location",
+                    pkgloc.id
+                  );
+                  record.set("defaultAddableQuantity", pkgloc.quantity);
+                });
+              }
             })
         );
       },
@@ -604,6 +645,11 @@ export default GoodcityController.extend(
 
       openItemsSearch() {
         this.set("openPackageSearch", true);
+      },
+
+      setScannedSearchText(searchedText) {
+        this.set("searchText", searchedText);
+        this.send("openItemsSearch");
       },
 
       /**
@@ -652,6 +698,7 @@ export default GoodcityController.extend(
        * @param {String} tabName The tab we wish to open
        */
       openTab(tabName) {
+        this.clearMoveParams();
         this.replaceRoute(`items.detail.${tabName}`);
       },
 

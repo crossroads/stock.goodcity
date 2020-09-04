@@ -198,7 +198,11 @@ export default GoodcityController.extend(
         : this.set(`inputFieldValues.${fieldAtributes.value}`, null);
     },
 
-    showPiecesInput: Ember.computed("codeId", function() {
+    showPiecesInput: Ember.computed("codeId", "isBoxOrPallet", function() {
+      if (this.get("isBoxOrPallet")) {
+        return false;
+      }
+
       let codeId = this.get("codeId");
       if (codeId) {
         let selected = this.get("store").peekRecord("code", codeId);
@@ -247,15 +251,21 @@ export default GoodcityController.extend(
       });
     }),
 
-    isInvalidDimension: Ember.computed("length", "width", "height", function() {
-      const length = this.get("length");
-      const width = this.get("width");
-      const height = this.get("height");
-      const dimensionsCount = _.filter(
-        [length, width, height],
-        item => Number(item) <= 0
+    isValidDimension: Ember.computed("length", "width", "height", function() {
+      const length = parseInt(this.get("length"));
+      const width = parseInt(this.get("width"));
+      const height = parseInt(this.get("height"));
+
+      // Its a validation error if, any one of them doesn't have a value
+      // i.e. either all 3 must have value or none of them have any value
+      const dimensionsCount = [length, width, height].filter(
+        dimension => !isNaN(dimension) && dimension > 0
       ).length;
-      return _.inRange(dimensionsCount, 1, 3);
+
+      // Its a validation error if, any of the values are 0
+      const hasZero = [length, width, height].any(dimension => dimension == 0);
+
+      return (dimensionsCount == 3 || dimensionsCount == 0) && !hasZero;
     }),
 
     printLabelCount: Ember.computed("labels", function() {
@@ -393,11 +403,8 @@ export default GoodcityController.extend(
         !this.get("code") ||
         !this.get("isInvalidPrintCount") ||
         this.get("isInvalidaLabelCount") ||
-        this.get("isInvalidDimension") ||
-        this.get("isInvalidValuation") ||
-        parseInt(this.get("length"), 10) === 0 ||
-        parseInt(this.get("width"), 10) === 0 ||
-        parseInt(this.get("height"), 10) === 0
+        !this.get("isValidDimension") ||
+        this.get("isInvalidValuation")
       );
     },
 

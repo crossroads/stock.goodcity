@@ -455,7 +455,7 @@
 
     .expiry_date_cancel svg {
       margin-top: 1.5%;
-
+      margin-left: 5px;
       @media #{$small-only} {
         margin-top: 1.8%;
       }
@@ -483,6 +483,7 @@
   }
 
   .footer {
+    height: 80px;
     .extended-footer-menu {
       .click-out-overlay {
         position: absolute;
@@ -725,7 +726,6 @@
 }
 
 .description-error {
-  display: none !important;
   margin: -1.3rem 0 0.4rem 0.1rem!important;
   width: 100% !important;
 }
@@ -1028,4 +1028,21 @@
     font-size: 0.7rem !important;
     display: inline !important;
   }
+}
+
+.item_details_screen,
+.history,
+.items-messages-section {
+  .footer {
+    background-color: $black;
+    height: 50px;
+
+    @media #{$small-only} {
+      border-radius: 0 0 35px 35px;
+    }
+  }
+}
+
+.navigation_menus .unread_message {
+  margin-left: 0;
 }

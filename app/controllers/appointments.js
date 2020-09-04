@@ -130,10 +130,16 @@ export default GoodcityController.extend({
 
     showSpecial() {
       this.set("selectedTab", "special");
+      this.get("specialSlotsByDate").forEach(days =>
+        days.set("showOptionsMenu", false)
+      );
     },
 
     showDefault() {
       this.set("selectedTab", "presets");
+      this.get("presetsByWeekDay").forEach(days =>
+        days.set("showOptionsMenu", false)
+      );
     },
 
     toggleOptionsMenu(obj) {

@@ -1,60 +1,39 @@
-import Ember from 'ember';
-import config from '../config/environment';
+import Ember from "ember";
+import AsyncMixin from "../mixins/async";
 
-export default Ember.Component.extend({
-  messageBox: Ember.inject.service(),
-  i18n: Ember.inject.service(),
-  isMobileApp: config.cordova.enabled,
+export default Ember.Component.extend(AsyncMixin, {
+  barcodeService: Ember.inject.service(),
   paramName: null,
 
-  checkPermissionAndScan() {
-    let _this = this;
-    let permissions = window.cordova.plugins.permissions;
-    let permissionError = () => {
-      let error_message = _this.get("i18n").t("camera_scan.permission_error");
-      _this.get("messageBox").alert(error_message);
-    };
-    let permissionSuccess = (status) => {
-      //after requesting check for permission then, permit to scan
-      if( status.hasPermission ) {
-        _this.scan();
-      } else {
-        permissionError();
-      }
-    };
-    permissions.hasPermission(permissions.CAMERA, function( status ){
-      //check permission here
-      if ( status.hasPermission ) {
-        _this.scan();
-      }
-      else {
-        //request permission here
-        permissions.requestPermission(permissions.CAMERA, permissionSuccess, permissionError);
-      }
-    });
-  },
-
-  scan() {
-    var onSuccess = res => {
-      if (!res.cancelled) {
-        var key = this.get("paramName") || "searchInput";
-        var queryParams = {};
-        var strippedURL = res.text.substring(res.text.lastIndexOf('=') + 1);
-        queryParams[key] = strippedURL;
-        this.get('router').transitionTo(this.get("route"), { queryParams: queryParams });
-      }
-    };
-
-    var onError = error => this.get("messageBox").alert("Scanning failed: " + error);
-    var options = {"formats": "QR_CODE ,CODE_128", "orientation" : "portrait"};
-
-    window.cordova.plugins.barcodeScanner.scan(onSuccess, onError, options);
+  redirect(scannedText) {
+    if (scannedText) {
+      const key = this.get("paramName") || "searchInput";
+      this.get("router").transitionTo(this.get("route"), {
+        queryParams: {
+          [key]: scannedText
+        }
+      });
+    }
   },
 
   actions: {
-    scanBarcode(){
-      this.checkPermissionAndScan();
+    async scanBarcode() {
+      const scanner = this.get("barcodeService");
+
+      try {
+        const allowed = await scanner.requestPermission();
+        if (!allowed) {
+          return;
+        }
+      } catch (e) {
+        return this.modalAlert("camera_scan.permission_error");
+      }
+
+      try {
+        this.redirect(await scanner.scanOne());
+      } catch (e) {
+        this.modalAlert("Scanning failed: " + e);
+      }
     }
   }
 });
-

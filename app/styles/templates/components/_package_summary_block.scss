@@ -28,11 +28,17 @@
           text-align: center;
           color: $white;
           background-color: #002353;
-          font-size: 0.8rem;
+          font-size: 13.5px;
 
           svg {
             color: $white;
           }
+        }
+
+        .text-holder {
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          overflow: hidden;
         }
 
         .small {

@@ -436,7 +436,7 @@
   margin-bottom: 0;
 
   .tab-bar-section {
-    @media #{$large-only} {
+    @media #{$medium-up} {
       position: relative;
     }
   }

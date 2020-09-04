@@ -66,14 +66,14 @@
       <div class="small-3 columns item-label">
         {{t "items.new.description"}}
       </div>
-      <div class="small-6 large-7 columns description-block">
+      <div class="small-6 medium-7 large-7 columns description-block">
         {{#form-control}}
           <i class="remove-text" aria-hidden="true" {{action "clearDescription"}}>{{fa-icon 'times-circle'}}</i>
           {{auto-resize-textarea data-autoresize=true name="description" value=description required="required" pattern=".*\S.*" id="description"}}
           <div class='input-error'>{{t 'items.new.validation_errors.description'}}</div>
         {{/form-control}}
       </div>
-      <div class="small-3 large-2">
+      <div class="small-3 medium-2 large-2">
         <a {{action "triggerUpload"}} class="{{unless isReady 'disabled'}}">
           <span class="image-box">
             {{#if newUploadedImage}}
@@ -161,27 +161,27 @@
       </div>
       <div class="columns small-3 value length">
         <span class='input_text'>L :</span>
-        {{numeric-input name="length" id='length' value=length maxlength="8" pattern="[1-9][0-9]{0,7}"}}
+        {{numeric-input name="length" id='length' value=length maxlength="8"}}
         <span><i aria-hidden="true">{{fa-icon 'times'}}</i></span>
       </div>
       <div class="columns small-3 value width">
         <span class='input_text'>W :</span>
-        {{numeric-input name="width" id='width' value=width maxlength="5" pattern="[1-9][0-9]{0,4}"}}
+        {{numeric-input name="width" id='width' value=width maxlength="5"}}
         <span><i aria-hidden="true">{{fa-icon 'times'}}</i></span>
       </div>
       <div class="columns small-3 value height">
         <span class='input_text'>H :</span>
-        {{numeric-input name="height" id='height' value=height maxlength="5" pattern="[1-9][0-9]{0,4}"}}
+        {{numeric-input name="height" id='height' value=height maxlength="5"}}
       </div>
     </div>
-    {{#if isInvalidDimension}}
+    {{#unless isValidDimension}}
       <div class="row error-message">
         <div class="small-3 columns item-label"></div>
         <div id="max-val-err" class='small-9 columns input-error show-validation'>
           {{t "items.new.validation_errors.invalid_dimensions"}}
         </div>
       </div>
-    {{/if}}
+    {{/unless}}
     <div class="row">
       <div class="small-3 columns item-label">
         {{t "items.new.weight"}}
@@ -291,6 +291,11 @@
         <div class="small-4 columns inventory-number">
           {{#if inputInventory}}
             {{input value=inventoryNumber}}
+            {{#unless inventoryNumber}}
+              <div class="input-error show-validation">
+                {{t "items.new.validation_errors.blank_inventory_number"}}
+              </div>
+            {{/unless}}
           {{else}}
             {{inventoryNumber}}
           {{/if}}

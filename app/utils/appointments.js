@@ -3,7 +3,7 @@ import _ from "lodash";
 
 export default {
   /* Options for the select inputs [00:00, 00:30, ... 23:30]  */
-  timeslots: Cache.once(function() {
+  timeslots: Cache.cached(function() {
     let make = (hours, minutes) => {
       let time = this.formatTime(hours, minutes);
       return { name: time, id: time, time, hours, minutes };

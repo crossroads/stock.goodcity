@@ -7,7 +7,7 @@ import Ember from "ember";
 export default detail.extend({
   processingChecklist: Ember.inject.service(),
 
-  loadLookups: Cache.once(function() {
+  loadLookups: Cache.cached(function() {
     const load = modelName => {
       return this.store
         .findAll(modelName)

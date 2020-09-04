@@ -15,11 +15,16 @@ export default Ember.Service.extend({
     this.get("subscription").on("change:message", this, this.onNewNotification);
   },
 
-  onNewNotification({ record: { id } }) {
-    const msg = this.get("store").peekRecord("message", id);
+  onNewNotification(notification) {
+    const msg = this.get("store").peekRecord("message", notification.record.id);
 
-    if (msg.get("isUnread")) {
+    if (notification.operation === "create" && msg.get("isUnread")) {
       this._incrementCount();
+    } else if (
+      notification.operation === "update" &&
+      notification.record.state === "read"
+    ) {
+      this._decrementCount();
     }
   },
 
@@ -35,10 +40,25 @@ export default Ember.Service.extend({
   _queryMessages(state, page, perPage) {
     return new AjaxPromise("/messages", "GET", this.get("session.authToken"), {
       state: state,
-      scope: "order",
+      scope: ["order", "package"],
       page: page,
       per_page: perPage
     });
+  },
+
+  queryNotifications(page, state) {
+    const params = {
+      page: page,
+      state: state,
+      messageable_type: ["order", "package"]
+    };
+
+    return new AjaxPromise(
+      "/messages/notifications",
+      "GET",
+      this.get("session.authToken"),
+      params
+    );
   },
 
   markRead: function(message) {
@@ -62,7 +82,7 @@ export default Ember.Service.extend({
       "PUT",
       this.get("session.authToken"),
       {
-        scope: "order"
+        scope: ["order", "package"]
       }
     ).then(() => {
       this.get("store")
@@ -79,20 +99,33 @@ export default Ember.Service.extend({
     this.get("logger").error(e);
   },
 
-  getMessageRoute(orderId, isPrivate) {
+  getMessageRoute(messageableId, messageableType, isPrivate) {
+    messageableType = messageableType === "Package" ? "item" : messageableType;
+
     if (isPrivate) {
-      return ["orders.staff_conversation", orderId];
-    } else {
-      return ["orders.conversation", orderId];
+      return [
+        `${messageableType.toLowerCase()}s.staff_conversation`,
+        messageableId
+      ];
+    } else if (messageableType === "Order") {
+      return ["orders.conversation", messageableId];
     }
   },
 
   getRoute: function(message) {
-    let orderId = message.get
-      ? message.get("designation.id")
-      : message.designation_id;
+    let messageableId = message.get
+      ? message.get("messageableId")
+      : message.messageable_id;
 
-    let messageRoute = this.getMessageRoute(orderId, message.get("isPrivate"));
+    let messageableType = message.get
+      ? message.get("messageableType")
+      : message.messageable_type;
+
+    let messageRoute = this.getMessageRoute(
+      messageableId,
+      messageableType,
+      message.get("isPrivate")
+    );
     return messageRoute;
   },
 

@@ -39,13 +39,23 @@ export default Ember.Controller.extend({
   },
 
   setRoute: function(notification) {
+    let route;
+
     if (notification.category === "message") {
-      return (notification.route = [
-        "orders.conversation",
-        notification.order_id
-      ]);
+      if (notification.messageable_type === "Package") {
+        route = ["items.staff_conversation", notification.package_id];
+      } else if (notification.messageable_type === "Order") {
+        if (notification.is_private) {
+          route = ["orders.staff_conversation", notification.messageable_id];
+        } else {
+          route = ["orders.conversation", notification.messageable_id];
+        }
+      }
+    } else {
+      route = ["orders.active_items", notification.order_id];
     }
-    notification.route = ["orders.active_items", notification.order_id];
+
+    notification.route = route;
   },
 
   redirectToOrderDetail: function(orderId) {

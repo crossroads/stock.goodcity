@@ -16,12 +16,25 @@
         }
       }
     }
+    .designate-button {
+      @media only screen and (max-width: 400px) {
+        width: 92px;
+      }
+    }
   }
 
   .tab-title {
     @include spaced-out();
     font-size: 1.1rem;
     color: white;
+  }
+
+  .switch-label {
+    @media #{$small-only} {
+      svg {
+        display: none;
+      }
+    }
   }
 
   .toggle-switch {
@@ -44,11 +57,24 @@
   .designate-options {
     > div {
       display: inline-block;
+      top: 2px;
     }
 
     button {
       margin-left: 0 !important;
       margin-right: 0 !important;
+      @media #{$small-only} {
+        font-size: 12px !important;
+        svg {
+          display: none;
+        }
+      }
+    }
+
+    @media #{$small-only} {
+      .options-arrow {
+        left: 10px;
+      }
     }
 
     .options-arrow:focus {
@@ -63,6 +89,9 @@
   .options_menu_list {
     margin-top: 3rem;
     background: black;
+    z-index: 1000;
+    max-height: 15rem;
+    overflow-y: scroll;
 
     @media #{$small-only} {
       margin-right: 10%;
@@ -85,7 +114,7 @@
 
       &.disabled {
         cursor: not-allowed;
-        color: gray;
+        opacity: 0.5;
       }
     }
   }

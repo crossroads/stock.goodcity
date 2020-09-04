@@ -1,10 +1,10 @@
 import detail from "./detail";
 import Ember from "ember";
-import AjaxPromise from "stock/utils/ajax-promise";
-const { getOwner } = Ember;
+import AsyncMixin from "stock/mixins/async";
 
-export default detail.extend({
+export default detail.extend(AsyncMixin, {
   showBeneficiaryModal: false,
+  designationService: Ember.inject.service(),
 
   titles: Ember.computed(function() {
     return [
@@ -22,6 +22,18 @@ export default detail.extend({
   actions: {
     removeBeneficiaryModal() {
       this.toggleProperty("showBeneficiaryModal");
+    },
+
+    updateMobileNumber(field, value) {
+      const beneficiary = this.get("model.beneficiary");
+      const phoneNumber = field === "phone_number" ? "+852" + value : value;
+      this.runTask(
+        this.get("designationService").updateBeneficiary(beneficiary.id, {
+          beneficiary: {
+            [field]: phoneNumber
+          }
+        })
+      );
     },
 
     deleteBeneficiary() {

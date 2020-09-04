@@ -21,7 +21,6 @@ export default GoodcityController.extend(preloadDataMixin, {
     authenticateUser() {
       let pin = this.get("pin");
       let otpAuthKey = this.get("session.otpAuthKey");
-
       Ember.$(".auth_error").hide();
       this.showLoadingSpinner();
       this.get("authService")
@@ -34,7 +33,6 @@ export default GoodcityController.extend(preloadDataMixin, {
           return this.preloadData();
         })
         .then(() => {
-          this.hideLoadingSpinner();
           let attemptedTransition = this.get("attemptedTransition");
           if (!attemptedTransition) {
             return this.transitionToRoute("/");
@@ -51,7 +49,8 @@ export default GoodcityController.extend(preloadDataMixin, {
               _.get(jqXHR, "responseJSON.errors.pin")
             );
           }
-        });
+        })
+        .finally(() => this.hideLoadingSpinner());
     },
 
     resendPin() {

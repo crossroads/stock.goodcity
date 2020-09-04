@@ -33,6 +33,25 @@ export const ERROR_STRATEGIES = {
   ROLLBAR: 4
 };
 
+/**
+ * Presets of configs for runTask()
+ *
+ * @enum {number}
+ * @readonly
+ * @memberof AsyncMixin
+ * @static
+ */
+export const ASYNC_BEHAVIOURS = {
+  DISCREET: {
+    showSpinner: false,
+    errorStrategy: ERROR_STRATEGIES.ROLLBAR
+  },
+  LOUD: {
+    showSpinner: true,
+    errorStrategy: ERROR_STRATEGIES.MODAL
+  }
+};
+
 export default Ember.Mixin.create({
   logger: Ember.inject.service(),
   messageBox: Ember.inject.service(),
@@ -40,18 +59,22 @@ export default Ember.Mixin.create({
 
   ERROR_STRATEGIES,
 
-  // ---- Helpers
+  // ----------------------
+  // Private Helpers
+  // ----------------------
 
   __tasksCount: 0,
   __loadingView: null,
   __modalActive: false,
 
-  __incrementTaskCount(val = 1) {
-    this.__tasksCount += val;
-    if (this.__tasksCount > 0) {
+  __incrementTaskCount(step = 1) {
+    const count = this.get("__tasksCount") + step;
+
+    this.set("__tasksCount", _.clamp(count, 0, Infinity));
+
+    if (this.get("hasRunningTasks")) {
       this.showLoadingSpinner();
     } else {
-      this.__tasksCount = 0;
       this.hideLoadingSpinner();
     }
   },
@@ -111,7 +134,17 @@ export default Ember.Mixin.create({
     );
   },
 
-  // --- Mixin api
+  // ----------------------
+  // Mixin computed props
+  // ----------------------
+
+  hasRunningTasks: Ember.computed("__tasksCount", function() {
+    return this.get("__tasksCount") > 0;
+  }),
+
+  // ----------------------
+  // Mixin api
+  // ----------------------
 
   /**
    * Runs the asynchronous task, showing and hiding loading spinners accordingly
@@ -171,7 +204,40 @@ export default Ember.Mixin.create({
     });
   },
 
-  i18nAlert(key, cb) {
-    this.get("messageBox").alert(this.get("i18n").t(key), cb);
+  tryTranslate(str, props = {}) {
+    const i18n = this.get("i18n");
+    return i18n.exists(str) ? i18n.t(str, props) : str;
+  },
+
+  modalAlert(key, props = {}) {
+    const deferred = Ember.RSVP.defer();
+    const text = this.tryTranslate(key, props);
+
+    this.get("messageBox").alert(text, () => {
+      deferred.resolve(null);
+    });
+
+    return deferred.promise;
+  },
+
+  modalConfirm(bodyText, confirmText = "confirm", cb = _.noop) {
+    const deferred = Ember.RSVP.defer();
+
+    const onConfirm = () => {
+      cb();
+      deferred.resolve(true);
+    };
+
+    const onCancel = () => deferred.resolve(false);
+
+    this.get("messageBox").custom(
+      this.tryTranslate(bodyText),
+      this.tryTranslate(confirmText),
+      onConfirm,
+      this.tryTranslate("cancel"),
+      onCancel
+    );
+
+    return deferred.promise;
   }
 });

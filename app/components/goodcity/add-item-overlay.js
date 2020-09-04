@@ -55,7 +55,7 @@ export default Ember.Component.extend({
     let promises = [];
     this.get("pkgLocations").map(pkgLocation => {
       let selectedQuantity = pkgLocation.get("defaultAddableQuantity");
-      if (pkgLocation.get("hasDirtyAttributes") && selectedQuantity) {
+      if (selectedQuantity) {
         const params = {
           item_id: this.get("pkg").id,
           task: "pack",
@@ -69,9 +69,14 @@ export default Ember.Component.extend({
           )
         );
       }
-      pkgLocation.rollbackAttributes();
     });
     return promises;
+  },
+
+  resetPackageDefaultAddableQuantity() {
+    this.get("pkg.packagesLocations").map(pkgloc => {
+      pkgloc.set("defaultAddableQuantity", pkgloc.get("quantity"));
+    });
   },
 
   actions: {
@@ -85,14 +90,12 @@ export default Ember.Component.extend({
         } else {
           this.resolveAddItemPromises();
         }
-        this.get("pkgLocations").map(pkgLocation => {
-          pkgLocation.rollbackAttributes();
-        });
       }
     },
 
     cancelMove() {
       this.set("open", false);
+      this.resetPackageDefaultAddableQuantity();
     }
   }
 });

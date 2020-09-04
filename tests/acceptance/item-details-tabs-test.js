@@ -102,11 +102,35 @@ module("Acceptance: Item details tabs", {
       }
     });
 
+    $.mockjax({
+      url: "/api/v1/packages/package_valuation*",
+      type: "GET",
+      status: 200,
+      responseText: {
+        items: []
+      }
+    });
+
     mockFindAll("item").returns({
       json: { items: [pkg.toJSON({ includeId: true })] }
     });
     mockFindAll("booking_type").returns({
       json: { booking_types: [bookingType.toJSON({ includeId: true })] }
+    });
+    mockFindAll("message").returns({
+      json: {
+        messages: []
+      }
+    });
+    mockFindAll("package_type").returns({
+      json: {
+        package_types: []
+      }
+    });
+    mockFindAll("cancellation_reason").returns({
+      json: {
+        cancellation_reason: []
+      }
     });
 
     visit("/");

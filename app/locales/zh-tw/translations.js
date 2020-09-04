@@ -31,6 +31,9 @@ export default {
   orders: "訂單",
   users_count: "用戶",
   menu: "主目錄",
+  manage_system: "Manage System",
+  new_item_menu: "Create New Inventory Item",
+  new_order_menu: "Create New Order",
   search_organisation: "搜尋機構",
   not_now: "稍後",
   incomplete_form: "請填寫必需填寫之項目以繼續下一步",
@@ -40,13 +43,13 @@ export default {
   discard: "棄置",
   discard_changes: "棄置變更",
   manage_charity_users: "Manage charity users",
-  create_new_item: "Create New Item",
-  create_new_box: "Create New Box",
-  create_new_pallet: "Create New Pallet",
-  manage_inventory: "管理預約限額",
+  create_new_item: "+Item",
+  create_new_box: "+Box",
+  create_new_pallet: "+Pallet",
+  manage_inventory: "Quotas",
   manage_users: "Manage Users",
   search_user: "Search User",
-  new_order: "建立新的訂單",
+  new_order: "+ HK Orders",
   full_name: "{{firstName}} {{lastName}}",
   mobile_prefix: "+852",
   not_found:
@@ -55,7 +58,59 @@ export default {
   unavailable_order: "Sorry! This order is not available.",
   yes: "Yes",
   no: "No",
-
+  stockakes: {
+    title: "Stocktakes",
+    create_new: "Create New Stocktake",
+    confirm_create: "Create Stocktake",
+    select_location: "Select a location to stocktake",
+    name: "Name",
+    location: "Location",
+    comment: "Comment",
+    saving: "Saving changes...",
+    save_error: "An error occured. Some changes were not applied",
+    try_again: "Try again",
+    expected_qty: "Expected Qty",
+    recorded_change: "Recorded Change",
+    requires_recount: "Requires (re)count",
+    confirm_count: "Confirm count is {{count}}",
+    over: "Over",
+    under: "Under",
+    add_item: "Add Item",
+    scanning_failure: "Failed to launch the scanner",
+    scanner_mode: "Scanner Mode",
+    stop_scanning: "STOP Scanning",
+    commit_stocktake: "Commit Stocktake",
+    cancel_stocktake: "Cancel Stocktake",
+    only_show_variances: "Only show variances",
+    only_show_warnings: "Only show warnings",
+    unknown_inventory_number: "Inventory code {{code}} not found",
+    confirm_cancel: "This stocktake will be cancelled. Are you sure ?",
+    tips: {
+      start_counting: "Items you count will appear here",
+      review_tab:
+        "Head over to the 'Review' tab to see the full list of expected items"
+    },
+    errors: {
+      name_exists: "Another stocktake with the same name already exists",
+      stocktake_exists_for_location:
+        "Warning: A stocktake already exists for this location"
+    },
+    states: {
+      open: "Open",
+      closed: "Closed",
+      cancelled: "Cancelled"
+    },
+    detail_tabs: {
+      count: "Count",
+      review: "Review"
+    },
+    counts: {
+      counted: "Counted",
+      gains: "Gains",
+      losses: "Losses",
+      warnings: "Warnings"
+    }
+  },
   box_pallet: {
     indicate_amount: "指出要從以下每個位置中取多少份量",
     available: "可用的",
@@ -194,6 +249,7 @@ export default {
     private: "未被刊登",
     state_filter_title: "物件狀態",
     in_stock: "有貨存",
+    confirm: "Confirm",
     process: "Processed",
     loss: "Lost",
     pack: "Packed",
@@ -761,14 +817,16 @@ export default {
       validation_errors: {
         blank_label: "Can't be blank",
         max_label: "Max 300",
-        invalid_dimensions: "Provide all 3 dimensions(or none)",
+        invalid_dimensions:
+          "Provide all 3 dimensions(or none). Dimension must be greater than 0",
         description: "Description cannot be blank.",
         donation: "Must be a number or in the form 'CAS-12345'",
         invalid_location: "Scanned Location is invalid.",
         blank_location: "Location can't be blank.",
         quantity: "Quantity cannot be blank.",
         blank_notification: "Location cannot be blank.",
-        blank_valuation: "Value cannot be blank."
+        blank_valuation: "Value cannot be blank.",
+        blank_inventory_number: "Inventory number cannot be blank."
       }
     },
     select_set_type: "Select a type for the new set",

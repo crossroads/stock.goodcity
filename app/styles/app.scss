@@ -22,6 +22,7 @@
 
 @import "node_modules/ember-searchable-select/app/styles/ember-searchable-select/style";
 @import "templates/index";
+@import "templates/app_menu_list";
 @import "templates/my_notifications";
 @import "templates/items/detail";
 @import "templates/items/detail/storage_content";
@@ -29,6 +30,7 @@
 @import "templates/items/new";
 @import "templates/items/index";
 @import "templates/items/edit_images";
+@import "templates/items/staff_conversation";
 @import "templates/orders/detail";
 @import "templates/orders/index";
 @import "templates/orders/items";
@@ -55,4 +57,5 @@
 @import "templates/notifications";
 @import "templates/appointments";
 @import "templates/user_details";
-@import "templates/components/package_summary_block"
+@import "templates/components/package_summary_block";
+@import "templates/stocktakes/index";

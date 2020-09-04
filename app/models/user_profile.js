@@ -41,18 +41,25 @@ export default Addressable.extend({
     }
   }),
 
-  canViewDashboard: Ember.computed(
-    "isOrderFulfilmentUser",
-    "isSupervisor",
-    function() {
-      return this.get("isOrderFulfilmentUser") || this.get("isSupervisor");
+  isOrderAdministrator: Ember.computed("roleNames", function() {
+    if (this.get("roleNames") && this.get("roleNames").length) {
+      return this.get("roleNames").indexOf("Order administrator") >= 0;
     }
-  ),
+  }),
 
   canManageAppointments: Ember.computed("roles", function() {
     const roles = this.get("roles");
     return roles.find(
       r => r.get("permissionNames").indexOf("can_manage_settings") >= 0
+    );
+  }),
+
+  canCreateUsers: Ember.computed("roles", function() {
+    const roles = this.get("roles");
+    return roles.find(
+      r =>
+        r.get("permissionNames").indexOf("can_read_or_modify_user") >= 0 ||
+        r.get("permissionNames").indexOf("can_create_donor") >= 0
     );
   }),
 
@@ -67,6 +74,28 @@ export default Addressable.extend({
     const roles = this.get("roles");
     return roles.find(
       r => r.get("permissionNames").indexOf("can_manage_orders") >= 0
+    );
+  }),
+
+  canManageItemMessages: Ember.computed("roles", function() {
+    const roles = this.get("roles");
+    return roles.find(
+      r => r.get("permissionNames").indexOf("can_manage_package_messages") >= 0
+    );
+  }),
+
+  canManageStocktakes: Ember.computed("roles", function() {
+    const roles = this.get("roles");
+    return roles.find(
+      r => r.get("permissionNames").indexOf("can_manage_stocktakes") >= 0
+    );
+  }),
+
+  canManageStocktakeRevisions: Ember.computed("roles", function() {
+    const roles = this.get("roles");
+    return roles.find(
+      r =>
+        r.get("permissionNames").indexOf("can_manage_stocktake_revisions") >= 0
     );
   }),
 

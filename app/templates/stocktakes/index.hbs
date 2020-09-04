@@ -1,0 +1,125 @@
+<div class="stocktake-page selection">
+
+  {{!-- TITLE --}}
+  <nav class="tab-bar">
+    {{#back-link fallbackRoute="/" }}
+      <div class="back-link">{{ t 'back' }}</div>
+    {{/back-link}}
+
+    <section class="middle tab-bar-section">
+      <h1 class="title">
+        {{t 'stocktakes.title'}}
+      </h1>
+    </section>
+  </nav>
+
+  <div class="content">
+
+    {{#if showStocktakeList}}
+      {{!--
+
+        STOCKTAKE LIST
+
+      --}}
+      <div class="row">
+        <div class="row tabs-container">
+          <div class="tab list small-4 columns {{if (is-equal selectedTab tabs.open) 'selected'}}" {{action (mut selectedTab) tabs.open}}>
+            <span>{{t 'stocktakes.states.open'}} ({{ openStocktakes.length }})</span>
+          </div>
+          <div class="tab list small-4 columns {{if (is-equal selectedTab tabs.closed) 'selected'}}" {{action (mut selectedTab) tabs.closed}}>
+            <span>{{t 'stocktakes.states.closed'}} ({{ closedStocktakes.length }})</span>
+          </div>
+          <div class="tab list small-4 columns {{if (is-equal selectedTab tabs.cancelled) 'selected'}}" {{action (mut selectedTab) tabs.cancelled}}>
+            <span>{{t 'stocktakes.states.cancelled'}} ({{ cancelledStocktakes.length }})</span>
+          </div>
+        </div>
+      </div>
+      <div class="row flex space-around">
+        <button class="button" {{action 'initNewStocktake'}}>
+          {{fa-icon 'plus'}} {{t 'stocktakes.create_new'}}
+        </button>
+      </div>
+      <div class="row stocktake-list">
+        {{#each filteredStocktakes as |stocktake|}}
+          {{#link-to 'stocktakes.detail' stocktake.id}}
+            <div class="stocktake">
+              <div class="stocktake-header flex space-between">
+                <div class="name">{{ stocktake.name }}</div>
+                <div class="state">{{ stocktake.state }}</div>
+              </div>
+              {{#if stocktake.comment}}
+                <div class="stocktake-details">
+                  {{stocktake.comment}}
+                </div>
+              {{/if}}
+              <div class="stocktake-details flex space-between wrap">
+                <span class="location">{{ stocktake.location.displayName }}</span>
+                <span class="counts-text">
+                  {{ stocktake.cleanRevisions.length }} {{t 'stocktakes.counts.counted'}} |
+                  {{ stocktake.gainRevisions.length }} {{t 'stocktakes.counts.gains'}} |
+                  {{ stocktake.lossRevisions.length }} {{t 'stocktakes.counts.losses'}} |
+                  {{ stocktake.revisionsWithWarnings.length }} {{t 'stocktakes.counts.warnings'}}
+                </span>
+              </div>
+            </div>
+          {{/link-to}}
+        {{/each}}
+      </div>
+    {{/if}}
+
+    {{#if showCreateForm}}
+      {{!--
+
+        STOCKTAKE CREATION FORM
+        
+      --}}
+      <div class="create-form">
+        <div class="row">
+          <div class="small-3 columns input-label">{{ t 'stocktakes.name' }}</div>
+          <div class="small-9 columns">
+            <div>{{input value=newStocktakeName disabled=false}}</div>
+            {{#unless hasRunningTasks}}
+              {{#if invalidStocktakeName}}
+                {{#if missingStocktakeName}}
+                  <div class="error">{{ t 'incomplete_form' }}</div>
+                {{else if stocktakeNameAlreadyExists}}
+                  <div class="error">{{ t 'stocktakes.errors.name_exists' }}</div>
+                {{/if}}
+              {{/if}}
+            {{/unless}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="small-3 columns input-label">{{ t 'stocktakes.location' }}</div>
+          <div class="small-9 columns" {{action 'pickLocation'}}>
+            {{input value=selectedLocation.displayName disabled=true}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="small-3 columns input-label">{{ t 'stocktakes.comment' }}</div>
+          <div class="small-9 columns">
+            {{input value=newStocktakeComment disabled=false}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="small-12 columns">
+            {{#unless hasRunningTasks}}
+              {{#if stocktakeAtLocationAlreadyExists}}
+                <div class="warning">{{ t 'stocktakes.errors.stocktake_exists_for_location' }}</div>
+              {{/if}}
+            {{/unless}}
+          </div>
+        </div>
+        <div class="row flex space-around">
+          <button class="button light" {{action 'cancelCreate'}}>
+            {{t 'not_now'}}
+          </button>
+          <button class="button" {{action 'confirmNewStocktake'}} disabled={{is-or invalidLocation invalidStocktakeName}}>
+            {{t 'stocktakes.confirm_create'}}
+          </button>
+        </div>
+      </div>
+    {{/if}}
+  </div>
+</div>
+

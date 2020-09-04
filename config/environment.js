@@ -66,6 +66,8 @@ module.exports = function(environment) {
       HK_COUNTRY_CODE: "+852",
       HK_TIME_ZONE: "Asia/Hong_Kong",
 
+      SCANDIT_LICENSE_KEY: process.env.SCANDIT_LICENSE_KEY,
+
       PRELOAD_TYPES: [
         "booking_type",
         "purpose",
@@ -92,7 +94,6 @@ module.exports = function(environment) {
         "packages_location",
         "stockit_contact",
         "goodcity_request",
-        "donor_condition",
         "purpose",
         "orders_process_checklist"
       ]

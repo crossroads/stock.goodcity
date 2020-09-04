@@ -19,7 +19,7 @@
       </div>
       <div class="columns small-6 description">
         {{#form-control}}
-          {{item-description-textarea data-autoresize=true name="notes" value=item.notes  class="description-textarea-withbg" required="required" id=(concat 'desc' item.id) pattern=".*\S.*" item=item}}
+          {{item-description-textarea data-autoresize=true name="notes" value=item.notes  class="description-textarea-withbg" require="true" id=(concat 'desc' item.id) pattern=".*\S.*" item=item}}
           <div class='description-error'>
             {{t 'item_details.validation_errors.description'}}
           </div>
@@ -68,14 +68,15 @@
     <div class="row">
       <div class="columns large-3 small-3">{{t 'items.value'}} </div>
       <div class="columns large-3 small-3 ">
-        {{numeric-inline-input name="value_hk_dollar"
+        {{numeric-inline-input
+          name="value_hk_dollar"
           value=valueHkDollar
           maxlength="6"
           acceptFloat=true
-          item=item
           class='numeric-input valuation-input'
           onFocusIn=(action 'setValuationIsFocused' true)
           onFocusOut=(action 'setValuationIsFocused' false)
+          onSettingInput=(action 'updatePackage')
           }}
       </div>
       <div class="columns large-6 small-6">
@@ -92,19 +93,25 @@
       <div class="columns small-3">
         <div class="item-dimension-withbg">
           &nbsp;&nbsp;L :
-          {{numeric-inline-input id=(concat 'qty' item.id) name="length" class="numeric-input item-length item-type-withbg small-3" value=item.length maxlength="5" item=item}}
+          {{numeric-inline-input name="length" class="numeric-input item-length item-type-withbg small-3" value=item.length maxlength="5"
+          onSettingInput=(action 'updatePackage')
+          }}
        </div>
       </div>
       <div class="columns small-3">
         <div class="item-dimension-withbg">
           &nbsp;W :
-          {{numeric-inline-input id=(concat 'wth' item.id) name="width" class="numeric-input item-width item-type-withbg small-3" value=item.width maxlength="5"  item=item}}
+          {{numeric-inline-input name="width" class="numeric-input item-width item-type-withbg small-3" value=item.width maxlength="5"
+          onSettingInput=(action 'updatePackage')
+          }}
         </div>
        </div>
       <div class="columns small-3">
         <div class="item-dimension-withbg">
           &nbsp;H :
-          {{numeric-inline-input id=(concat 'hgt' item.id) name="height" class="numeric-input item-height item-type-withbg small-3" value=item.height maxlength="5" item=item}}
+          {{numeric-inline-input name="height" class="numeric-input item-height item-type-withbg small-3" value=item.height maxlength="5"
+          onSettingInput=(action 'updatePackage')
+          }}
        </div>
       </div>
     </div>
@@ -117,12 +124,12 @@
       </div>
       <div class="columns small-3 weight">
         {{numeric-inline-input
-        id=(concat 'wgt' item.id)
-        name="weight"
-        class='numeric-input valuation-input'
-        value=item.weight
-        maxlength="9"
-        item=item}}
+          name="weight"
+          class='numeric-input valuation-input'
+          value=item.weight
+          maxlength="9"
+          onSettingInput=(action 'updatePackage')
+        }}
       </div>
       {{#if showPieces}}
         <div class="columns small-3">
@@ -130,12 +137,12 @@
         </div>
         <div class="columns small-3 pieces">
           {{numeric-inline-input
-          id=(concat 'pcs' item.id)
-          name="pieces"
-          class='numeric-input valuation-input'
-          value=item.pieces
-          maxlength="9"
-          item=item}}
+            name="pieces"
+            class='numeric-input valuation-input'
+            value=item.pieces
+            maxlength="9"
+            onSettingInput=(action 'updatePackage')
+          }}
         </div>
       {{/if}}
     </div>
@@ -145,7 +152,7 @@
         <div class="columns small-3">
           <span class='input_text'>{{t "items.new.expiry_date"}}</span>
         </div>
-        <div class="columns small-4 value pieces">
+        <div class="columns large-4 small-6 value pieces">
           {{calendar-input
             name='expiry_date'
             id='expiry_date'

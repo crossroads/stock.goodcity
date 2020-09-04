@@ -67,6 +67,7 @@ export default AuthorizeRoute.extend({
     controller.set("callOrderObserver", false);
     controller.set("backLinkPath", this.get("itemBackLinkPath"));
     controller.set("active", true);
+    controller.set("showExtendedFooterMenu", false);
 
     const defaultValue = await this.get("packageService").getItemValuation({
       donorConditionId: model.get("donorCondition.id"),
@@ -105,6 +106,14 @@ export default AuthorizeRoute.extend({
   preloadImages(item) {
     const ids = item.getWithDefault("imageIds", []);
     return Ember.RSVP.all(ids.map(id => this.loadImage(id)));
+  },
+
+  preloadMessages(item) {
+    return this.get("store").query("message", {
+      is_private: true,
+      messageable_id: item.id,
+      scope: "package"
+    });
   },
 
   /**
@@ -150,6 +159,7 @@ export default AuthorizeRoute.extend({
     if (loadImages) {
       await this.preloadImages(item);
     }
+    await this.preloadMessages(item);
     return item;
   }
 });

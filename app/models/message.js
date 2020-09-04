@@ -13,14 +13,21 @@ export default DS.Model.extend({
   state: attr("string", {
     defaultValue: "read"
   }),
+
   sender: belongsTo("user", {
     async: false
   }),
-  designationId: attr(),
   designation: belongsTo("designation", { async: false }),
+  item: belongsTo("item", {
+    async: false
+  }),
+
+  designationId: attr(),
+  itemId: attr(),
   lookup: attr("string"),
   messageableType: attr("string"),
   messageableId: attr("string"),
+  unreadCount: attr("string"),
 
   parsedBody: Ember.computed("body", function() {
     let body = this.get("body");
@@ -44,10 +51,11 @@ export default DS.Model.extend({
   plainBody: Ember.computed("body", function() {
     let body = this.get("body");
     let lookup = this.get("lookup");
-    lookup = JSON.parse(lookup);
-    if (!lookup) {
+
+    if (Object.keys(lookup).length === 0) {
       return body;
     } else {
+      lookup = JSON.parse(lookup);
       Object.keys(lookup).forEach(key => {
         body = body.replace(
           new RegExp(`\\[:${key}\\]`, "g"),

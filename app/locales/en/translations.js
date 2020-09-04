@@ -16,6 +16,7 @@ export default {
   label: "Label",
   location: "Location",
   in_stock: "In Stock",
+  confirm: "Confirm",
   QuotaExceededError:
     "Site may not work in Safari's <b>private mode.</b> Please try</br><ul><li><a href='https://itunes.apple.com/in/app/goodcitystock.hk/id1144806764?mt=8' style='color: black!important; background-color: #dee4eb !important;'>Downloading the iOS App</a></li><li>Using regular (not private) mode in Safari</li><li>Using Chrome's private browsing mode</li></ul>",
   search_min: "Search (min 3 characters)",
@@ -32,6 +33,9 @@ export default {
   orders: "Orders",
   users_count: "Users",
   menu: "Menu",
+  manage_system: "Manage System",
+  new_item_menu: "Create New Inventory Item",
+  new_order_menu: "Create New Order",
   search_organisation: "Search Organisation",
   not_now: "Not Now",
   incomplete_form: "Please fill in the required fields to continue",
@@ -41,13 +45,13 @@ export default {
   discard: "Discard",
   discard_changes: "Discard changes",
   manage_charity_users: "Manage charity users",
-  create_new_item: "Create New Item",
-  create_new_box: "Create New Box",
-  create_new_pallet: "Create New Pallet",
-  manage_inventory: "Manage Appointment Quotas",
+  create_new_item: "+Item",
+  create_new_box: "+Box",
+  create_new_pallet: "+Pallet",
+  manage_inventory: "Quotas",
   manage_users: "Manage Users",
   search_user: "Search User",
-  new_order: "Create New Order",
+  new_order: "+ HK Orders",
   full_name: "{{firstName}} {{lastName}}",
   mobile_prefix: "+852",
   not_found:
@@ -56,7 +60,59 @@ export default {
   unavailable_order: "Sorry! This order is not available.",
   yes: "Yes",
   no: "No",
-
+  stocktakes: {
+    title: "Stocktakes",
+    create_new: "Create New Stocktake",
+    confirm_create: "Create Stocktake",
+    select_location: "Select a location to stocktake",
+    name: "Name",
+    location: "Location",
+    comment: "Comment",
+    saving: "Saving changes...",
+    save_error: "An error occured. Some changes were not applied",
+    try_again: "Try again",
+    expected_qty: "Expected Qty",
+    recorded_change: "Recorded Change",
+    requires_recount: "Requires (re)count.",
+    confirm_count: "Confirm count is {{count}}",
+    over: "Over",
+    under: "Under",
+    add_item: "Add Item",
+    scanning_failure: "Failed to launch the scanner",
+    scanner_mode: "Scanner Mode",
+    stop_scanning: "STOP Scanning",
+    commit_stocktake: "Commit Stocktake",
+    cancel_stocktake: "Cancel Stocktake",
+    only_show_variances: "Only show variances",
+    only_show_warnings: "Only show warnings",
+    unknown_inventory_number: "Inventory code {{code}} not found",
+    confirm_cancel: "This stocktake will be cancelled. Are you sure ?",
+    tips: {
+      start_counting: "Items you count will appear here",
+      review_tab:
+        "Head over to the 'Review' tab to see the full list of expected items"
+    },
+    errors: {
+      name_exists: "Another stocktake with the same name already exists",
+      stocktake_exists_for_location:
+        "Warning: A stocktake already exists for this location"
+    },
+    states: {
+      open: "Open",
+      closed: "Closed",
+      cancelled: "Cancelled"
+    },
+    detail_tabs: {
+      count: "Count",
+      review: "Review"
+    },
+    counts: {
+      counted: "Counted",
+      gains: "Gains",
+      losses: "Losses",
+      warnings: "Warnings"
+    }
+  },
   box_pallet: {
     indicate_amount:
       "Indicate how many are you taking from each of the locations below.",
@@ -78,6 +134,8 @@ export default {
   messages: {
     you: "You",
     chat_note: "Chat about this order with the user",
+    item_chat_permission_error:
+      "You are not authorized to send messages on items.",
     send: "Send",
     day: {
       today: "Today",
@@ -784,14 +842,16 @@ export default {
       validation_errors: {
         blank_label: "Can't be blank",
         max_label: "Max 300",
-        invalid_dimensions: "Provide all 3 dimensions(or none)",
+        invalid_dimensions:
+          "Provide all 3 dimensions(or none). Dimension must be greater than 0",
         description: "Description cannot be blank.",
         donation: "Must be a number or in the form 'CAS-12345'",
         invalid_location: "Scanned Location is invalid.",
         blank_location: "Location can't be blank.",
         quantity: "Quantity cannot be blank.",
         blank_notification: "Location cannot be blank.",
-        blank_valuation: "Value cannot be blank."
+        blank_valuation: "Value cannot be blank.",
+        blank_inventory_number: "Inventory number cannot be blank."
       }
     },
     select_set_type: "Select a type for the new set",
@@ -810,7 +870,8 @@ export default {
       move: "Move",
       edited: "Edit",
       inventory: "Inventory"
-    }
+    },
+    staff: "Staff Conversation"
   },
   modify_designation: {
     designation_to: "Designation to",

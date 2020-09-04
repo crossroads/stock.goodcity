@@ -7,6 +7,9 @@ var webRelease =
 
 module.exports = function(defaults) {
   var app = new EmberApp(defaults, {
+    SRI: {
+      enabled: webRelease
+    },
     sourcemaps: {
       enabled: true,
       extensions: ["js"]
