@@ -43,6 +43,14 @@ export default Ember.Helper.extend({
     return record.getWithDefault(label, "N/A");
   },
 
+  getSaleable(value) {
+    const saleable = _.find(SALEABLE_OPTIONS, [
+      "value",
+      _.isNull(value) ? value : value.toString()
+    ]);
+    return this.get("i18n").t(saleable.translation_key).string;
+  },
+
   compute(data) {
     const [type, value] = data;
     switch (type) {
