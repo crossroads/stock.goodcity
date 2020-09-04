@@ -627,6 +627,7 @@ export default {
     add_user_button: "新增機構用戶",
     add_user: "新增 - 用戶",
     name: "姓名",
+    contact_details: "Contact Details",
     description: "機構概要",
     registration: "註冊編號",
     user: {

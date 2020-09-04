@@ -15,7 +15,8 @@ export default Addressable.extend({
   i18n: Ember.inject.service(),
   printerId: attr("number"),
   userRoleIds: attr(""),
-
+  title: attr("string"),
+  preferredLanguage: attr("string"),
   isEmailVerified: attr("boolean"),
   isMobileVerified: attr("boolean"),
   disabled: attr("boolean"),
@@ -58,6 +59,11 @@ export default Addressable.extend({
     return organisationsUser
       ? organisationsUser.get("preferredContactNumber")
       : "";
+  }),
+
+  mobileWithoutCountryCode: Ember.computed("mobile", function() {
+    var phoneNumber = this.get("mobile");
+    return phoneNumber ? phoneNumber.substring("4") : null;
   }),
 
   onlineStatusLabel: Ember.computed(

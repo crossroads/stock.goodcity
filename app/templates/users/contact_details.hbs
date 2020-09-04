@@ -1,0 +1,150 @@
+<nav class="tab-bar new-user-nav">
+ <section class="left-small" >
+   {{#link-to "users.details" user.id class="user-back-link"}}
+    <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-left'}}</i>
+    <div>{{t 'back'}}</div>
+  {{/link-to}}
+  </section>
+  <section class="middle tab-bar-section">
+    <h1 class="title">{{t 'organisation.contact_details'}}</h1>
+  </section>
+</nav>
+
+<section class="main-section add-user-form new-user-section ui ">
+
+  <div class="row">
+    <div class="small-5 columns item-label">
+      {{t 'users.image'}}
+    </div>
+    <div class="small-7 columns">
+      {{#if user.image}}
+        <div class="image-zoom-container content user-img" >
+          {{image-zoom item=user}}
+        </div>
+      {{else}}
+      <a {{action "triggerUpload"}} class="{{unless isReady 'disabled'}}">
+        <span class="image-box">
+          {{#if newUploadedImage}}
+          <img src={{newUploadedImage.thumbImageUrl}} class="thumb" />
+          {{else}}
+          <i aria-hidden="true">{{fa-icon 'camera'}}</i><br />
+          {{t 'users.add_image'}}
+          {{/if}}
+        </span>
+      </a>
+      {{cloudinary-upload ready="uploadReady" progress="uploadProgress"
+       always="uploadComplete" done="uploadSuccess" submit="uploadStart"}}
+      {{/if}}
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="small-5 columns item-label">
+      {{t 'order.title'}}
+    </div>
+    <div class="small-7 columns field-container title-select">
+      {{inline-select-list
+        content=titles
+        name="title"
+        item=user
+        isPrimitive=true
+        autosave=true
+        on-change=(action (mut selectedTitle))
+      }}
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="small-5 columns item-label">
+      {{t 'organisation.user.first_name'}}
+    </div>
+    <div class="small-7 columns field-container">
+      {{input type='text'
+        value=user.firstName
+        focusOut=(action "focusOut" "firstName" user.firstName "true")
+        focusIn=(action "focusIn" "firstName" user.firstName)
+      }}
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="small-5 columns item-label">
+      {{t 'organisation.user.last_name'}}
+    </div>
+    <div class="small-7 columns field-container">
+      {{input type='text'
+        value=user.lastName
+        focusOut=(action "focusOut" "lastName" user.lastName "true")
+        focusIn=(action "focusIn" "lastName" user.lastName)
+      }}
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="small-5 columns item-label">
+      {{t 'organisation.user.email'}}
+    </div>
+    <div class="small-7 columns field-container">
+      {{input type="email"
+        value=user.email
+        name="email"
+        id="email"
+        formnovalidate="true"
+        focusOut=(action "focusOut" "email" user.email mobileNotPresent)
+        focusIn=(action "focusIn" "email" user.email)
+      }}
+    </div>
+  </div>
+
+  <div class="row mobile">
+    <div class="small-5 columns item-label">
+      {{t 'organisation.user.mobile'}}
+    </div>
+    <div class="small-1 columns ui dialing-code">
+      <label>{{t "mobile_prefix"}}</label>
+    </div>
+    <div class="small-6 columns ss field-container">
+      {{numeric-input
+        value=user.mobileWithoutCountryCode
+        formnovalidate="true"
+        name="mobilePhone"
+        maxlength="8"
+        focusIn=(action "focusIn" "mobile" user.mobileWithoutCountryCode)
+        focusOut=(action "focusOut" "mobile" user.mobileWithoutCountryCode emailIdNotPresent)
+        pattern=".{8,}"}}
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="small-5 columns item-label">
+      {{t 'organisation.user.district'}}
+    </div>
+    <div class="small-7 columns field-container">
+      {{select-list
+        content=districts
+        prompt="--"
+        on-change=(action "changeDistrict")
+        selectedValue=user.address.district
+        value=user.address.district
+        selectArrow=false
+      }}
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="small-5 columns item-label">
+      {{t 'organisation.user.preferred_language'}}
+    </div>
+    <div class="small-7 columns field-container ">
+      {{inline-select-list
+        content=languages
+        prompt="Unknown"
+        name="preferredLanguage"
+        item=user
+        isPrimitive=true
+        autosave=true
+        on-change=(action (mut selectedLanguage))
+      }}
+    </div>
+  </div>
+</section>

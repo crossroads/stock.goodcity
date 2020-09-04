@@ -652,6 +652,7 @@ export default {
     add_user_button: "Add User to Organisation",
     add_user: "Add - User",
     name: "Name",
+    contact_details: "Contact Details",
     description: "Description",
     registration: "Registration",
     user: {
