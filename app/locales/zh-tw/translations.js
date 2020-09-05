@@ -253,7 +253,7 @@ export default {
     process: "Processed",
     loss: "Lost",
     pack: "Packed",
-    trash: "Thrashed",
+    trash: "Trashed",
     recycle: "Recycled",
     in_stock_info: "最少一件有貨存（即未被指派）",
     designated: "已指派",
