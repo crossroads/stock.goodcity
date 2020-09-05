@@ -266,7 +266,7 @@ export default {
     process: "Processed",
     loss: "Lost",
     pack: "Packed",
-    trash: "Thrashed",
+    trash: "Trashed",
     recycle: "Recycled",
     in_stock_info: "At least one is available(i.e not designated)",
     designated: "Designated",
