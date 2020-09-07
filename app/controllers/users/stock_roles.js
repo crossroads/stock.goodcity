@@ -6,6 +6,12 @@ export default Ember.Controller.extend({
   apiBaseService: Ember.inject.service(),
   userService: Ember.inject.service(),
 
+  appRoles: [
+    "Stock administrator",
+    "Stock fulfilment",
+    "Order administrator",
+    "Order fulfilment"
+  ],
   selectedPrinterId: "",
 
   user: Ember.computed.alias("model.user"),
@@ -15,27 +21,19 @@ export default Ember.Controller.extend({
     return this.get("printerService").allAvailablePrinters();
   }),
 
-  selectedPrinterDisplay: Ember.computed(
-    "model.user.id",
-    "selectedPrinterId",
-    function() {
+  selectedPrinterDisplay: Ember.computed("model.user.id", "selectedPrinterId", {
+    get() {
       const printerId = this.get("selectedPrinterId");
-      if (printerId) {
-        const printer = this.store.peekRecord("printer", printerId);
-        return {
-          name: printer.get("name"),
-          id: printer.id
-        };
-      } else {
-        let printer = this.get("printerService").getDefaultPrinterForUser(
-          this.get("user.id"),
-          "stock"
-        );
-        this.set("selectedPrinterId", printer.id);
-        return printer;
-      }
+      return this.get("userService").getPrinterForUser(
+        this.get("user"),
+        printerId,
+        "stock"
+      );
+    },
+    set(_, value) {
+      return value;
     }
-  ),
+  }),
 
   roleError: Ember.computed("noStockAppRole", "stockRoleAccess", function() {
     return (
@@ -66,12 +64,10 @@ export default Ember.Controller.extend({
 
   roleExpiryDate: Ember.computed("user.userRoles.[]", {
     get() {
-      return this.get("userService").getRoleExpiryDate(this.get("user"), [
-        "Stock administrator",
-        "Stock fulfilment",
-        "Order administrator",
-        "Order fulfilment"
-      ]);
+      return this.get("userService").getRoleExpiryDate(
+        this.get("user"),
+        this.get("appRoles")
+      );
     },
     set(_, value) {
       return value;

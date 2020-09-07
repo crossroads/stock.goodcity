@@ -136,6 +136,11 @@
 .role-access-form {
   margin: 0.5rem;
 
+  .disabled-form {
+    pointer-events: none;
+    opacity: 0.7;
+  }
+
   .access-heading,
   .printer-selection {
     margin: 1rem 0px;

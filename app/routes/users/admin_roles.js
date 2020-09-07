@@ -20,6 +20,9 @@ export default AuthorizeRoute.extend({
 
   setupController(controller, model) {
     this._super(controller, model);
-    // controller.set('selectedPrinterId', controller.get("selectedPrinterDisplay.id"));
+    controller.set(
+      "selectedPrinterId",
+      controller.get("selectedPrinterDisplay.id")
+    );
   }
 });

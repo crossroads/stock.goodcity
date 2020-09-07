@@ -5,6 +5,7 @@ import _ from "lodash";
 export default ApiBaseService.extend({
   store: Ember.inject.service(),
   session: Ember.inject.service(),
+  printerService: Ember.inject.service(),
 
   getRoleId(roleName) {
     return this.get("store")
@@ -24,6 +25,22 @@ export default ApiBaseService.extend({
 
     let date = _.max(expiryDates);
     return date ? moment(date).format("DD/MMM/YYYY") : "";
+  },
+
+  getPrinterForUser(user, printerId, app) {
+    if (printerId) {
+      const printer = this.get("store").peekRecord("printer", printerId);
+      return {
+        name: printer.get("name"),
+        id: printer.id
+      };
+    } else {
+      let printer = this.get("printerService").getDefaultPrinterForUser(
+        user.get("id"),
+        app
+      );
+      return printer;
+    }
   },
 
   hasRole(user, roleName) {

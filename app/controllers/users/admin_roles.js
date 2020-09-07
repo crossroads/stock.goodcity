@@ -6,6 +6,7 @@ export default Ember.Controller.extend({
   apiBaseService: Ember.inject.service(),
   userService: Ember.inject.service(),
 
+  appRoles: ["Reviewer", "Supervisor"],
   selectedPrinterId: "",
 
   user: Ember.computed.alias("model.user"),
@@ -15,27 +16,27 @@ export default Ember.Controller.extend({
     return this.get("printerService").allAvailablePrinters();
   }),
 
-  selectedPrinterDisplay: Ember.computed(
-    "model.user.id",
-    "selectedPrinterId",
-    function() {
+  canUpdateRole: Ember.computed(function() {
+    return (
+      this.get("session.currentUser.isAdministrator") &&
+      this.get("session.currentUser.canManageUserRoles") &&
+      +this.get("session.currentUser.id") !== +this.get("user.id")
+    );
+  }),
+
+  selectedPrinterDisplay: Ember.computed("model.user.id", "selectedPrinterId", {
+    get() {
       const printerId = this.get("selectedPrinterId");
-      if (printerId) {
-        const printer = this.store.peekRecord("printer", printerId);
-        return {
-          name: printer.get("name"),
-          id: printer.id
-        };
-      } else {
-        let printer = this.get("printerService").getDefaultPrinterForUser(
-          this.get("user.id"),
-          "admin"
-        );
-        this.set("selectedPrinterId", printer.id);
-        return printer;
-      }
+      return this.get("userService").getPrinterForUser(
+        this.get("user"),
+        printerId,
+        "admin"
+      );
+    },
+    set(_, value) {
+      return value;
     }
-  ),
+  }),
 
   roleError: Ember.computed("noAdminAppRole", "adminRoleAccess", function() {
     return (
@@ -66,10 +67,10 @@ export default Ember.Controller.extend({
 
   roleExpiryDate: Ember.computed("user.userRoles.[]", {
     get() {
-      return this.get("userService").getRoleExpiryDate(this.get("user"), [
-        "Reviewer",
-        "Supervisor"
-      ]);
+      return this.get("userService").getRoleExpiryDate(
+        this.get("user"),
+        this.get("appRoles")
+      );
     },
     set(_, value) {
       return value;
