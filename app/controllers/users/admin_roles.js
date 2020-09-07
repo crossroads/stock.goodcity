@@ -16,12 +16,8 @@ export default Ember.Controller.extend({
     return this.get("printerService").allAvailablePrinters();
   }),
 
-  canUpdateRole: Ember.computed(function() {
-    return (
-      this.get("session.currentUser.isAdministrator") &&
-      this.get("session.currentUser.canManageUserRoles") &&
-      +this.get("session.currentUser.id") !== +this.get("user.id")
-    );
+  canUpdateRole: Ember.computed("user.id", function() {
+    return this.get("userService").canUpdateRole(this.get("user.id"));
   }),
 
   selectedPrinterDisplay: Ember.computed("model.user.id", "selectedPrinterId", {
@@ -103,6 +99,26 @@ export default Ember.Controller.extend({
     }
   ),
 
+  savePrinter() {
+    let printerId = this.get("selectedPrinterId");
+    this.get("printerService").addDefaultPrinter(
+      printerId,
+      this.get("user.id"),
+      "admin"
+    );
+  },
+
+  updateUserRole(role, selectedRole, roleExpiryDate) {
+    const roleId = this.get("userService").getRoleId(role);
+    const userId = this.get("user.id");
+
+    if (selectedRole) {
+      this.get("userService").assignRole(userId, roleId, roleExpiryDate);
+    } else {
+      this.get("userService").deleteUserRole(userId, roleId);
+    }
+  },
+
   actions: {
     setPrinterValue(value) {
       const printerId = value.id;
@@ -116,55 +132,31 @@ export default Ember.Controller.extend({
 
     saveUserRoles() {
       let roleExpiryDate;
-      let userRoleIds = this.get("user.roles").map(role => role.id);
       let adminRoleAccess = this.get("adminRoleAccess");
 
-      const reviewerRoleId = this.get("userService").getRoleId("Reviewer");
-      const supervisorRoleId = this.get("userService").getRoleId("Supervisor");
-      const userId = this.get("user.id");
-
       if (adminRoleAccess === "noAccess") {
-        if (_.includes(userRoleIds, reviewerRoleId)) {
-          this.get("userService").deleteUserRole(userId, reviewerRoleId);
-        }
-
-        if (_.includes(userRoleIds, supervisorRoleId)) {
-          this.get("userService").deleteUserRole(userId, supervisorRoleId);
-        }
+        this.get("userService").deleteAdminRoles(this.get("user"));
       } else {
-        if (adminRoleAccess === "accessTill") {
-          roleExpiryDate = this.get("roleExpiryDate");
-        }
+        if (this.get("canUpdateRole")) {
+          if (adminRoleAccess === "accessTill") {
+            roleExpiryDate = this.get("roleExpiryDate");
+          }
 
-        if (this.get("hasReviewerRole")) {
-          this.get("userService").assignRole(
-            userId,
-            reviewerRoleId,
+          this.updateUserRole(
+            "Reviewer",
+            this.get("hasReviewerRole"),
             roleExpiryDate
           );
-        } else {
-          this.get("userService").deleteUserRole(userId, reviewerRoleId);
-        }
-
-        if (this.get("hasSupervisorRole")) {
-          this.get("userService").assignRole(
-            userId,
-            supervisorRoleId,
+          this.updateUserRole(
+            "Supervisor",
+            this.get("hasSupervisorRole"),
             roleExpiryDate
           );
-        } else {
-          this.get("userService").deleteUserRole(userId, supervisorRoleId);
         }
 
-        let printerId = this.get("selectedPrinterId");
-        this.get("printerService").addDefaultPrinter(
-          printerId,
-          userId,
-          "admin"
-        );
-
-        this.transitionToRoute("users.details", userId);
+        this.savePrinter();
       }
+      this.transitionToRoute("users.details", this.get("user.id"));
     }
   }
 });

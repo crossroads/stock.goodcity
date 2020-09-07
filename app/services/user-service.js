@@ -7,6 +7,14 @@ export default ApiBaseService.extend({
   session: Ember.inject.service(),
   printerService: Ember.inject.service(),
 
+  canUpdateRole(userId) {
+    return (
+      this.get("session.currentUser.isAdministrator") &&
+      this.get("session.currentUser.canManageUserRoles") &&
+      +this.get("session.currentUser.id") !== +userId
+    );
+  },
+
   getRoleId(roleName) {
     return this.get("store")
       .peekAll("role")
@@ -66,5 +74,43 @@ export default ApiBaseService.extend({
         expiry_date: date
       }
     }).then(data => this.get("store").pushPayload(data));
+  },
+
+  deleteAdminRoles(user) {
+    const userId = user.get("id");
+
+    if (this.canUpdateRole(userId)) {
+      const userRoleIds = user.get("roles").map(role => role.id);
+      const reviewerRoleId = this.getRoleId("Reviewer");
+      const supervisorRoleId = this.getRoleId("Supervisor");
+
+      if (_.includes(userRoleIds, reviewerRoleId)) {
+        this.deleteUserRole(userId, reviewerRoleId);
+      }
+
+      if (_.includes(userRoleIds, supervisorRoleId)) {
+        this.deleteUserRole(userId, supervisorRoleId);
+      }
+    }
+  },
+
+  deleteStockRoles(user) {
+    const userId = user.get("id");
+
+    if (this.canUpdateRole(userId)) {
+      const userRoleIds = user.get("roles").map(role => role.id);
+      const stockAppRoleIds = [
+        this.getRoleId("Stock administrator"),
+        this.getRoleId("Stock fulfilment"),
+        this.getRoleId("Order administrator"),
+        this.getRoleId("Order fulfilment")
+      ];
+
+      _.each(stockAppRoleIds, stockRoleId => {
+        if (_.includes(userRoleIds, stockRoleId)) {
+          this.deleteUserRole(userId, stockRoleId);
+        }
+      });
+    }
   }
 });

@@ -21,6 +21,10 @@ export default Ember.Controller.extend({
     return this.get("printerService").allAvailablePrinters();
   }),
 
+  canUpdateRole: Ember.computed("user.id", function() {
+    return this.get("userService").canUpdateRole(this.get("user.id"));
+  }),
+
   selectedPrinterDisplay: Ember.computed("model.user.id", "selectedPrinterId", {
     get() {
       const printerId = this.get("selectedPrinterId");
@@ -137,6 +141,17 @@ export default Ember.Controller.extend({
     }
   ),
 
+  updateUserRole(role, selectedRole, roleExpiryDate) {
+    const roleId = this.get("userService").getRoleId(role);
+    const userId = this.get("user.id");
+
+    if (selectedRole) {
+      this.get("userService").assignRole(userId, roleId, roleExpiryDate);
+    } else {
+      this.get("userService").deleteUserRole(userId, roleId);
+    }
+  },
+
   actions: {
     setPrinterValue(value) {
       const printerId = value.id;
@@ -150,84 +165,36 @@ export default Ember.Controller.extend({
 
     saveUserRoles() {
       let roleExpiryDate;
-      let userRoleIds = this.get("user.roles").map(role => role.id);
       let stockRoleAccess = this.get("stockRoleAccess");
-
       const userId = this.get("user.id");
-      const stockAdministratorRoleId = this.get("userService").getRoleId(
-        "Stock administrator"
-      );
-      const stockFulfilmentRoleId = this.get("userService").getRoleId(
-        "Stock fulfilment"
-      );
-      const orderAdministratorRoleId = this.get("userService").getRoleId(
-        "Order administrator"
-      );
-      const orderFulfilmentRoleId = this.get("userService").getRoleId(
-        "Order fulfilment"
-      );
 
       if (stockRoleAccess === "noAccess") {
-        stockAppRoleIds = [
-          stockAdministratorRoleId,
-          stockFulfilmentRoleId,
-          orderAdministratorRoleId,
-          orderFulfilmentRoleId
-        ];
-
-        _.each(stockAppRoleIds, stockRoleId => {
-          if (_.includes(userRoleIds, stockRoleId)) {
-            this.get("userService").deleteUserRole(userId, stockRoleId);
-          }
-        });
+        this.get("userService").deleteStockRoles(this.get("user"));
       } else {
-        if (stockRoleAccess === "accessTill") {
-          roleExpiryDate = this.get("roleExpiryDate");
-        }
+        if (this.get("canUpdateRole")) {
+          if (stockRoleAccess === "accessTill") {
+            roleExpiryDate = this.get("roleExpiryDate");
+          }
 
-        if (this.get("hasStockFulfilmentRole")) {
-          this.get("userService").assignRole(
-            userId,
-            stockFulfilmentRoleId,
+          this.updateUserRole(
+            "Stock fulfilment",
+            this.get("hasStockFulfilmentRole"),
             roleExpiryDate
           );
-        } else {
-          this.get("userService").deleteUserRole(userId, stockFulfilmentRoleId);
-        }
-
-        if (this.get("hasStockAdministratorRole")) {
-          this.get("userService").assignRole(
-            userId,
-            stockAdministratorRoleId,
+          this.updateUserRole(
+            "Stock administrator",
+            this.get("hasStockAdministratorRole"),
             roleExpiryDate
           );
-        } else {
-          this.get("userService").deleteUserRole(
-            userId,
-            stockAdministratorRoleId
-          );
-        }
-
-        if (this.get("hasOrderFulfilmentRole")) {
-          this.get("userService").assignRole(
-            userId,
-            orderFulfilmentRoleId,
+          this.updateUserRole(
+            "Order fulfilment",
+            this.get("hasOrderFulfilmentRole"),
             roleExpiryDate
           );
-        } else {
-          this.get("userService").deleteUserRole(userId, orderFulfilmentRoleId);
-        }
-
-        if (this.get("hasOrderAdministratorRole")) {
-          this.get("userService").assignRole(
-            userId,
-            orderAdministratorRoleId,
+          this.updateUserRole(
+            "Order administrator",
+            this.get("hasOrderAdministratorRole"),
             roleExpiryDate
-          );
-        } else {
-          this.get("userService").deleteUserRole(
-            userId,
-            orderAdministratorRoleId
           );
         }
 
@@ -237,9 +204,9 @@ export default Ember.Controller.extend({
           userId,
           "stock"
         );
-
-        this.transitionToRoute("users.details", userId);
       }
+
+      this.transitionToRoute("users.details", userId);
     }
   }
 });

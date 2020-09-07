@@ -14,139 +14,143 @@
 </nav>
 
 <section class="user-details-section role-access-form">
-  <div class="row">
-    <div class="columns small-12">
+  <div class="{{unless canUpdateRole 'disabled-form'}}">
+    <div class="row">
+      <div class="columns small-12">
 
-      <div class="access-heading">
-        Access Status for {{user.fullName}}
-      </div>
+        <div class="access-heading">
+          Access Status for {{user.fullName}}
+        </div>
 
-      <div class="custom_radio_buttons" for="stock_role_access">
-        {{radio-button
-          name="stockRoleAccess"
-          id="noAccess"
-          value="noAccess"
-          selection=stockRoleAccess
-          required='true'}}
-        <label class="radio-button-text align-text" for="noAccess">
-          <div class="label-position">
-            No Access
-            <i>{{fa-icon "times-circle"}}</i>
-          </div>
-        </label>
-      </div>
-
-      <div class="custom_radio_buttons" for="stock_role_access">
-        {{radio-button
+        <div class="custom_radio_buttons" for="stock_role_access">
+          {{radio-button
             name="stockRoleAccess"
-            id="accessTill"
-            value="accessTill"
+            id="noAccess"
+            value="noAccess"
             selection=stockRoleAccess
             required='true'}}
-        <label class="radio-button-text align-text" for="accessTill">
-          <div class="label-position">
-            Access Until
-            <div class="calendar_input ui">
-              {{calendar-input
-                name='role_expiry_date'
-                id='role_expiry_date'
-                value=roleExpiryDate
-                formatSubmit="DD/MMM/YYYY"
-                enablePastDate=false
-                selection=expiry_date}}
+          <label class="radio-button-text align-text" for="noAccess">
+            <div class="label-position">
+              No Access
+              <i>{{fa-icon "times-circle"}}</i>
             </div>
-            <i class="calendar-icon">{{fa-icon "calendar-check"}}</i>
-          </div>
-        </label>
-      </div>
+          </label>
+        </div>
 
-      <div class="custom_radio_buttons" for="stock_role_access">
-        {{radio-button
+        <div class="custom_radio_buttons" for="stock_role_access">
+          {{radio-button
               name="stockRoleAccess"
-              id="accessForever"
-              value="accessForever"
+              id="accessTill"
+              value="accessTill"
               selection=stockRoleAccess
               required='true'}}
-        <label class="radio-button-text align-text" for="accessForever">
-          <div class="label-position">
-            Access Forever
-            <i>{{fa-icon "check-circle"}}</i>
-          </div>
-        </label>
+          <label class="radio-button-text align-text" for="accessTill">
+            <div class="label-position">
+              Access Until
+              <div class="calendar_input ui">
+                {{calendar-input
+                  name='role_expiry_date'
+                  id='role_expiry_date'
+                  value=roleExpiryDate
+                  formatSubmit="DD/MMM/YYYY"
+                  enablePastDate=false
+                  selection=expiry_date}}
+              </div>
+              <i class="calendar-icon">{{fa-icon "calendar-check"}}</i>
+            </div>
+          </label>
+        </div>
+
+        <div class="custom_radio_buttons" for="stock_role_access">
+          {{radio-button
+                name="stockRoleAccess"
+                id="accessForever"
+                value="accessForever"
+                selection=stockRoleAccess
+                required='true'}}
+          <label class="radio-button-text align-text" for="accessForever">
+            <div class="label-position">
+              Access Forever
+              <i>{{fa-icon "check-circle"}}</i>
+            </div>
+          </label>
+        </div>
       </div>
     </div>
+
+    {{#unless noStockAppAccess}}
+      <div class="row">
+        <div class="columns small-12 roles-selection">
+
+          <div class="access-heading">
+            Role assigned for processing orders
+          </div>
+
+          <div class="time_inputs id-type-radio-input row">
+            <div class='custom_radio_buttons small-12 columns'>
+              {{input type="checkbox" name="labor" checked=hasOrderFulfilmentRole id='order_fulfilment_role'}}
+              <label class="checkbox-left" for='order_fulfilment_role'>
+                Order Fulfilment
+                <div class="role-info"> This role is for reviewing orders.</div>
+              </label>
+            </div>
+          </div>
+
+          <div class="time_inputs id-type-radio-input row">
+            <div class='custom_radio_buttons small-12 columns'>
+              {{input type="checkbox" name="labor" checked=hasOrderAdministratorRole id='order_administrator_role'}}
+              <label class="checkbox-left" for='order_administrator_role'>
+                Order Administrator
+                <div class="role-info"> This role is for managing orders.</div>
+              </label>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="columns small-12 roles-selection">
+
+          <div class="access-heading">
+            Role assigned for processing stock
+          </div>
+
+          <div class="time_inputs id-type-radio-input row">
+            <div class='custom_radio_buttons small-12 columns'>
+              {{input type="checkbox" name="labor" checked=hasStockFulfilmentRole id='stock_fulfilment_role'}}
+              <label class="checkbox-left" for='stock_fulfilment_role'>
+                Stock Fulfilment
+                <div class="role-info"> This role is for reviewing stock items.</div>
+              </label>
+            </div>
+          </div>
+
+          <div class="time_inputs id-type-radio-input row">
+            <div class='custom_radio_buttons small-12 columns'>
+              {{input type="checkbox" name="labor" checked=hasStockAdministratorRole id='stock_administrator_role'}}
+              <label class="checkbox-left" for='stock_administrator_role'>
+                Stock Administrator
+                <div class="role-info"> This role is for managing stock items.</div>
+              </label>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      {{#if roleError}}
+        <div class="row">
+          <div class="roles-error">
+            <i>{{fa-icon 'exclamation-triangle'}}</i>
+            <span>Access to Stock App requires at least one role to be assigned.</span>
+          </div>
+        </div>
+      {{/if}}
+    {{/unless}}
   </div>
 
   {{#unless noStockAppAccess}}
-    <div class="row">
-      <div class="columns small-12 roles-selection">
-
-        <div class="access-heading">
-          Role assigned for processing orders
-        </div>
-
-        <div class="time_inputs id-type-radio-input row">
-          <div class='custom_radio_buttons small-12 columns'>
-            {{input type="checkbox" name="labor" checked=hasOrderFulfilmentRole id='order_fulfilment_role'}}
-            <label class="checkbox-left" for='order_fulfilment_role'>
-              Order Fulfilment
-              <div class="role-info"> This role is for reviewing orders.</div>
-            </label>
-          </div>
-        </div>
-
-        <div class="time_inputs id-type-radio-input row">
-          <div class='custom_radio_buttons small-12 columns'>
-            {{input type="checkbox" name="labor" checked=hasOrderAdministratorRole id='order_administrator_role'}}
-            <label class="checkbox-left" for='order_administrator_role'>
-              Order Administrator
-              <div class="role-info"> This role is for managing orders.</div>
-            </label>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="columns small-12 roles-selection">
-
-        <div class="access-heading">
-          Role assigned for processing stock
-        </div>
-
-        <div class="time_inputs id-type-radio-input row">
-          <div class='custom_radio_buttons small-12 columns'>
-            {{input type="checkbox" name="labor" checked=hasStockFulfilmentRole id='stock_fulfilment_role'}}
-            <label class="checkbox-left" for='stock_fulfilment_role'>
-              Stock Fulfilment
-              <div class="role-info"> This role is for reviewing stock items.</div>
-            </label>
-          </div>
-        </div>
-
-        <div class="time_inputs id-type-radio-input row">
-          <div class='custom_radio_buttons small-12 columns'>
-            {{input type="checkbox" name="labor" checked=hasStockAdministratorRole id='stock_administrator_role'}}
-            <label class="checkbox-left" for='stock_administrator_role'>
-              Stock Administrator
-              <div class="role-info"> This role is for managing stock items.</div>
-            </label>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    {{#if roleError}}
-      <div class="row">
-        <div class="roles-error">
-          <i>{{fa-icon 'exclamation-triangle'}}</i>
-          <span>Access to Stock App requires at least one role to be assigned.</span>
-        </div>
-      </div>
-    {{/if}}
-
     <div class="row">
       <div class="columns small-8 printer-selection ui">
 
