@@ -111,7 +111,7 @@ export default cloudinaryUrl.extend(GradeMixin, {
   offer: belongsTo("offer", { async: false }),
   imageIds: attr(),
   images: hasMany("image", {
-    async: true
+    async: false
   }),
 
   messages: hasMany("message", {

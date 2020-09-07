@@ -286,7 +286,7 @@ export default Ember.Service.extend(Ember.Evented, AsyncMixin, {
       case "delete":
         let existingItem = this.get("store").peekRecord(type, record.id);
         if (existingItem) {
-          existingItem.destroyRecord();
+          existingItem.unloadRecord();
         }
         break;
       default:
