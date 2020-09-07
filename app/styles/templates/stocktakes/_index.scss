@@ -1,7 +1,8 @@
 @import "./detail";
 
 .stocktake-page {
-
+  @include flex-controls();
+  
   .tab-bar {
     margin-bottom: 0;
   }
@@ -10,36 +11,6 @@
     &.light {
       border: 1px solid white;
       background-color: transparent;
-    }
-  }
-
-  .flex {
-    display: flex;
-    &.no-wrap {
-      flex-wrap: nowrap;
-    }
-    &.wrap {
-      flex-wrap: wrap;
-    }
-    &.space-around {
-      justify-content: space-around;
-    }
-    &.space-between {
-      justify-content: space-between;
-    }
-    &.center {
-      justify-content: center;
-    }
-    &.end {
-      justify-content: flex-end;
-    }
-
-    >.grow {
-      flex-grow: 1;
-    }
-
-    &.gutter-small {
-      >* { margin-right: 0.5rem; }
     }
   }
 
