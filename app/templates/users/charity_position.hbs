@@ -1,0 +1,62 @@
+<div class="charity-position-page">
+  <div class="header-container">
+    <div class="back-button">
+      {{#link-to "manage_users" class="user-back-link"}}
+        <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-left'}}</i>
+        <span>{{t "back"}}</span>
+      {{/link-to}}
+    </div>
+    <div>
+      <h3 class="header">
+        {{t 'users.charity_position.add_charity_position'}}
+      </h3>
+    </div>
+  </div>
+
+  {{#validatable-form }}
+    <div class="form-container">
+      <ul class="wrapper">
+        <li class="form-row">
+          <label for="status">{{t 'users.charity_position.status'}}</label>
+          <div class="status">
+            <input type="text" name="status" id="status">
+          </div>
+        </li>
+      </ul>
+
+      <ul class="wrapper">
+        <li class="form-row">
+          <label for="organisation">{{t 'users.organisation'}}</label>
+          <div class="organisation-search" {{action "goToSearchOrg"}}>
+            {{input type="text" id = "organisation" required='true' value=organisation.nameEn}}
+          </div>
+        </li>
+      </ul>
+
+      <ul class="wrapper">
+        <li class="form-row">
+          <label for="position">{{t 'users.charity_position.position'}}</label>
+          <input type="text" name="position" id="position">
+        </li>
+      </ul>
+
+      <ul class="wrapper">
+        <li class="form-row">
+          <label for="preferred_number">{{t 'users.charity_position.preferred_number'}}</label>
+          <input type="text" name="preferred_number" id="preferred_number">
+        </li>
+      </ul>
+    </div>
+
+    <div class="button-container">
+      <div class="button-wrapper">
+        <a {{action 'cancel'}} class="button secondary expand">{{t "cancel"}}</a>
+      </div>
+      <div class="button-wrapper">
+        <a {{action 'submit' target=form}} class="button expand">
+          {{t "save"}}
+        </a>
+      </div>
+    </div>
+  {{/validatable-form}}
+</div>

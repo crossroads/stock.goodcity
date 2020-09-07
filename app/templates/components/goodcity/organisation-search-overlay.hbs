@@ -1,0 +1,47 @@
+<div class="cmp locations search-overlay">
+  {{#popup-overlay open=open}}
+    <div class="main-container">
+      <div class="row search-field">
+        <div class="icon-holder small-2 columns">
+          <i {{action 'cancelSearch'}} class="back_icon" aria-hidden="true">{{fa-icon 'times' size='lg'}}</i>
+        </div>
+        <div class="input-holder small-10 columns">
+          {{focus-textfield
+            name="searchText"
+            id="organisation_search_overlay_input"
+            placeholder=(t "search_min")
+            autoComplete='false'
+            value=searchText}}
+          {{#if hasSearchText}}
+            <i class="pinned-right" {{action "clearSearch"}}>{{fa-icon 'times-circle' size='lg'}}</i>
+          {{/if}}
+        </div>
+      </div>
+    </div>
+    <section class="main-section organisation_search_result">
+      <div class="row search">
+        <div class="small-12 columns">
+          {{#if displayResults}}
+            {{#infinite-list height="75vh" loadMore=(action "loadMoreOrganisations") as |items| }}
+              <ul class="list list-activity list-offer-items">
+                {{#each items as |organisation|}}
+                  <li {{action "setOrganization" organisation}}>
+                    <div class="row">
+                      <div class="small-12 columns">
+                        {{organisation.nameEn}}
+                      </div>
+                    </div>
+                    <div class="row">
+                      {{organisation.ordersCount}} {{t 'orders'}}
+                      {{organisation.usersCount}} <i>{{fa-icon 'users'}}</i>
+                    </div>
+                  </li>
+                {{/each}}
+              </ul>
+            {{/infinite-list}}
+          {{/if}}
+        </div>
+      </div>
+    </section>
+  {{/popup-overlay}}
+</div>

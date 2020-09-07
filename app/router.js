@@ -92,6 +92,9 @@ Router.map(function() {
     this.route("stock_roles", {
       path: "/:user_id/stock_roles"
     });
+    this.route("charity_position", {
+      path: "/:user_id/charity_position"
+    });
   });
 
   this.route("not-found", { path: "/*path" });

@@ -13,6 +13,8 @@ export default Model.extend({
   organisation: belongsTo("organisation", {
     async: false
   }),
+  user_id: attr("string"),
+
   user: belongsTo("user", {
     async: false
   })
