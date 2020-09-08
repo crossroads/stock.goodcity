@@ -13,13 +13,19 @@
     </div>
   </div>
 
-  {{#validatable-form }}
+  {{#validatable-form onSubmit=(action 'save') as |form|}}
     <div class="form-container">
       <ul class="wrapper">
         <li class="form-row">
           <label for="status">{{t 'users.charity_position.status'}}</label>
           <div class="status">
-            <input type="text" name="status" id="status">
+            {{select-list
+              content=allStatus
+              on-change=(action "onStatusChange")
+              selectedValue=selectedStatus
+              value=selectedStatus
+              selectArrow=true
+              classNames='grade' }}
           </div>
         </li>
       </ul>
@@ -28,25 +34,39 @@
         <li class="form-row">
           <label for="organisation">{{t 'users.organisation'}}</label>
           <div class="organisation-search" {{action "goToSearchOrg"}}>
-            {{input type="text" id = "organisation" required='true' value=organisation.nameEn}}
+            {{#if organisation}}
+              {{input type="text" id = "organisation" required='true' autocomplete='off' value=organisation.nameEn}}
+            {{else}}
+              {{input type="text" id = "organisation" required='true' autocomplete='off'}}
+            {{/if}}
           </div>
         </li>
       </ul>
+      {{#if isInvalidOrganisation }}
+        <div class="error-wrapper">
+          <div class='error-message'>{{t 'users.charity_position.validation_errors.organisation'}}</div>
+        </div>
+      {{/if}}
 
       <ul class="wrapper">
         <li class="form-row">
           <label for="position">{{t 'users.charity_position.position'}}</label>
-          <input type="text" name="position" id="position">
+          {{input type='text' id='position' value=position}}
         </li>
       </ul>
 
       <ul class="wrapper">
         <li class="form-row">
           <label for="preferred_number">{{t 'users.charity_position.preferred_number'}}</label>
-          <input type="text" name="preferred_number" id="preferred_number">
+          {{numeric-input value=preferredContactNumber id="preferred_number" maxlength="8" pattern=".{8,}" required='true'}}
         </li>
       </ul>
     </div>
+    {{#if isInvalidPreferredNumber }}
+      <div class="error-wrapper">
+        <div class='error-message'>{{t 'users.charity_position.validation_errors.preferred_number'}}</div>
+      </div>
+    {{/if}}
 
     <div class="button-container">
       <div class="button-wrapper">

@@ -14,6 +14,7 @@ export default Model.extend({
     async: false
   }),
   user_id: attr("string"),
+  status: attr("string"),
 
   user: belongsTo("user", {
     async: false

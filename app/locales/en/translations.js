@@ -961,7 +961,11 @@ export default {
       add_charity_position: "Add Charity Position",
       position: "Position",
       status: "Status",
-      preferred_number: "Preferred Number"
+      preferred_number: "Preferred Number",
+      validation_errors: {
+        preferred_number: "You must provide a contact number",
+        organisation: "Organisation cannot be blank"
+      }
     }
   }
 };

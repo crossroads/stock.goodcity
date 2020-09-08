@@ -39,6 +39,22 @@
       background: $background-color !important;
       color: white !important;
       border: 1px solid $input-border!important;
+      @media #{$small-only} {
+        font-size: 13px;
+      }
+    }
+
+    select {
+      background-color: $background-color !important;
+      color: white;
+      border: 1px solid $input-border!important;
+      @media #{$small-only} {
+        font-size: 13px;
+      }
+    }
+
+    label.select::after {
+      top: 0.8rem !important;
     }
 
     .organisation-search{
@@ -106,5 +122,25 @@
   .button-wrapper {
     width: 100%;
     margin: 1rem;
+  }
+
+  .error-wrapper {
+    display: flex;
+    justify-content: flex-start;
+    padding-left: 41.3%;
+    margin-top: -1em;
+    @media #{$small-only} {
+      padding-left: 35%;
+    }
+    .error-message {
+      background: $error-background;
+      color: $white;
+      padding: .2rem;
+      width: 66%;
+
+      @media #{$small-only} {
+        width: 85%;
+      }
+    }
   }
 }
