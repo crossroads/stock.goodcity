@@ -343,7 +343,6 @@ jobs:
                 echo 'export ENVIRONMENT=production' >> $BASH_ENV
                 echo 'export CERTIFICATE=Goodcity_2020.p12' >> $BASH_ENV
                 echo 'export PROVISIONING_PROFILE=GoodCityStock.mobileprovision' >> $BASH_ENV
-                echo 'export PROVISIONING_PROFILE=GoodCityStock.mobileprovision' >> $BASH_ENV
                 echo 'export SCANDIT_LICENSE_KEY=$SCANDIT_LICENSE_KEY_IOS' >> $BASH_ENV
                 ;;
               *)
