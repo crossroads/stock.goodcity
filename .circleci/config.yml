@@ -212,19 +212,22 @@ jobs:
             case "$CIRCLE_BRANCH" in
               master)
                 ENVIRONMENT=staging
+                SCANDIT_LICENSE_KEY=$SCANDIT_LICENSE_KEY_ANDROID_STAGING
                 ;;
               preview)
                 ENVIRONMENT=preview
+                SCANDIT_LICENSE_KEY=$SCANDIT_LICENSE_KEY_ANDROID_STAGING
                 ;;
               live)
                 ENVIRONMENT=production
+                SCANDIT_LICENSE_KEY=$SCANDIT_LICENSE_KEY_ANDROID
                 ;;
               *)
                 echo 'Unexpected branch deployment. Choose master|preview|live'
                 exit 1
             esac
             echo "Building for ENVIRONMENT: ${ENVIRONMENT}"
-            EMBER_CLI_CORDOVA=1 SCANDIT_LICENSE_KEY=${SCANDIT_LICENSE_KEY_ANDROID} ENVIRONMENT=${ENVIRONMENT} yarn run ember build --environment=production
+            EMBER_CLI_CORDOVA=1 SCANDIT_LICENSE_KEY=${SCANDIT_LICENSE_KEY} ENVIRONMENT=${ENVIRONMENT} yarn run ember build --environment=production
       - run: mv dist/ cordova/www
       - persist_to_workspace:
           root: .
@@ -328,16 +331,20 @@ jobs:
                 echo 'export ENVIRONMENT=staging' >> $BASH_ENV
                 echo 'export CERTIFICATE=GoodCity_2020_Development.p12' >> $BASH_ENV
                 echo 'export PROVISIONING_PROFILE=GoodCityStockStaging.mobileprovision' >> $BASH_ENV
+                echo 'export SCANDIT_LICENSE_KEY=$SCANDIT_LICENSE_KEY_IOS_STAGING' >> $BASH_ENV
                 ;;
               preview)
                 echo 'export ENVIRONMENT=preview' >> $BASH_ENV
                 echo 'export CERTIFICATE=GoodCity_2020_Development.p12' >> $BASH_ENV
                 echo 'export PROVISIONING_PROFILE=GoodCityStockStaging.mobileprovision' >> $BASH_ENV
+                echo 'export SCANDIT_LICENSE_KEY=$SCANDIT_LICENSE_KEY_IOS_STAGING' >> $BASH_ENV
                 ;;
               live)
                 echo 'export ENVIRONMENT=production' >> $BASH_ENV
                 echo 'export CERTIFICATE=Goodcity_2020.p12' >> $BASH_ENV
                 echo 'export PROVISIONING_PROFILE=GoodCityStock.mobileprovision' >> $BASH_ENV
+                echo 'export PROVISIONING_PROFILE=GoodCityStock.mobileprovision' >> $BASH_ENV
+                echo 'export SCANDIT_LICENSE_KEY=$SCANDIT_LICENSE_KEY_IOS' >> $BASH_ENV
                 ;;
               *)
                 echo 'Unexpected branch deployment. Choose master|preview|live'
@@ -349,7 +356,7 @@ jobs:
           name: Ember build
           command: |
             echo "Building for ENVIRONMENT: ${ENVIRONMENT}"
-            EMBER_CLI_CORDOVA=1 SCANDIT_LICENSE_KEY=${SCANDIT_LICENSE_KEY_IOS} ENVIRONMENT=${ENVIRONMENT} yarn run ember build --environment=production
+            EMBER_CLI_CORDOVA=1 SCANDIT_LICENSE_KEY=${SCANDIT_LICENSE_KEY} ENVIRONMENT=${ENVIRONMENT} yarn run ember build --environment=production
       - run: mv dist/ cordova/www
       - persist_to_workspace:
           root: .
