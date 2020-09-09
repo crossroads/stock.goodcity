@@ -17,7 +17,13 @@ export default Ember.Controller.extend(AsyncMixin, {
   }),
 
   actions: {
-    async goToSearchOrg() {
+    /**
+     * Open's the organisation overlay.
+     * On change of organisation, a check is made
+     * if organisations_users record already exist, and depending on that URL is changed
+     * which in-turn loads a model.
+     */
+    async serchOrganisation() {
       const organisation = await this.get(
         "organisationService"
       ).userPickOrganisation();
@@ -26,6 +32,7 @@ export default Ember.Controller.extend(AsyncMixin, {
       const data = await this.get(
         "organisationsUserService"
       ).getOrganisationUser(organisation.get("id"), this.get("user_id"));
+
       if (data.organisations_user) {
         this.transitionToRoute(
           `/users/${this.get("user_id")}/charity_position?id=${
@@ -43,6 +50,11 @@ export default Ember.Controller.extend(AsyncMixin, {
       this.set("selectedStatus", status);
     },
 
+    /**
+     * Performs save or update operation based on the condition:
+     *    - If a model exist, then its an update operation
+     *    - If a model doesn't exist, then its an create operation
+     */
     save() {
       const params = {
         organisation_id: this.get("organisation.id"),
@@ -52,27 +64,20 @@ export default Ember.Controller.extend(AsyncMixin, {
         preferred_contact_number: this.get("preferredContactNumber")
       };
 
-      if (this.get("model")) {
+      try {
         this.runTask(async () => {
-          try {
+          if (this.get("model")) {
             await this.get("organisationsUserService").update(
               params,
               this.get("model.id")
             );
-            this.replaceRoute("users.details", this.get("user_id"));
-          } catch (e) {
-            throw e;
-          }
-        }, ERROR_STRATEGIES.MODAL);
-      } else {
-        this.runTask(async () => {
-          try {
+          } else {
             await this.get("organisationsUserService").create(params);
-            this.replaceRoute("users.details", this.get("user_id"));
-          } catch (e) {
-            throw e;
           }
+          this.replaceRoute("users.details", this.get("user_id"));
         }, ERROR_STRATEGIES.MODAL);
+      } catch (error) {
+        throw error;
       }
     }
   }

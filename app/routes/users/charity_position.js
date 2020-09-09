@@ -55,16 +55,17 @@ export default AuthorizeRoute.extend({
   },
 
   async initializeStatus(controller, model) {
-    let data = await this.get("organisationsUserService").getAllStatus();
-    data = data["status"].map((val, index) => ({ id: index, name: val }));
+    const data = await this.get("organisationsUserService").getAllStatus();
     controller.set("allStatus", data);
 
     if (!model) {
       controller.set("selectedStatus", data[0]);
       return;
     }
-    debugger;
-    const selected = data.find(d => d.name === model.get("status"));
+
+    const selected = data.find(
+      d => d.name.toLowerCase() === model.get("status")
+    );
     controller.set("selectedStatus", selected);
   }
 });

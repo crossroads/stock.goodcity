@@ -33,7 +33,7 @@
       <ul class="wrapper">
         <li class="form-row">
           <label for="organisation">{{t 'users.organisation'}}</label>
-          <div class="organisation-search" {{action "goToSearchOrg"}}>
+          <div class="organisation-search" {{action "serchOrganisation"}}>
             {{#if organisation}}
               {{input type="text" id = "organisation" required='true' autocomplete='off' value=organisation.nameEn}}
             {{else}}
