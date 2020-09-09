@@ -26,6 +26,10 @@ export default ApiBaseService.extend(NavigationAwareness, {
     return store.peekRecord("gc_organisation", id).get("designations");
   },
 
+  /**
+   * Triggers an organisation search overlay
+   * @returns {Promise<Model>}
+   */
   userPickOrganisation() {
     return new Promise((resolve, reject) => {
       Ember.run(() => {
