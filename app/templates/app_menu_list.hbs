@@ -83,7 +83,7 @@
     </div>
     <div class="row menu-margin">
       {{#each storageTypes as |storageType|}}
-        <div class="small-4 columns menu-option {{if storageType.disable 'disable'}}">
+        <div class="small-4 columns menu-option">
           <a href="#" class="menu-list-anchor {{if storageType.disable 'disable'}}" {{action 'createInventory' storageType.name}} disabled={{storageType.disable}}>
             <div class="menu-svg">{{fa-icon storageType.icon size="lg"}}</div>
             <br>

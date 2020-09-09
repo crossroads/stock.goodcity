@@ -257,28 +257,8 @@ ul.off-canvas-list li a:hover  {
     font-weight: 600;
   }
 
-  .menu-list {
-    padding-top: 5%;
-    padding-bottom: 5%;
-    border-bottom: 1px solid #FFFFFF !important;
-    &.disable {
-      cursor: not-allowed !important;
-    }
-  }
-
   .display-inline-flex {
     display: inline-flex;
-  }
-
-  .menu-list-anchor {
-    color: #FFFFFF !important;
-    text-transform: capitalize;
-    font-weight: 500;
-    margin-left: 5%;
-    &.disable {
-      color: #7c8391 !important;
-      pointer-events: none;
-    }
   }
 
   li > a > span {
