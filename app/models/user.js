@@ -29,6 +29,19 @@ export default Addressable.extend({
     async: false
   }),
 
+  activeUserRoles: Ember.computed("userRoles.[]", function() {
+    return this.get("userRoles").filter(
+      userRole =>
+        !userRole.get("expiryDate") ||
+        (userRole.get("expiryDate") &&
+          moment.tz(userRole.get("expiryDate"), "Asia/Hong_Kong").isAfter())
+    );
+  }),
+
+  activeRoles: Ember.computed("userRoles.[]", function() {
+    return this.get("activeUserRoles").map(userRole => userRole.get("role"));
+  }),
+
   roles: Ember.computed("userRoles.[]", function() {
     return this.get("userRoles").map(userRole => userRole.get("role"));
   }),

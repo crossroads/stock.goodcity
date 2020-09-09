@@ -24,15 +24,18 @@ export default ApiBaseService.extend({
 
   getRoleExpiryDate(user, roles) {
     let expiryDates = user
-      .get("userRoles")
+      .get("activeUserRoles")
       .filter(
         row =>
           _.includes(roles, row.get("role.name")) && !!row.get("expiryDate")
       )
       .map(row => row.get("expiryDate"));
 
-    let date = _.max(expiryDates);
-    return date ? moment(date).format("DD/MMM/YYYY") : "";
+    return _.max(expiryDates);
+  },
+
+  isPastDate(date) {
+    return moment.tz(date, "Asia/Hong_Kong").isBefore();
   },
 
   getPrinterForUser(user, printerId, app) {
@@ -52,7 +55,9 @@ export default ApiBaseService.extend({
   },
 
   hasRole(user, roleName) {
-    return !!user.get("roles").find(role => role.get("name") === roleName);
+    return !!user
+      .get("activeRoles")
+      .find(role => role.get("name") === roleName);
   },
 
   deleteUserRole(userId, roleId) {

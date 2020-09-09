@@ -7,6 +7,7 @@ const MIN_DATE = moment()
 const DEFAULT_PICKADATE_CONFIG = {
   selectMonths: true,
   selectYears: true,
+  format: "dd/mmm/yyyy",
   formatSubmit: "ddd mmm d",
   monthsFull: moment.months(),
   monthsShort: moment.monthsShort(),
@@ -99,7 +100,7 @@ export default Ember.TextField.extend({
     if (formatSubmit) {
       this.set("datePickerConfig", {
         ...DEFAULT_PICKADATE_CONFIG,
-        formatSubmit: formatSubmit
+        format: formatSubmit
       });
     }
   },
@@ -123,6 +124,7 @@ export default Ember.TextField.extend({
           }
         })
       );
+
       Ember.$(".picker__holder").click(function(e) {
         if (e.target !== this) {
           return;

@@ -63,10 +63,11 @@ export default Ember.Controller.extend({
 
   roleExpiryDate: Ember.computed("user.userRoles.[]", {
     get() {
-      return this.get("userService").getRoleExpiryDate(
+      let date = this.get("userService").getRoleExpiryDate(
         this.get("user"),
         this.get("appRoles")
       );
+      return date ? moment(date).format("DD/MMM/YYYY") : "";
     },
     set(_, value) {
       return value;
