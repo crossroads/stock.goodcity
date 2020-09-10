@@ -48,15 +48,21 @@
 
   {{#link-to "users.stock_roles" model.id}}
     <div class="row app-roles stock-app-roles">
-      Stock App
-      <span class='arrow-icon'>{{fa-icon 'angle-right'}}</span>
+      <div class="small-4 columns">Stock App</div>
+      <div class="small-6 columns">{{stockRoleAccess}}</div>
+      <div class="small-2 columns">
+        <span class='arrow-icon'>{{fa-icon 'angle-right'}}</span>
+      </div>
     </div>
   {{/link-to}}
 
   {{#link-to "users.admin_roles" model.id}}
     <div class="row app-roles">
-      Admin App
-      <span class='arrow-icon'>{{fa-icon 'angle-right'}}</span>
+      <div class="small-4 columns">Admin App</div>
+      <div class="small-6 columns">{{adminRoleAccess}}</div>
+      <div class="small-2 columns">
+        <span class='arrow-icon'>{{fa-icon 'angle-right'}}</span>
+      </div>
     </div>
   {{/link-to}}
 

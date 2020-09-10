@@ -7,6 +7,14 @@ export default ApiBaseService.extend({
   session: Ember.inject.service(),
   printerService: Ember.inject.service(),
 
+  adminAppRoles: ["Reviewer", "Supervisor"],
+  stockAppRoles: [
+    "Stock administrator",
+    "Stock fulfilment",
+    "Order administrator",
+    "Order fulfilment"
+  ],
+
   canUpdateRole(userId) {
     return (
       this.get("session.currentUser.isAdministrator") &&
@@ -34,6 +42,23 @@ export default ApiBaseService.extend({
     return _.max(expiryDates);
   },
 
+  getRoleAccessText(user, app) {
+    let roles = app == "admin" ? this.adminAppRoles : this.stockAppRoles;
+    let expiryDate = this.getRoleExpiryDate(user, roles);
+    let hasNoRole =
+      app == "admin"
+        ? this.hasNoAdminAppRole(user)
+        : this.hasNoStockAppRole(user);
+
+    if (hasNoRole) {
+      return "No Access";
+    } else if (expiryDate) {
+      return "Access Untill " + moment(expiryDate).format("DD/MM/YY");
+    } else {
+      return "Access Forever";
+    }
+  },
+
   isPastDate(date) {
     return moment.tz(date, "Asia/Hong_Kong").isBefore();
   },
@@ -58,6 +83,19 @@ export default ApiBaseService.extend({
     return !!user
       .get("activeRoles")
       .find(role => role.get("name") === roleName);
+  },
+
+  hasNoAdminAppRole(user) {
+    return !this.hasRole(user, "Reviewer") && !this.hasRole(user, "Supervisor");
+  },
+
+  hasNoStockAppRole(user) {
+    return (
+      !this.hasRole(user, "Stock administrator") &&
+      !this.hasRole(user, "Stock fulfilment") &&
+      !this.hasRole(user, "Order administrator") &&
+      !this.hasRole(user, "Order fulfilment")
+    );
   },
 
   deleteUserRole(userId, roleId) {
