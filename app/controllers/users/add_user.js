@@ -5,7 +5,6 @@ import Ember from "ember";
 const { getOwner } = Ember;
 
 export default Ember.Controller.extend(AsyncMixin, ImageUploadMixin, {
-  queryParams: ["organisationId"],
   organisationId: null,
   organisationName: null,
   existingRoleIds: [],
@@ -14,6 +13,7 @@ export default Ember.Controller.extend(AsyncMixin, ImageUploadMixin, {
   newUploadedImage: null,
   disabled: false,
   activeUser: Ember.computed.not("disabled"),
+  organisationService: Ember.inject.service(),
 
   i18n: Ember.inject.service(),
   messageBox: Ember.inject.service(),
@@ -57,17 +57,6 @@ export default Ember.Controller.extend(AsyncMixin, ImageUploadMixin, {
     return charityRole && charityRole.get("id");
   }),
 
-  organisationChanged: Ember.observer("organisationId", function() {
-    if (this.get("organisationId")) {
-      let store = this.get("store");
-      let organisation = store.peekRecord(
-        "gc_organisation",
-        this.get("organisationId")
-      );
-      this.set("organisationName", organisation && organisation.get("nameEn"));
-    }
-  }),
-
   clearFormData() {
     this.set("firstName", "");
     this.set("lastName", "");
@@ -107,12 +96,12 @@ export default Ember.Controller.extend(AsyncMixin, ImageUploadMixin, {
   },
 
   actions: {
-    searchOrganization() {
-      this.replaceRoute("search_organisation", {
-        queryParams: {
-          redirectToPath: "add_user"
-        }
-      });
+    async searchOrganization() {
+      const organisation = await this.get(
+        "organisationService"
+      ).userPickOrganisation();
+      this.set("organisationName", organisation.get("nameEn"));
+      this.set("organisationId", organisation.get("id"));
     },
 
     setSelectedIds(id, isSelected) {

@@ -16,6 +16,13 @@ export default Ember.Controller.extend(SearchMixin, {
         organisationId,
         params
       );
+    },
+
+    async searchOrganisation() {
+      const organisation = await this.get(
+        "organisationService"
+      ).userPickOrganisation();
+      this.replaceRoute("organisations.detail", organisation.get("id"));
     }
   }
 });

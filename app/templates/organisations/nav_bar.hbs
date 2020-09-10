@@ -1,9 +1,10 @@
 <nav class="tab-bar">
   <section class="left-small">
-    {{#link-to "search_organisation" classNames="back" }}
+    <div {{action 'searchOrganisation'}}>
       <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-left'}}</i>
       <div>{{t 'back'}}</div>
-    {{/link-to}}
+    </div>
+
   </section>
   <section class="middle tab-bar-section">
     <h1 class="title">
