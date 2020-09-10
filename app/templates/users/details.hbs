@@ -66,23 +66,36 @@
         Charity Positions
       </div>
 
-      <div class="small-6 columns">
+      <div class="small-6 columns add-charity-position">
         <span {{action "addCharityPosition"}}>
           Add a charity position
         </span>
       </div>
     </div>
 
-    {{!-- TO-DO  --}}
     <ul class="organisations-list">
-      {{#each model.organisations as |organisation|}}
-        <li class="row app-roles">
-          {{organisation.name}}
+      {{#each userOrganisationDetails as |detail|}}
+        <li class="row app-roles charity-role-content">
+          <span class="company-name">{{detail.name}}</span>
+          <span class="status-icon"></span>
+          <span class="status-text">{{detail.status}}
+            {{#if (is-equal detail.status "Pending")}}
+              {{fa-icon 'pause-circle' size="lg"}}
+            {{/if}}
+            {{#if (is-equal detail.status "Approved")}}
+              {{fa-icon 'check-circle' size="lg"}}
+            {{/if}}
+            {{#if (is-equal detail.status "Expired")}}
+              {{fa-icon 'times-circle' size="lg"}}
+            {{/if}}
+            {{#if (is-equal detail.status "Denied")}}
+              {{fa-icon 'times-circle' size="lg"}}
+            {{/if}}
+            </span>
           <span class='arrow-icon'>{{fa-icon 'angle-right'}}</span>
         </li>
       {{/each}}
     </ul>
-    {{!-- END --}}
   {{/if}}
 
   <div class="disable-user-link">

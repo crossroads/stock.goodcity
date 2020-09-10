@@ -941,6 +941,7 @@ export default {
       position: "Position",
       status: "Status",
       preferred_number: "Preferred Number",
+      cancel_warning: "Are you sure you want to cancel?",
       validation_errors: {
         preferred_number: "You must provide a contact number",
         organisation: "Organisation cannot be blank"

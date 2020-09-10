@@ -3,7 +3,22 @@ import Ember from "ember";
 export default Ember.Controller.extend({
   organisationService: Ember.inject.service(),
   organisationsUserService: Ember.inject.service(),
+  userOrganisationDetails: Ember.computed(
+    "model.organisations_users_ids",
+    function() {
+      const organisationUser = [];
 
+      this.get("model.organisationsUsers").map(record => {
+        organisationUser.push({
+          status: record.get("userStatus"),
+          name: this.store
+            .peekRecord("organisation", record.get("organisationId"))
+            .get("nameEn")
+        });
+      });
+      return organisationUser;
+    }
+  ),
   actions: {
     async addCharityPosition() {
       const organisation = await this.get(

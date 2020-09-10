@@ -4,6 +4,7 @@ import AsyncMixin, { ERROR_STRATEGIES } from "stock/mixins/async";
 export default Ember.Controller.extend(AsyncMixin, {
   organisationService: Ember.inject.service(),
   organisationsUserService: Ember.inject.service(),
+  i18n: Ember.inject.service(),
 
   isInvalidPreferredNumber: Ember.computed(
     "preferredContactNumber",
@@ -79,6 +80,18 @@ export default Ember.Controller.extend(AsyncMixin, {
       } catch (error) {
         throw error;
       }
+    },
+
+    async cancel() {
+      const confirmed = await this.modalConfirm(
+        this.get("i18n").t("users.charity_position.cancel_warning")
+      );
+
+      if (!confirmed) {
+        return;
+      }
+
+      this.replaceRoute("users.details", this.get("user_id"));
     }
   }
 });
