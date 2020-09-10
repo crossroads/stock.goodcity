@@ -121,6 +121,28 @@ export default GoodcityController.extend(AsyncMixin, SearchMixin, {
     }
   ),
 
+  organisationsUser: Ember.computed(
+    "model.{createdBy,isGoodCityOrder,}",
+    "model.createdBy.organisationsUsers.@each.{status,organisationId}",
+    "model.createdBy.organisationsUsers.[]",
+    "model.{gcOrganisation,isGoodCityOrder}",
+    function() {
+      if (!this.get("model.isGoodCityOrder")) {
+        return null;
+      }
+
+      const organisationsUsers = this.getWithDefault(
+        "model.createdBy.organisationsUsers",
+        []
+      );
+
+      return organisationsUsers.findBy(
+        "organisationId",
+        this.get("model.gcOrganisationId")
+      );
+    }
+  ),
+
   itemsList: Ember.computed(
     "model.items",
     "displayAllItems",
@@ -208,6 +230,18 @@ export default GoodcityController.extend(AsyncMixin, SearchMixin, {
   //Should only be able to cancel if 0 items are dispatched
   canCancelOrder(order) {
     return !order.get("ordersPackages").filterBy("state", "dispatched").length;
+  },
+
+  async verifyOrgApproval(cb) {
+    if (
+      !this.get("isGoodCityOrder") ||
+      this.get("organisationsUser.isApproved")
+    ) {
+      return cb();
+    }
+
+    await this.modalAlert("order.cannot_process_unless_approved");
+    this.replaceRoute("orders.contact_summary", this.get("model.id"));
   },
 
   actions: {
@@ -300,7 +334,9 @@ export default GoodcityController.extend(AsyncMixin, SearchMixin, {
           this.send("changeOrderState", order, "cancel");
           break;
         case "start_processing":
-          this.send("changeOrderState", order, actionName);
+          this.verifyOrgApproval(() => {
+            this.send("changeOrderState", order, actionName);
+          });
           break;
         case "resubmit":
           this.send("promptResubmitModel", order, actionName);

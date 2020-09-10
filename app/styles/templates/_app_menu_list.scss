@@ -21,6 +21,10 @@
     }
   }
 
+  .menu-svg {
+    display: inline-block;
+  }
+
   .menu-margin {
     margin-top: 5%;
     margin-bottom: 2%;
@@ -34,6 +38,14 @@
     margin-bottom: 0;
   }
 
+  .menu-list-anchor {
+    &.disable {
+      color: #7c8391 !important;
+      pointer-events: none;
+      cursor: not-allowed !important;
+    }
+  }
+
   .menu-option {
     text-align: center;
     font-size: 90%;
@@ -44,6 +56,7 @@
   }
 
   .option-subtext {
-    margin-top: 5%;
+    padding-top: 5%;
+    display: inline-block;
   }
 }
