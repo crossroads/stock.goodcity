@@ -18,6 +18,13 @@ export default Ember.Controller.extend({
     return organisationUser;
   }),
   actions: {
+    /**
+     * Navigate to charity_position screen
+     * If user is already present in selected organisation, then organisations_users record
+     * already exists. In that case, it will be an edit operation
+     *
+     * If user is not present in the selected organisation, then it will be a create operation
+     */
     async addCharityPosition() {
       const organisation = await this.get(
         "organisationService"

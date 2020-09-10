@@ -24,7 +24,7 @@ export default Ember.Controller.extend(AsyncMixin, {
     /**
      * Open's the organisation overlay.
      * On change of organisation, a check is made
-     * if organisations_users record already exist, and depending on that URL is changed
+     * if organisations_users record already exists for the user, then depending on that URL is changed
      * which in-turn loads a model.
      */
     async serchOrganisation() {
