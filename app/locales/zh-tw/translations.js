@@ -648,7 +648,9 @@ export default {
       },
       validation_error: {
         email: "請輸入有效的電郵地址",
+        blank_email: "Email cannot be blank",
         mobile: "手提電話號碼必須為8個數字",
+        blank_mobile_number: "Mobile Number cannot be blank",
         first_name: "First name can't be blank",
         family_name: "Family name can't be blank",
         position: "Position can't be blank.",

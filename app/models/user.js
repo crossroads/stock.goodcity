@@ -27,6 +27,14 @@ export default Addressable.extend({
     async: false
   }),
 
+  address: belongsTo("address", {
+    async: false
+  }),
+
+  associatedDistrict: Ember.computed("address", function() {
+    return this.get("address.district");
+  }),
+
   userRoles: hasMany("userRoles", {
     async: false
   }),

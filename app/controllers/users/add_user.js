@@ -1,8 +1,8 @@
 import config from "stock/config/environment";
 import AsyncMixin, { ERROR_STRATEGIES } from "stock/mixins/async";
 import ImageUploadMixin from "stock/mixins/image_upload";
+import AjaxPromise from "stock/utils/ajax-promise";
 import Ember from "ember";
-const { getOwner } = Ember;
 
 export default Ember.Controller.extend(AsyncMixin, ImageUploadMixin, {
   newUploadedImage: null,
@@ -28,8 +28,7 @@ export default Ember.Controller.extend(AsyncMixin, ImageUploadMixin, {
     const email = this.get("email");
     const mobile = this.get("mobilePhone");
 
-    if (/^[456789]\d{7}/.test(mobile)) {
-      c;
+    if (/^[456789]\d{7}/.test(mobile) || /^[^@\s]+@[^@\s]+/.test(email)) {
       return false;
     } else {
       return true;
@@ -47,7 +46,7 @@ export default Ember.Controller.extend(AsyncMixin, ImageUploadMixin, {
     let English = translation.t("organisation.user.languages.english");
     let Chinese = translation.t("organisation.user.languages.chinese");
 
-    return [{ name: English, id: "English" }, { name: Chinese, id: "Chinese" }];
+    return [{ name: English, id: "en" }, { name: Chinese, id: "zh-tw" }];
   }),
 
   locale: function(str) {
@@ -73,14 +72,29 @@ export default Ember.Controller.extend(AsyncMixin, ImageUploadMixin, {
   },
 
   getRequestParams() {
-    const mobilePhone = this.formatMobileNumber();
-
-    return {
-      firstName: this.get("firstName"),
-      lastName: this.get("lastName"),
+    const mobilePhone = this.get("mobilePhone")
+      ? this.formatMobileNumber()
+      : "";
+    let title = this.get("selectedTitle") ? this.get("selectedTitle").id : "Mr";
+    let language = this.get("selectedLanguage")
+      ? this.get("selectedLanguage").id
+      : null;
+    let district = this.get("selectedDistrict")
+      ? this.get("selectedDistrict").id
+      : null;
+    var params = {
+      title: title,
+      first_name: this.get("firstName"),
+      last_name: this.get("lastName"),
       mobile: mobilePhone,
-      email: this.get("email")
+      email: this.get("email"),
+      preferred_language: language,
+      address_attributes: {
+        district_id: district,
+        addressable_type: "profile"
+      }
     };
+    return { user: params };
   },
 
   saveImage() {
@@ -97,18 +111,19 @@ export default Ember.Controller.extend(AsyncMixin, ImageUploadMixin, {
     },
 
     saveUser() {
-      let newUser = this.get("store").createRecord(
-        "user",
-        this.getRequestParams()
-      );
-
       return this.runTask(async () => {
+        let data = await new AjaxPromise(
+          "/users",
+          "POST",
+          this.get("session.authToken"),
+          this.getRequestParams()
+        );
+        this.get("store").pushPayload(data);
+        let newUser = this.get("store").peekRecord("user", data.user.id);
         newUser.set("image", await this.saveImage());
-
         const { id } = await newUser.save();
-
         this.clearFormData();
-        this.transitionToRoute("user_details", id);
+        this.transitionToRoute("users.details", id);
       }, ERROR_STRATEGIES.MODAL);
     },
 

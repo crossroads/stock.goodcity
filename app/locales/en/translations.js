@@ -673,10 +673,12 @@ export default {
       },
       validation_error: {
         email: "Email should be valid.",
+        blank_email: "Email cannot be blank",
         first_name: "First name can't be blank",
         family_name: "Family name can't be blank",
         position: "Position can't be blank.",
         mobile: "Mobile Number should be 8 digits.",
+        blank_mobile_number: "Mobile Number cannot be blank",
         preferred_contact_number: "Preferred Contact Number should be 8 digits."
       }
     }

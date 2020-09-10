@@ -5,6 +5,7 @@ import ImageUploadMixin from "stock/mixins/image_upload";
 
 export default Ember.Controller.extend(AsyncMixin, ImageUploadMixin, {
   user: Ember.computed.alias("model.user"),
+
   titles: Ember.computed(function() {
     let translation = this.get("i18n");
     let mr = translation.t("order.user_title.mr");
@@ -29,13 +30,11 @@ export default Ember.Controller.extend(AsyncMixin, ImageUploadMixin, {
   }),
 
   emailIdNotPresent: Ember.computed("user.email", function() {
-    console.log("dd");
     let email = this.get("user.email");
     return !/^[^@\s]+@[^@\s]+/.test(email);
   }),
 
   mobileNotPresent: Ember.computed("user.mobileWithoutCountryCode", function() {
-    console.log("dd");
     let mobile = this.get("user.mobileWithoutCountryCode");
     return !/^[456789]\d{7}/.test(mobile);
   }),
@@ -48,9 +47,16 @@ export default Ember.Controller.extend(AsyncMixin, ImageUploadMixin, {
 
   getUpdatedDistrictParams() {
     let address_attributes = {
-      district_id: this.get("user.address.district.id") || null
+      district_id: this.get("user.associatedDistrict.id") || null
     };
     return { address_attributes };
+  },
+
+  saveImage() {
+    let image = this.get("newUploadedImage");
+    if (image) {
+      return image.save();
+    }
   },
 
   actions: {
@@ -60,6 +66,9 @@ export default Ember.Controller.extend(AsyncMixin, ImageUploadMixin, {
 
     focusOut(field, value, required) {
       if (value == this.get(`${field}previousValue`)) {
+        this.set(`${field}InputError`, false);
+        this.set("emailValidationError", false);
+        this.set("mobileValidationError", false);
         return;
       }
 
@@ -67,10 +76,12 @@ export default Ember.Controller.extend(AsyncMixin, ImageUploadMixin, {
         if (/^[456789]\d{7}/.test(value)) {
           value = "+852" + value;
         } else {
+          this.set("mobileValidationError", true);
           this.set(
             "user.mobileWithoutCountryCode",
             this.get(`${field}previousValue`)
           );
+          Ember.$("#mobile").focus();
           return;
         }
       }
@@ -80,22 +91,51 @@ export default Ember.Controller.extend(AsyncMixin, ImageUploadMixin, {
         value.trim() &&
         !/^[^@\s]+@[^@\s]+/.test(value)
       ) {
+        this.set("emailValidationError", true);
         this.set(`user.${field}`, this.get(`${field}previousValue`));
+        Ember.$("#email").focus();
         return;
       }
 
       if (!value.trim() && required) {
         let displayValue =
           field === "mobile" ? "mobileWithoutCountryCode" : field;
+        this.set(`${field}InputError`, true);
         this.set(`user.${displayValue}`, this.get(`${field}previousValue`));
+        Ember.$(`#${field}`).focus();
         return;
       }
       return this.runTask(async () => {
         let newUser = this.get("store").peekRecord("user", this.get("user.id"));
-        console.log(field);
         newUser.set(field, value);
         await newUser.save();
+        this.set(`${field}InputError`, false);
+        this.set("emailValidationError", false);
+        this.set("mobileValidationError", false);
       }, ERROR_STRATEGIES.MODAL);
+    },
+
+    uploadEditedImageSuccess(e, data) {
+      var identifier =
+        data.result.version +
+        "/" +
+        data.result.public_id +
+        "." +
+        data.result.format;
+      var newUploadedImage = this.get("store").createRecord("image", {
+        cloudinaryId: identifier,
+        favourite: true
+      });
+      this.set("newUploadedImage", newUploadedImage);
+      this.set("userImageKeys", identifier);
+      this.send("hha");
+    },
+
+    async hha() {
+      let newUser = this.get("store").peekRecord("user", this.get("user.id"));
+      newUser.set("image", await this.saveImage());
+      newUser.save();
+      console.log("hogaya bhai");
     },
 
     changeDistrict() {

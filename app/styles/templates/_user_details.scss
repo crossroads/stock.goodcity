@@ -120,6 +120,36 @@
     position: initial;
   }
 
+  .image{
+    float: left;
+    margin-top: 0.5rem;
+    margin-right: 0.4rem;
+    text-align: center;
+    position: initial;
+    height: 6.5rem;
+    right: unset;
+    width: 30%;
+    font-size: 0.8rem;
+    z-index: 100;
+    margin-bottom: 1rem;
+
+    img{
+      width:7rem;
+      height:7rem;
+    }
+
+    @media #{$small-only} {
+      width: 45%;
+      height: 4.5rem;
+
+      img{
+        width:6.5rem;
+        height:5rem;
+      }
+    }
+
+  }
+
   .image-box {
     float: left;
     margin-top: 0.5rem;
@@ -140,6 +170,14 @@
   }
 }
 
+.inline-edit-error{
+  color: white;
+  background-color:$button-bg-hover;
+}
+.image-edit{
+  margin-top: 2rem;
+  margin-left: 6rem;
+}
 .radio-buttons {
   .radio input {
     position: absolute;

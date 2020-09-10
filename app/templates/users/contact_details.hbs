@@ -10,32 +10,43 @@
   </section>
 </nav>
 
-<section class="main-section add-user-form new-user-section ui ">
+<section class="main-section add-user-form new-user-section user-details-section ui ">
 
   <div class="row">
     <div class="small-5 columns item-label">
       {{t 'users.image'}}
     </div>
     <div class="small-7 columns">
-      {{#if user.image}}
-        <div class="image-zoom-container content user-img" >
-          {{image-zoom item=user}}
-        </div>
-      {{else}}
-      <a {{action "triggerUpload"}} class="{{unless isReady 'disabled'}}">
-        <span class="image-box">
+      <div>
+        <span class={{if user.image "image" "image-box"}}>
+           {{log user.image}}
+          {{#if user.image}}
+            {{image-zoom item=user}}
+          {{else}}
+            <i aria-hidden="true">{{fa-icon 'camera'}}</i><br />
+            {{t 'users.add_image'}}
+          {{/if}}
+        </span>
+       </div>
+     <div class="item-label image-edit">
+        <a {{action "triggerUpload"}}  class="{{unless isReady 'disabled'}}">
+      Edit
+
+        {{!-- <span class="image-box">
           {{#if newUploadedImage}}
           <img src={{newUploadedImage.thumbImageUrl}} class="thumb" />
           {{else}}
           <i aria-hidden="true">{{fa-icon 'camera'}}</i><br />
           {{t 'users.add_image'}}
           {{/if}}
-        </span>
+        </span> --}}
       </a>
       {{cloudinary-upload ready="uploadReady" progress="uploadProgress"
-       always="uploadComplete" done="uploadSuccess" submit="uploadStart"}}
-      {{/if}}
+       always="uploadComplete" done="uploadEditedImageSuccess" submit="uploadStart"}}
+       {{!-- {{action "hha"}} --}}
     </div>
+    </div>
+
   </div>
 
   <div class="row">
@@ -59,11 +70,18 @@
       {{t 'organisation.user.first_name'}}
     </div>
     <div class="small-7 columns field-container">
+      {{!-- {{#form-control}} --}}
       {{input type='text'
+        id="firstName"
         value=user.firstName
-        focusOut=(action "focusOut" "firstName" user.firstName "true")
+        focusOut=(action "focusOut" "firstName" user.firstName true)
         focusIn=(action "focusIn" "firstName" user.firstName)
       }}
+      {{log firstNameInputError}}
+      {{#if firstNameInputError}}
+       <div class='inline-edit-error'>{{t 'organisation.user.validation_error.first_name'}}</div>
+       {{/if}}
+      {{!-- {{/form-control}} --}}
     </div>
   </div>
 
@@ -71,12 +89,16 @@
     <div class="small-5 columns item-label">
       {{t 'organisation.user.last_name'}}
     </div>
-    <div class="small-7 columns field-container">
+    <div class="small-7 columns field-container ">
       {{input type='text'
+        id="lastName"
         value=user.lastName
-        focusOut=(action "focusOut" "lastName" user.lastName "true")
+        focusOut=(action "focusOut" "lastName" user.lastName true)
         focusIn=(action "focusIn" "lastName" user.lastName)
       }}
+      {{#if lastNameInputError}}
+        <div class='inline-edit-error'>{{t 'organisation.user.validation_error.family_name'}}</div>
+      {{/if}}
     </div>
   </div>
 
@@ -93,6 +115,14 @@
         focusOut=(action "focusOut" "email" user.email mobileNotPresent)
         focusIn=(action "focusIn" "email" user.email)
       }}
+
+      {{#if emailInputError}}
+        <div class='inline-edit-error'>{{t 'organisation.user.validation_error.blank_email'}}</div>
+      {{/if}}
+
+      {{#if emailValidationError}}
+        <div class='inline-edit-error'>{{t 'organisation.user.validation_error.email'}}</div>
+      {{/if}}
     </div>
   </div>
 
@@ -108,10 +138,19 @@
         value=user.mobileWithoutCountryCode
         formnovalidate="true"
         name="mobilePhone"
+        id="mobile"
         maxlength="8"
         focusIn=(action "focusIn" "mobile" user.mobileWithoutCountryCode)
         focusOut=(action "focusOut" "mobile" user.mobileWithoutCountryCode emailIdNotPresent)
         pattern=".{8,}"}}
+
+      {{#if mobileInputError}}
+        <div class='inline-edit-error'>{{t 'organisation.user.validation_error.blank_mobile_number'}}</div>
+      {{/if}}
+
+      {{#if mobileValidationError}}
+        <div class='inline-edit-error'>{{t 'organisation.user.validation_error.mobile'}}</div>
+      {{/if}}
     </div>
   </div>
 
@@ -124,9 +163,8 @@
         content=districts
         prompt="--"
         on-change=(action "changeDistrict")
-        selectedValue=user.address.district
-        value=user.address.district
-        selectArrow=false
+        selectedValue=user.associatedDistrict
+        selectArrow=true
       }}
     </div>
   </div>
@@ -148,3 +186,4 @@
     </div>
   </div>
 </section>
+{{partial "loading_image"}}
