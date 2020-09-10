@@ -51,14 +51,14 @@
       <ul class="wrapper">
         <li class="form-row">
           <label for="position">{{t 'users.charity_position.position'}}</label>
-          {{input type='text' id='position' value=position}}
+          {{input type='text' id='position' value=model.position}}
         </li>
       </ul>
 
       <ul class="wrapper">
         <li class="form-row">
           <label for="preferred_number">{{t 'users.charity_position.preferred_number'}}</label>
-          {{numeric-input value=preferredContactNumber id="preferred_number" maxlength="8" pattern=".{8,}" required='true'}}
+          {{numeric-input value=model.preferredContactNumber id="preferred_number" maxlength="8" pattern=".{8,}" required='true'}}
         </li>
       </ul>
     </div>

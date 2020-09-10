@@ -7,9 +7,12 @@ export default Ember.Controller.extend(AsyncMixin, {
   i18n: Ember.inject.service(),
 
   isInvalidPreferredNumber: Ember.computed(
-    "preferredContactNumber",
+    "model.preferredContactNumber",
     function() {
-      return this.get("preferredContactNumber").length < 8;
+      return (
+        !this.get("model.preferredContactNumber") ||
+        this.get("model.preferredContactNumber").length < 8
+      );
     }
   ),
 
@@ -30,19 +33,21 @@ export default Ember.Controller.extend(AsyncMixin, {
       ).userPickOrganisation();
       this.set("organisation", organisation);
 
-      const data = await this.get(
+      const organisationUser = this.get(
         "organisationsUserService"
       ).getOrganisationUser(organisation.get("id"), this.get("user_id"));
 
-      if (data.organisations_user) {
+      if (organisationUser) {
         this.transitionToRoute(
-          `/users/${this.get("user_id")}/charity_position?id=${
-            data.organisations_user.id
-          }`
+          `/users/${this.get(
+            "user_id"
+          )}/charity_position?id=${organisationUser.get("id")}`
         );
       } else {
         this.transitionToRoute(
-          `/users/${this.get("user_id")}/charity_position`
+          `/users/${this.get(
+            "user_id"
+          )}/charity_position?organisationId=${organisation.get("id")}`
         );
       }
     },
@@ -57,24 +62,14 @@ export default Ember.Controller.extend(AsyncMixin, {
      *    - If a model doesn't exist, then its an create operation
      */
     save() {
-      const params = {
-        organisation_id: this.get("organisation.id"),
-        user_id: this.get("user_id"),
-        position: this.get("position"),
-        status: this.get("selectedStatus.name"),
-        preferred_contact_number: this.get("preferredContactNumber")
-      };
-
+      this.set(
+        "model.user",
+        this.get("store").peekRecord("user", this.get("user_id"))
+      );
+      this.set("model.status", this.get("selectedStatus.name"));
       try {
         this.runTask(async () => {
-          if (this.get("model")) {
-            await this.get("organisationsUserService").update(
-              params,
-              this.get("model.id")
-            );
-          } else {
-            await this.get("organisationsUserService").create(params);
-          }
+          await this.get("model").save();
           this.replaceRoute("users.details", this.get("user_id"));
         }, ERROR_STRATEGIES.MODAL);
       } catch (error) {

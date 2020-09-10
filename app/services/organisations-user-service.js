@@ -1,7 +1,9 @@
+import Ember from "ember";
 import ApiBaseService from "./api-base-service";
 import _ from "lodash";
 
 export default ApiBaseService.extend({
+  store: Ember.inject.service(),
   /**
    * Fetch ALL user status.
    * Converts it to title case and a key value pair mapping
@@ -24,40 +26,11 @@ export default ApiBaseService.extend({
    * @returns {Promise}
    */
   getOrganisationUser(organisation_id, user_id) {
-    return this.GET(`/organisations_users/organisation_user`, {
-      organisation_id,
-      user_id
-    });
-  },
+    const user = this.get("store").peekRecord("user", user_id);
+    const usersOrganisations = user.get("organisationsUsers");
 
-  /**
-   * Create a new organisations_user object
-   * @param {Object} params | The organisations_user properties
-   * @param {string} params.organisation_id | The organisation_id
-   * @param {string} params.user_id | The user_id
-   * @param {string} params.position | User position
-   * @param {string} params.status | Pending, Approved, Denied, Expired
-   * @param {string} params.preferred_contact_number | Contact number
-   * @returns {<Promise>} Promise object of created object
-   */
-  create(params) {
-    return this.POST("/organisations_users", { organisations_user: params });
-  },
-
-  /**
-   * Updates an organisations_user
-   * @param {Object} params | The organisations_user properties
-   * @param {Number} id | Id of user to be updated
-   * @param {string} params.organisation_id | The organisation_id
-   * @param {string} params.user_id | The user_id
-   * @param {string} params.position | User position
-   * @param {string} params.status | Pending, Approved, Denied, Expired
-   * @param {string} params.preferred_contact_number | Contact number
-   * @returns {<Promise>} Promise object of updated object
-   */
-  update(params, id) {
-    return this.PUT(`/organisations_users/${id}`, {
-      organisations_user: params
-    });
+    return usersOrganisations.find(
+      data => +data.get("organisationId") === +organisation_id
+    );
   }
 });
