@@ -75,7 +75,7 @@
 
     <ul class="organisations-list">
       {{#each userOrganisationDetails as |detail|}}
-        <li class="row app-roles charity-role-content">
+        <li {{action 'viewCharityPosition' detail.id}} class="row app-roles charity-role-content">
           <span class="company-name">{{detail.name}}</span>
           <span class="status-icon"></span>
           <span class="status-text">{{detail.status}}

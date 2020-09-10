@@ -17,7 +17,7 @@ export default Ember.Controller.extend(AsyncMixin, {
   ),
 
   isInvalidOrganisation: Ember.computed("organisation", function() {
-    return !this.get("organisation.nameEn");
+    return !this.get("model.organisation.nameEn");
   }),
 
   actions: {
@@ -57,9 +57,7 @@ export default Ember.Controller.extend(AsyncMixin, {
     },
 
     /**
-     * Performs save or update operation based on the condition:
-     *    - If a model exist, then its an update operation
-     *    - If a model doesn't exist, then its an create operation
+     * Performs save or update operation
      */
     save() {
       this.set(

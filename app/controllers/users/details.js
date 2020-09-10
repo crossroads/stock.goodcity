@@ -8,6 +8,7 @@ export default Ember.Controller.extend({
 
     this.get("model.organisationsUsers").map(record => {
       organisationUser.push({
+        id: record.get("id"),
         status: record.get("userStatus"),
         name: this.store
           .peekRecord("organisation", record.get("organisationId"))
@@ -39,6 +40,11 @@ export default Ember.Controller.extend({
           )}/charity_position?organisationId=${organisation.get("id")}`
         );
       }
+    },
+    viewCharityPosition(id) {
+      this.transitionToRoute(
+        `/users/${this.get("model.id")}/charity_position?id=${id}`
+      );
     }
   }
 });

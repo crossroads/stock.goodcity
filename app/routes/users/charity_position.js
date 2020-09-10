@@ -54,23 +54,31 @@ export default AuthorizeRoute.extend({
   setupController(controller, model) {
     this._super(controller, model);
     controller.set("user_id", this.get("user_id"));
-    this.initializeStatus(controller, model);
     this.initializeOrganisation(controller, model);
+    this.initializeStatus(controller, model);
   },
 
   initializeOrganisation(controller, model) {
-    const data =
-      model.get("organisation") ||
-      this.store.peekRecord("gc_organisation", this.get("organisation_id"));
-    controller.set("organisation", data);
-    if (!model.get("organisation.id")) {
-      model.set(
-        "organisation",
+    // TODO: Remove gc_organisation model and use only organisation model
+
+    // Currently, the organisation search uses gc_organisation model to find records.
+    // If this model is used, then model.save will pass gc_organisation_id instead of
+    // organisation_id, which is not expected in the API.
+    if (this.get("organisation_id")) {
+      const data =
+        model.get("organisation") ||
+        this.store.peekRecord("gc_organisation", this.get("organisation_id"));
+      controller.set("organisation", data);
+
+      const orgData =
+        this.store.peekRecord("organisation", data.get("id")) ||
         this.store.createRecord("organisation", {
           nameEn: data.get("nameEn"),
           id: data.get("id")
-        })
-      );
+        });
+      if (!model.get("organisation.id")) {
+        model.set("organisation", orgData);
+      }
     }
   },
 

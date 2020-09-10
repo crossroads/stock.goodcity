@@ -34,8 +34,8 @@
         <li class="form-row">
           <label for="organisation">{{t 'users.organisation'}}</label>
           <div class="organisation-search" {{action "serchOrganisation"}}>
-            {{#if organisation}}
-              {{input type="text" id = "organisation" required='true' autocomplete='off' value=organisation.nameEn}}
+            {{#if model.organisation}}
+              {{input type="text" id = "organisation" required='true' autocomplete='off' value=model.organisation.nameEn}}
             {{else}}
               {{input type="text" id = "organisation" required='true' autocomplete='off'}}
             {{/if}}
