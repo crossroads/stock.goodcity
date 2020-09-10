@@ -14,6 +14,16 @@
 </nav>
 
 <section class="user-details-section role-access-form">
+
+  {{#unless canUpdateRole}}
+    <div class="row">
+      <div class="roles-error">
+        <i>{{fa-icon 'exclamation-triangle'}}</i>
+        <span>Sorry, you are not authorised to update roles for this user.</span>
+      </div>
+    </div>
+  {{/unless}}
+
   <div class="{{unless canUpdateRole 'disabled-form'}}">
     <div class="row">
       <div class="columns small-12">
