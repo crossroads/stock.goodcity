@@ -6,9 +6,7 @@ export default Ember.Controller.extend({
   apiBaseService: Ember.inject.service(),
   userService: Ember.inject.service(),
 
-  appRoles: ["Reviewer", "Supervisor"],
   selectedPrinterId: "",
-
   user: Ember.computed.alias("model.user"),
   noAdminAppAccess: Ember.computed.equal("adminRoleAccess", "noAccess"),
 
@@ -20,19 +18,18 @@ export default Ember.Controller.extend({
     return this.get("userService").canUpdateRole(this.get("user.id"));
   }),
 
-  selectedPrinterDisplay: Ember.computed("model.user.id", "selectedPrinterId", {
-    get() {
+  selectedPrinterDisplay: Ember.computed(
+    "model.user.id",
+    "selectedPrinterId",
+    function() {
       const printerId = this.get("selectedPrinterId");
       return this.get("userService").getPrinterForUser(
         this.get("user"),
         printerId,
         "admin"
       );
-    },
-    set(_, value) {
-      return value;
     }
-  }),
+  ),
 
   roleError: Ember.computed("noAdminAppRole", "adminRoleAccess", function() {
     return (
@@ -61,35 +58,29 @@ export default Ember.Controller.extend({
     }
   }),
 
-  roleExpiryDate: Ember.computed("user.userRoles.[]", {
-    get() {
-      let date = this.get("userService").getRoleExpiryDate(
-        this.get("user"),
-        this.get("appRoles")
-      );
-      return date ? moment(date).format("DD/MMM/YYYY") : "";
-    },
-    set(_, value) {
-      return value;
+  observeExpiryDate: Ember.observer("roleExpiryDate", function() {
+    if (
+      this.get("roleExpiryDate") &&
+      this.get("adminRoleAccess") !== "accessTill"
+    ) {
+      this.set("adminRoleAccess", "accessTill");
     }
   }),
 
-  hasReviewerRole: Ember.computed("user.roles.[]", {
-    get() {
-      return this.get("userService").hasRole(this.get("user"), "Reviewer");
-    },
-    set(_, value) {
-      return value;
-    }
+  roleExpiryDate: Ember.computed("user.userRoles.[]", function() {
+    let date = this.get("userService").getRoleExpiryDate(
+      this.get("user"),
+      "admin"
+    );
+    return date ? moment(date).format("DD/MMM/YYYY") : "";
   }),
 
-  hasSupervisorRole: Ember.computed("user.roles.[]", {
-    get() {
-      return this.get("userService").hasRole(this.get("user"), "Supervisor");
-    },
-    set(_, value) {
-      return value;
-    }
+  hasReviewerRole: Ember.computed("user.roles.[]", function() {
+    return this.get("userService").hasRole(this.get("user"), "Reviewer");
+  }),
+
+  hasSupervisorRole: Ember.computed("user.roles.[]", function() {
+    return this.get("userService").hasRole(this.get("user"), "Supervisor");
   }),
 
   noAdminAppRole: Ember.computed(

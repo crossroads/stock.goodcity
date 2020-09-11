@@ -30,7 +30,8 @@ export default ApiBaseService.extend({
       .get("id");
   },
 
-  getRoleExpiryDate(user, roles) {
+  getRoleExpiryDate(user, app) {
+    let roles = app == "admin" ? this.adminAppRoles : this.stockAppRoles;
     let expiryDates = user
       .get("activeUserRoles")
       .filter(
@@ -43,8 +44,7 @@ export default ApiBaseService.extend({
   },
 
   getRoleAccessText(user, app) {
-    let roles = app == "admin" ? this.adminAppRoles : this.stockAppRoles;
-    let expiryDate = this.getRoleExpiryDate(user, roles);
+    let expiryDate = this.getRoleExpiryDate(user, app);
     let hasNoRole =
       app == "admin"
         ? this.hasNoAdminAppRole(user)

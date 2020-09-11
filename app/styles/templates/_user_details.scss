@@ -154,14 +154,16 @@
       font-size: 0.8rem;
       margin-left: 0.8rem;
       color: $white;
+    }
 
-      i {
-        vertical-align: middle;
-        margin-left: 0.2rem;
+    i {
+      vertical-align: middle;
+      margin-left: 0.2rem;
 
-        &.calendar-icon {
-          margin-left: -1rem;
-        }
+      &.calendar-icon {
+        margin-left: -1.2rem;
+        color: white;
+        font-size: 0.8rem;
       }
     }
 
@@ -214,7 +216,6 @@
 
     input {
       padding: 0.2rem 0.5rem !important;
-      margin-left: 0.5rem !important;
       width: 7rem;
       margin-top: 0 !important;
 

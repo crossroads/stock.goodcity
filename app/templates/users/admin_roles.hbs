@@ -54,20 +54,20 @@
               selection=adminRoleAccess
               required='true'}}
           <label class="radio-button-text align-text" for="accessTill">
-              <div class="label-position">
-                Access Until
-                <div class="calendar_input ui">
-                  {{calendar-input
-                    name='role_expiry_date'
-                    id='role_expiry_date'
-                    value=roleExpiryDate
-                    formatSubmit="dd/mmm/yyyy"
-                    enablePastDate=false
-                    selection=roleExpiryDate}}
-                </div>
-                <i class="calendar-icon">{{fa-icon "calendar-check"}}</i>
-              </div>
+            <div class="label-position">
+              Access Until
+            </div>
           </label>
+          <div class="calendar_input ui">
+            {{calendar-input
+              name='role_expiry_date'
+              id='role_expiry_date'
+              value=roleExpiryDate
+              formatSubmit="dd/mmm/yyyy"
+              enablePastDate=false
+              selection=roleExpiryDate}}
+          </div>
+          <i class="calendar-icon">{{fa-icon "calendar-check"}}</i>
         </div>
 
         <div class="custom_radio_buttons" for="admin_role_access">

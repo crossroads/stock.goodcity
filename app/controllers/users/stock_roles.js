@@ -6,14 +6,7 @@ export default Ember.Controller.extend({
   apiBaseService: Ember.inject.service(),
   userService: Ember.inject.service(),
 
-  appRoles: [
-    "Stock administrator",
-    "Stock fulfilment",
-    "Order administrator",
-    "Order fulfilment"
-  ],
   selectedPrinterId: "",
-
   user: Ember.computed.alias("model.user"),
   noStockAppAccess: Ember.computed.equal("stockRoleAccess", "noAccess"),
 
@@ -25,19 +18,18 @@ export default Ember.Controller.extend({
     return this.get("userService").canUpdateRole(this.get("user.id"));
   }),
 
-  selectedPrinterDisplay: Ember.computed("model.user.id", "selectedPrinterId", {
-    get() {
+  selectedPrinterDisplay: Ember.computed(
+    "model.user.id",
+    "selectedPrinterId",
+    function() {
       const printerId = this.get("selectedPrinterId");
       return this.get("userService").getPrinterForUser(
         this.get("user"),
         printerId,
         "stock"
       );
-    },
-    set(_, value) {
-      return value;
     }
-  }),
+  ),
 
   roleError: Ember.computed("noStockAppRole", "stockRoleAccess", function() {
     return (
@@ -66,65 +58,49 @@ export default Ember.Controller.extend({
     }
   }),
 
-  roleExpiryDate: Ember.computed("user.userRoles.[]", {
-    get() {
-      let date = this.get("userService").getRoleExpiryDate(
-        this.get("user"),
-        this.get("appRoles")
-      );
-      return date ? moment(date).format("DD/MMM/YYYY") : "";
-    },
-    set(_, value) {
-      return value;
+  observeExpiryDate: Ember.observer("roleExpiryDate", function() {
+    if (
+      this.get("roleExpiryDate") &&
+      this.get("stockRoleAccess") !== "accessTill"
+    ) {
+      this.set("stockRoleAccess", "accessTill");
     }
   }),
 
-  hasStockAdministratorRole: Ember.computed("user.roles.[]", {
-    get() {
-      return this.get("userService").hasRole(
-        this.get("user"),
-        "Stock administrator"
-      );
-    },
-    set(_, value) {
-      return value;
-    }
+  roleExpiryDate: Ember.computed("user.userRoles.[]", function() {
+    let date = this.get("userService").getRoleExpiryDate(
+      this.get("user"),
+      "stock"
+    );
+    return date ? moment(date).format("DD/MMM/YYYY") : "";
   }),
 
-  hasStockFulfilmentRole: Ember.computed("user.roles.[]", {
-    get() {
-      return this.get("userService").hasRole(
-        this.get("user"),
-        "Stock fulfilment"
-      );
-    },
-    set(_, value) {
-      return value;
-    }
+  hasStockAdministratorRole: Ember.computed("user.roles.[]", function() {
+    return this.get("userService").hasRole(
+      this.get("user"),
+      "Stock administrator"
+    );
   }),
 
-  hasOrderAdministratorRole: Ember.computed("user.roles.[]", {
-    get() {
-      return this.get("userService").hasRole(
-        this.get("user"),
-        "Order administrator"
-      );
-    },
-    set(_, value) {
-      return value;
-    }
+  hasStockFulfilmentRole: Ember.computed("user.roles.[]", function() {
+    return this.get("userService").hasRole(
+      this.get("user"),
+      "Stock fulfilment"
+    );
   }),
 
-  hasOrderFulfilmentRole: Ember.computed("user.roles.[]", {
-    get() {
-      return this.get("userService").hasRole(
-        this.get("user"),
-        "Order fulfilment"
-      );
-    },
-    set(_, value) {
-      return value;
-    }
+  hasOrderAdministratorRole: Ember.computed("user.roles.[]", function() {
+    return this.get("userService").hasRole(
+      this.get("user"),
+      "Order administrator"
+    );
+  }),
+
+  hasOrderFulfilmentRole: Ember.computed("user.roles.[]", function() {
+    return this.get("userService").hasRole(
+      this.get("user"),
+      "Order fulfilment"
+    );
   }),
 
   noStockAppRole: Ember.computed(
