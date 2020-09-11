@@ -25,6 +25,7 @@ export default {
   search_no_results: "對不起，沒有搜尋結果",
   version: "Stock v.",
   organisation_title: "機構",
+  add: "+Add",
   save: "儲存",
   details: "詳情",
   orders_in_process: "Orders In Process",
@@ -639,6 +640,22 @@ export default {
     name: "姓名",
     description: "機構概要",
     registration: "註冊編號",
+    name_en: "Name EN",
+    name_zh_tw: "Name ZH",
+    description_en: "Description EN",
+    description_zh_tw: "Description ZH",
+    new: "New Organisation",
+    registration: "Registration",
+    website: "Website",
+    country: "Country",
+    type: "Type",
+    cancel_warning:
+      "You will lose all your data. Are you sure you want to cancel this?",
+    validation_error: {
+      name: "Name cannot be blank.",
+      country: "Country cannot be blank.",
+      website: "Website format invalid."
+    },
     user: {
       first_name: "名",
       last_name: "姓",

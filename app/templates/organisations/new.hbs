@@ -1,28 +1,31 @@
-{{partial 'organisations/nav_bar'}}
+<div class="organisation-page">
 
-<section class="main-section">
-  {{partial 'organisations/organisation_tabs'}}
+  <div class="header-container">
+    <h2>
+      {{t 'organisation.new'}}
+    </h2>
+  </div>
 
-  <div class="organisation-page">
+  {{#validatable-form onSubmit=(action 'createOrganisation') as |form| }}
     <div class="form-container">
-      <ul class="wrapper">
-        <li class="form-row">
-          <label for="name_en">{{t 'organisation.name_en'}}</label>
-          {{input type="text" focusOut=(action 'updateOrganisation') autocomplete='off' value=model.nameEn autoComplete=false}}
-        </li>
-      </ul>
-      {{#if (is-and isInValidNameEn showError)}}
-        <div class="error-wrapper">
-          <div class='error-message'>{{t 'organisation.validation_error.name'}}</div>
-        </div>
-      {{/if}}
+        <ul class="wrapper">
+          <li class="form-row">
+            <label for="name_en">{{t 'organisation.name_en'}}</label>
+            {{input type="text" autocomplete='off' value=name_en autoComplete=false}}
+          </li>
+        </ul>
+        {{#if (is-and isInValidNameEn showError)}}
+          <div class="error-wrapper">
+              <div class='error-message'>{{t 'organisation.validation_error.name'}}</div>
+          </div>
+        {{/if}}
     </div>
 
     <div class="form-container">
       <ul class="wrapper">
         <li class="form-row">
           <label for="name_zh_tw">{{t 'organisation.name_zh_tw'}}</label>
-          {{input type="text" focusOut=(action 'updateOrganisation') autocomplete='off' value=model.nameZhTw autoComplete=false}}
+          {{input type="text" autocomplete='off' value=name_zh_tw autoComplete=false}}
         </li>
       </ul>
     </div>
@@ -33,10 +36,9 @@
           <label for="name_zh">{{t 'organisation.type'}}</label>
           <div class="organisation-type">
             {{select-list
-              on-change=(action 'updateOrganisationType')
+              on-change=(action 'changeOrganisationType')
               content=organisationTypes
               value=selectedOrganisationType
-              selectedValue=selectedOrganisationType
               classNames='condition'
               idNames='condition-select' }}
           </div>
@@ -49,7 +51,7 @@
         <li class="form-row">
           <label for="description_en">{{t 'organisation.description_en'}}</label>
           <div class="description">
-            {{auto-resize-textarea data-autoresize=true name="description_en" value=model.descriptionEn focusOut=(action 'updateOrganisation') pattern=".*\S.*"}}
+            {{auto-resize-textarea data-autoresize=true name="description_en" value=description_en pattern=".*\S.*"}}
           </div>
         </li>
       </ul>
@@ -58,9 +60,9 @@
     <div class="form-container">
       <ul class="wrapper">
         <li class="form-row">
-          <label for="description_zh_tw">{{t 'organisation.description_zh_tw'}}</label>
+          <label for="description_zh">{{t 'organisation.description_zh_tw'}}</label>
           <div class="description">
-            {{auto-resize-textarea data-autoresize=true name="description_en" value=model.descriptionZhTw focusOut=(action 'updateOrganisation') pattern=".*\S.*"}}
+            {{auto-resize-textarea data-autoresize=true name="description_zh_tw" value=description_zh_tw pattern=".*\S.*"}}
           </div>
         </li>
       </ul>
@@ -70,7 +72,7 @@
       <ul class="wrapper">
         <li class="form-row">
           <label for="registration">{{t 'organisation.registration'}}</label>
-          {{input type="text" focusOut=(action 'updateOrganisation') autocomplete='off' value=model.registration autoComplete=false}}
+          {{input type="text" autocomplete='off' value=registration autoComplete=false}}
         </li>
       </ul>
     </div>
@@ -79,10 +81,10 @@
       <ul class="wrapper">
         <li class="form-row">
           <label for="website">{{t 'organisation.website'}}</label>
-          {{input type="text" focusOut=(action 'updateOrganisation') autocomplete='off' value=model.website autoComplete=false}}
+          {{input type="text" autocomplete='off' value=website autoComplete=false}}
         </li>
       </ul>
-      {{#if (is-and isInValidWebsite showError)}}
+      {{#if isInValidWebsite}}
         <div class="error-wrapper">
           <div class='error-message'>{{t 'organisation.validation_error.website'}}</div>
         </div>
@@ -99,7 +101,7 @@
               sortBy="name"
               optionLabelKey="nameEn"
               selected=country
-              on-change=(action "updateCountry")
+              on-change=(action "setCountryValue")
               isClearable=false
               prompt=""
               on-search=(action "onSearch" "country")}}
@@ -112,5 +114,19 @@
         </div>
       {{/if}}
     </div>
-  </div>
-</section>
+
+    <div class="button-container">
+      <div class="button-wrapper">
+        <a {{action 'cancel'}}  class="button secondary expand">{{t "cancel"}}</a>
+      </div>
+      <div class="button-wrapper">
+        <a {{action 'submit' target=form}} class="button expand">
+          {{t "save"}}
+        </a>
+      </div>
+    </div>
+
+  {{/validatable-form}}
+</div>
+
+{{partial "loading_image"}}

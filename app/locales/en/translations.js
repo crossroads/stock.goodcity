@@ -28,6 +28,7 @@ export default {
   search_no_results: "Sorry, No results found.",
   version: "Stock v.",
   organisation_title: "Organisation",
+  add: "+Add",
   save: "Save",
   details: "Details",
   orders: "Orders",
@@ -664,6 +665,24 @@ export default {
     name: "Name",
     description: "Description",
     registration: "Registration",
+
+    name_en: "Name EN",
+    name_zh_tw: "Name ZH",
+    description_en: "Description EN",
+    description_zh_tw: "Description ZH",
+    new: "New Organisation",
+    registration: "Registration",
+    website: "Website",
+    country: "Country",
+    type: "Type",
+    cancel_warning:
+      "You will lose all your data. Are you sure you want to cancel this?",
+    validation_error: {
+      name: "Name cannot be blank.",
+      country: "Country cannot be blank.",
+      website: "Website format invalid."
+    },
+
     user: {
       first_name: "First Name",
       last_name: "Family Name",
