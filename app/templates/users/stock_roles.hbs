@@ -8,7 +8,7 @@
 
   <section class="middle tab-bar-section">
     <h1 class="title">
-      Stock App Details
+      {{t "users.roles.stock_app_details"}}
     </h1>
   </section>
 </nav>
@@ -19,7 +19,7 @@
     <div class="row">
       <div class="roles-error">
         <i>{{fa-icon 'exclamation-triangle'}}</i>
-        <span>Sorry, you are not authorised to update roles for this user.</span>
+        <span>{{t "users.roles.unauthorised_error"}}</span>
       </div>
     </div>
   {{/unless}}
@@ -29,7 +29,7 @@
       <div class="columns small-12">
 
         <div class="access-heading">
-          Access Status for {{user.fullName}}
+          {{t "users.roles.access_status_for"}} {{user.fullName}}
         </div>
 
         <div class="custom_radio_buttons" for="stock_role_access">
@@ -41,7 +41,7 @@
             required='true'}}
           <label class="radio-button-text align-text" for="noAccess">
             <div class="label-position">
-              No Access
+              {{t "users.roles.no_access"}}
               <i>{{fa-icon "times-circle"}}</i>
             </div>
           </label>
@@ -56,7 +56,7 @@
               required='true'}}
           <label class="radio-button-text align-text" for="accessTill">
             <div class="label-position">
-              Access Until
+              {{t "users.roles.access_until"}}
             </div>
           </label>
           <div class="calendar_input ui">
@@ -80,7 +80,7 @@
                 required='true'}}
           <label class="radio-button-text align-text" for="accessForever">
             <div class="label-position">
-              Access Forever
+              {{t "users.roles.access_forever"}}
               <i>{{fa-icon "check-circle"}}</i>
             </div>
           </label>
@@ -93,15 +93,15 @@
         <div class="columns small-12 roles-selection">
 
           <div class="access-heading">
-            Role assigned for processing orders
+            {{t "users.roles.role_for_orders"}}
           </div>
 
           <div class="time_inputs id-type-radio-input row">
             <div class='custom_radio_buttons small-12 columns'>
               {{input type="checkbox" name="labor" checked=hasOrderFulfilmentRole id='order_fulfilment_role'}}
               <label class="checkbox-left" for='order_fulfilment_role'>
-                Order Fulfilment
-                <div class="role-info"> This role is for reviewing orders.</div>
+                {{t "users.roles.order_fulfilment_role"}}
+                <div class="role-info"> {{t "users.roles.order_fulfilment_role_info"}}</div>
               </label>
             </div>
           </div>
@@ -110,8 +110,8 @@
             <div class='custom_radio_buttons small-12 columns'>
               {{input type="checkbox" name="labor" checked=hasOrderAdministratorRole id='order_administrator_role'}}
               <label class="checkbox-left" for='order_administrator_role'>
-                Order Administrator
-                <div class="role-info"> This role is for managing orders.</div>
+                {{t "users.roles.order_administrator_role"}}
+                <div class="role-info"> {{t "users.roles.order_administrator_role_info"}}</div>
               </label>
             </div>
           </div>
@@ -123,15 +123,15 @@
         <div class="columns small-12 roles-selection">
 
           <div class="access-heading">
-            Role assigned for processing stock
+            {{t "users.roles.role_for_stock"}}
           </div>
 
           <div class="time_inputs id-type-radio-input row">
             <div class='custom_radio_buttons small-12 columns'>
               {{input type="checkbox" name="labor" checked=hasStockFulfilmentRole id='stock_fulfilment_role'}}
               <label class="checkbox-left" for='stock_fulfilment_role'>
-                Stock Fulfilment
-                <div class="role-info"> This role is for reviewing stock items.</div>
+                {{t "users.roles.stock_fulfilment_role"}}
+                <div class="role-info"> {{t "users.roles.stock_fulfilment_role_info"}}</div>
               </label>
             </div>
           </div>
@@ -140,8 +140,8 @@
             <div class='custom_radio_buttons small-12 columns'>
               {{input type="checkbox" name="labor" checked=hasStockAdministratorRole id='stock_administrator_role'}}
               <label class="checkbox-left" for='stock_administrator_role'>
-                Stock Administrator
-                <div class="role-info"> This role is for managing stock items.</div>
+                {{t "users.roles.stock_administrator_role"}}
+                <div class="role-info"> {{t "users.roles.stock_administrator_role_info"}}</div>
               </label>
             </div>
           </div>
@@ -153,7 +153,7 @@
         <div class="row">
           <div class="roles-error">
             <i>{{fa-icon 'exclamation-triangle'}}</i>
-            <span>Access to Stock App requires at least one role to be assigned.</span>
+            <span>{{t "users.roles.stock_role_error"}}</span>
           </div>
         </div>
       {{/if}}
@@ -165,7 +165,7 @@
       <div class="columns small-8 printer-selection ui">
 
         <div class="printer-heading">
-          Preferred Label Printer in Stock App
+          {{t "users.roles.stock_printer_label"}}
         </div>
 
         {{select-list

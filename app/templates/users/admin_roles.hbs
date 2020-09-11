@@ -8,7 +8,7 @@
 
   <section class="middle tab-bar-section">
     <h1 class="title">
-      Admin App Details
+      {{t "users.roles.admin_app_details"}}
     </h1>
   </section>
 </nav>
@@ -18,7 +18,7 @@
     <div class="row">
       <div class="roles-error">
         <i>{{fa-icon 'exclamation-triangle'}}</i>
-        <span>Sorry, you are not authorised to update roles for this user.</span>
+        <span>{{t "users.roles.unauthorised_error"}}</span>
       </div>
     </div>
   {{/unless}}
@@ -28,7 +28,7 @@
       <div class="columns small-12">
 
         <div class="access-heading">
-          Access Status for {{user.fullName}}
+          {{t "users.roles.access_status_for"}} {{user.fullName}}
         </div>
 
         <div class="custom_radio_buttons" for="admin_role_access">
@@ -40,7 +40,7 @@
             required='true'}}
           <label class="radio-button-text align-text" for="noAccess">
             <div class="label-position">
-              No Access
+              {{t "users.roles.no_access"}}
               <i>{{fa-icon "times-circle"}}</i>
             </div>
           </label>
@@ -55,7 +55,7 @@
               required='true'}}
           <label class="radio-button-text align-text" for="accessTill">
             <div class="label-position">
-              Access Until
+              {{t "users.roles.access_until"}}
             </div>
           </label>
           <div class="calendar_input ui">
@@ -79,7 +79,7 @@
                 required='true'}}
           <label class="radio-button-text align-text expiry-date" for="accessForever">
               <div class="label-position">
-                Access Forever
+                {{t "users.roles.access_forever"}}
                 <i>{{fa-icon "check-circle"}}</i>
               </div>
           </label>
@@ -92,15 +92,15 @@
         <div class="columns small-12 roles-selection">
 
           <div class="access-heading">
-            Role assigned for processing offers
+            {{t "users.roles.roles_for_offers"}}
           </div>
 
           <div class="time_inputs id-type-radio-input row">
             <div class='custom_radio_buttons small-12 columns'>
               {{input type="checkbox" name="labor" checked=hasReviewerRole id='reviewer_role'}}
               <label class="checkbox-left" for='reviewer_role'>
-                Reviewer
-                <div class="role-info"> This role is for reviewing offers.</div>
+                {{t "users.roles.reviewer"}}
+                <div class="role-info">{{t "users.roles.reviewer_role_info"}}</div>
               </label>
             </div>
           </div>
@@ -109,8 +109,8 @@
             <div class='custom_radio_buttons small-12 columns'>
               {{input type="checkbox" name="labor" checked=hasSupervisorRole id='supervisor_role'}}
               <label class="checkbox-left" for='supervisor_role'>
-                Supervisor
-                <div class="role-info"> This role is for managing offers.</div>
+                {{t "users.roles.supervisor"}}
+                <div class="role-info">{{t "users.roles.supervisor_role_info"}}</div>
               </label>
             </div>
           </div>
@@ -122,7 +122,7 @@
         <div class="row">
           <div class="roles-error">
             <i>{{fa-icon 'exclamation-triangle'}}</i>
-            <span>Access to Admin App requires at least one role to be assigned.</span>
+            <span>{{t "users.roles.admin_role_error"}}</span>
           </div>
         </div>
       {{/if}}
@@ -134,7 +134,7 @@
       <div class="columns small-8 printer-selection ui">
 
         <div class="printer-heading">
-          Preferred Label Printer in Admin App
+          {{t "users.roles.admin_printer_label"}}
         </div>
 
         {{select-list
