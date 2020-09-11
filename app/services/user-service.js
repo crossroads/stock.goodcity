@@ -35,10 +35,9 @@ export default ApiBaseService.extend({
     let expiryDates = user
       .get("activeUserRoles")
       .filter(
-        row =>
-          _.includes(roles, row.get("role.name")) && !!row.get("expiryDate")
+        row => _.includes(roles, row.get("role.name")) && !!row.get("expiresAt")
       )
-      .map(row => row.get("expiryDate"));
+      .map(row => row.get("expiresAt"));
 
     return _.max(expiryDates);
   },
@@ -114,7 +113,7 @@ export default ApiBaseService.extend({
       user_role: {
         role_id: +roleId,
         user_id: +userId,
-        expiry_date: date
+        expires_at: date
       }
     }).then(data => this.get("store").pushPayload(data));
   },

@@ -31,13 +31,13 @@ export default Addressable.extend({
 
   activeUserRoles: Ember.computed(
     "userRoles.[]",
-    "userRoles.@each.expiryDate",
+    "userRoles.@each.expiresAt",
     function() {
       return this.get("userRoles").filter(
         userRole =>
-          !userRole.get("expiryDate") ||
-          (userRole.get("expiryDate") &&
-            moment.tz(userRole.get("expiryDate"), "Asia/Hong_Kong").isAfter())
+          !userRole.get("expiresAt") ||
+          (userRole.get("expiresAt") &&
+            moment.tz(userRole.get("expiresAt"), "Asia/Hong_Kong").isAfter())
       );
     }
   ),

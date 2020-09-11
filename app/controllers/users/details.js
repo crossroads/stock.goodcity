@@ -6,7 +6,7 @@ export default Ember.Controller.extend({
   user: Ember.computed.alias("model"),
 
   adminRoleAccess: Ember.computed(
-    "user.activeRoles.@each.expiryDate",
+    "user.activeRoles.@each.expiresAt",
     function() {
       return this.get("userService").getRoleAccessText(
         this.get("user"),
@@ -16,7 +16,7 @@ export default Ember.Controller.extend({
   ),
 
   stockRoleAccess: Ember.computed(
-    "user.activeRoles.@each.expiryDate",
+    "user.activeRoles.@each.expiresAt",
     function() {
       return this.get("userService").getRoleAccessText(
         this.get("user"),

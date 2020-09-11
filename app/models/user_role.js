@@ -5,7 +5,7 @@ import { belongsTo } from "ember-data/relationships";
 export default Model.extend({
   userId: attr("number"),
   roleId: attr("number"),
-  expiryDate: attr("date"),
+  expiresAt: attr("date"),
 
   user: belongsTo("user", { async: false }),
   role: belongsTo("role", { async: false })
