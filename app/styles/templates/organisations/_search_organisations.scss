@@ -1,59 +1,87 @@
-.organisations_search {
-  input {
-    width: 98%;
+.organisations_search_section {
+  .organisation_search_container {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    height: 3rem;
+    border-bottom: 1px solid;
+    position: fixed;
+    width: 100%;
   }
-  a {
-    text-decoration: none;
-    top: 0.5rem;
-    margin-left: 0;
-    margin-right: -1rem;
 
-    @media #{$small-only} {
-      top: 0.6rem;
-      margin-top: 0.8rem;
+  .search-box-container {
+    position: fixed;
+    margin-top: 3rem;
+  }
+
+  .search-box {
+    background: none;
+  }
+
+  .organisations_search {
+    $text-color: rgba(0, 0, 0, 0.75);
+    $background-color: #fff;
+
+    input {
+      width: 90%;
+      border-radius: 0px;
+      background-color: $background-color !important;
+      color: $text-color !important;
     }
-  }
 
-  .back_icon {
-    position: static;
-    color: #a3aab6;
-    font-size: 1rem;
-    vertical-align: bottom;
-    padding: 0;
-    padding-right: 0.2rem;
+    a {
+      text-decoration: none;
+      top: 0.5rem;
+      margin-left: 0;
+      margin-right: -1rem;
 
-    @media #{$small-only} {
+      @media #{$small-only} {
+        top: 0.6rem;
+        margin-top: 0.8rem;
+      }
+    }
+
+    .back_icon {
+      position: static;
+      color: #a3aab6;
       font-size: 1rem;
+      vertical-align: bottom;
+      padding: 0;
+      padding-right: 0.2rem;
+
+      @media #{$small-only} {
+        font-size: 1rem;
+      }
+    }
+
+    .back_text {
+      display: inline-block;
+      text-decoration: none;
+      font-size: 1.2rem;
+
+      @media #{$small-only} {
+        font-size: 0.7rem;
+        vertical-align: baseline;
+      }
+    }
+
+    .fa-times-circle {
+      right: 3%;
+      @media #{$small-only} {
+        right: 1%;
+      }
     }
   }
 
-  .back_text {
-    display: inline-block;
-    text-decoration: none;
-    font-size: 1.2rem;
-
-    @media #{$small-only} {
-      font-size: 0.7rem;
-      vertical-align: baseline;
-    }
+  .organisation_search_result {
+    padding-top: 5rem;
   }
 
-  .fa-times-circle {
-    right: 3%;
-    @media #{$small-only} {
-      right: 1%;
+  .organisation_orders {
+    padding-top: 0;
+
+    .search {
+      margin-top: 0;
     }
-  }
-}
-
-.organisation_search_result{
-  padding-top: 3rem;
-}
-
-.organisation_orders {
-  padding-top: 0;
-
-  .search {
-    margin-top: 0;
   }
 }
