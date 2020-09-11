@@ -45,7 +45,7 @@
     flex: 2;
     cursor: default;
     @media #{$small-only} {
-      font-size: 13px;
+      font-size: 0.7rem;
     }
   }
   .form-row > input,
@@ -59,9 +59,9 @@
 
     .form-container {
       label {
-        font-size: 18px;
+        font-size: 1.2rem;
         @media #{$small-only} {
-          font-size: 13px;
+          font-size: 0.7rem;
         }
       }
 
@@ -73,9 +73,9 @@
           background-color: $background-color !important;
           color: white;
           border: 1px solid $input-border!important;
-          font-size: 18px;
+          font-size: 1.2rem;
           @media #{$small-only} {
-            font-size: 13px;
+            font-size: 0.7rem;
           }
         }
       }
@@ -92,7 +92,7 @@
           color: white;
           border: 1px solid $input-border!important;
           @media #{$small-only} {
-            font-size: 13px;
+            font-size: 0.7rem;
           }
         }
       }
@@ -104,9 +104,9 @@
         }
         width: 66%;
         .Searchable-select {
-          font-size: 18px;
+          font-size: 1.2rem;
           @media #{$small-only} {
-            font-size: 13px;
+            font-size: 0.7rem;
           }
         }
         .Searchable-select__search{
