@@ -3,6 +3,7 @@ import Ember from "ember";
 import SearchOptionMixin from "stock/mixins/search_option";
 import GoodcityController from "../goodcity_controller";
 import AsyncMixin from "stock/mixins/async";
+import { regex } from "stock/constants/regex";
 
 export default GoodcityController.extend(SearchOptionMixin, AsyncMixin, {
   organisationService: Ember.inject.service(),
@@ -24,9 +25,7 @@ export default GoodcityController.extend(SearchOptionMixin, AsyncMixin, {
   }),
 
   isInValidWebsite: Ember.computed("website", function() {
-    const websiteRegEx = new RegExp(
-      `^(www\.|https?:\/\/(www\.)?)[a-zA-Z0-9-]+\.[a-zA-Z]+\.?[a-zA-Z0-9-#.]*[a-z]$`
-    );
+    const websiteRegEx = new RegExp(regex.WEBSITE_REGEX);
 
     return this.get("website") && !this.get("website").match(websiteRegEx);
   }),
@@ -45,7 +44,6 @@ export default GoodcityController.extend(SearchOptionMixin, AsyncMixin, {
         !this.get("isInValidCountry") &&
         !this.get("isInValidWebsite")
       ) {
-        this.showLoadingSpinner();
         const organisation = {
           name_en: this.get("name_en"),
           name_zh_tw: this.get("name_zh_tw"),
@@ -56,13 +54,11 @@ export default GoodcityController.extend(SearchOptionMixin, AsyncMixin, {
           country_id: this.get("country.id"),
           organisation_type_id: this.get("selectedOrganisationType").id
         };
+        this.runTask(async () => {
+          const data = await this.get("organisationService");
 
-        this.get("organisationService")
-          .create(organisation)
-          .then(data => {
-            this.replaceRoute("organisations.detail", data.organisation.id);
-            this.hideLoadingSpinner();
-          });
+          this.replaceRoute("organisations.detail", data.organisation.id);
+        });
       } else {
         this.set("showError", true);
       }

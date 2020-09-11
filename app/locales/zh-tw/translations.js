@@ -25,6 +25,7 @@ export default {
   search_no_results: "對不起，沒有搜尋結果",
   version: "Stock v.",
   organisation_title: "機構",
+  add: "+Add",
   save: "儲存",
   details: "詳情",
   orders_in_process: "Orders In Process",

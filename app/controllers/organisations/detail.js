@@ -2,6 +2,7 @@ import Ember from "ember";
 
 import SearchOptionMixin from "stock/mixins/search_option";
 import AsyncMixin, { ERROR_STRATEGIES } from "stock/mixins/async";
+import { regex } from "stock/constants/regex";
 
 export default Ember.Controller.extend(SearchOptionMixin, AsyncMixin, {
   organisationService: Ember.inject.service(),
@@ -17,9 +18,7 @@ export default Ember.Controller.extend(SearchOptionMixin, AsyncMixin, {
   }),
 
   isInValidWebsite: Ember.computed("model.website", function() {
-    const websiteRegEx = new RegExp(
-      `^(www\.|https?:\/\/(www\.)?)[a-zA-Z0-9-]+\.[a-zA-Z]+\.?[a-zA-Z0-9-#.]*[a-z]$`
-    );
+    const websiteRegEx = new RegExp(regex.WEBSITE_REGEX);
 
     return (
       this.get("model.website") &&
