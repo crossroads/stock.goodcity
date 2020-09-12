@@ -6,7 +6,7 @@
   {{/link-to}}
   </section>
   <section class="middle tab-bar-section">
-    <h1 class="title">{{t 'organisation.contact_details'}}</h1>
+    <h1 class="title">{{t 'users.contact_details'}}</h1>
   </section>
 </nav>
 
@@ -41,7 +41,7 @@
           </div>
           <div class="delete-image">
             <a {{action "deleteImage"}} >
-              Delete Image
+              {{t 'users.delete_image'}}
             </a>
           </div>
         {{/if}}
@@ -51,7 +51,7 @@
 
   <div class="row">
     <div class="small-5 columns item-label">
-      {{t 'order.title'}}
+      {{t 'users.title'}}
     </div>
     <div class="small-7 columns field-container title-select">
       {{inline-select-list
@@ -68,7 +68,7 @@
 
   <div class="row">
     <div class="small-5 columns item-label">
-      {{t 'organisation.user.first_name'}}
+      {{t 'users.first_name'}}
     </div>
     <div class="small-7 columns field-container">
       {{!-- {{#form-control}} --}}
@@ -89,7 +89,7 @@
 
   <div class="row">
     <div class="small-5 columns item-label">
-      {{t 'organisation.user.last_name'}}
+      {{t 'users.last_name'}}
     </div>
     <div class="small-7 columns field-container ">
       {{input type='text'
@@ -107,7 +107,7 @@
 
   <div class="row">
     <div class="small-5 columns item-label">
-      {{t 'organisation.user.email'}}
+      {{t 'users.email'}}
     </div>
     <div class="small-7 columns field-container">
       {{input type="email"
@@ -132,7 +132,7 @@
 
   <div class="row mobile">
     <div class="small-5 columns item-label">
-      {{t 'organisation.user.mobile'}}
+      {{t 'users.mobile'}}
     </div>
     <div class="small-1 columns ui dialing-code">
       <label>{{t "mobile_prefix"}}</label>
@@ -158,15 +158,15 @@
       {{/if}}
     </div>
     <div class="small-1 columns item-label">
-             {{#if user.isMobileVerified}}
-            <i>{{fa-icon 'check-circle'}}</i>
-          {{/if}}
+      {{#if user.isMobileVerified}}
+        <i>{{fa-icon 'check-circle'}}</i>
+      {{/if}}
     </div>
   </div>
 
   <div class="row">
     <div class="small-5 columns item-label">
-      {{t 'organisation.user.district'}}
+      {{t 'users.district'}}
     </div>
     <div class="small-7 columns field-container">
       {{select-list
@@ -181,7 +181,7 @@
 
   <div class="row">
     <div class="small-5 columns item-label">
-      {{t 'organisation.user.preferred_language'}}
+      {{t 'users.preferred_language'}}
     </div>
     <div class="small-7 columns field-container ">
       {{inline-select-list

@@ -43,8 +43,8 @@ export default Ember.Controller.extend(AsyncMixin, ImageUploadMixin, {
 
   languages: Ember.computed(function() {
     let translation = this.get("i18n");
-    let English = translation.t("organisation.user.languages.english");
-    let Chinese = translation.t("organisation.user.languages.chinese");
+    let English = translation.t("users.languages.english");
+    let Chinese = translation.t("users.languages.chinese");
 
     return [{ name: English, id: "en" }, { name: Chinese, id: "zh-tw" }];
   }),

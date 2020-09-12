@@ -652,7 +652,6 @@ export default {
     add_user_button: "Add User to Organisation",
     add_user: "Add - User",
     name: "Name",
-    contact_details: "Contact Details",
     description: "Description",
     registration: "Registration",
     user: {
@@ -661,16 +660,10 @@ export default {
       mobile: "Mobile",
       email: "Email",
       position: "Position",
-      district: "District",
-      preferred_language: "Preferred Language",
       phone_number: "Phone Number",
       john: "John",
       doe: "Doe",
       position_in_organisation: "Position within organisation",
-      languages: {
-        english: "English",
-        chinese: "Chinese"
-      },
       validation_error: {
         email: "Email should be valid.",
         blank_email: "Email cannot be blank",
@@ -954,8 +947,11 @@ export default {
   users: {
     cancel_user_warning:
       "You will lose all your data. Are you sure you want to cancel this User?",
+    title: "Title",
     image: "Image",
     add_image: "Add Image",
+    edit_image: "Edit Image",
+    delete_image: "Delete Image",
     disabled: "Disabled",
     roles: "Roles",
     organisation: "Organisation",
@@ -964,6 +960,13 @@ export default {
     last_name: "Last Name",
     mobile: "Mobile",
     email: "Email",
+    district: "District",
+    preferred_language: "Preferred Language",
+    contact_details: "Contact Details",
+    languages: {
+      english: "English",
+      chinese: "Chinese"
+    },
     registered_on: "Registered on",
     last_connected_on: "Last connected on"
   }

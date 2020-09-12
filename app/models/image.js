@@ -9,7 +9,6 @@ export default cloudinaryUrl.extend({
   angle: attr("string"),
   itemId: attr("number"),
   item: belongsTo("item", { async: false }),
-  user: belongsTo("user", { async: false }),
   imageableId: attr("number"),
   imageableType: attr("string"),
 

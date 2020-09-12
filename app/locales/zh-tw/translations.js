@@ -627,7 +627,6 @@ export default {
     add_user_button: "新增機構用戶",
     add_user: "新增 - 用戶",
     name: "姓名",
-    contact_details: "Contact Details",
     description: "機構概要",
     registration: "註冊編號",
     user: {
@@ -636,16 +635,10 @@ export default {
       mobile: "手提電話號碼",
       email: "電郵",
       position: "職位",
-      district: "District",
-      preferred_language: "Preferred Language",
       phone_number: "電話號碼",
       john: "大文",
       doe: "陳",
       position_in_organisation: "機構內的職稱",
-      languages: {
-        english: "English",
-        chinese: "Chinese"
-      },
       validation_error: {
         email: "請輸入有效的電郵地址",
         blank_email: "Email cannot be blank",
@@ -934,15 +927,25 @@ export default {
     cancel_user_warning:
       "You will lose all your data. Are you sure you want to cancel this User?",
     image: "Image",
+    title: "Title",
     add_image: "Add Image",
+    edit_image: "Edit Image",
+    delete_image: "Delete Image",
     disabled: "Disabled",
     roles: "Roles",
     organisation: "Organisation",
     create_new_user: "Create new user",
-    first_name: "First Name",
-    last_name: "Last Name",
-    mobile: "Mobile",
-    email: "Email",
+    first_name: "名",
+    last_name: "姓",
+    mobile: "手提電話號碼",
+    email: "電郵",
+    district: "District",
+    preferred_language: "Preferred Language",
+    contact_details: "Contact Details",
+    languages: {
+      english: "English",
+      chinese: "Chinese"
+    },
     registered_on: "Registered on",
     last_connected_on: "Last connected on"
   }
