@@ -16,7 +16,7 @@
     <div class="small-5 columns item-label">
       {{t 'users.image'}}
     </div>
-    <div class="small-7 columns">{{log user.image}}
+    <div class="small-7 columns">
       <span class={{if user.image "image" "image-box"}}>
         {{#if user.image}}
            <img src={{user.image.faceCaptureImageUrl}} class="thumb" />
@@ -71,7 +71,6 @@
       {{t 'users.first_name'}}
     </div>
     <div class="small-7 columns field-container">
-      {{!-- {{#form-control}} --}}
       {{input type='text'
         id="firstName"
         class="inline-edit-bg"
@@ -79,11 +78,9 @@
         focusOut=(action "focusOut" "firstName" user.firstName true)
         focusIn=(action "focusIn" "firstName" user.firstName)
       }}
-      {{log firstNameInputError}}
       {{#if firstNameInputError}}
        <div class='inline-edit-error'>{{t 'organisation.user.validation_error.first_name'}}</div>
        {{/if}}
-      {{!-- {{/form-control}} --}}
     </div>
   </div>
 
