@@ -10,43 +10,43 @@
   </section>
 </nav>
 
-<section class="main-section add-user-form new-user-section user-details-section ui ">
+<section class="main-section add-user-form new-user-section ui">
 
   <div class="row">
     <div class="small-5 columns item-label">
       {{t 'users.image'}}
     </div>
-    <div class="small-7 columns">
-      <div>
-        <span class={{if user.image "image" "image-box"}}>
-           {{log user.image}}
-          {{#if user.image}}
-            {{image-zoom item=user}}
-          {{else}}
+    <div class="small-7 columns">{{log user.image}}
+      <span class={{if user.image "image" "image-box"}}>
+        {{#if user.image}}
+           <img src={{user.image.faceCaptureImageUrl}} class="thumb" />
+        {{else}}
+          <a {{action "triggerUpload"}}  class="{{unless isReady 'disabled'}}">
             <i aria-hidden="true">{{fa-icon 'camera'}}</i><br />
             {{t 'users.add_image'}}
-          {{/if}}
-        </span>
-       </div>
-     <div class="item-label image-edit">
-        <a {{action "triggerUpload"}}  class="{{unless isReady 'disabled'}}">
-      Edit
+          </a>
+          {{cloudinary-upload ready="uploadReady" progress="uploadProgress"
+             always="uploadComplete" done="uploadEditedImageSuccess" submit="uploadStart"}}
+        {{/if}}
+      </span>
 
-        {{!-- <span class="image-box">
-          {{#if newUploadedImage}}
-          <img src={{newUploadedImage.thumbImageUrl}} class="thumb" />
-          {{else}}
-          <i aria-hidden="true">{{fa-icon 'camera'}}</i><br />
-          {{t 'users.add_image'}}
-          {{/if}}
-        </span> --}}
-      </a>
-      {{cloudinary-upload ready="uploadReady" progress="uploadProgress"
-       always="uploadComplete" done="uploadEditedImageSuccess" submit="uploadStart"}}
-       {{!-- {{action "hha"}} --}}
+      <div class="item-label image-edit">
+        {{#if user.image}}
+          <div>
+            <a {{action "triggerUpload"}}  class="{{unless isReady 'disabled'}}">
+              {{t 'users.edit_image'}}
+            </a>
+            {{cloudinary-upload ready="uploadReady" progress="uploadProgress"
+             always="uploadComplete" done="uploadEditedImageSuccess" submit="uploadStart"}}
+          </div>
+          <div class="delete-image">
+            <a {{action "deleteImage"}} >
+              Delete Image
+            </a>
+          </div>
+        {{/if}}
+      </div>
     </div>
-    </div>
-
   </div>
 
   <div class="row">
@@ -57,6 +57,7 @@
       {{inline-select-list
         content=titles
         name="title"
+        class="inline-edit-bg"
         item=user
         isPrimitive=true
         autosave=true
@@ -73,6 +74,7 @@
       {{!-- {{#form-control}} --}}
       {{input type='text'
         id="firstName"
+        class="inline-edit-bg"
         value=user.firstName
         focusOut=(action "focusOut" "firstName" user.firstName true)
         focusIn=(action "focusIn" "firstName" user.firstName)
@@ -92,6 +94,7 @@
     <div class="small-7 columns field-container ">
       {{input type='text'
         id="lastName"
+        class="inline-edit-bg"
         value=user.lastName
         focusOut=(action "focusOut" "lastName" user.lastName true)
         focusIn=(action "focusIn" "lastName" user.lastName)
@@ -111,6 +114,7 @@
         value=user.email
         name="email"
         id="email"
+        class="inline-edit-bg"
         formnovalidate="true"
         focusOut=(action "focusOut" "email" user.email mobileNotPresent)
         focusIn=(action "focusIn" "email" user.email)
@@ -133,10 +137,11 @@
     <div class="small-1 columns ui dialing-code">
       <label>{{t "mobile_prefix"}}</label>
     </div>
-    <div class="small-6 columns ss field-container">
+    <div class="small-5 columns ss field-container">
       {{numeric-input
         value=user.mobileWithoutCountryCode
         formnovalidate="true"
+        class="inline-edit-bg"
         name="mobilePhone"
         id="mobile"
         maxlength="8"
@@ -152,6 +157,11 @@
         <div class='inline-edit-error'>{{t 'organisation.user.validation_error.mobile'}}</div>
       {{/if}}
     </div>
+    <div class="small-1 columns item-label">
+             {{#if user.isMobileVerified}}
+            <i>{{fa-icon 'check-circle'}}</i>
+          {{/if}}
+    </div>
   </div>
 
   <div class="row">
@@ -162,9 +172,9 @@
       {{select-list
         content=districts
         prompt="--"
+        class="inline-edit-bg"
         on-change=(action "changeDistrict")
         selectedValue=user.associatedDistrict
-        selectArrow=true
       }}
     </div>
   </div>
@@ -180,6 +190,7 @@
         name="preferredLanguage"
         item=user
         isPrimitive=true
+        class="inline-edit-bg"
         autosave=true
         on-change=(action (mut selectedLanguage))
       }}

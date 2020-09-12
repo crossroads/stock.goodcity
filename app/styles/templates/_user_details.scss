@@ -108,6 +108,8 @@
   width: 5rem;
 }
 
+
+
 .add-user-form {
   input {
     height: 1.8rem !important;
@@ -116,8 +118,18 @@
   select {
     height: 1.8rem !important;
   }
+
   input[type="checkbox"] {
     position: initial;
+  }
+
+  .inline-edit-bg {
+    background-color: #1a3964 !important;
+    border: none !important;
+    select{
+    background-color: #1a3964 !important;
+    border: none !important;
+    }
   }
 
   .image{
@@ -175,9 +187,20 @@
   background-color:$button-bg-hover;
 }
 .image-edit{
+  text-decoration: underline;
   margin-top: 2rem;
-  margin-left: 6rem;
+  margin-left: 8.5rem;
+
+  @media #{$small-only} {
+    margin-top: 1rem;
+    margin-left: 4.5rem;
+  }
+
 }
+.delete-image{
+  margin-top: 0.5rem;
+}
+
 .radio-buttons {
   .radio input {
     position: absolute;

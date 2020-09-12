@@ -58,7 +58,12 @@ export default Ember.Controller.extend(AsyncMixin, ImageUploadMixin, {
       return image.save();
     }
   },
-
+  deleteOldImage(img) {
+    if (img) {
+      img.deleteRecord();
+      return img.save();
+    }
+  },
   actions: {
     focusIn(field, value) {
       this.set(`${field}previousValue`, value);
@@ -128,14 +133,29 @@ export default Ember.Controller.extend(AsyncMixin, ImageUploadMixin, {
       });
       this.set("newUploadedImage", newUploadedImage);
       this.set("userImageKeys", identifier);
-      this.send("hha");
+      this.send("saveEditedImage");
     },
 
-    async hha() {
-      let newUser = this.get("store").peekRecord("user", this.get("user.id"));
-      newUser.set("image", await this.saveImage());
-      newUser.save();
-      console.log("hogaya bhai");
+    async saveEditedImage() {
+      this.runTask(async () => {
+        let newUser = this.get("store").peekRecord("user", this.get("user.id"));
+        newUser.set("image", await this.saveImage());
+        newUser.save();
+      }, ERROR_STRATEGIES.MODAL);
+    },
+
+    deleteImage() {
+      this.runTask(async () => {
+        let newUser = this.get("store").peekRecord("user", this.get("user.id"));
+        await this.deleteOldImage(newUser.get("image"));
+        let data = await new AjaxPromise(
+          "/users/" + this.get("user.id"),
+          "PUT",
+          this.get("session.authToken"),
+          { user: { image_id: null } }
+        );
+        this.get("store").pushPayload(data);
+      }, ERROR_STRATEGIES.MODAL);
     },
 
     changeDistrict() {
