@@ -75,7 +75,7 @@
     </div>
     <div class="small-7 columns field-container">
       {{#form-control}}
-        {{input value=email name="email" id="email" type="email" required=setEmailorMobile }}
+        {{input value=email name="email" id="email" type="email" required=isEmailorMobilePresent }}
          <div class='input-error'>{{t 'organisation.user.validation_error.email'}}</div>
       {{/form-control}}
     </div>
@@ -91,10 +91,10 @@
     <div class="small-6 columns field-container">
       {{#form-control}}
       {{numeric-input
-        value=mobilePhone
-        name="mobilePhone"
+        value=mobileNumber
+        name="mobileNumber"
         id="mobile"
-        required=setEmailorMobile
+        required=isEmailorMobilePresent
         maxlength="8"
         pattern=".{8,}"}}
       <div class='input-error'>{{t 'organisation.user.validation_error.mobile'}}</div>
