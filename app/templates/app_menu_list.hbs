@@ -28,20 +28,23 @@
     <div class="row menu-margin">
       <div class="small-4 columns menu-option">
         {{#link-to 'appointments' class='appointments-link menu-list-anchor'}}
-          {{fa-icon 'calendar-alt' size="lg"}}
+          <div class="menu-svg">{{fa-icon 'calendar-alt' size="lg"}}</div>
+          <br>
           <div class="option-subtext">{{t 'manage_inventory'}}</div>
         {{/link-to}}
       </div>
       <div class="small-4 columns menu-option">
         {{#link-to 'manage_users' class="menu-list-anchor"}}
-          {{fa-icon 'user-cog' size="lg"}}
+          <div class="menu-svg">{{fa-icon 'user-cog' size="lg"}}</div>
+          <br>
           <div class="option-subtext">{{t 'manage_users'}}</div>
         {{/link-to}}
       </div>
       {{#if (is-or getCurrentUser.canManageStocktakes getCurrentUser.canManageStocktakeRevisions)}}
         <div class="small-4 columns menu-option">
           {{#link-to 'stocktakes' class="menu-list-anchor"}}
-            {{fa-icon 'list-ol' size="lg"}}
+            <div class="menu-svg">{{fa-icon 'list-ol' size="lg"}}</div>
+            <br>
             <div class="option-subtext">{{t 'stocktakes.title'}}</div>
           {{/link-to}}
         </div>
@@ -56,7 +59,8 @@
     <div class="row menu-margin">
       <div class="small-4 columns menu-option">
         <a href="#" class="menu-list-anchor" {{action 'createOrder'}}>
-            {{fa-icon 'shopping-basket' size="lg"}}
+            <div class="menu-svg">{{fa-icon 'shopping-basket' size="lg"}}</div>
+            <br>
             <div class="option-subtext">{{t 'new_order'}}</div>
           </a>
       </div>
@@ -72,7 +76,8 @@
       {{#each storageTypes as |storageType|}}
         <div class="small-4 columns menu-option {{if storageType.disable 'disable'}}">
           <a href="#" class="menu-list-anchor {{if storageType.disable 'disable'}}" {{action 'createInventory' storageType.name}} disabled={{storageType.disable}}>
-            {{fa-icon storageType.icon size="lg"}}
+            <div class="menu-svg">{{fa-icon storageType.icon size="lg"}}</div>
+            <br>
             <div class="option-subtext">{{t storageType.translation}} </div>
           </a>
         </div>

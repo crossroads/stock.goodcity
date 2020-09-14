@@ -968,6 +968,47 @@ export default {
       chinese: "Chinese"
     },
     registered_on: "Registered on",
-    last_connected_on: "Last connected on"
+    last_connected_on: "Last connected on",
+
+    details: {
+      last_on_goodcity: "Last on GoodCity",
+      contact_details: "Contact Details",
+      staff_roles: "Staff / Volunteer Roles",
+      stock_app: "Stock App",
+      admin_app: "Admin App",
+      disable_user: "Disable User Account"
+    },
+
+    roles: {
+      admin_app_details: "Admin App Details",
+      unauthorised_error:
+        "Sorry, you are not authorised to update roles for this user.",
+      access_status_for: "Access Status for",
+      no_access: "No Access",
+      access_until: "Access Until",
+      access_forever: "Access Forever",
+      roles_for_offers: "Role assigned for processing offers",
+      reviewer: "Reviewer",
+      reviewer_role_info: "This role is for reviewing offers.",
+      supervisor: "Supervisor",
+      supervisor_role_info: "This role is for managing offers.",
+      admin_role_error:
+        "Access to Admin App requires at least one role to be assigned.",
+      admin_printer_label: "Preferred Label Printer in Admin App",
+      stock_app_details: "Stock App Details",
+      stock_role_error:
+        "Access to Stock App requires at least one role to be assigned.",
+      stock_printer_label: "Preferred Label Printer in Stock App",
+      role_for_orders: "Role assigned for processing orders",
+      role_for_stock: "Role assigned for processing stock",
+      order_fulfilment_role: "Order Fulfilment",
+      order_fulfilment_role_info: "This role is for reviewing orders.",
+      order_administrator_role: "Order Administrator",
+      order_administrator_role_info: "This role is for managing orders.",
+      stock_fulfilment_role: "Stock Fulfilment",
+      stock_fulfilment_role_info: "This role is for reviewing stock items.",
+      stock_administrator_role: "Stock Administrator",
+      stock_administrator_role_info: "This role is for managing stock items."
+    }
   }
 };

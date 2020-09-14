@@ -180,6 +180,7 @@
   }
 }
 
+
 .inline-edit-error{
   color: white;
   background-color:$button-bg-hover;
@@ -202,36 +203,120 @@
 .radio-buttons {
   .radio input {
     position: absolute;
+
+// Roles Access Details Page
+.role-access-form {
+  margin: 0.5rem;
+
+  .disabled-form {
+    pointer-events: none;
+    opacity: 0.7;
+
   }
 
-  li {
-    border: none;
-    float: left;
-    width: 240px;
-    margin: 7px 5px;
+  .access-heading,
+  .printer-selection {
+    margin: 1rem 0px;
   }
 
-  input[type="checkbox"] {
-    background: none repeat scroll 0 0 red;
-    color: red;
-    visibility: hidden;
-  }
+  .custom_radio_buttons {
+    height: 2.5rem;
+    padding: 0.5rem 0;
 
-  input[type="checkbox"]:checked + label {
-    background: $coral-red;
-    border: 1px solid $coral-red;
-  }
-
-  input[type="checkbox"]:not(:checked)+label,
-  input[type="checkbox"]:checked+label {
-    padding-left: 5px;
-  }
-
-  input[type="checkbox"]:checked + label:before,
-  input[type="checkbox"]:not(:checked) + label:before,
-  input[type="checkbox"]:checked+label:after
-    {
-      content: none;
+    label {
+      font-size: 0.8rem;
+      margin-left: 0.8rem;
+      color: $white;
     }
 
+    i {
+      vertical-align: middle;
+      margin-left: 0.2rem;
+
+      &.calendar-icon {
+        margin-left: -1.2rem;
+        color: white;
+        font-size: 0.8rem;
+      }
+    }
+
+    input[type="radio"] {
+      display: inline-block;
+      margin: 0;
+      vertical-align: middle;
+
+      @media #{$small-only} {
+        width: 20px !important;
+        height: 20px !important;
+      }
+    }
+  }
+
+  .roles-selection {
+    [type="checkbox"]:not(:checked)+label:after,
+    [type="checkbox"]:checked+label:after {
+      top: 5px;
+      left: 5px;
+      font-size: 21px;
+    }
+
+    [type="checkbox"]:not(:checked)+label:before,
+    [type="checkbox"]:checked+label:before {
+      left: 1px;
+      top: 0;
+      width: 25px;
+      height: 25px;
+    }
+
+    .custom_radio_buttons {
+      height: 4rem;
+
+      label {
+        padding-left: 2rem;
+      }
+    }
+
+    .role-info {
+      font-size: 0.7rem;
+      margin: 0.4rem 0;
+      font-style: italic;
+    }
+  }
+
+  .calendar_input {
+    display: inline-block;
+    padding: 0;
+
+    input {
+      padding: 0.2rem 0.5rem !important;
+      width: 7rem;
+      margin-top: 0 !important;
+
+      background-color: #002352 !important;
+      color: white;
+      border: 1px solid white !important;
+
+      @media #{$large-only} {
+        width: 11rem;
+        font-size: 1rem;
+      }
+    }
+  }
+
+  .roles-error {
+    font-size: 0.6rem;
+    background-color: #ed4c4e;
+    color: $white;
+    padding: 0.3rem;
+    margin-left: 0.4rem;
+
+    span {
+      margin-left: 0.2rem;
+    }
+  }
+
+  .printer-heading {
+    margin-bottom: 0.5rem;
+  }
 }
+// END

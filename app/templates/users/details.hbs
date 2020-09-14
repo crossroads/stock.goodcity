@@ -16,7 +16,7 @@
 
 <section class="user-details-section">
   <div class="last-online-time">
-    Last on GoodCity {{time-ago timeValue=model.lastDisconnected smallPrefix=false}}
+    {{t "users.details.last_on_goodcity"}} {{time-ago timeValue=model.lastDisconnected smallPrefix=false}}
   </div>
 
   {{#if model.image}}
@@ -37,24 +37,34 @@
 
   {{#link-to "users.contact_details" model.id}}
     <div class="row contact-details-link">
-      Contact Details
+      {{t "users.details.contact_details"}}
       <span class='arrow-icon'>{{fa-icon 'angle-right'}}</span>
     </div>
   {{/link-to}}
 
   <div class="row staff-role-heading">
-    Staff / Volunteer Roles
+    {{t "users.details.staff_roles"}}
   </div>
 
-  <div class="row app-roles stock-app-roles">
-    Stock App
-    <span class='arrow-icon'>{{fa-icon 'angle-right'}}</span>
-  </div>
+  {{#link-to "users.stock_roles" model.id}}
+    <div class="row app-roles stock-app-roles">
+      <div class="small-4 columns">{{t "users.details.stock_app"}}</div>
+      <div class="small-6 columns">{{stockRoleAccess}}</div>
+      <div class="small-2 columns">
+        <span class='arrow-icon'>{{fa-icon 'angle-right'}}</span>
+      </div>
+    </div>
+  {{/link-to}}
 
-  <div class="row app-roles">
-    Admin App
-    <span class='arrow-icon'>{{fa-icon 'angle-right'}}</span>
-  </div>
+  {{#link-to "users.admin_roles" model.id}}
+    <div class="row app-roles">
+      <div class="small-4 columns">{{t "users.details.admin_app"}}</div>
+      <div class="small-6 columns">{{adminRoleAccess}}</div>
+      <div class="small-2 columns">
+        <span class='arrow-icon'>{{fa-icon 'angle-right'}}</span>
+      </div>
+    </div>
+  {{/link-to}}
 
   {{#if model.organisations}}
     <div class="row staff-role-heading">
@@ -80,7 +90,7 @@
   {{/if}}
 
   <div class="disable-user-link">
-    Disable User Account
+    {{t "users.details.disable_user"}}
   </div>
 
 </section>
