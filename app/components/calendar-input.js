@@ -7,6 +7,7 @@ const MIN_DATE = moment()
 const DEFAULT_PICKADATE_CONFIG = {
   selectMonths: true,
   selectYears: true,
+  format: "dd/mmm/yyyy",
   formatSubmit: "ddd mmm d",
   monthsFull: moment.months(),
   monthsShort: moment.monthsShort(),
@@ -86,11 +87,20 @@ export default Ember.TextField.extend({
 
   initializeConfig() {
     this.set("datePickerConfig", DEFAULT_PICKADATE_CONFIG);
+
     const enablePastDate = this.get("enablePastDate");
     if (enablePastDate) {
       this.set("datePickerConfig", {
         ...DEFAULT_PICKADATE_CONFIG,
         min: MIN_DATE
+      });
+    }
+
+    const formatSubmit = this.get("formatSubmit");
+    if (formatSubmit) {
+      this.set("datePickerConfig", {
+        ...DEFAULT_PICKADATE_CONFIG,
+        format: formatSubmit
       });
     }
   },
@@ -114,6 +124,7 @@ export default Ember.TextField.extend({
           }
         })
       );
+
       Ember.$(".picker__holder").click(function(e) {
         if (e.target !== this) {
           return;

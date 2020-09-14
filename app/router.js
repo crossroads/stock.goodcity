@@ -86,6 +86,12 @@ Router.map(function() {
     this.route("add_user", { path: "/new" });
     this.route("details", { path: "/:user_id" });
     this.route("contact_details", { path: "/:user_id/contact_details" });
+    this.route("admin_roles", {
+      path: "/:user_id/admin_roles"
+    });
+    this.route("stock_roles", {
+      path: "/:user_id/stock_roles"
+    });
   });
 
   this.route("not-found", { path: "/*path" });
