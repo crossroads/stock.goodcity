@@ -122,7 +122,7 @@ export default GoodcityController.extend(AsyncMixin, SearchMixin, {
   ),
 
   organisationsUser: Ember.computed(
-    "model.{createdBy,isGoodCityOrder,}",
+    "model.{createdBy,isGoodCityOrder}",
     "model.createdBy.organisationsUsers.@each.{status,organisationId}",
     "model.createdBy.organisationsUsers.[]",
     "model.{gcOrganisation,isGoodCityOrder}",
@@ -234,7 +234,7 @@ export default GoodcityController.extend(AsyncMixin, SearchMixin, {
 
   async verifyOrgApproval(cb) {
     if (
-      !this.get("model.isGoodCityOrder") ||
+      !this.get("organisationsUser") ||
       this.get("organisationsUser.isApproved")
     ) {
       return cb();
@@ -360,7 +360,9 @@ export default GoodcityController.extend(AsyncMixin, SearchMixin, {
           this.send("promptCloseOrderModel", order, actionName);
           break;
         case "finish_processing":
-          this.send("verifyChecklistAndChangeState", order, actionName);
+          this.verifyOrgApproval(() => {
+            this.send("verifyChecklistAndChangeState", order, actionName);
+          });
           break;
         case "start_dispatching":
           this.send("verifyChecklistAndChangeState", order, actionName);

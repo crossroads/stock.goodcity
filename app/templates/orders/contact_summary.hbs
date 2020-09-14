@@ -116,14 +116,20 @@
           </div>
         </div>
 
-        <div class="row">
-          <div class="small-4 columns">
-            {{t "order_contact_summary.approval_status"}}
+        {{#if organisationsUser}}
+          <div class="row">
+            <div class="small-4 columns">
+              {{t "order_contact_summary.approval_status"}}
+            </div>
+            <div id="contact_name" class="small-8 columns important {{unless organisationsUser.isActive 'warn'}}">
+              {{#if organisationsUser.status}}
+                {{t (concat "order_contact_summary.status_" organisationsUser.status)}}
+              {{else}}
+                  N/A
+              {{/if}}
+            </div>
           </div>
-          <div id="contact_name" class="small-8 columns important {{unless organisationsUser.isActive 'warn'}}">
-            {{t (concat "order_contact_summary.status_" organisationsUser.status)}}
-          </div>
-        </div>
+        {{/if}}
 
         <div class="row">
           <div class="small-4 columns">
