@@ -2,7 +2,7 @@ import Ember from "ember";
 
 import SearchOptionMixin from "stock/mixins/search_option";
 import GoodcityController from "../goodcity_controller";
-import AsyncMixin from "stock/mixins/async";
+import AsyncMixin, { ERROR_STRATEGIES } from "stock/mixins/async";
 import { regex } from "stock/constants/regex";
 
 export default GoodcityController.extend(SearchOptionMixin, AsyncMixin, {
@@ -38,7 +38,7 @@ export default GoodcityController.extend(SearchOptionMixin, AsyncMixin, {
      *      type is present
      *      website has a valid format iff its present
      */
-    createOrganisation() {
+    async createOrganisation() {
       if (
         !this.get("isInValidNameEn") &&
         !this.get("isInValidCountry") &&
@@ -54,11 +54,14 @@ export default GoodcityController.extend(SearchOptionMixin, AsyncMixin, {
           country_id: this.get("country.id"),
           organisation_type_id: this.get("selectedOrganisationType").id
         };
-        this.runTask(async () => {
-          const data = await this.get("organisationService");
+        await this.runTask(async () => {
+          const data = await this.get("organisationService").create(
+            organisation
+          );
 
+          this.send("clearForm");
           this.replaceRoute("organisations.detail", data.organisation.id);
-        });
+        }, ERROR_STRATEGIES.MODAL);
       } else {
         this.set("showError", true);
       }

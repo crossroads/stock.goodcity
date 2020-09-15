@@ -11,7 +11,7 @@
         <ul class="wrapper">
           <li class="form-row">
             <label for="name_en">{{t 'organisation.name_en'}}</label>
-            {{input type="text" autocomplete='off' value=name_en autoComplete=false}}
+            {{input id="name_en" type="text" autocomplete='off' value=name_en autoComplete=false}}
           </li>
         </ul>
         {{#if (is-and isInValidNameEn showError)}}
@@ -81,7 +81,7 @@
       <ul class="wrapper">
         <li class="form-row">
           <label for="website">{{t 'organisation.website'}}</label>
-          {{input type="text" autocomplete='off' value=website autoComplete=false}}
+          {{input id="website" type="text" autocomplete='off' value=website autoComplete=false}}
         </li>
       </ul>
       {{#if isInValidWebsite}}
@@ -104,6 +104,7 @@
               on-change=(action "setCountryValue")
               isClearable=false
               prompt=""
+              id="country"
               on-search=(action "onSearch" "country")}}
           </div>
         </li>
