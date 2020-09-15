@@ -1,22 +1,28 @@
 import Ember from "ember";
 
-export default Ember.Controller.extend({
-  organisationService: Ember.inject.service(),
-  organisationsUserService: Ember.inject.service(),
-  userOrganisationDetails: Ember.computed("model", function() {
-    const organisationUser = [];
+import OrganisationMixin from "stock/mixins/organisation";
 
-    this.get("model.organisationsUsers").map(record => {
-      organisationUser.push({
-        id: record.get("id"),
-        status: record.get("userStatus"),
-        name: this.store
-          .peekRecord("organisation", record.get("organisationId"))
-          .get("nameEn")
+export default Ember.Controller.extend(OrganisationMixin, {
+  organisationsUserService: Ember.inject.service(),
+  userOrganisationDetails: Ember.computed(
+    "model",
+    "model.organisationsUsers.[]",
+    "model.organisationsUsers.@each.userStatus",
+    function() {
+      const organisationUser = [];
+
+      this.get("model.organisationsUsers").map(record => {
+        organisationUser.push({
+          id: record.get("id"),
+          status: record.get("userStatus"),
+          name: this.store
+            .peekRecord("organisation", record.get("organisationId"))
+            .get("nameEn")
+        });
       });
-    });
-    return organisationUser;
-  }),
+      return organisationUser;
+    }
+  ),
   actions: {
     /**
      * Navigate to charity_position screen
@@ -26,9 +32,7 @@ export default Ember.Controller.extend({
      * If user is not present in the selected organisation, then it will be a create operation
      */
     async addCharityPosition() {
-      const organisation = await this.get(
-        "organisationService"
-      ).userPickOrganisation();
+      const organisation = await this.organisationLookup();
 
       const organisationUser = this.get(
         "organisationsUserService"

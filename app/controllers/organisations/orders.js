@@ -1,8 +1,9 @@
 import Ember from "ember";
 import _ from "lodash";
 import SearchMixin from "stock/mixins/search_resource";
+import OrganisationMixin from "stock/mixins/organisation";
 
-export default Ember.Controller.extend(SearchMixin, {
+export default Ember.Controller.extend(SearchMixin, OrganisationMixin, {
   gcOrganisationUsers: null,
   organisationService: Ember.inject.service(),
 
@@ -16,13 +17,6 @@ export default Ember.Controller.extend(SearchMixin, {
         organisationId,
         params
       );
-    },
-
-    async searchOrganisation() {
-      const organisation = await this.get(
-        "organisationService"
-      ).userPickOrganisation();
-      this.replaceRoute("organisations.detail", organisation.get("id"));
     }
   }
 });
