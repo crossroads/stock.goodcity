@@ -62,8 +62,8 @@ export default Ember.Controller.extend(
       let district = this.get("selectedDistrict")
         ? this.get("selectedDistrict").id
         : null;
-      let { id: image_id } = await this.saveImage();
-      console.log(image_id);
+      let { id: imageId } = await this.saveImage();
+
       var params = {
         title: title,
         first_name: this.get("firstName"),
@@ -75,9 +75,8 @@ export default Ember.Controller.extend(
           district_id: district,
           addressable_type: "profile"
         },
-        image_id: image_id
+        image_id: imageId
       };
-      console.log(params);
       return { user: params };
     },
 
@@ -86,6 +85,7 @@ export default Ember.Controller.extend(
       if (image) {
         return image.save();
       }
+      return { id: null };
     },
 
     actions: {
