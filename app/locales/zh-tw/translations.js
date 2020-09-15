@@ -941,7 +941,6 @@ export default {
     email: "電郵",
     district: "District",
     preferred_language: "Preferred Language",
-    contact_details: "Contact Details",
     languages: {
       english: "English",
       chinese: "Chinese"
@@ -956,6 +955,12 @@ export default {
       stock_app: "Stock App",
       admin_app: "Admin App",
       disable_user: "Disable User Account"
+    },
+
+    contact_details: {
+      title: "Contact Details",
+      unauthorised_error:
+        "Sorry, you are not authorised to edit details for this user."
     },
 
     roles: {
