@@ -1,5 +1,7 @@
 import Ember from "ember";
 import _ from "lodash";
+import { ROLES } from "stock/constants/roles";
+import { ACCESS_TYPES } from "stock/constants/access-types";
 
 export default Ember.Controller.extend({
   printerService: Ember.inject.service(),
@@ -8,7 +10,10 @@ export default Ember.Controller.extend({
 
   selectedPrinterId: "",
   user: Ember.computed.alias("model.user"),
-  noStockAppAccess: Ember.computed.equal("stockRoleAccess", "noAccess"),
+  noStockAppAccess: Ember.computed.equal(
+    "stockRoleAccess",
+    ACCESS_TYPES.NO_ACCESS
+  ),
 
   printers: Ember.computed(function() {
     return this.get("printerService").allAvailablePrinters();
@@ -33,22 +38,23 @@ export default Ember.Controller.extend({
 
   roleError: Ember.computed("noStockAppRole", "stockRoleAccess", function() {
     return (
-      this.get("noStockAppRole") && this.get("stockRoleAccess") !== "noAccess"
+      this.get("noStockAppRole") &&
+      this.get("stockRoleAccess") !== ACCESS_TYPES.NO_ACCESS
     );
   }),
 
   stockRoleAccess: Ember.computed("user.roles.[]", {
     get() {
       if (this.get("noStockAppRole")) {
-        return "noAccess";
+        return ACCESS_TYPES.NO_ACCESS;
       } else if (this.get("roleExpiryDate")) {
-        return "accessTill";
+        return ACCESS_TYPES.LIMITED_ACCESS;
       } else {
-        return "accessForever";
+        return ACCESS_TYPES.UNLIMITED_ACCESS;
       }
     },
     set(_, value) {
-      if (value === "accessTill") {
+      if (value === ACCESS_TYPES.LIMITED_ACCESS) {
         this.set("roleExpiryDate", moment().format("DD/MMM/YYYY"));
       } else {
         this.set("roleExpiryDate", "");
@@ -61,9 +67,9 @@ export default Ember.Controller.extend({
   observeExpiryDate: Ember.observer("roleExpiryDate", function() {
     if (
       this.get("roleExpiryDate") &&
-      this.get("stockRoleAccess") !== "accessTill"
+      this.get("stockRoleAccess") !== ACCESS_TYPES.LIMITED_ACCESS
     ) {
-      this.set("stockRoleAccess", "accessTill");
+      this.set("stockRoleAccess", ACCESS_TYPES.LIMITED_ACCESS);
     }
   }),
 
@@ -78,28 +84,28 @@ export default Ember.Controller.extend({
   hasStockAdministratorRole: Ember.computed("user.roles.[]", function() {
     return this.get("userService").hasRole(
       this.get("user"),
-      "Stock administrator"
+      ROLES.STOCK_APP_ROLES.STOCK_ADMINISTRATOR
     );
   }),
 
   hasStockFulfilmentRole: Ember.computed("user.roles.[]", function() {
     return this.get("userService").hasRole(
       this.get("user"),
-      "Stock fulfilment"
+      ROLES.STOCK_APP_ROLES.STOCK_FULFILMENT
     );
   }),
 
   hasOrderAdministratorRole: Ember.computed("user.roles.[]", function() {
     return this.get("userService").hasRole(
       this.get("user"),
-      "Order administrator"
+      ROLES.STOCK_APP_ROLES.ORDER_ADMINISTRATOR
     );
   }),
 
   hasOrderFulfilmentRole: Ember.computed("user.roles.[]", function() {
     return this.get("userService").hasRole(
       this.get("user"),
-      "Order fulfilment"
+      ROLES.STOCK_APP_ROLES.ORDER_FULFILMENT
     );
   }),
 
@@ -145,31 +151,31 @@ export default Ember.Controller.extend({
       let stockRoleAccess = this.get("stockRoleAccess");
       const userId = this.get("user.id");
 
-      if (stockRoleAccess === "noAccess") {
+      if (stockRoleAccess === ACCESS_TYPES.NO_ACCESS) {
         this.get("userService").deleteStockRoles(this.get("user"));
       } else {
         if (this.get("canUpdateRole")) {
-          if (stockRoleAccess === "accessTill") {
+          if (stockRoleAccess === ACCESS_TYPES.LIMITED_ACCESS) {
             roleExpiryDate = this.get("roleExpiryDate");
           }
 
           this.updateUserRole(
-            "Stock fulfilment",
+            ROLES.STOCK_APP_ROLES.STOCK_FULFILMENT,
             this.get("hasStockFulfilmentRole"),
             roleExpiryDate
           );
           this.updateUserRole(
-            "Stock administrator",
+            ROLES.STOCK_APP_ROLES.STOCK_ADMINISTRATOR,
             this.get("hasStockAdministratorRole"),
             roleExpiryDate
           );
           this.updateUserRole(
-            "Order fulfilment",
+            ROLES.STOCK_APP_ROLES.ORDER_FULFILMENT,
             this.get("hasOrderFulfilmentRole"),
             roleExpiryDate
           );
           this.updateUserRole(
-            "Order administrator",
+            ROLES.STOCK_APP_ROLES.ORDER_ADMINISTRATOR,
             this.get("hasOrderAdministratorRole"),
             roleExpiryDate
           );
