@@ -66,7 +66,9 @@ export default Ember.Controller.extend(AsyncMixin, OrganisationMixin, {
       try {
         await this.runTask(async () => {
           await this.get("model").save();
-          this.replaceRoute("users.details", this.get("user_id"));
+          Ember.run.later(() => {
+            this.replaceRoute("users.details", this.get("user_id"));
+          }, 250);
         }, ERROR_STRATEGIES.RAISE);
       } catch (error) {
         throw error;
