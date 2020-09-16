@@ -1,0 +1,44 @@
+{{!-- DISABLE USER ACCOUNT POPUP --}}
+{{#message-box
+  btn1Text=(t "not_now")
+  btn1Callback=(action "cancelDisableUser")
+  btn2Text=(t "users.details.disable_user")
+  btn2Callback=(action "disableUser")
+  isVisible=disableUserPopupVisible
+  classNames="popupOverlay ui disable-user-popup"
+}}
+
+  <div class="heading">Disable User?</div>
+
+  <div class="info">User will be denied access to all apps including donor app.</div>
+
+  <div class="info-note">
+    Note: you are allowed remove the phone and email address from a disabled user account
+    This can be useful if the number has been assumed by a different person without giving
+    the new user another person's history.
+  </div>
+
+{{/message-box}}
+{{!-- END --}}
+
+{{!-- RE-ENABLE USER ACCOUNT POPUP --}}
+{{#message-box
+  btn1Text=(t "not_now")
+  btn1Callback=(action "cancelDisableUser")
+  btn2Text=(t "users.details.enable_user")
+  btn2Callback=(action "enableUser")
+  isVisible=enableUserPopupVisible
+  classNames="popupOverlay ui disable-user-popup"
+}}
+
+  <div class="heading">Re-enable User?</div>
+
+  <div class="info">All prior access rights will be reserved.</div>
+
+  <div class="info-note">
+    Note: If you do not wish this user to have same rights to access apps or act on behalf
+    of charities as they had before, please modify their access.
+  </div>
+
+{{/message-box}}
+{{!-- END --}}

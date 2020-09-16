@@ -19,6 +19,13 @@
     {{t "users.details.last_on_goodcity"}} {{time-ago timeValue=model.lastDisconnected smallPrefix=false}}
   </div>
 
+  {{#if (is-and canDisableUsers isDisabledUser)}}
+    <div class="disabled-account">
+      <i>{{fa-icon 'exclamation-triangle'}}</i>
+      <span>Account Disabled: <span class="link" {{action "displayEnableUserPopup"}}>Re-enable</span></span>
+    </div>
+  {{/if}}
+
   {{#if model.image}}
     <div class="image-zoom-container content user-img" id='image-1'>
       {{image-zoom item=model}}
@@ -89,8 +96,15 @@
     {{!-- END --}}
   {{/if}}
 
-  <div class="disable-user-link">
-    {{t "users.details.disable_user"}}
-  </div>
+  {{#if canDisableUsers}}
+    <div class="disable-user-link">
+      {{#if isDisabledUser}}
+        <div {{action "displayEnableUserPopup"}}>{{t "users.details.re_enable_user_account"}}</div>
+      {{else}}
+        <div {{action "displayDisableUserPopup"}}>{{t "users.details.disable_user_account"}}</div>
+      {{/if}}
+    </div>
+    {{partial 'users/disable_user_popup'}}
+  {{/if}}
 
 </section>

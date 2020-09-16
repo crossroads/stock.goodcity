@@ -24,6 +24,23 @@
     }
   }
 
+  .disabled-account {
+    background-color: #ed4c4e;
+    color: #fff;
+    padding: 0.3rem;
+    font-size: 0.8rem;
+    margin-top: 0.8rem;
+    text-align: center;
+
+    span {
+      margin-left: 0.2rem;
+    }
+
+    .link {
+      text-decoration: underline;
+    }
+  }
+
   .contact-icons {
     margin: auto;
     text-align: center;
@@ -88,6 +105,9 @@
   .disable-user-link {
     padding: 4rem 1rem;
     text-align: center;
+    text-decoration: underline;
+    color: $white;
+    font-size: 0.8rem;
   }
 }
 
@@ -247,3 +267,31 @@
   }
 }
 // END
+
+.disable-user-popup {
+  .heading {
+    font-size: 1rem;
+    font-weight: 800;
+    margin: 0.8rem 0;
+  }
+
+  .info {
+    margin: 0;
+    font-size: 0.8rem;
+  }
+
+  .info-note {
+    font-size: 0.8rem;
+    margin: 1rem 0;
+  }
+
+  #btn1, #btn2 {
+    width: 48%;
+  }
+
+  #btn1 {
+    background-color: transparent;
+    border-color: $black;
+    color: $black !important;
+  }
+}

@@ -993,7 +993,10 @@ export default {
       staff_roles: "Staff / Volunteer Roles",
       stock_app: "Stock App",
       admin_app: "Admin App",
-      disable_user: "Disable User Account"
+      disable_user_account: "Disable User Account",
+      disable_user: "Disable User",
+      re_enable_user_account: "Re-enable User Account",
+      enable_user: "Re-enable User"
     },
 
     roles: {
