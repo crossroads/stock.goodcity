@@ -24,12 +24,6 @@ export default GoodcityController.extend(SearchOptionMixin, AsyncMixin, {
     return !this.get("country");
   }),
 
-  isInValidWebsite: Ember.computed("website", function() {
-    const websiteRegEx = new RegExp(regex.WEBSITE_REGEX);
-
-    return this.get("website") && !this.get("website").match(websiteRegEx);
-  }),
-
   actions: {
     /**
      * Create new organisation if
@@ -39,11 +33,7 @@ export default GoodcityController.extend(SearchOptionMixin, AsyncMixin, {
      *      website has a valid format iff its present
      */
     async createOrganisation() {
-      if (
-        !this.get("isInValidNameEn") &&
-        !this.get("isInValidCountry") &&
-        !this.get("isInValidWebsite")
-      ) {
+      if (!this.get("isInValidNameEn") && !this.get("isInValidCountry")) {
         const organisation = {
           name_en: this.get("name_en"),
           name_zh_tw: this.get("name_zh_tw"),

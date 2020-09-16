@@ -3,7 +3,6 @@ import _ from "lodash";
 
 import SearchOptionMixin from "stock/mixins/search_option";
 import AsyncMixin, { ERROR_STRATEGIES } from "stock/mixins/async";
-import { regex } from "stock/constants/regex";
 
 export default Ember.Controller.extend(SearchOptionMixin, AsyncMixin, {
   organisationService: Ember.inject.service(),
@@ -17,32 +16,18 @@ export default Ember.Controller.extend(SearchOptionMixin, AsyncMixin, {
     return !this.get("country.id");
   }),
 
-  isInValidWebsite: Ember.computed("model.website", function() {
-    const websiteRegEx = new RegExp(regex.WEBSITE_REGEX);
-
-    return (
-      this.get("model.website") &&
-      !this.get("model.website").match(websiteRegEx)
-    );
-  }),
-
   actions: {
     /**
      * Updates the organisation if
      *      nameEn is present
      *      country is present
      *      type is present
-     *      website has a valid format iff its present
      */
     updateOrganisation(e) {
       let isValid = true;
       switch (e.target.name) {
         case "name_en":
           isValid = this.get("isInValidNameEn") ? false : true;
-          break;
-
-        case "website":
-          isValid = this.get("isInValidWebsite") ? false : true;
           break;
       }
 
@@ -70,10 +55,16 @@ export default Ember.Controller.extend(SearchOptionMixin, AsyncMixin, {
       this.runTask(async () => {
         try {
           const organisation = { [name]: value };
-          await this.get("organisationService").update(
+          let data = await this.get("organisationService").update(
             this.get("model.id"),
             organisation
           );
+          // TODO: Make use of single organisation model
+          // Once that is done remove the next line
+          // Reason: The response has organisation node, which manipulates the organisation model in ember
+          // But the model used in this controller is gc_organisation 🤦🏻‍♂️
+          data = { ...data, gc_organisation: data.organisation };
+          this.get("store").pushPayload(data);
         } catch (e) {
           this.get("model").rollbackAttributes();
           throw e;
