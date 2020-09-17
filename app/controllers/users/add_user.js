@@ -1,7 +1,7 @@
 import config from "stock/config/environment";
 import AsyncMixin, { ERROR_STRATEGIES } from "stock/mixins/async";
 import ImageUploadMixin from "stock/mixins/image_upload";
-import AjaxPromise from "stock/utils/ajax-promise";
+import { regex } from "stock/constants/regex";
 import TitleAndLanguageMixin from "stock/mixins/grades_option";
 import Ember from "ember";
 
@@ -11,18 +11,17 @@ export default Ember.Controller.extend(
   TitleAndLanguageMixin,
   {
     newUploadedImage: null,
+    email: "",
     i18n: Ember.inject.service(),
     userService: Ember.inject.service(),
 
     isEmailorMobilePresent: Ember.computed("email", "mobileNumber", function() {
-      const email = this.get("email");
-      const mobile = this.get("mobileNumber");
-
-      if (/^[456789]\d{7}/.test(mobile) || /^[^@\s]+@[^@\s]+/.test(email)) {
-        return false;
-      } else {
-        return true;
-      }
+      const emailRegEx = new RegExp(regex.EMAIL_REGEX);
+      const hkMobileNumberRegEx = new RegExp(regex.HK_MOBILE_NUMBER_REGEX);
+      return !Boolean(
+        emailRegEx.test(this.get("email")) ||
+          hkMobileNumberRegEx.test(this.get("mobileNumber"))
+      );
     }),
 
     districts: Ember.computed(function() {
@@ -54,10 +53,12 @@ export default Ember.Controller.extend(
         ? this.formatMobileNumber()
         : "";
       let title = this.get("selectedTitle.id") || "Mr";
-      let language = this.get("selectedLanguage.id") || null;
-      let district = this.get("selectedDistrict.id") || null;
+      let language = this.get("selectedLanguage.id");
+      let district = this.get("selectedDistrict.id");
 
-      let { id: imageId } = await this.saveImage(this.get("newUploadedImage"));
+      let { id: imageId } = await this.uploadImage(
+        this.get("newUploadedImage")
+      );
 
       var params = {
         title: title,
@@ -75,9 +76,9 @@ export default Ember.Controller.extend(
       return { user: params };
     },
 
-    saveImage(image) {
+    uploadImage(image) {
       if (image) {
-        return image.save();
+        return this.get("userService").saveImage(image);
       }
       return { id: null };
     },

@@ -3,6 +3,6 @@ export const regex = {
   INT_REGEX: /^\d+$/,
   NON_DIGIT_REGEX: /[\D]/g,
   NON_DIGIT_FLOAT_REGEX: /[^\d\.]/g,
-  HK_MOBILE_NUMBER_REGEX: /^[456789]\d{7}/,
-  EMAIL_REGEX: /^[^@\s]+@[^@\s]+/
+  HK_MOBILE_NUMBER_REGEX: /^[456789]\d{7}/g,
+  EMAIL_REGEX: /^[^@\s]+@[^@\s]+/g
 };

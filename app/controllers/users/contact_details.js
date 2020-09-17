@@ -14,8 +14,6 @@ export default Ember.Controller.extend(
 
     invalidEmail: Ember.computed("user.email", function() {
       const emailRegEx = new RegExp(regex.EMAIL_REGEX);
-      // let email = this.get("user.email");
-      // return /^[^@\s]+@[^@\s]+/.test(email);
       return this.get("user.email").match(emailRegEx);
     }),
 
@@ -46,13 +44,6 @@ export default Ember.Controller.extend(
         district_id: this.get("user.associatedDistrict.id") || null
       };
       return { address_attributes };
-    },
-
-    saveImage() {
-      let image = this.get("newUploadedImage");
-      if (image) {
-        return image.save();
-      }
     },
 
     actions: {

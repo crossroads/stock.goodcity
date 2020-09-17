@@ -85,11 +85,6 @@ export default Addressable.extend({
       : "";
   }),
 
-  mobileWithoutCountryCode: Ember.computed("mobile", function() {
-    var phoneNumber = this.get("mobile");
-    return phoneNumber ? phoneNumber.substring("4") : null;
-  }),
-
   onlineStatusLabel: Ember.computed(
     "lastConnected",
     "lastDisconnected",
