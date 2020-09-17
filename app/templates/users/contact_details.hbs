@@ -83,8 +83,7 @@
           id="firstName"
           class="inline-edit-bg"
           value=user.firstName
-          focusOut=(action "focusOut" "firstName" user.firstName true)
-          focusIn=(action "focusIn" "firstName" user.firstName)
+          focusOut=(action "updateUserDetails")
         }}
         {{#if firstNameInputError}}
         <div class='inline-edit-error'>{{t 'organisation.user.validation_error.first_name'}}</div>
@@ -101,8 +100,7 @@
           id="lastName"
           class="inline-edit-bg"
           value=user.lastName
-          focusOut=(action "focusOut" "lastName" user.lastName true)
-          focusIn=(action "focusIn" "lastName" user.lastName)
+          focusOut=(action "updateUserDetails")
         }}
         {{#if lastNameInputError}}
           <div class='inline-edit-error'>{{t 'organisation.user.validation_error.family_name'}}</div>
@@ -121,8 +119,7 @@
           id="email"
           class="inline-edit-bg"
           formnovalidate="true"
-          focusOut=(action "focusOut" "email" user.email mobileNotPresent)
-          focusIn=(action "focusIn" "email" user.email)
+          focusOut=(action "updateUserDetails")
         }}
 
         {{#if emailInputError}}
@@ -144,16 +141,15 @@
       </div>
       <div class="small-5 columns ss field-container">
         {{numeric-input
-          value=user.mobileWithoutCountryCode
+          value=mobile
           formnovalidate="true"
           class="inline-edit-bg"
           name="mobileNumber"
-
           id="mobile"
           maxlength="8"
-          focusIn=(action "focusIn" "mobile" user.mobileWithoutCountryCode)
-          focusOut=(action "focusOut" "mobile" user.mobileWithoutCountryCode emailIdNotPresent)
-          pattern=".{8,}"}}
+          focusOut=(action "updateUserDetails")
+          pattern=".{8,}"
+        }}
 
         {{#if mobileInputError}}
           <div class='inline-edit-error'>{{t 'organisation.user.validation_error.blank_mobile_number'}}</div>

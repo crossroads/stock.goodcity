@@ -53,16 +53,11 @@ export default Ember.Controller.extend(
       const mobileNumber = this.get("mobileNumber")
         ? this.formatMobileNumber()
         : "";
-      let title = this.get("selectedTitle")
-        ? this.get("selectedTitle").id
-        : "Mr";
-      let language = this.get("selectedLanguage")
-        ? this.get("selectedLanguage").id
-        : null;
-      let district = this.get("selectedDistrict")
-        ? this.get("selectedDistrict").id
-        : null;
-      let { id: imageId } = await this.saveImage();
+      let title = this.get("selectedTitle.id") || "Mr";
+      let language = this.get("selectedLanguage.id") || null;
+      let district = this.get("selectedDistrict.id") || null;
+
+      let { id: imageId } = await this.saveImage(this.get("newUploadedImage"));
 
       var params = {
         title: title,
@@ -80,8 +75,7 @@ export default Ember.Controller.extend(
       return { user: params };
     },
 
-    saveImage() {
-      let image = this.get("newUploadedImage");
+    saveImage(image) {
       if (image) {
         return image.save();
       }
@@ -99,7 +93,6 @@ export default Ember.Controller.extend(
           let data = await this.get("userService").createUser(
             await this.getRequestParams()
           );
-          console.log(data);
           this.get("store").pushPayload(data);
           this.clearFormData();
           this.transitionToRoute("users.details", data.user.id);

@@ -105,6 +105,14 @@ export default ApiBaseService.extend({
     return this.PUT(`/users/${userId}`, userParams);
   },
 
+  deleteImage(img) {
+    img.deleteRecord();
+    return img.save();
+  },
+
+  saveImage(img) {
+    return img.save();
+  },
   deleteUserRole(userId, roleId) {
     let userRole = this.get("store")
       .peekAll("user_role")
