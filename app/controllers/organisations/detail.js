@@ -25,10 +25,8 @@ export default Ember.Controller.extend(SearchOptionMixin, AsyncMixin, {
      */
     updateOrganisation(e) {
       let isValid = true;
-      switch (e.target.name) {
-        case "name_en":
+      if (e.target.name === "name_en") {
           isValid = !Boolean(this.get("isInValidNameEn"));
-          break;
       }
 
       if (isValid) {
