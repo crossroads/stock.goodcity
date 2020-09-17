@@ -17,20 +17,9 @@ export default Ember.Controller.extend(
       return this.get("user.email").match(emailRegEx);
     }),
 
-    invalidMobile: Ember.computed("mobile", function() {
+    invalidMobile: Ember.computed("mobileNumber", function() {
       const hkMobileNumberRegEx = new RegExp(regex.HK_MOBILE_NUMBER_REGEX);
-      return this.get("mobile").match(hkMobileNumberRegEx);
-    }),
-
-    mobile: Ember.computed("user.mobile", {
-      get() {
-        let phoneNumber =
-          this.get("user.mobile") && this.get("user.mobile").slice(4);
-        return phoneNumber;
-      },
-      set(key, value) {
-        return value;
-      }
+      return this.get("mobileNumber").match(hkMobileNumberRegEx);
     }),
 
     districts: Ember.computed(function() {
@@ -48,13 +37,9 @@ export default Ember.Controller.extend(
 
     actions: {
       updateUserDetails(e) {
+        console.log(e);
         let value = e.target.value.trim();
         let isValid;
-        if (this.get("mobile")) {
-          this.set("user.mobile", "+852" + this.get("mobile"));
-        } else {
-          this.set("user.mobile", this.get("mobile"));
-        }
         if (Object.keys(this.get("user").changedAttributes()).length === 0) {
           this.set(`${e.target.id}InputError`, false);
           this.set(`${e.target.id}ValidationError`, false);
@@ -90,10 +75,21 @@ export default Ember.Controller.extend(
         } else {
           this.get("user").rollbackAttributes();
           Ember.$(`#${e.target.id}`).focus();
-          return e.target.value
+
+          e.target.value
             ? this.set(`${e.target.id}ValidationError`, true)
             : this.set(`${e.target.id}InputError`, true);
         }
+      },
+
+      updateMobile(e) {
+        let value = e.target.value.trim();
+        if (value) {
+          this.set("user.mobile", "+852" + this.get("mobileNumber"));
+        } else {
+          this.set("user.mobile", this.get("mobileNumber"));
+        }
+        this.send("updateUserDetails", e);
       },
 
       uploadEditedImageSuccess(e, data) {

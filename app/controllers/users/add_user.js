@@ -41,25 +41,17 @@ export default Ember.Controller.extend(
       this.set("newUploadedImage", null);
     },
 
-    formatMobileNumber() {
-      const mobile = this.get("mobileNumber");
-      if (mobile.length) {
-        return config.APP.HK_COUNTRY_CODE + mobile;
-      }
+    formatMobileNumber(number) {
+      return number ? config.APP.HK_COUNTRY_CODE + mobile : "";
     },
 
     async getRequestParams() {
-      const mobileNumber = this.get("mobileNumber")
-        ? this.formatMobileNumber()
-        : "";
+      const mobileNumber = this.formatMobileNumber(this.get("mobileNumber"));
       let title = this.get("selectedTitle.id") || "Mr";
       let language = this.get("selectedLanguage.id");
       let district = this.get("selectedDistrict.id");
 
-      let { id: imageId } = await this.uploadImage(
-        this.get("newUploadedImage")
-      );
-
+      let imageId = await this.uploadImage(this.get("newUploadedImage"));
       var params = {
         title: title,
         first_name: this.get("firstName"),
@@ -76,11 +68,11 @@ export default Ember.Controller.extend(
       return { user: params };
     },
 
-    uploadImage(image) {
+    async uploadImage(image) {
       if (image) {
-        return this.get("userService").saveImage(image);
+        const result = await this.get("userService").saveImage(image);
+        return result.get("id");
       }
-      return { id: null };
     },
 
     actions: {

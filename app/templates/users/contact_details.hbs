@@ -141,13 +141,13 @@
       </div>
       <div class="small-5 columns ss field-container">
         {{numeric-input
-          value=mobile
+          value=mobileNumber
           formnovalidate="true"
           class="inline-edit-bg"
           name="mobileNumber"
           id="mobile"
           maxlength="8"
-          focusOut=(action "updateUserDetails")
+          focusOut=(action "updateMobile")
           pattern=".{8,}"
         }}
 

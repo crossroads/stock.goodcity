@@ -10,5 +10,14 @@ export default AuthorizeRoute.extend({
           reload: true
         })
     });
+  },
+
+  setupController(controller, model) {
+    this._super(controller, model);
+    let phoneNumber =
+      model.user.get("mobile") && model.user.get("mobile").slice(4);
+    controller.set("mobileNumber", phoneNumber);
+    controller.set("mobileInputError", false);
+    controller.set("mobileValidationError", false);
   }
 });
