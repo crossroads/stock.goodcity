@@ -8,10 +8,10 @@
       <ul class="wrapper">
         <li class="form-row">
           <label for="name_en">{{t 'organisation.name_en'}}</label>
-          {{input type="text" focusOut=(action 'updateOrganisation') autocomplete='off' value=model.nameEn autoComplete=false}}
+          {{input name="name_en" type="text" focusOut=(action 'updateOrganisation') autocomplete='off' value=model.nameEn autoComplete=false}}
         </li>
       </ul>
-      {{#if (is-and isInValidNameEn showError)}}
+      {{#if isInValidNameEn }}
         <div class="error-wrapper">
           <div class='error-message'>{{t 'organisation.validation_error.name'}}</div>
         </div>
@@ -22,7 +22,7 @@
       <ul class="wrapper">
         <li class="form-row">
           <label for="name_zh_tw">{{t 'organisation.name_zh_tw'}}</label>
-          {{input type="text" focusOut=(action 'updateOrganisation') autocomplete='off' value=model.nameZhTw autoComplete=false}}
+          {{input name="name_zh_tw" type="text" focusOut=(action 'updateOrganisation') autocomplete='off' value=model.nameZhTw autoComplete=false}}
         </li>
       </ul>
     </div>
@@ -30,7 +30,7 @@
     <div class="form-container">
       <ul class="wrapper">
         <li class="form-row">
-          <label for="name_zh">{{t 'organisation.type'}}</label>
+          <label for="organisation_type">{{t 'organisation.type'}}</label>
           <div class="organisation-type">
             {{select-list
               on-change=(action 'updateOrganisationType')
@@ -38,6 +38,7 @@
               value=selectedOrganisationType
               selectedValue=selectedOrganisationType
               classNames='condition'
+              name="organisation_type_id"
               idNames='condition-select' }}
           </div>
         </li>
@@ -60,7 +61,7 @@
         <li class="form-row">
           <label for="description_zh_tw">{{t 'organisation.description_zh_tw'}}</label>
           <div class="description">
-            {{auto-resize-textarea data-autoresize=true name="description_en" value=model.descriptionZhTw focusOut=(action 'updateOrganisation') pattern=".*\S.*"}}
+            {{auto-resize-textarea data-autoresize=true name="description_zh_tw" value=model.descriptionZhTw focusOut=(action 'updateOrganisation') pattern=".*\S.*"}}
           </div>
         </li>
       </ul>
@@ -70,7 +71,7 @@
       <ul class="wrapper">
         <li class="form-row">
           <label for="registration">{{t 'organisation.registration'}}</label>
-          {{input type="text" focusOut=(action 'updateOrganisation') autocomplete='off' value=model.registration autoComplete=false}}
+          {{input name="registration" type="text" focusOut=(action 'updateOrganisation') autocomplete='off' value=model.registration autoComplete=false}}
         </li>
       </ul>
     </div>
@@ -79,14 +80,9 @@
       <ul class="wrapper">
         <li class="form-row">
           <label for="website">{{t 'organisation.website'}}</label>
-          {{input type="text" focusOut=(action 'updateOrganisation') autocomplete='off' value=model.website autoComplete=false}}
+          {{input name="website" type="text" focusOut=(action 'updateOrganisation') autocomplete='off' value=model.website autoComplete=false}}
         </li>
       </ul>
-      {{#if (is-and isInValidWebsite showError)}}
-        <div class="error-wrapper">
-          <div class='error-message'>{{t 'organisation.validation_error.website'}}</div>
-        </div>
-      {{/if}}
     </div>
 
     <div class="form-container">
@@ -102,11 +98,12 @@
               on-change=(action "updateCountry")
               isClearable=false
               prompt=""
+              name="country_id"
               on-search=(action "onSearch" "country")}}
           </div>
         </li>
       </ul>
-      {{#if (is-and isInValidCountry showError) }}
+      {{#if isInValidCountry }}
         <div class="error-wrapper">
           <div class='error-message'>{{t 'organisation.validation_error.country'}}</div>
         </div>
