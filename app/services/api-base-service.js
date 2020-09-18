@@ -24,11 +24,14 @@ export default Ember.Service.extend({
   // ----- Utilities -----
   _request(url, options, authorizedRequest) {
     const { action, body } = options;
+    const language = this.get("session.language");
     return new AjaxPromise(
       url,
       action,
       authorizedRequest ? this.get("session.authToken") : null,
-      body
+      body,
+      null,
+      language
     );
   },
 
