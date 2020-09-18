@@ -106,10 +106,12 @@ export default ApiBaseService.extend({
   },
 
   assignRole(userId, roleId, date) {
-    date = moment(date)
-      .set("hour", 20)
-      .set("minutes", 0)
-      .format("LLLL");
+    if (date) {
+      date = moment(date)
+        .set("hour", 20)
+        .set("minutes", 0)
+        .format("LLLL");
+    }
 
     this.POST(`/user_roles`, {
       user_role: {

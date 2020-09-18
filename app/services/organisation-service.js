@@ -21,7 +21,7 @@ export default ApiBaseService.extend({
     return this.POST("/gc_organisations", { organisation: params });
   },
 
-  update(params, id) {
+  update(id, params) {
     return this.PUT(`/gc_organisations/${id}`, { organisation: params });
   }
 });

@@ -1,13 +1,12 @@
 import Ember from "ember";
+import _ from "lodash";
 
 import SearchOptionMixin from "stock/mixins/search_option";
 import AsyncMixin, { ERROR_STRATEGIES } from "stock/mixins/async";
-import { regex } from "stock/constants/regex";
 
 export default Ember.Controller.extend(SearchOptionMixin, AsyncMixin, {
   organisationService: Ember.inject.service(),
   organisation: Ember.computed.alias("model"),
-  showError: false,
 
   isInValidNameEn: Ember.computed("model.nameEn", function() {
     return !this.get("model.nameEn").trim().length;
@@ -17,32 +16,23 @@ export default Ember.Controller.extend(SearchOptionMixin, AsyncMixin, {
     return !this.get("country.id");
   }),
 
-  isInValidWebsite: Ember.computed("model.website", function() {
-    const websiteRegEx = new RegExp(regex.WEBSITE_REGEX);
-
-    return (
-      this.get("model.website") &&
-      !this.get("model.website").match(websiteRegEx)
-    );
-  }),
-
   actions: {
     /**
      * Updates the organisation if
      *      nameEn is present
      *      country is present
      *      type is present
-     *      website has a valid format iff its present
      */
-    updateOrganisation() {
-      if (
-        !this.get("isInValidNameEn") &&
-        !this.get("isInValidCountry") &&
-        !this.get("isInValidWebsite")
-      ) {
-        this.send("update");
-      } else {
-        this.set("showError", true);
+    updateOrganisation(e) {
+      let isValid = true;
+      if (e.target.name === "name_en") {
+          isValid = !Boolean(this.get("isInValidNameEn"));
+      }
+
+      if (isValid) {
+        if (this.get("model").changedAttributes()[_.camelCase(e.target.name)]) {
+          this.send("update", e.target.name, e.target.value);
+        }
       }
     },
 
@@ -51,31 +41,28 @@ export default Ember.Controller.extend(SearchOptionMixin, AsyncMixin, {
         .peekRecord("country", value.id)
         .get("nameEn");
       this.set("country", { id: value.id, nameEn: countryName });
-      this.send("updateOrganisation");
+      this.send("update", "country_id", value.id);
     },
 
     updateOrganisationType({ id, name }) {
       this.set("selectedOrganisationType", { id, name });
-      this.send("updateOrganisation");
+      this.send("update", "organisation_type_id", id);
     },
 
-    update() {
+    update(name, value) {
       this.runTask(async () => {
         try {
-          const organisation = {
-            name_en: this.get("model.nameEn"),
-            name_zh_tw: this.get("model.nameZhTw"),
-            description_en: this.get("model.descriptionEn"),
-            description_zh_tw: this.get("model.descriptionZhTw"),
-            registration: this.get("model.registration"),
-            website: this.get("model.website"),
-            country_id: this.get("country.id"),
-            organisation_type_id: this.get("selectedOrganisationType.id")
-          };
-          await this.get("organisationService").update(
-            organisation,
-            this.get("model.id")
+          const organisation = { [name]: value };
+          let data = await this.get("organisationService").update(
+            this.get("model.id"),
+            organisation
           );
+          // TODO: Make use of single organisation model
+          // Once that is done remove the next line
+          // Reason: The response has organisation node, which manipulates the organisation model in ember
+          // But the model used in this controller is gc_organisation 🤦🏻‍♂️
+          data = { ...data, gc_organisation: data.organisation };
+          this.get("store").pushPayload(data);
         } catch (e) {
           this.get("model").rollbackAttributes();
           throw e;
