@@ -649,11 +649,10 @@ export default {
     website: "網頁",
     country: "國家/ 地區",
     type: "類別",
-    cancel_warning:
-      "You will lose all your data. Are you sure you want to cancel this?",
+    cancel_warning: "你將會遺失所有資料。你確定要取消嗎？",
     validation_error: {
-      name: "Name cannot be blank.",
-      country: "Country cannot be blank."
+      name: "名稱不能留空。",
+      country: "國家/地區不能留空。"
     },
     user: {
       first_name: "名",
