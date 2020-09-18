@@ -968,7 +968,19 @@ export default {
       staff_roles: "Staff / Volunteer Roles",
       stock_app: "Stock App",
       admin_app: "Admin App",
-      disable_user: "Disable User Account"
+      disable_user_account: "Disable User Account",
+      disable_user: "Disable User",
+      disabled_user_info:
+        "User will be denied access to all apps including donor app.",
+      disabled_user_note:
+        "Note: you are allowed remove the phone and email address from a disabled user account. This can be useful if the number has been assumed by a different person without giving the new user another person 's history.",
+      re_enable_user_account: "Re-enable User Account",
+      enabled_user_info: "All prior access rights will be reserved.",
+      enabled_user_note:
+        "Note: If you do not wish this user to have same rights to access apps or act on behalf of charities as they had before, please modify their access.",
+      enable_user: "Re-enable User",
+      re_enable: "Re-enable",
+      account_disabled: "Account Disabled"
     },
 
     roles: {

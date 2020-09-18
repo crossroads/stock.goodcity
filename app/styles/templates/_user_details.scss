@@ -41,6 +41,12 @@
     }
   }
 
+  #messageBox {
+    @media #{$small-only} {
+      height: auto;
+    }
+  }
+
   .contact-icons {
     margin: auto;
     text-align: center;

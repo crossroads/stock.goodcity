@@ -22,7 +22,7 @@
   {{#if (is-and canDisableUsers isDisabledUser)}}
     <div class="disabled-account">
       <i>{{fa-icon 'exclamation-triangle'}}</i>
-      <span>Account Disabled: <span class="link" {{action "displayEnableUserPopup"}}>Re-enable</span></span>
+      <span>{{t "users.details.account_disabled"}}: <span class="link" {{action "displayEnableUserPopup"}}>{{t "users.details.re_enable"}}</span></span>
     </div>
   {{/if}}
 

@@ -48,6 +48,9 @@ export default Ember.Controller.extend(AsyncMixin, {
 
     cancelDisableUser() {
       this.set("disableUserPopupVisible", false);
+    },
+
+    cancelEnableUser() {
       this.set("enableUserPopupVisible", false);
     },
 
