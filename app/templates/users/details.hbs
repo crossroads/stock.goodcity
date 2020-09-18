@@ -1,0 +1,96 @@
+<nav class="tab-bar user-details-heading">
+  <section class="left-small">
+    {{#link-to "manage_users" class="user-back-link"}}
+      <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-left'}}</i>
+      <div>{{t "back"}}</div>
+    {{/link-to}}
+  </section>
+
+  <section class="middle tab-bar-section">
+
+    <h1 class="title">
+      {{model.fullName}}
+    </h1>
+  </section>
+</nav>
+
+<section class="user-details-section">
+  <div class="last-online-time">
+    {{t "users.details.last_on_goodcity"}} {{time-ago timeValue=model.lastDisconnected smallPrefix=false}}
+  </div>
+
+  {{#if model.image}}
+    <div class="image-zoom-container content user-img" id='image-1'>
+      {{image-zoom item=model}}
+    </div>
+  {{/if}}
+
+  <div class="row contact-icons">
+    {{#if model.email}}
+      <span class="icon-badge"><i>{{fa-icon 'envelope'}}</i></span>
+    {{/if}}
+
+    {{#if model.mobile}}
+      <span class="icon-badge"><i>{{fa-icon 'headset'}}</i></span>
+    {{/if}}
+  </div>
+
+  {{#link-to "users.contact_details" model.id}}
+    <div class="row contact-details-link">
+      {{t "users.details.contact_details"}}
+      <span class='arrow-icon'>{{fa-icon 'angle-right'}}</span>
+    </div>
+  {{/link-to}}
+
+  <div class="row staff-role-heading">
+    {{t "users.details.staff_roles"}}
+  </div>
+
+  {{#link-to "users.stock_roles" model.id}}
+    <div class="row app-roles stock-app-roles">
+      <div class="small-4 columns">{{t "users.details.stock_app"}}</div>
+      <div class="small-6 columns">{{stockRoleAccess}}</div>
+      <div class="small-2 columns">
+        <span class='arrow-icon'>{{fa-icon 'angle-right'}}</span>
+      </div>
+    </div>
+  {{/link-to}}
+
+  {{#link-to "users.admin_roles" model.id}}
+    <div class="row app-roles">
+      <div class="small-4 columns">{{t "users.details.admin_app"}}</div>
+      <div class="small-6 columns">{{adminRoleAccess}}</div>
+      <div class="small-2 columns">
+        <span class='arrow-icon'>{{fa-icon 'angle-right'}}</span>
+      </div>
+    </div>
+  {{/link-to}}
+
+  {{#if model.organisations}}
+    <div class="row staff-role-heading">
+      <div class="small-6 columns">
+        Charity Positions
+      </div>
+
+      <div class="small-6 columns">
+        Add a charity position
+      </div>
+    </div>
+
+    {{!-- TO-DO  --}}
+    <ul class="organisations-list">
+      {{#each model.organisations as |organisation|}}
+        <li class="row app-roles">
+          {{organisation.name}}
+          <span class='arrow-icon'>{{fa-icon 'angle-right'}}</span>
+        </li>
+      {{/each}}
+    </ul>
+    {{!-- END --}}
+  {{/if}}
+
+  <div class="disable-user-link">
+    {{t "users.details.disable_user"}}
+  </div>
+
+</section>

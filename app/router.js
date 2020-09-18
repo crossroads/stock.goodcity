@@ -17,15 +17,6 @@ Router.map(function() {
   this.route("item_filters");
   this.route("my_notifications");
 
-  // Users
-  this.route("manage_users");
-  this.route("add_user", {
-    path: "/users/new"
-  });
-  this.route("user_details", {
-    path: "/users/:user_id"
-  });
-
   this.route("stocktakes", function() {
     this.route("detail", { path: "/:stocktake_id" });
   });
@@ -83,15 +74,26 @@ Router.map(function() {
     this.route("detail", { path: "/:organisation_id" });
     this.route("users", { path: "/:organisation_id/users" });
     this.route("orders", { path: "/:organisation_id/orders" });
+
+    this.route("users", { resetNamespace: true, path: "/" }, function() {
+      this.route("new", { path: "/:organisation_id/users/new" });
+    });
   });
 
-  this.route(
-    "users",
-    { resetNamespace: true, path: "/organisation/" },
-    function() {
-      this.route("new", { path: "/:organisation_id/users/new" });
-    }
-  );
+  // Users
+  this.route("manage_users");
+
+  this.route("users", function() {
+    this.route("add_user", { path: "/new" });
+    this.route("details", { path: "/:user_id" });
+    this.route("contact_details", { path: "/:user_id/contact_details" });
+    this.route("admin_roles", {
+      path: "/:user_id/admin_roles"
+    });
+    this.route("stock_roles", {
+      path: "/:user_id/stock_roles"
+    });
+  });
 
   this.route("not-found", { path: "/*path" });
 });
