@@ -53,6 +53,7 @@ export default {
   new_order: "+ HK Orders",
   full_name: "{{firstName}} {{lastName}}",
   mobile_prefix: "+852",
+  confirm: "確定",
   not_found:
     "Oooops, the location you're headed to doesn't seem to exist anymore. Sorry!",
   unavailable_item: "Sorry! This item is not available.",
