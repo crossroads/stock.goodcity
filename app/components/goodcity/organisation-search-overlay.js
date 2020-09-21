@@ -16,6 +16,10 @@ export default Ember.Component.extend(SearchMixin, {
     }
   }),
 
+  hasSearchText: Ember.computed("searchText", function() {
+    return !!this.get("searchText");
+  }),
+
   hideResults() {
     this.set("displayResults", false);
   },
@@ -25,6 +29,10 @@ export default Ember.Component.extend(SearchMixin, {
   },
 
   actions: {
+    clearSearch() {
+      this.set("searchText", "");
+    },
+
     addOrganisation() {
       this.replaceRoute("organisations.new");
     },

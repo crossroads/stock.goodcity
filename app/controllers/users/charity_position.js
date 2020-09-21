@@ -16,7 +16,7 @@ export default Ember.Controller.extend(AsyncMixin, OrganisationMixin, {
     }
   ),
 
-  isInvalidOrganisation: Ember.computed("organisation", function() {
+  isInvalidOrganisation: Ember.computed("model.organisation", function() {
     return !this.get("model.organisation.nameEn");
   }),
 

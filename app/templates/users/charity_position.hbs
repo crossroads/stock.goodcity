@@ -1,78 +1,83 @@
-<div class="charity-position-page">
-  <div class="header-container">
-    <div class="back-button">
-      {{#link-to "users.details" user_id class="user-back-link"}}
-        <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-left'}}</i>
-        <span>{{t "back"}}</span>
-      {{/link-to}}
-    </div>
-    <div>
-      <h3 class="header">
-        {{t 'users.charity_position.add_charity_position'}}
-      </h3>
-    </div>
-  </div>
+<nav class="tab-bar user-details-heading">
+  <section class="left-small">
+    {{#link-to "users.details" user_id class="user-back-link"}}
+    <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-left'}}</i>
+    <div>{{t "back"}}</div>
+    {{/link-to}}
+  </section>
 
+  <section class="middle tab-bar-section">
+    <h1 class="title">
+      {{t 'users.charity_position.add_charity_position'}}
+    </h1>
+  </section>
+</nav>
+
+<div class="charity-position-page">
   {{#validatable-form onSubmit=(action 'save') as |form|}}
     <div class="form-container">
-      <ul class="wrapper">
-        <li class="form-row">
-          <label for="status">{{t 'users.charity_position.status'}}</label>
-          <div class="status">
-            {{select-list
-              content=allStatus
-              on-change=(action "onStatusChange")
-              selectedValue=selectedStatus
-              value=selectedStatus
-              selectArrow=true
-              classNames='grade' }}
-          </div>
-        </li>
-      </ul>
 
-      <ul class="wrapper">
-        <li class="form-row">
+      <div class="row">
+        <div class="small-4 columns">
+          <label for="status">{{t 'users.charity_position.status'}}</label>
+        </div>
+        <div class="small-8 columns">
+          {{select-list
+            content=allStatus
+            on-change=(action "onStatusChange")
+            selectedValue=selectedStatus
+            value=selectedStatus
+            selectArrow=true
+            classNames='grade' }}
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="small-4 columns">
           <label for="organisation">{{t 'users.organisation'}}</label>
-          <div class="organisation-search" {{action "serchOrganisation"}}>
+        </div>
+        <div class="small-8 columns organisation-search" {{action "serchOrganisation"}}>
             {{#if model.organisation}}
               {{input type="text" id = "organisation" required='true' autocomplete='off' value=model.organisation.nameEn}}
             {{else}}
               {{input type="text" id = "organisation" required='true' autocomplete='off'}}
             {{/if}}
-          </div>
-        </li>
-      </ul>
-      {{#if isInvalidOrganisation }}
-        <div class="error-wrapper">
-          <div class='error-message'>{{t 'users.charity_position.validation_errors.organisation'}}</div>
+
+            {{#if isInvalidOrganisation }}
+              <div class='error-message'>
+                {{t 'users.charity_position.validation_errors.organisation'}}</div>
+            {{/if}}
         </div>
-      {{/if}}
-
-      <ul class="wrapper">
-        <li class="form-row">
-          <label for="position">{{t 'users.charity_position.position'}}</label>
-          {{input type='text' id='position' value=model.position}}
-        </li>
-      </ul>
-
-      <ul class="wrapper">
-        <li class="form-row">
-          <label for="preferred_number">{{t 'users.charity_position.preferred_number'}}</label>
-          {{numeric-input value=model.preferredContactNumber id="preferred_number" maxlength="8" pattern=".{8,}" required='true'}}
-        </li>
-      </ul>
-    </div>
-    {{#if isInvalidPreferredNumber }}
-      <div class="error-wrapper">
-        <div class='error-message'>{{t 'users.charity_position.validation_errors.preferred_number'}}</div>
       </div>
-    {{/if}}
 
-    <div class="button-container">
-      <div class="button-wrapper">
+      <div class="row">
+        <div class="small-4 columns">
+          <label for="position">{{t 'users.charity_position.position'}}</label>
+        </div>
+        <div class="small-8 columns">
+          {{input type='text' id='position' value=model.position}}
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="small-4 columns">
+          <label for="preferred_number">{{t 'users.charity_position.preferred_number'}}</label>
+        </div>
+        <div class="small-8 columns">
+          {{numeric-input value=model.preferredContactNumber id="preferred_number" maxlength="8" pattern=".{8,}" required='true'}}
+
+          <div class="error-message {{unless isInvalidPreferredNumber 'hide-error'}}">
+            {{t 'users.charity_position.validation_errors.preferred_number'}}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="columns small-6">
         <a {{action 'cancel'}} class="button secondary expand">{{t "cancel"}}</a>
       </div>
-      <div class="button-wrapper">
+      <div class="columns small-6">
         <a {{action 'submit' target=form}} class="button expand">
           {{t "save"}}
         </a>

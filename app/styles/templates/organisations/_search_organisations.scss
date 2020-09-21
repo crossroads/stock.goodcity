@@ -1,22 +1,4 @@
 .organisations_search_section {
-  .organisation_search_container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    height: 3rem;
-    border-bottom: 1px solid;
-    position: fixed;
-    width: 100%;
-    align-items: center;
-    padding-top: 10px;
-  }
-
-  .search-box-container {
-    flex-basis: 100%;
-    height: 0;
-    margin-top: 2rem;
-  }
-
   .search-box {
     background: none;
   }
@@ -38,47 +20,9 @@
       color: $text-color !important;
     }
 
-    a {
-      text-decoration: none;
-      top: 0.5rem;
-      margin-left: 0;
-      margin-right: -1rem;
-
-      @media #{$small-only} {
-        top: 0.6rem;
-        margin-top: 0.8rem;
-      }
-    }
-
-    .back_icon {
-      position: static;
-      color: #a3aab6;
-      font-size: 1rem;
-      vertical-align: bottom;
-      padding: 0;
-      padding-right: 0.2rem;
-
-      @media #{$small-only} {
-        font-size: 1rem;
-      }
-    }
-
-    .back_text {
-      display: inline-block;
-      text-decoration: none;
-      font-size: 1.2rem;
-
-      @media #{$small-only} {
-        font-size: 0.7rem;
-        vertical-align: baseline;
-      }
-    }
-
     .fa-times-circle {
-      right: 3%;
-      @media #{$small-only} {
-        right: 1%;
-      }
+      font-size: 1rem;
+      margin-bottom: 0.1rem;
     }
   }
 
