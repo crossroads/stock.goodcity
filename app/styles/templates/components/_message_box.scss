@@ -36,7 +36,6 @@
   @media (pointer:none), (pointer:coarse), #{$small-only} {
     max-height: initial;
     overflow: scroll;
-    height: 80%;
   }
 
   .button {
