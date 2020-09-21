@@ -19,25 +19,12 @@ export default Ember.Mixin.create(AsyncMixin, {
   actions: {
     /**
      * Open's the organisation overlay.
-     * Once the organisation is selected, navigates to the required url
-     * If no options are provided, then it navigates to the organisation detail screen
-     * @param {string} to
-     * @param {number} id
-     * @param {Object} options
+     * Once the organisation is selected, navigates to the organisation detail screen
      */
-    async withOrganisationNavigation(to, id, options = {}) {
+    async withOrganisationNavigation() {
       const organisation = await this.organisationLookup();
 
-      if (!to) {
-        return this.replaceRoute("organisations.detail", organisation.id);
-      }
-
-      if (Object.keys(options).length) {
-        if (id) {
-          return this.replaceRoute(to, id, options);
-        }
-        return this.replaceRoute(to, options);
-      }
+      return this.replaceRoute("organisations.detail", organisation.id);
     }
   }
 });
