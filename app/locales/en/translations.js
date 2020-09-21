@@ -47,8 +47,8 @@ export default {
   discard_changes: "Discard changes",
   manage_charity_users: "Manage charity users",
   create_new_item: "+Item",
-  create_new_box: "+Box",
-  create_new_pallet: "+Pallet",
+  create_new_box: "+Multi-Item Box",
+  create_new_pallet: "+Multi-Item Pallet",
   manage_inventory: "Quotas",
   manage_users: "Manage Users",
   search_user: "Search User",
@@ -986,6 +986,18 @@ export default {
     email: "Email",
     registered_on: "Registered on",
     last_connected_on: "Last connected on",
+
+    charity_position: {
+      add_charity_position: "Add Charity Position",
+      position: "Position",
+      status: "Status",
+      preferred_number: "Preferred Number",
+      cancel_warning: "Are you sure you want to cancel?",
+      validation_errors: {
+        preferred_number: "You must provide a contact number",
+        organisation: "Organisation cannot be blank"
+      }
+    },
 
     details: {
       last_on_goodcity: "Last on GoodCity",

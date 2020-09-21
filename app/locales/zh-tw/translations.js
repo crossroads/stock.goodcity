@@ -45,14 +45,15 @@ export default {
   discard_changes: "棄置變更",
   manage_charity_users: "Manage charity users",
   create_new_item: "+Item",
-  create_new_box: "+Box",
-  create_new_pallet: "+Pallet",
+  create_new_box: "++Multi-Item Box",
+  create_new_pallet: "+Multi-Item Pallet",
   manage_inventory: "Quotas",
   manage_users: "Manage Users",
   search_user: "Search User",
   new_order: "+ HK Orders",
   full_name: "{{firstName}} {{lastName}}",
   mobile_prefix: "+852",
+  confirm: "確定",
   not_found:
     "Oooops, the location you're headed to doesn't seem to exist anymore. Sorry!",
   unavailable_item: "Sorry! This item is not available.",
@@ -981,6 +982,18 @@ export default {
       enable_user: "Re-enable User",
       re_enable: "Re-enable",
       account_disabled: "Account Disabled"
+    },
+
+    charity_position: {
+      add_charity_position: "Add Charity Position",
+      position: "Position",
+      status: "Status",
+      preferred_number: "Preferred Number",
+      cancel_warning: "Are you sure you want to cancel?",
+      validation_errors: {
+        preferred_number: "You must provide a contact number",
+        organisation: "Organisation cannot be blank"
+      }
     },
 
     roles: {

@@ -8,6 +8,13 @@
   }}
 {{/let-alias}}
 
+{{#let-alias organisationService as |s|}}
+  {{goodcity/organisation-search-overlay
+    open=s.openOrganisationSearch
+    onSelect=s.onOrganisationSelect
+  }}
+{{/let-alias}}
+
 {{#let-alias locationService as |s|}}
   {{goodcity/locations-search-overlay
     open=s.openLocationSearch

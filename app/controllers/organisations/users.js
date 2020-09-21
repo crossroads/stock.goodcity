@@ -1,5 +1,7 @@
 import Ember from "ember";
 
-export default Ember.Controller.extend({
+import OrganisationMixin from "stock/mixins/organisation";
+
+export default Ember.Controller.extend(OrganisationMixin, {
   gcOrganisationUsers: null
 });

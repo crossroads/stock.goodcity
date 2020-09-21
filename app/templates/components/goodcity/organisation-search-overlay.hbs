@@ -1,0 +1,62 @@
+<div class="cmp locations search-overlay">
+  {{#popup-overlay open=open}}
+    <div class="organisations_search_section">
+      <div class="organisation_search_container">
+        <a {{action "cancelSearch"}} class="back">
+          <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-left'}}</i>
+          <span class="back_text">
+            {{t 'back'}}
+          </span>
+        </a>
+
+        <h3 class="header">
+          <span>{{t 'organisation_title'}}</span>
+        </h3>
+
+        <div {{action 'addOrganisation'}}>
+          {{t 'add'}}
+        </div>
+
+        <div class="search-box-container">
+          <div class="fixed_search_header search-box ui organisations_search">
+            {{focus-textfield
+              name="searchText"
+              id="organisation_search_overlay_input"
+              placeholder=(t "search_organisation")
+              autoComplete='false'
+              value=searchText}}
+            {{#if hasSearchText}}
+              <i class="pinned-right" {{action "clearSearch"}}>{{fa-icon 'times-circle' size='lg'}}</i>
+            {{/if}}
+          </div>
+        </div>
+      </div>
+
+      <section class="main-section organisation_search_result">
+        <div class="row search">
+          <div class="small-12 columns">
+            {{#if displayResults}}
+              {{#infinite-list height="75vh" loadMore=(action "loadMoreOrganisations") as |items| }}
+                <ul class="list list-activity list-offer-items">
+                  {{#each items as |organisation|}}
+                    <li {{action "setOrganization" organisation}}>
+                      <div class="row">
+                        <div class="small-12 columns">
+                          {{organisation.nameEn}}
+                        </div>
+                      </div>
+                      <div class="row">
+                        {{organisation.ordersCount}} {{t 'orders'}}
+                        {{organisation.usersCount}} <i>{{fa-icon 'users'}}</i>
+                      </div>
+                    </li>
+                  {{/each}}
+                </ul>
+              {{/infinite-list}}
+            {{/if}}
+          </div>
+        </div>
+      </section>
+    </div>
+  {{/popup-overlay}}
+</div>
