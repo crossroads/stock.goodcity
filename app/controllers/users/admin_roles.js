@@ -1,5 +1,7 @@
 import Ember from "ember";
 import _ from "lodash";
+import { ROLES } from "stock/constants/roles";
+import { ACCESS_TYPES } from "stock/constants/access-types";
 
 export default Ember.Controller.extend({
   printerService: Ember.inject.service(),
@@ -8,7 +10,10 @@ export default Ember.Controller.extend({
 
   selectedPrinterId: "",
   user: Ember.computed.alias("model.user"),
-  noAdminAppAccess: Ember.computed.equal("adminRoleAccess", "noAccess"),
+  noAdminAppAccess: Ember.computed.equal(
+    "adminRoleAccess",
+    ACCESS_TYPES.NO_ACCESS
+  ),
 
   printers: Ember.computed(function() {
     return this.get("printerService").allAvailablePrinters();
@@ -33,22 +38,23 @@ export default Ember.Controller.extend({
 
   roleError: Ember.computed("noAdminAppRole", "adminRoleAccess", function() {
     return (
-      this.get("noAdminAppRole") && this.get("adminRoleAccess") !== "noAccess"
+      this.get("noAdminAppRole") &&
+      this.get("adminRoleAccess") !== ACCESS_TYPES.NO_ACCESS
     );
   }),
 
   adminRoleAccess: Ember.computed("user.roles.[]", {
     get() {
       if (this.get("noAdminAppRole")) {
-        return "noAccess";
+        return ACCESS_TYPES.NO_ACCESS;
       } else if (this.get("roleExpiryDate")) {
-        return "accessTill";
+        return ACCESS_TYPES.LIMITED_ACCESS;
       } else {
-        return "accessForever";
+        return ACCESS_TYPES.UNLIMITED_ACCESS;
       }
     },
     set(_, value) {
-      if (value === "accessTill") {
+      if (value === ACCESS_TYPES.LIMITED_ACCESS) {
         this.set("roleExpiryDate", moment().format("DD/MMM/YYYY"));
       } else {
         this.set("roleExpiryDate", "");
@@ -61,9 +67,9 @@ export default Ember.Controller.extend({
   observeExpiryDate: Ember.observer("roleExpiryDate", function() {
     if (
       this.get("roleExpiryDate") &&
-      this.get("adminRoleAccess") !== "accessTill"
+      this.get("adminRoleAccess") !== ACCESS_TYPES.LIMITED_ACCESS
     ) {
-      this.set("adminRoleAccess", "accessTill");
+      this.set("adminRoleAccess", ACCESS_TYPES.LIMITED_ACCESS);
     }
   }),
 
@@ -76,11 +82,17 @@ export default Ember.Controller.extend({
   }),
 
   hasReviewerRole: Ember.computed("user.roles.[]", function() {
-    return this.get("userService").hasRole(this.get("user"), "Reviewer");
+    return this.get("userService").hasRole(
+      this.get("user"),
+      ROLES.ADMIN_APP_ROLES.REVIEWER
+    );
   }),
 
   hasSupervisorRole: Ember.computed("user.roles.[]", function() {
-    return this.get("userService").hasRole(this.get("user"), "Supervisor");
+    return this.get("userService").hasRole(
+      this.get("user"),
+      ROLES.ADMIN_APP_ROLES.SUPERVISOR
+    );
   }),
 
   noAdminAppRole: Ember.computed(
@@ -126,21 +138,21 @@ export default Ember.Controller.extend({
       let roleExpiryDate;
       let adminRoleAccess = this.get("adminRoleAccess");
 
-      if (adminRoleAccess === "noAccess") {
+      if (adminRoleAccess === ACCESS_TYPES.NO_ACCESS) {
         this.get("userService").deleteAdminRoles(this.get("user"));
       } else {
         if (this.get("canUpdateRole")) {
-          if (adminRoleAccess === "accessTill") {
+          if (adminRoleAccess === ACCESS_TYPES.LIMITED_ACCESS) {
             roleExpiryDate = this.get("roleExpiryDate");
           }
 
           this.updateUserRole(
-            "Reviewer",
+            ROLES.ADMIN_APP_ROLES.REVIEWER,
             this.get("hasReviewerRole"),
             roleExpiryDate
           );
           this.updateUserRole(
-            "Supervisor",
+            ROLES.ADMIN_APP_ROLES.SUPERVISOR,
             this.get("hasSupervisorRole"),
             roleExpiryDate
           );

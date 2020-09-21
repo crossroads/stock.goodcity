@@ -1,4 +1,3 @@
-import OrganisationRoute from './../organisation';
+import OrganisationRoute from "./../organisation";
 
-export default OrganisationRoute.extend({
-});
+export default OrganisationRoute.extend({});

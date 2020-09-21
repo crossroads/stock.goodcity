@@ -42,6 +42,9 @@
                         {{#if offer.company}}
                           ({{offer.company.name}})
                         {{/if}}
+                        {{#if offer.notes}}
+                          - {{offer.notes}}
+                        {{/if}}
                       </div>
                       <div class="time">
                         Received {{time-ago timeValue=offer.receivedAt smallPrefix=false}} ago

@@ -25,6 +25,7 @@ export default {
   search_no_results: "對不起，沒有搜尋結果",
   version: "Stock v.",
   organisation_title: "機構",
+  add: "+新增",
   save: "儲存",
   details: "詳情",
   orders_in_process: "Orders In Process",
@@ -52,6 +53,7 @@ export default {
   new_order: "+ HK Orders",
   full_name: "{{firstName}} {{lastName}}",
   mobile_prefix: "+852",
+  confirm: "確定",
   not_found:
     "Oooops, the location you're headed to doesn't seem to exist anymore. Sorry!",
   unavailable_item: "Sorry! This item is not available.",
@@ -189,7 +191,15 @@ export default {
     country: "Country",
     shipment_number: "Shipment number",
     people_helped: "Number benefiting",
-    description: "Description of need"
+    description: "Description of need",
+    approval_status: "Approval status",
+    approval_directions: `Please review the contact before processing their order. If they are eligible to request goods on behalf of the selected organisation “Authorize” them. If not, “Deny”`,
+    approve: "Approve",
+    deny: "Deny",
+    status_approved: "Approved",
+    status_pending: "Pending",
+    status_denied: "Denied",
+    status_expired: "Expired"
   },
   order_tabs: {
     summary: "總結",
@@ -253,7 +263,7 @@ export default {
     process: "Processed",
     loss: "Lost",
     pack: "Packed",
-    trash: "Thrashed",
+    trash: "Trashed",
     recycle: "Recycled",
     in_stock_info: "最少一件有貨存（即未被指派）",
     designated: "已指派",
@@ -410,6 +420,8 @@ export default {
     for_client: "For client / beneficiary (personal use)",
     for_charity_sale: "For charity sale, bartering (any form of trade)",
     title: "Title",
+    cannot_process_unless_approved:
+      "An organisation user must be approved before the order can be processed",
     client_information: {
       title: "受惠者資料",
       is_order_client: "您正在代替受惠者下訂單?",
@@ -629,6 +641,20 @@ export default {
     name: "姓名",
     description: "機構概要",
     registration: "註冊編號",
+    name_en: "機構名稱(英文)",
+    name_zh_tw: "機構名稱(中文)",
+    description_en: "機構簡介(英文)",
+    description_zh_tw: "機構簡介(中文)",
+    new: "New Organisation",
+    registration: "註冊編號",
+    website: "網頁",
+    country: "國家/ 地區",
+    type: "類別",
+    cancel_warning: "你將會遺失所有資料。你確定要取消嗎？",
+    validation_error: {
+      name: "名稱不能留空。",
+      country: "國家/地區不能留空。"
+    },
     user: {
       first_name: "名",
       last_name: "姓",
@@ -963,6 +989,18 @@ export default {
         "Sorry, you are not authorised to edit details for this user."
     },
 
+    charity_position: {
+      add_charity_position: "Add Charity Position",
+      position: "Position",
+      status: "Status",
+      preferred_number: "Preferred Number",
+      cancel_warning: "Are you sure you want to cancel?",
+      validation_errors: {
+        preferred_number: "You must provide a contact number",
+        organisation: "Organisation cannot be blank"
+      }
+    },
+
     roles: {
       admin_app_details: "Admin App Details",
       unauthorised_error:
@@ -994,5 +1032,4 @@ export default {
       stock_administrator_role: "Stock Administrator",
       stock_administrator_role_info: "This role is for managing stock items."
     }
-  }
 };

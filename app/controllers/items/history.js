@@ -76,6 +76,7 @@ export default detail.extend({
 
   groupedActionsAndVersions: Ember.computed(
     "model.detail",
+    "model",
     "versions",
     "itemActions",
     function() {
