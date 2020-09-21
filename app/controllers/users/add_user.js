@@ -1,11 +1,9 @@
 import Ember from "ember";
-
 import config from "stock/config/environment";
 import AsyncMixin, { ERROR_STRATEGIES } from "stock/mixins/async";
 import ImageUploadMixin from "stock/mixins/image_upload";
 import { regex } from "stock/constants/regex";
 import TitleAndLanguageMixin from "stock/mixins/grades_option";
-import Ember from "ember";
 
 export default Ember.Controller.extend(
   AsyncMixin,

@@ -1032,4 +1032,5 @@ export default {
       stock_administrator_role: "Stock Administrator",
       stock_administrator_role_info: "This role is for managing stock items."
     }
+  }
 };
