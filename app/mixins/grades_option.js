@@ -30,10 +30,10 @@ export default Ember.Mixin.create({
 
   languages: Ember.computed(function() {
     let translation = this.get("i18n");
-    let English = translation.t("users.languages.english");
-    let Chinese = translation.t("users.languages.chinese");
+    let english = translation.t("users.languages.english");
+    let chinese = translation.t("users.languages.chinese");
 
-    return [{ name: English, id: "en" }, { name: Chinese, id: "zh-tw" }];
+    return [{ name: english, id: "en" }, { name: chinese, id: "zh-tw" }];
   }),
 
   saleableOptions: Ember.computed(function() {

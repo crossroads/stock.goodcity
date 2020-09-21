@@ -37,7 +37,6 @@ export default Ember.Controller.extend(
 
     actions: {
       updateUserDetails(e) {
-        console.log(e);
         let value = e.target.value.trim();
         let isValid;
         if (Object.keys(this.get("user").changedAttributes()).length === 0) {
@@ -84,11 +83,8 @@ export default Ember.Controller.extend(
 
       updateMobile(e) {
         let value = e.target.value.trim();
-        if (value) {
-          this.set("user.mobile", "+852" + this.get("mobileNumber"));
-        } else {
-          this.set("user.mobile", this.get("mobileNumber"));
-        }
+        let mobileCode = value ? "+852" : "";
+        this.set("user.mobile", mobileCode + this.get("mobileNumber"));
         this.send("updateUserDetails", e);
       },
 

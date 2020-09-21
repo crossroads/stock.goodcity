@@ -42,7 +42,7 @@ export default Ember.Controller.extend(
     },
 
     formatMobileNumber(number) {
-      return number ? config.APP.HK_COUNTRY_CODE + mobile : "";
+      return number ? config.APP.HK_COUNTRY_CODE + number : "";
     },
 
     async getRequestParams() {
