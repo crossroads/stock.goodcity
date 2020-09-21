@@ -9,6 +9,7 @@ export default Ember.Controller.extend({
   locationService: Ember.inject.service(),
   packageService: Ember.inject.service(),
   packageTypeService: Ember.inject.service(),
+  organisationService: Ember.inject.service(),
   offerService: Ember.inject.service(),
   messagesUtil: Ember.inject.service("messages"),
   app_id: config.APP.ANDROID_APP_ID,

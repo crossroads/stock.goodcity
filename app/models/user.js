@@ -63,8 +63,11 @@ export default Addressable.extend({
     return this.get("firstName") + " " + this.get("lastName");
   }),
 
-  organisations: hasMany("organisation", {
-    async: false
+  organisations: Ember.computed("organisations_users_ids", function() {
+    const ids = this.get("organisationsUsers").map(record =>
+      record.get("organisationId")
+    );
+    return ids.map(id => this.store.peekRecord("organisation", id));
   }),
 
   organisationsUsers: hasMany("organisationsUsers", {

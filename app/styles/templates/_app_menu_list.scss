@@ -38,6 +38,14 @@
     margin-bottom: 0;
   }
 
+  .menu-list-anchor {
+    &.disable {
+      color: #7c8391 !important;
+      pointer-events: none;
+      cursor: not-allowed !important;
+    }
+  }
+
   .menu-option {
     text-align: center;
     font-size: 90%;
@@ -45,6 +53,10 @@
     @media #{$small-only} {
       font-size: 120%;
     }
+  }
+
+  .organisation-overlay {
+    color: white;
   }
 
   .option-subtext {

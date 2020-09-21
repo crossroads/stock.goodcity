@@ -28,6 +28,7 @@ export default {
   search_no_results: "Sorry, No results found.",
   version: "Stock v.",
   organisation_title: "Organisation",
+  add: "+Add",
   save: "Save",
   details: "Details",
   orders: "Orders",
@@ -195,7 +196,15 @@ export default {
     country: "Country",
     shipment_number: "Shipment number",
     people_helped: "Number benefiting",
-    description: "Description of need"
+    description: "Description of need",
+    approval_status: "Approval status",
+    approval_directions: `Please review the contact before processing their order. If they are eligible to request goods on behalf of the selected organisation “Authorize” them. If not, “Deny”`,
+    approve: "Approve",
+    deny: "Deny",
+    status_approved: "Approved",
+    status_pending: "Pending",
+    status_denied: "Denied",
+    status_expired: "Expired"
   },
   order_tabs: {
     summary: "Summary",
@@ -266,7 +275,7 @@ export default {
     process: "Processed",
     loss: "Lost",
     pack: "Packed",
-    trash: "Thrashed",
+    trash: "Trashed",
     recycle: "Recycled",
     in_stock_info: "At least one is available(i.e not designated)",
     designated: "Designated",
@@ -430,6 +439,8 @@ export default {
     for_client: "For client / beneficiary (personal use)",
     for_charity_sale: "For charity sale, bartering (any form of trade)",
     title: "Title",
+    cannot_process_unless_approved:
+      "An organisation user must be approved before the order can be processed",
     client_information: {
       title: "Client Information",
       is_order_client: "Is this order being placed on behalf of a client?",
@@ -654,6 +665,24 @@ export default {
     name: "Name",
     description: "Description",
     registration: "Registration",
+
+    name_en: "Name EN",
+    name_zh_tw: "Name ZH",
+    description_en: "Description EN",
+    description_zh_tw: "Description ZH",
+    new: "New Organisation",
+    registration: "Registration",
+    website: "Website",
+    country: "Country",
+    type: "Type",
+    cancel_warning:
+      "You will lose all your data. Are you sure you want to cancel this?",
+    validation_error: {
+      name: "Name cannot be blank.",
+      country: "Country cannot be blank.",
+      website: "Website format invalid."
+    },
+
     user: {
       first_name: "First Name",
       last_name: "Family Name",
@@ -968,6 +997,18 @@ export default {
     },
     registered_on: "Registered on",
     last_connected_on: "Last connected on",
+
+    charity_position: {
+      add_charity_position: "Add Charity Position",
+      position: "Position",
+      status: "Status",
+      preferred_number: "Preferred Number",
+      cancel_warning: "Are you sure you want to cancel?",
+      validation_errors: {
+        preferred_number: "You must provide a contact number",
+        organisation: "Organisation cannot be blank"
+      }
+    },
 
     details: {
       last_on_goodcity: "Last on GoodCity",

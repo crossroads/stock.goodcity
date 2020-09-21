@@ -60,12 +60,33 @@
     padding-bottom: 0.5rem;
   }
 
+  .add-charity-position {
+    text-decoration: underline;
+  }
+
+  .charity-role-content {
+    display: flex;
+    justify-content: space-evenly;
+    @media #{$small-only} {
+      font-size: 0.7rem;
+    }
+  }
+
+  .status-text{
+    float: right;
+    padding-right: 10%;
+  }
+
   .contact-details-link,
   .app-roles {
     padding: 1rem;
     padding-right: 0.5rem;
     background-color: #1a3964;
     color: white;
+
+    .company-name {
+      flex: 2;
+    }
 
     .arrow-icon {
       float: right;
