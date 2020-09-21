@@ -66,19 +66,19 @@
     </div>
   {{/link-to}}
 
-  {{#if model.organisations}}
-    <div class="row staff-role-heading">
-      <div class="small-6 columns">
-        Charity Positions
-      </div>
-
-      <div class="small-6 columns add-charity-position">
-        <span {{action "addCharityPosition"}}>
-          {{t 'users.charity_position.add_charity_position'}}
-        </span>
-      </div>
+  <div class="row staff-role-heading">
+    <div class="small-6 columns">
+      Charity Positions
     </div>
 
+    <div class="small-6 columns add-charity-position">
+      <span {{action "addCharityPosition"}}>
+        {{t 'users.charity_position.add_charity_position'}}
+      </span>
+    </div>
+  </div>
+
+  {{#if model.organisations}}
     <ul class="organisations-list">
       {{#each userOrganisationDetails as |detail|}}
         <li {{action 'viewCharityPosition' detail.id}} class="row app-roles charity-role-content">
