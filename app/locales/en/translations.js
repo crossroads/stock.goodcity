@@ -987,6 +987,18 @@ export default {
     registered_on: "Registered on",
     last_connected_on: "Last connected on",
 
+    charity_position: {
+      add_charity_position: "Add Charity Position",
+      position: "Position",
+      status: "Status",
+      preferred_number: "Preferred Number",
+      cancel_warning: "Are you sure you want to cancel?",
+      validation_errors: {
+        preferred_number: "You must provide a contact number",
+        organisation: "Organisation cannot be blank"
+      }
+    },
+
     details: {
       last_on_goodcity: "Last on GoodCity",
       contact_details: "Contact Details",

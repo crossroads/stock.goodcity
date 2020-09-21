@@ -1,0 +1,146 @@
+.charity-position-page {
+  $dropdown-body: #000000;
+  $input-border: #8091a9;
+  $white: #fff;
+  $background-color: #002352;
+  $error-background: #f46769;
+
+  .header-container {
+    display: flex;
+    align-items: stretch;
+    justify-content: flex-start;
+    margin-top: 1rem;
+    border-bottom: 1px solid;
+  }
+
+  .back-button {
+    flex-grow: 0.5;
+    align-self: center;
+  }
+
+  .form-container {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 2em;
+    border-radius: 3px;
+    .wrapper {
+      margin-bottom: 0px;
+    }
+
+    label {
+      font-size: 1rem;
+      @media #{$small-only} {
+        font-size: 0.8rem;
+        margin-top: 8px;
+      }
+    }
+
+    input {
+      background: $background-color !important;
+      color: white !important;
+      border: 1px solid $input-border!important;
+      @media #{$small-only} {
+        font-size: 0.8rem;
+      }
+    }
+
+    select {
+      background-color: $background-color !important;
+      color: white;
+      border: 1px solid $input-border!important;
+      @media #{$small-only} {
+        font-size: 0.8rem;
+      }
+    }
+
+    label.select::after {
+      top: 0.8rem !important;
+    }
+
+    .organisation-search{
+      width: 66%;
+    }
+
+    .status {
+      width: 66%;
+      padding-right: 30%;
+    }
+  }
+
+  .form-row {
+    display: flex;
+    justify-content: flex-end;
+    padding: 0.5em;
+    padding-left: 20%;
+    padding-right: 20%;
+    @media #{$small-only} {
+      padding-left: 0;
+      padding-right: 10%;
+    }
+  }
+
+  .form-row > label {
+    padding: .5em 1em .5em 0;
+    flex: 1;
+    cursor: default;
+  }
+
+  .form-row > input {
+    flex: 2;
+    cursor: default;
+    @media #{$small-only} {
+      font-size: 0.8rem;
+    }
+  }
+
+  .form-row > input,
+  .form-row > button {
+    padding: .5em;
+  }
+
+  .form-row > button {
+    border: 0;
+  }
+
+  ul > li:hover {
+    background-color: inherit;
+    cursor: default;
+  }
+
+  .button-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 20%;
+    padding-right: 18%;
+    @media #{$small-only} {
+      padding-left: 0%;
+      padding-right: 4%;
+    }
+  }
+
+  .button-wrapper {
+    width: 100%;
+    margin: 1rem;
+  }
+
+  .error-wrapper {
+    display: flex;
+    justify-content: flex-start;
+    padding-left: 41.3%;
+    margin-top: -1em;
+    @media #{$small-only} {
+      padding-left: 35%;
+    }
+    .error-message {
+      background: $error-background;
+      color: $white;
+      padding: .2rem;
+      width: 66%;
+
+      @media #{$small-only} {
+        width: 85%;
+      }
+    }
+  }
+}

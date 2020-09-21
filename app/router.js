@@ -10,7 +10,6 @@ Router.map(function() {
   this.route("logout", { path: "/logout" });
   this.route("login");
   this.route("authenticate");
-  this.route("search_organisation");
   this.route("app_menu_list");
   this.route("appointments");
   this.route("order_filters");
@@ -92,6 +91,9 @@ Router.map(function() {
     });
     this.route("stock_roles", {
       path: "/:user_id/stock_roles"
+    });
+    this.route("charity_position", {
+      path: "/:user_id/charity_position"
     });
   });
 
