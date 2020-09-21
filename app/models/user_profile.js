@@ -1,6 +1,7 @@
 import Ember from "ember";
 import DS from "ember-data";
 import Addressable from "./addressable";
+import _ from "lodash";
 
 var attr = DS.attr;
 
@@ -47,19 +48,6 @@ export default Addressable.extend({
     }
   }),
 
-  canViewDashboard: Ember.computed(
-    "isOrderFulfilmentUser",
-    "isSupervisor",
-    "isOrderAdministrator",
-    function() {
-      return (
-        this.get("isOrderFulfilmentUser") ||
-        this.get("isSupervisor") ||
-        this.get("isOrderAdministrator")
-      );
-    }
-  ),
-
   canManageAppointments: Ember.computed("roles", function() {
     const roles = this.get("roles");
     return roles.find(
@@ -80,6 +68,14 @@ export default Addressable.extend({
     const roles = this.get("roles");
     return roles.find(
       r => r.get("permissionNames").indexOf("can_manage_user_roles") >= 0
+    );
+  }),
+
+  isAdministrator: Ember.computed("roles", function() {
+    const roleNames = this.get("roleNames");
+    return (
+      _.difference(roleNames, ["Order administrator", "Stock administrator"])
+        .length > 0
     );
   }),
 

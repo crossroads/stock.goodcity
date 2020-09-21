@@ -50,16 +50,18 @@ export default AuthorizeRoute.extend(GradeMixin, {
   },
 
   setupPrinterId(controller) {
-    let allAvailablePrinters = this.get(
-      "printerService"
-    ).allAvailablePrinters();
-    let user = this.get("session.loggedInUser");
-    if (user.get("printerId")) {
-      controller.set("selectedPrinterId", user.get("printerId"));
+    let defaultPrinter = this.get("printerService").getDefaultPrinter();
+    if (defaultPrinter) {
+      controller.set("selectedPrinterId", defaultPrinter.id);
     } else {
-      let firstPrinterId = allAvailablePrinters[0].id;
-      this.get("printerService").updateUserDefaultPrinter(firstPrinterId);
-      controller.set("selectedPrinterId", firstPrinterId);
+      let allAvailablePrinters = this.get(
+        "printerService"
+      ).allAvailablePrinters();
+      if (allAvailablePrinters.length) {
+        let firstPrinterId = allAvailablePrinters[0].id;
+        this.get("printerService").addDefaultPrinter(firstPrinterId);
+        controller.set("selectedPrinterId", firstPrinterId);
+      }
     }
   },
 
@@ -67,7 +69,6 @@ export default AuthorizeRoute.extend(GradeMixin, {
     this._super(controller, model);
     const store = this.get("store");
     this.initializeController();
-
     this.initializeAttributes();
     this.manageSubformDetails();
     this.setUpPackageImage();
@@ -162,6 +163,5 @@ export default AuthorizeRoute.extend(GradeMixin, {
     controller.set("defaultCondition", this.getDefaultCondition());
     controller.set("valueHkDollar", +defaultValue.value_hk_dollar);
     controller.set("defaultValueHkDollar", +defaultValue.value_hk_dollar);
-    this.setupPrinterId(controller);
   }
 });

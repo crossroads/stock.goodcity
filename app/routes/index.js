@@ -4,7 +4,7 @@ import AjaxPromise from "stock/utils/ajax-promise";
 
 export default SessionRoute.extend({
   model() {
-    let canViewDashboard = this.get("session.currentUser.canViewDashboard");
+    let canViewDashboard = this.get("session.currentUser.canManageOrders");
     var recentlyUsedDesignations = this.get("store").query("designation", {
       recently_used: true
     });

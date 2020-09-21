@@ -7,9 +7,6 @@
     border-color: grey;
   }
 
-  @media #{$small-only} {
-   width: 4.5rem;
-  }
   .designate-quantity {
     @media #{$small-only} {
       p {

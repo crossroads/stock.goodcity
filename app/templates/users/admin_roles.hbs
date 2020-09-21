@@ -1,0 +1,165 @@
+<nav class="tab-bar user-details-heading">
+  <section class="left-small">
+    {{#link-to "users.details" user.id class="user-back-link"}}
+      <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-left'}}</i>
+      <div>{{t "back"}}</div>
+    {{/link-to}}
+  </section>
+
+  <section class="middle tab-bar-section">
+    <h1 class="title">
+      {{t "users.roles.admin_app_details"}}
+    </h1>
+  </section>
+</nav>
+
+<section class="user-details-section role-access-form">
+  {{#unless canUpdateRole}}
+    <div class="row">
+      <div class="roles-error">
+        <i>{{fa-icon 'exclamation-triangle'}}</i>
+        <span>{{t "users.roles.unauthorised_error"}}</span>
+      </div>
+    </div>
+  {{/unless}}
+
+  <div class="{{unless canUpdateRole 'disabled-form'}}">
+    <div class="row">
+      <div class="columns small-12">
+
+        <div class="access-heading">
+          {{t "users.roles.access_status_for"}} {{user.fullName}}
+        </div>
+
+        <div class="custom_radio_buttons" for="admin_role_access">
+          {{radio-button
+            name="adminRoleAccess"
+            id="noAccess"
+            value="noAccess"
+            selection=adminRoleAccess
+            required='true'}}
+          <label class="radio-button-text align-text" for="noAccess">
+            <div class="label-position">
+              {{t "users.roles.no_access"}}
+              <i>{{fa-icon "times-circle"}}</i>
+            </div>
+          </label>
+        </div>
+
+        <div class="custom_radio_buttons" for="admin_role_access">
+          {{radio-button
+              name="adminRoleAccess"
+              id="accessTill"
+              value="accessTill"
+              selection=adminRoleAccess
+              required='true'}}
+          <label class="radio-button-text align-text" for="accessTill">
+            <div class="label-position">
+              {{t "users.roles.access_until"}}
+            </div>
+          </label>
+          <div class="calendar_input ui">
+            {{calendar-input
+              name='role_expiry_date'
+              id='role_expiry_date'
+              value=roleExpiryDate
+              formatSubmit="dd/mmm/yyyy"
+              enablePastDate=false
+              selection=roleExpiryDate}}
+          </div>
+          <i class="calendar-icon">{{fa-icon "calendar-check"}}</i>
+        </div>
+
+        <div class="custom_radio_buttons" for="admin_role_access">
+          {{radio-button
+                name="adminRoleAccess"
+                id="accessForever"
+                value="accessForever"
+                selection=adminRoleAccess
+                required='true'}}
+          <label class="radio-button-text align-text expiry-date" for="accessForever">
+              <div class="label-position">
+                {{t "users.roles.access_forever"}}
+                <i>{{fa-icon "check-circle"}}</i>
+              </div>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    {{#unless noAdminAppAccess}}
+      <div class="row">
+        <div class="columns small-12 roles-selection">
+
+          <div class="access-heading">
+            {{t "users.roles.roles_for_offers"}}
+          </div>
+
+          <div class="time_inputs id-type-radio-input row">
+            <div class='custom_radio_buttons small-12 columns'>
+              {{input type="checkbox" name="labor" checked=hasReviewerRole id='reviewer_role'}}
+              <label class="checkbox-left" for='reviewer_role'>
+                {{t "users.roles.reviewer"}}
+                <div class="role-info">{{t "users.roles.reviewer_role_info"}}</div>
+              </label>
+            </div>
+          </div>
+
+          <div class="time_inputs id-type-radio-input row">
+            <div class='custom_radio_buttons small-12 columns'>
+              {{input type="checkbox" name="labor" checked=hasSupervisorRole id='supervisor_role'}}
+              <label class="checkbox-left" for='supervisor_role'>
+                {{t "users.roles.supervisor"}}
+                <div class="role-info">{{t "users.roles.supervisor_role_info"}}</div>
+              </label>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      {{#if roleError}}
+        <div class="row">
+          <div class="roles-error">
+            <i>{{fa-icon 'exclamation-triangle'}}</i>
+            <span>{{t "users.roles.admin_role_error"}}</span>
+          </div>
+        </div>
+      {{/if}}
+    {{/unless}}
+  </div>
+
+  {{#unless noAdminAppAccess}}
+    <div class="row">
+      <div class="columns small-8 printer-selection ui">
+
+        <div class="printer-heading">
+          {{t "users.roles.admin_printer_label"}}
+        </div>
+
+        {{select-list
+          content=printers
+          on-change=(action "setPrinterValue")
+          selectedValue=selectedPrinterDisplay
+          selectArrow=true
+          value=selectedPrinterDisplay
+          classNames='printer-list'
+          idNames='condition-select' }}
+
+      </div>
+    </div>
+  {{/unless}}
+
+  <div class="row">
+    <div class="small-6 columns">
+      <a {{action 'cancelForm'}} class="button secondary expand">
+        {{t "cancel"}}
+      </a>
+    </div>
+    <div class="small-6 columns">
+      <a {{action 'saveUserRoles'}} class="button expand {{if roleError 'disabled'}}">
+        {{t "save"}}
+      </a>
+    </div>
+  </div>
+</section>

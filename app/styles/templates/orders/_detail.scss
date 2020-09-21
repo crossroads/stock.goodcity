@@ -406,6 +406,8 @@
 }
 
 .order_page {
+  @include flex-controls();
+
   padding-top: 2.8rem;
 
   .order-status {
@@ -551,7 +553,34 @@
   }
 
   .contact_details {
-    margin-top: 1rem !important;
+    .org_user_approval {
+      background-color: $processing-state-color;
+      margin: 2rem auto;
+      padding: 1rem;
+      width: 100%;
+      max-width: 450px;
+      min-height: 6rem;
+      color: white;
+      .approval_text {
+        text-indent: -1rem;
+        padding-left: 1rem;
+      }
+      .button.light {
+        margin-top: 1rem;
+        margin-bottom: 0;
+        padding: 0.5rem 2rem;
+        background-color: transparent;
+        border: 1px solid white;
+      }
+    }
+
+    .important {
+      text-transform: uppercase;
+      color: white;
+      &.warn {
+        color: #E25955;
+      }
+    }
   }
 
   .main_details {

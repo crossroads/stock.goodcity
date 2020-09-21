@@ -110,7 +110,9 @@ class MockUtils {
           user_profile: [this.user],
           users: [_.pick(this.user, "id", "first_name", "last_name", "mobile")],
           roles: [{ id: 4, name: role }],
-          user_roles: [{ id: 1, user_id: this.user.id, role_id: 4 }]
+          user_roles: [{ id: 1, user_id: this.user.id, role_id: 4 }],
+          permissions: [{ id: 1, name: "can_manage_orders" }],
+          role_permissions: [{ id: 1, role_id: 4, permission_id: 1 }]
         }
       })
     );

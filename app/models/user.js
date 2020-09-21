@@ -13,14 +13,13 @@ export default Addressable.extend({
   lastConnected: attr("date"),
   lastDisconnected: attr("date"),
   i18n: Ember.inject.service(),
-  printerId: attr("number"),
   userRoleIds: attr(""),
 
   isEmailVerified: attr("boolean"),
   isMobileVerified: attr("boolean"),
   disabled: attr("boolean"),
 
-  printer: belongsTo("printer", { async: false }),
+  printersUsers: hasMany("printersUsers", { async: false }),
 
   image: belongsTo("image", {
     async: false
@@ -28,6 +27,23 @@ export default Addressable.extend({
 
   userRoles: hasMany("userRoles", {
     async: false
+  }),
+
+  activeUserRoles: Ember.computed(
+    "userRoles.[]",
+    "userRoles.@each.expiresAt",
+    function() {
+      return this.get("userRoles").filter(
+        userRole =>
+          !userRole.get("expiresAt") ||
+          (userRole.get("expiresAt") &&
+            moment.tz(userRole.get("expiresAt"), "Asia/Hong_Kong").isAfter())
+      );
+    }
+  ),
+
+  activeRoles: Ember.computed("activeUserRoles.[]", function() {
+    return this.get("activeUserRoles").map(userRole => userRole.get("role"));
   }),
 
   roles: Ember.computed("userRoles.[]", function() {

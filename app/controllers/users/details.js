@@ -1,9 +1,12 @@
 import Ember from "ember";
+import _ from "lodash";
 
 import OrganisationMixin from "stock/mixins/organisation";
 
 export default Ember.Controller.extend(OrganisationMixin, {
   organisationsUserService: Ember.inject.service(),
+  userService: Ember.inject.service(),
+  user: Ember.computed.alias("model"),
   userOrganisationDetails: Ember.computed(
     "model",
     "model.organisationsUsers.[]",
@@ -23,6 +26,27 @@ export default Ember.Controller.extend(OrganisationMixin, {
       return organisationUser;
     }
   ),
+
+  adminRoleAccess: Ember.computed(
+    "user.activeRoles.@each.expiresAt",
+    function() {
+      return this.get("userService").getRoleAccessText(
+        this.get("user"),
+        "admin"
+      );
+    }
+  ),
+
+  stockRoleAccess: Ember.computed(
+    "user.activeRoles.@each.expiresAt",
+    function() {
+      return this.get("userService").getRoleAccessText(
+        this.get("user"),
+        "stock"
+      );
+    }
+  ),
+
   actions: {
     /**
      * Navigate to charity_position screen

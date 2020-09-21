@@ -25,6 +25,10 @@ export default Ember.Component.extend(SearchMixin, {
   },
 
   actions: {
+    addOrganisation() {
+      this.replaceRoute("organisations.new");
+    },
+
     cancelSearch() {
       this.set("searchText", "");
       this.set("open", false);

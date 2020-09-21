@@ -1,6 +1,7 @@
 import Ember from "ember";
-import ApiBaseService from "./api-base-service";
 import _ from "lodash";
+
+import ApiBaseService from "./api-base-service";
 import { toID } from "stock/utils/helpers";
 import NavigationAwareness from "stock/mixins/navigation_aware";
 
@@ -41,5 +42,13 @@ export default ApiBaseService.extend(NavigationAwareness, {
         });
       });
     });
+  },
+
+  create(params) {
+    return this.POST("/gc_organisations", { organisation: params });
+  },
+
+  update(id, params) {
+    return this.PUT(`/gc_organisations/${id}`, { organisation: params });
   }
 });
