@@ -1,7 +1,23 @@
+// User Search Page
+.create-user-button {
+  padding: 10px !important;
+  border: 1.4px solid white;
+  color: white;
+  font-weight: 600;
+  text-align: center;
+  margin-top: 2rem;
+}
+// END
+
+// User Details Page
 .user-details-heading {
   border: none;
   margin-bottom: 0;
   height: 2.5rem;
+
+  .user-back-link {
+    padding-left: 0.8rem;
+  }
 }
 
 .user-details-section {
@@ -111,18 +127,7 @@
     text-align: center;
   }
 }
-
-.user-back-link {
-  padding-left: 0.8rem;
-}
-
-.create-user-button {
-  padding: 10px !important;
-  border: 1.4px solid white;
-  color: white;
-  font-weight: 600;
-  text-align: center;
-}
+// END
 
 .title-select {
   float: left !important;
@@ -201,11 +206,11 @@
   }
 }
 
-
 .inline-edit-error{
   color: white;
   background-color:$button-bg-hover;
 }
+
 .image-edit{
   text-decoration: underline;
   margin-top: 2rem;
@@ -215,17 +220,12 @@
     margin-top: 1rem;
     margin-left: 4.5rem;
   }
-
 }
+
 .delete-image{
   margin-top: 0.5rem;
 }
 
-.radio-buttons {
-  .radio input {
-    position: absolute;
-  }
-}
 // Roles Access Details Page
 .role-access-form {
   margin: 0.5rem;

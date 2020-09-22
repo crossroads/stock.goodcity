@@ -162,9 +162,12 @@
       color: $white;
       padding: .2rem;
       width: 66%;
+      margin-top: -0.3rem;
+      margin-bottom: 1rem;
 
       @media #{$small-only} {
         width: 85%;
+        margin-top: 0.5rem;
       }
     }
   }
