@@ -11,7 +11,8 @@ export default Ember.Component.extend(SearchMixin, {
 
   onSearchTextChange: Ember.observer("searchText", function() {
     this.hideResults();
-    if (this.get("searchText").length) {
+
+    if (this.get("searchText").trim().length >= 3) {
       Ember.run.debounce(this, this.showResults, 500);
     }
   }),

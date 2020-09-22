@@ -36,7 +36,7 @@
         <div class="small-4 columns">
           <label for="organisation">{{t 'users.organisation'}}</label>
         </div>
-        <div class="small-8 columns organisation-search" {{action "serchOrganisation"}}>
+        <div class="small-8 columns organisation-search" {{action "searchOrganisation"}}>
             {{#if model.organisation}}
               {{input type="text" id = "organisation" required='true' autocomplete='off' value=model.organisation.nameEn}}
             {{else}}
