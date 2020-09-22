@@ -1,0 +1,204 @@
+<nav class="tab-bar user-details-heading">
+  <section class="left-small">
+    {{#link-to "users.details" user.id class="user-back-link"}}
+    <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-left'}}</i>
+    <div>{{t "back"}}</div>
+    {{/link-to}}
+  </section>
+
+  <section class="middle tab-bar-section">
+    <h1 class="title">{{t 'users.contact_details.title'}}</h1>
+  </section>
+</nav>
+
+<section class="main-section add-user-form new-user-section ui">
+  {{#unless session.currentUser.canCreateUsers}}
+    <div class="row">
+      <div class="access-error">
+        <i>{{fa-icon 'exclamation-triangle'}}</i>
+        <span>{{t "users.contact_details.unauthorised_error"}}</span>
+      </div>
+    </div>
+  {{/unless}}
+  <div class="{{unless session.currentUser.canCreateUsers 'disabled-form'}}">
+    <div class="row">
+      <div class="small-5 columns item-label">
+        {{t 'users.image'}}
+      </div>
+      <div class="small-7 columns">
+        <span class={{if user.image "image" "image-box"}}>
+          {{#if user.image}}
+            <img src={{user.image.faceCaptureImageUrl}} class="thumb" />
+          {{else}}
+            <a {{action "triggerUpload"}}  class="{{unless isReady 'disabled'}}">
+              <i aria-hidden="true">{{fa-icon 'camera'}}</i><br />
+              {{t 'users.add_image'}}
+            </a>
+            {{cloudinary-upload ready="uploadReady" progress="uploadProgress"
+              always="uploadComplete" done="uploadEditedImageSuccess" submit="uploadStart"}}
+          {{/if}}
+        </span>
+
+        <div class="item-label image-edit">
+          {{#if user.image}}
+            <div>
+              <a {{action "triggerUpload"}}  class="{{unless isReady 'disabled'}}">
+                {{t 'users.edit_image'}}
+              </a>
+              {{cloudinary-upload ready="uploadReady" progress="uploadProgress"
+              always="uploadComplete" done="uploadEditedImageSuccess" submit="uploadStart"}}
+            </div>
+            <div class="delete-image">
+              <a {{action "deleteImage"}} >
+                {{t 'users.delete_image'}}
+              </a>
+            </div>
+          {{/if}}
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="small-5 columns item-label">
+        {{t 'users.title'}}
+      </div>
+      <div class="small-7 columns field-container title-select">
+        {{inline-select-list
+          content=titles
+          name="title"
+          class="inline-edit-bg"
+          item=user
+          isPrimitive=true
+          autosave=true
+          on-change=(action (mut selectedTitle))
+        }}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="small-5 columns item-label">
+        {{t 'users.first_name'}}
+      </div>
+      <div class="small-7 columns field-container">
+        {{input type='text'
+          id="firstName"
+          class="inline-edit-bg"
+          value=user.firstName
+          focusOut=(action "updateUserDetails")
+        }}
+        {{#if firstNameInputError}}
+        <div class='inline-edit-error'>{{t 'organisation.user.validation_error.first_name'}}</div>
+        {{/if}}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="small-5 columns item-label">
+        {{t 'users.last_name'}}
+      </div>
+      <div class="small-7 columns field-container ">
+        {{input type='text'
+          id="lastName"
+          class="inline-edit-bg"
+          value=user.lastName
+          focusOut=(action "updateUserDetails")
+        }}
+        {{#if lastNameInputError}}
+          <div class='inline-edit-error'>{{t 'organisation.user.validation_error.family_name'}}</div>
+        {{/if}}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="small-5 columns item-label">
+        {{t 'users.email'}}
+      </div>
+      <div class="small-7 columns field-container">
+        {{input type="email"
+          value=user.email
+          name="email"
+          id="email"
+          class="inline-edit-bg"
+          formnovalidate="true"
+          focusOut=(action "updateUserDetails")
+        }}
+
+        {{#if emailInputError}}
+          <div class='inline-edit-error'>{{t 'organisation.user.validation_error.blank_email'}}</div>
+        {{/if}}
+
+        {{#if emailValidationError}}
+          <div class='inline-edit-error'>{{t 'organisation.user.validation_error.email'}}</div>
+        {{/if}}
+      </div>
+    </div>
+
+    <div class="row mobile">
+      <div class="small-5 columns item-label">
+        {{t 'users.mobile'}}
+      </div>
+      <div class="small-1 columns ui dialing-code">
+        <label>{{t "mobile_prefix"}}</label>
+      </div>
+      <div class="small-5 columns ss field-container">
+        {{numeric-input
+          value=mobileNumber
+          formnovalidate="true"
+          class="inline-edit-bg"
+          name="mobileNumber"
+          id="mobile"
+          maxlength="8"
+          focusOut=(action "updateMobile")
+          pattern=".{8,}"
+        }}
+
+        {{#if mobileInputError}}
+          <div class='inline-edit-error'>{{t 'organisation.user.validation_error.blank_mobile_number'}}</div>
+        {{/if}}
+
+        {{#if mobileValidationError}}
+          <div class='inline-edit-error'>{{t 'organisation.user.validation_error.mobile'}}</div>
+        {{/if}}
+      </div>
+      <div class="small-1 columns item-label">
+        {{#if user.isMobileVerified}}
+          <i>{{fa-icon 'check-circle'}}</i>
+        {{/if}}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="small-5 columns item-label">
+        {{t 'users.district'}}
+      </div>
+      <div class="small-7 columns field-container">
+        {{select-list
+          content=districts
+          prompt="--"
+          class="inline-edit-bg"
+          on-change=(action "changeDistrict")
+          selectedValue=user.associatedDistrict
+        }}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="small-5 columns item-label">
+        {{t 'users.preferred_language'}}
+      </div>
+      <div class="small-7 columns field-container ">
+        {{inline-select-list
+          content=languages
+          prompt="Unknown"
+          name="preferredLanguage"
+          item=user
+          isPrimitive=true
+          class="inline-edit-bg"
+          autosave=true
+          on-change=(action (mut selectedLanguage))
+        }}
+      </div>
+    </div>
+  </div>
+</section>
+{{partial "loading_image"}}

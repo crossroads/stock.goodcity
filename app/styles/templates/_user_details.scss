@@ -1,7 +1,23 @@
+// User Search Page
+.create-user-button {
+  padding: 10px !important;
+  border: 1.4px solid white;
+  color: white;
+  font-weight: 600;
+  text-align: center;
+  margin-top: 2rem;
+}
+// END
+
+// User Details Page
 .user-details-heading {
   border: none;
   margin-bottom: 0;
   height: 2.5rem;
+
+  .user-back-link {
+    padding-left: 0.8rem;
+  }
 }
 
 .user-details-section {
@@ -111,6 +127,10 @@
       flex: 2;
     }
 
+    .small-2.arrow-container {
+      padding: 0;
+    }
+
     .arrow-icon {
       float: right;
     }
@@ -137,17 +157,11 @@
     font-size: 0.8rem;
   }
 }
+// END
 
-.user-back-link {
-  padding-left: 0.8rem;
-}
-
-.create-user-button {
-  padding: 10px !important;
-  border: 1.4px solid white;
-  color: white;
-  font-weight: 600;
-  text-align: center;
+.title-select {
+  float: left !important;
+  width: 5rem;
 }
 
 .add-user-form {
@@ -155,8 +169,51 @@
     height: 1.8rem !important;
   }
 
+  select {
+    height: 1.8rem !important;
+  }
+
   input[type="checkbox"] {
     position: initial;
+  }
+
+  .inline-edit-bg {
+    background-color: #1a3964 !important;
+    border: none !important;
+    select{
+    background-color: #1a3964 !important;
+    border: none !important;
+    }
+  }
+
+  .image{
+    float: left;
+    margin-top: 0.5rem;
+    margin-right: 0.4rem;
+    text-align: center;
+    position: initial;
+    height: 6.5rem;
+    right: unset;
+    width: 30%;
+    font-size: 0.8rem;
+    z-index: 100;
+    margin-bottom: 1rem;
+
+    img{
+      width:7rem;
+      height:7rem;
+    }
+
+    @media #{$small-only} {
+      width: 45%;
+      height: 4.5rem;
+
+      img{
+        width:6.5rem;
+        height:5rem;
+      }
+    }
+
   }
 
   .image-box {
@@ -174,19 +231,34 @@
     margin-bottom: 1rem;
 
     @media #{$small-only} {
-      width: 30%;
+      width: 40%;
     }
   }
+}
+
+.inline-edit-error{
+  color: white;
+  background-color:$button-bg-hover;
+}
+
+.image-edit{
+  text-decoration: underline;
+  margin-top: 2rem;
+  margin-left: 8.5rem;
+
+  @media #{$small-only} {
+    margin-top: 1rem;
+    margin-left: 4.5rem;
+  }
+}
+
+.delete-image{
+  margin-top: 0.5rem;
 }
 
 // Roles Access Details Page
 .role-access-form {
   margin: 0.5rem;
-
-  .disabled-form {
-    pointer-events: none;
-    opacity: 0.7;
-  }
 
   .access-heading,
   .printer-selection {
@@ -277,21 +349,27 @@
     }
   }
 
-  .roles-error {
-    font-size: 0.6rem;
-    background-color: #ed4c4e;
-    color: $white;
-    padding: 0.3rem;
-    margin-left: 0.4rem;
-
-    span {
-      margin-left: 0.2rem;
-    }
-  }
-
   .printer-heading {
     margin-bottom: 0.5rem;
   }
+
+}
+
+.access-error {
+  font-size: 0.6rem;
+  background-color: #ed4c4e;
+  color: $white;
+  padding: 0.3rem;
+  margin-left: 0.4rem;
+
+  span {
+    margin-left: 0.2rem;
+  }
+}
+
+.disabled-form {
+  pointer-events: none;
+  opacity: 0.7;
 }
 // END
 

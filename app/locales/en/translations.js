@@ -695,10 +695,12 @@ export default {
       position_in_organisation: "Position within organisation",
       validation_error: {
         email: "Email should be valid.",
+        blank_email: "Email cannot be blank",
         first_name: "First name can't be blank",
         family_name: "Family name can't be blank",
         position: "Position can't be blank.",
         mobile: "Mobile Number should be 8 digits.",
+        blank_mobile_number: "Mobile Number cannot be blank",
         preferred_contact_number: "Preferred Contact Number should be 8 digits."
       }
     }
@@ -974,16 +976,25 @@ export default {
   users: {
     cancel_user_warning:
       "You will lose all your data. Are you sure you want to cancel this User?",
+    title: "Title",
     image: "Image",
     add_image: "Add Image",
+    edit_image: "Edit Image",
+    delete_image: "Delete Image",
     disabled: "Disabled",
     roles: "Roles",
     organisation: "Organisation",
-    create_new_user: "Create new user",
+    create_new_user: "Add new user",
     first_name: "First Name",
     last_name: "Last Name",
     mobile: "Mobile",
     email: "Email",
+    district: "District",
+    preferred_language: "Preferred Language",
+    languages: {
+      english: "English",
+      chinese: "Chinese"
+    },
     registered_on: "Registered on",
     last_connected_on: "Last connected on",
 
@@ -1018,6 +1029,12 @@ export default {
       enable_user: "Re-enable User",
       re_enable: "Re-enable",
       account_disabled: "Account Disabled"
+    },
+
+    contact_details: {
+      title: "Contact Details",
+      unauthorised_error:
+        "Sorry, you are not authorised to edit details for this user."
     },
 
     roles: {

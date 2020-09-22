@@ -16,7 +16,7 @@ export default Ember.Controller.extend(AsyncMixin, OrganisationMixin, {
     }
   ),
 
-  isInvalidOrganisation: Ember.computed("organisation", function() {
+  isInvalidOrganisation: Ember.computed("model.organisation", function() {
     return !this.get("model.organisation.nameEn");
   }),
 
@@ -27,7 +27,7 @@ export default Ember.Controller.extend(AsyncMixin, OrganisationMixin, {
      * if organisations_users record already exists for the user, then depending on that URL is changed
      * which in-turn loads a model.
      */
-    async serchOrganisation() {
+    async searchOrganisation() {
       const organisation = await this.organisationLookup();
       this.set("organisation", organisation);
 

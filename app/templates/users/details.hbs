@@ -28,7 +28,7 @@
 
   {{#if model.image}}
     <div class="image-zoom-container content user-img" id='image-1'>
-      {{image-zoom item=model}}
+      {{image-zoom item=model captureFaceImage="true"}}
     </div>
   {{/if}}
 
@@ -57,7 +57,7 @@
     <div class="row app-roles stock-app-roles">
       <div class="small-4 columns">{{t "users.details.stock_app"}}</div>
       <div class="small-6 columns">{{stockRoleAccess}}</div>
-      <div class="small-2 columns">
+      <div class="small-2 columns arrow-container">
         <span class='arrow-icon'>{{fa-icon 'angle-right'}}</span>
       </div>
     </div>
@@ -67,7 +67,7 @@
     <div class="row app-roles">
       <div class="small-4 columns">{{t "users.details.admin_app"}}</div>
       <div class="small-6 columns">{{adminRoleAccess}}</div>
-      <div class="small-2 columns">
+      <div class="small-2 columns arrow-container">
         <span class='arrow-icon'>{{fa-icon 'angle-right'}}</span>
       </div>
     </div>

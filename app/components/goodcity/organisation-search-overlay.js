@@ -11,9 +11,14 @@ export default Ember.Component.extend(SearchMixin, {
 
   onSearchTextChange: Ember.observer("searchText", function() {
     this.hideResults();
-    if (this.get("searchText").length) {
+
+    if (this.get("searchText").trim().length >= 3) {
       Ember.run.debounce(this, this.showResults, 500);
     }
+  }),
+
+  hasSearchText: Ember.computed("searchText", function() {
+    return !!this.get("searchText");
   }),
 
   hideResults() {
@@ -25,6 +30,10 @@ export default Ember.Component.extend(SearchMixin, {
   },
 
   actions: {
+    clearSearch() {
+      this.set("searchText", "");
+    },
+
     addOrganisation() {
       this.get("router").transitionTo("organisations.new");
       this.set("open", false);

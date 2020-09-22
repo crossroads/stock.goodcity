@@ -1,40 +1,23 @@
-<nav class="tab-bar new-user-nav">
-  <section class="tab-bar-section">
-    <h1 class="title">{{t 'organisation.add_user'}}</h1>
+<nav class="tab-bar user-details-heading">
+  <section class="left-small">
+    <a {{action "back"}} class="user-back-link">
+      <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-left'}}</i>
+      <div>{{t "back"}}</div>
+    </a>
+  </section>
+
+  <section class="middle tab-bar-section">
+    <h1 class="title">{{t 'users.create_new_user'}}</h1>
   </section>
 </nav>
 
 <section class="main-section add-user-form new-user-section ui ">
   {{#async-validatable-form onSubmit=(action 'saveUser') as |form|}}
   <div class="row">
-    <div class="small-3 columns item-label">
-      {{t 'organisation.user.first_name'}}
-    </div>
-    <div class="small-9 columns field-container">
-      {{#form-control}}
-      {{input type='text' value=firstName  required='true'}}
-      <div class='input-error'>{{t 'organisation.user.validation_error.first_name'}}</div>
-      {{/form-control}}
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="small-3 columns item-label">
-      {{t 'organisation.user.last_name'}}
-    </div>
-    <div class="small-9 columns field-container">
-      {{#form-control}}
-      {{input type='text' value=lastName  required='true'}}
-      <div class='input-error'>{{t 'organisation.user.validation_error.family_name'}}</div>
-      {{/form-control}}
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="small-3 columns item-label">
+    <div class="small-5 columns item-label">
       {{t 'users.image'}}
     </div>
-    <div class="small-9 columns">
+    <div class="small-7 columns">
       <a {{action "triggerUpload"}} class="{{unless isReady 'disabled'}}">
         <span class="image-box">
           {{#if newUploadedImage}}
@@ -46,26 +29,75 @@
         </span>
       </a>
       {{cloudinary-upload ready="uploadReady" progress="uploadProgress"
-                      always="uploadComplete" done="uploadSuccess" submit="uploadStart"}}
+       always="uploadComplete" done="uploadSuccess" submit="uploadStart"}}
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="small-5 columns item-label">
+      {{t 'users.title'}}
+    </div>
+    <div class="small-7 columns field-container title-select">
+      {{select-list
+      content=titles
+      on-change=(action (mut selectedTitle))
+      selectedValue=selectedTitle
+      value= selectedTitle
+      selectArrow=true
+      idNames='title' }}
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="small-5 columns item-label">
+      {{t 'users.first_name'}}
+    </div>
+    <div class="small-7 columns field-container">
+      {{#form-control}}
+      {{input type='text' value=firstName  required='true'}}
+      <div class='input-error'>{{t 'organisation.user.validation_error.first_name'}}</div>
+      {{/form-control}}
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="small-5 columns item-label">
+      {{t 'users.last_name'}}
+    </div>
+    <div class="small-7 columns field-container">
+      {{#form-control}}
+      {{input type='text' value=lastName  required='true'}}
+      <div class='input-error'>{{t 'organisation.user.validation_error.family_name'}}</div>
+      {{/form-control}}
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="small-5 columns item-label">
+      {{t 'users.email'}}
+    </div>
+    <div class="small-7 columns field-container">
+      {{#form-control}}
+        {{input value=email name="email" id="email" type="email" required=isEmailorMobilePresent }}
+         <div class='input-error'>{{t 'organisation.user.validation_error.email'}}</div>
+      {{/form-control}}
     </div>
   </div>
 
   <div class="row mobile">
-    <div class="small-3 columns item-label">
-      {{t 'organisation.user.mobile'}}
+    <div class="small-5 columns item-label">
+      {{t 'users.mobile'}}
     </div>
-
     <div class="small-1 columns ui dialing-code">
       <label>{{t "mobile_prefix"}}</label>
     </div>
-
-    <div class="small-8 columns field-container">
+    <div class="small-6 columns field-container">
       {{#form-control}}
       {{numeric-input
-        value=mobilePhone
-        name="mobilePhone"
+        value=mobileNumber
+        name="mobileNumber"
         id="mobile"
-        required=activeUser
+        required=isEmailorMobilePresent
         maxlength="8"
         pattern=".{8,}"}}
       <div class='input-error'>{{t 'organisation.user.validation_error.mobile'}}</div>
@@ -74,59 +106,34 @@
   </div>
 
   <div class="row">
-    <div class="small-3 columns item-label">
-      {{t 'organisation.user.email'}}
+    <div class="small-5 columns item-label">
+      {{t 'users.district'}}
     </div>
-    <div class="small-9 columns field-container">
-      {{input value=email name="email" id="email" type="email"}}
+    <div class="small-7 columns field-container ">
+       {{select-list
+        content= districts
+        on-change=(action (mut selectedDistrict))
+        selectedValue=selectedDistrict
+        value=selectedDistrict
+        prompt="-"
+        selectArrow=true }}
     </div>
   </div>
 
-  {{#if getCurrentUser.canDisableUsers}}
-    <div class="row">
-      <div class="small-3 columns item-label">
-        {{t 'users.disabled'}}
-      </div>
-      <div class="small-9 columns field-container">
-        {{#form-control}}
-        {{input type="checkbox" checked=disabled}}
-        {{/form-control}}
-      </div>
+  <div class="row">
+    <div class="small-5 columns item-label">
+      {{t 'users.preferred_language'}}
     </div>
-  {{/if}}
-
-  {{#if canManageUserRoles}}
-    <div class="row">
-      <div class="small-3 columns item-label">
-        {{t 'users.roles'}}
-      </div>
-      <div class="small-9 columns field-container">
-        <ul class="radio-buttons">
-
-          {{#each allRoles as |role|}}
-            <li class="radio">
-              {{check-box selected=role.id id=role.id name=role.name value=role.id selection=existingRoleIds action="setSelectedIds"}}
-              <label class="radio-wrap small-only-text-center" for={{role.id}}>
-                {{role.name}}
-              </label>
-            </li>
-          {{/each}}
-        </ul>
-
-      </div>
+    <div class="small-7 columns field-container ">
+      {{select-list
+      content=languages
+      on-change=(action (mut selectedLanguage))
+      selectedValue=selectedLanguage
+      value= selectedLanguage
+      prompt="Unknown"
+      selectArrow=true}}
     </div>
-
-    {{#if displayOrganizationInput}}
-      <div class="row">
-        <div class="small-3 columns item-label">
-          {{t 'users.organisation'}}
-        </div>
-        <div class="small-9 columns field-container" {{action "searchOrganization"}}>
-          {{input autocomplete='off' type="text" name="organisation" value=organisationName required='true'}}
-        </div>
-      </div>
-    {{/if}}
-  {{/if}}
+  </div>
 
   <div class="row">
     <div class="small-6 columns">
