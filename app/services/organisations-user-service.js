@@ -10,7 +10,7 @@ export default ApiBaseService.extend({
    * @returns {Array.<Object>} with id as key and name as value
    */
   async getAllStatus() {
-    let data = await this.GET(`/organisations_users/user_status`);
+    let data = await this.GET(`/organisations_users/status_list`);
 
     data = data["status"].map((val, index) => ({
       id: index,

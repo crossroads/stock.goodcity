@@ -1,8 +1,10 @@
 <nav class="tab-bar">
   <section class="left-small">
-    <div {{action 'withOrganisationNavigation'}}>
-      <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-left'}}</i>
-      <div>{{t 'back'}}</div>
+    <div class="left-small">
+      {{#link-to 'app_menu_list'}}
+        <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-left'}}</i>
+        <div>{{t 'back'}}</div>
+      {{/link-to}}
     </div>
 
   </section>
