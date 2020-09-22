@@ -14,7 +14,8 @@ export default Addressable.extend({
   lastDisconnected: attr("date"),
   i18n: Ember.inject.service(),
   userRoleIds: attr(""),
-
+  title: attr("string"),
+  preferredLanguage: attr("string"),
   isEmailVerified: attr("boolean"),
   isMobileVerified: attr("boolean"),
   disabled: attr("boolean"),
@@ -23,6 +24,14 @@ export default Addressable.extend({
 
   image: belongsTo("image", {
     async: false
+  }),
+
+  address: belongsTo("address", {
+    async: false
+  }),
+
+  associatedDistrict: Ember.computed("address", function() {
+    return this.get("address.district");
   }),
 
   userRoles: hasMany("userRoles", {
