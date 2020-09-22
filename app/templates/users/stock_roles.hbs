@@ -17,7 +17,7 @@
 
   {{#unless canUpdateRole}}
     <div class="row">
-      <div class="roles-error">
+      <div class="access-error">
         <i>{{fa-icon 'exclamation-triangle'}}</i>
         <span>{{t "users.roles.unauthorised_error"}}</span>
       </div>
@@ -151,7 +151,7 @@
 
       {{#if roleError}}
         <div class="row">
-          <div class="roles-error">
+          <div class="access-error">
             <i>{{fa-icon 'exclamation-triangle'}}</i>
             <span>{{t "users.roles.stock_role_error"}}</span>
           </div>

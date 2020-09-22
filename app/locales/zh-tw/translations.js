@@ -667,7 +667,9 @@ export default {
       position_in_organisation: "機構內的職稱",
       validation_error: {
         email: "請輸入有效的電郵地址",
+        blank_email: "Email cannot be blank",
         mobile: "手提電話號碼必須為8個數字",
+        blank_mobile_number: "Mobile Number cannot be blank",
         first_name: "First name can't be blank",
         family_name: "Family name can't be blank",
         position: "Position can't be blank.",
@@ -951,15 +953,24 @@ export default {
     cancel_user_warning:
       "You will lose all your data. Are you sure you want to cancel this User?",
     image: "Image",
+    title: "Title",
     add_image: "Add Image",
+    edit_image: "Edit Image",
+    delete_image: "Delete Image",
     disabled: "Disabled",
     roles: "Roles",
     organisation: "Organisation",
     create_new_user: "Create new user",
-    first_name: "First Name",
-    last_name: "Last Name",
-    mobile: "Mobile",
-    email: "Email",
+    first_name: "名",
+    last_name: "姓",
+    mobile: "手提電話號碼",
+    email: "電郵",
+    district: "District",
+    preferred_language: "Preferred Language",
+    languages: {
+      english: "English",
+      chinese: "Chinese"
+    },
     registered_on: "Registered on",
     last_connected_on: "Last connected on",
 
@@ -970,6 +981,12 @@ export default {
       stock_app: "Stock App",
       admin_app: "Admin App",
       disable_user: "Disable User Account"
+    },
+
+    contact_details: {
+      title: "Contact Details",
+      unauthorised_error:
+        "Sorry, you are not authorised to edit details for this user."
     },
 
     charity_position: {
