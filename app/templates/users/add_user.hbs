@@ -1,8 +1,11 @@
-<nav class="tab-bar new-user-nav">
-  <section class="left-small" {{action "back"}}>
-    <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-left'}}</i>
-    <div>{{t 'back'}}</div>
+<nav class="tab-bar user-details-heading">
+  <section class="left-small">
+    <a {{action "back"}} class="user-back-link">
+      <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-left'}}</i>
+      <div>{{t "back"}}</div>
+    </a>
   </section>
+
   <section class="middle tab-bar-section">
     <h1 class="title">{{t 'users.create_new_user'}}</h1>
   </section>

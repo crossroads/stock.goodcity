@@ -960,7 +960,7 @@ export default {
     disabled: "Disabled",
     roles: "Roles",
     organisation: "Organisation",
-    create_new_user: "Create new user",
+    create_new_user: "Add new user",
     first_name: "名",
     last_name: "姓",
     mobile: "手提電話號碼",

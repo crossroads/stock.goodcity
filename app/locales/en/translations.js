@@ -984,7 +984,7 @@ export default {
     disabled: "Disabled",
     roles: "Roles",
     organisation: "Organisation",
-    create_new_user: "Create new user",
+    create_new_user: "Add new user",
     first_name: "First Name",
     last_name: "Last Name",
     mobile: "Mobile",

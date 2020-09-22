@@ -53,13 +53,14 @@
     margin-bottom: 1rem;
     padding: 0.2rem 0.5rem;
 
-    // @media #{$small-only} {
-    //   width: 85%;
-    // }
-
     &.hide-error {
       opacity: 0;
     }
   }
+}
 
+.organisations_search_section {
+  i.pinned-right {
+    position: absolute;
+  }
 }
