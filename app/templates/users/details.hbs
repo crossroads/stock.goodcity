@@ -19,7 +19,7 @@
     {{t "users.details.last_on_goodcity"}} {{time-ago timeValue=model.lastDisconnected smallPrefix=false}}
   </div>
 
-  {{#if (is-and canDisableUsers isDisabledUser)}}
+  {{#if showEnableUserMessage}}
     <div class="disabled-account">
       <i>{{fa-icon 'exclamation-triangle'}}</i>
       <span>{{t "users.details.account_disabled"}}: <span class="link" {{action "displayEnableUserPopup"}}>{{t "users.details.re_enable"}}</span></span>

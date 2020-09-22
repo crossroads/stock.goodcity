@@ -12,6 +12,10 @@ export default Ember.Controller.extend(OrganisationMixin, AsyncMixin, {
   enableUserPopupVisible: false,
   isDisabledUser: Ember.computed.alias("user.disabled"),
   canDisableUsers: Ember.computed.alias("session.currentUser.canDisableUsers"),
+  showEnableUserMessage: Ember.computed.and(
+    "canDisableUsers",
+    "isDisabledUser"
+  ),
 
   userOrganisationDetails: Ember.computed(
     "model",
@@ -53,12 +57,12 @@ export default Ember.Controller.extend(OrganisationMixin, AsyncMixin, {
     }
   ),
 
-  disableUserAccount(disabled) {
+  toggleUserAccount(options) {
     if (this.get("canDisableUsers")) {
       let user = this.get("user");
 
       this.runTask(async () => {
-        user.set("disabled", disabled);
+        user.set("disabled", options.disabled);
         await user.save();
       }, ERROR_STRATEGIES.MODAL);
     }
@@ -66,7 +70,7 @@ export default Ember.Controller.extend(OrganisationMixin, AsyncMixin, {
 
   actions: {
     disableUser() {
-      this.disableUserAccount(true);
+      this.toggleUserAccount({ disabled: true });
     },
 
     cancelDisableUser() {
@@ -86,7 +90,7 @@ export default Ember.Controller.extend(OrganisationMixin, AsyncMixin, {
     },
 
     enableUser() {
-      this.disableUserAccount(false);
+      this.toggleUserAccount({ disabled: false });
     },
 
     /**
