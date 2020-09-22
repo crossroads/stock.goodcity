@@ -1,6 +1,6 @@
-<div class="row fixed_search_header search-box ui organisations_search">
-  <div class="small-2 medium-2 columns ">
-    <a {{action "cancelSearch"}} class="back">
+<div class="row fixed_search_header search-box ui organisations_search users-search">
+  <div class="small-2 medium-2 columns back-link">
+    <a {{action "cancelSearch"}}>
       <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-left'}}</i>
       <div class="back_text">
         {{t 'back'}}
@@ -22,7 +22,7 @@
   </div>
 </div>
 
-<section class="main-section organisation_search_result">
+<section class="main-section user_search_result">
   <div class="row search">
     <div class="small-12 columns">
       {{#if displayResults}}
