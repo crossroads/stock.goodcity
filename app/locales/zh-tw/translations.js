@@ -959,7 +959,7 @@ export default {
     delete_image: "Delete Image",
     disabled: "Disabled",
     roles: "Roles",
-    organisation: "Organisation",
+    organisation: "機構",
     create_new_user: "Add new user",
     first_name: "名",
     last_name: "姓",
@@ -990,14 +990,14 @@ export default {
     },
 
     charity_position: {
-      add_charity_position: "Add Charity Position",
-      position: "Position",
-      status: "Status",
-      preferred_number: "Preferred Number",
-      cancel_warning: "Are you sure you want to cancel?",
+      add_charity_position: "新增職位",
+      position: "職位",
+      status: "狀態",
+      preferred_number: "聯絡電話號碼",
+      cancel_warning: "你將會遺失所有資料。你確定要取消嗎？",
       validation_errors: {
-        preferred_number: "You must provide a contact number",
-        organisation: "Organisation cannot be blank"
+        preferred_number: "請提供聯絡號碼",
+        organisation: "機構名稱不能留空"
       }
     },
 

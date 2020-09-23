@@ -34,6 +34,10 @@
 
     select {
       background-color: $background-color !important;
+      background-image: url(../assets/images/dropdown_icon.png);
+      background-repeat: no-repeat;
+      background-size: 1.2rem;
+      background-position: 95%;
       color: white;
       border: 1px solid $input-border!important;
       @media #{$small-only} {

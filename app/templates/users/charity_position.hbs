@@ -27,7 +27,6 @@
             on-change=(action "onStatusChange")
             selectedValue=selectedStatus
             value=selectedStatus
-            selectArrow=true
             classNames='grade' }}
         </div>
       </div>
@@ -38,9 +37,9 @@
         </div>
         <div class="small-8 columns organisation-search" {{action "searchOrganisation"}}>
             {{#if model.organisation}}
-              {{input type="text" id = "organisation" required='true' autocomplete='off' value=model.organisation.nameEn}}
+              {{input type="text" id = "organisation" disabled='true' required='true' autocomplete='off' value=model.organisation.nameEn}}
             {{else}}
-              {{input type="text" id = "organisation" required='true' autocomplete='off'}}
+              {{input type="text" id = "organisation" disabled='true' required='true' autocomplete='off'}}
             {{/if}}
 
             {{#if isInvalidOrganisation }}

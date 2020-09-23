@@ -11,7 +11,7 @@
   }
 
   @media #{$medium-only} {
-    width: 25rem;
+    width: 25rem !important;
   }
   a{
     background-color: $coral-red;
