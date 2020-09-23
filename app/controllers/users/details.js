@@ -11,7 +11,14 @@ export default Ember.Controller.extend(OrganisationMixin, AsyncMixin, {
   disableUserPopupVisible: false,
   enableUserPopupVisible: false,
   isDisabledUser: Ember.computed.alias("user.disabled"),
-  canDisableUsers: Ember.computed.alias("session.currentUser.canDisableUsers"),
+
+  canDisableUsers: Ember.computed("user.id", function() {
+    return (
+      this.get("session.currentUser.canDisableUsers") &&
+      +this.get("session.currentUser.id") !== +this.get("user.id")
+    );
+  }),
+
   showEnableUserMessage: Ember.computed.and(
     "canDisableUsers",
     "isDisabledUser"
