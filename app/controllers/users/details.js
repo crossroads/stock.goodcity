@@ -1,12 +1,22 @@
 import Ember from "ember";
 import _ from "lodash";
-
+import AsyncMixin, { ERROR_STRATEGIES } from "stock/mixins/async";
 import OrganisationMixin from "stock/mixins/organisation";
 
-export default Ember.Controller.extend(OrganisationMixin, {
+export default Ember.Controller.extend(OrganisationMixin, AsyncMixin, {
   organisationsUserService: Ember.inject.service(),
   userService: Ember.inject.service(),
+
   user: Ember.computed.alias("model"),
+  disableUserPopupVisible: false,
+  enableUserPopupVisible: false,
+  isDisabledUser: Ember.computed.alias("user.disabled"),
+  canDisableUsers: Ember.computed.alias("session.currentUser.canDisableUsers"),
+  showEnableUserMessage: Ember.computed.and(
+    "canDisableUsers",
+    "isDisabledUser"
+  ),
+
   userOrganisationDetails: Ember.computed(
     "model",
     "model.organisationsUsers.[]",
@@ -47,7 +57,42 @@ export default Ember.Controller.extend(OrganisationMixin, {
     }
   ),
 
+  toggleUserAccount(options) {
+    if (this.get("canDisableUsers")) {
+      let user = this.get("user");
+
+      this.runTask(async () => {
+        user.set("disabled", options.disabled);
+        await user.save();
+      }, ERROR_STRATEGIES.MODAL);
+    }
+  },
+
   actions: {
+    disableUser() {
+      this.toggleUserAccount({ disabled: true });
+    },
+
+    cancelDisableUser() {
+      this.set("disableUserPopupVisible", false);
+    },
+
+    cancelEnableUser() {
+      this.set("enableUserPopupVisible", false);
+    },
+
+    displayDisableUserPopup() {
+      this.set("disableUserPopupVisible", true);
+    },
+
+    displayEnableUserPopup() {
+      this.set("enableUserPopupVisible", true);
+    },
+
+    enableUser() {
+      this.toggleUserAccount({ disabled: false });
+    },
+
     /**
      * Navigate to charity_position screen
      * If user is already present in selected organisation, then organisations_users record
@@ -62,20 +107,15 @@ export default Ember.Controller.extend(OrganisationMixin, {
         "organisationsUserService"
       ).getOrganisationUser(organisation.get("id"), this.get("model.id"));
 
-      if (organisationUser) {
-        this.transitionToRoute(
-          `/users/${this.get(
-            "model.id"
-          )}/charity_position?id=${organisationUser.get("id")}`
-        );
-      } else {
-        this.transitionToRoute(
-          `/users/${this.get(
-            "model.id"
-          )}/charity_position?organisationId=${organisation.get("id")}`
-        );
-      }
+      let params = organisationUser
+        ? `id=${organisationUser.get("id")}`
+        : `organisationId=${organisation.get("id")}`;
+
+      this.transitionToRoute(
+        `/users/${this.get("model.id")}/charity_position?${params}`
+      );
     },
+
     viewCharityPosition(id) {
       this.transitionToRoute(
         `/users/${this.get("model.id")}/charity_position?id=${id}`

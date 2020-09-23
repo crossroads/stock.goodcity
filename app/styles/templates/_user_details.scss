@@ -40,6 +40,29 @@
     }
   }
 
+  .disabled-account {
+    background-color: $cherry-red;
+    color: $white;
+    padding: 0.3rem;
+    font-size: 0.8rem;
+    margin-top: 0.8rem;
+    text-align: center;
+
+    span {
+      margin-left: 0.2rem;
+    }
+
+    .link {
+      text-decoration: underline;
+    }
+  }
+
+  #messageBox {
+    @media #{$small-only} {
+      height: auto;
+    }
+  }
+
   .contact-icons {
     margin: auto;
     text-align: center;
@@ -129,6 +152,9 @@
   .disable-user-link {
     padding: 4rem 1rem;
     text-align: center;
+    text-decoration: underline;
+    color: $white;
+    font-size: 0.8rem;
   }
 }
 // END
@@ -328,6 +354,7 @@
   }
 
 }
+
 .access-error {
   font-size: 0.6rem;
   background-color: #ed4c4e;
@@ -346,3 +373,30 @@
 }
 // END
 
+.disable-user-popup {
+  .heading {
+    font-size: 1rem;
+    font-weight: 800;
+    margin: 0.8rem 0;
+  }
+
+  .info {
+    margin: 0;
+    font-size: 0.8rem;
+  }
+
+  .info-note {
+    font-size: 0.8rem;
+    margin: 1rem 0;
+  }
+
+  #btn1, #btn2 {
+    width: 48%;
+  }
+
+  #btn1 {
+    background-color: transparent;
+    border-color: $black;
+    color: $black !important;
+  }
+}

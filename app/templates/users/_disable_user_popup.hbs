@@ -1,0 +1,41 @@
+{{!-- DISABLE USER ACCOUNT POPUP --}}
+{{#message-box
+  btn1Text=(t "not_now")
+  btn1Callback=(action "cancelDisableUser")
+  btn2Text=(t "users.details.disable_user")
+  btn2Callback=(action "disableUser")
+  isVisible=disableUserPopupVisible
+  classNames="popupOverlay ui disable-user-popup"
+}}
+
+  <div class="heading">{{t "users.details.disable_user"}}?</div>
+
+  <div class="info">{{t "users.details.disabled_user_info"}}</div>
+
+  <div class="info-note">
+    {{t "users.details.disabled_user_note"}}
+  </div>
+
+{{/message-box}}
+{{!-- END --}}
+
+{{!-- RE-ENABLE USER ACCOUNT POPUP --}}
+{{#message-box
+  btn1Text=(t "not_now")
+  btn1Callback=(action "cancelEnableUser")
+  btn2Text=(t "users.details.enable_user")
+  btn2Callback=(action "enableUser")
+  isVisible=enableUserPopupVisible
+  classNames="popupOverlay ui disable-user-popup"
+}}
+
+  <div class="heading">{{t "users.details.enable_user"}}?</div>
+
+  <div class="info">{{t "users.details.enabled_user_info"}}</div>
+
+  <div class="info-note">
+    {{t "users.details.enabled_user_note"}}
+  </div>
+
+{{/message-box}}
+{{!-- END --}}
