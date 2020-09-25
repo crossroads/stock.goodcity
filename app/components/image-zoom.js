@@ -14,7 +14,9 @@ export default Ember.Component.extend({
 
     let images = this.get("item.images") || [this.get("item.image")];
 
-    return images.mapBy("imageUrl");
+    return this.get("captureFaceImage")
+      ? images.mapBy("faceCaptureImageUrl")
+      : images.mapBy("imageUrl");
   }),
 
   actions: {

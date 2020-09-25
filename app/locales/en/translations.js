@@ -28,6 +28,7 @@ export default {
   search_no_results: "Sorry, No results found.",
   version: "Stock v.",
   organisation_title: "Organisation",
+  add: "+Add",
   save: "Save",
   details: "Details",
   orders: "Orders",
@@ -46,8 +47,8 @@ export default {
   discard_changes: "Discard changes",
   manage_charity_users: "Manage charity users",
   create_new_item: "+Item",
-  create_new_box: "+Box",
-  create_new_pallet: "+Pallet",
+  create_new_box: "+Multi-Item Box",
+  create_new_pallet: "+Multi-Item Pallet",
   manage_inventory: "Quotas",
   manage_users: "Manage Users",
   search_user: "Search User",
@@ -664,6 +665,24 @@ export default {
     name: "Name",
     description: "Description",
     registration: "Registration",
+
+    name_en: "Name EN",
+    name_zh_tw: "Name ZH",
+    description_en: "Description EN",
+    description_zh_tw: "Description ZH",
+    new: "New Organisation",
+    registration: "Registration",
+    website: "Website",
+    country: "Country",
+    type: "Type",
+    cancel_warning:
+      "You will lose all your data. Are you sure you want to cancel this?",
+    validation_error: {
+      name: "Name cannot be blank.",
+      country: "Country cannot be blank.",
+      website: "Website format invalid."
+    },
+
     user: {
       first_name: "First Name",
       last_name: "Family Name",
@@ -676,10 +695,12 @@ export default {
       position_in_organisation: "Position within organisation",
       validation_error: {
         email: "Email should be valid.",
+        blank_email: "Email cannot be blank",
         first_name: "First name can't be blank",
         family_name: "Family name can't be blank",
         position: "Position can't be blank.",
         mobile: "Mobile Number should be 8 digits.",
+        blank_mobile_number: "Mobile Number cannot be blank",
         preferred_contact_number: "Preferred Contact Number should be 8 digits."
       }
     }
@@ -955,17 +976,97 @@ export default {
   users: {
     cancel_user_warning:
       "You will lose all your data. Are you sure you want to cancel this User?",
+    title: "Title",
     image: "Image",
     add_image: "Add Image",
+    edit_image: "Edit Image",
+    delete_image: "Delete Image",
     disabled: "Disabled",
     roles: "Roles",
     organisation: "Organisation",
-    create_new_user: "Create new user",
+    create_new_user: "Add new user",
     first_name: "First Name",
     last_name: "Last Name",
     mobile: "Mobile",
     email: "Email",
+    district: "District",
+    preferred_language: "Preferred Language",
+    languages: {
+      english: "English",
+      chinese: "Chinese"
+    },
     registered_on: "Registered on",
-    last_connected_on: "Last connected on"
+    last_connected_on: "Last connected on",
+
+    charity_position: {
+      add_charity_position: "Add Charity Position",
+      position: "Position",
+      status: "Status",
+      preferred_number: "Preferred Number",
+      cancel_warning: "Are you sure you want to cancel?",
+      validation_errors: {
+        preferred_number: "You must provide a contact number",
+        organisation: "Organisation cannot be blank"
+      }
+    },
+
+    details: {
+      last_on_goodcity: "Last on GoodCity",
+      contact_details: "Contact Details",
+      staff_roles: "Staff / Volunteer Roles",
+      stock_app: "Stock App",
+      admin_app: "Admin App",
+      disable_user_account: "Disable User Account",
+      disable_user: "Disable User",
+      disabled_user_info:
+        "User will be denied access to all apps including donor app.",
+      disabled_user_note:
+        "Note: you are allowed remove the phone and email address from a disabled user account. This can be useful if the number has been assumed by a different person without giving the new user another person 's history.",
+      re_enable_user_account: "Re-enable User Account",
+      enabled_user_info: "All prior access rights will be reserved.",
+      enabled_user_note:
+        "Note: If you do not wish this user to have same rights to access apps or act on behalf of charities as they had before, please modify their access.",
+      enable_user: "Re-enable User",
+      re_enable: "Re-enable",
+      account_disabled: "Account Disabled"
+    },
+
+    contact_details: {
+      title: "Contact Details",
+      unauthorised_error:
+        "Sorry, you are not authorised to edit details for this user."
+    },
+
+    roles: {
+      admin_app_details: "Admin App Details",
+      unauthorised_error:
+        "Sorry, you are not authorised to update roles for this user.",
+      access_status_for: "Access Status for",
+      no_access: "No Access",
+      access_until: "Access Until",
+      access_forever: "Access Forever",
+      roles_for_offers: "Role assigned for processing offers",
+      reviewer: "Reviewer",
+      reviewer_role_info: "This role is for reviewing offers.",
+      supervisor: "Supervisor",
+      supervisor_role_info: "This role is for managing offers.",
+      admin_role_error:
+        "Access to Admin App requires at least one role to be assigned.",
+      admin_printer_label: "Preferred Label Printer in Admin App",
+      stock_app_details: "Stock App Details",
+      stock_role_error:
+        "Access to Stock App requires at least one role to be assigned.",
+      stock_printer_label: "Preferred Label Printer in Stock App",
+      role_for_orders: "Role assigned for processing orders",
+      role_for_stock: "Role assigned for processing stock",
+      order_fulfilment_role: "Order Fulfilment",
+      order_fulfilment_role_info: "This role is for reviewing orders.",
+      order_administrator_role: "Order Administrator",
+      order_administrator_role_info: "This role is for managing orders.",
+      stock_fulfilment_role: "Stock Fulfilment",
+      stock_fulfilment_role_info: "This role is for reviewing stock items.",
+      stock_administrator_role: "Stock Administrator",
+      stock_administrator_role_info: "This role is for managing stock items."
+    }
   }
 };

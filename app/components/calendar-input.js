@@ -85,14 +85,21 @@ export default Ember.TextField.extend({
   },
 
   initializeConfig() {
-    this.set("datePickerConfig", DEFAULT_PICKADATE_CONFIG);
+    let config = {
+      ...DEFAULT_PICKADATE_CONFIG
+    };
+
     const enablePastDate = this.get("enablePastDate");
     if (enablePastDate) {
-      this.set("datePickerConfig", {
-        ...DEFAULT_PICKADATE_CONFIG,
-        min: MIN_DATE
-      });
+      config.min = MIN_DATE;
     }
+
+    const formatSubmit = this.get("formatSubmit");
+    if (formatSubmit) {
+      config.format = formatSubmit;
+    }
+
+    this.set("datePickerConfig", config);
   },
 
   didInsertElement() {
@@ -114,6 +121,7 @@ export default Ember.TextField.extend({
           }
         })
       );
+
       Ember.$(".picker__holder").click(function(e) {
         if (e.target !== this) {
           return;

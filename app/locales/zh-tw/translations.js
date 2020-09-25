@@ -25,6 +25,7 @@ export default {
   search_no_results: "對不起，沒有搜尋結果",
   version: "Stock v.",
   organisation_title: "機構",
+  add: "+新增",
   save: "儲存",
   details: "詳情",
   orders_in_process: "Orders In Process",
@@ -44,14 +45,15 @@ export default {
   discard_changes: "棄置變更",
   manage_charity_users: "Manage charity users",
   create_new_item: "+Item",
-  create_new_box: "+Box",
-  create_new_pallet: "+Pallet",
+  create_new_box: "++Multi-Item Box",
+  create_new_pallet: "+Multi-Item Pallet",
   manage_inventory: "Quotas",
   manage_users: "Manage Users",
   search_user: "Search User",
   new_order: "+ HK Orders",
   full_name: "{{firstName}} {{lastName}}",
   mobile_prefix: "+852",
+  confirm: "確定",
   not_found:
     "Oooops, the location you're headed to doesn't seem to exist anymore. Sorry!",
   unavailable_item: "Sorry! This item is not available.",
@@ -639,6 +641,20 @@ export default {
     name: "姓名",
     description: "機構概要",
     registration: "註冊編號",
+    name_en: "機構名稱(英文)",
+    name_zh_tw: "機構名稱(中文)",
+    description_en: "機構簡介(英文)",
+    description_zh_tw: "機構簡介(中文)",
+    new: "New Organisation",
+    registration: "註冊編號",
+    website: "網頁",
+    country: "國家/ 地區",
+    type: "類別",
+    cancel_warning: "你將會遺失所有資料。你確定要取消嗎？",
+    validation_error: {
+      name: "名稱不能留空。",
+      country: "國家/地區不能留空。"
+    },
     user: {
       first_name: "名",
       last_name: "姓",
@@ -651,7 +667,9 @@ export default {
       position_in_organisation: "機構內的職稱",
       validation_error: {
         email: "請輸入有效的電郵地址",
+        blank_email: "Email cannot be blank",
         mobile: "手提電話號碼必須為8個數字",
+        blank_mobile_number: "Mobile Number cannot be blank",
         first_name: "First name can't be blank",
         family_name: "Family name can't be blank",
         position: "Position can't be blank.",
@@ -935,16 +953,96 @@ export default {
     cancel_user_warning:
       "You will lose all your data. Are you sure you want to cancel this User?",
     image: "Image",
+    title: "Title",
     add_image: "Add Image",
+    edit_image: "Edit Image",
+    delete_image: "Delete Image",
     disabled: "Disabled",
     roles: "Roles",
-    organisation: "Organisation",
-    create_new_user: "Create new user",
-    first_name: "First Name",
-    last_name: "Last Name",
-    mobile: "Mobile",
-    email: "Email",
+    organisation: "機構",
+    create_new_user: "Add new user",
+    first_name: "名",
+    last_name: "姓",
+    mobile: "手提電話號碼",
+    email: "電郵",
+    district: "District",
+    preferred_language: "Preferred Language",
+    languages: {
+      english: "English",
+      chinese: "Chinese"
+    },
     registered_on: "Registered on",
-    last_connected_on: "Last connected on"
+    last_connected_on: "Last connected on",
+
+    details: {
+      last_on_goodcity: "Last on GoodCity",
+      contact_details: "Contact Details",
+      staff_roles: "Staff / Volunteer Roles",
+      stock_app: "Stock App",
+      admin_app: "Admin App",
+      disable_user_account: "Disable User Account",
+      disable_user: "Disable User",
+      disabled_user_info:
+        "User will be denied access to all apps including donor app.",
+      disabled_user_note:
+        "Note: you are allowed remove the phone and email address from a disabled user account. This can be useful if the number has been assumed by a different person without giving the new user another person 's history.",
+      re_enable_user_account: "Re-enable User Account",
+      enabled_user_info: "All prior access rights will be reserved.",
+      enabled_user_note:
+        "Note: If you do not wish this user to have same rights to access apps or act on behalf of charities as they had before, please modify their access.",
+      enable_user: "Re-enable User",
+      re_enable: "Re-enable",
+      account_disabled: "Account Disabled"
+    },
+
+    contact_details: {
+      title: "Contact Details",
+      unauthorised_error:
+        "Sorry, you are not authorised to edit details for this user."
+    },
+
+    charity_position: {
+      add_charity_position: "新增職位",
+      position: "職位",
+      status: "狀態",
+      preferred_number: "聯絡電話號碼",
+      cancel_warning: "你將會遺失所有資料。你確定要取消嗎？",
+      validation_errors: {
+        preferred_number: "請提供聯絡號碼",
+        organisation: "機構名稱不能留空"
+      }
+    },
+
+    roles: {
+      admin_app_details: "Admin App Details",
+      unauthorised_error:
+        "Sorry, you are not authorised to update roles for this user.",
+      access_status_for: "Access Status for",
+      no_access: "No Access",
+      access_until: "Access Until",
+      access_forever: "Access Forever",
+      roles_for_offers: "Role assigned for processing offers",
+      reviewer: "Reviewer",
+      reviewer_role_info: "This role is for reviewing offers.",
+      supervisor: "Supervisor",
+      supervisor_role_info: "This role is for managing offers.",
+      admin_role_error:
+        "Access to Admin App requires at least one role to be assigned.",
+      admin_printer_label: "Preferred Label Printer in Admin App",
+      stock_app_details: "Stock App Details",
+      stock_role_error:
+        "Access to Stock App requires at least one role to be assigned.",
+      stock_printer_label: "Preferred Label Printer in Stock App",
+      role_for_orders: "Role assigned for processing orders",
+      role_for_stock: "Role assigned for processing stock",
+      order_fulfilment_role: "Order Fulfilment",
+      order_fulfilment_role_info: "This role is for reviewing orders.",
+      order_administrator_role: "Order Administrator",
+      order_administrator_role_info: "This role is for managing orders.",
+      stock_fulfilment_role: "Stock Fulfilment",
+      stock_fulfilment_role_info: "This role is for reviewing stock items.",
+      stock_administrator_role: "Stock Administrator",
+      stock_administrator_role_info: "This role is for managing stock items."
+    }
   }
 };

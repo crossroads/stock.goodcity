@@ -40,12 +40,10 @@
           <div class="option-subtext">{{t 'manage_users'}}</div>
         {{/link-to}}
       </div>
-      <div class="small-4 columns menu-option">
-        {{#link-to 'search_organisation' class="menu-list-anchor"}}
-          <div class="menu-svg">{{fa-icon 'user-cog' size="lg"}}</div>
-          <br>
-          <div class="option-subtext">{{t 'manage_charity_users'}}</div>
-        {{/link-to}}
+      <div {{action 'withOrganisationNavigation'}} class="organisation-overlay small-4 columns menu-option">
+        <div class="menu-svg">{{fa-icon 'building' size="lg"}}</div>
+        <br>
+        <div class="option-subtext">{{t 'search_organisation'}}</div>
       </div>
     </div>
     {{#if (is-or getCurrentUser.canManageStocktakes getCurrentUser.canManageStocktakeRevisions)}}
@@ -83,7 +81,7 @@
     </div>
     <div class="row menu-margin">
       {{#each storageTypes as |storageType|}}
-        <div class="small-4 columns menu-option {{if storageType.disable 'disable'}}">
+        <div class="small-4 columns menu-option">
           <a href="#" class="menu-list-anchor {{if storageType.disable 'disable'}}" {{action 'createInventory' storageType.name}} disabled={{storageType.disable}}>
             <div class="menu-svg">{{fa-icon storageType.icon size="lg"}}</div>
             <br>

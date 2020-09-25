@@ -14,7 +14,8 @@ export default Addressable.extend({
   lastDisconnected: attr("date"),
   i18n: Ember.inject.service(),
   userRoleIds: attr(""),
-
+  title: attr("string"),
+  preferredLanguage: attr("string"),
   isEmailVerified: attr("boolean"),
   isMobileVerified: attr("boolean"),
   disabled: attr("boolean"),
@@ -25,8 +26,33 @@ export default Addressable.extend({
     async: false
   }),
 
+  address: belongsTo("address", {
+    async: false
+  }),
+
+  associatedDistrict: Ember.computed("address", function() {
+    return this.get("address.district");
+  }),
+
   userRoles: hasMany("userRoles", {
     async: false
+  }),
+
+  activeUserRoles: Ember.computed(
+    "userRoles.[]",
+    "userRoles.@each.expiresAt",
+    function() {
+      return this.get("userRoles").filter(
+        userRole =>
+          !userRole.get("expiresAt") ||
+          (userRole.get("expiresAt") &&
+            moment.tz(userRole.get("expiresAt"), "Asia/Hong_Kong").isAfter())
+      );
+    }
+  ),
+
+  activeRoles: Ember.computed("activeUserRoles.[]", function() {
+    return this.get("activeUserRoles").map(userRole => userRole.get("role"));
   }),
 
   roles: Ember.computed("userRoles.[]", function() {
@@ -37,8 +63,11 @@ export default Addressable.extend({
     return this.get("firstName") + " " + this.get("lastName");
   }),
 
-  organisations: hasMany("organisation", {
-    async: false
+  organisations: Ember.computed("organisations_users_ids", function() {
+    const ids = this.get("organisationsUsers").map(record =>
+      record.get("organisationId")
+    );
+    return ids.map(id => this.store.peekRecord("organisation", id));
   }),
 
   organisationsUsers: hasMany("organisationsUsers", {

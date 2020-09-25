@@ -22,7 +22,7 @@ export default SelectList.extend({
     let val = this.get("selectedValue");
 
     if (this.get("isPrimitive")) {
-      item.set(key, val.name);
+      item.set(key, val.id);
     } else {
       item.set(key, val);
     }
