@@ -353,6 +353,10 @@
     margin-bottom: 0.5rem;
   }
 
+  .button.disabled {
+    pointer-events: none;
+  }
+
 }
 
 .access-error {
