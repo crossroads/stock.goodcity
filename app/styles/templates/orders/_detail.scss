@@ -666,6 +666,18 @@
     }
   }
 
+  .drop-down {
+    .columns {
+      input {
+        padding: 5%;
+        border: 1px solid #93A2B7;
+        background: #002352;
+        width: 90%;
+      }
+
+    }
+  }
+
   .show_more {
     padding: 1rem;
     text-align: center;

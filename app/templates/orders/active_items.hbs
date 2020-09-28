@@ -24,6 +24,49 @@
     </div>
   {{/unless}}
 
+  <div class="row drop-down">
+    <div class="small-5 columns">
+      Search Items: <br>
+      <input type="text search-orders">
+    </div>
+    <div class="small-4 columns">Sort by:
+      {{#pluggable-drop-down as |dropDown|}}
+        {{#dropDown.selectedDropDown}}
+          <div style="font-size: 120%;margin-top: 6%;text-decoration: underline;">{{dropDownItems.firstObject}}</div>
+        {{/dropDown.selectedDropDown}}
+
+        {{#dropDown.dropDownBody}}
+          <div class="options_menu_list" style="margin-top: 8%;">
+            {{#each dropDownItems as |item|}}
+              <div class="option_menu">
+                {{item}}
+              </div>
+            {{/each}}
+          </div>
+        {{/dropDown.dropDownBody}}
+      {{/pluggable-drop-down}}
+    </div>
+
+    <div class="small-3 columns">
+      State Filters:
+      {{#pluggable-drop-down as |dropDown|}}
+        {{#dropDown.selectedDropDown}}
+          <div style="font-size: 120%;margin-top: 6%;text-decoration: underline;">{{states.firstObject}}</div>
+        {{/dropDown.selectedDropDown}}
+
+        {{#dropDown.dropDownBody}}
+          <div class="options_menu_list" style="margin-top: 8%;">
+            {{#each states as |item|}}
+              <div class="option_menu">
+                {{item}}
+              </div>
+            {{/each}}
+          </div>
+        {{/dropDown.dropDownBody}}
+      {{/pluggable-drop-down}}
+    </div>
+  </div>
+
   {{#if displayResults}}
     {{#infinite-list height="60vh" loadMore=(action "loadOrdersPackages") as |op| }}
       {{#each op as |ordersPackage|}}
@@ -32,3 +75,16 @@
     {{/infinite-list}}
   {{/if}}
 </section>
+
+
+
+{{!--
+  TO DO Components:
+  1. Search components:
+    - Input tag that takes input from user and returns searched string.
+    - has clear text functionality so that we don't have to manage explicitly everywhere.
+  2. Drop down
+    - Takes list of data to be displayed.
+    - User will have the freedom to use their own UI.
+    - Similar to infinite scrolling.
+ --}}

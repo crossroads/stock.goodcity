@@ -18,6 +18,10 @@ export default detail.extend({
     "sortProperties"
   ),
 
+  dropDownItems: ["Inventory ID 1", "Inventory ID 2", "Inventory ID 3"],
+
+  states: ["Designated", "Dispatched", "Cancelled"],
+
   actions: {
     loadOrdersPackages(pageNo) {
       const params = this.trimQuery(
