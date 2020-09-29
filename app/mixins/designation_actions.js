@@ -27,7 +27,7 @@ export default Ember.Mixin.create(AsyncMixin, {
   clearDesignationParams() {
     this.set("readyToDesignate", false);
     this.set("designatableQuantity", 0);
-    this.set("designationTargetPackage", null);
+    // this.set("designationTargetPackage", null);
     this.set("designationTargetOrder", null);
     this.set("designationQty", 0);
   },
@@ -36,17 +36,14 @@ export default Ember.Mixin.create(AsyncMixin, {
     const pkg = this.get("designationTargetPackage");
     const order = this.get("designationTargetOrder");
 
-    if (!order || !pkg) {
-      this.set("designatableQuantity", 0);
-      this.set("designationQty", 0);
-      return;
-    }
+    if (pkg) {
+      let maxQuantity = pkg.get("availableQuantity");
 
-    const maxQuantity =
-      pkg.get("availableQuantity") + this.alreadyDesignatedQuantity(pkg, order);
+      if (order) {
+        maxQuantity = maxQuantity + this.alreadyDesignatedQuantity(pkg, order);
+      }
 
-    this.set("designatableQuantity", maxQuantity);
-    if (!this.get("designationQty")) {
+      this.set("designatableQuantity", maxQuantity);
       this.set("designationQty", maxQuantity);
     }
   },
@@ -68,6 +65,8 @@ export default Ember.Mixin.create(AsyncMixin, {
   },
 
   onDesignationsChange: Ember.observer(
+    "designationTargetOrder",
+    "designationTargetPackage",
     "designationTargetPackage.ordersPackages.[]",
     "designationTargetPackage.ordersPackages.@each.{state,quantity}",
     function() {
@@ -76,18 +75,12 @@ export default Ember.Mixin.create(AsyncMixin, {
   ),
 
   actions: {
-    beginDesignation(pkg, order) {
-      this.resolveOrder(order).then(target => {
-        if (target) {
-          this.set("designationTargetPackage", pkg);
-          this.set("designationTargetOrder", target);
-          this.computeDesignationQuantities();
-          this.set("readyToDesignate", true);
-        }
-      });
+    beginDesignation(pkg) {
+      this.set("readyToDesignate", true);
+      this.set("designationTargetPackage", pkg);
     },
 
-    completeDesignation() {
+    completeDesignation(order) {
       if (!this.get("readyToDesignate")) return;
 
       this.runTask(() => {

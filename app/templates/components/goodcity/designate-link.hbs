@@ -1,17 +1,12 @@
 <div class="designate-link">
-  <div {{action 'beginDesignation' pkg order}}>
+  <div {{action 'beginDesignation' pkg}}>
     {{yield}}
   </div>
 
   {{#if readyToDesignate}}
     {{goodcity/designate-form
-      quantity=designationQty
-      maxQuantity=designatableQuantity
-      editableQty=editableQty
-      confirmAction=(action "completeDesignation")
-      cancelAction=(action "cancelDesignation")
-      order=designationTargetOrder
-      pkg=designationTargetPackage
+      designationTargetPackage=pkg
+      readyToDesignate=readyToDesignate
     }}
   {{/if}}
 </div>

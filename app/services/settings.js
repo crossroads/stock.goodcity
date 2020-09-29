@@ -36,7 +36,7 @@ export default Ember.Service.extend({
    * <br> Add any new configuration keys here
    */
   defaults: {
-    "stock.allow_partial_operations": false,
+    "stock.allow_partial_operations": true,
     "stock.only_publish_singletons": true,
     "stock.only_designate_singletons": true,
     "stock.enable_box_pallet_creation": false,
