@@ -27,19 +27,38 @@
   <div class="row drop-down">
     <div class="small-5 columns">
       Search Items: <br>
-      <input type="text search-orders">
+      {{focus-textfield
+      name="searchText"
+      id="searchText"
+      class="text search-orders"
+      placeholder=(t "search_min")
+      value=searchText }}
     </div>
     <div class="small-4 columns">Sort by:
-      {{#pluggable-drop-down as |dropDown|}}
+      {{#pluggable-drop-down displayDropDownItems=displayDropDownItems as |dropDown|}}
         {{#dropDown.selectedDropDown}}
-          <div style="font-size: 120%;margin-top: 6%;text-decoration: underline;">{{dropDownItems.firstObject}}</div>
+          <div style="font-size: 120%;margin-top: 6%;text-decoration: underline;">
+            {{#let-alias setDefaultSortingColumn as |item|}}
+              {{item.column_name}}
+              {{#if item.sort}}
+                {{fa-icon 'sort-alpha-up'}}
+              {{else}}
+                {{fa-icon 'sort-alpha-down'}}
+              {{/if}}
+            {{/let-alias}}
+          </div>
         {{/dropDown.selectedDropDown}}
 
         {{#dropDown.dropDownBody}}
           <div class="options_menu_list" style="margin-top: 8%;">
             {{#each dropDownItems as |item|}}
-              <div class="option_menu">
-                {{item}}
+              <div class="option_menu" {{action "applySortOn" item.column_name item.column_alias item.is_desc}}>
+                {{item.column_name}}
+                {{#if (is-equal item.sort "asc")}}
+                  {{fa-icon 'sort-alpha-up'}}
+                {{else}}
+                  {{fa-icon 'sort-alpha-down'}}
+                {{/if}}
               </div>
             {{/each}}
           </div>
