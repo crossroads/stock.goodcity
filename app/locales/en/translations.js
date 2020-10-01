@@ -52,7 +52,8 @@ export default {
   manage_inventory: "Quotas",
   manage_users: "Manage Users",
   search_user: "Search User",
-  new_order: "+ HK Orders",
+  new_international_order: "+International",
+  new_hk_order: "+HK Order",
   full_name: "{{firstName}} {{lastName}}",
   mobile_prefix: "+852",
   not_found:
@@ -430,6 +431,7 @@ export default {
     dispatching: "Dispatching",
     dispatch_later: "Dispatch Later",
     closed: "Closed",
+    add_overseas_order: "New Overseas Order",
     close_order: "Close Order",
     reopen_order: "Reopen Order",
     resubmit: "Resubmit Order",

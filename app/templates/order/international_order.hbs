@@ -1,0 +1,98 @@
+<nav class="tab-bar user-details-heading">
+  <section class="left-small">
+    <a {{action "cancel"}} class="user-back-link">
+      <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-left'}}</i>
+      <div>{{t "cancel"}}</div>
+    </a>
+  </section>
+
+  <section class="middle tab-bar-section">
+    <h1 class="title">{{t 'order.add_overseas_order'}}</h1>
+  </section>
+</nav>
+
+<section class=" main-section new-user-section request-purpose international_order ">
+  {{#async-validatable-form onSubmit=(action 'createInternationalOrder') as |form|}}
+    <div class="row">
+      <div class="small-12 columns order-label">
+        Country
+      </div>
+      {{#form-control}}
+      <div class="small-12 columns organisation-country">
+        {{searchable-select
+          content=resultArray
+          sortBy="name"
+          optionLabelKey="nameEn"
+          selected=country
+          on-change=(action "setCountryValue")
+          isClearable=false
+          prompt=""
+          name="country_id"
+          on-search=(action "onSearch" "country")
+        }}
+        </div>
+      {{/form-control}}
+    </div>
+
+
+    <div class="row">
+      <div class="small-12 columns order-label">
+        Shipping Date
+      </div>
+      {{#form-control}}
+        <div class="small-12 columns calendar">
+          {{calendar-input
+            name='order_selection_date'
+            id='order_selection_date'
+            value=shippingDate
+            formatSubmit="dd/mmm/yyyy"
+            placeholder="Select a Date"
+            enablePastDate=false
+            selection=shippingDate}}
+          <i class="fa fa-calendar calender_icon">
+            {{fa-icon "calendar"}}
+          </i>
+        </div>
+        <div class="select-error-message">
+          {{fa-icon "exclamation-triangle"}}
+          <span>{{t 'order.appointment.error_message'}}</span>
+        </div>
+      {{/form-control}}
+    </div>
+
+    <div class="row people-count">
+      <div class="small-12 columns order-label">
+        {{t 'order.request_purpose.people_count_info'}}
+      </div>
+      {{#form-control}}
+        <div class="small-12 columns people-count-input">
+            {{numeric-input value=peopleCount name="people-count" maxlength= "10" id="people-count" acceptZeroValue="true"}}
+        </div>
+      {{/form-control}}
+    </div>
+
+    <div class="row description-of-need">
+      <div class="small-12 columns order-label">
+        {{t 'order.request_purpose.need_description'}}
+      </div>
+      <div class="small-12 columns reason-of-need">
+          {{t 'order.request_purpose.need_description_info'}}
+      </div>
+      <div class="small-12 columns">
+        {{#form-control}}
+          <span class="remove-text" {{action "clearDescription" }}>
+            {{fa-icon 'times-circle'}}
+          </span>
+          {{auto-resize-textarea data-autoresize=true name="description" value=order.purposeDescription required="required" pattern=".*\S.*" id="description"}}
+          <div class='input-error error-margin'>
+            {{fa-icon "exclamation-triangle"}}
+            <span class="error-reason-margin">
+              {{t 'order.request_purpose.description_warning'}}
+            </span>
+          </div>
+        {{/form-control}}
+      </div>
+    </div>
+  {{/async-validatable-form}}
+</section>
+

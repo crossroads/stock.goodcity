@@ -1,0 +1,106 @@
+.international_order {
+  max-width: 768px;
+  margin: 0 auto;
+  width: 100%;
+
+  input{
+    @media #{$small-only} {
+      font-size: 0.8rem;
+    }
+  }
+
+  textarea{
+    @media #{$small-only} {
+      font-size: 0.8rem;
+    }
+  }
+  .row{
+    margin-left: 0rem;
+    margin-top: 0.5rem;
+  }
+
+  .calendar{
+    display: flex;
+  }
+
+  i.calender_icon{
+    position: absolute;
+    line-height: 2.7rem;
+    right: 2%;
+
+    @media #{$small-only} {
+      right: 5%;
+    }
+  }
+
+  .order-label {
+    margin-top: 1rem ;
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.2rem;
+
+    @media #{$small-only} {
+      font-size: 0.8rem;
+    }
+  }
+
+
+  .organisation-country {
+    a {
+      height: 2.7rem;
+      border: 1px solid #8091a9!important;
+    }
+    .Searchable-select {
+      font-size: 1.2rem;
+      @media #{$small-only} {
+        font-size: 1rem;
+      }
+    }
+    .Searchable-select__search{
+      background-color: #000000;
+    }
+    .Searchable-select__options-list {
+      background-color: #000000;
+    }
+    .Searchable-select__info {
+      background-color: #000000;
+      @media #{$small-only} {
+        font-size: 0.8rem;
+      }
+    }
+    .Searchable-select__label{
+      padding: 0.5rem;
+      background-image: url(../assets/images/dropdown_icon.png);
+      background-repeat: no-repeat;
+      background-size: 1.2rem;
+      @media #{$small-only} {
+        padding: 0.7rem;
+        font-size: 0.8rem;
+      }
+    }
+    .Searchable-select__option:hover,
+    .Searchable-select__option:focus {
+      background-color: #454545;
+      outline: 0;
+    }
+  }
+
+  .picker__header {
+    select {
+      border: 1px solid #b7b7b7 !important;
+      padding: .5em;
+      margin-left: .25em;
+      margin-right: .25em;
+      background: #ffffff !important;
+      white-space: nowrap;
+      color: black;
+      height: 2% !important;
+    }
+  }
+
+  .picker__input{
+    cursor:  pointer !important;
+  }
+
+}

@@ -51,8 +51,11 @@ export default Ember.Controller.extend(storageType, OrganisationMixin, {
         queryParams: { codeId: code.get("id"), storageType: storageTypeName }
       });
     },
+    createInternationalOrder() {
+      this.transitionToRoute("order.international_order");
+    },
 
-    createOrder() {
+    createHkOrder() {
       let loadingView = getOwner(this)
         .lookup("component:loading")
         .append();
