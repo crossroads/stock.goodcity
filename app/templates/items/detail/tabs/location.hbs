@@ -58,7 +58,7 @@
       {{#reactive-view model=model}}
         {{#infinite-list height="40vh" loadMore=(action "fetchParentContainers") as |res| }}
           {{#each res as |pkg|}}
-            {{package-summary-block model=pkg}}
+            {{package-summary-block model=pkg showBoxPalletDetails=true item=model}}
           {{/each}}
         {{/infinite-list}}
       {{/reactive-view}}
