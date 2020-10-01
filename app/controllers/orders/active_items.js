@@ -29,16 +29,16 @@ export default detail.extend(SearchMixin, {
     },
     set(key, value) {
       return {
-        column_name: value[0],
-        is_desc: value[1]
+        column_name: value["column_name"],
+        is_desc: value["is_desc"]
       };
     }
   }),
 
-  sortingQueryOn(column, is_desc = false) {
+  sortingQueryOn(options) {
     return {
-      column_name: column,
-      is_desc: is_desc
+      sort_column: options["column_alias"],
+      is_desc: options["is_desc"]
     };
   },
 
@@ -59,10 +59,9 @@ export default detail.extend(SearchMixin, {
         });
     },
 
-    applySortOn(sort_column, column_alias, is_desc = false) {
-      this.sortingQueryOn(column_alias, is_desc);
-      this.set("setDefaultSortingColumn", [sort_column, is_desc]);
-      this.toggleProperty("displayDropDownItems");
+    applySortOn(options) {
+      this.sortingQueryOn(options);
+      this.set("setDefaultSortingColumn", options);
     },
 
     async addRequest() {

@@ -35,7 +35,7 @@
       value=searchText }}
     </div>
     <div class="small-4 columns">Sort by:
-      {{#pluggable-drop-down displayDropDownItems=displayDropDownItems as |dropDown|}}
+      {{#pluggable-drop-down setSelectedValue=(action "applySortOn") as |dropDown|}}
         {{#dropDown.selectedDropDown}}
           <div style="font-size: 120%;margin-top: 6%;text-decoration: underline;">
             {{#let-alias setDefaultSortingColumn as |item|}}
@@ -52,7 +52,7 @@
         {{#dropDown.dropDownBody}}
           <div class="options_menu_list" style="margin-top: 8%;">
             {{#each dropDownItems as |item|}}
-              <div class="option_menu" {{action "applySortOn" item.column_name item.column_alias item.is_desc}}>
+              <div class="option_menu" {{action dropDown.clickItem item}}>
                 {{item.column_name}}
                 {{#if (is-equal item.sort "asc")}}
                   {{fa-icon 'sort-alpha-up'}}

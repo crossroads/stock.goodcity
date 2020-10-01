@@ -6,6 +6,11 @@ export default Ember.Component.extend({
   actions: {
     toggleDisplayItems() {
       this.toggleProperty("displayDropDownItems");
+    },
+
+    selectOption(item) {
+      this.get("setSelectedValue")(item);
+      this.send("toggleDisplayItems");
     }
   }
 });
