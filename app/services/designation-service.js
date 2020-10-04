@@ -2,7 +2,9 @@ import Ember from "ember";
 import ApiBaseService from "./api-base-service";
 import NavigationAwareness from "../mixins/navigation_aware";
 import _ from "lodash";
-import { toID } from "stock/utils/helpers";
+import AsyncMixin, { ERROR_STRATEGIES } from "stock/mixins/async";
+
+import { ACTIVE_ORDER_STATES } from "../constants/states";
 
 function ID(modelOrId) {
   if (modelOrId.get) {
@@ -25,13 +27,15 @@ function ID(modelOrId) {
  * <br> which mostly involves operations on the orders_package join table
  *
  */
-export default ApiBaseService.extend(NavigationAwareness, {
+export default ApiBaseService.extend(NavigationAwareness, AsyncMixin, {
   store: Ember.inject.service(),
 
   init() {
     this._super(...arguments);
     this.set("openOrderSearch", false);
   },
+
+  editableQty: Ember.computed.alias("settings.allowPartialOperations"),
 
   /**
    * Runs a remote action on the specified orders_package
@@ -169,6 +173,92 @@ export default ApiBaseService.extend(NavigationAwareness, {
     const id = ID(beneficiary);
     const url = `/beneficiaries/${id}`;
     return this.PUT(url, params);
+  },
+
+  async resolveOrder(order) {
+    if (order) {
+      return order;
+    }
+    return this.userPickOrder({
+      state: ACTIVE_ORDER_STATES.join(",")
+    });
+  },
+
+  beginDesignation(pkg, order) {
+    if (pkg.get("availableQuantity") > 0) {
+      this.resolveOrder(order).then(target => {
+        if (target) {
+          this.set("designationTargetPackage", pkg);
+          this.set("designationTargetOrder", target);
+          this.computeDesignationQuantities();
+          this.set("displayDesignateForm", true);
+          this.set("readyToDesignate", true);
+        }
+      });
+    } else {
+      this.set("designationTargetPackage", pkg);
+      this.set("displayDesignateForm", true);
+      this.set("showItemAvailability", true);
+    }
+  },
+
+  computeDesignationQuantities() {
+    const pkg = this.get("designationTargetPackage");
+    const order = this.get("designationTargetOrder");
+
+    if (!order || !pkg) {
+      this.set("designatableQuantity", 0);
+      this.set("designationQty", 0);
+      return;
+    }
+
+    const maxQuantity =
+      pkg.get("availableQuantity") + this.alreadyDesignatedQuantity(pkg, order);
+
+    this.set("designatableQuantity", maxQuantity);
+    if (!this.get("designationQty")) {
+      this.set("designationQty", maxQuantity);
+    }
+  },
+
+  alreadyDesignatedQuantity(pkg, order) {
+    const ordPkg = pkg.get("ordersPackages").find(op => {
+      return parseInt(op.get("orderId")) === parseInt(order.get("id"));
+    });
+    return ordPkg ? ordPkg.get("quantity") : 0;
+  },
+
+  cancelDesignation() {
+    this.set("readyToDesignate", false);
+    this.set("designatableQuantity", 0);
+    this.set("designationTargetPackage", null);
+    this.set("designationTargetOrder", null);
+    this.set("designationQty", 0);
+  },
+
+  clearDesignationParams() {
+    this.set("readyToDesignate", false);
+    this.set("designatableQuantity", 0);
+    this.set("designationTargetPackage", null);
+    this.set("designationTargetOrder", null);
+    this.set("designationQty", 0);
+  },
+
+  completeDesignation() {
+    if (!this.get("readyToDesignate")) return;
+
+    this.runTask(() => {
+      const pkg = this.get("designationTargetPackage");
+      const order = this.get("designationTargetOrder");
+      const quantity = this.get("designationQty");
+
+      return this.designate(pkg, {
+        order,
+        quantity
+      });
+    }, ERROR_STRATEGIES.MODAL).finally(() => {
+      this.clearDesignationParams();
+    });
   },
 
   onNavigation() {

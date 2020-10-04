@@ -110,3 +110,54 @@
     }
   }
 }
+
+.item-allocation-overlay {
+  background-color: #D9DEE5;
+  padding: 1.5rem;
+  margin: 1rem;
+  color: black;
+  border-radius: 1rem;
+  margin-top: 3rem;
+
+  .close-overlay {
+    float: right;
+    i {
+      font-size: 1rem;
+    }
+
+    span {
+      vertical-align: text-bottom;
+    }
+  }
+
+  .heading {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-top: 1rem;
+
+    svg {
+      margin-right: 0.5rem;
+    }
+  }
+
+  .info-box {
+    background-color: #EEF1F3;
+    margin-bottom: 0.5rem;
+    padding: 0.5rem;
+    margin-top: 0.5rem;
+
+    i {
+      font-size: 1.2rem;
+      margin-left: 0.5rem;
+    }
+
+    span {
+      margin-left: 0.4rem;
+      margin-top: -0.4rem;
+    }
+  }
+}
+
+.gray-overlay {
+  background-color: #444 !important;
+}

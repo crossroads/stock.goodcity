@@ -160,3 +160,33 @@
     }
   }
 }
+
+.search-overlay {
+  .orders-search .search-field {
+    position: fixed !important;
+  }
+
+  .orders_search_result {
+    .list.list-activity {
+      margin-top: 4.5rem;
+    }
+
+    .infinite-list-container {
+      overflow-y: unset !important;
+    }
+  }
+
+  .order_body {
+    border-bottom: 1px solid #1c3b65;
+  }
+
+  li.order_block {
+    border: none;
+  }
+
+  .recent-orders {
+    font-size: 0.7rem;
+    text-align: center;
+    margin-top: -1rem;
+  }
+}

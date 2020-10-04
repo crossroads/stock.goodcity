@@ -22,7 +22,7 @@ const ACTIONS_SETTINGS = {
   },
   edit_quantity: {
     icon: "edit",
-    params: ["quantity"]
+    customAction: "beginDesignation"
   }
 };
 
@@ -101,40 +101,6 @@ export default Ember.Component.extend(AsyncMixin, DispatchActions, {
       headerText: this.get("i18n").t("select_location.pick_to_location")
     });
     return location ? location.get("id") : CANCELLED;
-  },
-
-  /**
-   * Opens a qty selection UI and resolves the promise with the desired
-   * quanntity
-   *
-   * CANCELLED is returned if the user closes the UI
-   *
-   * @private
-   * @returns {Promise<number>}
-   */
-  selectQuantity() {
-    const deferred = Ember.RSVP.defer();
-    const maxQuantity =
-      this.get("orderPkg.quantity") +
-      this.get("orderPkg.item.availableQuantity");
-
-    this.set(
-      "designationQty",
-      this.get("editableQty") ? maxQuantity : this.get("orderPkg.quantity")
-    );
-    this.set("designationTargetOrder", this.get("orderPkg.designation"));
-    this.set("maxQuantity", maxQuantity);
-    this.set("showQuantityInput", true);
-
-    const answer = fn => () => {
-      deferred.resolve(fn());
-      this.set("showQuantityInput", false);
-    };
-
-    this.set("completeQtyInput", answer(() => this.get("designationQty")));
-    this.set("cancelQtyInput", answer(() => CANCELLED));
-
-    return deferred.promise;
   },
 
   /**
@@ -269,6 +235,13 @@ export default Ember.Component.extend(AsyncMixin, DispatchActions, {
       } else {
         this.send("redirectToOrderDetail", this.get("orderPkg.designation.id"));
       }
+    },
+
+    beginDesignation(orderPkg) {
+      this.get("designationService").beginDesignation(
+        orderPkg.get("item"),
+        orderPkg.get("designation")
+      );
     }
   }
 });

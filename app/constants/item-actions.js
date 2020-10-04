@@ -45,6 +45,11 @@ export const ITEM_ACTIONS = [
     loss: true
   },
   {
+    name: "Pack",
+    icon: "edit",
+    loss: true
+  },
+  {
     name: "Inventory",
     icon: "tag",
     loss: true

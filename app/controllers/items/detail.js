@@ -7,7 +7,6 @@ import SearchOptionMixin from "stock/mixins/search_option";
 import PackageDetailMixin from "stock/mixins/fetch_package_detail";
 import GradeMixin from "stock/mixins/grades_option";
 import MoveActions from "stock/mixins/move_actions";
-import DesignationActions from "stock/mixins/designation_actions";
 import StorageTypes from "stock/mixins/storage-type";
 import AsyncMixin, { ERROR_STRATEGIES } from "stock/mixins/async";
 import ItemActions from "stock/mixins/item_actions";
@@ -19,7 +18,6 @@ export default GoodcityController.extend(
   PackageDetailMixin,
   GradeMixin,
   MoveActions,
-  DesignationActions,
   StorageTypes,
   AsyncMixin,
   ItemActions,

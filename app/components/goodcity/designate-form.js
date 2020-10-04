@@ -6,6 +6,12 @@ import _ from "lodash";
  *
  */
 export default Ember.Component.extend({
+  showItemAvailability: false,
+  settings: Ember.inject.service(),
+  designationService: Ember.inject.service(),
+
+  editableQty: Ember.computed.alias("settings.allowPartialOperations"),
+
   // Check quantities for anomalies
   canComplete: Ember.computed("quantity", "maxQuantity", function() {
     return (
@@ -13,6 +19,10 @@ export default Ember.Component.extend({
       this.get("quantity") > 0 &&
       this.get("quantity") <= this.get("maxQuantity")
     );
+  }),
+
+  onOrderChange: Ember.observer("order", function() {
+    this.set("quantity", this.get("maxQuantity"));
   }),
 
   // Lists other orders the package is designated to
@@ -52,5 +62,33 @@ export default Ember.Component.extend({
 
       return this.get("packageHasOtherDesignations");
     }
-  )
+  ),
+
+  actions: {
+    toggleItemAvailability() {
+      this.set("showItemAvailability", true);
+    },
+
+    closeItemAvailabilityOverlay() {
+      this.set("showItemAvailability", false);
+    },
+
+    gainItem() {
+      this.set("showItemAvailability", false);
+      this.set("readyToDesignate", false);
+      this.router.transitionTo("items.detail.publishing", this.get("pkg.id"));
+    },
+
+    modifyDesignation() {
+      this.set("showItemAvailability", false);
+      this.set("readyToDesignate", false);
+      this.router.transitionTo("items.detail.publishing", this.get("pkg.id"));
+    },
+
+    modifyBoxPalletAllocation() {
+      this.set("showItemAvailability", false);
+      this.set("readyToDesignate", false);
+      this.router.transitionTo("items.detail.location", this.get("pkg.id"));
+    }
+  }
 });
