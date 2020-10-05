@@ -696,6 +696,14 @@
         border: 1px solid #93A2B7;
         background: #002352;
         width: 90%;
+        height: 30px;
+        color: white;
+        font-size: 115%;
+        display: inline-block;
+      }
+
+      &.cancel-search {
+        display: inline-block;
       }
     }
 

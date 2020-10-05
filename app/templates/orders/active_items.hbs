@@ -31,8 +31,10 @@
       name="searchText"
       id="searchText"
       class="search-orders"
-      placeholder=(t "search_min")
       value=searchText }}
+      {{#if searchText.length}}
+        <i {{action "clearSearch"}} class="cancel-search">{{fa-icon 'times-circle'}}</i>
+      {{/if}}
     </div>
     <div class="small-4 columns">Sort by:
       {{#pluggable-drop-down setSelectedValue=(action "applySortOn") as |dropDown|}}

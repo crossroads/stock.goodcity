@@ -98,6 +98,10 @@ export default detail.extend(SearchMixin, {
           order_id: this.get("order.id")
         });
       }
+    },
+
+    clearSearch() {
+      this.set("searchText", "");
     }
   }
 });
