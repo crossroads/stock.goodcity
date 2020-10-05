@@ -1,7 +1,9 @@
 import Ember from "ember";
+import ItemActionMixin from "stock/mixins/item_actions";
+
 const ObjectPromiseProxy = Ember.ObjectProxy.extend(Ember.PromiseProxyMixin);
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(ItemActionMixin, {
   classNames: "",
   parentId: "epsilon",
   isRedirectable: true,
@@ -37,42 +39,5 @@ export default Ember.Component.extend({
 
   favouriteImage: Ember.computed("model", function() {
     return this.get("model.favouriteImage.thumbImageUrl");
-  }),
-
-  selectLocationAndUnpackItem(container, item, location_id, quantity) {
-    if (!location_id) {
-      return false;
-    }
-    if (item) {
-      const params = {
-        item_id: item.id,
-        location_id: location_id,
-        task: "unpack",
-        quantity: quantity
-      };
-      this.get("packageService")
-        .addRemoveItem(container.id, params)
-        .then(data => {
-          this.get("store").pushPayload(data);
-        });
-    }
-  },
-
-  actions: {
-    async openLocationSearch(container, item, quantity) {
-      let selectedLocation = await this.get(
-        "locationService"
-      ).userPickLocation();
-      if (!selectedLocation) {
-        return;
-      }
-      this.selectLocationAndUnpackItem(
-        container,
-        item,
-        selectedLocation.id,
-        quantity
-      );
-      // this.selectLocationAndUnpackItem(selectedLocation.id, quantity);
-    }
-  }
+  })
 });

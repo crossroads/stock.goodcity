@@ -19,6 +19,10 @@ import { ITEM_ACTIONS } from "stock/constants/item-actions";
  * - cancelAction()
  */
 
+const TASK = {
+  UNPACK: "unpack"
+};
+
 export default Ember.Mixin.create(AsyncMixin, {
   locationService: Ember.inject.service(),
   packageService: Ember.inject.service(),
@@ -98,6 +102,27 @@ export default Ember.Mixin.create(AsyncMixin, {
     this.set("actionIcon", null);
   },
 
+  _unpack(container, item, location_id, quantity, callback) {
+    if (item) {
+      const params = {
+        item_id: item.id,
+        location_id: location_id,
+        task: TASK.UNPACK,
+        quantity: quantity
+      };
+
+      this.get("packageService")
+        .addRemoveItem(container.id, params)
+        .then(async () => {
+          this.get("packageService")
+            .fetchParentContainers(item)
+            .then(data => {
+              callback(data);
+            });
+        });
+    }
+  },
+
   actions: {
     async beginAction(pkg, actionName) {
       let isGainAction = this.verifyGainAction(actionName);
@@ -168,6 +193,18 @@ export default Ember.Mixin.create(AsyncMixin, {
         this.get("actionTarget"),
         this.get("actionName")
       );
+    },
+
+    async unpack(container, item, quantity, callback) {
+      const selectedLocation = await this.get(
+        "locationService"
+      ).userPickLocation();
+
+      if (!selectedLocation) {
+        return;
+      }
+
+      this._unpack(container, item, selectedLocation.id, quantity, callback);
     }
   }
 });

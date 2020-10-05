@@ -74,7 +74,7 @@
                 {{addedQuantityCount}}
               </span>
           </div>
-            <div {{action 'openLocationSearch' model item addedQuantityCount}}>
+            <div {{action 'unpack' model item addedQuantityCount updateContainedPackages}}>
               {{fa-icon 'times-circle' size="lg"}} <span>{{t 'box_pallet.remove'}}</span>
             </div>
         </div>

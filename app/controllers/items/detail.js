@@ -429,6 +429,10 @@ export default GoodcityController.extend(
     },
 
     actions: {
+      handleChange(data) {
+        this.set("containedPackages", data);
+      },
+
       updatePackage(field, value) {
         this.runTask(
           this.get("packageService").updatePackage(this.get("item.id"), {
@@ -634,13 +638,14 @@ export default GoodcityController.extend(
       },
 
       fetchParentContainers(pageNo = 1) {
-        return this.get("packageService").fetchParentContainers(
-          this.get("item.id"),
-          {
+        return this.get("packageService")
+          .fetchParentContainers(this.get("item.id"), {
             page: pageNo,
             per_page: 10
-          }
-        );
+          })
+          .then(data => {
+            this.set("containedPackages", data);
+          });
       },
 
       openItemsSearch() {
