@@ -328,28 +328,6 @@ export default GoodcityController.extend(
       return this.get("packageService").allChildPackageTypes(this.get("item"));
     }),
 
-    /**
-     * Removes an item from a box/pallet
-     * @param { Item } pkg The package we wish to remove from the box/pallet
-     */
-    selectLocationAndUnpackItem(location_id, quantity) {
-      let item = this.get("removableItem");
-      if (!location_id) {
-        return false;
-      }
-      if (item) {
-        const params = {
-          item_id: item.id,
-          location_id: location_id,
-          task: "unpack",
-          quantity: quantity
-        };
-        this.get("packageService")
-          .addRemoveItem(this.get("item.id"), params)
-          .then(() => this.send("fetchContainedPackages"));
-      }
-    },
-
     async deleteAndAssignNew(packageType) {
       const item = this.get("item");
       const type = item.get("detailType");
@@ -603,7 +581,11 @@ export default GoodcityController.extend(
             .then(data => {
               this.get("store").pushPayload(data);
               this.set("associatedPackages", data.items);
-              if (data.packages_locations.length > 0) {
+
+              if (
+                data.packages_locations &&
+                data.packages_locations.length > 0
+              ) {
                 let record;
                 data.packages_locations.map(pkgloc => {
                   record = this.get("store").peekRecord(

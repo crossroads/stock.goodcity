@@ -17,7 +17,7 @@
         {{contained-package
           pkg=pkg
           entity=item
-          onRemove=(action 'openLocationSearch')
+          fetchContainedPackages=(action 'fetchContainedPackages')
         }}
       {{/each}}
     </ul>

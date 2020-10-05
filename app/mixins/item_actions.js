@@ -117,7 +117,9 @@ export default Ember.Mixin.create(AsyncMixin, {
           this.get("packageService")
             .fetchParentContainers(item)
             .then(data => {
-              callback(data);
+              if (callback) {
+                callback(data);
+              }
             });
         });
     }

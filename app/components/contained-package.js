@@ -1,7 +1,9 @@
 import Ember from "ember";
+import ItemActionMixin from "stock/mixins/item_actions";
+
 const ObjectPromiseProxy = Ember.ObjectProxy.extend(Ember.PromiseProxyMixin);
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(ItemActionMixin, {
   packageService: Ember.inject.service(),
   store: Ember.inject.service(),
 
@@ -25,11 +27,5 @@ export default Ember.Component.extend({
 
   addedQuantityCount: Ember.computed
     .reads("fetchAddedQuantity.added_quantity")
-    .readOnly(),
-
-  actions: {
-    openLocationSearch(pkg) {
-      this.get("onRemove")(pkg, this.get("addedQuantityCount"));
-    }
-  }
+    .readOnly()
 });
