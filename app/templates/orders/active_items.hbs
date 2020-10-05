@@ -40,6 +40,7 @@
           <div class="options-menu-title">
             {{#let-alias setDefaultSortingColumn as |item|}}
               {{item.column_name}}
+              &nbsp;
               {{#if (is-equal item.sort "asc")}}
                 {{fa-icon 'sort-alpha-up'}}
               {{else}}
@@ -54,6 +55,7 @@
             {{#each dropDownItems as |item|}}
               <div class="option_menu" {{action dropDown.clickItem item}}>
                 {{item.column_name}}
+                &nbsp;
                 {{#if (is-equal item.sort "asc")}}
                   {{fa-icon 'sort-alpha-up'}}
                 {{else}}
@@ -78,6 +80,7 @@
             {{else}}
               States.{{filteredStates.length}}
             {{/if}}
+            &nbsp;
             {{fa-icon 'filter'}}
           </div>
         {{/dropDown.selectedDropDown}}
@@ -88,10 +91,12 @@
               <div class="option_menu">
                 <div class="row">
                   <div class="column-4 columns">
-                    {{capitalize-string state.state}}
-                  </div>
-                  <div class="column-4 columns">
-                    {{input type="checkbox" name=state.state checked=state.enabled class="checkbox"}}
+                    <span class="menu-option-text">
+                      {{capitalize-string state.state}}
+                    </span>
+                    <span class="checkbox-container">
+                      {{input type="checkbox" name=state.state checked=state.enabled class="checkbox"}}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -110,16 +115,3 @@
     {{/infinite-list}}
   {{/if}}
 </section>
-
-
-
-{{!--
-  TO DO Components:
-  1. Search components:
-    - Input tag that takes input from user and returns searched string.
-    - has clear text functionality so that we don't have to manage explicitly everywhere.
-  2. Drop down
-    - Takes list of data to be displayed.
-    - User will have the freedom to use their own UI.
-    - Similar to infinite scrolling.
- --}}
