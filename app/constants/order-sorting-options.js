@@ -36,3 +36,9 @@ export const ORDER_SORTING_OPTIONS = [
     is_desc: true
   }
 ];
+
+export const ORDER_PACKAGES_STATES = [
+  { state: "designated", enabled: false },
+  { state: "dispatched", enabled: false },
+  { state: "cancelled", enabled: false }
+];

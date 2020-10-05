@@ -1,5 +1,8 @@
 import detail from "./detail";
-import { ORDER_SORTING_OPTIONS } from "stock/constants/order-sorting-options";
+import {
+  ORDER_SORTING_OPTIONS,
+  ORDER_PACKAGES_STATES
+} from "stock/constants/order-sorting-options";
 import SearchMixin from "stock/mixins/search_resource";
 import _ from "lodash";
 
@@ -8,8 +11,9 @@ export default detail.extend(SearchMixin, {
   packageService: Ember.inject.service(),
   packageTypeService: Ember.inject.service(),
   dropDownItems: ORDER_SORTING_OPTIONS,
-  states: ["Designated", "Dispatched", "Cancelled"],
+  states: ORDER_PACKAGES_STATES,
   displayDropDownItems: false,
+  filteredStates: [],
 
   autoLoad: true,
   /*
@@ -28,17 +32,34 @@ export default detail.extend(SearchMixin, {
       return ORDER_SORTING_OPTIONS[0];
     },
     set(key, value) {
-      return {
-        column_name: value["column_name"],
-        is_desc: value["is_desc"]
-      };
+      return value;
     }
   }),
 
-  sortingQueryOn(options) {
+  getStates() {
+    const utilities = this.get("utilityMethods");
+    const state = utilities.stringifyArray(this.getFilteredStates());
     return {
-      sort_column: options["column_alias"],
-      is_desc: options["is_desc"]
+      state
+    };
+  },
+
+  getFilteredStates() {
+    return _.filter(this.get("states"), ["enabled", true]).map(
+      ({ state }) => state
+    );
+  },
+
+  stateList: Ember.observer("states.@each.enabled", function() {
+    this.reloadResults();
+    this.set("filteredStates", this.getFilteredStates());
+  }),
+
+  getSortQuery() {
+    const sortOptions = this.get("setDefaultSortingColumn");
+    return {
+      sort_column: sortOptions["column_alias"],
+      is_desc: sortOptions["is_desc"]
     };
   },
 
@@ -48,7 +69,9 @@ export default detail.extend(SearchMixin, {
         _.merge(
           { order_id: this.get("orderId") },
           this.getSearchQuery(),
-          this.getPaginationQuery(pageNo)
+          this.getPaginationQuery(pageNo),
+          this.getStates()
+          // this.getSortQuery()
         )
       );
       return this.get("store")
@@ -60,8 +83,8 @@ export default detail.extend(SearchMixin, {
     },
 
     applySortOn(options) {
-      this.sortingQueryOn(options);
       this.set("setDefaultSortingColumn", options);
+      this.reloadResults();
     },
 
     async addRequest() {

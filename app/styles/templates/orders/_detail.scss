@@ -360,6 +360,12 @@
   padding: 0.5rem;
 }
 
+.options-menu-title {
+  font-size: 120%;
+  margin-top: 6%;
+  text-decoration: underline;
+}
+
 .options_menu_list {
   width: 12rem;
   margin-right: 1.2rem;
@@ -371,6 +377,10 @@
   @media #{$small-only} {
     width: 10.5rem;
     margin-left: -5rem;
+  }
+
+  &.option_margin {
+    margin-top: 8%;
   }
 
   /* box-shadow style */
@@ -668,13 +678,18 @@
 
   .drop-down {
     .columns {
-      input {
+      input.search-orders {
         padding: 5%;
         border: 1px solid #93A2B7;
         background: #002352;
         width: 90%;
       }
+    }
 
+    .checkbox {
+      position: relative;
+      left: 0px;
+      margin-left: 5%;
     }
   }
 
