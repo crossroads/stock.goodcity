@@ -35,6 +35,9 @@ export default Ember.Mixin.create({
   },
 
   createMessage(values) {
+    if (!values) {
+      return;
+    }
     var message = this.store.createRecord("message", values);
     message
       .save()
