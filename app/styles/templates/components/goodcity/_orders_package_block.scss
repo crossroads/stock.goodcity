@@ -157,13 +157,17 @@
         }
 
         .sub-text {
-          width: 3rem;
+          width: 4rem;
 
           span {
             display: block;
-            line-height: 1.5;
+            line-height: 1;
             text-align: center;
             padding-top: 0.2rem;
+
+            @media #{$small-only} {
+              line-height: 1.5;
+            }
 
             &.link {
               text-decoration: underline;
@@ -178,7 +182,11 @@
         }
 
         >div {
-          width: 7rem;
+          width: 10rem;
+
+          @media #{$small-only} {
+            width: 7rem;
+          }
 
           &.value {
             font-family: $header-font-family;

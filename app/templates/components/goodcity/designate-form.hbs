@@ -12,14 +12,14 @@
     <div class="infos">
       <div class="info-row">
         <div class="key">Item</div>
-        <div class="value clickable" {{action 'triggerItemChange' target=designationService}}>
+        <div class="value {{if allowItemChange 'clickable'}}" {{action 'triggerItemChange' target=designationService}}>
           {{fa-icon 'tag'}} {{pkg.inventoryNumber}}
         </div>
       </div>
 
       <div class="info-row">
         <div class="key">To Order</div>
-        <div class="value clickable" {{action 'triggerOrderChange' pkg target=designationService}}>
+        <div class="value {{if allowOrderChange 'clickable'}}" {{action 'triggerOrderChange' pkg target=designationService}}>
           {{#if order}}
             {{fa-icon (type-filter-icon order.bookingType.identifier)}}
             {{order.code}}
@@ -52,7 +52,7 @@
       <div class="info-row item-action-comment">
         <div class="key">Shipping #</div>
         <div class="value">
-          {{numeric-input name="shipping" value=shipping maxlength="8" pattern="^[1-9][0-9]*$"}}
+          {{numeric-input name="shippingNumber" value=shippingNumber maxlength="8" pattern="^[1-9][0-9]*$"}}
         </div>
       </div>
 

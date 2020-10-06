@@ -127,13 +127,14 @@ export default ApiBaseService.extend(NavigationAwareness, AsyncMixin, {
    * @param {Number} quantity The quantity to designate
    * @returns {Promise<Model>}
    */
-  async designate(pkg, { order, quantity }) {
+  async designate(pkg, { order, quantity, shippingNumber }) {
     const id = ID(pkg);
     const url = `/packages/${id}/designate`;
 
     const data = await this.PUT(url, {
       order_id: ID(order),
-      quantity: quantity
+      quantity: quantity,
+      shipping_number: shippingNumber
     });
 
     this.get("store").pushPayload(data);
@@ -265,10 +266,12 @@ export default ApiBaseService.extend(NavigationAwareness, AsyncMixin, {
       const pkg = this.get("designationTargetPackage");
       const order = this.get("designationTargetOrder");
       const quantity = this.get("designationQty");
+      const shippingNumber = this.get("shippingNumber");
 
       return this.designate(pkg, {
         order,
-        quantity
+        quantity,
+        shippingNumber
       });
     }, ERROR_STRATEGIES.MODAL).finally(() => {
       this.cancelDesignation();
