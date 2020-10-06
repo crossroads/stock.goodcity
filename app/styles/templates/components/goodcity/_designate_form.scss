@@ -114,7 +114,6 @@
 .item-allocation-overlay {
   background-color: #D9DEE5;
   padding: 1.5rem;
-  margin: 1rem;
   color: black;
   border-radius: 1rem;
   margin-top: 3rem;
@@ -131,9 +130,13 @@
   }
 
   .heading {
-    font-size: 1rem;
+    font-size: 1.2rem;
     font-weight: bold;
     margin-top: 1rem;
+
+    @media #{$small-only} {
+      font-size: 1rem;
+    }
 
     svg {
       margin-right: 0.5rem;
@@ -151,9 +154,11 @@
       margin-left: 0.5rem;
     }
 
-    span {
-      margin-left: 0.4rem;
-      margin-top: -0.4rem;
+    @media #{$small-only} {
+      span {
+        margin-left: 0.4rem;
+        margin-top: -0.4rem;
+      }
     }
   }
 }

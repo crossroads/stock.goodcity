@@ -184,8 +184,8 @@ export default ApiBaseService.extend(NavigationAwareness, AsyncMixin, {
     });
   },
 
-  beginDesignation(pkg, order) {
-    if (pkg.get("availableQuantity") > 0) {
+  beginDesignation(pkg, order, editQuantity) {
+    if (pkg.get("availableQuantity") > 0 || editQuantity) {
       this.resolveOrder(order).then(target => {
         if (target) {
           this.set("designationTargetPackage", pkg);

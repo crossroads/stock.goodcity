@@ -74,55 +74,57 @@
 {{/popup-overlay}}
 
 {{#popup-overlay open=showItemAvailability backgroundClass="gray-overlay"}}
-<div class="item-allocation-overlay">
-  <div class="close-overlay" {{action "closeItemAvailabilityOverlay"}}>
-    <span>Close</span>
-    <i>{{fa-icon "times-circle"}}</i>
-  </div>
-
-  <div class="heading"><i> {{fa-icon "exclamation-triangle"}}</i> {{pkg.availableQuantity}} Available</div>
-
-  <i>To make more of this item available...</i>
-
-  <div class="info-box row">
-    <div class="small-10 columns">
-      <b>2 are boxed & 3 are palletized</b>
-      <div>
-        Remove to designate separately.
-        <br>(Or, designate whole box/pallet.)
-      </div>
+<div class="row">
+  <div class="columns small-12 item-allocation-overlay">
+    <div class="close-overlay" {{action "closeItemAvailabilityOverlay"}}>
+      <span>Close</span>
+      <i>{{fa-icon "times-circle"}}</i>
     </div>
-    <div class="small-2 columns" {{action "modifyBoxPalletAllocation"}}>
-      <i>{{fa-icon "arrow-circle-right"}}</i>
-    </div>
-  </div>
 
-  {{#if (is-or pkg.designatedQuantity pkg.dispatchedQuantity)}}
+    <div class="heading"><i> {{fa-icon "exclamation-triangle"}}</i> {{pkg.availableQuantity}} Available</div>
+
+    <i>To make more of this item available...</i>
+
     <div class="info-box row">
-      <div class="small-10 columns">
-        <b>{{pkg.designatedQuantity}} designated & {{pkg.dispatchedQuantity}} dispatched</b>
+      <div class="small-10 columns large-11">
+        <b>2 are boxed & 3 are palletized</b>
         <div>
-          Modify or cancel other orders.
+          Remove to designate separately.
+          <br>(Or, designate whole box/pallet.)
         </div>
       </div>
-      <div class="small-2 columns" {{action "modifyDesignation"}}>
+      <div class="small-2 columns large-1" {{action "modifyBoxPalletAllocation"}}>
         <i>{{fa-icon "arrow-circle-right"}}</i>
       </div>
     </div>
-  {{/if}}
 
-  <div class="info-box row">
-    <div class="small-10 columns">
-      <b>Is the item quantity wrong?</b>
-      <div>
-        Increase it using gain feature
+    {{#if (is-or pkg.designatedQuantity pkg.dispatchedQuantity)}}
+      <div class="info-box row">
+        <div class="small-10 columns large-11">
+          <b>{{pkg.designatedQuantity}} designated & {{pkg.dispatchedQuantity}} dispatched</b>
+          <div>
+            Modify or cancel other orders.
+          </div>
+        </div>
+        <div class="small-2 columns large-1" {{action "modifyDesignation"}}>
+          <i>{{fa-icon "arrow-circle-right"}}</i>
+        </div>
+      </div>
+    {{/if}}
+
+    <div class="info-box row">
+      <div class="small-10 columns large-11">
+        <b>Is the item quantity wrong?</b>
+        <div>
+          Increase it using gain feature
+        </div>
+      </div>
+      <div class="small-2 columns large-1 gain-item-action" {{action 'gainItem'}}>
+        <i>{{fa-icon "folder-plus"}}</i>
+        <span>Gain</span>
       </div>
     </div>
-    <div class="small-2 columns gain-item-action" {{action 'gainItem'}}>
-      <i>{{fa-icon "folder-plus"}}</i>
-      <span>Gain</span>
-    </div>
-  </div>
 
+  </div>
 </div>
 {{/popup-overlay}}

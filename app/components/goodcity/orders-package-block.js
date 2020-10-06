@@ -240,7 +240,8 @@ export default Ember.Component.extend(AsyncMixin, DispatchActions, {
     beginDesignation(orderPkg) {
       this.get("designationService").beginDesignation(
         orderPkg.get("item"),
-        orderPkg.get("designation")
+        orderPkg.get("designation"),
+        true
       );
     }
   }
