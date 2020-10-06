@@ -258,14 +258,6 @@ export default ApiBaseService.extend(NavigationAwareness, AsyncMixin, {
     this.set("designationQty", 0);
   },
 
-  clearDesignationParams() {
-    this.set("readyToDesignate", false);
-    this.set("designatableQuantity", 0);
-    this.set("designationTargetPackage", null);
-    this.set("designationTargetOrder", null);
-    this.set("designationQty", 0);
-  },
-
   completeDesignation() {
     if (!this.get("readyToDesignate")) return;
 
@@ -279,7 +271,7 @@ export default ApiBaseService.extend(NavigationAwareness, AsyncMixin, {
         quantity
       });
     }, ERROR_STRATEGIES.MODAL).finally(() => {
-      this.clearDesignationParams();
+      this.cancelDesignation();
     });
   },
 

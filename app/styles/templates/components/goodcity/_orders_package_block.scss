@@ -156,6 +156,21 @@
           color: red;
         }
 
+        .sub-text {
+          width: 3rem;
+
+          span {
+            display: block;
+            line-height: 1.5;
+            text-align: center;
+            padding-top: 0.2rem;
+
+            &.link {
+              text-decoration: underline;
+            }
+          }
+        }
+
         .qty-input {
           max-width: 4rem;
           display: inline-block;

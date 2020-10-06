@@ -69,7 +69,7 @@ export default Ember.Component.extend({
   ),
 
   actions: {
-    toggleItemAvailability() {
+    displayItemAvailabilityOverlay() {
       this.set("showItemAvailability", true);
     },
 

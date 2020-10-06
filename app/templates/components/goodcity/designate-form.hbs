@@ -43,11 +43,10 @@
             class="qty-input"}}
         </div>
 
-        <div class="sub-text {{if (is-not (is-in-range quantity 1)) 'warn-text'}}">
-          Max: {{ maxQuantity }}
+        <div class="sub-text">
+          <span class="{{if (is-not (is-in-range quantity 1)) 'warn-text'}}">Max: {{ maxQuantity }}</span>
+          <span class="link" {{action "displayItemAvailabilityOverlay"}}>Help</span>
         </div>
-
-        <div {{action "toggleItemAvailability"}}>Help</div>
       </div>
 
       <div class="info-row item-action-comment">
@@ -77,7 +76,7 @@
 
 {{#popup-overlay open=showItemAvailability backgroundClass="gray-overlay"}}
 <div class="row">
-  <div class="columns small-12 item-allocation-overlay">
+  <div class="columns small-10 small-offset-1 item-allocation-overlay ">
     <div class="close-overlay" {{action "closeItemAvailabilityOverlay"}}>
       <span>Close</span>
       <i>{{fa-icon "times-circle"}}</i>
@@ -87,18 +86,20 @@
 
     <i>To make more of this item available...</i>
 
-    <div class="info-box row">
-      <div class="small-10 columns large-11">
-        <b>2 are boxed & 3 are palletized</b>
-        <div>
-          Remove to designate separately.
-          <br>(Or, designate whole box/pallet.)
+    {{#if (is-or pkg.onHandBoxedQuantity pkg.onHandPalletizedQuantity)}}
+      <div class="info-box row">
+        <div class="small-10 columns large-11">
+          <b>{{pkg.onHandBoxedQuantity}} are boxed & {{pkg.onHandPalletizedQuantity}} are palletized</b>
+          <div>
+            Remove to designate separately.
+            <br>(Or, designate whole box/pallet.)
+          </div>
+        </div>
+        <div class="small-2 columns large-1" {{action "modifyBoxPalletAllocation"}}>
+          <i>{{fa-icon "arrow-circle-right"}}</i>
         </div>
       </div>
-      <div class="small-2 columns large-1" {{action "modifyBoxPalletAllocation"}}>
-        <i>{{fa-icon "arrow-circle-right"}}</i>
-      </div>
-    </div>
+    {{/if}}
 
     {{#if (is-or pkg.designatedQuantity pkg.dispatchedQuantity)}}
       <div class="info-box row">

@@ -38,6 +38,8 @@ export default cloudinaryUrl.extend(GradeMixin, {
   availableQuantity: attr("number"),
   designatedQuantity: attr("number"),
   dispatchedQuantity: attr("number"),
+  onHandBoxedQuantity: attr("number"),
+  onHandPalletizedQuantity: attr("number"),
   notes: attr("string"),
   restrictionId: attr("number"),
   // Temporarily keep the old `quantity` field as an alias to make migration easier
