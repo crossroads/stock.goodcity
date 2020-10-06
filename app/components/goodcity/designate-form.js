@@ -25,6 +25,10 @@ export default Ember.Component.extend({
     this.set("quantity", this.get("maxQuantity"));
   }),
 
+  onItemChange: Ember.observer("pkg", function() {
+    this.set("quantity", this.get("maxQuantity"));
+  }),
+
   // Lists other orders the package is designated to
   otherDesignations: Ember.computed(
     "order.id",

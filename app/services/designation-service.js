@@ -184,21 +184,43 @@ export default ApiBaseService.extend(NavigationAwareness, AsyncMixin, {
     });
   },
 
-  beginDesignation(pkg, order, editQuantity) {
-    if (pkg.get("availableQuantity") > 0 || editQuantity) {
-      this.resolveOrder(order).then(target => {
-        if (target) {
-          this.set("designationTargetPackage", pkg);
-          this.set("designationTargetOrder", target);
-          this.computeDesignationQuantities();
-          this.set("displayDesignateForm", true);
-          this.set("readyToDesignate", true);
-        }
-      });
+  beginDesignation(options) {
+    let pkg = options.pkg,
+      order = options.order;
+
+    this.set("allowItemChange", options.allowItemChange);
+    this.set("allowOrderChange", options.allowOrderChange);
+
+    if (pkg.get("availableQuantity") > 0 || options.isEditOperation) {
+      this.triggerDesignateAction(pkg, order);
     } else {
       this.set("designationTargetPackage", pkg);
       this.set("displayDesignateForm", true);
       this.set("showItemAvailability", true);
+    }
+  },
+
+  triggerDesignateAction(pkg, order) {
+    this.resolveOrder(order).then(target => {
+      if (target) {
+        this.set("designationTargetPackage", pkg);
+        this.set("designationTargetOrder", target);
+        this.computeDesignationQuantities();
+        this.set("displayDesignateForm", true);
+        this.set("readyToDesignate", true);
+      }
+    });
+  },
+
+  triggerOrderChange(pkg, order) {
+    if (this.get("allowOrderChange")) {
+      this.triggerDesignateAction(pkg, order);
+    }
+  },
+
+  triggerItemChange() {
+    if (this.get("allowItemChange")) {
+      this.set("readyToDesignate", false);
     }
   },
 

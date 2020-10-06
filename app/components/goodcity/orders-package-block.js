@@ -238,11 +238,12 @@ export default Ember.Component.extend(AsyncMixin, DispatchActions, {
     },
 
     beginDesignation(orderPkg) {
-      this.get("designationService").beginDesignation(
-        orderPkg.get("item"),
-        orderPkg.get("designation"),
-        true
-      );
+      this.get("designationService").beginDesignation({
+        pkg: orderPkg.get("item"),
+        order: orderPkg.get("designation"),
+        isEditOperation: true,
+        allowOrderChange: true
+      });
     }
   }
 });

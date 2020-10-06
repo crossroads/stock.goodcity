@@ -12,17 +12,19 @@
     <div class="infos">
       <div class="info-row">
         <div class="key">Item</div>
-        <div class="value">{{fa-icon 'tag'}} {{pkg.inventoryNumber}}</div>
+        <div class="value clickable" {{action 'triggerItemChange' target=designationService}}>
+          {{fa-icon 'tag'}} {{pkg.inventoryNumber}}
+        </div>
       </div>
 
       <div class="info-row">
         <div class="key">To Order</div>
-        <div class="value clickable"  {{action 'beginDesignation' pkg target=designationService}}>
+        <div class="value clickable" {{action 'triggerOrderChange' pkg target=designationService}}>
           {{#if order}}
-          {{fa-icon (type-filter-icon order.bookingType.identifier)}}
-          {{order.code}}
+            {{fa-icon (type-filter-icon order.bookingType.identifier)}}
+            {{order.code}}
           {{else}}
-          Select Order
+            Select Order
           {{/if}}
         </div>
       </div>
