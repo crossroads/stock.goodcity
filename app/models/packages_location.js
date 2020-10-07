@@ -12,20 +12,11 @@ export default Model.extend({
   location: belongsTo("location", { async: false }),
   item: belongsTo("item", { async: false }),
 
-  defaultAddableQuantity: Ember.computed.oneWay("quantity"),
-
   quantityToMove: Ember.computed("quantity", function() {
     return this.get("quantity");
   }),
 
   siblingPackagesLocations: Ember.computed("itemId", function() {
     return this.get("item.packagesLocations");
-  }),
-
-  hasValidDefaultAddableQuantity: Ember.computed(
-    "defaultAddableQuantity",
-    function() {
-      return this.get("defaultAddableQuantity") <= this.get("quantity");
-    }
-  )
+  })
 });

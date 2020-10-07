@@ -33,6 +33,11 @@
   visibility: visible;
   top: 112px;
 
+  @media (pointer:none), (pointer:coarse), #{$small-only} {
+    max-height: initial;
+    overflow: scroll;
+  }
+
   .button {
     margin-left: 6px;
     text-decoration: none;
