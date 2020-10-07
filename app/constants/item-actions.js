@@ -23,30 +23,5 @@ export const ITEM_ACTIONS = [
     name: "Loss",
     icon: "folder-minus",
     loss: true
-  },
-  {
-    name: "Dispatch",
-    icon: "paper-plane",
-    loss: true
-  },
-  {
-    name: "Undispatch",
-    icon: "reply",
-    loss: true
-  },
-  {
-    name: "Move",
-    icon: "map-marker",
-    loss: true
-  },
-  {
-    name: "Edited",
-    icon: "edit",
-    loss: true
-  },
-  {
-    name: "Inventory",
-    icon: "tag",
-    loss: true
   }
 ];

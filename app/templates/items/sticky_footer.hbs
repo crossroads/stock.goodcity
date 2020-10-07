@@ -33,11 +33,6 @@
                 </li>
               {{/if}}
             {{/each}}
-            {{#if (is-greater item.availableQuantity 1)}}
-              <li class="menu ">
-                {{quantity-chooser item=item toggleShowExtendedFooterMenu=(toggle this "showExtendedFooterMenu") }}
-              </li>
-            {{/if}}
           </ul>
         </div>
       </div>
