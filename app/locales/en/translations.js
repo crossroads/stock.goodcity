@@ -130,7 +130,9 @@ export default {
     details: "details",
     invalid_quantity:
       "Added quantity cannot be greater than the available quantity for each location.",
-    type_to_search: "Type in to search items to add."
+    type_to_search: "Type in to search items to add.",
+    cannot_change_type:
+      "Cannot change type of a box with items. Please remove the items and try again"
   },
   messages: {
     you: "You",

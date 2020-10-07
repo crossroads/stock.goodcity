@@ -28,7 +28,7 @@ export default Ember.Component.extend({
     .readOnly(),
 
   actions: {
-    openLocationSearch(pkg) {
+    removeContainedPackage(pkg) {
       this.get("onRemove")(pkg, this.get("addedQuantityCount"));
     }
   }
