@@ -102,6 +102,16 @@ export default Ember.Mixin.create(AsyncMixin, {
     this.set("actionIcon", null);
   },
 
+  /**
+   * Unpacks the item from box / pallet
+   * Updates the onHandBoxedQuantity / onHandPalletizedQuantity in store
+   *
+   * @param EmberObject container
+   * @param EmberObject item
+   * @param Integer location_id
+   * @param Integer quantity
+   * @param function callback
+   */
   _unpack(container, item, location_id, quantity, callback) {
     if (item) {
       const params = {
@@ -113,13 +123,29 @@ export default Ember.Mixin.create(AsyncMixin, {
 
       this.get("packageService")
         .addRemoveItem(container.id, params)
-        .then(async () => {
+        .then(() => {
+          // 1. Make API request to remove item from the container
           this.get("packageService")
             .fetchParentContainers(item)
             .then(data => {
+              // 2. If success, update the store to have proper on hand quantities
+              const _item = this.get("store").peekRecord("item", item.id);
+              if (container.get("storageType.isBox")) {
+                const qty = _item.get("onHandBoxedQuantity");
+                const updatedQty = qty - (quantity ? quantity : qty);
+                _item.set("onHandBoxedQuantity", updatedQty);
+              } else {
+                const qty = _item.get("onHandPalletizedQuantity");
+                const updatedQty = qty - (quantity ? quantity : qty);
+                _item.set("onHandPalletizedQuantity", updatedQty);
+              }
+              // 3. Invoke callback
               if (callback) {
                 callback(data);
               }
+            })
+            .catch(err => {
+              throw err;
             });
         });
     }
@@ -197,6 +223,15 @@ export default Ember.Mixin.create(AsyncMixin, {
       );
     },
 
+    /**
+     * Unpack the requested quantity from a container (either box or pallet)
+     * and invoke any callback passed as argument.
+     * @param EmberObject container
+     * @param EmberObject item
+     * @param Integer location_id
+     * @param Integer quantity
+     * @param function callback
+     */
     async unpack(container, item, quantity, callback) {
       const selectedLocation = await this.get(
         "locationService"
