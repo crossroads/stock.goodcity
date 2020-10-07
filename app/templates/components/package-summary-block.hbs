@@ -61,22 +61,23 @@
           {{/link-to}}
         </div>
         {{#if showBoxPalletDetails}}
-        <div class='box-pallet-wrapper'>
-          <div>
+        <div class="box-pallet-details">
+          <div class="box-pallet-notes-container">
             {{model.notes}}
           </div>
-          <div class="break"></div>
-          <div>
-            <span class="on-hand-quantity-label">
-              Quantity inside:
-            </span>
-              <span class='on-hand-quantity'>
-                {{addedQuantityCount}}
-              </span>
-          </div>
-            <div {{action 'unpack' model item addedQuantityCount updateContainedPackages}}>
-              {{fa-icon 'times-circle' size="lg"}} <span>{{t 'box_pallet.remove'}}</span>
+          <div class="box-pallet-quantity-container">
+            <div class="qty-details-wrapper">
+              <div>
+                {{t 'item_details.quantity_inside'}}
+              </div>
+              <div>{{addedQuantityCount}}</div>
             </div>
+            <div class='remove'>
+              <div {{action 'unpack' model item addedQuantityCount updateContainedPackages}}>
+                {{fa-icon 'times-circle' size="lg"}} <span>{{t 'box_pallet.remove'}}</span>
+              </div>
+            </div>
+          </div>
         </div>
         {{else}}
           <div class="item-summary">

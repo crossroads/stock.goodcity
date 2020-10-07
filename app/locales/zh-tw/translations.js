@@ -767,6 +767,7 @@ export default {
     comment: "Comments",
     pieces: "Pieces",
     condition: "Condition :",
+    quantity_inside: "內含數量 :",
     validation_errors: {
       description: "Description cannot be blank."
     },
