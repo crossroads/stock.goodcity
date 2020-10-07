@@ -700,7 +700,8 @@ export default {
     offer_select_warning: "Do you want to assign this offer?"
   },
   search_order: {
-    recent: "Recently used designations"
+    recent: "Recently used designations",
+    recent_orders: "Your recently used orders."
   },
   select_location: {
     back: "Back",
@@ -912,15 +913,6 @@ export default {
     total_to_dispatch: "Total to dispatch (must = {{qty}})",
     dispatch: "Dispatch"
   },
-  partial_move: {
-    location: "{{inventoryNumber}}: Location",
-    location_length: " Locations: {{locationLength}}",
-    total_on_hand: "Total on Hand:",
-    qty: "Qty:",
-    move: "Move",
-    total_to_move: "Total to move",
-    proceed_to_choose_destination: "Proceed to choose destination"
-  },
   print_label: {
     sent: "Sent to printer"
   },
@@ -935,19 +927,29 @@ export default {
       "You are about to unpublish this package.Clients will no longer be able to view or request it online."
   },
   designate_form: {
-    warning_text:
-      "增加{{state}}的數量到{{totalQty}} 對於{{designationCode}}! ({{qty}} 原本{{pkgState}}-物件{{inventory number}})",
-    warning_text_without_link:
-      "增加{{state}}的數量到{{totalQty}} 對於{{orderCode}}! ({{qty}} 原本{{designatedState}})",
-    designate_to: "Designate this package to:",
-    designate_entire: " 指定全數",
-    designate_part: "指定部份",
-    quantity_input: "Quantity to designate",
-    already_fully_designated: "The remaining quantity is already designated.",
-    already_fully_designated_to:
-      "The remaining quantity is designated to {{orderCode}}.",
-    confirm_undesignation: "Are you sure you wish to undesignate ?",
-    click_to_undesignate: "Click here to undesignate"
+    designate: "Designate",
+    item: "Item",
+    to_order: "To Order",
+    select_order: "Select Order",
+    quantity: "Quantity",
+    max: "Max",
+    help_text: "Help",
+    shipping: "Shipping",
+
+    help: {
+      available: "Available",
+      make_available: "To make more of this item available...",
+      boxed_message:
+        "{{boxedQuantity}} are boxed & {{palletizedQuantity}} are palletized",
+      remove_from_box: "Remove to designate separately.",
+      designate_box_pallet: "Or, designate whole box/pallet.",
+      designated_message:
+        "{{designatedQuantity}} designated & {{dispatchedQuantity}} dispatched",
+      modify_order: "Modify or cancel other orders.",
+      wrong_quantity: "Is the item quantity wrong?",
+      increase_by_gain: "Increase it using gain feature",
+      gain: "Gain"
+    }
   },
   users: {
     cancel_user_warning:

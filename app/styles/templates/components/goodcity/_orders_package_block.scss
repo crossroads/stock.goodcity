@@ -157,7 +157,11 @@
         }
 
         .sub-text {
-          width: 4rem;
+          width: 5rem;
+
+          @media #{$small-only} {
+            width: 3rem;
+          }
 
           span {
             display: block;
@@ -185,7 +189,7 @@
           width: 10rem;
 
           @media #{$small-only} {
-            width: 7rem;
+            width: 5rem;
           }
 
           &.value {
@@ -207,7 +211,6 @@
     padding-top: 2rem;
 
     .button {
-      width: 10rem;
 
       &.light {
         border: 1px solid white;
