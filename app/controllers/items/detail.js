@@ -626,7 +626,9 @@ export default GoodcityController.extend(
             per_page: 10
           })
           .then(data => {
-            this.set("containedPackages", data);
+            if (data.length) {
+              this.set("containedPackages", data);
+            }
           });
       },
 

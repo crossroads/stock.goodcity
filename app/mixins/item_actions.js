@@ -128,17 +128,10 @@ export default Ember.Mixin.create(AsyncMixin, {
           this.get("packageService")
             .fetchParentContainers(item)
             .then(data => {
-              // 2. If success, update the store to have proper on hand quantities
+              // 2. Reload the model to sync all location and quantity data with API
               const _item = this.get("store").peekRecord("item", item.id);
-              if (container.get("storageType.isBox")) {
-                const qty = _item.get("onHandBoxedQuantity");
-                const updatedQty = qty - (quantity ? quantity : qty);
-                _item.set("onHandBoxedQuantity", updatedQty);
-              } else {
-                const qty = _item.get("onHandPalletizedQuantity");
-                const updatedQty = qty - (quantity ? quantity : qty);
-                _item.set("onHandPalletizedQuantity", updatedQty);
-              }
+              _item.reload();
+
               // 3. Invoke callback
               if (callback) {
                 callback(data);
@@ -228,7 +221,6 @@ export default Ember.Mixin.create(AsyncMixin, {
      * and invoke any callback passed as argument.
      * @param EmberObject container
      * @param EmberObject item
-     * @param Integer location_id
      * @param Integer quantity
      * @param function callback
      */

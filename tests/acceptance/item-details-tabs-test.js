@@ -158,7 +158,6 @@ test("Land on the info tab on the index", function(assert) {
 
 test("Can navigate to the location tab", function(assert) {
   assert.equal(currentPath(), "items.detail.info");
-
   andThen(() => {
     click(".item_details_screen .tab-container .tab.location");
   });
