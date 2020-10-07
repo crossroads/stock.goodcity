@@ -19,7 +19,7 @@
     </div>
     {{#unless disableRemove}}
       <div class="close-button">
-        <div {{action 'openLocationSearch' package}}>
+        <div {{action 'removeContainedPackage' package}}>
           {{fa-icon 'times-circle' size="lg"}} <span>{{t 'box_pallet.remove'}}</span>
         </div>
       </div>

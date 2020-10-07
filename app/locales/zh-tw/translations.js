@@ -127,7 +127,9 @@ export default {
     content: "内容",
     details: "詳情",
     invalid_quantity: "已增加的份量不可多於每個位置的可用的份量",
-    type_to_search: "输入搜索要添加的项目。"
+    type_to_search: "输入搜索要添加的项目。",
+    cannot_change_type:
+      "Cannot change type of a box with items. Please remove the items and try again"
   },
   messages: {
     you: "您",
