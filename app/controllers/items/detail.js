@@ -30,13 +30,12 @@ export default GoodcityController.extend(
     previousValue: "",
     openAddItemOverlay: false,
     addableItem: null,
-    removableItem: null,
     subformDataObject: null,
     item: Ember.computed.alias("model"),
     queryParams: ["showDispatchOverlay"],
     showDispatchOverlay: false,
     autoDisplayOverlay: false,
-    associatedPackages: null,
+    associatedPackages: [],
     subformDetailService: Ember.inject.service(),
     application: Ember.inject.controller(),
     messageBox: Ember.inject.service(),
@@ -330,22 +329,21 @@ export default GoodcityController.extend(
      * Removes an item from a box/pallet
      * @param { Item } pkg The package we wish to remove from the box/pallet
      */
-    selectLocationAndUnpackItem(location_id, quantity) {
-      let item = this.get("removableItem");
-      if (!location_id) {
+    async selectLocationAndUnpackItem(item, location_id, quantity) {
+      const container = this.get("item");
+
+      if (!location_id || !item) {
         return false;
       }
-      if (item) {
-        const params = {
-          item_id: item.id,
-          location_id: location_id,
-          task: "unpack",
-          quantity: quantity
-        };
-        this.get("packageService")
-          .addRemoveItem(this.get("item.id"), params)
-          .then(() => this.send("fetchContainedPackages"));
-      }
+      await this.get("packageService").addRemoveItem(container.get("id"), {
+        item_id: item.id,
+        location_id: location_id,
+        task: "unpack",
+        quantity: quantity
+      });
+
+      await item.reload();
+      await this.send("fetchContainedPackages");
     },
 
     async deleteAndAssignNew(packageType) {
@@ -597,22 +595,21 @@ export default GoodcityController.extend(
             .then(data => {
               this.get("store").pushPayload(data);
               this.set("associatedPackages", data.items);
-              if (data.packages_locations.length > 0) {
-                let record;
-                data.packages_locations.map(pkgloc => {
-                  record = this.get("store").peekRecord(
-                    "packages_location",
-                    pkgloc.id
-                  );
-                  record.set("defaultAddableQuantity", pkgloc.quantity);
-                });
-              }
             })
         );
       },
 
       async updatePackageType() {
         let pkgType;
+
+        if (
+          this.get("model.storageType.isBox") ||
+          this.get("model.storageType.isPallet")
+        ) {
+          if (this.get("associatedPackages.length") > 0) {
+            return this.modalAlert("box_pallet.cannot_change_type");
+          }
+        }
 
         if (this.get("model.isPartOfSet")) {
           pkgType = await this.get("packageTypeService").userPickPackageType({
@@ -621,7 +618,9 @@ export default GoodcityController.extend(
             ).defaultChildPackagesList()
           });
         } else {
-          pkgType = await this.get("packageTypeService").userPickPackageType();
+          pkgType = await this.get("packageTypeService").userPickPackageType({
+            storageType: this.get("model.storageTypeName")
+          });
         }
 
         if (this.hasExistingPackageSubform() && !this.isSamePackage(pkgType)) {
@@ -674,15 +673,13 @@ export default GoodcityController.extend(
         this.set("prevValueHkDollar", value);
       },
 
-      async openLocationSearch(item, quantity) {
-        this.set("removableItem", item);
+      async removeContainedPackage(item, quantity) {
         let selectedLocation = await this.get(
           "locationService"
         ).userPickLocation();
-        if (!selectedLocation) {
-          return;
+        if (selectedLocation) {
+          this.selectLocationAndUnpackItem(item, selectedLocation.id, quantity);
         }
-        this.selectLocationAndUnpackItem(selectedLocation.id, quantity);
       },
 
       openAddItemOverlay(item) {

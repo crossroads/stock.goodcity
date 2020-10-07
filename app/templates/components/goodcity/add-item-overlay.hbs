@@ -32,16 +32,16 @@
         </div>
       </div>
 
-      {{#each pkg.packagesLocations as |packageLocation|}}
+      {{#each locationQuantities as |locationQty|}}
       <div class="row items-table-content">
         <div class="small-6 columns">
-          {{packageLocation.location.name}}
+          {{locationQty.name}}
         </div>
         <div class="small-3 columns">
-          {{packageLocation.quantity}}
+          {{locationQty.packageLocation.quantity}}
         </div>
         <div class="small-3 columns">
-          {{input type="number" value=packageLocation.defaultAddableQuantity}}
+          {{input type="number" value=locationQty.selectedQuantity}}
         </div>
       </div>
       {{/each}}
