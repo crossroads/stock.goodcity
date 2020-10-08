@@ -41,7 +41,7 @@
           {{locationQty.packageLocation.quantity}}
         </div>
         <div class="small-3 columns">
-          {{input type="number" value=locationQty.selectedQuantity}}
+          {{numeric-input value=locationQty.selectedQuantity maxlength="8" pattern="\d{1,8}" disabled=false}}
         </div>
       </div>
       {{/each}}
