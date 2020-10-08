@@ -15,6 +15,7 @@
     padding-right: 1rem;
     border: 2px solid black;
     font-size: 0.7rem;
+    height: 6.5rem;
     @media #{$small-only} {
       padding-left: 0.1rem;
       padding-right: 0.1rem;
@@ -23,6 +24,7 @@
     .box-pallet-notes-container {
       display: flex;
       justify-content: flex-start;
+      line-height: 3rem;
       @media #{$small-only} {
         margin-left: 0.2rem;
       }
@@ -48,12 +50,13 @@
       }
       .remove {
         border: 1px solid white;
-        flex: 0.3;
+        flex: 0.2;
         display: flex;
         justify-content: space-around;
 
         @media #{$small-only} {
           margin-right: 0.2rem;
+          flex: 0.3;
         }
       }
     }
