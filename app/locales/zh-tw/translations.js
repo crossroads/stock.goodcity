@@ -45,7 +45,7 @@ export default {
   discard_changes: "棄置變更",
   manage_charity_users: "Manage charity users",
   create_new_item: "+Item",
-  create_new_box: "++Multi-Item Box",
+  create_new_box: "+Multi-Item Box",
   create_new_pallet: "+Multi-Item Pallet",
   manage_inventory: "Quotas",
   manage_users: "管理用戶",

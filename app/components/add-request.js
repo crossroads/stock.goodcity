@@ -15,10 +15,6 @@ export default Ember.Component.extend(AsyncMixin, {
   num: null,
   order: null,
 
-  packageTypeName: Ember.computed("request.code.name", function() {
-    return this.get("request.code.name");
-  }),
-
   onInit: Ember.on("init", function() {
     if (this.get("isGCRequest")) {
       this.set("layoutName", "components/appointment-add-request");

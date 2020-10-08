@@ -4,11 +4,13 @@
         <div class="small-12 columns add-request" >
           <div class="small-7 columns" {{action "assingPackageType" request.id}}>
             <label> {{t 'order.goods_details.type_label'}} </label>
-            <div class="select-goods" {{action "assingPackageType" request.id}}>
-              {{#if request.code}}
+            {{#if request.code}}
+              <div class="select-goods">
                 {{display-package-code  item=request.code}}
-              {{/if}}
-            </div>
+              </div>
+            {{else}}
+              {{input type="text" name="packageTypeDescription" pattern=".*\S.*" classNames="select-goods" required='true'}}
+            {{/if}}
           </div>
           <div class="small-3 columns">
             <label> {{t 'order.goods_details.quantity_label'}} </label>
