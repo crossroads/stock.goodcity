@@ -130,7 +130,9 @@ export default {
     details: "details",
     invalid_quantity:
       "Added quantity cannot be greater than the available quantity for each location.",
-    type_to_search: "Type in to search items to add."
+    type_to_search: "Type in to search items to add.",
+    cannot_change_type:
+      "Cannot change type of a box with items. Please remove the items and try again"
   },
   messages: {
     you: "You",
@@ -695,12 +697,12 @@ export default {
       position_in_organisation: "Position within organisation",
       validation_error: {
         email: "Email should be valid.",
-        blank_email: "Email cannot be blank",
-        first_name: "First name can't be blank",
-        family_name: "Family name can't be blank",
+        blank_email: "Email cannot be blank.",
+        first_name: "First name can't be blank.",
+        family_name: "Family name can't be blank.",
         position: "Position can't be blank.",
         mobile: "Mobile Number should be 8 digits.",
-        blank_mobile_number: "Mobile Number cannot be blank",
+        blank_mobile_number: "Mobile Number cannot be blank.",
         preferred_contact_number: "Preferred Contact Number should be 8 digits."
       }
     }
@@ -993,6 +995,7 @@ export default {
     district: "District",
     preferred_language: "Preferred Language",
     languages: {
+      unknown: "Unknown",
       english: "English",
       chinese: "Chinese"
     },

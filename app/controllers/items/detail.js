@@ -32,13 +32,12 @@ export default GoodcityController.extend(
     previousValue: "",
     openAddItemOverlay: false,
     addableItem: null,
-    removableItem: null,
     subformDataObject: null,
     item: Ember.computed.alias("model"),
     queryParams: ["showDispatchOverlay"],
     showDispatchOverlay: false,
     autoDisplayOverlay: false,
-    associatedPackages: null,
+    associatedPackages: [],
     subformDetailService: Ember.inject.service(),
     application: Ember.inject.controller(),
     messageBox: Ember.inject.service(),
@@ -581,26 +580,21 @@ export default GoodcityController.extend(
             .then(data => {
               this.get("store").pushPayload(data);
               this.set("associatedPackages", data.items);
-
-              if (
-                data.packages_locations &&
-                data.packages_locations.length > 0
-              ) {
-                let record;
-                data.packages_locations.map(pkgloc => {
-                  record = this.get("store").peekRecord(
-                    "packages_location",
-                    pkgloc.id
-                  );
-                  record.set("defaultAddableQuantity", pkgloc.quantity);
-                });
-              }
             })
         );
       },
 
       async updatePackageType() {
         let pkgType;
+
+        if (
+          this.get("model.storageType.isBox") ||
+          this.get("model.storageType.isPallet")
+        ) {
+          if (this.get("associatedPackages.length") > 0) {
+            return this.modalAlert("box_pallet.cannot_change_type");
+          }
+        }
 
         if (this.get("model.isPartOfSet")) {
           pkgType = await this.get("packageTypeService").userPickPackageType({
@@ -609,7 +603,9 @@ export default GoodcityController.extend(
             ).defaultChildPackagesList()
           });
         } else {
-          pkgType = await this.get("packageTypeService").userPickPackageType();
+          pkgType = await this.get("packageTypeService").userPickPackageType({
+            storageType: this.get("model.storageTypeName")
+          });
         }
 
         if (this.hasExistingPackageSubform() && !this.isSamePackage(pkgType)) {
@@ -663,17 +659,6 @@ export default GoodcityController.extend(
         item.set("valueHkDollar", Number(value));
         this.send("saveItem", item);
         this.set("prevValueHkDollar", value);
-      },
-
-      async openLocationSearch(item, quantity) {
-        this.set("removableItem", item);
-        let selectedLocation = await this.get(
-          "locationService"
-        ).userPickLocation();
-        if (!selectedLocation) {
-          return;
-        }
-        this.selectLocationAndUnpackItem(selectedLocation.id, quantity);
       },
 
       openAddItemOverlay(item) {
