@@ -13,15 +13,17 @@
 <div class="row">
   <div class="small-12 columns">
     <ul class="added-item-block">
-      {{#infinite-list height="100vh" loadMore=(action 'fetchContainedPackages')}}
-        {{#each associatedPackages as |pkg|}}
-          {{contained-package
-            pkg=pkg
-            entity=item
-            reloadAssociatedPackages=(action 'reloadAssociatedPackages')
-          }}
-        {{/each}}
-      {{/infinite-list}}
+      {{#reactive-view model=model}}
+        {{#infinite-list height="100vh" loadMore=(action 'fetchContainedPackages')}}
+          {{#each associatedPackages as |pkg|}}
+            {{contained-package
+              pkg=pkg
+              entity=item
+              reloadAssociatedPackages=(action 'reloadAssociatedPackages')
+            }}
+          {{/each}}
+        {{/infinite-list}}
+      {{/reactive-view}}
     </ul>
   </div>
 </div>
@@ -42,6 +44,6 @@
     pkg=addableItem
     open=openAddItemOverlay
     entity=item
-    onConfirm=(action 'fetchContainedPackages')
+    cb=(action 'addToAssociatedPackage')
   }}
 </div>

@@ -135,7 +135,7 @@ export default Ember.Mixin.create(AsyncMixin, {
 
         // 3. Invoke callback
         if (callback) {
-          callback(data);
+          callback(item);
         }
       });
   },

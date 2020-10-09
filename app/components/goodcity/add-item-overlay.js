@@ -2,7 +2,9 @@ import Ember from "ember";
 import _ from "lodash";
 const { getOwner } = Ember;
 
-export default Ember.Component.extend({
+import AsyncMixin, { ERROR_STRATEGIES } from "stock/mixins/async";
+
+export default Ember.Component.extend(AsyncMixin, {
   packageService: Ember.inject.service(),
   store: Ember.inject.service(),
   messageBox: Ember.inject.service(),
@@ -35,17 +37,28 @@ export default Ember.Component.extend({
     }
   ),
 
-  resolveAddItemPromises() {
-    const loadingView = getOwner(this)
-      .lookup("component:loading")
-      .append();
-    let promises = this.addItemPromises();
-    Ember.RSVP.all(promises)
-      .then(() => {
+  async resolveAddItemPromises() {
+    try {
+      await this.runTask(async () => {
+        const promises = this.addItemPromises();
+        await Ember.RSVP.all(promises);
         this.sendAction("onConfirm");
         this.set("open", false);
-      })
-      .finally(() => loadingView.destroy());
+      }, ERROR_STRATEGIES.RAISE);
+    } catch (err) {
+      throw error;
+    }
+
+    // const loadingView = getOwner(this)
+    //   .lookup("component:loading")
+    //   .append();
+    // let promises = this.addItemPromises();
+    // Ember.RSVP.all(promises)
+    //   .then(() => {
+    //     this.sendAction("onConfirm");
+    //     this.set("open", false);
+    //   })
+    //   .finally(() => loadingView.destroy());
   },
 
   hasInvalidAddedQuantity() {
@@ -80,15 +93,17 @@ export default Ember.Component.extend({
   },
 
   actions: {
-    moveItemToBox() {
-      let pkg = this.get("pkg");
+    async moveItemToBox(pkg, cb) {
       if (pkg) {
         if (this.hasInvalidAddedQuantity()) {
           this.get("messageBox").alert(
             this.get("i18n").t("box_pallet.invalid_quantity")
           );
         } else {
-          this.resolveAddItemPromises();
+          await this.resolveAddItemPromises();
+          if (cb) {
+            cb(pkg);
+          }
         }
       }
     },
