@@ -15,6 +15,7 @@ export default Ember.Component.extend(ItemActionMixin, {
 
   fetchAddedQuantity: Ember.computed("pkg", function() {
     let pkgId = this.get("pkg.id");
+
     let entityId = this.get("entity.id");
     let promise = this.get("packageService").fetchAddedQuantity(
       entityId,

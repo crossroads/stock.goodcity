@@ -406,10 +406,6 @@ export default GoodcityController.extend(
     },
 
     actions: {
-      handleChange(data) {
-        this.set("containedPackages", data);
-      },
-
       updatePackage(field, value) {
         this.runTask(
           this.get("packageService").updatePackage(this.get("item.id"), {
@@ -573,15 +569,41 @@ export default GoodcityController.extend(
       /**
        * Fetches all the assoicated packages to a box/pallet
        */
-      fetchContainedPackages() {
-        this.runTask(
-          this.get("packageService")
-            .fetchContainedPackages(this.get("item.id"))
-            .then(data => {
-              this.get("store").pushPayload(data);
-              this.set("associatedPackages", data.items);
-            })
-        );
+      fetchContainedPackages(page = 1) {
+        // Set the associatedPackages to []
+        // This is to flush out all the old records iff page is 1
+        if (page === 1) {
+          this.set("associatedPackages", []);
+        }
+        return this.get("packageService")
+          .fetchContainedPackages(this.get("item.id"), {
+            page: page,
+            per_page: 10
+          })
+          .then(data => {
+            this.get("store").pushPayload(data);
+            let associatedPackages = this.get("associatedPackages");
+            // Merge the with the existing records
+            // Update the existing records with new record
+            associatedPackages = _.unionBy(
+              data.items,
+              associatedPackages,
+              "id"
+            );
+
+            this.set("associatedPackages", associatedPackages);
+            return data.items;
+          });
+      },
+
+      reloadAssociatedPackages() {
+        this.set("associatedPackages", []);
+        this.send("fetchContainedPackages");
+      },
+
+      reloadContainedPackages() {
+        this.set("containedPackages", []);
+        this.send("fetchParentContainers");
       },
 
       async updatePackageType() {
@@ -616,6 +638,11 @@ export default GoodcityController.extend(
       },
 
       fetchParentContainers(pageNo = 1) {
+        // Set the associatedPackages to []
+        // This is to flush out all the old records iff page is 1
+        if (pageNo === 1) {
+          this.set("containedPackages", []);
+        }
         return this.get("packageService")
           .fetchParentContainers(this.get("item.id"), {
             page: pageNo,
@@ -624,7 +651,15 @@ export default GoodcityController.extend(
           .then(data => {
             if (data.length) {
               this.set("containedPackages", data);
+
+              // Merge the with the existing records
+              // Update the existing records with new record
+              let containedPackages = this.get("containedPackages");
+              containedPackages = _.unionBy(data, containedPackages, "id");
+
+              this.set("containedPackages", containedPackages);
             }
+            return data;
           });
       },
 

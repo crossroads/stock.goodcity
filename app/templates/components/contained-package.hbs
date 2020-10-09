@@ -19,7 +19,7 @@
     </div>
     {{#unless disableRemove}}
       <div class="close-button">
-        <div {{action 'unpack' entity package addedQuantityCount fetchContainedPackages}}>
+        <div {{action 'unpack' entity package addedQuantityCount reloadAssociatedPackages}}>
           {{fa-icon 'times-circle' size="lg"}} <span>{{t 'box_pallet.remove'}}</span>
         </div>
       </div>

@@ -113,35 +113,31 @@ export default Ember.Mixin.create(AsyncMixin, {
    * @param function callback
    */
   _unpack(container, item, location_id, quantity, callback) {
-    if (item) {
-      const params = {
-        item_id: item.id,
-        location_id: location_id,
-        task: TASK.UNPACK,
-        quantity: quantity
-      };
-
-      this.get("packageService")
-        .addRemoveItem(container.id, params)
-        .then(() => {
-          // 1. Make API request to remove item from the container
-          this.get("packageService")
-            .fetchParentContainers(item)
-            .then(data => {
-              // 2. Reload the model to sync all location and quantity data with API
-              const _item = this.get("store").peekRecord("item", item.id);
-              _item.reload();
-
-              // 3. Invoke callback
-              if (callback) {
-                callback(data);
-              }
-            })
-            .catch(err => {
-              throw err;
-            });
-        });
+    if (!item) {
+      throw new Error(this.get("i18n").t("box_pallet.bad_item"));
     }
+
+    const params = {
+      item_id: item.id,
+      location_id: location_id,
+      task: TASK.UNPACK,
+      quantity: quantity
+    };
+
+    // 1. Make API request to remove item from the container
+    this.get("packageService")
+      .addRemoveItem(container.id, params)
+      .then(() => {
+        this.get("packageService");
+
+        // 2. Reload the model to sync all location and quantity data with API
+        item.reload();
+
+        // 3. Invoke callback
+        if (callback) {
+          callback(data);
+        }
+      });
   },
 
   actions: {

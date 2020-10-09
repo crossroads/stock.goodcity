@@ -107,8 +107,9 @@ export default ApiBaseService.extend(NavigationAwareness, {
     return this.PUT(`/packages/${pkgId}/add_remove_item`, params);
   },
 
-  fetchContainedPackages(boxPalletId) {
-    return this.GET(`/packages/${boxPalletId}/contained_packages`);
+  fetchContainedPackages(boxPalletId, opts) {
+    const pagination = _.pick(opts, ["page", "per_page"]);
+    return this.GET(`/packages/${boxPalletId}/contained_packages`, pagination);
   },
 
   async fetchParentContainers(pkg, opts = {}) {
