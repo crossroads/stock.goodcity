@@ -1,7 +1,13 @@
 import Ember from "ember";
-import { ITEM_ACTIONS } from "stock/constants/item-actions";
+import { ACTIONS_ICONS } from "stock/constants/action-icons";
 import _ from "lodash";
 
 export default Ember.Helper.helper(function(state) {
-  return ITEM_ACTIONS[_.findIndex(ITEM_ACTIONS, ["name", state[0]])].icon || "";
+  let iconIndex = _.findIndex(ACTIONS_ICONS, ["name", state[0]]);
+
+  if (iconIndex > -1) {
+    return ACTIONS_ICONS[iconIndex].icon;
+  } else {
+    return "";
+  }
 });
