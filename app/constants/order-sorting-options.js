@@ -1,13 +1,13 @@
 export const ORDER_SORTING_OPTIONS = [
   {
     column_name: "Inventory ID",
-    column_alias: "package.inventory_number",
+    column_alias: "packages.inventory_number",
     sort: "asc",
     is_desc: false
   },
   {
     column_name: "Inventory ID",
-    column_alias: "package.inventory_number",
+    column_alias: "packages.inventory_number",
     sort: "desc",
     is_desc: true
   },
@@ -25,13 +25,13 @@ export const ORDER_SORTING_OPTIONS = [
   },
   {
     column_name: "Item Type",
-    column_alias: "package_type.name_en",
+    column_alias: "package_types.name_en",
     sort: "asc",
     is_desc: false
   },
   {
     column_name: "Item Type",
-    column_alias: "package_type.name_en",
+    column_alias: "package_types.name_en",
     sort: "desc",
     is_desc: true
   }

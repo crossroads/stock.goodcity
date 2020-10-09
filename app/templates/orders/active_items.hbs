@@ -26,7 +26,7 @@
 
   <div class="row drop-down">
     <div class="small-5 columns">
-      Search Items: <br>
+      {{t "order_details.orders_packages.search"}}: <br>
       {{focus-textfield
       name="searchText"
       id="searchText"
@@ -36,7 +36,7 @@
         <i {{action "clearSearch"}} class="cancel-search">{{fa-icon 'times-circle'}}</i>
       {{/if}}
     </div>
-    <div class="small-4 columns">Sort by:
+    <div class="small-4 columns">{{t "order_details.orders_packages.sort_by"}}:
       {{#pluggable-drop-down setSelectedValue=(action "applySortOn") as |dropDown|}}
         {{#dropDown.selectedDropDown}}
           <div class="options-menu-title">
@@ -71,7 +71,7 @@
     </div>
 
     <div class="small-3 columns">
-      State Filters:
+      {{t "order_details.orders_packages.state_filters"}}:
       {{#pluggable-drop-down as |dropDown|}}
         {{#dropDown.selectedDropDown}}
           <div class="options-menu-title">

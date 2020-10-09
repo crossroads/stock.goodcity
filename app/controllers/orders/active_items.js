@@ -70,8 +70,8 @@ export default detail.extend(SearchMixin, {
           { order_id: this.get("orderId") },
           this.getSearchQuery(),
           this.getPaginationQuery(pageNo),
-          this.getStates()
-          // this.getSortQuery()
+          this.getStates(),
+          this.getSortQuery()
         )
       );
       return this.get("store")

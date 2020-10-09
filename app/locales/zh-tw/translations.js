@@ -381,6 +381,11 @@ export default {
         self: "私人車輛",
         ggv: "需要聘用車輛"
       }
+    },
+    orders_packages: {
+      sort_by: "Sort by",
+      search: "Search Items",
+      state_filters: "State Filters"
     }
   },
   order_transports: {

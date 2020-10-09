@@ -362,8 +362,10 @@
 
 .options-menu-title {
   font-size: 120%;
-  margin-top: 6%;
   text-decoration: underline;
+  @media #{$small-only} {
+    margin-top: 6%;
+  }
 }
 
 .options_menu_list {
@@ -380,7 +382,7 @@
   }
 
   &.option_margin {
-    margin-top: 8%;
+    margin-top: 3%;
   }
 
   .menu-option-text {
