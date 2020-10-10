@@ -48,17 +48,6 @@ export default Ember.Component.extend(AsyncMixin, {
     } catch (err) {
       throw error;
     }
-
-    // const loadingView = getOwner(this)
-    //   .lookup("component:loading")
-    //   .append();
-    // let promises = this.addItemPromises();
-    // Ember.RSVP.all(promises)
-    //   .then(() => {
-    //     this.sendAction("onConfirm");
-    //     this.set("open", false);
-    //   })
-    //   .finally(() => loadingView.destroy());
   },
 
   hasInvalidAddedQuantity() {
