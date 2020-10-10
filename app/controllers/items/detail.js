@@ -405,14 +405,6 @@ export default GoodcityController.extend(
       return type.get("subform") == existingPkgTypeSubform;
     },
 
-    async getAddedQuantity(pkg, entity) {
-      const qty = await this.get("packageService").fetchAddedQuantity(
-        pkg.get("id"),
-        entity.get("id")
-      );
-      return qty;
-    },
-
     actions: {
       updatePackage(field, value) {
         this.runTask(
@@ -601,18 +593,31 @@ export default GoodcityController.extend(
           });
       },
 
-      reloadAssociatedPackages(removedItem) {
+      /**
+       * The callback to be invoked when an item is removed from
+       * box / pallet from the container page
+       * @param EmberObject removedItem
+       */
+      onUnpackFromContainer(removedItem) {
         let associatedPackages = this.get("associatedPackages");
         associatedPackages = associatedPackages.filter(
-          pkg => pkg.id !== +removedItem.id
+          pkg => +pkg.id !== +removedItem.id
         );
 
         this.set("associatedPackages", associatedPackages);
       },
 
-      reloadContainedPackages() {
-        this.set("containedPackages", []);
-        this.send("fetchParentContainers");
+      /**
+       * The callback to be invoked when an item is removed from
+       * box / pallet from the individual item page
+       * @param EmberObject removedItem
+       */
+      onUnpackFromItem(_item, removedContainer) {
+        let containedPackages = this.get("containedPackages");
+        containedPackages = containedPackages.filter(
+          pkg => +pkg.id !== +removedContainer.id
+        );
+        this.set("containedPackages", containedPackages);
       },
 
       async updatePackageType() {
@@ -652,39 +657,37 @@ export default GoodcityController.extend(
         if (pageNo === 1) {
           this.set("containedPackages", []);
         }
-        return this.runTask(
-          this.get("packageService")
-            .fetchParentContainers(this.get("item.id"), {
-              page: pageNo,
-              per_page: 10
-            })
-            .then(data => {
-              if (data.length) {
-                this.set("containedPackages", data);
+        return this.get("packageService")
+          .fetchParentContainers(this.get("item.id"), {
+            page: pageNo,
+            per_page: 10
+          })
+          .then(data => {
+            if (data.length) {
+              this.set("containedPackages", data);
 
-                // Merge the with the existing records
-                // Update the existing records with new record
-                let containedPackages = this.get("containedPackages");
-                containedPackages = _.unionBy(data, containedPackages, "id");
+              // Merge with the existing records
+              // Update the existing records with new record
+              let containedPackages = this.get("containedPackages");
+              containedPackages = _.unionBy(data, containedPackages, "id");
 
-                this.set("containedPackages", containedPackages);
-              }
-              return data;
-            })
-        );
+              this.set("containedPackages", containedPackages);
+            }
+            return data;
+          });
       },
 
       openItemsSearch() {
         this.set("openPackageSearch", true);
       },
 
-      async addToAssociatedPackage(pkg) {
+      async updateAssociatedPackages(pkg) {
         let associatedPackages = this.get("associatedPackages");
         const qty = await this.get("packageService").fetchAddedQuantity(
           this.get("model.id"),
           pkg.get("id")
         );
-        associatedPackages.push({
+        associatedPackages.unshift({
           ...pkg.data,
           id: pkg.id,
           addedQuantity: qty.added_quantity

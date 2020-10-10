@@ -73,7 +73,7 @@
                 <div>{{addedQuantityCount}}</div>
               </div>
               <div class='remove'>
-                <div {{action 'unpack' model item addedQuantityCount reloadContainedPackages}}>
+                <div {{action 'unpack' model item addedQuantityCount onUnpackFromItem}}>
                   {{fa-icon 'times-circle' size="lg"}} <span>{{t 'box_pallet.remove'}}</span>
                 </div>
               </div>

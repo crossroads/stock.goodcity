@@ -133,9 +133,11 @@ export default Ember.Mixin.create(AsyncMixin, {
         // 2. Reload the model to sync all location and quantity data with API
         item.reload();
 
-        // 3. Invoke callback
+        // 3. Invoke callback with parameters
+        // item - The package record which is removed from the box
+        // container - The package record from which the item is removed
         if (callback) {
-          callback(item);
+          callback(item, container);
         }
       });
   },
