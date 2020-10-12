@@ -13,17 +13,19 @@
 <div class="row">
   <div class="small-12 columns">
     <ul class="added-item-block">
-      {{#infinite-list height="100vh" loadMore=(action 'fetchContainedPackages')}}
-        {{#each associatedPackages as |pkg|}}
-          {{#unless pkg.isDeleted}}
-            {{contained-package
-              pkg=pkg
-              entity=item
-              onUnpackFromContainer=(action 'onUnpackFromContainer')
-            }}
-          {{/unless}}
-        {{/each}}
-      {{/infinite-list}}
+      {{#if displayResults}}
+        {{#infinite-list height="100vh" loadMore=(action 'fetchContainedPackages') as |pkgs|}}
+          {{#each pkgs as |pkg|}}
+            {{#unless pkg.isDeleted}}
+              {{contained-package
+                pkg=pkg
+                entity=item
+                onUnpack=(action 'reloadItemsInContainer')
+              }}
+            {{/unless}}
+          {{/each}}
+        {{/infinite-list}}
+      {{/if}}
     </ul>
   </div>
 </div>

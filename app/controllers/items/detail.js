@@ -37,7 +37,6 @@ export default GoodcityController.extend(
     queryParams: ["showDispatchOverlay"],
     showDispatchOverlay: false,
     autoDisplayOverlay: false,
-    associatedPackages: [],
     subformDetailService: Ember.inject.service(),
     application: Ember.inject.controller(),
     messageBox: Ember.inject.service(),
@@ -376,7 +375,7 @@ export default GoodcityController.extend(
 
     async assignNew(type, { deleteDetailId = false } = {}) {
       const item = this.get("item");
-      const url = `/packages/${item.get("id")}`;
+
       const packageParams = {
         package_type_id: type.get("id")
       };
@@ -389,15 +388,13 @@ export default GoodcityController.extend(
       if (deleteDetailId) {
         packageParams.detail_id = null;
       }
-      await this.runTask(
-        this.get("packageService").updatePackage(
+      await this.runTask(async () => {
+        await this.get("packageService").updatePackage(
           item.id,
-          {
-            package: packageParams
-          },
+          { package: packageParams },
           { reloadDeps: true }
-        )
-      );
+        );
+      }, ERROR_STRATEGIES.MODAL);
     },
 
     isSamePackage(type) {
@@ -577,12 +574,6 @@ export default GoodcityController.extend(
           })
           .then(data => {
             this.get("store").pushPayload(data);
-            let associatedPackages = this.get("associatedPackages");
-            // Merge the with the existing records
-            // Update the existing records with new record
-            associatedPackages = _.unionBy(data, associatedPackages, "id");
-
-            this.set("associatedPackages", associatedPackages);
             return data;
           });
       },
@@ -590,48 +581,13 @@ export default GoodcityController.extend(
       /**
        * The callback to be invoked when an item is removed from
        * box / pallet from the container page
-       * @param EmberObject item
        */
-      onUnpackFromContainer(removedItem) {
-        let associatedPackages = this.get("associatedPackages");
-        associatedPackages = associatedPackages.map(pkg => {
-          if (+pkg.id === +removedItem.id) {
-            return {
-              ...pkg,
-              isDeleted: true
-            };
-          }
-          return pkg;
-        });
-
-        this.set("associatedPackages", associatedPackages);
-      },
-
-      /**
-       * The callback to be invoked when an item is removed from
-       * box / pallet from the individual item page
-       * @param EmberObject item
-       * @param EmberObject container
-       */
-      onUnpackFromItem(_item, removedContainer) {
-        let containedPackages = this.get("containedPackages");
-        containedPackages = containedPackages.filter(
-          pkg => +pkg.id !== +removedContainer.id
-        );
-        this.set("containedPackages", containedPackages);
+      reloadItemsInContainer() {
+        this.reloadResults();
       },
 
       async updatePackageType() {
         let pkgType;
-
-        if (
-          this.get("model.storageType.isBox") ||
-          this.get("model.storageType.isPallet")
-        ) {
-          if (this.get("associatedPackages.length") > 0) {
-            return this.modalAlert("box_pallet.cannot_change_type");
-          }
-        }
 
         if (this.get("model.isPartOfSet")) {
           pkgType = await this.get("packageTypeService").userPickPackageType({
@@ -659,16 +615,6 @@ export default GoodcityController.extend(
             per_page: 10
           })
           .then(data => {
-            if (data.length) {
-              this.set("containedPackages", data);
-
-              // Merge with the existing records
-              // Update the existing records with new record
-              let containedPackages = this.get("containedPackages");
-              containedPackages = _.unionBy(data, containedPackages, "id");
-
-              this.set("containedPackages", containedPackages);
-            }
             return data;
           });
       },
@@ -680,18 +626,7 @@ export default GoodcityController.extend(
       async updateContainer(pkg, quantity) {
         if (!quantity) return;
 
-        let associatedPackages = this.get("associatedPackages");
-        const qty = await this.get("packageService").fetchAddedQuantity(
-          this.get("model.id"),
-          pkg.get("id")
-        );
-        associatedPackages.unshift({
-          ...pkg.data,
-          id: pkg.id,
-          addedQuantity: qty.added_quantity,
-          isDeleted: false
-        });
-        this.set("associatedPackages", [...associatedPackages]);
+        this.reloadResults();
       },
 
       setScannedSearchText(searchedText) {
