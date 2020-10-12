@@ -26,7 +26,7 @@
             {{#if displayResults}}
               {{#infinite-list height="85vh" loadMore=(action "loadMoreItems") as |items| }}
                 {{#each items as |item|}}
-                  <div class="row" {{action 'selectItem' item cb}}>
+                  <div class="row" {{action 'selectItem' item}}>
                     {{package-summary-block model=item disableLink=true}}
                   </div>
                 {{else}}

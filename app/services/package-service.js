@@ -117,7 +117,11 @@ export default ApiBaseService.extend(NavigationAwareness, {
     return Promise.all(
       data.items.map(async item => {
         const quantity = await this.fetchAddedQuantity(boxPalletId, item.id);
-        return { ...item, addedQuantity: quantity.added_quantity };
+        return {
+          ...item,
+          addedQuantity: quantity.added_quantity,
+          isDeleted: false
+        };
       })
     );
   },

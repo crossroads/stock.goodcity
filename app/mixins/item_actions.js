@@ -112,7 +112,7 @@ export default Ember.Mixin.create(AsyncMixin, {
    * @param Integer quantity
    * @param function callback
    */
-  _unpack(container, item, location_id, quantity, callback) {
+  async _unpack(container, item, location_id, quantity, callback) {
     if (!item) {
       throw new Error(this.get("i18n").t("box_pallet.bad_item"));
     }
@@ -127,7 +127,7 @@ export default Ember.Mixin.create(AsyncMixin, {
     // 1. Make API request to remove item from the container
     this.get("packageService")
       .addRemoveItem(container.id, params)
-      .then(() => {
+      .then(async () => {
         this.get("packageService");
 
         // 2. Reload the model to sync all location and quantity data with API
@@ -137,7 +137,7 @@ export default Ember.Mixin.create(AsyncMixin, {
         // item - The package record which is removed from the box
         // container - The package record from which the item is removed
         if (callback) {
-          callback(item, container);
+          await callback(item, container);
         }
       });
   },
@@ -231,7 +231,13 @@ export default Ember.Mixin.create(AsyncMixin, {
         return;
       }
 
-      this._unpack(container, item, selectedLocation.id, quantity, callback);
+      await this._unpack(
+        container,
+        item,
+        selectedLocation.id,
+        quantity,
+        callback
+      );
     }
   }
 });

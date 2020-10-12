@@ -38,16 +38,11 @@ export default Ember.Component.extend(AsyncMixin, {
   ),
 
   async resolveAddItemPromises() {
-    try {
-      await this.runTask(async () => {
-        const promises = this.addItemPromises();
-        await Ember.RSVP.all(promises);
-        this.sendAction("onConfirm");
-        this.set("open", false);
-      }, ERROR_STRATEGIES.RAISE);
-    } catch (err) {
-      throw error;
-    }
+    await this.runTask(async () => {
+      const promises = this.addItemPromises();
+      await Ember.RSVP.all(promises);
+      this.sendAction("onConfirm");
+    }, ERROR_STRATEGIES.RAISE);
   },
 
   hasInvalidAddedQuantity() {
@@ -82,19 +77,21 @@ export default Ember.Component.extend(AsyncMixin, {
   },
 
   actions: {
-    async moveItemToBox(pkg, cb) {
-      if (pkg) {
-        if (this.hasInvalidAddedQuantity()) {
-          this.get("messageBox").alert(
-            this.get("i18n").t("box_pallet.invalid_quantity")
-          );
-        } else {
-          await this.resolveAddItemPromises();
-          if (cb) {
-            cb(pkg);
-          }
-        }
+    async moveItemToBox(pkg, cb = _.noop) {
+      if (!pkg) {
+        return;
       }
+
+      if (this.hasInvalidAddedQuantity()) {
+        this.get("messageBox").alert(
+          this.get("i18n").t("box_pallet.invalid_quantity")
+        );
+      }
+
+      await this.resolveAddItemPromises();
+      cb(pkg, this.get("totalNumberTomove"));
+      this.set("open", false);
+      return pkg;
     },
 
     cancelMove() {

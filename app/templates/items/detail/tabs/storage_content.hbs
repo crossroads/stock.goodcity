@@ -15,11 +15,13 @@
     <ul class="added-item-block">
       {{#infinite-list height="100vh" loadMore=(action 'fetchContainedPackages')}}
         {{#each associatedPackages as |pkg|}}
-          {{contained-package
-            pkg=pkg
-            entity=item
-            onUnpackFromContainer=(action 'onUnpackFromContainer')
-          }}
+          {{#unless pkg.isDeleted}}
+            {{contained-package
+              pkg=pkg
+              entity=item
+              onUnpackFromContainer=(action 'onUnpackFromContainer')
+            }}
+          {{/unless}}
         {{/each}}
       {{/infinite-list}}
     </ul>
@@ -42,6 +44,6 @@
     pkg=addableItem
     open=openAddItemOverlay
     entity=item
-    updateAssociatedPackages=(action 'updateAssociatedPackages')
+    updateContainer=(action 'updateContainer')
   }}
 </div>

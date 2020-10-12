@@ -570,12 +570,6 @@ export default GoodcityController.extend(
        * Fetches all the assoicated packages to a box/pallet
        */
       fetchContainedPackages(page = 1) {
-        // Set the associatedPackages to []
-        // This is to flush out all the old records iff page is 1
-        if (page === 1) {
-          this.set("associatedPackages", []);
-        }
-
         return this.get("packageService")
           .fetchContainedPackages(this.get("item.id"), {
             page: page,
@@ -596,13 +590,19 @@ export default GoodcityController.extend(
       /**
        * The callback to be invoked when an item is removed from
        * box / pallet from the container page
-       * @param EmberObject removedItem
+       * @param EmberObject item
        */
       onUnpackFromContainer(removedItem) {
         let associatedPackages = this.get("associatedPackages");
-        associatedPackages = associatedPackages.filter(
-          pkg => +pkg.id !== +removedItem.id
-        );
+        associatedPackages = associatedPackages.map(pkg => {
+          if (+pkg.id === +removedItem.id) {
+            return {
+              ...pkg,
+              isDeleted: true
+            };
+          }
+          return pkg;
+        });
 
         this.set("associatedPackages", associatedPackages);
       },
@@ -610,7 +610,8 @@ export default GoodcityController.extend(
       /**
        * The callback to be invoked when an item is removed from
        * box / pallet from the individual item page
-       * @param EmberObject removedItem
+       * @param EmberObject item
+       * @param EmberObject container
        */
       onUnpackFromItem(_item, removedContainer) {
         let containedPackages = this.get("containedPackages");
@@ -652,11 +653,6 @@ export default GoodcityController.extend(
       },
 
       fetchParentContainers(pageNo = 1) {
-        // Set the associatedPackages to []
-        // This is to flush out all the old records iff page is 1
-        if (pageNo === 1) {
-          this.set("containedPackages", []);
-        }
         return this.get("packageService")
           .fetchParentContainers(this.get("item.id"), {
             page: pageNo,
@@ -681,7 +677,9 @@ export default GoodcityController.extend(
         this.set("openPackageSearch", true);
       },
 
-      async updateAssociatedPackages(pkg) {
+      async updateContainer(pkg, quantity) {
+        if (!quantity) return;
+
         let associatedPackages = this.get("associatedPackages");
         const qty = await this.get("packageService").fetchAddedQuantity(
           this.get("model.id"),
@@ -690,7 +688,8 @@ export default GoodcityController.extend(
         associatedPackages.unshift({
           ...pkg.data,
           id: pkg.id,
-          addedQuantity: qty.added_quantity
+          addedQuantity: qty.added_quantity,
+          isDeleted: false
         });
         this.set("associatedPackages", [...associatedPackages]);
       },
