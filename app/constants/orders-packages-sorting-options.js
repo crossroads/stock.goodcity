@@ -1,4 +1,4 @@
-export const ORDER_SORTING_OPTIONS = [
+export const ORDERS_PACKAGES_SORTING_OPTIONS = [
   {
     column_name: "Inventory ID",
     column_alias: "packages.inventory_number",
