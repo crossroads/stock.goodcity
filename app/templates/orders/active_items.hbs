@@ -37,20 +37,18 @@
       {{/if}}
     </div>
     <div class="small-4 columns">{{t "order_details.orders_packages.sort_by"}}:
-      {{#pluggable-drop-down setSelectedValue=(action "applySortOn") as |dropDown|}}
-        {{#dropDown.selectedDropDown}}
+      {{#composable-drop-down setSelectedValue=(action "applySortOn") as |dropDown|}}
+        {{#dropDown.dropDownHeader}}
           <div class="options-menu-title">
-            {{#let-alias setDefaultSortingColumn as |item|}}
-              {{item.column_name}}
-              &nbsp;
-              {{#if (is-equal item.sort "asc")}}
-                {{fa-icon 'sort-alpha-up'}}
-              {{else}}
-                {{fa-icon 'sort-alpha-down'}}
-              {{/if}}
-            {{/let-alias}}
+            {{sortingColumn.column_name}}
+            &nbsp;
+            {{#if (is-equal sortingColumn.sort "asc")}}
+              {{fa-icon 'sort-alpha-up'}}
+            {{else}}
+              {{fa-icon 'sort-alpha-down'}}
+            {{/if}}
           </div>
-        {{/dropDown.selectedDropDown}}
+        {{/dropDown.dropDownHeader}}
 
         {{#dropDown.dropDownBody}}
           <div class="options_menu_list option_margin">
@@ -67,13 +65,13 @@
             {{/each}}
           </div>
         {{/dropDown.dropDownBody}}
-      {{/pluggable-drop-down}}
+      {{/composable-drop-down}}
     </div>
 
     <div class="small-3 columns">
       {{t "order_details.orders_packages.state_filters"}}:
-      {{#pluggable-drop-down as |dropDown|}}
-        {{#dropDown.selectedDropDown}}
+      {{#composable-drop-down as |dropDown|}}
+        {{#dropDown.dropDownHeader}}
           <div class="options-menu-title">
             {{#if (is-equal filteredStates.length 0) }}
               States
@@ -85,7 +83,7 @@
             &nbsp;
             {{fa-icon 'filter'}}
           </div>
-        {{/dropDown.selectedDropDown}}
+        {{/dropDown.dropDownHeader}}
 
         {{#dropDown.dropDownBody}}
           <div class="options_menu_list option_margin">
@@ -105,7 +103,7 @@
             {{/each}}
           </div>
         {{/dropDown.dropDownBody}}
-      {{/pluggable-drop-down}}
+      {{/composable-drop-down}}
     </div>
   </div>
 

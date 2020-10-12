@@ -10,7 +10,7 @@ export default Ember.Component.extend({
 
     selectOption(item) {
       this.get("setSelectedValue")(item);
-      this.send("toggleDisplayItems");
+      this.set("displayDropDownItems", false);
     }
   }
 });

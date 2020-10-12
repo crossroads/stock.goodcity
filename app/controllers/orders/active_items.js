@@ -7,14 +7,16 @@ import SearchMixin from "stock/mixins/search_resource";
 import _ from "lodash";
 
 export default detail.extend(SearchMixin, {
+  // ----- Services -----
   goodcityRequestService: Ember.inject.service(),
   packageService: Ember.inject.service(),
   packageTypeService: Ember.inject.service(),
+
+  // ----- Arguments -----
   dropDownItems: ORDER_SORTING_OPTIONS,
   states: ORDER_PACKAGES_STATES,
   displayDropDownItems: false,
-  filteredStates: [],
-
+  sortingColumn: ORDER_SORTING_OPTIONS[0],
   autoLoad: true,
   /*
    * @type {Number}, perPage in response
@@ -22,20 +24,19 @@ export default detail.extend(SearchMixin, {
   perPage: 25,
   ordersPkgLength: 0,
   sortProperties: ["id"],
+
+  // ----- Computed Properties -----
   sortedGcRequests: Ember.computed.sort(
     "model.goodcityRequests",
     "sortProperties"
   ),
 
-  setDefaultSortingColumn: Ember.computed("dropDownItems", {
-    get(key) {
-      return ORDER_SORTING_OPTIONS[0];
-    },
-    set(key, value) {
-      return value;
-    }
+  filteredStates: Ember.computed("states.@each.enabled", function() {
+    this.reloadResults();
+    return this.getFilteredStates();
   }),
 
+  // ----- Helpers -----
   getStates() {
     const utilities = this.get("utilityMethods");
     const state = utilities.stringifyArray(this.getFilteredStates());
@@ -50,19 +51,15 @@ export default detail.extend(SearchMixin, {
     );
   },
 
-  stateList: Ember.observer("states.@each.enabled", function() {
-    this.reloadResults();
-    this.set("filteredStates", this.getFilteredStates());
-  }),
-
   getSortQuery() {
-    const sortOptions = this.get("setDefaultSortingColumn");
+    const sortOptions = this.get("sortingColumn");
     return {
       sort_column: sortOptions["column_alias"],
-      is_desc: sortOptions["is_desc"]
+      is_desc: /desc/.test(sortOptions["sort"])
     };
   },
 
+  // ----- Actions -----
   actions: {
     loadOrdersPackages(pageNo) {
       const params = this.trimQuery(
@@ -83,7 +80,7 @@ export default detail.extend(SearchMixin, {
     },
 
     applySortOn(options) {
-      this.set("setDefaultSortingColumn", options);
+      this.set("sortingColumn", options);
       this.reloadResults();
     },
 

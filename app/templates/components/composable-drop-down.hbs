@@ -1,5 +1,5 @@
 <div {{action "toggleDisplayItems"}} >
-  {{yield (hash selectedDropDown="blank-template")}}
+  {{yield (hash dropDownHeader="blank-template")}}
 </div>
 <div class="{{if displayDropDownItems '' 'hidden'}}">
   {{yield (hash
