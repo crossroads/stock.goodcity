@@ -1,8 +1,8 @@
 import detail from "./detail";
 import {
-  ORDER_SORTING_OPTIONS,
-  ORDER_PACKAGES_STATES
-} from "stock/constants/order-sorting-options";
+  ORDERS_PACKAGES_SORTING_OPTIONS,
+  ORDERS_PACKAGES_STATES
+} from "stock/constants/orders-packages-sorting-options";
 import SearchMixin from "stock/mixins/search_resource";
 import _ from "lodash";
 
@@ -13,10 +13,10 @@ export default detail.extend(SearchMixin, {
   packageTypeService: Ember.inject.service(),
 
   // ----- Arguments -----
-  dropDownItems: ORDER_SORTING_OPTIONS,
-  states: ORDER_PACKAGES_STATES,
+  dropDownItems: _.cloneDeep(ORDERS_PACKAGES_SORTING_OPTIONS),
+  states: _.cloneDeep(ORDERS_PACKAGES_STATES),
   displayDropDownItems: false,
-  sortingColumn: ORDER_SORTING_OPTIONS[0],
+  sortingColumn: _.cloneDeep(ORDERS_PACKAGES_SORTING_OPTIONS)[0],
   autoLoad: true,
   /*
    * @type {Number}, perPage in response
@@ -32,23 +32,22 @@ export default detail.extend(SearchMixin, {
   ),
 
   filteredStates: Ember.computed("states.@each.enabled", function() {
+    return _.filter(this.get("states"), ["enabled", true]).map(
+      ({ state }) => state
+    );
+  }),
+
+  onStatesChange: Ember.observer("states.@each.enabled", function() {
     this.reloadResults();
-    return this.getFilteredStates();
   }),
 
   // ----- Helpers -----
   getStates() {
     const utilities = this.get("utilityMethods");
-    const state = utilities.stringifyArray(this.getFilteredStates());
+    const state = utilities.stringifyArray(this.get("filteredStates"));
     return {
       state
     };
-  },
-
-  getFilteredStates() {
-    return _.filter(this.get("states"), ["enabled", true]).map(
-      ({ state }) => state
-    );
   },
 
   getSortQuery() {
