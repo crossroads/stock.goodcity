@@ -1,0 +1,9 @@
+<div {{action "toggleDisplayItems"}} >
+  {{yield (hash dropDownHeader="blank-template")}}
+</div>
+<div class="{{if displayDropDownItems '' 'hidden'}}">
+  {{yield (hash
+    dropDownBody="blank-template"
+    clickItem = (action 'selectOption')
+  )}}
+</div>

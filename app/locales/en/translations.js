@@ -403,6 +403,11 @@ export default {
         self: "Private vehicle",
         ggv: "Needs hired vehicle"
       }
+    },
+    orders_packages: {
+      sort_by: "Sort by",
+      search: "Search Items",
+      state_filters: "State Filters"
     }
   },
   order_transports: {
