@@ -423,6 +423,7 @@ export default {
     finish_process: "Finish Processing",
     process_summary: "Process Summary",
     due_date: "Due Date",
+    order_number: "Order Number",
     submitted_for_client: "Submitted for client",
     start_dispatching: "Start Dispatching",
     cancel_order: "Cancel Order",
@@ -443,6 +444,17 @@ export default {
     title: "Title",
     cannot_process_unless_approved:
       "An organisation user must be approved before the order can be processed",
+    international: {
+      shipment_date: "Shipment Date",
+      date_info: "Use an estimate if unknown",
+      errors: {
+        description_error: "Please input a description",
+        date_error: "You must select a date",
+        empty_country_error: "You must select a country",
+        code_error:
+          "Must be a 4 or 5 digit Number (a letter suffix is optional)"
+      }
+    },
     client_information: {
       title: "Client Information",
       is_order_client: "Is this order being placed on behalf of a client?",

@@ -415,6 +415,7 @@ export default {
     submitted_by: "提交自",
     process_summary: "概覽",
     due_date: "到期日",
+    order_number: "Order Number",
     submitted_for_client: "為服務使用者提交",
     numbers_warning: "Please enter 4 digit number.",
     mobile_warning: "Please provide a valid Hong Kong mobile number",
@@ -424,6 +425,17 @@ export default {
     title: "Title",
     cannot_process_unless_approved:
       "An organisation user must be approved before the order can be processed",
+    international: {
+      shipment_date: "Shipment Date",
+      date_info: "Use an estimate if unknown",
+      errors: {
+        description_error: "Please input a description",
+        date_error: "You must select a date",
+        empty_country_error: "You must select a country",
+        code_error:
+          "Must be a 4 or 5 digit Number (a letter suffix is optional)"
+      }
+    },
     client_information: {
       title: "受惠者資料",
       is_order_client: "您正在代替受惠者下訂單?",

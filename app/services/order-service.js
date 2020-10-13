@@ -7,6 +7,18 @@ export default ApiBaseService.extend({
     return this.GET(`/users/${userId}/orders_count`);
   },
 
+  fetchShipmentorCarryoutCode(detail_type) {
+    return this.GET("/fetch_shipment_or_carryout_code", {
+      detail_type: detail_type
+    }).then(data => {
+      return data.code;
+    });
+  },
+
+  createShipmentorCarryoutOrder(params) {
+    return this.POST("/orders", params);
+  },
+
   changeOrderState(order, state, opts = {}) {
     return this.PUT(`/orders/${order.id}/transition`, {
       transition: state,
