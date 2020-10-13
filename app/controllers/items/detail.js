@@ -37,7 +37,6 @@ export default GoodcityController.extend(
     queryParams: ["showDispatchOverlay"],
     showDispatchOverlay: false,
     autoDisplayOverlay: false,
-    associatedPackages: [],
     subformDetailService: Ember.inject.service(),
     application: Ember.inject.controller(),
     messageBox: Ember.inject.service(),
@@ -376,7 +375,7 @@ export default GoodcityController.extend(
 
     async assignNew(type, { deleteDetailId = false } = {}) {
       const item = this.get("item");
-      const url = `/packages/${item.get("id")}`;
+
       const packageParams = {
         package_type_id: type.get("id")
       };
@@ -389,15 +388,13 @@ export default GoodcityController.extend(
       if (deleteDetailId) {
         packageParams.detail_id = null;
       }
-      await this.runTask(
-        this.get("packageService").updatePackage(
+      await this.runTask(async () => {
+        await this.get("packageService").updatePackage(
           item.id,
-          {
-            package: packageParams
-          },
+          { package: packageParams },
           { reloadDeps: true }
-        )
-      );
+        );
+      }, ERROR_STRATEGIES.MODAL);
     },
 
     isSamePackage(type) {
@@ -406,10 +403,6 @@ export default GoodcityController.extend(
     },
 
     actions: {
-      handleChange(data) {
-        this.set("containedPackages", data);
-      },
-
       updatePackage(field, value) {
         this.runTask(
           this.get("packageService").updatePackage(this.get("item.id"), {
@@ -573,28 +566,28 @@ export default GoodcityController.extend(
       /**
        * Fetches all the assoicated packages to a box/pallet
        */
-      fetchContainedPackages() {
-        this.runTask(
-          this.get("packageService")
-            .fetchContainedPackages(this.get("item.id"))
-            .then(data => {
-              this.get("store").pushPayload(data);
-              this.set("associatedPackages", data.items);
-            })
-        );
+      fetchContainedPackages(page = 1) {
+        return this.get("packageService")
+          .fetchContainedPackages(this.get("item.id"), {
+            page: page,
+            per_page: 10
+          })
+          .then(data => {
+            this.get("store").pushPayload(data);
+            return data;
+          });
+      },
+
+      /**
+       * The callback to be invoked when an item is removed from
+       * box / pallet
+       */
+      reloadItemsInContainer() {
+        this.reloadResults();
       },
 
       async updatePackageType() {
         let pkgType;
-
-        if (
-          this.get("model.storageType.isBox") ||
-          this.get("model.storageType.isPallet")
-        ) {
-          if (this.get("associatedPackages.length") > 0) {
-            return this.modalAlert("box_pallet.cannot_change_type");
-          }
-        }
 
         if (this.get("model.isPartOfSet")) {
           pkgType = await this.get("packageTypeService").userPickPackageType({
@@ -622,14 +615,18 @@ export default GoodcityController.extend(
             per_page: 10
           })
           .then(data => {
-            if (data.length) {
-              this.set("containedPackages", data);
-            }
+            return data;
           });
       },
 
       openItemsSearch() {
         this.set("openPackageSearch", true);
+      },
+
+      async updateContainer(pkg, quantity) {
+        if (!quantity) return;
+
+        this.reloadResults();
       },
 
       setScannedSearchText(searchedText) {

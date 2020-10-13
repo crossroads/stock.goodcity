@@ -126,6 +126,7 @@ export default {
     remove: "移除",
     content: "内容",
     details: "詳情",
+    bad_item: "Bad item",
     invalid_quantity: "已增加的份量不可多於每個位置的可用的份量",
     type_to_search: "输入搜索要添加的项目。",
     cannot_change_type:

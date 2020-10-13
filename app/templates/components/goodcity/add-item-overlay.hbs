@@ -48,7 +48,7 @@
     </div>
     <div class="buttons row">
       <div class="small-4 columns button" {{action 'cancelMove'}}>{{t 'box_pallet.not_now'}}</div>
-      <div class="small-4 columns button" {{action 'moveItemToBox' pkg}}>{{t 'box_pallet.move'}} ({{totalNumberTomove}})</div>
+      <div class="small-4 columns button" {{action 'moveItemToBox' pkg updateContainer }}>{{t 'box_pallet.move'}} ({{totalNumberTomove}})</div>
     </div>
   </section>
   {{/popup-overlay}}

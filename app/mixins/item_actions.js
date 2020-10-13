@@ -112,36 +112,34 @@ export default Ember.Mixin.create(AsyncMixin, {
    * @param Integer quantity
    * @param function callback
    */
-  _unpack(container, item, location_id, quantity, callback) {
-    if (item) {
-      const params = {
-        item_id: item.id,
-        location_id: location_id,
-        task: TASK.UNPACK,
-        quantity: quantity
-      };
-
-      this.get("packageService")
-        .addRemoveItem(container.id, params)
-        .then(() => {
-          // 1. Make API request to remove item from the container
-          this.get("packageService")
-            .fetchParentContainers(item)
-            .then(data => {
-              // 2. Reload the model to sync all location and quantity data with API
-              const _item = this.get("store").peekRecord("item", item.id);
-              _item.reload();
-
-              // 3. Invoke callback
-              if (callback) {
-                callback(data);
-              }
-            })
-            .catch(err => {
-              throw err;
-            });
-        });
+  async _unpack(container, item, location_id, quantity, callback) {
+    if (!item) {
+      throw new Error(this.get("i18n").t("box_pallet.bad_item"));
     }
+
+    const params = {
+      item_id: item.id,
+      location_id: location_id,
+      task: TASK.UNPACK,
+      quantity: quantity
+    };
+
+    // 1. Make API request to remove item from the container
+    this.get("packageService")
+      .addRemoveItem(container.id, params)
+      .then(async () => {
+        this.get("packageService");
+
+        // 2. Reload the model to sync all location and quantity data with API
+        await item.reload();
+
+        // 3. Invoke callback with parameters
+        // item - The package record which is removed from the box
+        // container - The package record from which the item is removed
+        if (callback) {
+          callback(item, container);
+        }
+      });
   },
 
   actions: {
@@ -233,7 +231,13 @@ export default Ember.Mixin.create(AsyncMixin, {
         return;
       }
 
-      this._unpack(container, item, selectedLocation.id, quantity, callback);
+      await this._unpack(
+        container,
+        item,
+        selectedLocation.id,
+        quantity,
+        callback
+      );
     }
   }
 });
