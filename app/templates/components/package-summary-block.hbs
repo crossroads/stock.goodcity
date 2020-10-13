@@ -25,6 +25,13 @@
                       {{model.firstAllLocationName}}
                     </div>
                   </div>
+                {{else}}
+                  <div>
+                    <div class="icon-holder">{{fa-icon 'map-marker-alt' }}</div>
+                    <div class="text-holder">
+                      N/A
+                    </div>
+                  </div>
                 {{/if}}
               {{/if}}
               {{#if model.onHandBoxedQuantity}}
