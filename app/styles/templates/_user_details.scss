@@ -170,6 +170,11 @@
   }
 
   select {
+    background-color: $dark-blue !important;
+    background-image: url(../assets/images/dropdown_icon.png) !important;
+    background-repeat: no-repeat !important;
+    background-size: 1.2rem !important;
+    background-position: 95% !important;
     height: 1.8rem !important;
   }
 
@@ -215,6 +220,7 @@
     }
 
   }
+
 
   .image-box {
     float: left;

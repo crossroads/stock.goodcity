@@ -48,7 +48,7 @@ export default {
   create_new_box: "++Multi-Item Box",
   create_new_pallet: "+Multi-Item Pallet",
   manage_inventory: "Quotas",
-  manage_users: "Manage Users",
+  manage_users: "管理用戶",
   search_user: "Search User",
   new_order: "+ HK Orders",
   full_name: "{{firstName}} {{lastName}}",
@@ -126,8 +126,11 @@ export default {
     remove: "移除",
     content: "内容",
     details: "詳情",
+    bad_item: "Bad item",
     invalid_quantity: "已增加的份量不可多於每個位置的可用的份量",
-    type_to_search: "输入搜索要添加的项目。"
+    type_to_search: "输入搜索要添加的项目。",
+    cannot_change_type:
+      "Cannot change type of a box with items. Please remove the items and try again"
   },
   messages: {
     you: "您",
@@ -667,11 +670,11 @@ export default {
       position_in_organisation: "機構內的職稱",
       validation_error: {
         email: "請輸入有效的電郵地址",
-        blank_email: "Email cannot be blank",
+        blank_email: "電郵地址不能留空",
         mobile: "手提電話號碼必須為8個數字",
-        blank_mobile_number: "Mobile Number cannot be blank",
-        first_name: "First name can't be blank",
-        family_name: "Family name can't be blank",
+        blank_mobile_number: "手機號碼不能留空",
+        first_name: "名字不能留空",
+        family_name: "姓氏不能留空",
         position: "Position can't be blank.",
         preferred_contact_number: "聯絡號碼需要為8位數字"
       }
@@ -767,6 +770,7 @@ export default {
     comment: "Comments",
     pieces: "Pieces",
     condition: "Condition :",
+    quantity_inside: "內含數量 :",
     validation_errors: {
       description: "Description cannot be blank."
     },
@@ -950,33 +954,33 @@ export default {
     click_to_undesignate: "Click here to undesignate"
   },
   users: {
-    cancel_user_warning:
-      "You will lose all your data. Are you sure you want to cancel this User?",
-    image: "Image",
-    title: "Title",
-    add_image: "Add Image",
-    edit_image: "Edit Image",
-    delete_image: "Delete Image",
+    cancel_user_warning: "你將會遺失所有資料。你確定要取消這用戶嗎?",
+    image: "圖片",
+    title: "職位",
+    add_image: "添加圖片",
+    edit_image: "修改圖片",
+    delete_image: "刪除圖片",
     disabled: "Disabled",
     roles: "Roles",
     organisation: "機構",
-    create_new_user: "Add new user",
+    create_new_user: "添加新用戶",
     first_name: "名",
     last_name: "姓",
     mobile: "手提電話號碼",
     email: "電郵",
-    district: "District",
-    preferred_language: "Preferred Language",
+    district: "地區",
+    preferred_language: "偏好語言",
     languages: {
-      english: "English",
-      chinese: "Chinese"
+      unknown: "未知",
+      english: "英文",
+      chinese: "中文"
     },
     registered_on: "Registered on",
     last_connected_on: "Last connected on",
 
     details: {
       last_on_goodcity: "Last on GoodCity",
-      contact_details: "Contact Details",
+      contact_details: "聯絡資料",
       staff_roles: "Staff / Volunteer Roles",
       stock_app: "Stock App",
       admin_app: "Admin App",
@@ -996,9 +1000,8 @@ export default {
     },
 
     contact_details: {
-      title: "Contact Details",
-      unauthorised_error:
-        "Sorry, you are not authorised to edit details for this user."
+      title: "聯絡資料",
+      unauthorised_error: "抱歉，你未獲授權更改此用戶資料."
     },
 
     charity_position: {

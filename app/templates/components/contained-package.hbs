@@ -11,7 +11,7 @@
         </span>
       </div>
       <div class="content">
-        <span>{{addedQuantityCount}} x {{package.notes}}</span>
+        <span>{{pkg.addedQuantity}} x {{package.notes}}</span>
       </div>
       <div class="content">
         {{package.notes}}
@@ -19,7 +19,7 @@
     </div>
     {{#unless disableRemove}}
       <div class="close-button">
-        <div {{action 'openLocationSearch' package}}>
+        <div {{action 'unpack' entity package pkg.addedQuantity onUnpack}}>
           {{fa-icon 'times-circle' size="lg"}} <span>{{t 'box_pallet.remove'}}</span>
         </div>
       </div>

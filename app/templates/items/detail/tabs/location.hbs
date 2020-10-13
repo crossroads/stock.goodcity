@@ -56,13 +56,16 @@
     </div>
     <div class="row content-row box-list">
       {{#reactive-view model=model}}
-        {{#infinite-list height="40vh" loadMore=(action "fetchParentContainers") as |res| }}
-          {{#each res as |pkg|}}
-            {{package-summary-block model=pkg}}
-          {{/each}}
-        {{/infinite-list}}
+       {{#if displayResults}}
+          {{#infinite-list height="40vh" loadMore=(action "fetchParentContainers") as |pkgs| }}
+            {{#each pkgs as |pkg|}}
+              {{package-summary-block model=pkg showBoxPalletDetails=true item=model onUnpack=(action 'reloadItemsInContainer')}}
+            {{/each}}
+          {{/infinite-list}}
+        {{/if}}
       {{/reactive-view}}
     </div>
   </div>
 </div>
 
+{{partial 'items/detail/tabs/item_actions_overlay'}}

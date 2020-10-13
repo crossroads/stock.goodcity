@@ -1,10 +1,11 @@
 import detail from "./detail";
 import Ember from "ember";
-import AsyncMixin from "stock/mixins/async";
+import AsyncMixin, { ERROR_STRATEGIES } from "stock/mixins/async";
 
 export default detail.extend(AsyncMixin, {
   showBeneficiaryModal: false,
   designationService: Ember.inject.service(),
+  orderService: Ember.inject.service(),
 
   titles: Ember.computed(function() {
     return [
@@ -38,20 +39,10 @@ export default detail.extend(AsyncMixin, {
 
     deleteBeneficiary() {
       const order = this.get("model");
-      const beneficiary = order.get("beneficiary");
 
-      if (beneficiary) {
-        this.showLoadingSpinner();
-        beneficiary
-          .destroyRecord()
-          .then(() => {
-            order.set("beneficiary", null);
-            return order.save();
-          })
-          .finally(() => {
-            this.hideLoadingSpinner();
-          });
-      }
+      this.runTask(() => {
+        return this.get("orderService").deleteBeneficiaryOf(order);
+      }, ERROR_STRATEGIES.MODAL);
     }
   }
 });
