@@ -3,26 +3,48 @@
     <div class="columns small-12">
       <div class="bottom-header">
         <div class="tab-container">
-          {{#link-to 'items.detail' model.id tagName='span' class="tab small" disabled=disableLink}}
-            <div class="icon-holder">{{fa-icon (if model.isPartOfSet 'tags' (storage-icon model.storageTypeName))}}</div>
+          {{#link-to 'items.detail' model.id tagName='div' class="tab small" disabled=disableLink}}
+            <div class="icon-holder">{{fa-icon (if model.isPartOfSet 'tags' (storage-icon model.storageTypeName))}}
+            </div>
             <div class="text-holder">{{model.inventoryNumber}}</div>
           {{/link-to}}
-
-          {{#link-to 'items.detail.location' model.id tagName='span' class="tab large" disabled=disableLink}}
-            <div class="icon-holder">{{fa-icon 'map-marker-alt' }}</div>
-            <div class="text-holder">
+          {{#link-to 'items.detail.location' model.id tagName='div' class="tab large" disabled=disableLink}}
+            <div class="quantity-location-wrapper">
               {{#if model.hasMultiLocations}}
-                {{t "item_status_bar.multiple"}}
+                <div>
+                  <div class="icon-holder">{{fa-icon 'map-marker-alt' }}</div>
+                  <div class="text-holder">
+                    {{t "item_status_bar.multiple"}}
+                  </div>
+                </div>
               {{else}}
                 {{#if model.firstAllLocationName}}
-                  {{model.firstAllLocationName}}
-                {{else}}
-                  N/A
+                  <div>
+                    <div class="icon-holder">{{fa-icon 'map-marker-alt' }}</div>
+                    <div class="text-holder">
+                      {{model.firstAllLocationName}}
+                    </div>
+                  </div>
                 {{/if}}
+              {{/if}}
+              {{#if model.onHandBoxedQuantity}}
+                <div>
+                  <div class="icon-holder">{{fa-icon 'box-open' }}</div>
+                  <div class="text-holder">
+                    {{model.onHandBoxedQuantity}}
+                  </div>
+                </div>
+              {{/if}}
+              {{#if model.onHandPalletizedQuantity}}
+                <div>
+                  <div class="icon-holder">{{fa-icon 'pallet' }}</div>
+                  <div class="text-holder">
+                    {{model.onHandPalletizedQuantity}}
+                  </div>
+                </div>
               {{/if}}
             </div>
           {{/link-to}}
-
           {{#link-to 'items.detail.publishing' model.id tagName='span' class="tab end large" disabled=disableLink}}
             <div class="sub-tabs">
               <div class="icon-holder">{{fa-icon 'paper-plane' }}</div>
@@ -38,37 +60,58 @@
             </div>
           {{/link-to}}
         </div>
-        <div class="item-summary">
-          <div class="content item-img">
-            {{#if favouriteImage}}
-              <div class="image-zoom-container {{if disableLink 'no-events'}}" id={{compositeParentId}}>
-                {{image-zoom item=model}}
-              </div>
-            {{else}}
-              <div class="default-icon">
-                {{#link-to 'items.detail' model.id disabled=disableLink}}
-                  {{fa-icon (if model.isPartOfSet 'tags' (storage-icon model.storageTypeName))}}
-                {{/link-to}}
+        {{#if showBoxPalletDetails}}
+          <div class="box-pallet-details">
+            <div class="box-pallet-notes-container">
+              {{model.notes}}
             </div>
-            {{/if}}
-          </div>
-          <div class="content item-description">
-            {{#unless hasBlock}}
-              {{#link-to 'items.detail' model.id disabled=disableLink}}
+            <div class="box-pallet-quantity-container">
+              <div class="qty-details-wrapper">
                 <div>
-                  {{display-package-code  item=model.code}}
+                  {{t 'item_details.quantity_inside'}}
                 </div>
-                <div class="description">
-                  {{model.notes}}
+                <div>{{addedQuantityCount}}</div>
+              </div>
+              <div class='remove'>
+                <div {{action 'unpack' model item addedQuantityCount onUnpack}}>
+                  {{fa-icon 'times-circle' size="lg"}} <span>{{t 'box_pallet.remove'}}</span>
                 </div>
-              {{/link-to}}
-            {{else}}
-              {{#link-to 'items.detail' model.id disabled=disableLink}}
-                {{yield}}
-              {{/link-to}}
-            {{/unless}}
+              </div>
+            </div>
           </div>
-        </div>
+        {{else}}
+          <div class="item-summary">
+            <div class="content item-img">
+              {{#if favouriteImage}}
+                <div class="image-zoom-container {{if disableLink 'no-events'}}" id={{compositeParentId}}>
+                  {{image-zoom item=model}}
+                </div>
+              {{else}}
+                <div class="default-icon">
+                  {{#link-to 'items.detail' model.id disabled=disableLink}}
+                    {{fa-icon (if model.isPartOfSet 'tags' (storage-icon model.storageTypeName))}}
+                  {{/link-to}}
+                </div>
+              {{/if}}
+            </div>
+            <div class="content item-description">
+              {{#unless hasBlock}}
+                {{#link-to 'items.detail' model.id disabled=disableLink}}
+                  <div>
+                    {{display-package-code item=model.code}}
+                  </div>
+                  <div class="description">
+                    {{model.notes}}
+                  </div>
+                {{/link-to}}
+              {{else}}
+                {{#link-to 'items.detail' model.id disabled=disableLink}}
+                  {{yield}}
+                {{/link-to}}
+              {{/unless}}
+            </div>
+          </div>
+        {{/if}}
       </div>
     </div>
   </div>

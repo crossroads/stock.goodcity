@@ -107,8 +107,23 @@ export default ApiBaseService.extend(NavigationAwareness, {
     return this.PUT(`/packages/${pkgId}/add_remove_item`, params);
   },
 
-  fetchContainedPackages(boxPalletId) {
-    return this.GET(`/packages/${boxPalletId}/contained_packages`);
+  async fetchContainedPackages(boxPalletId, opts) {
+    const pagination = _.pick(opts, ["page", "per_page"]);
+    const data = await this.GET(
+      `/packages/${boxPalletId}/contained_packages`,
+      pagination
+    );
+    this.get("store").pushPayload(data);
+    return Promise.all(
+      data.items.map(async item => {
+        const quantity = await this.fetchAddedQuantity(boxPalletId, item.id);
+        return {
+          ...item,
+          addedQuantity: quantity.added_quantity,
+          isDeleted: false
+        };
+      })
+    );
   },
 
   async fetchParentContainers(pkg, opts = {}) {

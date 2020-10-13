@@ -128,6 +128,7 @@ export default {
     remove: "Remove",
     content: "content",
     details: "details",
+    bad_item: "Bad item",
     invalid_quantity:
       "Added quantity cannot be greater than the available quantity for each location.",
     type_to_search: "Type in to search items to add.",
@@ -798,6 +799,7 @@ export default {
     comment: "Comments",
     pieces: "Pieces",
     condition: "Condition :",
+    quantity_inside: "Quantity inside :",
     validation_errors: {
       description: "Description cannot be blank."
     },
