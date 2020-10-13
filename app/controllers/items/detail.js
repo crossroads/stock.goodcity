@@ -580,7 +580,7 @@ export default GoodcityController.extend(
 
       /**
        * The callback to be invoked when an item is removed from
-       * box / pallet from the container page
+       * box / pallet
        */
       reloadItemsInContainer() {
         this.reloadResults();

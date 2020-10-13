@@ -42,7 +42,7 @@ export default Ember.Component.extend(AsyncMixin, {
       const promises = this.addItemPromises();
       await Ember.RSVP.all(promises);
       this.sendAction("onConfirm");
-    }, ERROR_STRATEGIES.RAISE);
+    }, ERROR_STRATEGIES.MODAL);
   },
 
   hasInvalidAddedQuantity() {
