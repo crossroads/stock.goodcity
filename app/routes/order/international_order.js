@@ -1,19 +1,15 @@
 import Ember from "ember";
 import AuthorizeRoute from "./../authorize";
+import { INTERNATIONAL_ORDERS } from "stock/constants/state-events";
 
 export default AuthorizeRoute.extend({
   orderService: Ember.inject.service(),
 
-  async model() {
-    return {
-      shipmentSubsequentCode: await this.get(
-        "orderService"
-      ).fetchShipmentorCarryoutCode("Shipment")
-    };
-  },
-
-  setupController(controller, model) {
+  async setupController(controller, model) {
     this._super(controller, model);
-    controller.set("shipmentorCarryoutCode", model.shipmentSubsequentCode);
+    const code = await this.get("orderService").fetchShipmentOrCarryoutCode(
+      INTERNATIONAL_ORDERS.SHIPMENT
+    );
+    controller.set("shipmentOrCarryoutCode", code);
   }
 });

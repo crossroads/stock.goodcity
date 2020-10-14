@@ -21,7 +21,7 @@
       <div class="small-12 columns type">
         <span class="type_icon">
           {{#if (is-equal selectedType.id "CarryOut")}}
-            {{fa-icon "suitcase"}}
+            {{fa-icon "shopping-bag"}}
           {{else}}
             {{fa-icon "ship"}}
           {{/if}}
@@ -40,7 +40,7 @@
         {{t 'order.order_number'}}
       </div>
       <div class="small-12 columns calendar">
-        {{input type="text" value=shipmentorCarryoutCode class="code_input"}}
+        {{input type="text" value=shipmentOrCarryoutCode class="code_input"}}
         <div class="code_prefix">
           {{#if (is-equal selectedType.id "CarryOut")}}
             C

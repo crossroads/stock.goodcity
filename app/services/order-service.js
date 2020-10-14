@@ -7,14 +7,14 @@ export default ApiBaseService.extend({
     return this.GET(`/users/${userId}/orders_count`);
   },
 
-  async fetchShipmentorCarryoutCode(detail_type) {
+  async fetchShipmentOrCarryoutCode(detail_type) {
     const data = await this.GET("/fetch_shipment_or_carryout_code", {
       detail_type: detail_type
     });
     return data.code;
   },
 
-  async createShipmentorCarryoutOrder(params) {
+  async createShipmentOrCarryoutOrder(params) {
     const data = await this.POST("/orders", params);
     this.get("store").pushPayload(data);
   },

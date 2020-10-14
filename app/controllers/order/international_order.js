@@ -3,6 +3,7 @@ import SearchOptionMixin from "stock/mixins/search_option";
 import AsyncMixin, { ERROR_STRATEGIES } from "stock/mixins/async";
 import ShipmentMixin from "stock/mixins/grades_option";
 import { STATE_EVENTS } from "stock/constants/state-events";
+import { INTERNATIONAL_ORDERS } from "stock/constants/state-events";
 import { regex } from "stock/constants/regex";
 
 export default Ember.Controller.extend(
@@ -18,11 +19,11 @@ export default Ember.Controller.extend(
     isInvalidDescription: Ember.computed.not("orderDescription"),
     isInvalidPeopleCount: Ember.computed.not("peopleCount"),
 
-    isInvalidCode: Ember.computed("shipmentorCarryoutCode", function() {
+    isInvalidCode: Ember.computed("shipmentOrCarryoutCode", function() {
       const codeRegEx = new RegExp(regex.SHIPMENT_ORDER_REGEX);
       return (
-        !this.get("shipmentorCarryoutCode") ||
-        !codeRegEx.test(this.get("shipmentorCarryoutCode"))
+        !this.get("shipmentOrCarryoutCode") ||
+        !codeRegEx.test(this.get("shipmentOrCarryoutCode"))
       );
     }),
 
@@ -37,12 +38,13 @@ export default Ember.Controller.extend(
     orderParams() {
       let validCode = this.formatOrderCode(
         this.get("selectedType.id"),
-        this.get("shipmentorCarryoutCode")
+        this.get("shipmentOrCarryoutCode")
       );
 
       let params = {
         state_event: STATE_EVENTS.SUBMIT,
-        detail_type: this.get("selectedType.id") || "Shipment",
+        detail_type:
+          this.get("selectedType.id") || INTERNATIONAL_ORDERS.SHIPMENT,
         code: validCode,
         country_id: this.get("country.id"),
         shipment_date: this.get("shipmentDate"),
@@ -75,10 +77,10 @@ export default Ember.Controller.extend(
       async typeSelection(value) {
         return await this.runTask(async () => {
           this.set("selectedType", value);
-          let data = await this.get("orderService").fetchShipmentorCarryoutCode(
+          let data = await this.get("orderService").fetchShipmentOrCarryoutCode(
             value.id
           );
-          this.set("shipmentorCarryoutCode", data);
+          this.set("shipmentOrCarryoutCode", data);
         }, ERROR_STRATEGIES.MODAL);
       },
 
@@ -95,7 +97,7 @@ export default Ember.Controller.extend(
         }
 
         return await this.runTask(async () => {
-          await this.get("orderService").createShipmentorCarryoutOrder(
+          await this.get("orderService").createShipmentOrCarryoutOrder(
             this.orderParams()
           );
           this.clearFormData();
