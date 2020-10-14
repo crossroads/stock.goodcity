@@ -177,12 +177,12 @@ export default ApiBaseService.extend(NavigationAwareness, AsyncMixin, {
   },
 
   async resolveOrder(order) {
-    if (order) {
-      return order;
-    }
-    return this.userPickOrder({
-      state: ACTIVE_ORDER_STATES.join(",")
-    });
+    return (
+      order ||
+      this.userPickOrder({
+        state: ACTIVE_ORDER_STATES.join(",")
+      })
+    );
   },
 
   beginDesignation(options) {
@@ -251,12 +251,13 @@ export default ApiBaseService.extend(NavigationAwareness, AsyncMixin, {
     return ordPkg ? ordPkg.get("quantity") : 0;
   },
 
-  cancelDesignation() {
+  resetOrderDesignation() {
     this.set("readyToDesignate", false);
     this.set("designatableQuantity", 0);
     this.set("designationTargetPackage", null);
     this.set("designationTargetOrder", null);
     this.set("designationQty", 0);
+    this.set("shippingNumber", "");
   },
 
   completeDesignation() {
@@ -274,7 +275,7 @@ export default ApiBaseService.extend(NavigationAwareness, AsyncMixin, {
         shippingNumber
       });
     }, ERROR_STRATEGIES.MODAL).finally(() => {
-      this.cancelDesignation();
+      this.resetOrderDesignation();
     });
   },
 
