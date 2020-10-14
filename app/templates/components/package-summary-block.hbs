@@ -10,21 +10,58 @@
           {{/link-to}}
           {{#link-to 'items.detail.location' model.id tagName='div' class="tab large" disabled=disableLink}}
             <div class="quantity-location-wrapper">
-              {{#if model.hasMultiLocations}}
-                <div>
-                  <div class="icon-holder">{{fa-icon 'map-marker-alt' }}</div>
-                  <div class="text-holder">
-                    {{t "item_status_bar.multiple"}}
-                  </div>
-                </div>
-              {{else}}
-                {{#if model.firstAllLocationName}}
+              {{#if model.validUndispatchedLocations}}
+                {{#if model.hasMultiLocations}}
                   <div>
                     <div class="icon-holder">{{fa-icon 'map-marker-alt' }}</div>
                     <div class="text-holder">
-                      {{model.firstAllLocationName}}
+                      {{t "item_status_bar.multiple"}}
                     </div>
                   </div>
+                {{else}}
+                  {{#if model.firstAllLocationName}}
+                    <div>
+                      <div class="icon-holder">{{fa-icon 'map-marker-alt' }}</div>
+                      <div class="text-holder">
+                        {{model.firstAllLocationName}}
+                      </div>
+                    </div>
+                  {{/if}}
+                {{/if}}
+                {{#if model.onHandBoxedQuantity}}
+                  <div>
+                    <div class="icon-holder">{{fa-icon 'box-open' }}</div>
+                    <div class="text-holder">
+                      {{model.onHandBoxedQuantity}}
+                    </div>
+                  </div>
+                {{/if}}
+                {{#if model.onHandPalletizedQuantity}}
+                  <div>
+                    <div class="icon-holder">{{fa-icon 'pallet' }}</div>
+                    <div class="text-holder">
+                      {{model.onHandPalletizedQuantity}}
+                    </div>
+                  </div>
+                {{/if}}
+              {{else}}
+                {{#if (is-or model.onHandPalletizedQuantity model.onHandBoxedQuantity)}}
+                  {{#if model.onHandBoxedQuantity}}
+                    <div>
+                      <div class="icon-holder">{{fa-icon 'box-open' }}</div>
+                      <div class="text-holder">
+                        {{model.onHandBoxedQuantity}}
+                      </div>
+                    </div>
+                  {{/if}}
+                  {{#if model.onHandPalletizedQuantity}}
+                    <div>
+                      <div class="icon-holder">{{fa-icon 'pallet' }}</div>
+                      <div class="text-holder">
+                        {{model.onHandPalletizedQuantity}}
+                      </div>
+                    </div>
+                  {{/if}}
                 {{else}}
                   <div>
                     <div class="icon-holder">{{fa-icon 'map-marker-alt' }}</div>
@@ -33,22 +70,6 @@
                     </div>
                   </div>
                 {{/if}}
-              {{/if}}
-              {{#if model.onHandBoxedQuantity}}
-                <div>
-                  <div class="icon-holder">{{fa-icon 'box-open' }}</div>
-                  <div class="text-holder">
-                    {{model.onHandBoxedQuantity}}
-                  </div>
-                </div>
-              {{/if}}
-              {{#if model.onHandPalletizedQuantity}}
-                <div>
-                  <div class="icon-holder">{{fa-icon 'pallet' }}</div>
-                  <div class="text-holder">
-                    {{model.onHandPalletizedQuantity}}
-                  </div>
-                </div>
               {{/if}}
             </div>
           {{/link-to}}
