@@ -589,15 +589,6 @@ export default GoodcityController.extend(
       async updatePackageType() {
         let pkgType;
 
-        if (
-          this.get("model.storageType.isBox") ||
-          this.get("model.storageType.isPallet")
-        ) {
-          if (this.get("associatedPackages.length") > 0) {
-            return this.modalAlert("box_pallet.cannot_change_type");
-          }
-        }
-
         if (this.get("model.isPartOfSet")) {
           pkgType = await this.get("packageTypeService").userPickPackageType({
             subsetPackageTypes: this.get(
