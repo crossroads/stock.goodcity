@@ -28,6 +28,17 @@ export default Ember.Mixin.create({
     ];
   }),
 
+  shipmentTypes: Ember.computed(function() {
+    let translation = this.get("i18n");
+    let shipment = translation.t("order_transports.shipment");
+    let carryout = translation.t("order_transports.carry_out");
+
+    return [
+      { name: shipment, id: "Shipment" },
+      { name: carryout, id: "CarryOut" }
+    ];
+  }),
+
   languages: Ember.computed(function() {
     let translation = this.get("i18n");
     let english = translation.t("users.languages.english");

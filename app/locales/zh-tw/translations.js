@@ -432,6 +432,7 @@ export default {
         description_error: "Please input a description",
         date_error: "You must select a date",
         empty_country_error: "You must select a country",
+        empty_people_helped_error: "You must input a number",
         code_error:
           "Must be a 4 or 5 digit Number (a letter suffix is optional)"
       }

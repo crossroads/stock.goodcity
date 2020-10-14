@@ -7,16 +7,16 @@ export default ApiBaseService.extend({
     return this.GET(`/users/${userId}/orders_count`);
   },
 
-  fetchShipmentorCarryoutCode(detail_type) {
-    return this.GET("/fetch_shipment_or_carryout_code", {
+  async fetchShipmentorCarryoutCode(detail_type) {
+    const data = await this.GET("/fetch_shipment_or_carryout_code", {
       detail_type: detail_type
-    }).then(data => {
-      return data.code;
     });
+    return data.code;
   },
 
-  createShipmentorCarryoutOrder(params) {
-    return this.POST("/orders", params);
+  async createShipmentorCarryoutOrder(params) {
+    const data = await this.POST("/orders", params);
+    this.get("store").pushPayload(data);
   },
 
   changeOrderState(order, state, opts = {}) {

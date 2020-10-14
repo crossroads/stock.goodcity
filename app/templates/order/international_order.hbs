@@ -127,6 +127,14 @@
       <div class="small-12 columns people-count-input">
         {{numeric-input value=peopleCount name="people-count" maxlength= "10" id="people-count" acceptZeroValue="true"}}
       </div>
+      {{#if (is-and isInValidCountry showError)}}
+        <div class='small-12 columns error-message calendar-error'>
+          {{fa-icon "exclamation-triangle"}}
+          <span class="error-reason-margin">
+            {{t 'order.international.errors.empty_people_helped_error'}}
+          </span>
+        </div>
+      {{/if}}
     </div>
 
     <div class="row description-of-need">
