@@ -2,6 +2,6 @@
   Generic animated popup that pops open from the bottom of the \
   screen based on its 'open' property
  --}}
-<div class="popup-overlay cmp {{if open 'open'}}">
+<div class="popup-overlay cmp {{if open 'open'}} {{additionalClassNames}}">
   {{yield}}
 </div>

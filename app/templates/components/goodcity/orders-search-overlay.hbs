@@ -1,12 +1,17 @@
 <div class="cmp orders search-overlay">
   {{#popup-overlay open=open}}
-    <div class="main-container">
-      <div class="row search-field">
-        <div class="icon-holder small-2 columns">
-          <i {{action 'cancel'}} class="back_icon" aria-hidden="true">{{fa-icon 'times' size='lg'}}</i>
+    <div class="main-container orders-search">
+      <div class="row search-field search-box ui">
+        <div class="small-3 medium-3 columns back-link">
+          <a {{action "cancel"}}>
+            <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-left'}}</i>
+            <div class="back_text">
+              {{t 'cancel'}}
+            </div>
+          </a>
         </div>
 
-        <div class="input-holder small-10 columns">
+        <div class="input-holder small-9 columns">
           {{focus-textfield
             name="searchText"
             id=uuid
@@ -24,16 +29,17 @@
           <div class="small-12 columns">
             <ul class="list list-activity list-offer-items">
               {{#if showRecentlyUsed}}
+                <div class="recent-orders">{{t "search_order.recent_orders"}}</div>
                 {{#each recentlyUsedOrders as |order|}}
                   <div {{action 'selectOrder' order}}>
-                      {{partial 'orders/order_block'}}
+                      {{goodcity/order-block order=order smallOrderBlocks=true}}
                     </div>
                 {{/each}}
               {{else if displayResults}}
                 {{#infinite-list height="85vh" loadMore=(action "loadMoreOrders") as |res| }}
                   {{#each res as |order|}}
                     <div {{action 'selectOrder' order}}>
-                      {{partial 'orders/order_block'}}
+                      {{goodcity/order-block order=order smallOrderBlocks=true}}
                     </div>
                   {{/each}}
                 {{/infinite-list}}

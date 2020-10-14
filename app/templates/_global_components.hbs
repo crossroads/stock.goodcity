@@ -1,11 +1,27 @@
 {{!-- Service-backed components --}}
 
 {{#let-alias designationService as |s|}}
+  {{#if s.displayDesignateForm}}
+    {{goodcity/designate-form
+        quantity=s.designationQty
+        maxQuantity=s.designatableQuantity
+        confirmAction=s.completeDesignation
+        cancelAction=s.resetOrderDesignation
+        order=s.designationTargetOrder
+        pkg=s.designationTargetPackage
+        readyToDesignate=s.readyToDesignate
+        showItemAvailability=s.showItemAvailability
+        allowOrderChange=s.allowOrderChange
+        allowItemChange=s.allowItemChange
+        shippingNumber=s.shippingNumber
+      }}
+  {{/if}}
+
   {{goodcity/orders-search-overlay
-    open=s.openOrderSearch
-    onSelect=s.onOrderSelected
-    searchProps=s.orderSearchProps
-  }}
+      open=s.openOrderSearch
+      onSelect=s.onOrderSelected
+      searchProps=s.orderSearchProps
+    }}
 {{/let-alias}}
 
 {{#let-alias organisationService as |s|}}

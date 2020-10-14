@@ -1,43 +1,141 @@
-<div class="designate-form {{unless canComplete 'disabled'}}">
-  {{#message-box
-    btn1Text=(t "item.designate") btn1Callback=confirmAction
-    btn2Text=(t "cancel") btn2Callback=cancelAction
-    isVisible=true
-    classNames="modal-overlay operation-confirmation orders_search_result"
-  }}
-    <p>{{fa-icon 'shopping-basket'}} {{t 'designate_form.designate_to' }}</p>
+{{#popup-overlay open=readyToDesignate}}
+<div class="dispatch-form package-actions-form">
 
-    {{partial 'orders/order_block'}}
+  {{package-summary-block
+      model=pkg
+      isRedirectable=false
+      classNames="package-summary-block-view"}}
 
-    <div class="warnings">
-      {{#if suggestUndesignation}}
-        <div class="warning_text">
-          <div class="left-icon"><i>{{fa-icon 'exclamation-triangle'}}</i></div>
-          <div class="right-message">
-            {{#if (is-equal otherDesignations.length 1)}}
-              {{t "designate_form.already_fully_designated_to" orderCode=otherDesignations.firstObject.designation.code}}
-              <a {{action (toggle this "quickUndesignation")}}>{{t 'show'}}</a>
+  {{#form-control}}
+    <div class="form-container">
+      <div class="title">{{fa-icon "shopping-basket"}} {{t "designate_form.designate"}}</div>
+      <div class="infos">
+        <div class="info-row">
+          <div class="key">{{t "designate_form.item"}}</div>
+          <div class="value {{if allowItemChange 'clickable'}}" {{action 'triggerItemChange' target=designationService}}>
+            {{fa-icon 'tag'}} {{pkg.inventoryNumber}}
+          </div>
+        </div>
+
+        <div class="info-row">
+          <div class="key">{{t "designate_form.to_order"}}</div>
+          <div class="value {{if allowOrderChange 'clickable'}}" {{action 'triggerOrderChange' pkg target=designationService}}>
+            {{#if order}}
+              {{fa-icon (type-filter-icon order.bookingType.identifier)}}
+              {{order.code}}
             {{else}}
-              {{t "designate_form.already_fully_designated"}}
-              {{#link-to 'items.detail.publishing' pkg.id replace=true}}
-                {{t 'designate_form.click_to_undesignate'}}
-              {{/link-to}}
+              {{t "designate_form.select_order"}}
             {{/if}}
           </div>
         </div>
+
+        <div class="info-row">
+          <div class="key">{{t "designate_form.quantity"}}</div>
+          <div class="value">
+            {{numeric-input
+              name="designationQty"
+              value=quantity
+              maxlength="5"
+              pattern="^[1-9][0-9]*$"
+              min="1"
+              max="{{maxQuantity}}"
+              disabled=(unless editableQty true false)
+              class="qty-input"}}
+          </div>
+
+          <div class="sub-text">
+            <span class="{{if (is-not (is-in-range quantity 1)) 'warn-text'}}">{{t "designate_form.max"}}: {{ maxQuantity }}</span>
+            <span class="link" {{action "displayItemAvailabilityOverlay"}}>{{t "designate_form.help_text"}}</span>
+          </div>
+        </div>
+
+        <div class="info-row item-action-comment">
+          <div class="key">{{t "designate_form.shipping"}} #</div>
+          <div class="value">
+            {{numeric-input name="shippingNumber" autocomplete="off" value=shippingNumber maxlength="8" pattern="^[1-9][0-9]*$"}}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="button-container row">
+      <div class="button light columns small-5" {{action cancelAction}}>{{t "not_now"}}</div>
+
+      {{#if canComplete }}
+        <div class="button columns small-5" {{action "completeDesignation" target=designationService}}> {{t "designate_form.designate"}} {{ quantity }}</div>
+      {{else}}
+        <div class="button columns small-5" disabled> {{t "designate_form.designate"}} {{ quantity }}</div>
       {{/if}}
     </div>
+  {{/form-control}}
+</div>
+{{/popup-overlay}}
 
-    {{#if (is-and suggestUndesignation quickUndesignation) }}
-      {{goodcity/orders-package-block orderPkg=otherDesignations.firstObject small=true actionsFilter=(arr 'cancel')}}
+{{#popup-overlay open=showItemAvailability additionalClassNames="gray-overlay"}}
+<div class="row">
+  <div class="columns small-10 small-offset-1 item-allocation-overlay ">
+    <div class="close-overlay" {{action "closeItemAvailabilityOverlay"}}>
+      <span>{{t "close"}}</span>
+      <i>{{fa-icon "times-circle"}}</i>
+    </div>
+
+    <div class="heading">
+      <i> {{fa-icon "exclamation-triangle"}}</i>
+      {{pkg.availableQuantity}} {{t "designate_form.help.available"}}
+    </div>
+
+    <i>{{t "designate_form.help.make_available"}}</i>
+
+    {{#if (is-or pkg.onHandBoxedQuantity pkg.onHandPalletizedQuantity)}}
+      <div class="info-box row">
+        <div class="small-10 columns large-11">
+          <b>
+            {{t "designate_form.help.boxed_message"
+              boxedQuantity=pkg.onHandBoxedQuantity
+              palletizedQuantity=pkg.onHandPalletizedQuantity}}
+          </b>
+          <div>
+            {{t "designate_form.help.remove_from_box"}}
+            <br>({{t "designate_form.help.designate_box_pallet"}})
+          </div>
+        </div>
+        <div class="small-2 columns large-1" {{action "modifyBoxPalletAllocation"}}>
+          <i>{{fa-icon "arrow-circle-right"}}</i>
+        </div>
+      </div>
     {{/if}}
 
-    <div class='designate-quantity'>
-      <p>
-        {{t 'designate_form.quantity_input'}}
-        {{input type="number" min="1" max="{{maxQuantity}}" value=quantity disabled=(unless editableQty true false) class="qty-input"}}
-        / {{ maxQuantity }}
-      </p>
+    {{#if (is-or pkg.designatedQuantity pkg.dispatchedQuantity)}}
+      <div class="info-box row">
+        <div class="small-10 columns large-11">
+          <b>
+            {{t "designate_form.help.designated_message"
+              designatedQuantity=pkg.designatedQuantity
+              dispatchedQuantity=pkg.dispatchedQuantity}}
+          </b>
+          <div>
+            {{t "designate_form.help.modify_order"}}
+          </div>
+        </div>
+        <div class="small-2 columns large-1" {{action "modifyDesignation"}}>
+          <i>{{fa-icon "arrow-circle-right"}}</i>
+        </div>
+      </div>
+    {{/if}}
+
+    <div class="info-box row">
+      <div class="small-10 columns large-11">
+        <b>{{t "designate_form.help.wrong_quantity"}}</b>
+        <div>
+          {{t "designate_form.help.increase_by_gain"}}
+        </div>
+      </div>
+      <div class="small-2 columns large-1 gain-item-action" {{action 'gainItem'}}>
+        <i>{{fa-icon "folder-plus"}}</i>
+        <span>{{t "designate_form.help.gain"}}</span>
+      </div>
     </div>
-  {{/message-box}}
+
+  </div>
 </div>
+{{/popup-overlay}}

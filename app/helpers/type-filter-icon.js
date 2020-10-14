@@ -6,7 +6,7 @@ export default Ember.Helper.helper(function(type) {
       return "th-list";
     case "designated":
       return "shopping-basket";
-    case "online_orders":
+    case "online-order":
       return "desktop";
     case "trash":
       return "dumpster";
