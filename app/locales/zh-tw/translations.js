@@ -25,6 +25,7 @@ export default {
   search_no_results: "對不起，沒有搜尋結果",
   version: "Stock v.",
   organisation_title: "機構",
+  add: "+新增",
   save: "儲存",
   details: "詳情",
   orders_in_process: "Orders In Process",
@@ -44,14 +45,15 @@ export default {
   discard_changes: "棄置變更",
   manage_charity_users: "Manage charity users",
   create_new_item: "+Item",
-  create_new_box: "+Box",
-  create_new_pallet: "+Pallet",
+  create_new_box: "++Multi-Item Box",
+  create_new_pallet: "+Multi-Item Pallet",
   manage_inventory: "Quotas",
-  manage_users: "Manage Users",
+  manage_users: "管理用戶",
   search_user: "Search User",
   new_order: "+ HK Orders",
   full_name: "{{firstName}} {{lastName}}",
   mobile_prefix: "+852",
+  confirm: "確定",
   not_found:
     "Oooops, the location you're headed to doesn't seem to exist anymore. Sorry!",
   unavailable_item: "Sorry! This item is not available.",
@@ -124,6 +126,7 @@ export default {
     remove: "移除",
     content: "内容",
     details: "詳情",
+    bad_item: "Bad item",
     invalid_quantity: "已增加的份量不可多於每個位置的可用的份量",
     type_to_search: "输入搜索要添加的项目。",
     cannot_change_type:
@@ -191,7 +194,15 @@ export default {
     country: "Country",
     shipment_number: "Shipment number",
     people_helped: "Number benefiting",
-    description: "Description of need"
+    description: "Description of need",
+    approval_status: "Approval status",
+    approval_directions: `Please review the contact before processing their order. If they are eligible to request goods on behalf of the selected organisation “Authorize” them. If not, “Deny”`,
+    approve: "Approve",
+    deny: "Deny",
+    status_approved: "Approved",
+    status_pending: "Pending",
+    status_denied: "Denied",
+    status_expired: "Expired"
   },
   order_tabs: {
     summary: "總結",
@@ -255,7 +266,7 @@ export default {
     process: "Processed",
     loss: "Lost",
     pack: "Packed",
-    trash: "Thrashed",
+    trash: "Trashed",
     recycle: "Recycled",
     in_stock_info: "最少一件有貨存（即未被指派）",
     designated: "已指派",
@@ -373,6 +384,11 @@ export default {
         self: "私人車輛",
         ggv: "需要聘用車輛"
       }
+    },
+    orders_packages: {
+      sort_by: "Sort by",
+      search: "Search Items",
+      state_filters: "State Filters"
     }
   },
   order_transports: {
@@ -412,6 +428,8 @@ export default {
     for_client: "For client / beneficiary (personal use)",
     for_charity_sale: "For charity sale, bartering (any form of trade)",
     title: "Title",
+    cannot_process_unless_approved:
+      "An organisation user must be approved before the order can be processed",
     client_information: {
       title: "受惠者資料",
       is_order_client: "您正在代替受惠者下訂單?",
@@ -631,6 +649,20 @@ export default {
     name: "姓名",
     description: "機構概要",
     registration: "註冊編號",
+    name_en: "機構名稱(英文)",
+    name_zh_tw: "機構名稱(中文)",
+    description_en: "機構簡介(英文)",
+    description_zh_tw: "機構簡介(中文)",
+    new: "New Organisation",
+    registration: "註冊編號",
+    website: "網頁",
+    country: "國家/ 地區",
+    type: "類別",
+    cancel_warning: "你將會遺失所有資料。你確定要取消嗎？",
+    validation_error: {
+      name: "名稱不能留空。",
+      country: "國家/地區不能留空。"
+    },
     user: {
       first_name: "名",
       last_name: "姓",
@@ -643,9 +675,11 @@ export default {
       position_in_organisation: "機構內的職稱",
       validation_error: {
         email: "請輸入有效的電郵地址",
+        blank_email: "電郵地址不能留空",
         mobile: "手提電話號碼必須為8個數字",
-        first_name: "First name can't be blank",
-        family_name: "Family name can't be blank",
+        blank_mobile_number: "手機號碼不能留空",
+        first_name: "名字不能留空",
+        family_name: "姓氏不能留空",
         position: "Position can't be blank.",
         preferred_contact_number: "聯絡號碼需要為8位數字"
       }
@@ -674,7 +708,8 @@ export default {
     offer_select_warning: "Do you want to assign this offer?"
   },
   search_order: {
-    recent: "Recently used designations"
+    recent: "Recently used designations",
+    recent_orders: "Your recently used orders."
   },
   select_location: {
     back: "Back",
@@ -741,6 +776,7 @@ export default {
     comment: "Comments",
     pieces: "Pieces",
     condition: "Condition :",
+    quantity_inside: "內含數量 :",
     validation_errors: {
       description: "Description cannot be blank."
     },
@@ -886,15 +922,6 @@ export default {
     total_to_dispatch: "Total to dispatch (must = {{qty}})",
     dispatch: "Dispatch"
   },
-  partial_move: {
-    location: "{{inventoryNumber}}: Location",
-    location_length: " Locations: {{locationLength}}",
-    total_on_hand: "Total on Hand:",
-    qty: "Qty:",
-    move: "Move",
-    total_to_move: "Total to move",
-    proceed_to_choose_destination: "Proceed to choose destination"
-  },
   print_label: {
     sent: "Sent to printer"
   },
@@ -909,34 +936,123 @@ export default {
       "You are about to unpublish this package.Clients will no longer be able to view or request it online."
   },
   designate_form: {
-    warning_text:
-      "增加{{state}}的數量到{{totalQty}} 對於{{designationCode}}! ({{qty}} 原本{{pkgState}}-物件{{inventory number}})",
-    warning_text_without_link:
-      "增加{{state}}的數量到{{totalQty}} 對於{{orderCode}}! ({{qty}} 原本{{designatedState}})",
-    designate_to: "Designate this package to:",
-    designate_entire: " 指定全數",
-    designate_part: "指定部份",
-    quantity_input: "Quantity to designate",
-    already_fully_designated: "The remaining quantity is already designated.",
-    already_fully_designated_to:
-      "The remaining quantity is designated to {{orderCode}}.",
-    confirm_undesignation: "Are you sure you wish to undesignate ?",
-    click_to_undesignate: "Click here to undesignate"
+    designate: "Designate",
+    item: "Item",
+    to_order: "To Order",
+    select_order: "Select Order",
+    quantity: "Quantity",
+    max: "Max",
+    help_text: "Help",
+    shipping: "Shipping",
+
+    help: {
+      available: "Available",
+      make_available: "To make more of this item available...",
+      boxed_message:
+        "{{boxedQuantity}} are boxed & {{palletizedQuantity}} are palletized",
+      remove_from_box: "Remove to designate separately.",
+      designate_box_pallet: "Or, designate whole box/pallet.",
+      designated_message:
+        "{{designatedQuantity}} designated & {{dispatchedQuantity}} dispatched",
+      modify_order: "Modify or cancel other orders.",
+      wrong_quantity: "Is the item quantity wrong?",
+      increase_by_gain: "Increase it using gain feature",
+      gain: "Gain"
+    }
   },
   users: {
-    cancel_user_warning:
-      "You will lose all your data. Are you sure you want to cancel this User?",
-    image: "Image",
-    add_image: "Add Image",
+    cancel_user_warning: "你將會遺失所有資料。你確定要取消這用戶嗎?",
+    image: "圖片",
+    title: "職位",
+    add_image: "添加圖片",
+    edit_image: "修改圖片",
+    delete_image: "刪除圖片",
     disabled: "Disabled",
     roles: "Roles",
-    organisation: "Organisation",
-    create_new_user: "Create new user",
-    first_name: "First Name",
-    last_name: "Last Name",
-    mobile: "Mobile",
-    email: "Email",
+    organisation: "機構",
+    create_new_user: "添加新用戶",
+    first_name: "名",
+    last_name: "姓",
+    mobile: "手提電話號碼",
+    email: "電郵",
+    district: "地區",
+    preferred_language: "偏好語言",
+    languages: {
+      unknown: "未知",
+      english: "英文",
+      chinese: "中文"
+    },
     registered_on: "Registered on",
-    last_connected_on: "Last connected on"
+    last_connected_on: "Last connected on",
+
+    details: {
+      last_on_goodcity: "Last on GoodCity",
+      contact_details: "聯絡資料",
+      staff_roles: "Staff / Volunteer Roles",
+      stock_app: "Stock App",
+      admin_app: "Admin App",
+      disable_user_account: "Disable User Account",
+      disable_user: "Disable User",
+      disabled_user_info:
+        "User will be denied access to all apps including donor app.",
+      disabled_user_note:
+        "Note: you are allowed remove the phone and email address from a disabled user account. This can be useful if the number has been assumed by a different person without giving the new user another person 's history.",
+      re_enable_user_account: "Re-enable User Account",
+      enabled_user_info: "All prior access rights will be reserved.",
+      enabled_user_note:
+        "Note: If you do not wish this user to have same rights to access apps or act on behalf of charities as they had before, please modify their access.",
+      enable_user: "Re-enable User",
+      re_enable: "Re-enable",
+      account_disabled: "Account Disabled"
+    },
+
+    contact_details: {
+      title: "聯絡資料",
+      unauthorised_error: "抱歉，你未獲授權更改此用戶資料."
+    },
+
+    charity_position: {
+      add_charity_position: "新增職位",
+      position: "職位",
+      status: "狀態",
+      preferred_number: "聯絡電話號碼",
+      cancel_warning: "你將會遺失所有資料。你確定要取消嗎？",
+      validation_errors: {
+        preferred_number: "請提供聯絡號碼",
+        organisation: "機構名稱不能留空"
+      }
+    },
+
+    roles: {
+      admin_app_details: "Admin App Details",
+      unauthorised_error:
+        "Sorry, you are not authorised to update roles for this user.",
+      access_status_for: "Access Status for",
+      no_access: "No Access",
+      access_until: "Access Until",
+      access_forever: "Access Forever",
+      roles_for_offers: "Role assigned for processing offers",
+      reviewer: "Reviewer",
+      reviewer_role_info: "This role is for reviewing offers.",
+      supervisor: "Supervisor",
+      supervisor_role_info: "This role is for managing offers.",
+      admin_role_error:
+        "Access to Admin App requires at least one role to be assigned.",
+      admin_printer_label: "Preferred Label Printer in Admin App",
+      stock_app_details: "Stock App Details",
+      stock_role_error:
+        "Access to Stock App requires at least one role to be assigned.",
+      stock_printer_label: "Preferred Label Printer in Stock App",
+      role_for_orders: "Role assigned for processing orders",
+      role_for_stock: "Role assigned for processing stock",
+      order_fulfilment_role: "Order Fulfilment",
+      order_fulfilment_role_info: "This role is for reviewing orders.",
+      order_administrator_role: "Order Administrator",
+      order_administrator_role_info: "This role is for managing orders.",
+      stock_fulfilment_role: "Stock Fulfilment",
+      stock_fulfilment_role_info: "This role is for reviewing stock items.",
+      stock_administrator_role: "Stock Administrator",
+      stock_administrator_role_info: "This role is for managing stock items."
+    }
   }
 };

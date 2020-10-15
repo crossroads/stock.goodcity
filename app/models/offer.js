@@ -7,6 +7,7 @@ var attr = DS.attr,
 
 export default DS.Model.extend({
   companyId: attr("number"),
+  notes: attr("string"),
   createdById: attr("string"),
   company: belongsTo("company", { async: false }),
   createdBy: belongsTo("user", { async: false }),

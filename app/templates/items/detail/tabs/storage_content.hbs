@@ -13,13 +13,19 @@
 <div class="row">
   <div class="small-12 columns">
     <ul class="added-item-block">
-      {{#each associatedPackages as |pkg|}}
-        {{contained-package
-          pkg=pkg
-          entity=item
-          onRemove=(action 'removeContainedPackage')
-        }}
-      {{/each}}
+      {{#if displayResults}}
+        {{#infinite-list height="100vh" loadMore=(action 'fetchContainedPackages') as |pkgs|}}
+          {{#each pkgs as |pkg|}}
+            {{#unless pkg.isDeleted}}
+              {{contained-package
+                pkg=pkg
+                entity=item
+                onUnpack=(action 'reloadItemsInContainer')
+              }}
+            {{/unless}}
+          {{/each}}
+        {{/infinite-list}}
+      {{/if}}
     </ul>
   </div>
 </div>
@@ -40,6 +46,6 @@
     pkg=addableItem
     open=openAddItemOverlay
     entity=item
-    onConfirm=(action 'fetchContainedPackages')
+    updateContainer=(action 'updateContainer')
   }}
 </div>

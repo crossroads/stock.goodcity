@@ -1,19 +1,167 @@
-.user-details-section {
-  .user-img img {
-    width: 150px;
-  }
-}
-
-.user-back-link {
-  padding-left: 0.8rem;
-}
-
+// User Search Page
 .create-user-button {
   padding: 10px !important;
   border: 1.4px solid white;
   color: white;
   font-weight: 600;
   text-align: center;
+  margin-top: 2rem;
+}
+// END
+
+// User Details Page
+.user-details-heading {
+  border: none;
+  margin-bottom: 0;
+  height: 2.5rem;
+
+  .user-back-link {
+    padding-left: 0.8rem;
+  }
+}
+
+.user-details-section {
+  .user-img {
+    width: 150px;
+    margin: auto;
+    margin-top: 1rem;
+
+    img {
+      width: 150px;
+      border-radius: 50%;
+    }
+  }
+
+  .last-online-time {
+    text-align: center;
+
+    div {
+      display: inline-block;
+    }
+  }
+
+  .disabled-account {
+    background-color: $cherry-red;
+    color: $white;
+    padding: 0.3rem;
+    font-size: 0.8rem;
+    margin-top: 0.8rem;
+    text-align: center;
+
+    span {
+      margin-left: 0.2rem;
+    }
+
+    .link {
+      text-decoration: underline;
+    }
+  }
+
+  #messageBox {
+    @media #{$small-only} {
+      height: auto;
+    }
+  }
+
+  .contact-icons {
+    margin: auto;
+    text-align: center;
+    margin-bottom: 2rem;
+    margin-top: 2rem;
+
+    span.icon-badge {
+      line-height: 3rem;
+      width: 3rem;
+      height: 3rem;
+      font-size: 1.5rem;
+      display: inline-block;
+      color: #fff;
+      text-transform: uppercase;
+      text-align: center;
+      border-radius: 50%;
+      background: #ee4c4e;
+      font-weight: 700;
+      margin: 0.5rem;
+      margin-top: 0;
+
+      @media #{$small-only} {
+        font-size: 1.2rem;
+      }
+    }
+  }
+
+  .stock-app-roles {
+    border-bottom: 1px solid $white;
+  }
+
+  .staff-role-heading {
+    padding: 1rem;
+    padding-bottom: 0.5rem;
+  }
+
+  .add-charity-position {
+    text-decoration: underline;
+  }
+
+  .charity-role-content {
+    display: flex;
+    justify-content: space-evenly;
+    @media #{$small-only} {
+      font-size: 0.7rem;
+    }
+  }
+
+  .status-text{
+    float: right;
+    padding-right: 10%;
+  }
+
+  .contact-details-link,
+  .app-roles {
+    padding: 1rem;
+    padding-right: 0.5rem;
+    background-color: #1a3964;
+    color: white;
+
+    .company-name {
+      flex: 2;
+    }
+
+    .small-2.arrow-container {
+      padding: 0;
+    }
+
+    .arrow-icon {
+      float: right;
+    }
+  }
+
+  ul.organisations-list {
+    list-style: none;
+    margin: 0;
+
+    li {
+      border-bottom: 1px solid white;
+
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+  }
+
+  .disable-user-link {
+    padding: 4rem 1rem;
+    text-align: center;
+    text-decoration: underline;
+    color: $white;
+    font-size: 0.8rem;
+  }
+}
+// END
+
+.title-select {
+  float: left !important;
+  width: 5rem;
 }
 
 .add-user-form {
@@ -21,9 +169,58 @@
     height: 1.8rem !important;
   }
 
+  select {
+    background-color: $dark-blue !important;
+    background-image: url(../assets/images/dropdown_icon.png) !important;
+    background-repeat: no-repeat !important;
+    background-size: 1.2rem !important;
+    background-position: 95% !important;
+    height: 1.8rem !important;
+  }
+
   input[type="checkbox"] {
     position: initial;
   }
+
+  .inline-edit-bg {
+    background-color: #1a3964 !important;
+    border: none !important;
+    select{
+    background-color: #1a3964 !important;
+    border: none !important;
+    }
+  }
+
+  .image{
+    float: left;
+    margin-top: 0.5rem;
+    margin-right: 0.4rem;
+    text-align: center;
+    position: initial;
+    height: 6.5rem;
+    right: unset;
+    width: 30%;
+    font-size: 0.8rem;
+    z-index: 100;
+    margin-bottom: 1rem;
+
+    img{
+      width:7rem;
+      height:7rem;
+    }
+
+    @media #{$small-only} {
+      width: 45%;
+      height: 4.5rem;
+
+      img{
+        width:6.5rem;
+        height:5rem;
+      }
+    }
+
+  }
+
 
   .image-box {
     float: left;
@@ -40,44 +237,176 @@
     margin-bottom: 1rem;
 
     @media #{$small-only} {
-      width: 30%;
+      width: 40%;
     }
   }
 }
 
-.radio-buttons {
-  .radio input {
-    position: absolute;
+.inline-edit-error{
+  color: white;
+  background-color:$button-bg-hover;
+}
+
+.image-edit{
+  text-decoration: underline;
+  margin-top: 2rem;
+  margin-left: 8.5rem;
+
+  @media #{$small-only} {
+    margin-top: 1rem;
+    margin-left: 4.5rem;
+  }
+}
+
+.delete-image{
+  margin-top: 0.5rem;
+}
+
+// Roles Access Details Page
+.role-access-form {
+  margin: 0.5rem;
+
+  .access-heading,
+  .printer-selection {
+    margin: 1rem 0px;
   }
 
-  li {
-    border: none;
-    float: left;
-    width: 240px;
-    margin: 7px 5px;
-  }
+  .custom_radio_buttons {
+    height: 2.5rem;
+    padding: 0.5rem 0;
 
-  input[type="checkbox"] {
-    background: none repeat scroll 0 0 red;
-    color: red;
-    visibility: hidden;
-  }
-
-  input[type="checkbox"]:checked + label {
-    background: $coral-red;
-    border: 1px solid $coral-red;
-  }
-
-  input[type="checkbox"]:not(:checked)+label,
-  input[type="checkbox"]:checked+label {
-    padding-left: 5px;
-  }
-
-  input[type="checkbox"]:checked + label:before,
-  input[type="checkbox"]:not(:checked) + label:before,
-  input[type="checkbox"]:checked+label:after
-    {
-      content: none;
+    label {
+      font-size: 0.8rem;
+      margin-left: 0.8rem;
+      color: $white;
     }
 
+    i {
+      vertical-align: middle;
+      margin-left: 0.2rem;
+
+      &.calendar-icon {
+        margin-left: -1.2rem;
+        color: white;
+        font-size: 0.8rem;
+      }
+    }
+
+    input[type="radio"] {
+      display: inline-block;
+      margin: 0;
+      vertical-align: middle;
+
+      @media #{$small-only} {
+        width: 20px !important;
+        height: 20px !important;
+      }
+    }
+  }
+
+  .roles-selection {
+    [type="checkbox"]:not(:checked)+label:after,
+    [type="checkbox"]:checked+label:after {
+      top: 5px;
+      left: 5px;
+      font-size: 21px;
+    }
+
+    [type="checkbox"]:not(:checked)+label:before,
+    [type="checkbox"]:checked+label:before {
+      left: 1px;
+      top: 0;
+      width: 25px;
+      height: 25px;
+    }
+
+    .custom_radio_buttons {
+      height: 4rem;
+
+      label {
+        padding-left: 2rem;
+      }
+    }
+
+    .role-info {
+      font-size: 0.7rem;
+      margin: 0.4rem 0;
+      font-style: italic;
+    }
+  }
+
+  .calendar_input {
+    display: inline-block;
+    padding: 0;
+
+    input {
+      padding: 0.2rem 0.5rem !important;
+      width: 7rem;
+      margin-top: 0 !important;
+
+      background-color: #002352 !important;
+      color: white;
+      border: 1px solid white !important;
+
+      @media #{$large-only} {
+        width: 11rem;
+        font-size: 1rem;
+      }
+    }
+  }
+
+  .printer-heading {
+    margin-bottom: 0.5rem;
+  }
+
+  .button.disabled {
+    pointer-events: none;
+  }
+
+}
+
+.access-error {
+  font-size: 0.6rem;
+  background-color: #ed4c4e;
+  color: $white;
+  padding: 0.3rem;
+  margin-left: 0.4rem;
+
+  span {
+    margin-left: 0.2rem;
+  }
+}
+
+.disabled-form {
+  pointer-events: none;
+  opacity: 0.7;
+}
+// END
+
+.disable-user-popup {
+  .heading {
+    font-size: 1rem;
+    font-weight: 800;
+    margin: 0.8rem 0;
+  }
+
+  .info {
+    margin: 0;
+    font-size: 0.8rem;
+  }
+
+  .info-note {
+    font-size: 0.8rem;
+    margin: 1rem 0;
+  }
+
+  #btn1, #btn2 {
+    width: 48%;
+  }
+
+  #btn1 {
+    background-color: transparent;
+    border-color: $black;
+    color: $black !important;
+  }
 }

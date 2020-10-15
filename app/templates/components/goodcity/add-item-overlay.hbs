@@ -41,14 +41,14 @@
           {{locationQty.packageLocation.quantity}}
         </div>
         <div class="small-3 columns">
-          {{input type="number" value=locationQty.selectedQuantity}}
+          {{numeric-input value=locationQty.selectedQuantity maxlength="8" pattern="\d{1,8}" disabled=false}}
         </div>
       </div>
       {{/each}}
     </div>
     <div class="buttons row">
       <div class="small-4 columns button" {{action 'cancelMove'}}>{{t 'box_pallet.not_now'}}</div>
-      <div class="small-4 columns button" {{action 'moveItemToBox' pkg}}>{{t 'box_pallet.move'}} ({{totalNumberTomove}})</div>
+      <div class="small-4 columns button" {{action 'moveItemToBox' pkg updateContainer }}>{{t 'box_pallet.move'}} ({{totalNumberTomove}})</div>
     </div>
   </section>
   {{/popup-overlay}}

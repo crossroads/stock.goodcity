@@ -1,0 +1,86 @@
+<nav class="tab-bar user-details-heading">
+  <section class="left-small">
+    {{#link-to "users.details" user_id class="user-back-link"}}
+    <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-left'}}</i>
+    <div>{{t "back"}}</div>
+    {{/link-to}}
+  </section>
+
+  <section class="middle tab-bar-section">
+    <h1 class="title">
+      {{t 'users.charity_position.add_charity_position'}}
+    </h1>
+  </section>
+</nav>
+
+<div class="charity-position-page">
+  {{#validatable-form onSubmit=(action 'save') as |form|}}
+    <div class="form-container">
+
+      <div class="row">
+        <div class="small-4 columns">
+          <label for="status">{{t 'users.charity_position.status'}}</label>
+        </div>
+        <div class="small-8 columns">
+          {{select-list
+            content=allStatus
+            on-change=(action "onStatusChange")
+            selectedValue=selectedStatus
+            value=selectedStatus
+            classNames='grade' }}
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="small-4 columns">
+          <label for="organisation">{{t 'users.organisation'}}</label>
+        </div>
+        <div class="small-8 columns organisation-search" {{action "searchOrganisation"}}>
+            {{#if model.organisation}}
+              {{input type="text" id = "organisation" disabled='true' required='true' autocomplete='off' value=model.organisation.nameEn}}
+            {{else}}
+              {{input type="text" id = "organisation" disabled='true' required='true' autocomplete='off'}}
+            {{/if}}
+
+            {{#if isInvalidOrganisation }}
+              <div class='error-message'>
+                {{t 'users.charity_position.validation_errors.organisation'}}</div>
+            {{/if}}
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="small-4 columns">
+          <label for="position">{{t 'users.charity_position.position'}}</label>
+        </div>
+        <div class="small-8 columns">
+          {{input type='text' id='position' value=model.position}}
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="small-4 columns">
+          <label for="preferred_number">{{t 'users.charity_position.preferred_number'}}</label>
+        </div>
+        <div class="small-8 columns">
+          {{numeric-input value=model.preferredContactNumber id="preferred_number" maxlength="8" pattern=".{8,}" required='true'}}
+
+          <div class="error-message {{unless isInvalidPreferredNumber 'hide-error'}}">
+            {{t 'users.charity_position.validation_errors.preferred_number'}}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="columns small-6">
+        <a {{action 'cancel'}} class="button secondary expand">{{t "cancel"}}</a>
+      </div>
+      <div class="columns small-6">
+        <a {{action 'submit' target=form}} class="button expand">
+          {{t "save"}}
+        </a>
+      </div>
+    </div>
+  {{/validatable-form}}
+</div>

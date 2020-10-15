@@ -1,16 +1,24 @@
 import Ember from "ember";
+import _ from "lodash";
+import SearchMixin from "stock/mixins/search_resource";
 
-export default Ember.Controller.extend({
+export default Ember.Component.extend(SearchMixin, {
   queryParams: ["redirectToPath"],
   redirectToPath: null,
   minSearchTextLength: 3,
   displayResults: false,
+  store: Ember.inject.service(),
 
   onSearchTextChange: Ember.observer("searchText", function() {
     this.hideResults();
-    if (this.get("searchText").length) {
+
+    if (this.get("searchText").trim().length >= 3) {
       Ember.run.debounce(this, this.showResults, 500);
     }
+  }),
+
+  hasSearchText: Ember.computed("searchText", function() {
+    return !!this.get("searchText");
   }),
 
   hideResults() {
@@ -22,26 +30,26 @@ export default Ember.Controller.extend({
   },
 
   actions: {
-    cancelSearch() {
-      Ember.$("#searchText").blur();
+    clearSearch() {
       this.set("searchText", "");
-      if (this.get("redirectToPath")) {
-        this.replaceRoute(this.get("redirectToPath"));
-      } else {
-        this.transitionToRoute("app_menu_list");
-      }
+    },
+
+    addOrganisation() {
+      this.get("router").transitionTo("organisations.new");
+      this.set("open", false);
+    },
+
+    cancelSearch() {
+      this.set("searchText", "");
+      this.set("open", false);
     },
 
     setOrganization(organisation) {
-      if (this.get("redirectToPath")) {
-        this.replaceRoute(this.get("redirectToPath"), {
-          queryParams: {
-            organisationId: organisation.id
-          }
-        });
-      } else {
-        this.transitionToRoute("organisations.detail", organisation.id);
-      }
+      const onSelect = this.getWithDefault("onSelect", _.noop);
+      onSelect(organisation);
+
+      this.set("searchText", "");
+      this.set("open", false);
     },
 
     loadMoreOrganisations(page) {

@@ -1,0 +1,70 @@
+.charity-position-page {
+  $dropdown-body: #000000;
+  $input-border: #8091a9;
+  $white: #fff;
+  $background-color: #002352;
+  $error-background: #f46769;
+
+  padding: 0.5rem;
+
+  .form-container {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 2em;
+    border-radius: 3px;
+
+    .small-4 {
+      padding-top: 0.7rem;
+    }
+
+    label {
+      @media #{$small-only} {
+        font-size: 0.7rem;
+      }
+    }
+
+    input {
+      background: $background-color !important;
+      color: white !important;
+      border: 1px solid $input-border!important;
+      @media #{$small-only} {
+        font-size: 0.8rem;
+      }
+    }
+
+    select {
+      background-color: $background-color !important;
+      background-image: url(../assets/images/dropdown_icon.png);
+      background-repeat: no-repeat;
+      background-size: 1.2rem;
+      background-position: 95%;
+      color: white;
+      border: 1px solid $input-border!important;
+      @media #{$small-only} {
+        font-size: 0.8rem;
+      }
+    }
+
+    label.select::after {
+      top: 0.8rem !important;
+    }
+  }
+
+  .error-message {
+    background: $error-background;
+    color: $white;
+    margin-top: -1rem;
+    margin-bottom: 1rem;
+    padding: 0.2rem 0.5rem;
+
+    &.hide-error {
+      opacity: 0;
+    }
+  }
+}
+
+.organisations_search_section {
+  i.pinned-right {
+    position: absolute;
+  }
+}

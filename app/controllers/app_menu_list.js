@@ -3,8 +3,9 @@ import config from "stock/config/environment";
 const { getOwner } = Ember;
 import AjaxPromise from "stock/utils/ajax-promise";
 import storageType from "stock/mixins/storage-type";
+import OrganisationMixin from "stock/mixins/organisation";
 
-export default Ember.Controller.extend(storageType, {
+export default Ember.Controller.extend(storageType, OrganisationMixin, {
   application: Ember.inject.controller(),
   isMobileApp: config.cordova.enabled,
   settings: Ember.inject.service(),

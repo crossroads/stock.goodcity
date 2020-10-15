@@ -52,7 +52,25 @@
     </div>
   {{else}}
     <div class="row">
-      <div class="small-12 columns main_details">
+      <div class="small-12 columns main_details contact_details">
+        {{#if organisationsUser.isPendingApproval}}
+          <div class="org_user_approval">
+            <div class="approval_text">
+              {{fa-icon "exclamation-triangle"}}
+              {{t 'order_contact_summary.approval_directions'}}
+            </div>
+            <div class="flex space-around buttons">
+              <button class="button light" {{action 'approveOrganisationsUser'}}>
+                {{t 'order_contact_summary.approve'}}
+              </button>
+              <button class="button light" {{action 'denyOrganisationsUser'}}>
+                {{t 'order_contact_summary.deny'}}
+              </button>
+            </div>
+          </div>
+        {{/if}}
+
+
         {{#if model.isEditAllowed}}
           <div class="row">
             <div class="small-4 columns">
@@ -83,7 +101,7 @@
           <div class="small-8 columns organisation_name">
             {{apply-line-break (if model.isGoodCityOrder model.gcOrganisation.nameEn model.organisation.name)}}
           </div>
-        </div>
+        </div>        
 
         <div class="row">
           <div class="small-4 columns">
@@ -97,6 +115,21 @@
             {{/if}}
           </div>
         </div>
+
+        {{#if organisationsUser}}
+          <div class="row">
+            <div class="small-4 columns">
+              {{t "order_contact_summary.approval_status"}}
+            </div>
+            <div id="contact_name" class="small-8 columns important {{unless organisationsUser.isActive 'warn'}}">
+              {{#if organisationsUser.status}}
+                {{t (concat "order_contact_summary.status_" organisationsUser.status)}}
+              {{else}}
+                  N/A
+              {{/if}}
+            </div>
+          </div>
+        {{/if}}
 
         <div class="row">
           <div class="small-4 columns">

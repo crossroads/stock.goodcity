@@ -1,15 +1,8 @@
-.new-user-nav {
-  margin-bottom: 0;
-
-  .tab-bar-section {
-    @media #{$large-only} {
-      position: relative;
-    }
-  }
+.add-user-form.new-user-section {
+  padding: 0 0.5rem;
 }
 
 .new-user-section {
-
   .input-error {
     background: #f46769;
     color: white;
@@ -18,6 +11,11 @@
 
     @media #{$small-only} {
       font-size: 0.65rem;
+      margin-left: unset;
+    }
+
+    @media #{$medium-only} {
+      margin-left: unset;
     }
   }
 

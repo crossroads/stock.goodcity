@@ -74,6 +74,11 @@
         <feature name="StatusBar">
             <param name="ios-package" onload="true" value="CDVStatusBar" />
         </feature>
+        <feature name="CDVWKWebViewEngine">
+          <param name="ios-package" value="CDVWKWebViewEngine" />
+        </feature>
+        <preference name="CordovaWebViewEngine" value="CDVWKWebViewEngine" />
+        <preference name="WKWebViewOnly" value="true" />
         <preference name="Orientation" value="portrait" />
         <preference name="Fullscreen" value="true" />
         <preference default=" " name="CAMERA_USAGE_DESCRIPTION" />
@@ -116,4 +121,5 @@
     <plugin name="scandit-cordova-datacapture-core" spec="^6.4.0" />
     <plugin name="scandit-cordova-datacapture-barcode" spec="^6.4.0" />
     <plugin name="cordova-plugin-androidx-adapter" spec="^1.1.1" />
+    <plugin name="cordova-plugin-wkwebview-engine" spec="^1.2.1" />
 </widget>
