@@ -47,14 +47,14 @@ module("Acceptance: Order summary", {
       identity_type: identity_type
     });
     organisation_user = FactoryGuy.make("organisationsUser", {
-      gcOrganisation: organisation,
+      organisation,
       user: user
     });
     designation = FactoryGuy.make("designation", {
       state: "submitted",
       detailType: "GoodCity",
       beneficiary: beneficiary,
-      gcOrganisation: organisation,
+      organisation,
       createdBy: user
     });
     item1 = FactoryGuy.make("item", {

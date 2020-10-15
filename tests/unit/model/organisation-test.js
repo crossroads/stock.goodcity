@@ -6,7 +6,7 @@ import Ember from "ember";
 
 var App;
 
-moduleForModel("organisation", "GcOrganisation model", {
+moduleForModel("organisation", "organisation model", {
   needs: ["model:organisations_user", "model:designation"],
 
   beforeEach: function() {

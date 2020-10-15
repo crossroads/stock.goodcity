@@ -4,7 +4,7 @@ import SearchMixin from "stock/mixins/search_resource";
 import OrganisationMixin from "stock/mixins/organisation";
 
 export default Ember.Controller.extend(SearchMixin, OrganisationMixin, {
-  gcOrganisationUsers: null,
+  organisationUsers: null,
   organisationService: Ember.inject.service(),
 
   actions: {

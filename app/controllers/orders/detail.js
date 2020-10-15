@@ -125,7 +125,7 @@ export default GoodcityController.extend(AsyncMixin, SearchMixin, {
     "model.{createdBy,isGoodCityOrder}",
     "model.createdBy.organisationsUsers.@each.{status,organisationId}",
     "model.createdBy.organisationsUsers.[]",
-    "model.{gcOrganisation,isGoodCityOrder}",
+    "model.{organisation,isGoodCityOrder}",
     function() {
       if (!this.get("model.isGoodCityOrder")) {
         return null;
@@ -138,7 +138,7 @@ export default GoodcityController.extend(AsyncMixin, SearchMixin, {
 
       return organisationsUsers.findBy(
         "organisationId",
-        this.get("model.gcOrganisationId")
+        this.get("model.organisationId")
       );
     }
   ),

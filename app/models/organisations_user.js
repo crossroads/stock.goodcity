@@ -14,7 +14,7 @@ export default Model.extend({
   isPendingApproval: Ember.computed.equal("status", "pending"),
   isActive: Ember.computed.or("isApproved", "isPendingApproval"),
 
-  gcOrganisation: belongsTo("gcOrganisation", {
+  organisation: belongsTo("organisation", {
     async: false
   }),
   organisation: belongsTo("organisation", {

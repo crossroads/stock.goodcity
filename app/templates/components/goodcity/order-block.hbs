@@ -54,13 +54,13 @@
       </div>
       {{/if}}
 
-      {{#if (is-or order.gcOrganisationId or order.organisationId)}}
+      {{#if order.organisationId}}
       <div class="row">
         <div class="small-6 columns field">
           {{ t "organisation_title" }}
         </div>
         <div class="small-6 columns value">
-          {{ if order.isGoodCityOrder order.gcOrganisation.nameEn order.organisation.name }}
+          {{ if order.isGoodCityOrder order.organisation.nameEn }}
         </div>
       </div>
       {{/if}}

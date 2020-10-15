@@ -23,10 +23,10 @@ export default AuthorizeRoute.extend({
 
   // set organisation users
   async setOrganisationUsers(model) {
-    let gcOrganisationUsers = this.store
+    let organisationUsers = this.store
       .peekAll("organisationsUser")
       .filterBy("organisationId", parseInt(model.id));
-    this.controller.set("gcOrganisationUsers", gcOrganisationUsers);
+    this.controller.set("organisationUsers", organisationUsers);
   },
 
   // fetch all organisation type if required

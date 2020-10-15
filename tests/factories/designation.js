@@ -20,7 +20,7 @@ FactoryGuy.define("designation", {
     createdAt: "12/07/2016",
     updatedAt: "12/07/2016",
     purposeDescription: "Test",
-    gcOrganisationId: "",
+    organisationId: "",
     organisation: FactoryGuy.belongsTo("organisation"),
     submittedBy: FactoryGuy.belongsTo("user"),
     beneficiary: FactoryGuy.belongsTo("beneficiary"),
