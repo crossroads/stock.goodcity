@@ -60,19 +60,13 @@ export default AuthorizeRoute.extend({
 
   initializeOrganisation(controller, model) {
     if (this.get("organisation_id")) {
-      // const data =
-      //   model.get("organisation") ||
-      //   this.store.peekRecord("gc_organisation", this.get("organisation_id"));
-      controller.set("organisation", model.get("organisation"));
+      const data =
+        model.get("organisation") ||
+        this.store.peekRecord("organisation", this.get("organisation_id"));
+      controller.set("organisation", data);
 
-      const orgData =
-        this.store.peekRecord("organisation", data.get("id")) ||
-        this.store.createRecord("organisation", {
-          nameEn: data.get("nameEn"),
-          id: data.get("id")
-        });
       if (!model.get("organisation.id")) {
-        model.set("organisation", orgData);
+        model.set("organisation", data);
       }
     }
   },
