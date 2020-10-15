@@ -234,9 +234,12 @@
   }
 
   i {
-    position: inherit;
     color: inherit;
-    vertical-align: middle;
+
+    &.back_icon {
+      position: inherit;
+      vertical-align: middle;
+    }
   }
 
   .back_text {
