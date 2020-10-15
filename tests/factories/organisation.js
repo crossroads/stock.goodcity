@@ -1,8 +1,15 @@
-import FactoryGuy from 'ember-data-factory-guy';
+import FactoryGuy from "ember-data-factory-guy";
 
-FactoryGuy.define('organisation',{
+FactoryGuy.define("organisation", {
+  sequences: {
+    id: function(num) {
+      return num;
+    }
+  },
   default: {
-    name:   FactoryGuy.generate('name')
+    id: FactoryGuy.generate("id"),
+    nameEn: "GoodCity",
+    organisationsUsers: FactoryGuy.hasMany("organisationsUser"),
+    designations: FactoryGuy.hasMany("designation")
   }
 });
-export default {};

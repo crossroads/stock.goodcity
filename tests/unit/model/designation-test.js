@@ -4,7 +4,7 @@ import Ember from "ember";
 moduleForModel("designation", "Designation model", {
   needs: [
     "model:order-transport",
-    "model:gc_organisation",
+    "model:organisation",
     "model:stockit_contact",
     "model:organisation",
     "model:local_order",

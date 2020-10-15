@@ -2,7 +2,7 @@ import AuthorizeRoute from "./authorize";
 
 export default AuthorizeRoute.extend({
   model(params) {
-    return this.loadIfAbsent("gc_organisation", params.organisation_id);
+    return this.loadIfAbsent("organisation", params.organisation_id);
   },
 
   async setupController(controller, model) {

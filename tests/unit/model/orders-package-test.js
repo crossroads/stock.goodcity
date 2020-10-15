@@ -4,7 +4,7 @@ import Ember from "ember";
 moduleForModel("orders_package", "OrdersPackage Model", {
   needs: [
     "model:order-transport",
-    "model:gc_organisation",
+    "model:organisation",
     "model:item",
     "model:image",
     "model:donor_condition",
