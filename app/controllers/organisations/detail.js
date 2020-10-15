@@ -65,7 +65,6 @@ export default Ember.Controller.extend(
               organisation
             );
 
-            // data = { ...data, gc_organisation: data.organisation };
             this.get("store").pushPayload(data);
           } catch (e) {
             this.get("model").rollbackAttributes();
