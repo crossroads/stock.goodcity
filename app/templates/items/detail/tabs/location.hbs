@@ -32,9 +32,12 @@
 
     {{#if readyToMove}}
       {{#message-box
-          btn1Text=(t "item.move") btn1Callback=(action "completeMove")
-          btn2Text=(t "cancel") btn2Callback=(action "cancelMove")
-          isVisible=true classNames="modal-overlay operation-confirmation move-confirmation"
+          btn1Text=(t "item.move")
+          btn1Callback=(action "completeMove")
+          btn2Text=(t "cancel")
+          btn2Callback=(action "cancelMove")
+          isVisible=true
+          classNames="modal-overlay operation-confirmation move-confirmation"
         }}
           <p>{{fa-icon 'people-carry'}} {{t 'select_location.moving_item_to' }} {{moveTo.name}}</p>
 
@@ -42,7 +45,15 @@
 
           <div>
             <p>
-              {{t 'select_location.quantity_input'}} {{input type="number" value=moveQty disabled=(unless editableQty true) class="qty-input"}}
+              {{t 'select_location.quantity_input'}}
+
+              {{numeric-input
+                name="moveQty"
+                value=moveQty
+                maxlength="5"
+                pattern="^[1-9][0-9]*$"
+                disabled=(unless editableQty true)
+                class="qty-input"}}
             </p>
           </div>
       {{/message-box}}
