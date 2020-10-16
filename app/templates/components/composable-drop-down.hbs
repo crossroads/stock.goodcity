@@ -1,4 +1,4 @@
-<div {{action "toggleDisplayItems"}} >
+<div {{action "toggleDisplayItems"}} {{on-click-outside (action "closeDropDown")}}>
   {{yield (hash dropDownHeader="blank-template")}}
 </div>
 <div class="{{if displayDropDownItems '' 'hidden'}}">
