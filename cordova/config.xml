@@ -78,6 +78,7 @@
         <preference name="Orientation" value="portrait" />
         <preference name="Fullscreen" value="true" />
         <preference default=" " name="CAMERA_USAGE_DESCRIPTION" />
+        <preference name="deployment-target" value="11.0" />
         <config-file parent="NSCameraUsageDescription" target="*-Info.plist">
             <string>To enable you to read inventory barcodes and photograph inventory items.</string>
         </config-file>
