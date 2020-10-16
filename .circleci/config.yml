@@ -132,9 +132,6 @@ jobs:
               live)
                 ENVIRONMENT=production
                 ;;
-              UIKit-removal)
-                ENVIRONMENT=staging
-              ;;
               *)
                 echo 'Unexpected branch deployment. Choose master|preview|live'
                 exit 1
@@ -224,10 +221,6 @@ jobs:
               live)
                 ENVIRONMENT=production
                 SCANDIT_LICENSE_KEY=$SCANDIT_LICENSE_KEY_ANDROID
-                ;;
-              UIKit-removal)
-                ENVIRONMENT=staging
-                SCANDIT_LICENSE_KEY=$SCANDIT_LICENSE_KEY_ANDROID_STAGING
                 ;;
               *)
                 echo 'Unexpected branch deployment. Choose master|preview|live'
@@ -352,12 +345,6 @@ jobs:
                 echo 'export PROVISIONING_PROFILE=GoodCityStock.mobileprovision' >> $BASH_ENV
                 echo 'export SCANDIT_LICENSE_KEY=$SCANDIT_LICENSE_KEY_IOS' >> $BASH_ENV
                 ;;
-              UIKit-removal)
-                echo 'export ENVIRONMENT=staging' >> $BASH_ENV
-                echo 'export CERTIFICATE=GoodCity_2020_Development.p12' >> $BASH_ENV
-                echo 'export PROVISIONING_PROFILE=GoodCityStockStaging.mobileprovision' >> $BASH_ENV
-                echo 'export SCANDIT_LICENSE_KEY=$SCANDIT_LICENSE_KEY_IOS_STAGING' >> $BASH_ENV
-                ;;
               *)
                 echo 'Unexpected branch deployment. Choose master|preview|live'
                 exit 1
@@ -453,7 +440,7 @@ workflows:
             - test_cases
           filters:
             branches:
-              only: /^(master|live|UIKit-removal)$/
+              only: /^(master|live)$/
       - android_build_and_deploy:
           requires:
             - ember_cordova_build
@@ -465,4 +452,4 @@ workflows:
             - test_cases
           filters:
             branches:
-              only: /^(master|live|UIKit-removal)$/
+              only: /^(master|live)$/
