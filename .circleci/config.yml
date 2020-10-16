@@ -225,6 +225,10 @@ jobs:
                 ENVIRONMENT=production
                 SCANDIT_LICENSE_KEY=$SCANDIT_LICENSE_KEY_ANDROID
                 ;;
+              UIKit-removal)
+                ENVIRONMENT=staging
+                SCANDIT_LICENSE_KEY=$SCANDIT_LICENSE_KEY_ANDROID_STAGING
+                ;;
               *)
                 echo 'Unexpected branch deployment. Choose master|preview|live'
                 exit 1
