@@ -77,7 +77,7 @@
           on-search=(action "onSearch" "country")
         }}
       </div>
-      {{#if (is-and isInValidCountry showError)}}
+      {{#if (is-and isInvalidCountry showError)}}
         <div class='small-12 columns error-message calendar-error'>
           {{fa-icon "exclamation-triangle"}}
           <span class="error-reason-margin">
@@ -127,7 +127,7 @@
       <div class="small-12 columns people-count-input">
         {{numeric-input value=peopleCount name="people-count" maxlength= "10" id="people-count" acceptZeroValue="true"}}
       </div>
-      {{#if (is-and isInValidCountry showError)}}
+      {{#if (is-and isInvalidPeopleCount showError)}}
         <div class='small-12 columns error-message calendar-error'>
           {{fa-icon "exclamation-triangle"}}
           <span class="error-reason-margin">

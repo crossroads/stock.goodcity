@@ -27,7 +27,7 @@ export default Ember.Controller.extend(
       );
     }),
 
-    isInValidCountry: Ember.computed.not("country"),
+    isInvalidCountry: Ember.computed.not("country"),
 
     isInvalidShipmentDate: Ember.computed.not("shipmentDate"),
 
