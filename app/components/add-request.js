@@ -12,8 +12,15 @@ export default Ember.Component.extend(AsyncMixin, {
   messageBox: Ember.inject.service(),
   i18n: Ember.inject.service(),
   request: null,
+  requestType: Ember.computed.alias("request.code"),
   num: null,
   order: null,
+
+  packageTypeName: Ember.computed("requestType", function() {
+    return this.get("requestType")
+      ? `${this.get("requestType.code")}-${this.get("requestType.name")}`
+      : "";
+  }),
 
   onInit: Ember.on("init", function() {
     if (this.get("isGCRequest")) {
