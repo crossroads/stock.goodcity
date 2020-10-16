@@ -1,7 +1,7 @@
 import Ember from "ember";
-const ObjectPromiseProxy = Ember.ObjectProxy.extend(Ember.PromiseProxyMixin);
+import ItemActionMixin from "stock/mixins/item_actions";
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(ItemActionMixin, {
   packageService: Ember.inject.service(),
   store: Ember.inject.service(),
 
@@ -9,27 +9,5 @@ export default Ember.Component.extend({
     return this.get("store").peekRecord("item", this.get("pkg.id"));
   }),
 
-  disableRemove: Ember.computed.alias("entity.isDispatched"),
-
-  fetchAddedQuantity: Ember.computed("pkg", function() {
-    let pkgId = this.get("pkg.id");
-    let entityId = this.get("entity.id");
-    let promise = this.get("packageService").fetchAddedQuantity(
-      entityId,
-      pkgId
-    );
-    return ObjectPromiseProxy.create({
-      promise
-    });
-  }),
-
-  addedQuantityCount: Ember.computed
-    .reads("fetchAddedQuantity.added_quantity")
-    .readOnly(),
-
-  actions: {
-    removeContainedPackage(pkg) {
-      this.get("onRemove")(pkg, this.get("addedQuantityCount"));
-    }
-  }
+  disableRemove: Ember.computed.alias("entity.isDispatched")
 });

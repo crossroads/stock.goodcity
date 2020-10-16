@@ -7,7 +7,6 @@ import SearchOptionMixin from "stock/mixins/search_option";
 import PackageDetailMixin from "stock/mixins/fetch_package_detail";
 import GradeMixin from "stock/mixins/grades_option";
 import MoveActions from "stock/mixins/move_actions";
-import DesignationActions from "stock/mixins/designation_actions";
 import StorageTypes from "stock/mixins/storage-type";
 import AsyncMixin, { ERROR_STRATEGIES } from "stock/mixins/async";
 import ItemActions from "stock/mixins/item_actions";
@@ -19,7 +18,6 @@ export default GoodcityController.extend(
   PackageDetailMixin,
   GradeMixin,
   MoveActions,
-  DesignationActions,
   StorageTypes,
   AsyncMixin,
   ItemActions,
@@ -37,7 +35,6 @@ export default GoodcityController.extend(
     queryParams: ["showDispatchOverlay"],
     showDispatchOverlay: false,
     autoDisplayOverlay: false,
-    associatedPackages: [],
     subformDetailService: Ember.inject.service(),
     application: Ember.inject.controller(),
     messageBox: Ember.inject.service(),
@@ -327,27 +324,6 @@ export default GoodcityController.extend(
       return this.get("packageService").allChildPackageTypes(this.get("item"));
     }),
 
-    /**
-     * Removes an item from a box/pallet
-     * @param { Item } pkg The package we wish to remove from the box/pallet
-     */
-    async selectLocationAndUnpackItem(item, location_id, quantity) {
-      const container = this.get("item");
-
-      if (!location_id || !item) {
-        return false;
-      }
-      await this.get("packageService").addRemoveItem(container.get("id"), {
-        item_id: item.id,
-        location_id: location_id,
-        task: "unpack",
-        quantity: quantity
-      });
-
-      await item.reload();
-      await this.send("fetchContainedPackages");
-    },
-
     async deleteAndAssignNew(packageType) {
       const item = this.get("item");
       const type = item.get("detailType");
@@ -397,7 +373,7 @@ export default GoodcityController.extend(
 
     async assignNew(type, { deleteDetailId = false } = {}) {
       const item = this.get("item");
-      const url = `/packages/${item.get("id")}`;
+
       const packageParams = {
         package_type_id: type.get("id")
       };
@@ -410,15 +386,13 @@ export default GoodcityController.extend(
       if (deleteDetailId) {
         packageParams.detail_id = null;
       }
-      await this.runTask(
-        this.get("packageService").updatePackage(
+      await this.runTask(async () => {
+        await this.get("packageService").updatePackage(
           item.id,
-          {
-            package: packageParams
-          },
+          { package: packageParams },
           { reloadDeps: true }
-        )
-      );
+        );
+      }, ERROR_STRATEGIES.MODAL);
     },
 
     isSamePackage(type) {
@@ -590,28 +564,28 @@ export default GoodcityController.extend(
       /**
        * Fetches all the assoicated packages to a box/pallet
        */
-      fetchContainedPackages() {
-        this.runTask(
-          this.get("packageService")
-            .fetchContainedPackages(this.get("item.id"))
-            .then(data => {
-              this.get("store").pushPayload(data);
-              this.set("associatedPackages", data.items);
-            })
-        );
+      fetchContainedPackages(page = 1) {
+        return this.get("packageService")
+          .fetchContainedPackages(this.get("item.id"), {
+            page: page,
+            per_page: 10
+          })
+          .then(data => {
+            this.get("store").pushPayload(data);
+            return data;
+          });
+      },
+
+      /**
+       * The callback to be invoked when an item is removed from
+       * box / pallet
+       */
+      reloadItemsInContainer() {
+        this.reloadResults();
       },
 
       async updatePackageType() {
         let pkgType;
-
-        if (
-          this.get("model.storageType.isBox") ||
-          this.get("model.storageType.isPallet")
-        ) {
-          if (this.get("associatedPackages.length") > 0) {
-            return this.modalAlert("box_pallet.cannot_change_type");
-          }
-        }
 
         if (this.get("model.isPartOfSet")) {
           pkgType = await this.get("packageTypeService").userPickPackageType({
@@ -633,17 +607,24 @@ export default GoodcityController.extend(
       },
 
       fetchParentContainers(pageNo = 1) {
-        return this.get("packageService").fetchParentContainers(
-          this.get("item.id"),
-          {
+        return this.get("packageService")
+          .fetchParentContainers(this.get("item.id"), {
             page: pageNo,
             per_page: 10
-          }
-        );
+          })
+          .then(data => {
+            return data;
+          });
       },
 
       openItemsSearch() {
         this.set("openPackageSearch", true);
+      },
+
+      async updateContainer(pkg, quantity) {
+        if (!quantity) return;
+
+        this.reloadResults();
       },
 
       setScannedSearchText(searchedText) {
@@ -673,15 +654,6 @@ export default GoodcityController.extend(
         item.set("valueHkDollar", Number(value));
         this.send("saveItem", item);
         this.set("prevValueHkDollar", value);
-      },
-
-      async removeContainedPackage(item, quantity) {
-        let selectedLocation = await this.get(
-          "locationService"
-        ).userPickLocation();
-        if (selectedLocation) {
-          this.selectLocationAndUnpackItem(item, selectedLocation.id, quantity);
-        }
       },
 
       openAddItemOverlay(item) {

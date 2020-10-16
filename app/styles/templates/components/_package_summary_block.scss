@@ -1,7 +1,71 @@
 .package-summary-block {
-
+  $quantity-background: #27436c;
   .no-events {
     pointer-events: none;
+  }
+
+  .quantity-location-wrapper {
+    display: flex;
+    justify-content: space-evenly;
+  }
+
+  .box-pallet-details {
+    width: 98%;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    border: 2px solid black;
+    font-size: 0.7rem;
+    height: 6.5rem;
+    @media #{$small-only} {
+      padding-left: 0.1rem;
+      padding-right: 0.1rem;
+    }
+
+    .box-pallet-notes-container {
+      display: flex;
+      justify-content: flex-start;
+      line-height: 3rem;
+      @media #{$small-only} {
+        margin-left: 0.2rem;
+      }
+    }
+
+    .box-pallet-quantity-container {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+
+      .qty-details-wrapper {
+        flex: 0.5;
+        font-size: 0.8rem;
+        background: $quantity-background;
+        padding-left: 10px;
+        display: flex;
+        justify-content: space-around;
+        font-size: 0.7rem;
+        @media #{$small-only} {
+          flex: 0.6;
+          margin-left: 0.2rem;
+        }
+      }
+      .remove {
+        border: 1px solid white;
+        flex: 0.2;
+        display: flex;
+        justify-content: space-around;
+
+        @media #{$small-only} {
+          margin-right: 0.2rem;
+          flex: 0.3;
+        }
+      }
+    }
+
+  }
+
+  .break {
+    flex-basis: 100%;
+    height: 0;
   }
 
   .row {

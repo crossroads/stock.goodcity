@@ -360,6 +360,14 @@
   padding: 0.5rem;
 }
 
+.options-menu-title {
+  font-size: 120%;
+  text-decoration: underline;
+  @media #{$small-only} {
+    margin-top: 6%;
+  }
+}
+
 .options_menu_list {
   width: 12rem;
   margin-right: 1.2rem;
@@ -371,6 +379,23 @@
   @media #{$small-only} {
     width: 10.5rem;
     margin-left: -5rem;
+  }
+
+  &.option_margin {
+    margin-top: 3%;
+  }
+
+  .menu-option-text {
+    display: inline-block;
+    width: 50%;
+  }
+
+  .checkbox-container {
+    margin-left:10%;
+  }
+
+  input[type="checkbox"]{
+    zoom: 1.2;
   }
 
   /* box-shadow style */
@@ -663,6 +688,31 @@
         }
       }
 
+    }
+  }
+
+  .drop-down {
+    .columns {
+      input.search-orders {
+        padding: 5%;
+        border: 1px solid #93A2B7;
+        background: #002352;
+        width: 90%;
+        height: 30px;
+        color: white;
+        font-size: 115%;
+        display: inline-block;
+      }
+
+      &.cancel-search {
+        display: inline-block;
+      }
+    }
+
+    .checkbox {
+      position: relative;
+      left: 0px;
+      margin-left: 5%;
     }
   }
 
