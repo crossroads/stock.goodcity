@@ -1,5 +1,5 @@
 
-  <button {{action "toggleItemOptions"}} class="button options-arrow">
+  <button {{action "toggleItemOptions"}} class="button options-arrow" {{on-click-outside (action "closeItemOptions")}}>
     <div class="icon-holder">{{fa-icon 'caret-down' }}</div>
   </button>
 

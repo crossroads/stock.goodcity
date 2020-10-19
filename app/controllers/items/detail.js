@@ -759,6 +759,10 @@ export default GoodcityController.extend(
         this.toggleProperty("displayItemOptions");
       },
 
+      closeItemOptions() {
+        this.set("displayItemOptions", false);
+      },
+
       triggerItemAction(pkg, actionName) {
         this.toggleProperty("displayItemOptions");
         this.send("beginAction", pkg, actionName);
