@@ -33,11 +33,6 @@
                 </li>
               {{/if}}
             {{/each}}
-            {{#if (is-greater item.availableQuantity 1)}}
-              <li class="menu ">
-                {{quantity-chooser item=item toggleShowExtendedFooterMenu=(toggle this "showExtendedFooterMenu") }}
-              </li>
-            {{/if}}
           </ul>
         </div>
       </div>
@@ -56,7 +51,7 @@
         </div>
         <div class="small-6 columns">
           <ul>
-            <li class="menu" {{action (toggle this "showExtendedFooterMenu")}}>
+            <li class="menu">
               {{#goodcity/designate-link pkg=item}}
                 <i>{{fa-icon 'shopping-basket'}}</i> {{t "item.designate"}}
               {{/goodcity/designate-link}}

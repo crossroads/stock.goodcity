@@ -10,6 +10,7 @@ export default Model.extend({
   designationId: attr("number"),
   quantity: attr("number"),
   dispatchedQuantity: attr("number"),
+  shippingNumber: attr("number"),
   sentOn: attr("date"),
   state: attr("string"),
   allowedActions: attr(),

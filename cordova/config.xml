@@ -74,14 +74,11 @@
         <feature name="StatusBar">
             <param name="ios-package" onload="true" value="CDVStatusBar" />
         </feature>
-        <feature name="CDVWKWebViewEngine">
-          <param name="ios-package" value="CDVWKWebViewEngine" />
-        </feature>
-        <preference name="CordovaWebViewEngine" value="CDVWKWebViewEngine" />
         <preference name="WKWebViewOnly" value="true" />
         <preference name="Orientation" value="portrait" />
         <preference name="Fullscreen" value="true" />
         <preference default=" " name="CAMERA_USAGE_DESCRIPTION" />
+        <preference name="deployment-target" value="11.0" />
         <config-file parent="NSCameraUsageDescription" target="*-Info.plist">
             <string>To enable you to read inventory barcodes and photograph inventory items.</string>
         </config-file>
@@ -100,7 +97,7 @@
     </universal-links>
     <engine name="windows" spec="~4.3.1" />
     <engine name="android" spec="9.0.0" />
-    <engine name="ios" spec="~5.0.0" />
+    <engine name="ios" spec="6.1.1" />
     <plugin name="cordova-plugin-android-permissions" spec="https://github.com/NeoLSN/cordova-plugin-android-permissions" />
     <plugin name="cordova-plugin-statusbar" spec="~2.1.1" />
     <plugin name="cordova-plugin-actionsheet" spec="https://github.com/EddyVerbruggen/cordova-plugin-actionsheet.git" />
@@ -121,5 +118,4 @@
     <plugin name="scandit-cordova-datacapture-core" spec="^6.4.0" />
     <plugin name="scandit-cordova-datacapture-barcode" spec="^6.4.0" />
     <plugin name="cordova-plugin-androidx-adapter" spec="^1.1.1" />
-    <plugin name="cordova-plugin-wkwebview-engine" spec="^1.2.1" />
 </widget>

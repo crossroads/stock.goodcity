@@ -59,18 +59,6 @@
   {{/unless}}
 
   {{#unless readOnly}}
-    {{#if showQuantityInput}}
-      {{goodcity/designate-form
-        quantity=designationQty
-        editableQty=editableQty
-        confirmAction=completeQtyInput
-        cancelAction=cancelQtyInput
-        order=designationTargetOrder
-        pkg=designationTargetPackage
-        maxQuantity=maxQuantity
-      }}
-    {{/if}}
-
     {{goodcity/dispatch-form
       open=readyToDispatch
       orderPkg=dispatchOrdersPackage

@@ -68,6 +68,7 @@ export default AuthorizeRoute.extend({
     controller.set("backLinkPath", this.get("itemBackLinkPath"));
     controller.set("active", true);
     controller.set("showExtendedFooterMenu", false);
+    controller.set("displayResults", true);
 
     const defaultValue = await this.get("packageService").getItemValuation({
       donorConditionId: model.get("donorCondition.id"),
@@ -77,9 +78,6 @@ export default AuthorizeRoute.extend({
 
     controller.set("defaultValueHkDollar", +defaultValue.value_hk_dollar);
 
-    if (["Box", "Pallet"].indexOf(model.get("storageTypeName")) >= 0) {
-      controller.send("fetchContainedPackages");
-    }
     let detailType = model.get("detailType");
     if (detailType) {
       let details = await this.store.query(_.snakeCase(detailType), {

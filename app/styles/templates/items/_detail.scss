@@ -1,5 +1,6 @@
 @import "./detail/location_tab";
 @import "./detail/publishing_tab";
+@import "./detail/item_actions_overlay";
 
 .item_details_screen {
   .hidden {
@@ -525,6 +526,7 @@
               justify-content: end;
               li {
                 width: 25%;
+                padding-bottom: 1rem;
               }
             }
 

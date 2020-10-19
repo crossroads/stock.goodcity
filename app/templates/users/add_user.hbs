@@ -43,7 +43,6 @@
       on-change=(action (mut selectedTitle))
       selectedValue=selectedTitle
       value= selectedTitle
-      selectArrow=true
       idNames='title' }}
     </div>
   </div>
@@ -110,13 +109,12 @@
       {{t 'users.district'}}
     </div>
     <div class="small-7 columns field-container ">
-       {{select-list
-        content= districts
-        on-change=(action (mut selectedDistrict))
-        selectedValue=selectedDistrict
-        value=selectedDistrict
-        prompt="-"
-        selectArrow=true }}
+      {{select-list
+      content= districts
+      on-change=(action (mut selectedDistrict))
+      selectedValue=selectedDistrict
+      value=selectedDistrict
+      prompt="-"}}
     </div>
   </div>
 
@@ -130,8 +128,8 @@
       on-change=(action (mut selectedLanguage))
       selectedValue=selectedLanguage
       value= selectedLanguage
-      prompt="Unknown"
-      selectArrow=true}}
+      prompt=(t "users.languages.unknown")
+      }}
     </div>
   </div>
 

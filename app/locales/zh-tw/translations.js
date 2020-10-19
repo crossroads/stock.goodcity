@@ -48,7 +48,7 @@ export default {
   create_new_box: "++Multi-Item Box",
   create_new_pallet: "+Multi-Item Pallet",
   manage_inventory: "Quotas",
-  manage_users: "Manage Users",
+  manage_users: "管理用戶",
   search_user: "Search User",
   new_international_order: "+International",
   new_hk_order: "+HK Order",
@@ -127,8 +127,11 @@ export default {
     remove: "移除",
     content: "内容",
     details: "詳情",
+    bad_item: "Bad item",
     invalid_quantity: "已增加的份量不可多於每個位置的可用的份量",
-    type_to_search: "输入搜索要添加的项目。"
+    type_to_search: "输入搜索要添加的项目。",
+    cannot_change_type:
+      "Cannot change type of a box with items. Please remove the items and try again"
   },
   messages: {
     you: "您",
@@ -382,6 +385,11 @@ export default {
         self: "私人車輛",
         ggv: "需要聘用車輛"
       }
+    },
+    orders_packages: {
+      sort_by: "Sort by",
+      search: "Search Items",
+      state_filters: "State Filters"
     }
   },
   order_transports: {
@@ -682,11 +690,11 @@ export default {
       position_in_organisation: "機構內的職稱",
       validation_error: {
         email: "請輸入有效的電郵地址",
-        blank_email: "Email cannot be blank",
+        blank_email: "電郵地址不能留空",
         mobile: "手提電話號碼必須為8個數字",
-        blank_mobile_number: "Mobile Number cannot be blank",
-        first_name: "First name can't be blank",
-        family_name: "Family name can't be blank",
+        blank_mobile_number: "手機號碼不能留空",
+        first_name: "名字不能留空",
+        family_name: "姓氏不能留空",
         position: "Position can't be blank.",
         preferred_contact_number: "聯絡號碼需要為8位數字"
       }
@@ -715,7 +723,8 @@ export default {
     offer_select_warning: "Do you want to assign this offer?"
   },
   search_order: {
-    recent: "Recently used designations"
+    recent: "Recently used designations",
+    recent_orders: "Your recently used orders."
   },
   select_location: {
     back: "Back",
@@ -782,6 +791,7 @@ export default {
     comment: "Comments",
     pieces: "Pieces",
     condition: "Condition :",
+    quantity_inside: "內含數量 :",
     validation_errors: {
       description: "Description cannot be blank."
     },
@@ -927,15 +937,6 @@ export default {
     total_to_dispatch: "Total to dispatch (must = {{qty}})",
     dispatch: "Dispatch"
   },
-  partial_move: {
-    location: "{{inventoryNumber}}: Location",
-    location_length: " Locations: {{locationLength}}",
-    total_on_hand: "Total on Hand:",
-    qty: "Qty:",
-    move: "Move",
-    total_to_move: "Total to move",
-    proceed_to_choose_destination: "Proceed to choose destination"
-  },
   print_label: {
     sent: "Sent to printer"
   },
@@ -950,48 +951,58 @@ export default {
       "You are about to unpublish this package.Clients will no longer be able to view or request it online."
   },
   designate_form: {
-    warning_text:
-      "增加{{state}}的數量到{{totalQty}} 對於{{designationCode}}! ({{qty}} 原本{{pkgState}}-物件{{inventory number}})",
-    warning_text_without_link:
-      "增加{{state}}的數量到{{totalQty}} 對於{{orderCode}}! ({{qty}} 原本{{designatedState}})",
-    designate_to: "Designate this package to:",
-    designate_entire: " 指定全數",
-    designate_part: "指定部份",
-    quantity_input: "Quantity to designate",
-    already_fully_designated: "The remaining quantity is already designated.",
-    already_fully_designated_to:
-      "The remaining quantity is designated to {{orderCode}}.",
-    confirm_undesignation: "Are you sure you wish to undesignate ?",
-    click_to_undesignate: "Click here to undesignate"
+    designate: "Designate",
+    item: "Item",
+    to_order: "To Order",
+    select_order: "Select Order",
+    quantity: "Quantity",
+    max: "Max",
+    help_text: "Help",
+    shipping: "Shipping",
+
+    help: {
+      available: "Available",
+      make_available: "To make more of this item available...",
+      boxed_message:
+        "{{boxedQuantity}} are boxed & {{palletizedQuantity}} are palletized",
+      remove_from_box: "Remove to designate separately.",
+      designate_box_pallet: "Or, designate whole box/pallet.",
+      designated_message:
+        "{{designatedQuantity}} designated & {{dispatchedQuantity}} dispatched",
+      modify_order: "Modify or cancel other orders.",
+      wrong_quantity: "Is the item quantity wrong?",
+      increase_by_gain: "Increase it using gain feature",
+      gain: "Gain"
+    }
   },
   users: {
-    cancel_user_warning:
-      "You will lose all your data. Are you sure you want to cancel this User?",
-    image: "Image",
-    title: "Title",
-    add_image: "Add Image",
-    edit_image: "Edit Image",
-    delete_image: "Delete Image",
+    cancel_user_warning: "你將會遺失所有資料。你確定要取消這用戶嗎?",
+    image: "圖片",
+    title: "職位",
+    add_image: "添加圖片",
+    edit_image: "修改圖片",
+    delete_image: "刪除圖片",
     disabled: "Disabled",
     roles: "Roles",
     organisation: "機構",
-    create_new_user: "Add new user",
+    create_new_user: "添加新用戶",
     first_name: "名",
     last_name: "姓",
     mobile: "手提電話號碼",
     email: "電郵",
-    district: "District",
-    preferred_language: "Preferred Language",
+    district: "地區",
+    preferred_language: "偏好語言",
     languages: {
-      english: "English",
-      chinese: "Chinese"
+      unknown: "未知",
+      english: "英文",
+      chinese: "中文"
     },
     registered_on: "Registered on",
     last_connected_on: "Last connected on",
 
     details: {
       last_on_goodcity: "Last on GoodCity",
-      contact_details: "Contact Details",
+      contact_details: "聯絡資料",
       staff_roles: "Staff / Volunteer Roles",
       stock_app: "Stock App",
       admin_app: "Admin App",
@@ -1011,9 +1022,8 @@ export default {
     },
 
     contact_details: {
-      title: "Contact Details",
-      unauthorised_error:
-        "Sorry, you are not authorised to edit details for this user."
+      title: "聯絡資料",
+      unauthorised_error: "抱歉，你未獲授權更改此用戶資料."
     },
 
     charity_position: {

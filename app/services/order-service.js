@@ -31,5 +31,25 @@ export default ApiBaseService.extend({
 
   cancelOrder(order, reason) {
     return this.changeOrderState(order, "cancel", reason);
+  },
+
+  /**
+   * Deletes the beneficiary of an order (if it exists)
+   *
+   * @param {Order} order
+   * @returns {Order}
+   */
+  async deleteBeneficiaryOf(order) {
+    if (!order.get("beneficiaryId")) {
+      return order;
+    }
+
+    await this.DELETE(`/beneficiaries/${order.get("beneficiaryId")}`);
+
+    order.get("beneficiary").unloadRecord();
+    order.set("beneficiary", null);
+    order.set("beneficiaryId", null);
+
+    return order;
   }
 });

@@ -30,7 +30,7 @@
       {{#if displayResults}}
         {{#infinite-list height="85vh" loadMore=(action "loadMoreItems") as |items| }}
           {{#each items as |item|}}
-            {{#goodcity/designate-link order=model pkg=item}}
+            {{#goodcity/designate-link order=model pkg=item allowItemChange=true}}
               {{package-summary-block model=item disableLink=true}}
             {{/goodcity/designate-link}}
           {{/each}}

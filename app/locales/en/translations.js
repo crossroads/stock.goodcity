@@ -39,6 +39,7 @@ export default {
   new_order_menu: "Create New Order",
   search_organisation: "Search Organisation",
   not_now: "Not Now",
+  close: "Close",
   incomplete_form: "Please fill in the required fields to continue",
   continue: "Continue",
   show: "Show",
@@ -129,9 +130,12 @@ export default {
     remove: "Remove",
     content: "content",
     details: "details",
+    bad_item: "Bad item",
     invalid_quantity:
       "Added quantity cannot be greater than the available quantity for each location.",
-    type_to_search: "Type in to search items to add."
+    type_to_search: "Type in to search items to add.",
+    cannot_change_type:
+      "Cannot change type of a box with items. Please remove the items and try again"
   },
   messages: {
     you: "You",
@@ -401,6 +405,11 @@ export default {
         self: "Private vehicle",
         ggv: "Needs hired vehicle"
       }
+    },
+    orders_packages: {
+      sort_by: "Sort by",
+      search: "Search Items",
+      state_filters: "State Filters"
     }
   },
   order_transports: {
@@ -710,12 +719,12 @@ export default {
       position_in_organisation: "Position within organisation",
       validation_error: {
         email: "Email should be valid.",
-        blank_email: "Email cannot be blank",
-        first_name: "First name can't be blank",
-        family_name: "Family name can't be blank",
+        blank_email: "Email cannot be blank.",
+        first_name: "First name can't be blank.",
+        family_name: "Family name can't be blank.",
         position: "Position can't be blank.",
         mobile: "Mobile Number should be 8 digits.",
-        blank_mobile_number: "Mobile Number cannot be blank",
+        blank_mobile_number: "Mobile Number cannot be blank.",
         preferred_contact_number: "Preferred Contact Number should be 8 digits."
       }
     }
@@ -744,7 +753,8 @@ export default {
     offer_select_warning: "Do you want to assign this offer?"
   },
   search_order: {
-    recent: "Recently used designations"
+    recent: "Recently used designations",
+    recent_orders: "Your recently used orders."
   },
   select_location: {
     back: "Back",
@@ -811,6 +821,7 @@ export default {
     comment: "Comments",
     pieces: "Pieces",
     condition: "Condition :",
+    quantity_inside: "Quantity inside :",
     validation_errors: {
       description: "Description cannot be blank."
     },
@@ -956,10 +967,6 @@ export default {
     total_to_dispatch: "Total to dispatch (must = {{qty}})",
     dispatch: "Dispatch"
   },
-  partial_move: {
-    location: "{{inventoryNumber}}: Location",
-    location_length: " Locations: {{locationLength}}"
-  },
   print_label: {
     sent: "Sent to printer"
   },
@@ -974,19 +981,29 @@ export default {
       "You are about to unpublish this package.Clients will no longer be able to view or request it online."
   },
   designate_form: {
-    warning_text:
-      "Increases {{state}} quantity to {{totalQty}} for {{designationCode}}! ({{qty}} previously {{pkgState}} - item {{inventoryNumber}})",
-    warning_text_without_link:
-      "Increases {{state}} quantity to {{totalQty}} for {{orderCode}}! ({{qty}} previously {{designatedState}})",
-    designate_to: "Designate this package to:",
-    designate_entire: "Designates entire quantity.",
-    designate_part: "Designates only part of set.",
-    quantity_input: "Quantity to designate",
-    already_fully_designated: "The remaining quantity is already designated.",
-    already_fully_designated_to:
-      "The remaining quantity is designated to {{orderCode}}.",
-    confirm_undesignation: "Are you sure you wish to undesignate ?",
-    click_to_undesignate: "Click here to undesignate"
+    designate: "Designate",
+    item: "Item",
+    to_order: "To Order",
+    select_order: "Select Order",
+    quantity: "Quantity",
+    max: "Max",
+    help_text: "Help",
+    shipping: "Shipping",
+
+    help: {
+      available: "Available",
+      make_available: "To make more of this item available...",
+      boxed_message:
+        "{{boxedQuantity}} are boxed & {{palletizedQuantity}} are palletized",
+      remove_from_box: "Remove to designate separately.",
+      designate_box_pallet: "Or, designate whole box/pallet.",
+      designated_message:
+        "{{designatedQuantity}} designated & {{dispatchedQuantity}} dispatched",
+      modify_order: "Modify or cancel other orders.",
+      wrong_quantity: "Is the item quantity wrong?",
+      increase_by_gain: "Increase it using gain feature",
+      gain: "Gain"
+    }
   },
   users: {
     cancel_user_warning:
@@ -1007,6 +1024,7 @@ export default {
     district: "District",
     preferred_language: "Preferred Language",
     languages: {
+      unknown: "Unknown",
       english: "English",
       chinese: "Chinese"
     },
