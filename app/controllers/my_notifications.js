@@ -78,20 +78,19 @@ export default Ember.Controller.extend({
    * @returns
    */
   messagesToNotification(messages) {
-    const props = [
-      "id",
-      "itemId",
-      "designationId",
-      "sender",
-      "createdAt",
-      "isPrivate"
-    ];
+    const props = ["id", "itemId", "sender", "createdAt", "isPrivate"];
     const lastMessage = messages.sortBy("id").get("lastObject");
     let itemId = lastMessage.get("itemId");
     const item =
       itemId &&
       (this.get("store").peekRecord("item", itemId) ||
         this.get("store").findRecord("item", itemId));
+
+    let designationId = messages.get("firstObject.designationId");
+    const designation =
+      designationId &&
+      (this.get("store").peekRecord("designation", designationId) ||
+        this.get("store").findRecord("designation", designationId));
 
     let notification = Ember.Object.create(lastMessage.getProperties(props));
     notification.setProperties({
@@ -100,7 +99,7 @@ export default Ember.Controller.extend({
       messages: messages,
       isSingleMessage: computed.equal("unreadCount", 1),
       isThread: computed.not("isSingleMessage"),
-      designationId: computed.alias("messages.firstObject.designationId"),
+      designation: designation,
       text: computed("messages.[]", function() {
         return this.get("messages")
           .sortBy("id")
