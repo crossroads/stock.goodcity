@@ -1,33 +1,32 @@
 <section class="new-user-section request-section">
   <div class="row request-block">
-    {{#form-control}}
-        <div class="small-12 columns add-request" >
-          <div class="small-7 columns" {{action "assingPackageType" request.id}}>
-            <label> {{t 'order.goods_details.type_label'}} </label>
-            <div class="select-goods" {{action "assingPackageType" request.id}}>
-              {{#if request.code}}
-                {{display-package-code  item=request.code}}
-              {{/if}}
-            </div>
-          </div>
-          <div class="small-3 columns">
-            <label> {{t 'order.goods_details.quantity_label'}} </label>
-            {{numeric-input type="number" id=(concat 'quantity' request.id) name="qty" value=request.quantity maxlength="8" required='true' pattern="\d{1,8}" classNames="add-quantity"}}
-          </div>
-          <div class='small-2 columns icon-center remove-request remove-request-click'>
-            <span class="cancel-icon" {{action "removeRequest" request.id on="click"}}>
-              {{fa-icon 'times-circle' size="lg"}}
-            </span>
-          </div>
-          <div class="small-10 columns input-error warning_empty">
-            <div class='input-error'>{{fa-icon "exclamation-triangle"}}
-              <span class="error-reason-margin">{{t "add_request.error"}}</span>
-            </div>
-          </div>
-          <div class='small-2 columns'></div>
-        </div>
-    {{/form-control}}
+    <div class="small-12 columns add-request" >
+      <div class="small-7 columns" {{action "assingPackageType" request.id}}>
+        <label> {{t 'order.goods_details.type_label'}} </label>
+        {{input type="text" value=packageTypeName name="packageTypeDescription" pattern=".*\S.*"    classNames="select-goods" required="true"}}
+      </div>
+      <div class="small-3 columns">
+        <label> {{t 'order.goods_details.quantity_label'}} </label>
+        {{numeric-input type="number" id=(concat 'quantity' request.id) name="qty" value=request.quantity maxlength="8" required='true' pattern="\d{1,8}" classNames="add-quantity"}}
+      </div>
+      <div class='small-2 columns icon-center remove-request remove-request-click'>
+        <span class="cancel-icon" {{action "removeRequest" request.id on="click"}}>
+          {{fa-icon 'times-circle' size="lg"}}
+        </span>
+      </div>
+    </div>
   </div>
+
+  {{#if (is-not requestType)}}
+    <div class="row">
+      <div class="small-12 columns request_empty_error">
+        <div class='error'>{{fa-icon "exclamation-triangle"}}
+          <span class="error-reason-margin">{{t "add_request.error"}}</span>
+        </div>
+      </div>
+    </div>
+  {{/if}}
+
   <div class="row">
     <div class="small-12 columns">
       <div class="small-10 columns req-description" style="margin-top: 0rem;">
