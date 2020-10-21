@@ -32,7 +32,7 @@ export default Ember.Controller.extend(
     isInvalidShipmentDate: Ember.computed.not("shipmentDate"),
 
     formatOrderCode(type, code) {
-      return type == "CarryOut" ? `C${code}` : `S${code}`;
+      return type == INTERNATIONAL_ORDERS.CARRYOUT ? `C${code}` : `S${code}`;
     },
 
     orderParams() {

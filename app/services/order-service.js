@@ -19,6 +19,12 @@ export default ApiBaseService.extend({
     this.get("store").pushPayload(data);
   },
 
+  async updateShipmentOrCarryoutOrder(order, params) {
+    const data = await this.PUT(`/orders/${order.id}`, params);
+    this.get("store").pushPayload(data);
+    return data;
+  },
+
   changeOrderState(order, state, opts = {}) {
     return this.PUT(`/orders/${order.id}/transition`, {
       transition: state,

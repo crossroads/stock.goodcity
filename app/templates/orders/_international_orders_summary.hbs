@@ -1,0 +1,117 @@
+<section class="order-booking-tab">
+  <div class="row">
+    <div class="small-12 columns main_details international_order international-order-summary">
+      <div class="row">
+        <div class="small-4 columns">
+          {{t "order_contact_summary.shipment_number"}}
+        </div>
+        <div class="small-8 columns">
+          <div class="detail-code">
+            {{#if model.isCarryOutOrder}}
+              C
+            {{else}}
+              S
+            {{/if}}
+          </div>
+          <div class="code-input">
+            {{input type="text"
+              value=codeWithoutPrefix
+              id="code"
+              class="inline-edit-bg"
+              focusOut=(action "updateOrderCode")
+            }}
+          </div>
+          {{#if codeValidationError}}
+            <div class="inline-error">
+              {{fa-icon "exclamation-triangle"}}
+              <span class="error-reason-margin">
+                {{t 'order.international.errors.code_error'}}
+              </span>
+            </div>
+          {{/if}}
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="small-4 columns">
+          {{t "order_contact_summary.country"}}
+        </div>
+        <div class="small-8 columns country field">
+          {{searchable-select
+            id="country"
+            content=resultArray
+            value=order.countryName
+            sortBy="name"
+            optionLabelKey="nameEn"
+            on-change=(action "updateCountry")
+            selected=selectedCountry
+            on-search=(action "onSearch" "country")
+            isClearable=false
+            prompt=""
+          }}
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="small-4 columns">
+          {{t "order.international.shipment_date"}}
+        </div>
+        <div class="small-8 columns">
+          {{calendar-input
+            name='order_selection_date'
+            class="inline-edit-bg"
+            id='shipmentDate'
+            formatSubmit="dd mmmm yyyy"
+            onSelect=(action "updateShipmentDate")
+            enablePastDate=true
+            selection=model.shipmentDate
+          }}
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="small-4 columns">
+          {{t "order_contact_summary.people_helped"}}
+        </div>
+        <div class="small-8 columns field-container field">
+          {{numeric-input
+            value=model.peopleHelped
+            formnovalidate="true"
+            class="inline-edit-bg"
+            name="people-count"
+            id="people_helped"
+            maxlength="10"
+            pattern=".{1,}"
+            focusOut=(action "updatePeopleHelped")
+          }}
+          {{#if people_helpedValidationError}}
+            <div class="inline-error">
+              {{fa-icon "exclamation-triangle"}}
+              <span class="error-reason-margin">
+                {{t 'order.international.errors.empty_people_helped_error'}}
+              </span>
+            </div>
+          {{/if}}
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="small-4 columns">
+          {{t "order_contact_summary.description"}}
+        </div>
+        <div class="small-8 columns">
+          {{auto-resize-textarea data-autoresize=true name="description" value=model.description pattern=".*\S.*" id="description" class="inline-edit-bg"
+          focusOut=(action "updateInternationalOrderDetails")}}
+          {{#if descriptionValidationError}}
+            <div class="inline-error">
+              {{fa-icon "exclamation-triangle"}}
+              <span class="error-reason-margin">
+                {{t 'order.international.errors.description_error'}}
+              </span>
+            </div>
+          {{/if}}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

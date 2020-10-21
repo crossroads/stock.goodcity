@@ -546,8 +546,12 @@
       text-decoration: underline;
     }
 
+    .order-type{
+      float: left;
+    }
     .time-details {
-      display: inline;
+      text-align: right !important;
+      display: block;
 
       .cancel-reason {
         display: flex;

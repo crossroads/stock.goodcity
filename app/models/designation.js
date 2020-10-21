@@ -35,8 +35,8 @@ export default Model.extend({
   staffNote: attr("string"),
   cancelReason: attr("string"),
   countryName: attr("string"),
+  countryId: attr("number"),
   shipmentDate: attr("date"),
-
   cancellationReason: belongsTo("cancellation_reason", { async: false }),
   beneficiary: belongsTo("beneficiary", { async: false }),
   stockitContact: belongsTo("stockit_contact", { async: false }),
