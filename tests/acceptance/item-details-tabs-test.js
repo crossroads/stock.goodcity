@@ -49,6 +49,7 @@ module("Acceptance: Item details tabs", {
     let packagesLocation = FactoryGuy.make("packages_location", {
       location: location,
       item: pkg,
+      locationId: location.get("id"),
       packageId: pkg.get("id"),
       quantity: 1
     });
