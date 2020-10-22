@@ -47,13 +47,15 @@ export default Ember.Mixin.create(AsyncMixin, {
     }
 
     const pkg = ordPkg.get("item");
-    const maxQuantity = Math.min(
-      pkg.get("onHandQuantity"),
-      ordPkg.get("undispatchedQty")
-    );
+    const pkgLocation = pkg
+      .get("packagesLocations")
+      .find(k => +k.get("locationId") === +loc.id);
+    const maxQuantity = pkgLocation.get("quantity");
 
     this.set("dispatchableQuantity", maxQuantity);
-    if (!this.get("dispatchQty") || this.get("dispatchQty") > maxQuantity) {
+    this.set("dispatchQty", ordPkg.get("undispatchedQty"));
+
+    if (this.get("dispatchQty") > maxQuantity) {
       this.set("dispatchQty", maxQuantity);
     }
   },
@@ -87,6 +89,7 @@ export default Ember.Mixin.create(AsyncMixin, {
   ),
 
   onQuantitiesChange: Ember.observer(
+    "dispatchLocation",
     "dispatchOrdersPackage.undispatchedQty",
     "dispatchOrdersPackage.package.packagesLocations.@each.{quantity}",
     function() {
