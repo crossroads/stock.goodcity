@@ -2,6 +2,8 @@ import Ember from "ember";
 import searchModule from "./../search_module";
 import AjaxPromise from "stock/utils/ajax-promise";
 
+import { ORGANISATION_USER_STATUS } from "../../constants/states";
+
 export default searchModule.extend({
   filteredResults: "",
   queryParams: ["prevPath"],
@@ -25,7 +27,8 @@ export default searchModule.extend({
         startingPage: 1,
         perPage: 25,
         modelPath: "filteredResults",
-        role_name: "Charity"
+        organisation_status: `${(ORGANISATION_USER_STATUS.pending,
+        ORGANISATION_USER_STATUS.approved)}`
       },
       { searchText: "searchText" }
     )
