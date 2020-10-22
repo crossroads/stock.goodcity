@@ -10,9 +10,14 @@ export default Ember.Helper.extend({
     if (!modelId) {
       return "-";
     }
-    return this.get("store")
-      .peekRecord(modelName, modelId)
-      .getWithDefault(fieldName, "N/A");
+
+    let record = this.get("store").peekRecord(modelName, modelId);
+
+    if (record) {
+      return record.getWithDefault(fieldName, "N/A");
+    } else {
+      return "-";
+    }
   },
 
   getSaleable(value) {
