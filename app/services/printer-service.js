@@ -13,6 +13,11 @@ export default ApiBaseService.extend({
       .map(printer => printer.getProperties("name", "id"));
   },
 
+  printInventoryLabel(item, tag = "stock") {
+    const id = toID(item);
+    return this.GET(`/packages/${id}/print_inventory_label`, { tag });
+  },
+
   updateUserDefaultPrinter(printerId) {
     const defaultPrinterUser = this.__getStockPrintersUsers().get(
       "firstObject"

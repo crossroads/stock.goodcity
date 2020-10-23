@@ -460,7 +460,7 @@ export default GoodcityController.extend(
         .printBarcode({
           package_id: packageId,
           labels,
-          printer_id: this.get("selectedPrinterId")
+          tag: "stock"
         })
         .catch(error => {
           this.get("messageBox").alert(error.responseJSON.errors);

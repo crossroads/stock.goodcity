@@ -49,7 +49,7 @@
                           {{#if notification.item}}
                             {{notification.item.code.name}}
                           {{else}}
-                            {{t "my_notifications.heading" name=notification.designation.createdBy.fullName}}
+                            {{notification.designation.code}} - {{notification.designation.organisation.nameEn}}
                           {{/if}}
                         </div>
 

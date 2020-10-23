@@ -103,5 +103,9 @@ export default Ember.TextField.extend({
 
   click() {
     this.addCssStyle();
+  },
+
+  willDestroyElement() {
+    this.destroy();
   }
 });
