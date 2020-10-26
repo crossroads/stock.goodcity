@@ -3,7 +3,9 @@
     <div class="small-12 columns add-request" >
       <div class="small-7 columns" {{action "assingPackageType" request.id}}>
         <label> {{t 'order.goods_details.type_label'}} </label>
-        {{input type="text" value=packageTypeName name="packageTypeDescription" pattern=".*\S.*"    classNames="select-goods" required="true"}}
+        <div class="request-type">
+          {{input type="text" value=packageTypeName name="packageTypeDescription" pattern=".*\S.*" classNames="select-goods" required="true" tabindex="-1"}}
+        </div>
       </div>
       <div class="small-3 columns">
         <label> {{t 'order.goods_details.quantity_label'}} </label>
