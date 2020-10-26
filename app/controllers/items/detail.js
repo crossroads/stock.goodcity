@@ -433,16 +433,6 @@ export default GoodcityController.extend(
         this.send("calculateItemValuation");
       },
 
-      onRestrictionChange({ id }) {
-        this.runTask(
-          this.get("packageService").updatePackage(this.get("item.id"), {
-            package: {
-              restriction_id: id
-            }
-          })
-        );
-      },
-
       onConditionChange({ id, name }) {
         this.set("defaultCondition", { id, name });
         this.set("defaultValueHkDollar", null);
@@ -752,7 +742,6 @@ export default GoodcityController.extend(
         const saleable = _.filter(this.get("saleableOptions"), ["name", id])[0]
           .value;
         item.set("saleable", saleable);
-        this.send("saveItem", item);
       },
 
       toggleItemOptions() {
