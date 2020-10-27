@@ -64,11 +64,7 @@ export default Ember.Controller.extend(
               this.get("model.id"),
               organisation
             );
-            // TODO: Make use of single organisation model
-            // Once that is done remove the next line
-            // Reason: The response has organisation node, which manipulates the organisation model in ember
-            // But the model used in this controller is gc_organisation 🤦🏻‍♂️
-            data = { ...data, gc_organisation: data.organisation };
+
             this.get("store").pushPayload(data);
           } catch (e) {
             this.get("model").rollbackAttributes();

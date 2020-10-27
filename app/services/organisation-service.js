@@ -22,9 +22,9 @@ export default ApiBaseService.extend(NavigationAwareness, {
     const pagination = _.pick(opts, ["page", "per_page"]);
     const id = toID(order);
 
-    const data = await this.GET(`/gc_organisations/${id}/orders`, pagination);
+    const data = await this.GET(`/organisations/${id}/orders`, pagination);
     store.pushPayload(data);
-    return store.peekRecord("gc_organisation", id).get("designations");
+    return store.peekRecord("organisation", id).get("designations");
   },
 
   /**
@@ -45,10 +45,10 @@ export default ApiBaseService.extend(NavigationAwareness, {
   },
 
   create(params) {
-    return this.POST("/gc_organisations", { organisation: params });
+    return this.POST("/organisations", { organisation: params });
   },
 
   update(id, params) {
-    return this.PUT(`/gc_organisations/${id}`, { organisation: params });
+    return this.PUT(`/organisations/${id}`, { organisation: params });
   }
 });

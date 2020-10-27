@@ -7,7 +7,7 @@ import "../factories/designation";
 import "../factories/item";
 import "../factories/beneficiary";
 import "../factories/identity_type";
-import "../factories/gc_organisation";
+import "../factories/organisation";
 import "../factories/user";
 import "../factories/location";
 import "../factories/organisations_user";
@@ -19,7 +19,7 @@ var App,
   designation,
   item1,
   orders_package1,
-  gc_organisation,
+  organisation,
   beneficiary,
   identity_type,
   user,
@@ -40,21 +40,21 @@ module("Acceptance: Order summary", {
       email: "abc@xyz"
     });
     var location = FactoryGuy.make("location");
-    gc_organisation = FactoryGuy.make("gc_organisation");
+    organisation = FactoryGuy.make("organisation");
     bookingType = FactoryGuy.make("booking_type");
     identity_type = FactoryGuy.make("identity_type");
     beneficiary = FactoryGuy.make("beneficiary", {
       identity_type: identity_type
     });
     organisation_user = FactoryGuy.make("organisationsUser", {
-      gcOrganisation: gc_organisation,
+      organisation,
       user: user
     });
     designation = FactoryGuy.make("designation", {
       state: "submitted",
       detailType: "GoodCity",
       beneficiary: beneficiary,
-      gcOrganisation: gc_organisation,
+      organisation,
       createdBy: user
     });
     item1 = FactoryGuy.make("item", {
@@ -168,7 +168,7 @@ test("Order summary detail", function(assert) {
     $(".organisation_name")
       .text()
       .trim(),
-    gc_organisation.get("nameEn")
+    organisation.get("nameEn")
   );
   assert.equal(
     $("#contact_name")
