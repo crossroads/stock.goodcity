@@ -70,7 +70,9 @@ export default GoodcityController.extend(
       return this.returnDisplayFields(subform);
     }),
     offersLists: [],
-
+    hasInvalidDescription: Ember.computed("description", function() {
+      return !!!this.get("description");
+    }),
     isBoxOrPallet: Ember.computed("storageType", function() {
       return ["Box", "Pallet"].indexOf(this.get("storageType")) > -1;
     }),
@@ -146,18 +148,6 @@ export default GoodcityController.extend(
 
     conditions: Ember.computed(function() {
       return this.get("store").peekAll("donor_condition");
-    }),
-
-    description: Ember.computed("code", {
-      get() {
-        if (this.get("isBoxOrPallet")) {
-          return `${this.get("storageType")} of ${this.get("code.name")}`;
-        }
-        return this.get("code.name");
-      },
-      set(key, value) {
-        return value;
-      }
     }),
 
     fetchDetailAttributes() {
@@ -404,7 +394,8 @@ export default GoodcityController.extend(
         !this.get("isInvalidPrintCount") ||
         this.get("isInvalidaLabelCount") ||
         !this.get("isValidDimension") ||
-        this.get("isInvalidValuation")
+        this.get("isInvalidValuation") ||
+        this.get("hasInvalidDescription")
       );
     },
 
@@ -552,6 +543,15 @@ export default GoodcityController.extend(
           "location",
           await this.get("locationService").userPickLocation()
         );
+      },
+
+      addDefaultDescription() {
+        const description = this.get("code.descriptionEn");
+        this.set("description", description);
+      },
+
+      setDescriptionFocus(val) {
+        this.set("descriptionFocused", val);
       },
 
       /**

@@ -59,6 +59,10 @@ export default Ember.TextArea.extend({
   },
 
   focusOut() {
-    this.callAction(this.get("focusOutAction"));
+    setTimeout(() => this.callAction(this.get("onFocusOut")), 150);
+  },
+
+  focusIn() {
+    this.callAction(this.get("onFocusIn"));
   }
 });
