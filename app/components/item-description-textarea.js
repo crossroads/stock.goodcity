@@ -37,6 +37,7 @@ export default AutoResizableTextarea.extend({
   },
 
   focusOut() {
+    this.onFocusOut && setTimeout(() => this.onFocusOut(), 150);
     var item = this.get("item");
     var url = `/packages/${item.get("id")}`;
     var key = this.get("name");
@@ -71,10 +72,6 @@ export default AutoResizableTextarea.extend({
     Ember.$(this.element).removeClass("item-description-textarea-withbg");
   },
 
-  focusIn() {
-    this.addCssStyle();
-  },
-
   addCssStyle() {
     Ember.$(this.element).addClass("item-description-textarea-withbg");
     this.set("previousValue", this.get("value") || "");
@@ -82,5 +79,10 @@ export default AutoResizableTextarea.extend({
 
   click() {
     this.addCssStyle();
+  },
+
+  focusIn() {
+    this.addCssStyle();
+    this.get("onFocusIn") && this.get("onFocusIn")();
   }
 });

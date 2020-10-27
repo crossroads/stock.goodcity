@@ -3,23 +3,31 @@
     <div class="row">
       <div class="columns small-3">
         {{t "item_details.type"}}
-     </div>
-      <div class="columns small-9" >
+      </div>
+      <div class="columns small-9">
         <div class="item-type-withbg" {{action "updatePackageType"}}>
-          {{display-package-code  item=item.code}}
+          {{display-package-code item=item.code}}
         </div>
       </div>
     </div>
   </div>
-
   <div class="columns small-12">
+    <div class="row">
+      <div class="columns large-offset-3 medium-offset-3">
+        {{#if (is-and item.code.descriptionEn showDescriptionSuggestion)}}
+          <span class="description_suggestion" {{action 'addDefaultDescription'}}>
+            {{fa-icon 'lightbulb'}} &nbsp; {{item.code.descriptionEn}}
+          </span>
+        {{/if}}
+      </div>
+    </div>
     <div class="row">
       <div class="columns small-3">
         {{t 'item_details.description'}}
       </div>
       <div class="columns small-6 description">
         {{#form-control}}
-          {{item-description-textarea data-autoresize=true name="notes" value=item.notes  class="description-textarea-withbg" require="true" id=(concat 'desc' item.id) pattern=".*\S.*" item=item}}
+          {{item-description-textarea onFocusIn=(action 'setShowDescSuggestion' true) onFocusOut=(action 'setShowDescSuggestion' false) data-autoresize=true name="notes" value=item.notes  class="description-textarea-withbg" require="true" id=(concat 'desc' item.id) pattern=".*\S.*" item=item}}
           <div class='description-error'>
             {{t 'item_details.validation_errors.description'}}
           </div>
@@ -32,7 +40,6 @@
       </div>
     </div>
   </div>
-
   <div class="columns small-12">
     <div class="row">
       <div class="columns small-3">{{t 'item_details.quality'}} </div>
@@ -64,7 +71,6 @@
         </div>
       </div>
     </div>
-
     <div class="row">
       <div class="columns large-3 small-3">{{t 'items.value'}} </div>
       <div class="columns large-3 small-3 ">
@@ -87,7 +93,6 @@
         {{/if}}
       </div>
     </div>
-
     <div class="row">
       <div class="columns small-3 dimension">{{t "item_details.size"}}</div>
       <div class="columns small-3">
@@ -96,7 +101,7 @@
           {{numeric-inline-input name="length" class="numeric-input item-length item-type-withbg small-3" value=item.length maxlength="5"
           onSettingInput=(action 'updatePackage')
           }}
-       </div>
+        </div>
       </div>
       <div class="columns small-3">
         <div class="item-dimension-withbg">
@@ -105,17 +110,16 @@
           onSettingInput=(action 'updatePackage')
           }}
         </div>
-       </div>
+      </div>
       <div class="columns small-3">
         <div class="item-dimension-withbg">
           &nbsp;H :
           {{numeric-inline-input name="height" class="numeric-input item-height item-type-withbg small-3" value=item.height maxlength="5"
           onSettingInput=(action 'updatePackage')
           }}
-       </div>
+        </div>
       </div>
     </div>
-
     <div class="row weight-pieces">
       <div class="columns small-3">
         <span class='input_text'>
@@ -146,7 +150,6 @@
         </div>
       {{/if}}
     </div>
-
     {{#if item.code.allowExpiryDate}}
       <div class="row weight-pieces">
         <div class="columns small-3">
@@ -165,7 +168,6 @@
         <i {{action 'clearExpiryDate'}} class="expiry_date_cancel">{{fa-icon 'times-circle' size="1x"}}</i>
       </div>
     {{/if}}
-
     <div class="row weight-pieces">
       <div class="columns small-3">
         <span class='input_text'>Offers</span>
@@ -173,32 +175,31 @@
       <div class="columns small-9 offer-tags">
         <div{{action 'addOffer'}}>
           {{fa-icon 'plus-square' size='2x'}}
-        </div>
-        <span class="offer-tag-detail">
-          {{#if item.offer}}
-            {{offer-tag
+      </div>
+      <span class="offer-tag-detail">
+        {{#if item.offer}}
+          {{offer-tag
               class="offer-tag-withbg"
               isPackageOffer=false
               offer=item.offer
               removeOffer=(action "removeOffer")
             }}
-         {{/if}}
-          {{#each item.offersPackages as |offersPackage|}}
-            {{offer-tag
+        {{/if}}
+        {{#each item.offersPackages as |offersPackage|}}
+          {{offer-tag
               class="offer-tag-withbg"
               offer=offersPackage.offer
               removeOffer=(action "removeOffer")
             }}
-          {{/each}}
-        </span>
-      </div>
+        {{/each}}
+      </span>
     </div>
-
-    <div class="row  constraints-row">
-      <div class="columns small-3">{{t 'item_details.constraints'}}</div>
-      <div class="columns small-3 quality constraints">
-        <div class="select-quality">
-          {{inline-select-list
+  </div>
+  <div class="row  constraints-row">
+    <div class="columns small-3">{{t 'item_details.constraints'}}</div>
+    <div class="columns small-3 quality constraints">
+      <div class="select-quality">
+        {{inline-select-list
             content=saleableOptions
             name="saleableValue"
             autosave=true
@@ -206,11 +207,11 @@
             on-change=(action 'onSaleableChange')
             class="constraints-saleable"
             item=item}}
-        </div>
       </div>
-      <div class="columns small-6 quality constraints">
-        <div class="select-quality">
-          {{inline-select-list
+    </div>
+    <div class="columns small-6 quality constraints">
+      <div class="select-quality">
+        {{inline-select-list
             content=restrictionOptions
             name="restriction"
             item=item
@@ -218,28 +219,25 @@
             autosave=true
             on-change=(action 'onRestrictionChange')
           }}
-        </div>
       </div>
-    </div>
-
-    <div class="row detail-section">
-      <div class="columns small-12">
-        <div class="row">
-          <div class="columns small-3">{{t 'item_details.comment'}}</div>
-          <div class="columns small-9 value description">
-            {{item-description-textarea data-autoresize=true name="comment" value=item.comment pattern=".*\S.*" class="description-textarea-withbg" item=item maxlength=180}}
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="row">
-      {{donation-field item=item noCss="true" caseNumber=item.caseNumber}}
     </div>
   </div>
+  <div class="row detail-section">
+    <div class="columns small-12">
+      <div class="row">
+        <div class="columns small-3">{{t 'item_details.comment'}}</div>
+        <div class="columns small-9 value description">
+          {{item-description-textarea data-autoresize=true name="comment" value=item.comment pattern=".*\S.*" class="description-textarea-withbg" item=item maxlength=180}}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    {{donation-field item=item noCss="true" caseNumber=item.caseNumber}}
+  </div>
+</div>
 </div>
 <hr>
-
 {{#if showAdditionalFields}}
   <div class="row additional-selected-values">
     {{#each displayFields as |field|}}

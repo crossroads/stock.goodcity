@@ -411,6 +411,10 @@ export default GoodcityController.extend(
         );
       },
 
+      setShowDescSuggestion(val) {
+        this.set("showDescriptionSuggestion", val);
+      },
+
       /**
        * Add Offer to Package
        */
@@ -641,6 +645,12 @@ export default GoodcityController.extend(
         item.set("valueHkDollar", this.get("defaultValueHkDollar"));
         this.set("valueHkDollar", this.get("defaultValueHkDollar"));
         this.set("prevValueHkDollar", null);
+        this.send("saveItem", item);
+      },
+
+      addDefaultDescription() {
+        const item = this.get("item");
+        item.set("notes", this.get("item.code.descriptionEn"));
         this.send("saveItem", item);
       },
 
