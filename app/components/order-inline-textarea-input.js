@@ -76,5 +76,9 @@ export default AutoResizableTextarea.extend({
 
   click() {
     this.addCssStyle();
+  },
+
+  willDestroyElement() {
+    this.destroy();
   }
 });
