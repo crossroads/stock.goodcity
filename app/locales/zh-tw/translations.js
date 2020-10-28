@@ -50,7 +50,7 @@ export default {
   manage_inventory: "Quotas",
   manage_users: "管理用戶",
   search_user: "Search User",
-  new_international_order: "+International",
+  new_international_order: "+國際",
   new_hk_order: "+HK Order",
   full_name: "{{firstName}} {{lastName}}",
   mobile_prefix: "+852",
@@ -395,8 +395,8 @@ export default {
   order_transports: {
     online_order: "網上訂單",
     appointment: "預約",
-    shipment: "Shipment",
-    carry_out: "Carry Out",
+    shipment: "貨運",
+    carry_out: "國際手攜訂單",
     stockit_local_order: "Local Order",
     unknown_transport: "其他"
   },
@@ -416,14 +416,14 @@ export default {
     cancelled: "已取消",
     dispatching: "派送中",
     closed: "訂單已完成",
-    add_overseas_order: "New Overseas Order",
+    add_overseas_order: "新增海外訂單",
     close_order: "完成訂單",
     reopen_order: "重開訂單",
     resubmit: "重新提交訂單",
     submitted_by: "提交自",
     process_summary: "概覽",
     due_date: "到期日",
-    order_number: "Order Number",
+    order_number: "訂單號碼",
     submitted_for_client: "為服務使用者提交",
     numbers_warning: "Please enter 4 digit number.",
     mobile_warning: "Please provide a valid Hong Kong mobile number",
@@ -434,15 +434,14 @@ export default {
     cannot_process_unless_approved:
       "An organisation user must be approved before the order can be processed",
     international: {
-      shipment_date: "Shipment Date",
-      date_info: "Use an estimate if unknown",
+      shipment_date: "貨運日期",
+      date_info: "如未能確定, 可以預計數目代替",
       errors: {
-        description_error: "Please input a description",
-        date_error: "You must select a date",
-        empty_country_error: "You must select a country",
+        description_error: "請簡單描述",
+        date_error: "你必須選擇一個日期",
+        empty_country_error: "你必須選擇一個國家",
         empty_people_helped_error: "You must input a number",
-        code_error:
-          "Must be a 4 or 5 digit Number (a letter suffix is optional)"
+        code_error: "必須為一個4或5位數字號碼 (後綴可選填)"
       }
     },
     client_information: {

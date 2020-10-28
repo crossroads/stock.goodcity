@@ -8,10 +8,10 @@ export default ApiBaseService.extend({
   },
 
   async fetchShipmentOrCarryoutCode(detail_type) {
-    const data = await this.GET("/fetch_shipment_or_carryout_code", {
+    const data = await this.GET("/orders/next_code", {
       detail_type: detail_type
     });
-    return data.code;
+    return parseInt(data.code.slice(1));
   },
 
   async createShipmentOrCarryoutOrder(params) {
