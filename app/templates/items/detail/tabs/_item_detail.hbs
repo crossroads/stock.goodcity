@@ -42,9 +42,9 @@
       <div class="columns small-6 description">
         {{#form-control}}
           {{#if (is-equal descriptionLanguage 'en')}}
-            {{item-description-textarea onFocusIn=(action 'setShowDescSuggestion' true) onFocusOut=(action 'setShowDescSuggestion' false) data-autoresize=true name="notes" value=item.notes  class="description-textarea-withbg" require="true" id=(concat 'desc' item.id) pattern=".*\S.*" item=item}}
+            {{item-description-textarea onFocusIn=(action 'setShowDescSuggestion' true) onFocusOut=(action 'setShowDescSuggestion' false) data-autoresize=true name="notes" value=item.notes  class="description-textarea-withbg" require="true" pattern=".*\S.*" item=item}}
           {{else}}
-            {{item-description-textarea onFocusIn=(action 'setShowDescSuggestion' true) onFocusOut=(action 'setShowDescSuggestion' false) data-autoresize=true name="notesZhTw" value=item.notesZhTw  class="description-textarea-withbg" id=(concat 'desc' item.id) pattern=".*\S.*" item=item}}
+            {{item-description-textarea onFocusIn=(action 'setShowDescSuggestion' true) onFocusOut=(action 'setShowDescSuggestion' false) data-autoresize=true name="notesZhTw" value=item.notesZhTw  class="description-textarea-withbg" pattern=".*\S.*" item=item}}
           {{/if}}
           <div class='description-error'>
             {{t 'item_details.validation_errors.description'}}
