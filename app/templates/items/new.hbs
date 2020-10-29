@@ -74,10 +74,14 @@
     </div>
     <div class="row">
       <div class="small-3 columns item-label">
-        {{t "items.new.description"}} {{#if (is-equal selectedDescriptionLanguage 'en')}} <span>*</span> {{/if}} &nbsp;
+        {{#if (is-equal selectedDescriptionLanguage 'en')}}
+          {{t "items.new.description_required"}}
+        {{else}}
+          {{t "items.new.description"}}
+        {{/if}}
         <div class="description-language-container">
           <div class="{{if (is-equal selectedDescriptionLanguage 'en') 'active underline'}}" {{action 'togglePkgDescriptionLang' 'en'}}>EN</div>
-          <div>&nbsp; | &nbsp;</div>
+          <div>&nbsp; | </div>
           <div class="{{if (is-equal selectedDescriptionLanguage 'zh-tw') 'active underline'}}" {{action 'togglePkgDescriptionLang' 'zh-tw'}}>中文 {{#if code.descriptionZhTw}}<sup>●</sup>{{/if}}</div>
         </div>
       </div>
