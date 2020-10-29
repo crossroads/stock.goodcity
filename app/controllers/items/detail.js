@@ -51,7 +51,7 @@ export default GoodcityController.extend(
     hideDetailsLink: true,
     displayItemOptions: false,
     valuationIsFocused: false,
-    descriptionLanguage: "en",
+    selectedDescriptionLanguage: "en",
 
     valueHkDollar: Ember.computed("model.valueHkDollar", function() {
       const val = this.get("model.valueHkDollar");
@@ -413,8 +413,8 @@ export default GoodcityController.extend(
         );
       },
 
-      changeDescriptionLanguageTo(langauge) {
-        this.set("descriptionLanguage", langauge);
+      togglePkgDescriptionLang(langauge) {
+        this.set("selectedDescriptionLanguage", langauge);
       },
 
       setShowDescSuggestion(val) {
@@ -654,10 +654,13 @@ export default GoodcityController.extend(
         this.send("saveItem", item);
       },
 
-      addDefaultDescription() {
-        const descriptionLanguage = this.get("descriptionLanguage");
+      /**
+       *  Add the default suggested description for selected language
+       * @param {string} language - Language EN | Zh-TW
+       */
+      addDefaultDescriptionFor(language) {
         const item = this.get("item");
-        if (descriptionLanguage === "en") {
+        if (language === "en") {
           const description = this.get("item.code.descriptionEn");
           item.set("notes", description);
         } else {

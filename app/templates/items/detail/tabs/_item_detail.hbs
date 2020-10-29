@@ -15,13 +15,13 @@
     <div class="row">
       <div class="columns large-offset-3 medium-offset-3">
         {{#if showDescriptionSuggestion}}
-          {{#if (is-and (is-equal descriptionLanguage 'en') item.code.descriptionEn)}}
-            <span class="description_suggestion" {{action 'addDefaultDescription'}}>
+          {{#if (is-and (is-equal selectedDescriptionLanguage 'en') item.code.descriptionEn)}}
+            <span class="description_suggestion" {{action 'addDefaultDescriptionFor' 'en'}}>
               {{fa-icon 'lightbulb'}} &nbsp; {{item.code.descriptionEn}}
             </span>
           {{/if}}
-          {{#if (is-and (is-equal descriptionLanguage 'zh-tw') item.code.descriptionZhTw)}}
-            <span class="description_suggestion" {{action 'addDefaultDescription'}}>
+          {{#if (is-and (is-equal selectedDescriptionLanguage 'zh-tw') item.code.descriptionZhTw)}}
+            <span class="description_suggestion" {{action 'addDefaultDescriptionFor' 'zh-tw'}}>
               {{fa-icon 'lightbulb'}} &nbsp; {{item.code.descriptionZhTw}}
             </span>
           {{/if}}
@@ -32,19 +32,19 @@
       <div class="columns small-3">
         {{t 'item_details.description'}}
         <div class="description-language-container">
-          <div class="{{if (is-equal descriptionLanguage 'en') 'active underline'}}"
-            {{action 'changeDescriptionLanguageTo' 'en'}}>EN</div>
+          <div class="{{if (is-equal selectedDescriptionLanguage 'en') 'active underline'}}"
+            {{action 'togglePkgDescriptionLang' 'en'}}>EN</div>
           <div>&nbsp; | &nbsp;</div>
-          <div class="{{if (is-equal descriptionLanguage 'zh-tw') 'active underline'}}"
-            {{action 'changeDescriptionLanguageTo' 'zh-tw'}}>中文 {{#if code.descriptionZhTw}}<sup>●</sup>{{/if}}</div>
+          <div class="{{if (is-equal selectedDescriptionLanguage 'zh-tw') 'active underline'}}"
+            {{action 'togglePkgDescriptionLang' 'zh-tw'}}>中文 {{#if code.descriptionZhTw}}<sup>●</sup>{{/if}}</div>
         </div>
       </div>
       <div class="columns small-6 description">
         {{#form-control}}
-          {{#if (is-equal descriptionLanguage 'en')}}
+          {{#if (is-equal selectedDescriptionLanguage 'en')}}
             {{item-description-textarea onFocusIn=(action 'setShowDescSuggestion' true) onFocusOut=(action 'setShowDescSuggestion' false) data-autoresize=true name="notes" value=item.notes  class="description-textarea-withbg" require="true" pattern=".*\S.*" item=item}}
           {{else}}
-            {{item-description-textarea onFocusIn=(action 'setShowDescSuggestion' true) onFocusOut=(action 'setShowDescSuggestion' false) data-autoresize=true name="notesZhTw" value=item.notesZhTw  class="description-textarea-withbg" pattern=".*\S.*" item=item}}
+            {{item-description-textarea onFocusIn=(action 'setShowDescSuggestion' true) onFocusOut=(action 'setShowDescSuggestion' false) data-autoresize=true name="notes_zh_tw" value=item.notesZhTw  class="description-textarea-withbg" pattern=".*\S.*" item=item}}
           {{/if}}
           <div class='description-error'>
             {{t 'item_details.validation_errors.description'}}

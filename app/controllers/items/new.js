@@ -64,7 +64,7 @@ export default GoodcityController.extend(
     locationService: Ember.inject.service(),
     packageService: Ember.inject.service(),
     printerService: Ember.inject.service(),
-    descriptionLanguage: "en",
+    selectedDescriptionLanguage: "en",
     cancelWarning: t("items.new.cancel_warning"),
     displayFields: Ember.computed("code", function() {
       let subform = this.get("code.subform");
@@ -549,23 +549,24 @@ export default GoodcityController.extend(
         );
       },
 
-      changeDescriptionLanguageTo(language) {
-        this.set("descriptionLanguage", language);
+      togglePkgDescriptionLang(language) {
+        this.set("selectedDescriptionLanguage", language);
       },
 
-      addDefaultDescription() {
-        const descriptionLanguage = this.get("descriptionLanguage");
-        if (descriptionLanguage === "en") {
-          const description = this.get("code.descriptionEn");
+      /**
+       *  Add the default suggested description for selected language
+       * @param {string} language - Language EN | Zh-TW
+       */
+      addDefaultDescriptionFor(language) {
+        const description =
+          language === "en"
+            ? this.get("code.descriptionEn")
+            : this.get("code.descriptionZhTw");
+        if (language === "en") {
           this.set("descriptionEn", description);
         } else {
-          const description = this.get("code.descriptionZhTw");
           this.set("descriptionZhTw", description);
         }
-      },
-
-      setDescriptionFocus(val) {
-        this.set("descriptionFocused", val);
       },
 
       /**
