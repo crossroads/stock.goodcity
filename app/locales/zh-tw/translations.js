@@ -826,7 +826,7 @@ export default {
       add_images: "Add Images",
       quantity: "Quantity*",
       type: "Type*",
-      description: "Description*",
+      description: "Description",
       size: "Size (cm)",
       quality: "Quality*",
       grade: "Grade:",
@@ -857,7 +857,7 @@ export default {
         max_label: "Max 300",
         invalid_dimensions:
           "Provide all 3 dimensions(or none). Dimension must be greater than 0",
-        description: "Description cannot be blank.",
+        description: "English Description cannot be blank.",
         donation: "Must be a number or in the form 'CAS-12345'",
         invalid_location: "Scanned Location is invalid.",
         blank_location: "Location can't be blank.",

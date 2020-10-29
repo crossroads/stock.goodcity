@@ -64,14 +64,15 @@ export default GoodcityController.extend(
     locationService: Ember.inject.service(),
     packageService: Ember.inject.service(),
     printerService: Ember.inject.service(),
+    descriptionLanguage: "en",
     cancelWarning: t("items.new.cancel_warning"),
     displayFields: Ember.computed("code", function() {
       let subform = this.get("code.subform");
       return this.returnDisplayFields(subform);
     }),
     offersLists: [],
-    hasInvalidDescription: Ember.computed("description", function() {
-      return !!!this.get("description");
+    hasInvalidDescription: Ember.computed("descriptionEn", function() {
+      return !!!this.get("descriptionEn");
     }),
     isBoxOrPallet: Ember.computed("storageType", function() {
       return ["Box", "Pallet"].indexOf(this.get("storageType")) > -1;
@@ -338,7 +339,8 @@ export default GoodcityController.extend(
         pieces: this.get("pieces"),
         inventory_number: this.get("inventoryNumber"),
         case_number: this.get("caseNumber"),
-        notes: this.get("description"),
+        notes: this.get("descriptionEn"),
+        notes_zh_tw: this.get("descriptionZhTw"),
         detail_type: this.get("code.subform"),
         grade: this.get("selectedGrade.id"),
         donor_condition_id: this.get("defaultCondition.id"),
@@ -387,7 +389,7 @@ export default GoodcityController.extend(
         this.get("quantity")
           .toString()
           .trim().length === 0 ||
-        this.get("description").trim().length === 0 ||
+        this.get("descriptionEn").trim().length === 0 ||
         !this.get("location") ||
         this.get("inventoryNumber").trim().length === 0 ||
         !this.get("code") ||
@@ -497,7 +499,9 @@ export default GoodcityController.extend(
               comment: "",
               successfullyDuplicated: false,
               inventoryNumber: "",
-              offersLists: []
+              offersLists: [],
+              descriptionEn: "",
+              descriptionZhTw: ""
             });
             this.replaceRoute("items.detail", data.item.id);
           }
@@ -545,9 +549,19 @@ export default GoodcityController.extend(
         );
       },
 
+      changeDescriptionLanguageTo(language) {
+        this.set("descriptionLanguage", language);
+      },
+
       addDefaultDescription() {
-        const description = this.get("code.descriptionEn");
-        this.set("description", description);
+        const descriptionLanguage = this.get("descriptionLanguage");
+        if (descriptionLanguage === "en") {
+          const description = this.get("code.descriptionEn");
+          this.set("descriptionEn", description);
+        } else {
+          const description = this.get("code.descriptionZhTw");
+          this.set("descriptionZhTw", description);
+        }
       },
 
       setDescriptionFocus(val) {

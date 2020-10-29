@@ -16,6 +16,19 @@
     font-style: italic;
   }
 
+  .description-language-container {
+    display: flex;
+    align-items: baseline;
+
+    .disable {
+      color: grey;
+    }
+  }
+
+  .description-language-container > *:first-child {
+    flex: 0.3;
+  }
+
   .set_details {
     color: $white;
     padding: 0.5rem;

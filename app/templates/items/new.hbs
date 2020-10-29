@@ -59,18 +59,29 @@
       </div>
     </div>
     <div class="row">
-      <div class="large-offset-3 medium-offset-3">
-        {{#if code.descriptionEn}}
+      <div class="large-offset-3 medium-offset-3 small-offset-3">
+        {{#if (is-and (is-equal descriptionLanguage 'en') code.descriptionEn)}}
           <span class="description_suggestion" {{action 'addDefaultDescription'}}>
             {{fa-icon 'lightbulb'}} &nbsp; {{code.descriptionEn}}
+          </span>
+        {{/if}}
+        {{#if (is-and (is-equal descriptionLanguage 'zh-tw') code.descriptionZhTw)}}
+          <span class="description_suggestion" {{action 'addDefaultDescription'}}>
+            {{fa-icon 'lightbulb'}} &nbsp; {{code.descriptionZhTw}}
           </span>
         {{/if}}
       </div>
     </div>
     <div class="row">
       <div class="small-3 columns item-label">
-        {{t "items.new.description"}} &nbsp;
+        {{t "items.new.description"}} {{#if (is-equal descriptionLanguage 'en')}} <span>*</span> {{/if}} &nbsp;
+        <div class="description-language-container">
+          <div class="{{if (is-equal descriptionLanguage 'en') 'active underline'}}" {{action 'changeDescriptionLanguageTo' 'en'}}>EN</div>
+          <div>&nbsp; | &nbsp;</div>
+          <div class="{{if (is-equal descriptionLanguage 'zh-tw') 'active underline'}}" {{action 'changeDescriptionLanguageTo' 'zh-tw'}}>中文 {{#if code.descriptionZhTw}}<sup>●</sup>{{/if}}</div>
+        </div>
       </div>
+      <i class="remove-text" aria-hidden="true" {{action "clearDescription"}}>{{fa-icon 'times-circle'}}</i>
       <div class="small-6 medium-7 large-7 columns description-block">
         {{#form-control}}
           {{#if (is-equal descriptionLanguage 'en') }}
