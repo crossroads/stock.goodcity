@@ -407,6 +407,9 @@ ul.off-canvas-list li a:hover  {
   .active a {
     color: $white;
   }
+  .underline a {
+    text-decoration: underline;
+  }
 }
 
 /* === Forms === */

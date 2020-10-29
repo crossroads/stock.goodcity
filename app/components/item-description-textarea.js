@@ -17,7 +17,6 @@ export default AutoResizableTextarea.extend({
   },
 
   showSiblings() {
-    this.$().focus();
     Ember.$(this.element)
       .siblings()
       .show();
@@ -37,7 +36,7 @@ export default AutoResizableTextarea.extend({
   },
 
   focusOut() {
-    this.onFocusOut && setTimeout(() => this.onFocusOut(), 150);
+    this.onFocusOut && setTimeout(() => this.onFocusOut(), 120);
     var item = this.get("item");
     var url = `/packages/${item.get("id")}`;
     var key = this.get("name");
