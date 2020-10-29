@@ -411,6 +411,10 @@ export default GoodcityController.extend(
         );
       },
 
+      changeDescriptionLanguageTo(langauge) {
+        this.set("descriptionLanguage", langauge);
+      },
+
       setShowDescSuggestion(val) {
         this.set("showDescriptionSuggestion", val);
       },

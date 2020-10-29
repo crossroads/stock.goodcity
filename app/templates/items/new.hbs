@@ -72,11 +72,14 @@
         {{t "items.new.description"}} &nbsp;
       </div>
       <div class="small-6 medium-7 large-7 columns description-block">
-          <i class="remove-text" aria-hidden="true" {{action "clearDescription"}}>{{fa-icon 'times-circle'}}</i>
-          {{auto-resize-textarea onFocusIn=(action 'setDescriptionFocus' true) onFocusOut=(action 'setDescriptionFocus' false)  data-autoresize=true name="description" value=description required="required" pattern=".*\S.*" id="description"}}
-          {{#if hasInvalidDescription}}
-            <div class='input-error show-validation'>{{t 'items.new.validation_errors.description'}}</div>
+        {{#form-control}}
+          {{#if (is-equal descriptionLanguage 'en') }}
+            {{auto-resize-textarea onFocusIn=(action 'setDescriptionFocus' true) onFocusOut=(action 'setDescriptionFocus' false)  data-autoresize=true name="description" value=descriptionEn required="required" pattern=".*\S.*" id="description"}}
+          {{else}}
+            {{auto-resize-textarea onFocusIn=(action 'setDescriptionFocus' true) onFocusOut=(action 'setDescriptionFocus' false)  data-autoresize=true name="description" value=descriptionZhTw pattern=".*\S.*" id="description"}}
           {{/if}}
+          <div class='input-error show-validation'>{{t 'items.new.validation_errors.description'}}</div>
+        {{/form-control}}
       </div>
       <div class="small-3 medium-2 large-2">
         <a {{action "triggerUpload"}} class="{{unless isReady 'disabled'}}">
