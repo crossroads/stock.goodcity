@@ -62,9 +62,13 @@ export default searchModule.extend({
       this.transitionToRoute("app_menu_list");
     },
 
-    goToRequestPurpose(userId) {
-      let orderId = this.get("model.order.id");
-      let orderParams = { created_by_id: userId };
+    goToRequestPurpose(user) {
+      const orderId = this.get("model.order.id");
+      const userId = user.get("id");
+      const organisation_id = user.get(
+        "organisationsUsers.firstObject.organisation.id"
+      );
+      const orderParams = { created_by_id: userId, organisation_id };
       new AjaxPromise(
         "/orders/" + orderId,
         "PUT",
