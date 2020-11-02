@@ -309,8 +309,8 @@ export default {
     appointment: "Appointments",
     appointment_info:
       "Client comes to select goods from our warehouse with help from our staff",
-    online_order: "Online Orders",
-    online_order_info: "Client ordered specific goods online",
+    online_orders: "Online Orders",
+    online_orders_info: "Client ordered specific goods online",
     dispatch: "Dispatch",
     dispatch_info: "We will load into van and send to client",
     shipment: "Shipments",

@@ -36,7 +36,7 @@ export const STATE_FILTERS = {
 
 export const TYPE_FILTERS = {
   APPOINTMENT: "appointment",
-  ONLINE_ORDER: "online_order",
+  ONLINE_ORDER: "online_orders",
   SHIPMENT: "shipment"
 };
 
