@@ -709,8 +709,11 @@
         }
       }
 
-      &.cancel-search {
+      >.cancel-search {
         display: inline-block;
+        @media #{$small-only} {
+          margin-left: 2%;
+        }
       }
     }
 
