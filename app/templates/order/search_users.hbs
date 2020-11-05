@@ -32,7 +32,7 @@
         {{#if filteredResults}}
           <ul class="list list-activity">
             {{#each filteredResults as |user|}}
-              <li class="list-bottom" {{action 'goToRequestPurpose' user.id}}>
+              <li class="list-bottom" {{action 'goToRequestPurpose' user}}>
                 <div class="row">
                   <div class="small-10 columns user_name">
                     {{user.fullName}}
