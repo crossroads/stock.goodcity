@@ -31,21 +31,12 @@ export default Ember.Controller.extend(
 
     isInvalidShipmentDate: Ember.computed.not("shipmentDate"),
 
-    formatOrderCode(type, code) {
-      return type == INTERNATIONAL_ORDERS.CARRYOUT ? `C${code}` : `S${code}`;
-    },
-
     orderParams() {
-      let validCode = this.formatOrderCode(
-        this.get("selectedType.id"),
-        this.get("shipmentOrCarryoutCode")
-      );
-
       let params = {
         state_event: STATE_EVENTS.SUBMIT,
         detail_type:
           this.get("selectedType.id") || INTERNATIONAL_ORDERS.SHIPMENT,
-        code: validCode,
+        code: `${this.get("prefix")}${this.get("shipmentOrCarryoutCode")}`,
         country_id: this.get("country.id"),
         shipment_date: this.get("shipmentDate"),
         people_helped: this.get("peopleCount"),
@@ -74,13 +65,12 @@ export default Ember.Controller.extend(
         this.set("orderDescription", "");
       },
 
-      async typeSelection(value) {
+      async handleTypeChange(value) {
         return await this.runTask(async () => {
           this.set("selectedType", value);
-          let data = await this.get("orderService").fetchShipmentOrCarryoutCode(
-            value.id
-          );
-          this.set("shipmentOrCarryoutCode", data);
+          let { code } = await this.get("orderService").getNextCode(value.id);
+          this.set("shipmentOrCarryoutCode", code.substr(1));
+          this.set("prefix", code[0]);
         }, ERROR_STRATEGIES.MODAL);
       },
 
@@ -97,11 +87,12 @@ export default Ember.Controller.extend(
         }
 
         return await this.runTask(async () => {
-          await this.get("orderService").createShipmentOrCarryoutOrder(
-            this.orderParams()
-          );
+          const { designation } = await this.get(
+            "orderService"
+          ).createShipmentOrCarryoutOrder(this.orderParams());
           this.clearFormData();
-          this.transitionToRoute("orders");
+
+          this.transitionToRoute("orders.active_items", designation.id);
         }, ERROR_STRATEGIES.MODAL);
       },
 

@@ -28,7 +28,7 @@
         </span>
         {{select-list
           content=shipmentTypes
-          on-change=(action "typeSelection")
+          on-change=(action "handleTypeChange")
           selectedValue=selectedType
           value= selectedType
         }}
@@ -42,11 +42,7 @@
       <div class="small-12 columns calendar">
         {{input type="text" value=shipmentOrCarryoutCode class="code_input"}}
         <div class="code_prefix">
-          {{#if (is-equal selectedType.id "CarryOut")}}
-            C
-          {{else}}
-            S
-          {{/if}}
+          {{prefix}}
         </div>
       </div>
       {{#if (is-and isInvalidCode showError)  }}

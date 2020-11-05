@@ -7,9 +7,10 @@ export default AuthorizeRoute.extend({
 
   async setupController(controller, model) {
     this._super(controller, model);
-    const code = await this.get("orderService").fetchShipmentOrCarryoutCode(
+    const { code } = await this.get("orderService").getNextCode(
       INTERNATIONAL_ORDERS.SHIPMENT
     );
-    controller.set("shipmentOrCarryoutCode", code);
+    controller.set("prefix", code[0]);
+    controller.set("shipmentOrCarryoutCode", code.substr(1));
   }
 });
