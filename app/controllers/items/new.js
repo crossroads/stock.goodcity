@@ -549,7 +549,7 @@ export default GoodcityController.extend(
         );
       },
 
-      togglePkgDescriptionLang(language) {
+      setPkgDescriptionLang(language) {
         this.set("selectedDescriptionLanguage", language);
       },
 

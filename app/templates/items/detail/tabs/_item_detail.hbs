@@ -13,7 +13,7 @@
   </div>
   <div class="columns small-12">
     <div class="row">
-      <div class="columns large-offset-3 medium-offset-3">
+      <div class="columns large-offset-3 medium-offset-3 small-offset-3">
         {{#if showDescriptionSuggestion}}
           {{#if (is-and (is-equal selectedDescriptionLanguage 'en') item.code.descriptionEn)}}
             <span class="description_suggestion" {{action 'addDefaultDescriptionFor' 'en'}}>
@@ -33,18 +33,18 @@
         {{t 'item_details.description'}}
         <div class="description-language-container">
           <div class="{{if (is-equal selectedDescriptionLanguage 'en') 'active underline'}}"
-            {{action 'togglePkgDescriptionLang' 'en'}}>EN</div>
+            {{action 'setPkgDescriptionLang' 'en'}}>EN</div>
           <div>&nbsp; | &nbsp;</div>
           <div class="{{if (is-equal selectedDescriptionLanguage 'zh-tw') 'active underline'}}"
-            {{action 'togglePkgDescriptionLang' 'zh-tw'}}>中文 {{#if code.descriptionZhTw}}<sup>●</sup>{{/if}}</div>
+            {{action 'setPkgDescriptionLang' 'zh-tw'}}>中文 {{#if code.descriptionZhTw}}<sup>●</sup>{{/if}}</div>
         </div>
       </div>
       <div class="columns small-6 description">
         {{#form-control}}
           {{#if (is-equal selectedDescriptionLanguage 'en')}}
-            {{item-description-textarea onFocusIn=(action 'setShowDescSuggestion' true) onFocusOut=(action 'setShowDescSuggestion' false) data-autoresize=true name="notes" value=item.notes  class="description-textarea-withbg" require="true" pattern=".*\S.*" item=item}}
+            {{gc-textarea onFocusIn=(action 'setShowDescSuggestion' true) onFocusOut=(action 'updateDescription' 'notes' item.notes) data-autoresize=true value=item.notes  class="description-textarea-withbg" require="true" pattern=".*\S.*"}}
           {{else}}
-            {{item-description-textarea onFocusIn=(action 'setShowDescSuggestion' true) onFocusOut=(action 'setShowDescSuggestion' false) data-autoresize=true name="notes_zh_tw" value=item.notesZhTw  class="description-textarea-withbg" pattern=".*\S.*" item=item}}
+            {{gc-textarea onFocusIn=(action 'setShowDescSuggestion' true) onFocusOut=(action 'updateDescription' 'notesZhTw' item.notesZhTw) data-autoresize=true value=item.notesZhTw  class="description-textarea-withbg" pattern=".*\S.*"}}
           {{/if}}
           <div class='description-error'>
             {{t 'item_details.validation_errors.description'}}
@@ -245,7 +245,7 @@
       <div class="row">
         <div class="columns small-3">{{t 'item_details.comment'}}</div>
         <div class="columns small-9 value description">
-          {{item-description-textarea data-autoresize=true name="comment" value=item.comment pattern=".*\S.*" class="description-textarea-withbg" item=item maxlength=180}}
+          {{gc-textarea data-autoresize=true name="comment" value=item.comment pattern=".*\S.*" class="description-textarea-withbg" maxlength=180 onFocusOut=(action 'updateComment' 'comment' item.comment)}}
         </div>
       </div>
     </div>

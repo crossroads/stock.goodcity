@@ -413,12 +413,35 @@ export default GoodcityController.extend(
         );
       },
 
-      togglePkgDescriptionLang(langauge) {
+      setPkgDescriptionLang(langauge) {
         this.set("selectedDescriptionLanguage", langauge);
       },
 
+      async updateComment(name, val) {
+        const item = this.get("item");
+        if (item.changedAttributes()[name]) {
+          const params = { package: { [name]: val } };
+          await this.runTask(async () => {
+            await this.get("packageService").updatePackage(item, params);
+          }, ERROR_STRATEGIES.MODAL);
+        }
+      },
+
+      async updateDescription(name, val, cb) {
+        const item = this.get("item");
+        if (item.changedAttributes()[name]) {
+          const params = { package: { [name]: val } };
+          await this.runTask(async () => {
+            await this.get("packageService").updatePackage(item, params);
+          }, ERROR_STRATEGIES.MODAL);
+        }
+        this.send("setShowDescSuggestion", false);
+      },
+
       setShowDescSuggestion(val) {
-        this.set("showDescriptionSuggestion", val);
+        setTimeout(() => {
+          this.set("showDescriptionSuggestion", val);
+        }, 120);
       },
 
       /**
@@ -667,8 +690,8 @@ export default GoodcityController.extend(
           const description = this.get("item.code.descriptionZhTw");
           item.set("notesZhTw", description);
         }
-
         this.send("saveItem", item);
+        this.send("setShowDescSuggestion", false);
       },
 
       /**

@@ -1,9 +1,9 @@
 import Ember from "ember";
-import itemDescriptionTextarea from "./item-description-textarea";
+import gcTextarea from "./gc-textarea";
 import AjaxPromise from "stock/utils/ajax-promise";
 const { getOwner } = Ember;
 
-export default itemDescriptionTextarea.extend({
+export default gcTextarea.extend({
   previousValue: "",
   store: Ember.inject.service(),
   request: null,
