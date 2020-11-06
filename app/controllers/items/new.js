@@ -558,13 +558,11 @@ export default GoodcityController.extend(
        * @param {string} language - Language EN | Zh-TW
        */
       addDefaultDescriptionFor(language) {
-        const description =
-          language === "en"
-            ? this.get("code.descriptionEn")
-            : this.get("code.descriptionZhTw");
         if (language === "en") {
+          const description = this.get("code.descriptionEn");
           this.set("descriptionEn", description);
         } else {
+          const description = this.get("code.descriptionZhTw");
           this.set("descriptionZhTw", description);
         }
       },
