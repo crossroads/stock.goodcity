@@ -22,7 +22,6 @@
           </div>
         {{/if}}
       </div>
-
       <div class="row">
         <div class="small-3 columns item-label">
           {{t "items.new.location"}}
@@ -49,29 +48,53 @@
       </div>
       <br />
     </div>
-
-
     <div class="row">
       <div class="small-3 columns item-label">
         {{t "items.new.type"}}
       </div>
       <div class="{{if isMobileApp 'small-7 large-8' 'small-9'}} columns left">
         <div class="display-code">
-          {{display-package-code  item=code}}
+          {{display-package-code item=code}}
         </div>
       </div>
     </div>
-
+    <div class="row">
+      <div class="large-offset-3 medium-offset-3 small-offset-3">
+        {{#if (is-and (is-equal selectedDescriptionLanguage 'en') code.descriptionEn)}}
+          <span class="description_suggestion" {{action 'addDefaultDescriptionFor' 'en'}}>
+            {{fa-icon 'lightbulb'}} &nbsp; {{code.descriptionEn}}
+          </span>
+        {{/if}}
+        {{#if (is-and (is-equal selectedDescriptionLanguage 'zh-tw') code.descriptionZhTw)}}
+          <span class="description_suggestion" {{action 'addDefaultDescriptionFor' 'zh-tw'}}>
+            {{fa-icon 'lightbulb'}} &nbsp; {{code.descriptionZhTw}}
+          </span>
+        {{/if}}
+      </div>
+    </div>
     <div class="row">
       <div class="small-3 columns item-label">
-        {{t "items.new.description"}}
+        {{#if (is-equal selectedDescriptionLanguage 'en')}}
+          {{t "items.new.description_required"}}
+        {{else}}
+          {{t "items.new.description"}}
+        {{/if}}
+        <div class="description-language-container">
+          <div class="{{if (is-equal selectedDescriptionLanguage 'en') 'active underline'}}" {{action 'setPkgDescriptionLang' 'en'}}>EN</div>
+          <div>&nbsp; | </div>
+          <div class="{{if (is-equal selectedDescriptionLanguage 'zh-tw') 'active underline'}}" {{action 'setPkgDescriptionLang' 'zh-tw'}}>中文 {{#if code.descriptionZhTw}}<sup>●</sup>{{/if}}</div>
+        </div>
       </div>
+      <i class="remove-text" aria-hidden="true" {{action "clearDescription"}}>{{fa-icon 'times-circle'}}</i>
       <div class="small-6 medium-7 large-7 columns description-block">
-        {{#form-control}}
-          <i class="remove-text" aria-hidden="true" {{action "clearDescription"}}>{{fa-icon 'times-circle'}}</i>
-          {{auto-resize-textarea data-autoresize=true name="description" value=description required="required" pattern=".*\S.*" id="description"}}
-          <div class='input-error'>{{t 'items.new.validation_errors.description'}}</div>
-        {{/form-control}}
+        {{#if (is-equal selectedDescriptionLanguage 'en') }}
+          {{auto-resize-textarea data-autoresize=true name="descriptionEn" value=descriptionEn required="required" pattern=".*\S.*" id="description"}}
+        {{else}}
+          {{auto-resize-textarea data-autoresize=true name="descriptionZhTw" value=descriptionZhTw pattern=".*\S.*" id="description"}}
+        {{/if}}
+        {{#if hasInvalidDescription}}
+          <div class='input-error show-validation'>{{t 'items.new.validation_errors.description'}}</div>
+        {{/if}}
       </div>
       <div class="small-3 medium-2 large-2">
         <a {{action "triggerUpload"}} class="{{unless isReady 'disabled'}}">
@@ -88,7 +111,6 @@
               always="uploadComplete" done="uploadSuccess" submit="uploadStart"}}
       </div>
     </div>
-
     <div class="row quality-row">
       <div class="small-3 columns item-label">
         {{t "items.new.quality"}}
@@ -115,7 +137,6 @@
         idNames='condition-select' }}
       </div>
     </div>
-
     <div class="row grade-value">
       <div class="small-3 columns">
         {{t "items.value"}}
@@ -126,7 +147,8 @@
       </div>
       <div class="columns small-6 apply-default">
         {{#if canApplyDefaultValuation}}
-          <a href="#" {{action 'setDefaultItemValuation'}} class="default-content">{{t 'items.apply_default'}} {{defaultValueHkDollar}}</a>
+          <a href="#" {{action 'setDefaultItemValuation'}} class="default-content">{{t 'items.apply_default'}}
+            {{defaultValueHkDollar}}</a>
         {{/if}}
       </div>
     </div>
@@ -138,7 +160,6 @@
         </div>
       </div>
     {{/if}}
-
     <div class="row">
       <div class="small-3 columns item-label">
         {{t "items.new.donation"}}

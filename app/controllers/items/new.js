@@ -64,13 +64,16 @@ export default GoodcityController.extend(
     locationService: Ember.inject.service(),
     packageService: Ember.inject.service(),
     printerService: Ember.inject.service(),
+    selectedDescriptionLanguage: "en",
     cancelWarning: t("items.new.cancel_warning"),
     displayFields: Ember.computed("code", function() {
       let subform = this.get("code.subform");
       return this.returnDisplayFields(subform);
     }),
     offersLists: [],
-
+    hasInvalidDescription: Ember.computed("descriptionEn", function() {
+      return !this.get("descriptionEn");
+    }),
     isBoxOrPallet: Ember.computed("storageType", function() {
       return ["Box", "Pallet"].indexOf(this.get("storageType")) > -1;
     }),
@@ -146,18 +149,6 @@ export default GoodcityController.extend(
 
     conditions: Ember.computed(function() {
       return this.get("store").peekAll("donor_condition");
-    }),
-
-    description: Ember.computed("code", {
-      get() {
-        if (this.get("isBoxOrPallet")) {
-          return `${this.get("storageType")} of ${this.get("code.name")}`;
-        }
-        return this.get("code.name");
-      },
-      set(key, value) {
-        return value;
-      }
     }),
 
     fetchDetailAttributes() {
@@ -348,7 +339,8 @@ export default GoodcityController.extend(
         pieces: this.get("pieces"),
         inventory_number: this.get("inventoryNumber"),
         case_number: this.get("caseNumber"),
-        notes: this.get("description"),
+        notes: this.get("descriptionEn"),
+        notes_zh_tw: this.get("descriptionZhTw"),
         detail_type: this.get("code.subform"),
         grade: this.get("selectedGrade.id"),
         donor_condition_id: this.get("defaultCondition.id"),
@@ -397,14 +389,15 @@ export default GoodcityController.extend(
         this.get("quantity")
           .toString()
           .trim().length === 0 ||
-        this.get("description").trim().length === 0 ||
+        this.get("descriptionEn").trim().length === 0 ||
         !this.get("location") ||
         this.get("inventoryNumber").trim().length === 0 ||
         !this.get("code") ||
         !this.get("isInvalidPrintCount") ||
         this.get("isInvalidaLabelCount") ||
         !this.get("isValidDimension") ||
-        this.get("isInvalidValuation")
+        this.get("isInvalidValuation") ||
+        this.get("hasInvalidDescription")
       );
     },
 
@@ -506,7 +499,9 @@ export default GoodcityController.extend(
               comment: "",
               successfullyDuplicated: false,
               inventoryNumber: "",
-              offersLists: []
+              offersLists: [],
+              descriptionEn: "",
+              descriptionZhTw: ""
             });
             this.replaceRoute("items.detail", data.item.id);
           }
@@ -552,6 +547,24 @@ export default GoodcityController.extend(
           "location",
           await this.get("locationService").userPickLocation()
         );
+      },
+
+      setPkgDescriptionLang(language) {
+        this.set("selectedDescriptionLanguage", language);
+      },
+
+      /**
+       *  Add the default suggested description for selected language
+       * @param {string} language - Language EN | Zh-TW
+       */
+      addDefaultDescriptionFor(language) {
+        if (language === "en") {
+          const description = this.get("code.descriptionEn");
+          this.set("descriptionEn", description);
+        } else {
+          const description = this.get("code.descriptionZhTw");
+          this.set("descriptionZhTw", description);
+        }
       },
 
       /**

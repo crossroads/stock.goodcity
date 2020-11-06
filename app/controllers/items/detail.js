@@ -51,6 +51,8 @@ export default GoodcityController.extend(
     hideDetailsLink: true,
     displayItemOptions: false,
     valuationIsFocused: false,
+    selectedDescriptionLanguage: "en",
+
     valueHkDollar: Ember.computed("model.valueHkDollar", function() {
       const val = this.get("model.valueHkDollar");
       if (val !== null && val !== "") {
@@ -400,6 +402,23 @@ export default GoodcityController.extend(
       return type.get("subform") == existingPkgTypeSubform;
     },
 
+    /**
+     *
+     * @param {Object} item - Model to persist
+     * Perform an update action on item. It does a rollback of the item
+     * if there is an error encountered
+     */
+    saveItem(item) {
+      this.runTask(async () => {
+        try {
+          await item.save();
+        } catch (e) {
+          item.rollbackAttributes();
+          throw e;
+        }
+      }, ERROR_STRATEGIES.MODAL);
+    },
+
     actions: {
       updatePackage(field, value) {
         this.runTask(
@@ -409,6 +428,27 @@ export default GoodcityController.extend(
             }
           })
         );
+      },
+
+      setPkgDescriptionLang(langauge) {
+        this.set("selectedDescriptionLanguage", langauge);
+      },
+
+      async updateAttribute(name, value, cb = _.noop) {
+        const item = this.get("item");
+        if (item.changedAttributes()[name]) {
+          const params = { package: { [name]: value } };
+          await this.runTask(async () => {
+            await this.get("packageService").updatePackage(item, params);
+            cb();
+          }, ERROR_STRATEGIES.MODAL);
+        }
+      },
+
+      setShowDescSuggestion(val) {
+        setTimeout(() => {
+          this.set("showDescriptionSuggestion", val);
+        }, 120);
       },
 
       /**
@@ -626,23 +666,40 @@ export default GoodcityController.extend(
        * Applies the original item valuation when it was loaded.
        * It is like resetting to the value when item was displayed
        */
-      applyDefaultItemValuation() {
+      async applyDefaultItemValuation() {
         const item = this.get("item");
         item.set("valueHkDollar", this.get("defaultValueHkDollar"));
         this.set("valueHkDollar", this.get("defaultValueHkDollar"));
         this.set("prevValueHkDollar", null);
-        this.send("saveItem", item);
+        await this.saveItem(item);
+      },
+
+      /**
+       *  Add the default suggested description for selected language
+       * @param {string} language - Language EN | Zh-TW
+       */
+      async addDefaultDescriptionFor(language) {
+        const item = this.get("item");
+        if (language === "en") {
+          const description = this.get("item.code.descriptionEn");
+          item.set("notes", description);
+        } else {
+          const description = this.get("item.code.descriptionZhTw");
+          item.set("notesZhTw", description);
+        }
+        await this.saveItem(item);
+        this.send("setShowDescSuggestion", false);
       },
 
       /**
        * Updates the valueHkDollar
        * Updates the previous saved value
        */
-      updateItemValuation() {
+      async updateItemValuation() {
         const item = this.get("item");
         const value = item.get("valueHkDollar");
         item.set("valueHkDollar", Number(value));
-        this.send("saveItem", item);
+        await this.saveItem(item);
         this.set("prevValueHkDollar", value);
       },
 
@@ -686,23 +743,6 @@ export default GoodcityController.extend(
         this.runTask(this.get("item").save());
       },
 
-      /**
-       *
-       * @param {Object} item - Model to persist
-       * Perform an update action on item. It does a rollback of the item
-       * if there is an error encountered
-       */
-      saveItem(item) {
-        this.runTask(async () => {
-          try {
-            await item.save();
-          } catch (e) {
-            item.rollbackAttributes();
-            throw e;
-          }
-        }, ERROR_STRATEGIES.MODAL);
-      },
-
       updateFields(config) {
         const detailType = _.snakeCase(
           this.get("item.detailType")
@@ -737,11 +777,12 @@ export default GoodcityController.extend(
         this.onSearchCountry(field, searchText);
       },
 
-      onSaleableChange({ id }) {
+      async onSaleableChange({ id }) {
         const item = this.get("item");
         const saleable = _.filter(this.get("saleableOptions"), ["name", id])[0]
           .value;
         item.set("saleable", saleable);
+        await this.saveItem(item);
       },
 
       toggleItemOptions() {
