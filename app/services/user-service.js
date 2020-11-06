@@ -10,7 +10,6 @@ export default ApiBaseService.extend({
 
   canUpdateRole(userId) {
     return (
-      this.get("session.currentUser.isAdministrator") &&
       this.get("session.currentUser.canManageUserRoles") &&
       +this.get("session.currentUser.id") !== +userId
     );
