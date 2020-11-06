@@ -427,7 +427,7 @@ export default GoodcityController.extend(
         }
       },
 
-      async updateDescription(name, val, cb) {
+      async updateDescription(name, val) {
         const item = this.get("item");
         if (item.changedAttributes()[name]) {
           const params = { package: { [name]: val } };

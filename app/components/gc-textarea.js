@@ -1,9 +1,7 @@
 import Ember from "ember";
 import AutoResizableTextarea from "./auto-resize-textarea";
-import AsyncMixin, { ERROR_STRATEGIES } from "stock/mixins/async";
-const { getOwner } = Ember;
 
-export default AutoResizableTextarea.extend(AsyncMixin, {
+export default AutoResizableTextarea.extend({
   previousValue: "",
   store: Ember.inject.service(),
   item: null,
