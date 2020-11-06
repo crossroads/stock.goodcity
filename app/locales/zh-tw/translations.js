@@ -826,6 +826,7 @@ export default {
       add_images: "Add Images",
       quantity: "Quantity*",
       type: "Type*",
+      description_required: "Description*",
       description: "Description",
       size: "Size (cm)",
       quality: "Quality*",
