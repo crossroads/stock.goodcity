@@ -74,7 +74,7 @@ export default Addressable.extend({
   isAdministrator: Ember.computed("roles", function() {
     const roleNames = this.get("roleNames");
     return (
-      _.difference(roleNames, ["Order administrator", "Stock administrator"])
+      _.difference(["Order administrator", "Stock administrator"], roleNames)
         .length > 0
     );
   }),
