@@ -72,7 +72,7 @@ export default GoodcityController.extend(
     }),
     offersLists: [],
     hasInvalidDescription: Ember.computed("descriptionEn", function() {
-      return !!!this.get("descriptionEn");
+      return !this.get("descriptionEn");
     }),
     isBoxOrPallet: Ember.computed("storageType", function() {
       return ["Box", "Pallet"].indexOf(this.get("storageType")) > -1;

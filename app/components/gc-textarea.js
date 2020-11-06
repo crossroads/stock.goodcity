@@ -19,10 +19,7 @@ export default AutoResizableTextarea.extend({
 
   hasError() {
     const value = (this.get("value") || "").trim();
-    if (!value && this.get("require")) {
-      return true;
-    }
-    return false;
+    return !value && this.get("require");
   },
 
   didRender() {

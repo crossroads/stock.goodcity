@@ -42,9 +42,9 @@
       <div class="columns small-6 description">
         {{#form-control}}
           {{#if (is-equal selectedDescriptionLanguage 'en')}}
-            {{gc-textarea onFocusIn=(action 'setShowDescSuggestion' true) onFocusOut=(action 'updateDescription' 'notes' item.notes) data-autoresize=true value=item.notes  class="description-textarea-withbg" require="true" pattern=".*\S.*"}}
+            {{gc-textarea onFocusIn=(action 'setShowDescSuggestion' true) onFocusOut=(action (action 'updateAttribute' 'notes' item.notes (delayed-action (action 'setShowDescSuggestion' false)))) require=true data-autoresize=true value=item.notes  class="description-textarea-withbg" pattern=".*\S.*"}}
           {{else}}
-            {{gc-textarea onFocusIn=(action 'setShowDescSuggestion' true) onFocusOut=(action 'updateDescription' 'notesZhTw' item.notesZhTw) data-autoresize=true value=item.notesZhTw  class="description-textarea-withbg" pattern=".*\S.*"}}
+            {{gc-textarea onFocusIn=(action 'setShowDescSuggestion' true) onFocusOut=(action (action 'updateAttribute' 'notesZhTw' item.notesZhTw (action 'setShowDescSuggestion' false))) data-autoresize=true value=item.notesZhTw  class="description-textarea-withbg" pattern=".*\S.*"}}
           {{/if}}
           <div class='description-error'>
             {{t 'item_details.validation_errors.description'}}
@@ -245,7 +245,7 @@
       <div class="row">
         <div class="columns small-3">{{t 'item_details.comment'}}</div>
         <div class="columns small-9 value description">
-          {{gc-textarea data-autoresize=true name="comment" value=item.comment pattern=".*\S.*" class="description-textarea-withbg" maxlength=180 onFocusOut=(action 'updateComment' 'comment' item.comment)}}
+          {{gc-textarea data-autoresize=true name="comment" value=item.comment pattern=".*\S.*" class="description-textarea-withbg" maxlength=180 onFocusOut=(action 'updateAttribute' 'comment' item.comment)}}
         </div>
       </div>
     </div>
