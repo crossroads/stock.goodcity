@@ -50,13 +50,12 @@
           {{/if}}
         {{/unless}}
 
-        {{#if item.allowLabelPrint}}
-          {{#print-label item=item closeList=""}}
-            <span class="no-avatar">
-              <i aria-hidden="true">{{fa-icon 'print'}}</i>
-            </span>
-          {{/print-label}}
-        {{/if}}
+
+        {{#print-label item=item closeList=""}}
+          <span class="no-avatar">
+            <i aria-hidden="true">{{fa-icon 'print'}}</i>
+          </span>
+        {{/print-label}}
       </div>
     </div>
 

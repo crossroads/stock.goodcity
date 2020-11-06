@@ -473,16 +473,6 @@ export default GoodcityController.extend(
         this.send("calculateItemValuation");
       },
 
-      onRestrictionChange({ id }) {
-        this.runTask(
-          this.get("packageService").updatePackage(this.get("item.id"), {
-            package: {
-              restriction_id: id
-            }
-          })
-        );
-      },
-
       onConditionChange({ id, name }) {
         this.set("defaultCondition", { id, name });
         this.set("defaultValueHkDollar", null);

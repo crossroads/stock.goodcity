@@ -60,7 +60,7 @@ export default Ember.Component.extend(SearchMixin, {
         stockRequest: true
       };
 
-      return this.get("store").query("gcOrganisation", params);
+      return this.get("store").query("organisation", params);
     }
   }
 });

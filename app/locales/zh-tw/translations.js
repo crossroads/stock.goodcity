@@ -299,8 +299,6 @@ export default {
     online_orders_info: "受惠者已於網上訂了指定物品",
     dispatch: "派送",
     dispatch_info: "我們會將物品裝載到貨車並運送至受惠者",
-    online_orders: "網上訂單",
-    online_orders_info: "受惠者已於網上訂了指定物品",
     shipment: "裝運",
     shipment_info: "十字路會會將物品裝運至海外機構",
     other: "其他",
@@ -983,28 +981,27 @@ export default {
       english: "英文",
       chinese: "中文"
     },
-    registered_on: "Registered on",
-    last_connected_on: "Last connected on",
+    registered_on: "註冊於",
+    last_connected_on: "最後上線於",
 
     details: {
-      last_on_goodcity: "Last on GoodCity",
+      last_on_goodcity: "好人好市最後上線",
       contact_details: "聯絡資料",
-      staff_roles: "Staff / Volunteer Roles",
-      stock_app: "Stock App",
-      admin_app: "Admin App",
-      disable_user_account: "Disable User Account",
-      disable_user: "Disable User",
-      disabled_user_info:
-        "User will be denied access to all apps including donor app.",
+      staff_roles: "職員/ 義工身份",
+      stock_app: "倉儲程式",
+      admin_app: "管理程式",
+      disable_user_account: "停用用戶帳號",
+      disable_user: "停用用戶",
+      disabled_user_info: "用戶會被禁止使用所有程式，包括捐贈程式。",
       disabled_user_note:
-        "Note: you are allowed remove the phone and email address from a disabled user account. This can be useful if the number has been assumed by a different person without giving the new user another person 's history.",
-      re_enable_user_account: "Re-enable User Account",
-      enabled_user_info: "All prior access rights will be reserved.",
+        " 注意：你可以從已停用的用戶帳號中移除電話號碼及電郵地址。此功能的作用為更正重複的號碼，而且不會將舊有紀錄轉移到新用戶帳號中。",
+      re_enable_user_account: "重新啟用用戶帳號",
+      enabled_user_info: "所有存取權限會被保留",
       enabled_user_note:
-        "Note: If you do not wish this user to have same rights to access apps or act on behalf of charities as they had before, please modify their access.",
-      enable_user: "Re-enable User",
-      re_enable: "Re-enable",
-      account_disabled: "Account Disabled"
+        "注意：如你不希望此用戶保留舊有權限或慈善機構員工身份，請變更他的存取權限。",
+      enable_user: "重新啟用用戶",
+      re_enable: "重新啟用",
+      account_disabled: "帳號已停用"
     },
 
     contact_details: {
@@ -1025,35 +1022,32 @@ export default {
     },
 
     roles: {
-      admin_app_details: "Admin App Details",
-      unauthorised_error:
-        "Sorry, you are not authorised to update roles for this user.",
-      access_status_for: "Access Status for",
-      no_access: "No Access",
-      access_until: "Access Until",
-      access_forever: "Access Forever",
-      roles_for_offers: "Role assigned for processing offers",
-      reviewer: "Reviewer",
-      reviewer_role_info: "This role is for reviewing offers.",
-      supervisor: "Supervisor",
-      supervisor_role_info: "This role is for managing offers.",
-      admin_role_error:
-        "Access to Admin App requires at least one role to be assigned.",
-      admin_printer_label: "Preferred Label Printer in Admin App",
-      stock_app_details: "Stock App Details",
-      stock_role_error:
-        "Access to Stock App requires at least one role to be assigned.",
-      stock_printer_label: "Preferred Label Printer in Stock App",
-      role_for_orders: "Role assigned for processing orders",
-      role_for_stock: "Role assigned for processing stock",
-      order_fulfilment_role: "Order Fulfilment",
-      order_fulfilment_role_info: "This role is for reviewing orders.",
-      order_administrator_role: "Order Administrator",
-      order_administrator_role_info: "This role is for managing orders.",
-      stock_fulfilment_role: "Stock Fulfilment",
-      stock_fulfilment_role_info: "This role is for reviewing stock items.",
-      stock_administrator_role: "Stock Administrator",
-      stock_administrator_role_info: "This role is for managing stock items."
+      admin_app_details: "管理程式詳情",
+      unauthorised_error: "抱歉，你未獲授權更新此用戶身份。",
+      access_status_for: "授權狀況",
+      no_access: "沒有權限",
+      access_until: "獲授權至",
+      access_forever: "獲永久授權",
+      roles_for_offers: "賦予處理捐贈的職務",
+      reviewer: "審核員",
+      reviewer_role_info: "此職務為審核捐贈",
+      supervisor: "主管",
+      supervisor_role_info: "此職務為管理捐贈",
+      admin_role_error: "必須獲授權最少一個職務方可存取管理程式",
+      admin_printer_label: "管理程式的偏好打印機",
+      stock_app_details: "倉儲程式詳情",
+      stock_role_error: "必須獲授權最少一個職務方可存取倉儲程式",
+      stock_printer_label: "倉儲程式的偏好打印機",
+      role_for_orders: "賦予處理訂單的職務",
+      role_for_stock: "賦予處理貨物的職務",
+      order_fulfilment_role: "訂單執行員",
+      order_fulfilment_role_info: "此職務為審核訂單",
+      order_administrator_role: "訂單管理員",
+      order_administrator_role_info: "此職務為管理訂單",
+      stock_fulfilment_role: "貨物執行員",
+      stock_fulfilment_role_info: "此職務為審核貨物",
+      stock_administrator_role: "貨物管理員",
+      stock_administrator_role_info: "此職務為管理貨物"
     }
   }
 };

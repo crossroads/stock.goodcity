@@ -435,10 +435,6 @@ export default cloudinaryUrl.extend(GradeMixin, {
     }
   ),
 
-  allowLabelPrint: Ember.computed("ordersPackages.[]", function() {
-    return !this.get("isDispatchedForQuantity");
-  }),
-
   /**
    * @instance
    * @property {Item[]} siblings the other packages that are part of the same set

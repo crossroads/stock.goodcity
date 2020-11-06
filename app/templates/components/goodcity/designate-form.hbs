@@ -45,7 +45,11 @@
 
           <div class="sub-text">
             <span class="{{if (is-not (is-in-range quantity 1)) 'warn-text'}}">{{t "designate_form.max"}}: {{ maxQuantity }}</span>
-            <span class="link" {{action "displayItemAvailabilityOverlay"}}>{{t "designate_form.help_text"}}</span>
+            {{#unless pkg.isBoxPallet}}
+              <span class="link" {{action "displayItemAvailabilityOverlay"}}>
+                {{t "designate_form.help_text"}}
+              </span>
+            {{/unless}}
           </div>
         </div>
 
@@ -123,18 +127,20 @@
       </div>
     {{/if}}
 
-    <div class="info-box row">
-      <div class="small-10 columns large-11">
-        <b>{{t "designate_form.help.wrong_quantity"}}</b>
-        <div>
-          {{t "designate_form.help.increase_by_gain"}}
+    {{#unless pkg.isBoxPallet}}
+      <div class="info-box row">
+        <div class="small-10 columns large-11">
+          <b>{{t "designate_form.help.wrong_quantity"}}</b>
+          <div>
+            {{t "designate_form.help.increase_by_gain"}}
+          </div>
+        </div>
+        <div class="small-2 columns large-1 gain-item-action" {{action 'gainItem'}}>
+          <i>{{fa-icon "folder-plus"}}</i>
+          <span>{{t "designate_form.help.gain"}}</span>
         </div>
       </div>
-      <div class="small-2 columns large-1 gain-item-action" {{action 'gainItem'}}>
-        <i>{{fa-icon "folder-plus"}}</i>
-        <span>{{t "designate_form.help.gain"}}</span>
-      </div>
-    </div>
+    {{/unless}}
 
   </div>
 </div>

@@ -281,5 +281,7 @@ export default ApiBaseService.extend(NavigationAwareness, AsyncMixin, {
 
   onNavigation() {
     this.getWithDefault("onOrderSelected", _.noop)(null);
+    this.set("readyToDesignate", false);
+    this.set("showItemAvailability", false);
   }
 });
