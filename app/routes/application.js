@@ -111,7 +111,7 @@ export default Ember.Route.extend(AsyncMixin, preloadDataMixin, {
       if (error.errors && error.errors[0] && error.errors[0].status === "401") {
         transition.abort();
       }
-      this.handleError(error);
+      this.handleError(error, transition);
     };
     return this._loadDataStore();
   },
@@ -126,7 +126,7 @@ export default Ember.Route.extend(AsyncMixin, preloadDataMixin, {
     });
   },
 
-  handleError: function(reason) {
+  handleError: function(reason, transition) {
     try {
       var status;
 
@@ -148,6 +148,16 @@ export default Ember.Route.extend(AsyncMixin, preloadDataMixin, {
         return true;
       } else if (status === 401) {
         this.redirectToLogin();
+      } else if (status === 403) {
+        const key = transition.state.params[transition.targetName];
+        const id = key[Object.keys(key)[0]];
+
+        this.transitionTo("no-permission", {
+          queryParams: {
+            destination: transition.targetName,
+            id: id
+          }
+        });
       } else {
         if (
           reason.message &&
@@ -182,9 +192,9 @@ export default Ember.Route.extend(AsyncMixin, preloadDataMixin, {
       }
     },
 
-    error(reason) {
+    error(reason, transition) {
       try {
-        this.handleError(reason);
+        this.handleError(reason, transition);
       } catch (err) {
         console.log(err);
       }
