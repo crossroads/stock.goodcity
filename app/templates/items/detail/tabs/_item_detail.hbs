@@ -36,7 +36,7 @@
             {{action 'setPkgDescriptionLang' 'en'}}>EN</div>
           <div>&nbsp; | &nbsp;</div>
           <div class="{{if (is-equal selectedDescriptionLanguage 'zh-tw') 'active underline'}}"
-            {{action 'setPkgDescriptionLang' 'zh-tw'}}>中文 {{#if code.descriptionZhTw}}<sup>●</sup>{{/if}}</div>
+            {{action 'setPkgDescriptionLang' 'zh-tw'}}>中文 {{#if item.code.descriptionZhTw}}<sup>●</sup>{{/if}}</div>
         </div>
       </div>
       <div class="columns small-6 description">
