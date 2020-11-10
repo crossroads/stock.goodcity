@@ -1,32 +1,18 @@
-<div class="row" style="margin-top: 5%;">
-  <div class="columns small-7" style="text-align: right;
-    color: white;
-    font-size: 150%;">Welcome!</div>
-  <div class="columns small-4" style="font-size: 120%;cursor: pointer;text-align: right;padding-right: 3%;" {{action 'logMeOut'}}>Logout</div>
-</div>
+<div class="no-permission">
+  <div class="row mt-5">
+    <div class="columns small-7 welcome-text">Welcome!</div>
+    <div class="columns small-4 logout-btn"{{action 'logMeOut'}}>Logout</div>
+  </div>
 
-<div style="margin-top: 5%;
-    padding-top: 2%;
-    padding-bottom: 2%;
-    background: red;
-    color: white;
-    font-size: 15px;
-    padding-left: 5%;
-    padding-right: 2%;
-    line-height: 180%;">
-  You have successfully Logged in! However, you need permission to start working on stock.
-</div>
+  <div class="login-msg">
+    You have successfully Logged in! However, you need permission to start working on stock.
+  </div>
 
-<div style="
-    margin-top: 5%;
-    text-align: center;
-    color: white;
-    font-size: 120%;
-    padding: 8%;
-">
-  Ask your manager to grant permissions and then try again
-</div>
+  <div class="manager-msg">
+    Ask your manager to grant permissions and then try again
+  </div>
 
-<button class="button expand" style="width: 50%;margin-left: 25%;" {{action "tryAttemptedTransition"}} >
-  Try again
-</button>
+  <button class="button expand try-again" {{action "tryAttemptedTransition"}} >
+    Try again
+  </button>
+</div>
