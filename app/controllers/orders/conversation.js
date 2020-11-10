@@ -3,7 +3,7 @@ import config from "stock/config/environment";
 
 import detail from "./detail";
 import MessageBase from "stock/mixins/messages_base";
-import { ROLES } from "../../constants/roles";
+import { ROLES } from "stock/constants/roles";
 
 export default detail.extend(MessageBase, {
   isPrivate: false,

@@ -1,7 +1,7 @@
 import Ember from "ember";
 
 import conversation from "./conversation";
-import { ROLES } from "../../constants/roles";
+import { ROLES } from "stock/constants/roles";
 
 export default conversation.extend({
   isPrivate: true,
