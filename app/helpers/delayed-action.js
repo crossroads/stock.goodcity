@@ -17,6 +17,8 @@ import Ember from "ember";
  */
 export default Ember.Helper.helper(function([action, delay = 120]) {
   return async function() {
-    setTimeout(action, delay);
+    return setTimeout(async () => {
+      await action();
+    }, delay);
   };
 });

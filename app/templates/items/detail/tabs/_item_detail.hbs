@@ -42,9 +42,15 @@
       <div class="columns small-6 description">
         {{#form-control}}
           {{#if (is-equal selectedDescriptionLanguage 'en')}}
-            {{gc-textarea onFocusIn=(action 'setShowDescSuggestion' true) onFocusOut=(action (action 'updateAttribute' 'notes' item.notes (delayed-action (action 'setShowDescSuggestion' false)))) require=true data-autoresize=true value=item.notes  class="description-textarea-withbg" pattern=".*\S.*"}}
+            {{gc-textarea onFocusIn=(action 'setShowDescSuggestion' true)
+              onFocusOut=(action 'updateAttribute' 'notes' item.notes (action (delayed-action (action 'setShowDescSuggestion' false))))
+              require=true data-autoresize=true value=item.notes  class="description-textarea-withbg" pattern=".*\S.*"}}
+
           {{else}}
-            {{gc-textarea onFocusIn=(action 'setShowDescSuggestion' true) onFocusOut=(action (action 'updateAttribute' 'notesZhTw' item.notesZhTw (action 'setShowDescSuggestion' false))) data-autoresize=true value=item.notesZhTw  class="description-textarea-withbg" pattern=".*\S.*"}}
+            {{gc-textarea onFocusIn=(action 'setShowDescSuggestion' true)
+              onFocusOut=(action 'updateAttribute' 'notesZhTw' item.notesZhTw (action (delayed-action (action 'setShowDescSuggestion'
+              false))))
+              data-autoresize=true value=item.notesZhTw  class="description-textarea-withbg" pattern=".*\S.*"}}
           {{/if}}
           <div class='description-error'>
             {{t 'item_details.validation_errors.description'}}
