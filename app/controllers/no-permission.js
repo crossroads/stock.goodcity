@@ -12,12 +12,12 @@ export default Ember.Controller.extend({
     tryAttemptedTransition() {
       if (this.destination) {
         if (this.id) {
-          this.transitionToRoute(this.destination, +this.id);
+          this.replaceRoute(this.destination, +this.id);
         } else {
-          this.transitionToRoute(this.destination);
+          this.replaceRoute(this.destination);
         }
       } else {
-        this.transitionToRoute("/");
+        this.replaceRoute("/");
       }
     }
   }

@@ -1,18 +1,18 @@
 <div class="no-permission">
   <div class="row mt-5">
-    <div class="columns small-7 welcome-text">Welcome!</div>
-    <div class="columns small-4 logout-btn"{{action 'logMeOut'}}>Logout</div>
+    <div class="columns small-7 welcome-text">{{t 'no_permission.welcome'}}</div>
+    <div class="columns small-4 logout-btn"{{action 'logMeOut'}}>{{t 'no_permission.logout'}}</div>
   </div>
 
   <div class="login-msg">
-    You have successfully Logged in! However, you need permission to start working on stock.
+    {{t 'no_permission.login_msg'}}
   </div>
 
   <div class="manager-msg">
-    Ask your manager to grant permissions and then try again
+    {{t 'no_permission.manager_msg'}}
   </div>
 
   <button class="button expand try-again" {{action "tryAttemptedTransition"}} >
-    Try again
+    {{t 'no_permission.try_again'}}
   </button>
 </div>

@@ -149,15 +149,21 @@ export default Ember.Route.extend(AsyncMixin, preloadDataMixin, {
       } else if (status === 401) {
         this.redirectToLogin();
       } else if (status === 403) {
-        const key = transition.state.params[transition.targetName];
-        const id = key[Object.keys(key)[0]];
+        if (transition) {
+          const key = transition.state.params[transition.targetName];
+          const id = key[Object.keys(key)[0]];
 
-        this.transitionTo("no-permission", {
-          queryParams: {
-            destination: transition.targetName,
-            id: id
-          }
-        });
+          this.transitionTo("no-permission", {
+            queryParams: {
+              destination: transition.targetName,
+              id: id
+            }
+          });
+        } else {
+          this.transitionTo("no-permission", {
+            queryParams: { destination: "index" }
+          });
+        }
       } else {
         if (
           reason.message &&

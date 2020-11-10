@@ -1086,5 +1086,14 @@ export default {
       stock_administrator_role: "Stock Administrator",
       stock_administrator_role_info: "This role is for managing stock items."
     }
+  },
+
+  no_permission: {
+    welcome: "Welcome!",
+    logout: "Logout",
+    login_msg:
+      "You have successfully Logged in! However, you need permission to start working on stock.",
+    manager_msg: "Ask your manager to grant permissions and then try again",
+    try_again: "Try again"
   }
 };
