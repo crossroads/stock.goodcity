@@ -1,6 +1,8 @@
 import Ember from "ember";
+
 import MessageBase from "stock/mixins/messages_base";
 import AsyncMixin, { ERROR_STRATEGIES } from "stock/mixins/async";
+import { ROLES } from "../../constants/roles";
 
 export default Ember.Controller.extend(MessageBase, AsyncMixin, {
   isPrivate: true,
@@ -28,6 +30,12 @@ export default Ember.Controller.extend(MessageBase, AsyncMixin, {
       );
     }
   },
+
+  roles: Ember.computed(function() {
+    return Object.keys(ROLES["STOCK_APP_ROLES"]).map(
+      role => ROLES["STOCK_APP_ROLES"][role]
+    );
+  }),
 
   markReadAndScroll: function({ record }) {
     this.markMessageAsRead(record);

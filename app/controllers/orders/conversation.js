@@ -1,7 +1,9 @@
 import Ember from "ember";
 import config from "stock/config/environment";
+
 import detail from "./detail";
 import MessageBase from "stock/mixins/messages_base";
+import { ROLES } from "../../constants/roles";
 
 export default detail.extend(MessageBase, {
   isPrivate: false,
@@ -38,6 +40,13 @@ export default detail.extend(MessageBase, {
       this.markReadAndScroll
     );
   },
+
+  roles: Ember.computed(function() {
+    const {
+      STOCK_APP_ROLES: { ORDER_ADMINISTRATOR, ORDER_FULFILMENT }
+    } = ROLES;
+    return [ORDER_ADMINISTRATOR, ORDER_FULFILMENT];
+  }),
 
   markReadAndScroll: function({ record }) {
     this.markMessageAsRead(record);
