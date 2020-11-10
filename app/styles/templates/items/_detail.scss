@@ -29,6 +29,11 @@
     flex: 0.3;
   }
 
+  .description-language-container > *:nth-child(3) > sup {
+    display: inline-block;
+    text-decoration: none;
+  }
+
   .set_details {
     color: $white;
     padding: 0.5rem;

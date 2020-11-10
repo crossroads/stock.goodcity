@@ -437,18 +437,16 @@ export default GoodcityController.extend(
       async updateAttribute(name, value, cb = _.noop) {
         const item = this.get("item");
         if (item.changedAttributes()[name]) {
-          const params = { package: { [name]: value } };
+          const params = { package: { [_.snakeCase(name)]: value } };
           await this.runTask(async () => {
             await this.get("packageService").updatePackage(item, params);
-            cb();
           }, ERROR_STRATEGIES.MODAL);
         }
+        cb();
       },
 
       setShowDescSuggestion(val) {
-        setTimeout(() => {
-          this.set("showDescriptionSuggestion", val);
-        }, 120);
+        this.set("showDescriptionSuggestion", val);
       },
 
       /**
