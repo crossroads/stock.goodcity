@@ -27,7 +27,7 @@ export default detail.extend(SearchOptionMixin, AsyncMixin, {
       id: this.get("order.countryId"),
       nameEn: this.get("order.countryName")
     };
-  }).volatile(),
+  }),
 
   formatOrderCode(type, code) {
     return type == INTERNATIONAL_ORDERS.CARRYOUT ? `C${code}` : `S${code}`;
