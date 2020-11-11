@@ -712,7 +712,10 @@
       >.cancel-search {
         display: inline-block;
         @media #{$small-only} {
-          margin-left: 2%;
+          margin-left: 5%;
+        }
+        @media #{$medium-only} {
+          margin-left: 5%;
         }
       }
     }
