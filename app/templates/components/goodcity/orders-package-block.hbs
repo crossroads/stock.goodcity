@@ -57,4 +57,18 @@
         {{action-drawer isOpen=drawerOpened actionList=actionList small=small}}
     </div>
   {{/unless}}
+
+  {{#unless readOnly}}
+    {{goodcity/dispatch-form
+      open=readyToDispatch
+      orderPkg=dispatchOrdersPackage
+      location=dispatchLocation
+      quantity=dispatchQty
+      maxQuantity=dispatchableQuantity
+      editableQty=editableQty
+      selectLocationAction=(action "pickDispatchLocation")
+      cancelDispatchAction=(action "cancelDispatch")
+      completeDispatchAction=(action "completeDispatch")
+    }}
+  {{/unless}}
 </div>
