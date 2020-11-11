@@ -101,9 +101,9 @@ export default ApiBaseService.extend(NavigationAwareness, AsyncMixin, {
    * @param {String|Model} newOrder The new order to designate to (or its ID)
    * @returns {Promise<Model>}
    */
-  redesignate(ordersPackage, newOrder) {
+  redesignate(ordersPackage) {
     return this.execAction(ordersPackage, "redesignate", {
-      order_id: ID(newOrder)
+      order_id: ordersPackage.get("orderId")
     });
   },
 
@@ -248,7 +248,7 @@ export default ApiBaseService.extend(NavigationAwareness, AsyncMixin, {
     const ordPkg = pkg.get("ordersPackages").find(op => {
       return parseInt(op.get("orderId")) === parseInt(order.get("id"));
     });
-    return ordPkg ? ordPkg.get("quantity") : 0;
+    return ordPkg && ordPkg.get("isDesignated") ? ordPkg.get("quantity") : 0;
   },
 
   resetOrderDesignation() {
