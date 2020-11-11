@@ -52,7 +52,7 @@ export default Ember.Controller.extend(storageType, OrganisationMixin, {
       });
     },
 
-    createOrder() {
+    createHkOrder() {
       let loadingView = getOwner(this)
         .lookup("component:loading")
         .append();

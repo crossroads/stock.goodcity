@@ -6,8 +6,11 @@
       <i>{{fa-icon order.transportIcon}}{{fa-icon 'lg'}}</i> {{ order.transportLabel }}
     </div>
 
-    <div class="small-3 columns order_code">
-      {{order.code}}
+    <div class="small-3 columns order_code code">
+       {{order.code}}
+      {{#if (is-and (is-or order.isCarryOutOrder order.isShipmentOrder) order.countryName)}}
+         - {{order.countryName}}
+      {{/if}}
     </div>
 
     <div class="small-5 columns order_state">

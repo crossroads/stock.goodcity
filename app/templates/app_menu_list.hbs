@@ -65,10 +65,17 @@
     </div>
     <div class="row menu-margin">
       <div class="small-4 columns menu-option">
-        <a href="#" class="menu-list-anchor" {{action 'createOrder'}}>
+         {{#link-to 'order.international_order' class="menu-list-anchor"}}
+            <div class="menu-svg">{{fa-icon 'globe' size="lg"}}</div>
+            <br>
+            <div class="option-subtext">{{t 'new_international_order'}}</div>
+          {{/link-to}}
+      </div>
+      <div class="small-4 columns menu-option">
+        <a href="#" class="menu-list-anchor" {{action 'createHkOrder'}}>
             <div class="menu-svg">{{fa-icon 'shopping-basket' size="lg"}}</div>
             <br>
-            <div class="option-subtext">{{t 'new_order'}}</div>
+            <div class="option-subtext">{{t 'new_hk_order'}}</div>
           </a>
       </div>
     </div>
