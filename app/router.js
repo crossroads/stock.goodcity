@@ -98,6 +98,7 @@ Router.map(function() {
   });
 
   this.route("not-found", { path: "/*path" });
+  this.route("no-permission");
 });
 
 export default Router;

@@ -1049,5 +1049,14 @@ export default {
       stock_administrator_role: "貨物管理員",
       stock_administrator_role_info: "此職務為管理貨物"
     }
+  },
+
+  no_permission: {
+    welcome: "Welcome!",
+    logout: "Logout",
+    login_msg:
+      "You have successfully Logged in! However, you need permission to start working on stock.",
+    manager_msg: "Ask your manager to grant permissions and then try again",
+    try_again: "Try again"
   }
 };
