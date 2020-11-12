@@ -434,8 +434,15 @@ export default GoodcityController.extend(
         this.set("selectedDescriptionLanguage", langauge);
       },
 
-      async updateAttribute(name, value, cb = _.noop) {
+      /**
+       * @param {String} name | Name of the field to update
+       * @param {any} value | Value of the field
+       * @param {boolean} [isRequired=false] | false by default
+       * @param {function} cb | Callback to invoke
+       */
+      async updateAttribute(name, value, isRequired = false, cb = _.noop) {
         const item = this.get("item");
+        if (!value && isRequired) return;
         if (item.changedAttributes()[name]) {
           const params = { package: { [_.snakeCase(name)]: value } };
           await this.runTask(async () => {
@@ -676,17 +683,19 @@ export default GoodcityController.extend(
        *  Add the default suggested description for selected language
        * @param {string} language - Language EN | Zh-TW
        */
-      async addDefaultDescriptionFor(language) {
+      addDefaultDescriptionFor(language) {
         const item = this.get("item");
+        let description = "";
+        let name = "";
         if (language === "en") {
-          const description = this.get("item.code.descriptionEn");
-          item.set("notes", description);
+          description = this.get("item.code.descriptionEn");
+          name = "notes";
         } else {
-          const description = this.get("item.code.descriptionZhTw");
-          item.set("notesZhTw", description);
+          description = this.get("item.code.descriptionZhTw");
+          name = "notesZhTw";
         }
-        await this.saveItem(item);
-        this.send("setShowDescSuggestion", false);
+        item.set(name, description);
+        this.send("updateAttribute", name, description);
       },
 
       /**

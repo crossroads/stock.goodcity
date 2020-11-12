@@ -82,7 +82,7 @@
         <div class="description-language-container">
           <div class="{{if (is-equal selectedDescriptionLanguage 'en') 'active underline'}}" {{action 'setPkgDescriptionLang' 'en'}}>EN</div>
           <div>&nbsp; | </div>
-          <div class="{{if (is-equal selectedDescriptionLanguage 'zh-tw') 'active underline'}}" {{action 'setPkgDescriptionLang' 'zh-tw'}}>中文 {{#if code.descriptionZhTw}}<sup>●</sup>{{/if}}</div>
+          <div class="{{if (is-equal selectedDescriptionLanguage 'zh-tw') 'active underline'}}" {{action 'setPkgDescriptionLang' 'zh-tw'}}>中文 {{#if descriptionZhTw}}<sup>●</sup>{{/if}}</div>
         </div>
       </div>
       <i class="remove-text" aria-hidden="true" {{action "clearDescription"}}>{{fa-icon 'times-circle'}}</i>
