@@ -437,7 +437,7 @@ export default GoodcityController.extend(
       /**
        * @param {String} name | Name of the field to update
        * @param {any} value | Value of the field
-       * @param {boolean} isRequired | false by default
+       * @param {boolean} [isRequired=false] | false by default
        * @param {function} cb | Callback to invoke
        */
       async updateAttribute(name, value, isRequired = false, cb = _.noop) {
@@ -683,26 +683,19 @@ export default GoodcityController.extend(
        *  Add the default suggested description for selected language
        * @param {string} language - Language EN | Zh-TW
        */
-      async addDefaultDescriptionFor(language) {
+      addDefaultDescriptionFor(language) {
         const item = this.get("item");
-        let param = "";
         let description = "";
+        let name = "";
         if (language === "en") {
           description = this.get("item.code.descriptionEn");
-          param = "notes";
-          item.set("notes", description);
+          name = "notes";
         } else {
           description = this.get("item.code.descriptionZhTw");
-          param = "notes_zh_tw";
-          item.set("notesZhTw", description);
+          name = "notesZhTw";
         }
-        await this.runTask(async () => {
-          await this.get("packageService").updatePackage(item, {
-            package: {
-              [param]: description
-            }
-          });
-        }, ERROR_STRATEGIES.MODAL);
+        item.set(name, description);
+        this.send("updateAttribute", name, description);
       },
 
       /**
