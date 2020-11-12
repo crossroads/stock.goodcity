@@ -305,9 +305,6 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Decode AppStore connect API Key (to preserve line returns)
-          command: echo 'export APPSTORE_CONNECT_API_KEY=$(echo $APPSTORE_CONNECT_API_KEY_BASE64 | base64 -d)' >> $GC_ENV_FILE
-      - run:
           name: install node@10.22.0
           command: |
               set +e
