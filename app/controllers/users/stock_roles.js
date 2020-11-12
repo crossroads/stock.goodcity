@@ -10,6 +10,8 @@ export default Ember.Controller.extend({
 
   selectedPrinterId: "",
   user: Ember.computed.alias("model.user"),
+  activeRoles: Ember.computed.alias("model.user.activeRoles"),
+
   noStockAppAccess: Ember.computed.equal(
     "stockRoleAccess",
     ACCESS_TYPES.NO_ACCESS
@@ -73,40 +75,65 @@ export default Ember.Controller.extend({
     }
   }),
 
-  roleExpiryDate: Ember.computed("user.userRoles.[]", function() {
-    let date = this.get("userService").getRoleExpiryDate(
-      this.get("user"),
-      "stock"
-    );
-    return date ? moment(date).format("DD/MMM/YYYY") : "";
+  roleExpiryDate: Ember.computed("activeRoles.[]", {
+    get() {
+      let date = this.get("userService").getRoleExpiryDate(
+        this.get("user"),
+        "stock"
+      );
+      return date ? moment(date).format("DD/MMM/YYYY") : "";
+    },
+    set(_, value) {
+      return value;
+    }
   }),
 
-  hasStockAdministratorRole: Ember.computed("user.roles.[]", function() {
-    return this.get("userService").hasRole(
-      this.get("user"),
-      ROLES.STOCK_APP_ROLES.STOCK_ADMINISTRATOR
-    );
+  hasStockAdministratorRole: Ember.computed("activeRoles.[]", {
+    get() {
+      return this.get("userService").hasRole(
+        this.get("user"),
+        ROLES.STOCK_APP_ROLES.STOCK_ADMINISTRATOR
+      );
+    },
+    set(_, value) {
+      return value;
+    }
   }),
 
-  hasStockFulfilmentRole: Ember.computed("user.roles.[]", function() {
-    return this.get("userService").hasRole(
-      this.get("user"),
-      ROLES.STOCK_APP_ROLES.STOCK_FULFILMENT
-    );
+  hasStockFulfilmentRole: Ember.computed("activeRoles.[]", {
+    get() {
+      return this.get("userService").hasRole(
+        this.get("user"),
+        ROLES.STOCK_APP_ROLES.STOCK_FULFILMENT
+      );
+    },
+    set(_, value) {
+      return value;
+    }
   }),
 
-  hasOrderAdministratorRole: Ember.computed("user.roles.[]", function() {
-    return this.get("userService").hasRole(
-      this.get("user"),
-      ROLES.STOCK_APP_ROLES.ORDER_ADMINISTRATOR
-    );
+  hasOrderAdministratorRole: Ember.computed("activeRoles.[]", {
+    get() {
+      return this.get("userService").hasRole(
+        this.get("user"),
+        ROLES.STOCK_APP_ROLES.ORDER_ADMINISTRATOR
+      );
+    },
+    set(_, value) {
+      return value;
+    }
   }),
 
-  hasOrderFulfilmentRole: Ember.computed("user.roles.[]", function() {
-    return this.get("userService").hasRole(
-      this.get("user"),
-      ROLES.STOCK_APP_ROLES.ORDER_FULFILMENT
-    );
+  hasOrderFulfilmentRole: Ember.computed("activeRoles.[]", {
+    get() {
+      return this.get("userService").hasRole(
+        this.get("user"),
+        ROLES.STOCK_APP_ROLES.ORDER_FULFILMENT
+      );
+    },
+    set(_, value) {
+      return value;
+    }
   }),
 
   noStockAppRole: Ember.computed(
