@@ -1,5 +1,7 @@
 require 'json'
 
+update_fastlane
+
 default_platform :android
 
 class FastlaneCore::Shell
