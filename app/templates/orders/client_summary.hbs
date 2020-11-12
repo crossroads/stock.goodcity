@@ -94,14 +94,12 @@
               name="phone_number"
               maxlength=8
               id="beneficiary-phone-input"
-              acceptFloat=true
               disabled=(if model.isEditAllowed "" true)
-              class='numeric-input valuation-input'
               class="numeric-input beneficiary-inline-input"
               value=model.beneficiary.mobileWithoutCountryCode
               isMaxLengthRequired=true
               type='tel'
-              onSettingInput=(action 'updateMobileNumber')
+              onSettingInput=(action 'updateBeneficiary')
             }}
           </div>
         </div>
@@ -133,13 +131,17 @@
             {{t "order_client_summary.id_number"}}
           </div>
           <div id="id_number" class="small-7 columns">
-            {{beneficiary-inline-number-input
+            {{numeric-inline-input
               name="identity_number"
               maxlength=4
+              id="beneficiary-id-number"
               disabled=(if model.isEditAllowed "" true)
               class="numeric-input beneficiary-inline-input"
               value=model.beneficiary.identityNumber
-              beneficiary=model.beneficiary}}
+              isMaxLengthRequired=true
+              type='tel'
+              onSettingInput=(action 'updateBeneficiary')
+            }}
           </div>
           <br/>
           <hr/>

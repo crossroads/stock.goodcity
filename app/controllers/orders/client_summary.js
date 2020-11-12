@@ -25,7 +25,7 @@ export default detail.extend(AsyncMixin, {
       this.toggleProperty("showBeneficiaryModal");
     },
 
-    updateMobileNumber(field, value) {
+    updateBeneficiary(field, value) {
       const beneficiary = this.get("model.beneficiary");
       const phoneNumber = field === "phone_number" ? "+852" + value : value;
       this.runTask(
