@@ -376,7 +376,9 @@ jobs:
       - run:
           name: Download AppStore API KEY file
           command: |
-            yarn run azure-filestore download -d ios -f AuthKey_${APPSTORE_CONNECT_API_KEY_ID}.p8
+            APPSTORE_CONNECT_API_KEY_FILENAME="AuthKey_${APPSTORE_CONNECT_API_KEY_ID}.p8"
+            yarn run azure-filestore download -d ios -f $APPSTORE_CONNECT_API_KEY_FILENAME
+            mv $APPSTORE_CONNECT_API_KEY_FILENAME ~/code/fastlane
       - run:
           name: Download P12 certificate
           command: |
