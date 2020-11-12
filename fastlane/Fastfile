@@ -49,7 +49,9 @@ platform :ios do
   lane :staging do
     raise_if_no_env_var(["FL_TESTFAIRY_API_KEY", "TESTFAIRY_IPA_PATH"])
     testfairy(auto_update: 'on')
-    latest_testflight_build_number(api_key: APPSTORE_API_KEY, version: JSON.parse(package_json)['version'])
+    package_json = File.open(File.join(File.expand_path('../../',  __FILE__), 'package.json'), 'r').read
+    version_number = JSON.parse(package_json)['version']
+    latest_testflight_build_number(api_key: APPSTORE_API_KEY, version: version_number)
   end
 
   desc "Upload to the AppStore"
