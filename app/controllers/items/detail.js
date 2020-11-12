@@ -434,8 +434,15 @@ export default GoodcityController.extend(
         this.set("selectedDescriptionLanguage", langauge);
       },
 
-      async updateAttribute(name, value, cb = _.noop) {
+      /**
+       * @param {String} name | Name of the field to update
+       * @param {any} value | Value of the field
+       * @param {boolean} isRequied | false by default
+       * @param {function} cb | Callback to invoke
+       */
+      async updateAttribute(name, value, isRequied = false, cb = _.noop) {
         const item = this.get("item");
+        if (!value && isRequied) return;
         if (item.changedAttributes()[name]) {
           const params = { package: { [_.snakeCase(name)]: value } };
           await this.runTask(async () => {
@@ -678,15 +685,24 @@ export default GoodcityController.extend(
        */
       async addDefaultDescriptionFor(language) {
         const item = this.get("item");
+        let param = "";
+        let description = "";
         if (language === "en") {
-          const description = this.get("item.code.descriptionEn");
+          description = this.get("item.code.descriptionEn");
+          param = "notes";
           item.set("notes", description);
         } else {
-          const description = this.get("item.code.descriptionZhTw");
+          description = this.get("item.code.descriptionZhTw");
+          param = "notes_zh_tw";
           item.set("notesZhTw", description);
         }
-        await this.saveItem(item);
-        this.send("setShowDescSuggestion", false);
+        await this.runTask(async () => {
+          await this.get("packageService").updatePackage(item, {
+            package: {
+              [param]: description
+            }
+          });
+        }, ERROR_STRATEGIES.MODAL);
       },
 
       /**

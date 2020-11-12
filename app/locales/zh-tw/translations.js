@@ -790,7 +790,7 @@ export default {
     condition: "Condition :",
     quantity_inside: "內含數量 :",
     validation_errors: {
-      description: "Description cannot be blank."
+      description: "English description cannot be blank."
     },
     viewing_set: "Viewing part of this set",
     show_set: "Show Set",
