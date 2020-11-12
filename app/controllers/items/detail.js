@@ -437,12 +437,12 @@ export default GoodcityController.extend(
       /**
        * @param {String} name | Name of the field to update
        * @param {any} value | Value of the field
-       * @param {boolean} isRequied | false by default
+       * @param {boolean} isRequired | false by default
        * @param {function} cb | Callback to invoke
        */
-      async updateAttribute(name, value, isRequied = false, cb = _.noop) {
+      async updateAttribute(name, value, isRequired = false, cb = _.noop) {
         const item = this.get("item");
-        if (!value && isRequied) return;
+        if (!value && isRequired) return;
         if (item.changedAttributes()[name]) {
           const params = { package: { [_.snakeCase(name)]: value } };
           await this.runTask(async () => {
