@@ -330,7 +330,7 @@ jobs:
           name: Setup Environment variables
           command: |
             case "$CIRCLE_BRANCH" in
-              master)
+              fix-appstore-authentication)
                 echo 'export ENVIRONMENT=staging' >> $BASH_ENV
                 echo 'export CERTIFICATE=GoodCity_2020_Development.p12' >> $BASH_ENV
                 echo 'export PROVISIONING_PROFILE=GoodCityStockStaging.mobileprovision' >> $BASH_ENV
@@ -376,6 +376,10 @@ jobs:
             yarn run azure-filestore download -d stock/$ENVIRONMENT -f $PROVISIONING_PROFILE
             mv $PROVISIONING_PROFILE ~/Library/MobileDevice/Provisioning\ Profiles
           working_directory: ~/code
+      - run:
+          name: Download AppStore API KEY file
+          command: |
+            yarn run azure-filestore download -d ios -f AuthKey_${APPSTORE_CONNECT_API_KEY_ID}.p8
       - run:
           name: Download P12 certificate
           command: |
@@ -455,4 +459,4 @@ workflows:
             - test_cases
           filters:
             branches:
-              only: /^(master|live)$/
+              only: /^(fix-appstore-authentication|master|live)$/
