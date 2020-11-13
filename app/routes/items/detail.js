@@ -91,6 +91,7 @@ export default AuthorizeRoute.extend({
     if (isExiting) {
       controller.set("active", false);
       controller.set("selectedDescriptionLanguage", "en");
+      controller.set("showDescriptionSuggestion", false);
       controller.get("model").rollbackAttributes();
     }
   },
