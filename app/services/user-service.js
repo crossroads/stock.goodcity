@@ -110,6 +110,7 @@ export default ApiBaseService.extend({
   saveImage(img) {
     return img.save();
   },
+
   deleteUserRole(userId, roleId) {
     let userRole = this.get("store")
       .peekAll("user_role")
@@ -120,6 +121,7 @@ export default ApiBaseService.extend({
       );
     userRole &&
       userRole.destroyRecord().catch(jqXHR => {
+        userRole.rollbackAttributes();
         this.get("messageBox").alert(
           _.get(jqXHR, "errors[0].detail.message.error")
         );
