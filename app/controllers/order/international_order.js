@@ -92,7 +92,7 @@ export default Ember.Controller.extend(
           ).createShipmentOrCarryoutOrder(this.orderParams());
           this.clearFormData();
 
-          this.transitionToRoute("orders.active_items", designation.id);
+          this.replaceRoute("orders.active_items", designation.id);
         }, ERROR_STRATEGIES.MODAL);
       },
 
