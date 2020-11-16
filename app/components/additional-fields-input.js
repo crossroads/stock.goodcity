@@ -24,6 +24,7 @@ export default Ember.TextField.extend({
   previousValue: "",
 
   focusOut() {
+    if (this.get("disableCallbacks")) return;
     const config = {
       value: this.get("value"),
       name: this.get("name"),
@@ -44,5 +45,9 @@ export default Ember.TextField.extend({
 
   click() {
     this.addCssStyle();
+  },
+
+  willDestroyElement() {
+    this.set("disableCallbacks", true);
   }
 });

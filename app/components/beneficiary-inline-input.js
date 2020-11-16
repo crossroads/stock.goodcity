@@ -39,6 +39,7 @@ export default Ember.TextField.extend({
   },
 
   focusOut() {
+    if (this.get("disableCallbacks")) return;
     const field = this.attrs.name;
     const value = this.attrs.value.value.trim() || "";
     const beneficiary = this.get("beneficiary");
@@ -82,5 +83,9 @@ export default Ember.TextField.extend({
   click() {
     this.addCssStyle();
     this.set("previousValue", this.get("value") || "");
+  },
+
+  willDestroyElement() {
+    this.set("disableCallbacks", true);
   }
 });
