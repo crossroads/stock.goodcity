@@ -66,6 +66,7 @@ platform :ios do
       app_version: version_number,
       copyright: COPYRIGHT,
       api_key: APPSTORE_API_KEY,
+      precheck_include_in_app_purchases:  false,
       force: true # to prevent fastlane from crashing waiting for user confirmation
     )
   end
