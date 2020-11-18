@@ -66,6 +66,7 @@ Router.map(function() {
     });
     this.route("confirm_booking", { path: "/:order_id/confirm_booking" });
     this.route("booking_success", { path: "/:order_id/booking_success" });
+    this.route("international_order");
   });
 
   this.route("organisations", function() {
@@ -98,6 +99,7 @@ Router.map(function() {
   });
 
   this.route("not-found", { path: "/*path" });
+  this.route("no-permission");
 });
 
 export default Router;

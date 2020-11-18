@@ -36,4 +36,13 @@
       </a>
     </div>
   {{/if}}
+
+  {{#unless model.isCancelled}}
+    <div class="option_menu">
+      <a {{action "updateOrder" model "cancel"}}>
+        <i class="order_menu">{{fa-icon 'window-close'}}</i>
+        {{t "order.cancel_order"}}
+      </a>
+    </div>
+  {{/unless}}
 </div>

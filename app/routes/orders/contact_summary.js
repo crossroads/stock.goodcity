@@ -16,7 +16,13 @@ export default detail.extend({
 
   setupController(controller, model) {
     if (controller) {
+      const countryId = model && model.order.get("countryId");
+      const countryName = model && model.order.get("countryName");
+
       controller.set("model", model.order);
+      controller.set("codeWithoutPrefix", model.order.get("code").slice(1));
+      controller.set("selectedCountry", { id: countryId, nameEn: countryName });
+      controller.set("codeValidationError", false);
       controller.set("ordersCount", model.usersOrdersCount);
     }
   }

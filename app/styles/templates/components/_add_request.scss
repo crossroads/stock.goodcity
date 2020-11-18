@@ -15,6 +15,10 @@
     }
   }
 
+  .request-type{
+    pointer-events: none;
+  }
+
   .req-description input {
     margin-top: 0.1rem;
   }
@@ -84,6 +88,18 @@
 
 .cancel-icon {
   margin-top: 5vw;
+}
+
+.request_empty_error{
+  background-color: $coral-red;
+  color:$white;
+  margin-top:-1.5rem !important;
+  width: 81%;
+  margin-left: 0.5rem;
+
+  @media #{$small-only}{
+    width: 79%;
+  }
 }
 
 .error-reason-margin{

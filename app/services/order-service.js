@@ -7,6 +7,25 @@ export default ApiBaseService.extend({
     return this.GET(`/users/${userId}/orders_count`);
   },
 
+  async getNextCode(detail_type) {
+    const data = await this.GET("/orders/next_code", {
+      detail_type: detail_type
+    });
+    return data;
+  },
+
+  async createShipmentOrCarryoutOrder(params) {
+    const data = await this.POST("/orders", params);
+    this.get("store").pushPayload(data);
+    return data;
+  },
+
+  async updateShipmentOrCarryoutOrder(order, params) {
+    const data = await this.PUT(`/orders/${order.id}`, params);
+    this.get("store").pushPayload(data);
+    return data;
+  },
+
   changeOrderState(order, state, opts = {}) {
     return this.PUT(`/orders/${order.id}/transition`, {
       transition: state,

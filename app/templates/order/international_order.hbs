@@ -1,0 +1,166 @@
+<nav class="tab-bar user-details-heading">
+  <section class="left-small">
+    <a {{action "cancel"}} class="user-back-link">
+      <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-left'}}</i>
+      <div>{{t "cancel"}}</div>
+    </a>
+  </section>
+
+  <section class="middle tab-bar-section">
+    <h1 class="title">{{t 'order.add_overseas_order'}}</h1>
+  </section>
+</nav>
+
+<section class=" main-section new-user-section request-purpose international_order ">
+  {{#validatable-form onSubmit=(action 'createInternationalOrder') as |form|}}
+
+    <div class="row">
+      <div class="small-12 columns order-label">
+        {{t 'order_details.logistics.type'}}
+      </div>
+      <div class="small-12 columns type">
+        <span class="type_icon">
+          {{#if (is-equal selectedType.id "CarryOut")}}
+            {{fa-icon "shopping-bag"}}
+          {{else}}
+            {{fa-icon "ship"}}
+          {{/if}}
+        </span>
+        {{select-list
+          content=shipmentTypes
+          on-change=(action "handleTypeChange")
+          selectedValue=selectedType
+          value= selectedType
+        }}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="small-12 columns order-label">
+        {{t 'order.order_number'}}
+      </div>
+      <div class="small-12 columns calendar">
+        {{input type="text" value=shipmentOrCarryoutCode class="code_input"}}
+        <div class="code_prefix">
+          {{prefix}}
+        </div>
+      </div>
+      {{#if (is-and isInvalidCode showError)  }}
+        <div class='small-12 columns error-message'>
+          {{fa-icon "exclamation-triangle"}}
+          <span class="error-reason-margin">
+            {{t 'order.international.errors.code_error'}}
+          </span>
+        </div>
+      {{/if}}
+    </div>
+
+    <div class="row">
+      <div class="small-12 columns order-label">
+        {{t 'organisation.country'}}
+      </div>
+      <div class="small-12 columns organisation-country">
+        {{searchable-select
+          content=resultArray
+          required="true"
+          sortBy="name"
+          optionLabelKey="nameEn"
+          selected=country
+          on-change=(action "setCountryValue")
+          isClearable=false
+          prompt=""
+          name="country_id"
+          on-search=(action "onSearch" "country")
+        }}
+      </div>
+      {{#if (is-and isInvalidCountry showError)}}
+        <div class='small-12 columns error-message calendar-error'>
+          {{fa-icon "exclamation-triangle"}}
+          <span class="error-reason-margin">
+            {{t 'order.international.errors.empty_country_error'}}
+          </span>
+        </div>
+      {{/if}}
+    </div>
+
+    <div class="row description-of-need">
+      <div class="small-12 columns order-label">
+        {{t 'order.international.shipment_date'}}
+      </div>
+      <div class="small-12 columns reason-of-need">
+        {{t 'order.international.date_info'}}
+      </div>
+      <div class="small-12 columns">
+        {{calendar-input
+          id="quantity"
+          name='order_selection_date'
+          id='order_selection_date'
+          required="required"
+          value=shipmentDate
+          formatSubmit="dd/mmm/yyyy"
+          placeholder="Select a Date"
+          enablePastDate=false
+          selection=shipmentDate
+        }}
+        <i class="fa fa-calendar calender_icon">
+          {{fa-icon "calendar"}}
+        </i>
+      </div>
+      {{#if (is-and isInvalidShipmentDate showError)}}
+        <div class='small-12 columns error-message'>
+          {{fa-icon "exclamation-triangle"}}
+          <span class="error-reason-margin">
+            {{t 'order.international.errors.date_error'}}
+          </span>
+        </div>
+      {{/if}}
+    </div>
+
+    <div class="row people-count">
+      <div class="small-12 columns order-label">
+        {{t 'order.request_purpose.people_count_info'}}
+      </div>
+      <div class="small-12 columns people-count-input">
+        {{numeric-input value=peopleCount name="people-count" maxlength= "10" id="people-count" acceptZeroValue="true"}}
+      </div>
+      {{#if (is-and isInvalidPeopleCount showError)}}
+        <div class='small-12 columns error-message calendar-error'>
+          {{fa-icon "exclamation-triangle"}}
+          <span class="error-reason-margin">
+            {{t 'order.international.errors.empty_people_helped_error'}}
+          </span>
+        </div>
+      {{/if}}
+    </div>
+
+    <div class="row description-of-need">
+      <div class="small-12 columns order-label">
+        {{t 'order.request_purpose.need_description'}}
+      </div>
+      <div class="small-12 columns reason-of-need">
+        {{t 'order.request_purpose.need_description_info'}}
+      </div>
+      <div class="small-12 columns">
+        <span class="remove-text" {{action "clearDescription" }}>
+          {{fa-icon 'times-circle'}}
+        </span>
+        {{auto-resize-textarea data-autoresize=true name="description" value=orderDescription pattern=".*\S.*" id="description"}}
+      </div>
+      {{#if (is-and isInvalidDescription showError)}}
+        <div class='small-12 columns error-message calendar-error'>
+          {{fa-icon "exclamation-triangle"}}
+          <span class="error-reason-margin">
+            {{t 'order.international.errors.description_error'}}
+          </span>
+        </div>
+      {{/if}}
+    </div>
+
+    <div class="row continue">
+      <div class="small-12 columns">
+        <a {{action 'submit' target=form}} class="button expand" id="request-submit"> {{t 'save'}} </a>
+      </div>
+    </div>
+  {{/validatable-form}}
+</section>
+

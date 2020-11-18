@@ -7,10 +7,10 @@ export default ApiBaseService.extend({
   store: Ember.inject.service(),
   session: Ember.inject.service(),
   printerService: Ember.inject.service(),
+  messageBox: Ember.inject.service(),
 
   canUpdateRole(userId) {
     return (
-      this.get("session.currentUser.isAdministrator") &&
       this.get("session.currentUser.canManageUserRoles") &&
       +this.get("session.currentUser.id") !== +userId
     );
@@ -110,6 +110,7 @@ export default ApiBaseService.extend({
   saveImage(img) {
     return img.save();
   },
+
   deleteUserRole(userId, roleId) {
     let userRole = this.get("store")
       .peekAll("user_role")
@@ -118,7 +119,13 @@ export default ApiBaseService.extend({
           userRole.get("roleId") === +roleId &&
           userRole.get("userId") === +userId
       );
-    userRole && userRole.destroyRecord();
+    userRole &&
+      userRole.destroyRecord().catch(jqXHR => {
+        userRole.rollbackAttributes();
+        this.get("messageBox").alert(
+          _.get(jqXHR, "errors[0].detail.message.error")
+        );
+      });
   },
 
   assignRole(userId, roleId, date) {
@@ -135,7 +142,13 @@ export default ApiBaseService.extend({
         user_id: +userId,
         expires_at: date
       }
-    }).then(data => this.get("store").pushPayload(data));
+    })
+      .then(data => this.get("store").pushPayload(data))
+      .catch(jqXHR => {
+        this.get("messageBox").alert(
+          _.get(jqXHR, "responseJSON.errors[0].message.error")
+        );
+      });
   },
 
   deleteAdminRoles(user) {

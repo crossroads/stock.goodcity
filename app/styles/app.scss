@@ -22,6 +22,7 @@
 
 @import "node_modules/ember-searchable-select/app/styles/ember-searchable-select/style";
 @import "templates/index";
+@import "templates/no-permission";
 @import "templates/app_menu_list";
 @import "templates/my_notifications";
 @import "templates/items/detail";
@@ -36,6 +37,7 @@
 @import "templates/orders/items";
 @import "templates/orders/messages";
 @import "templates/orders/request";
+@import "templates/orders/international_order";
 @import "templates/components/message_box";
 @import "templates/components/_custom_radio_button";
 @import "templates/components/item_options";

@@ -361,10 +361,11 @@
 }
 
 .options-menu-title {
-  font-size: 120%;
+  font-size: 100%;
   text-decoration: underline;
   @media #{$small-only} {
     margin-top: 6%;
+    font-size: 110%;
   }
 }
 
@@ -545,8 +546,12 @@
       text-decoration: underline;
     }
 
+    .order-type{
+      float: left;
+    }
     .time-details {
-      display: inline;
+      text-align: right !important;
+      display: block;
 
       .cancel-reason {
         display: flex;
@@ -697,15 +702,25 @@
         padding: 5%;
         border: 1px solid #93A2B7;
         background: #002352;
-        width: 90%;
-        height: 30px;
+        width: 80%;
+        height: 40px;
         color: white;
         font-size: 115%;
         display: inline-block;
+
+        @media #{$small-only} {
+          height: 30px;
+        }
       }
 
-      &.cancel-search {
+      >.cancel-search {
         display: inline-block;
+        @media #{$small-only} {
+          margin-left: 5%;
+        }
+        @media #{$medium-only} {
+          margin-left: 5%;
+        }
       }
     }
 

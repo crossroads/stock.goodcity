@@ -23,6 +23,7 @@ export default AutoResizableTextarea.extend({
   },
 
   focusOut() {
+    if (this.get("disableCallbacks")) return;
     var order = this.get("order");
     var url = `/orders/${order.get("id")}`;
     var key = this.get("name");
@@ -76,5 +77,9 @@ export default AutoResizableTextarea.extend({
 
   click() {
     this.addCssStyle();
+  },
+
+  willDestroyElement() {
+    this.set("disableCallbacks", true);
   }
 });

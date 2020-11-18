@@ -11,6 +11,29 @@
     margin-top: 1rem;
   }
 
+  .description_suggestion {
+    color: #c0d2b6 !important;
+    font-style: italic;
+  }
+
+  .description-language-container {
+    display: flex;
+    align-items: baseline;
+
+    .disable {
+      color: grey;
+    }
+  }
+
+  .description-language-container > *:first-child {
+    flex: 0.3;
+  }
+
+  .description-language-container > *:nth-child(3) > sup {
+    display: inline-block;
+    text-decoration: none;
+  }
+
   .set_details {
     color: $white;
     padding: 0.5rem;
@@ -725,11 +748,13 @@
   margin-top: -1rem;
   background-color: #f46769;
   width: 100%;
+
 }
 
 .description-error {
   margin: -1.3rem 0 0.4rem 0.1rem!important;
   width: 100% !important;
+  display: block !important;
 }
 
 

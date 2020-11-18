@@ -11,45 +11,8 @@
   {{partial "orders/summary_tabs"}}
   {{partial "orders/cancel_message_popup"}}
 
-  {{#if model.isShipmentOrder}}
-    <div class="row">
-      <div class="small-12 columns main_details">
-        <div class="row">
-          <div class="small-4 columns">
-            {{t "order_contact_summary.shipment_number"}}
-          </div>
-          <div class="small-8 columns">
-            {{model.code}}
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="small-4 columns">
-            {{t "order_contact_summary.country"}}
-          </div>
-          <div class="small-8 columns">
-            {{model.countryName}}
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="small-4 columns">
-            {{t "order_contact_summary.people_helped"}}
-          </div>
-          <div class="small-8 columns">
-            {{model.peopleHelped}}
-          </div>
-        </div>
-        <div class="row">
-          <div class="small-4 columns">
-            {{t "order_contact_summary.description"}}
-          </div>
-          <div class="small-8 columns">
-            {{model.description}}
-          </div>
-        </div>
-      </div>
-    </div>
+  {{#if (is-or model.isShipmentOrder model.isCarryOutOrder)}}
+    {{partial "orders/international_orders_summary"}}
   {{else}}
     <div class="row">
       <div class="small-12 columns main_details contact_details">
@@ -99,9 +62,9 @@
             {{t "order_contact_summary.organisation_title"}}
           </div>
           <div class="small-8 columns organisation_name">
-            {{apply-line-break (if model.isGoodCityOrder model.gcOrganisation.nameEn model.organisation.name)}}
+            {{apply-line-break (if model.isGoodCityOrder model.organisation.nameEn)}}
           </div>
-        </div>        
+        </div>
 
         <div class="row">
           <div class="small-4 columns">

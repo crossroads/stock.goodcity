@@ -2,6 +2,8 @@ import Ember from "ember";
 import ApiBaseService from "./api-base-service";
 import _ from "lodash";
 
+import { ORGANISATION_STATUS } from "../constants/states";
+
 export default ApiBaseService.extend({
   store: Ember.inject.service(),
   /**
@@ -10,13 +12,12 @@ export default ApiBaseService.extend({
    * @returns {Array.<Object>} with id as key and name as value
    */
   async getAllStatus() {
-    let data = await this.GET(`/organisations_users/status_list`);
-
-    data = data["status"].map((val, index) => ({
+    let statusList = ORGANISATION_STATUS;
+    statusList = Object.keys(statusList).map((val, index) => ({
       id: index,
       name: _.startCase(_.toLower(val))
     }));
-    return data;
+    return statusList;
   },
 
   /**

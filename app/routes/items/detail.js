@@ -90,6 +90,9 @@ export default AuthorizeRoute.extend({
   resetController(controller, isExiting) {
     if (isExiting) {
       controller.set("active", false);
+      controller.set("selectedDescriptionLanguage", "en");
+      controller.set("showDescriptionSuggestion", false);
+      controller.get("model").rollbackAttributes();
     }
   },
 

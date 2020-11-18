@@ -44,8 +44,8 @@ export default AuthorizeRoute.extend({
     const organisationId = transition.queryParams["organisationId"];
     if (organisationId) {
       this.set("organisation_id", organisationId);
-      this.store.peekRecord("gc_organisation", organisationId) ||
-        (await this.store.findRecord("gc_organisation", organisationId, {
+      this.store.peekRecord("organisation", organisationId) ||
+        (await this.store.findRecord("organisation", organisationId, {
           reload: true
         }));
     }
@@ -59,25 +59,14 @@ export default AuthorizeRoute.extend({
   },
 
   initializeOrganisation(controller, model) {
-    // TODO: Remove gc_organisation model and use only organisation model
-
-    // Currently, the organisation search uses gc_organisation model to find records.
-    // If this model is used, then model.save will pass gc_organisation_id instead of
-    // organisation_id, which is not expected in the API.
     if (this.get("organisation_id")) {
       const data =
         model.get("organisation") ||
-        this.store.peekRecord("gc_organisation", this.get("organisation_id"));
+        this.store.peekRecord("organisation", this.get("organisation_id"));
       controller.set("organisation", data);
 
-      const orgData =
-        this.store.peekRecord("organisation", data.get("id")) ||
-        this.store.createRecord("organisation", {
-          nameEn: data.get("nameEn"),
-          id: data.get("id")
-        });
       if (!model.get("organisation.id")) {
-        model.set("organisation", orgData);
+        model.set("organisation", data);
       }
     }
   },

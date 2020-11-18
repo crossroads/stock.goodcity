@@ -24,7 +24,15 @@
         <div class="info-row">
           <div class="key">Quantity</div>
           <div class="value">
-            {{input type="number" value=quantity disabled=(unless editableQty true) class="qty-input"}}
+            {{numeric-input
+                name="dispatchQty"
+                value=quantity
+                maxlength="5"
+                pattern="^[1-9][0-9]*$"
+                min="1"
+                max="{{maxQuantity}}"
+                disabled=(unless editableQty true)
+                class="qty-input"}}
           </div>
           <div class="sub-text {{if (is-not (is-in-range quantity 1 maxQuantity)) 'warn-text'}}">Max: {{maxQuantity}}</div>
         </div>

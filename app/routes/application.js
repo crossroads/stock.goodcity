@@ -126,7 +126,7 @@ export default Ember.Route.extend(AsyncMixin, preloadDataMixin, {
     });
   },
 
-  handleError: function(reason) {
+  handleError: function(reason, transition) {
     try {
       var status;
 
@@ -148,6 +148,8 @@ export default Ember.Route.extend(AsyncMixin, preloadDataMixin, {
         return true;
       } else if (status === 401) {
         this.redirectToLogin();
+      } else if (status === 403) {
+        this.redirectToNoPermission(transition);
       } else {
         if (
           reason.message &&
@@ -171,6 +173,24 @@ export default Ember.Route.extend(AsyncMixin, preloadDataMixin, {
     }
   },
 
+  redirectToNoPermission(transition) {
+    if (transition) {
+      const key = transition.state.params[transition.targetName];
+      const id = key[Object.keys(key)[0]];
+
+      this.transitionTo("no-permission", {
+        queryParams: {
+          destination: transition.targetName,
+          id: id
+        }
+      });
+    } else {
+      this.transitionTo("no-permission", {
+        queryParams: { destination: "index" }
+      });
+    }
+  },
+
   actions: {
     loading() {
       if (config.environment !== "test") {
@@ -182,9 +202,9 @@ export default Ember.Route.extend(AsyncMixin, preloadDataMixin, {
       }
     },
 
-    error(reason) {
+    error(reason, transition) {
       try {
-        this.handleError(reason);
+        this.handleError(reason, transition);
       } catch (err) {
         console.log(err);
       }

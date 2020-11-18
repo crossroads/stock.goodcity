@@ -35,6 +35,9 @@
           <div class="columns small-10 text-align-left">
             {{fa-icon orderPkg.designation.transportIcon size='lg'}}
             {{ orderPkg.designation.code }}
+            {{#if (is-and (is-or orderPkg.designation.isCarryOutOrder orderPkg.designation.isShipmentOrder) orderPkg.designation.countryName)}}
+              - {{orderPkg.designation.countryName}}
+            {{/if}}
           </div>
           <div class="order-icon columns small-2 text-align-left">
             {{fa-icon orderPkg.designation.stateIcon size='lg'}}
@@ -43,7 +46,7 @@
         <div class="row line">
           <div class="org-name">
             {{#if orderPkg.designation.isGoodCityOrder}}
-              {{ orderPkg.designation.gcOrganisation.nameEn }}
+              {{ orderPkg.designation.organisation.nameEn }}
             {{else}}
               {{ orderPkg.designation.organisation.name }}
             {{/if}}

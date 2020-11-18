@@ -1,6 +1,9 @@
 import Ember from "ember";
 import searchModule from "./../search_module";
 import AjaxPromise from "stock/utils/ajax-promise";
+import { ORGANISATION_STATUS } from "../../constants/states";
+
+const { pending, approved } = ORGANISATION_STATUS;
 
 export default searchModule.extend({
   filteredResults: "",
@@ -25,7 +28,7 @@ export default searchModule.extend({
         startingPage: 1,
         perPage: 25,
         modelPath: "filteredResults",
-        role_name: "Charity"
+        organisation_status: `${approved},${pending}`
       },
       { searchText: "searchText" }
     )
@@ -59,9 +62,13 @@ export default searchModule.extend({
       this.transitionToRoute("app_menu_list");
     },
 
-    goToRequestPurpose(userId) {
-      let orderId = this.get("model.order.id");
-      let orderParams = { created_by_id: userId };
+    goToRequestPurpose(user) {
+      const orderId = this.get("model.order.id");
+      const userId = user.get("id");
+      const organisation_id = user.get(
+        "organisationsUsers.firstObject.organisation.id"
+      );
+      const orderParams = { created_by_id: userId, organisation_id };
       new AjaxPromise(
         "/orders/" + orderId,
         "PUT",

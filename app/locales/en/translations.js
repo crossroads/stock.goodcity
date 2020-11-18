@@ -53,7 +53,8 @@ export default {
   manage_inventory: "Quotas",
   manage_users: "Manage Users",
   search_user: "Search User",
-  new_order: "+ HK Orders",
+  new_international_order: "+International",
+  new_hk_order: "+HK Order",
   full_name: "{{firstName}} {{lastName}}",
   mobile_prefix: "+852",
   not_found:
@@ -431,6 +432,7 @@ export default {
     finish_process: "Finish Processing",
     process_summary: "Process Summary",
     due_date: "Due Date",
+    order_number: "Order Number",
     submitted_for_client: "Submitted for client",
     start_dispatching: "Start Dispatching",
     cancel_order: "Cancel Order",
@@ -439,6 +441,7 @@ export default {
     dispatching: "Dispatching",
     dispatch_later: "Dispatch Later",
     closed: "Closed",
+    add_overseas_order: "New Overseas Order",
     close_order: "Close Order",
     reopen_order: "Reopen Order",
     resubmit: "Resubmit Order",
@@ -450,6 +453,18 @@ export default {
     title: "Title",
     cannot_process_unless_approved:
       "An organisation user must be approved before the order can be processed",
+    international: {
+      shipment_date: "Shipment Date",
+      date_info: "Use an estimate if unknown",
+      errors: {
+        description_error: "Please input a description",
+        date_error: "You must select a date",
+        empty_country_error: "You must select a country",
+        empty_people_helped_error: "You must input a number",
+        code_error:
+          "Must be a 4 or 5 digit Number (a letter suffix is optional)"
+      }
+    },
     client_information: {
       title: "Client Information",
       is_order_client: "Is this order being placed on behalf of a client?",
@@ -808,7 +823,7 @@ export default {
     condition: "Condition :",
     quantity_inside: "Quantity inside :",
     validation_errors: {
-      description: "Description cannot be blank."
+      description: "English description cannot be blank."
     },
     viewing_set: "Viewing part of this set",
     show_set: "Show Set",
@@ -856,7 +871,8 @@ export default {
       add_images: "Add Images",
       quantity: "Quantity*",
       type: "Type*",
-      description: "Description*",
+      description_required: "Description*",
+      description: "Description",
       size: "Size (cm)",
       quality: "Quality*",
       grade: "Grade:",
@@ -886,7 +902,7 @@ export default {
         max_label: "Max 300",
         invalid_dimensions:
           "Provide all 3 dimensions(or none). Dimension must be greater than 0",
-        description: "Description cannot be blank.",
+        description: "English Description cannot be blank.",
         donation: "Must be a number or in the form 'CAS-12345'",
         invalid_location: "Scanned Location is invalid.",
         blank_location: "Location can't be blank.",
@@ -1086,5 +1102,14 @@ export default {
       stock_administrator_role: "Stock Administrator",
       stock_administrator_role_info: "This role is for managing stock items."
     }
+  },
+
+  no_permission: {
+    welcome: "Welcome!",
+    logout: "Logout",
+    login_msg:
+      "You have successfully Logged in! However, you need permission to start working on stock.",
+    manager_msg: "Ask your manager to grant permissions and then try again",
+    try_again: "Try again"
   }
 };

@@ -9,6 +9,8 @@ export default Model.extend({
   allow_pieces: attr("boolean", { defaultValue: false }),
   allow_box: attr("boolean"),
   allow_pallet: attr("boolean"),
+  descriptionEn: attr("string"),
+  descriptionZhTw: attr("string"),
   visibleInSelects: attr("boolean", { defaultValue: false }),
   allowExpiryDate: attr("boolean", { defaultValue: false }),
   location: belongsTo("location", { async: false }),

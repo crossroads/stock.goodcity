@@ -38,7 +38,7 @@
                         {{fa-icon (if notification.item.isPartOfSet 'tags' (storage-icon notification.item.storageTypeName)) class="default-icon"}}
                       {{/if}}
                     {{else}}
-                      <i class="thumb">{{fa-icon 'bullhorn'}}</i>
+                      {{fa-icon notification.designation.transportIcon class="default-icon"}}
                     {{/if}}
                   </span>
 
@@ -47,9 +47,9 @@
                       <div class="small-8 large-10 columns">
                         <div class='ellipsis one-line-ellipsis message-text'>
                           {{#if notification.item}}
-                            {{notification.item.code.name}}
+                            {{notification.item.inventoryNumber}} {{notification.item.code.name}}
                           {{else}}
-                            {{t "my_notifications.heading" name=notification.designation.createdBy.fullName}}
+                            {{notification.designation.code}} - {{notification.designation.organisation.nameEn}}
                           {{/if}}
                         </div>
 

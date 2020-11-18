@@ -16,7 +16,7 @@ FactoryGuy.define("organisationsUser", {
     preferredContactNumber: Math.floor(
       10000000 + Math.random() * 1000000000
     ).toString(),
-    gcOrganisation: FactoryGuy.belongsTo("gc_organisation"),
+    organisation: FactoryGuy.belongsTo("organisation"),
     user: FactoryGuy.belongsTo("user")
   }
 });

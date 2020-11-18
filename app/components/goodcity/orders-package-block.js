@@ -18,7 +18,7 @@ const ACTIONS_SETTINGS = {
   },
   redesignate: {
     icon: "shopping-basket",
-    params: ["order_id"]
+    customAction: "beginDesignation"
   },
   edit_quantity: {
     icon: "edit",

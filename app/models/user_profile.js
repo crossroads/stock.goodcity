@@ -71,14 +71,6 @@ export default Addressable.extend({
     );
   }),
 
-  isAdministrator: Ember.computed("roles", function() {
-    const roleNames = this.get("roleNames");
-    return (
-      _.difference(roleNames, ["Order administrator", "Stock administrator"])
-        .length > 0
-    );
-  }),
-
   canManageOrders: Ember.computed("roles", function() {
     const roles = this.get("roles");
     return roles.find(

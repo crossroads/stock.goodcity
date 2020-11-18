@@ -15,6 +15,7 @@ import SearchMixin from "stock/mixins/search_resource";
 export default Ember.Component.extend(SearchMixin, {
   autoLoad: true,
   store: Ember.inject.service(),
+  scanSearch: false,
   offerService: Ember.inject.service(),
   messageBox: Ember.inject.service(),
   i18n: Ember.inject.service(),
@@ -31,9 +32,6 @@ export default Ember.Component.extend(SearchMixin, {
     },
 
     loadMoreOffers(pageNo) {
-      const singleOfferWarning = this.get("i18n").t(
-        "search_offer.offer_select_warning"
-      );
       const params = this.trimQuery(
         _.merge(
           {
@@ -51,31 +49,32 @@ export default Ember.Component.extend(SearchMixin, {
       return this.get("store")
         .query("offer", params)
         .then(offers => {
-          if (this.get("isMobileApp") && offers.get("length") == 1) {
-            this.get("messageBox").custom(
-              singleOfferWarning,
-              "Yes",
-              () => {
-                this.send("selectOffer", offers.get("firstObject"));
-              },
-              "No"
-            );
+          if (
+            this.get("isMobileApp") &&
+            offers.get("length") == 1 &&
+            this.get("scanSearch")
+          ) {
+            this.send("selectOffer", offers.get("firstObject"));
           }
+          this.set("scanSearch", false);
           return offers;
         });
     },
 
     closeOverlay() {
+      this.set("scanSearch", false);
       this.send("selectOffer", null);
     },
 
     selectOffer(offer) {
       this.getWithDefault("onSelect", _.noop)(offer);
+      this.set("scanSearch", false);
       this.set("open", false);
     },
 
     setScannedSearchText(searchedText) {
       this.set("searchText", searchedText);
+      this.set("scanSearch", true);
     }
   }
 });
