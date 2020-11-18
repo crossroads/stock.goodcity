@@ -102,7 +102,7 @@ namespace :cordova do
 
     #Temporary fix for phonegap-plugin-push
     if platform == 'android'
-      add_plugin('@havesource/cordova-plugin-push', '1.0.0')
+      add_plugin('phonegap-plugin-push', '2.1.2')
     elsif platform == 'ios'
       add_plugin('phonegap-plugin-push', '1.9.2', { SENDER_ID: 'XXXXXXX' })
     end

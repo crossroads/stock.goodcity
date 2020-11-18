@@ -399,7 +399,7 @@ jobs:
           command: npm i -g cordova-update-config
       - run:
           name: Install cordova globally
-          command: npm i -g cordova@10.0.0
+          command: npm i -g cordova@9.0.0
       - run:
           name: Create keychain and import p12 certificate
           command: bundle exec fastlane ios prepare_certificates cert:$CERTIFICATE
