@@ -1,0 +1,56 @@
+{{#popup-overlay open=open}}
+  <div class="dispatch-form package-actions-form">
+
+    <div class="row">
+      {{package-summary-block
+        isRedirectable=false
+        model=pkg
+        disableLink=true}}
+    </div>
+
+    {{#form-control}}
+      <div class="form-container">
+        <div class="title">{{fa-icon 'box-open'}} Remove from Box</div>
+        <div class="infos">
+          <div class="info-row">
+            <div class="key">Item</div>
+            <div class="value">{{fa-icon 'tag'}} {{pkg.inventoryNumber}}</div>
+          </div>
+
+          <div class="info-row">
+            <div class="key">From Box</div>
+            <div class="value">{{fa-icon 'box-open'}} {{entity.inventoryNumber}}</div>
+          </div>
+
+          <div class="info-row">
+            <div class="key">To Location</div>
+            <div class="value clickable" {{action 'beginUnpack' entity pkg removableQuantity target=packageService}}>
+              {{fa-icon 'map-marker-alt'}}
+              {{location.displayName}}
+            </div>
+          </div>
+
+          <div class="info-row">
+            <div class="key">Quantity</div>
+            <div class="value">
+              {{numeric-input name="removableQuantity" value=removableQuantity maxlength="5" pattern="^[1-9][0-9]*$"}}
+            </div>
+            <div class="sub-text {{if (is-not (is-in-range removableQuantity 1 maxQuantity)) 'warn-text'}}">
+              Max: {{maxRemovableQuantity}}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="button-container">
+        <div class="button light" {{action "cancelAction"}}>{{t "cancel"}}</div>
+        {{#if isValidQuantity }}
+        <div class="button" {{action "performUnpack" entity pkg removableQuantity location target=packageService}}> Remove ({{ removableQuantity }})</div>
+        {{else}}
+        <div class="button" disabled>Remove ({{ removableQuantity }})</div>
+        {{/if}}
+      </div>
+    {{/form-control}}
+
+  </div>
+{{/popup-overlay}}

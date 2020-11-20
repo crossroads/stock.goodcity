@@ -222,7 +222,7 @@ export default Ember.Mixin.create(AsyncMixin, {
      * @param Integer quantity
      * @param function callback
      */
-    async unpack(container, item, quantity, callback) {
+    async unpack(container, item, quantity, locationCallback, unpackCallback) {
       const selectedLocation = await this.get(
         "locationService"
       ).userPickLocation();
@@ -231,13 +231,15 @@ export default Ember.Mixin.create(AsyncMixin, {
         return;
       }
 
-      await this._unpack(
-        container,
-        item,
-        selectedLocation.id,
-        quantity,
-        callback
-      );
+      locationCallback();
+
+      // await this._unpack(
+      //   container,
+      //   item,
+      //   selectedLocation.id,
+      //   quantity,
+      //   unpackCallback
+      // );
     }
   }
 });

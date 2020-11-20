@@ -8,13 +8,13 @@ export default Ember.Mixin.create({
         name: "Pallet",
         icon: "pallet",
         translation: "create_new_pallet",
-        disable: this.get("settings.disableBoxPalletCreation")
+        disable: false
       },
       {
         name: "Box",
         icon: "box-open",
         translation: "create_new_box",
-        disable: this.get("settings.disableBoxPalletCreation")
+        disable: false
       },
       {
         name: "Package",
