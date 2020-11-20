@@ -38,6 +38,7 @@ export default AuthorizeRoute.extend({
         }
       );
     }
+    this.store.findAll("restriction", { reload: true });
   },
 
   beforeModel(transition) {

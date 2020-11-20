@@ -72,10 +72,10 @@ module.exports = function(environment) {
       PRELOAD_TYPES: [
         "booking_type",
         "purpose",
-        "process_checklist",
+        // "process_checklist",
         "identity_type",
-        "donor_condition",
-        "restriction",
+        // "donor_condition",
+        // "restriction",
         "lookup",
         "goodcity_setting",
         "printer"

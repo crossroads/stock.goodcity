@@ -7,5 +7,9 @@ export default AuthorizeRoute.extend({
 
   model({ order_id }) {
     return this.loadIfAbsent("designation", order_id);
+  },
+
+  afterModel() {
+    this.store.query("cancellation_reason", { for: "order" });
   }
 });
