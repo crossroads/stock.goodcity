@@ -18,15 +18,17 @@ export default Ember.Component.extend(SearchMixin, AsyncMixin, {
   searchText: "",
   fetchMoreResult: true,
   storageType: null,
-  loaded: false,
 
   init() {
     this._super("code-search-overlay");
   },
 
-  async didUpdate() {
-    if (this.get("open") && !this.get("loaded")) {
-      this.set("loaded", true);
+  async didRender() {
+    const hasData = this.get("store")
+      .peekAll("code")
+      .get("length");
+
+    if (this.get("open") && !hasData) {
       await this.runTask(async () => {
         await this.get("store").query("code", { stock: true });
       }, ERROR_STRATEGIES.MODAL);
