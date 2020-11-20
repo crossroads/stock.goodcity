@@ -1,5 +1,4 @@
 <div class="row">
-  {{#if (is-or model.isGoodCityOrder model.isShipmentOrder)}}
     <div class="row gc-order-status gc-{{model.state}}-color">
       <div class="small-12 columns status">
         <div class="order-type">
@@ -63,14 +62,4 @@
         </div>
       {{/if}}
     </div>
-  {{else}}
-    <div class="small-12 columns order-status">
-      <div class="time-details">
-        <i>{{fa-icon order.transportIcon}}{{fa-icon 'lg'}}</i> {{ order.transportLabel }}
-      </div>
-      <div class="state">
-        {{t "order_details.submitted"}} {{display-datetime model.submittedAt format="DD MMM 'YY"}}
-      </div>
-    </div>
-  {{/if}}
 </div>

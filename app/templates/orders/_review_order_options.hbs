@@ -1,7 +1,7 @@
 <a {{action "toggleOrderOptions"}}><i class="order-option-ellipsis options">{{fa-icon 'ellipsis-v'}}</i></a>
 
 <div class="options_menu_list {{if displayOrderOptions '' 'hidden'}}">
-  {{#if model.canReopen}}
+  {{#if model.isClosed}}
     <div class="option_menu">
       <a {{action "updateOrder" model "reopen"}}>
         <i>{{fa-icon 'redo'}}</i>
