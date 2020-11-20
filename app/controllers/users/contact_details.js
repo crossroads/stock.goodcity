@@ -12,15 +12,40 @@ export default Ember.Controller.extend(
     user: Ember.computed.alias("model.user"),
     userService: Ember.inject.service(),
 
-    invalidEmail: Ember.computed("user.email", function() {
-      const emailRegEx = new RegExp(regex.EMAIL_REGEX);
-      return this.get("user.email").match(emailRegEx);
-    }),
+    isValidEmail(email) {
+      return email.match(new RegExp(regex.EMAIL_REGEX));
+    },
 
-    invalidMobile: Ember.computed("mobileNumber", function() {
-      const hkMobileNumberRegEx = new RegExp(regex.HK_MOBILE_NUMBER_REGEX);
-      return this.get("mobileNumber").match(hkMobileNumberRegEx);
-    }),
+    isValidMobile(mobile) {
+      return mobile.match(new RegExp(regex.HK_MOBILE_NUMBER_REGEX));
+    },
+
+    checkUserEmailValidity(email) {
+      if (email) {
+        return this.isValidEmail(email);
+      } else {
+        return (
+          this.get("user.disabled") ||
+          Boolean(this.isValidMobile(this.get("mobileNumber")))
+        );
+      }
+    },
+
+    checkUserMobileValidity(mobile) {
+      if (mobile) {
+        return this.isValidMobile(mobile);
+      } else {
+        return (
+          this.get("user.disabled") ||
+          Boolean(this.isValidEmail(this.get("user.email")))
+        );
+      }
+    },
+
+    hideValidationErrors(target) {
+      this.set(`${target.id}InputError`, false);
+      this.set(`${target.id}ValidationError`, false);
+    },
 
     districts: Ember.computed(function() {
       return this.get("store")
@@ -39,11 +64,12 @@ export default Ember.Controller.extend(
       updateUserDetails(e) {
         let value = e.target.value.trim();
         let isValid;
+
         if (Object.keys(this.get("user").changedAttributes()).length === 0) {
-          this.set(`${e.target.id}InputError`, false);
-          this.set(`${e.target.id}ValidationError`, false);
+          this.hideValidationErrors(e.target);
           return;
         }
+
         switch (e.target.id) {
           case "firstName":
             isValid = Boolean(value);
@@ -52,24 +78,20 @@ export default Ember.Controller.extend(
             isValid = Boolean(value);
             break;
           case "email":
-            isValid = value
-              ? Boolean(this.get("invalidEmail"))
-              : Boolean(this.get("invalidMobile"));
+            isValid = this.checkUserEmailValidity(value);
             break;
           case "mobile":
-            isValid = value
-              ? Boolean(this.get("invalidMobile"))
-              : Boolean(this.get("invalidEmail"));
+            isValid = this.checkUserMobileValidity(value);
             break;
         }
+
         if (isValid) {
           this.runTask(async () => {
             let user = this.get("user");
             value = e.target.id == "mobile" && value ? "+852" + value : value;
             user.set(e.target.id, value);
             await user.save();
-            this.set(`${e.target.id}InputError`, false);
-            this.set(`${e.target.id}ValidationError`, false);
+            this.hideValidationErrors(e.target);
           }, ERROR_STRATEGIES.MODAL);
         } else {
           this.get("user").rollbackAttributes();
