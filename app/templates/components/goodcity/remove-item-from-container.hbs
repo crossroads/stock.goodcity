@@ -1,10 +1,16 @@
-{{#popup-overlay open=open}}
+<div class="close-button">
+  <div {{action 'beginUnpack' container item addedQuantity}}>
+    {{yield}}
+  </div>
+</div>
+
+{{#popup-overlay open=openRemoveItemOverlay}}
   <div class="dispatch-form package-actions-form">
 
     <div class="row">
       {{package-summary-block
         isRedirectable=false
-        model=pkg
+        model=item
         disableLink=true}}
     </div>
 
@@ -14,17 +20,17 @@
         <div class="infos">
           <div class="info-row">
             <div class="key">Item</div>
-            <div class="value">{{fa-icon 'tag'}} {{pkg.inventoryNumber}}</div>
+            <div class="value">{{fa-icon 'tag'}} {{item.inventoryNumber}}</div>
           </div>
 
           <div class="info-row">
             <div class="key">From Box</div>
-            <div class="value">{{fa-icon 'box-open'}} {{entity.inventoryNumber}}</div>
+            <div class="value">{{fa-icon 'box-open'}} {{container.inventoryNumber}}</div>
           </div>
 
           <div class="info-row">
             <div class="key">To Location</div>
-            <div class="value clickable" {{action 'beginUnpack' entity pkg removableQuantity target=packageService}}>
+            <div class="value clickable" {{action 'beginUnpack' container item removableQuantity}}>
               {{fa-icon 'map-marker-alt'}}
               {{location.displayName}}
             </div>
@@ -45,7 +51,7 @@
       <div class="button-container">
         <div class="button light" {{action "cancelAction"}}>{{t "cancel"}}</div>
         {{#if isValidQuantity }}
-        <div class="button" {{action "performUnpack" entity pkg removableQuantity location target=packageService}}> Remove ({{ removableQuantity }})</div>
+        <div class="button" {{action "performUnpack"}}> Remove ({{ removableQuantity }})</div>
         {{else}}
         <div class="button" disabled>Remove ({{ removableQuantity }})</div>
         {{/if}}

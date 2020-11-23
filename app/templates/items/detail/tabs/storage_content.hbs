@@ -22,6 +22,7 @@
               {{contained-package
                 pkg=pkg
                 entity=item
+                onUnpack=(action 'reloadItemsInContainer')
               }}
             {{/unless}}
           {{/each}}

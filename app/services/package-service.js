@@ -2,19 +2,16 @@ import _ from "lodash";
 import ApiBaseService from "./api-base-service";
 import { toID } from "stock/utils/helpers";
 import NavigationAwareness from "stock/mixins/navigation_aware";
-import ItemActionMixin from "stock/mixins/item_actions";
 
-export default ApiBaseService.extend(NavigationAwareness, ItemActionMixin, {
+export default ApiBaseService.extend(NavigationAwareness, {
   store: Ember.inject.service(),
   i18n: Ember.inject.service(),
   packageTypeService: Ember.inject.service(),
-  locationService: Ember.inject.service(),
 
   init() {
     this._super(...arguments);
     this.set("openPackageSearch", false);
     this.set("packageSearchOptions", {});
-    this.set("openRemoveItemOverlay", false);
   },
 
   generateInventoryNumber() {
@@ -332,33 +329,5 @@ export default ApiBaseService.extend(NavigationAwareness, ItemActionMixin, {
     });
 
     return deferred.promise;
-  },
-
-  async beginUnpack(entity, pkg, quantity) {
-    this.set("openRemoveItemOverlay", false);
-
-    const selectedLocation = await this.get(
-      "locationService"
-    ).userPickLocation();
-
-    if (!selectedLocation) {
-      return;
-    } else {
-      this.set("removableItem", pkg);
-      this.set("removableQuantity", quantity);
-      this.set("maxRemovableQuantity", quantity);
-
-      this.set("containerEntity", entity);
-      this.set("selectedLocation", selectedLocation);
-      this.set("openRemoveItemOverlay", true);
-    }
-  },
-
-  async performUnpack(entity, pkg, quantity, location) {
-    let callback = () => {
-      this.set("openRemoveItemOverlay", false);
-    };
-
-    await this._unpack(entity, pkg, location.id, quantity, callback);
   }
 });

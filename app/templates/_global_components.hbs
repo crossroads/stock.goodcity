@@ -63,14 +63,3 @@
     displayResults=s.displayResults
   }}
 {{/let-alias}}
-
-{{#let-alias packageService as |s|}}
-  {{goodcity/remove-item-overlay
-    pkg=s.removableItem
-    open=s.openRemoveItemOverlay
-    removableQuantity=s.removableQuantity
-    maxRemovableQuantity=s.maxRemovableQuantity
-    entity=s.containerEntity
-    location=s.selectedLocation
-  }}
-{{/let-alias}}

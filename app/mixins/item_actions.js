@@ -112,7 +112,7 @@ export default Ember.Mixin.create(AsyncMixin, {
    * @param Integer quantity
    * @param function callback
    */
-  async _unpack(container, item, location_id, quantity, callback) {
+  async unpack(container, item, location_id, quantity, callback) {
     if (!item) {
       throw new Error(this.get("i18n").t("box_pallet.bad_item"));
     }
@@ -212,34 +212,6 @@ export default Ember.Mixin.create(AsyncMixin, {
         this.get("actionTarget"),
         this.get("actionName")
       );
-    },
-
-    /**
-     * Unpack the requested quantity from a container (either box or pallet)
-     * and invoke any callback passed as argument.
-     * @param EmberObject container
-     * @param EmberObject item
-     * @param Integer quantity
-     * @param function callback
-     */
-    async unpack(container, item, quantity, locationCallback, unpackCallback) {
-      const selectedLocation = await this.get(
-        "locationService"
-      ).userPickLocation();
-
-      if (!selectedLocation) {
-        return;
-      }
-
-      locationCallback();
-
-      // await this._unpack(
-      //   container,
-      //   item,
-      //   selectedLocation.id,
-      //   quantity,
-      //   unpackCallback
-      // );
     }
   }
 });

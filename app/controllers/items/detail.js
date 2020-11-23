@@ -715,11 +715,6 @@ export default GoodcityController.extend(
         this.set("addableItem", item);
       },
 
-      openRemoveItemOverlay(item) {
-        this.set("openRemoveItemOverlay", true);
-        this.set("removableItem", item);
-      },
-
       /**
        * Switches to the specified tab by navigating to the correct subroute
        *

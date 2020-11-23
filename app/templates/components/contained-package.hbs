@@ -18,12 +18,14 @@
       </div>
     </div>
     {{#unless disableRemove}}
-      <div class="close-button">
-        {{!-- <div {{action 'unpack' entity package pkg.addedQuantity onLocationSelect onUnpack}}> --}}
-        <div {{action 'beginUnpack' entity package pkg.addedQuantity target=packageService}}>
-          {{fa-icon 'times-circle' size="lg"}} <span>{{t 'box_pallet.remove'}}</span>
-        </div>
-      </div>
+      {{#goodcity/remove-item-from-container
+        item=package
+        container=entity
+        addedQuantity=pkg.addedQuantity
+        onUnpackCallback=onUnpack
+      }}
+        {{fa-icon 'times-circle' size="lg"}} <span>{{t 'box_pallet.remove'}}</span>
+      {{/goodcity/remove-item-from-container}}
     {{/unless}}
   </div>
 </li>

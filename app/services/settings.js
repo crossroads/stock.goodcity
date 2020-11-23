@@ -36,12 +36,12 @@ export default Ember.Service.extend({
    * <br> Add any new configuration keys here
    */
   defaults: {
-    "stock.allow_partial_operations": true,
-    "stock.only_publish_singletons": false,
+    "stock.allow_partial_operations": false,
+    "stock.only_publish_singletons": true,
     "stock.only_designate_singletons": true,
-    "stock.enable_box_pallet_creation": true,
-    "stock.allow_item_actions": true,
-    "stock.allow_box_pallet_item_addition": true,
+    "stock.enable_box_pallet_creation": false,
+    "stock.allow_item_actions": false,
+    "stock.allow_box_pallet_item_addition": false,
     "stock.params_not_to_be_copied": "serialNum"
   },
 
@@ -77,14 +77,14 @@ export default Ember.Service.extend({
    * @property {Computed<boolean>} allowItemActions whether item actions are allowed
    */
   allowItemActions: Ember.computed(function() {
-    return true; //this.readBoolean("stock.allow_item_actions");
+    return this.readBoolean("stock.allow_item_actions");
   }),
 
   /**
    * @property {Computed<boolean>} disableBoxPalletItemAddition disables box pallet addition
    */
   disableBoxPalletItemAddition: Ember.computed(function() {
-    return false; //!this.readBoolean("stock.allow_box_pallet_item_addition");
+    return !this.readBoolean("stock.allow_box_pallet_item_addition");
   }),
 
   /**
