@@ -50,6 +50,7 @@ export default AuthorizeRoute.extend(GradeMixin, {
     this.store.findAll("restriction", {
       reload: true
     });
+    this.store.findAll("donor_condition", { reload: true });
   },
 
   setupPrinterId(controller) {
