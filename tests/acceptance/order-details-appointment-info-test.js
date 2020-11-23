@@ -108,6 +108,12 @@ module("Acceptance: Order details, logistics info", {
       }
     });
 
+    mockFindAll("process_checklist").returns({
+      json: {
+        process_checklists: PROCESS_CHECKLIST
+      }
+    });
+
     mockResource("auth/current_user_profil*", userProfile);
     mockResource("booking_type*", { booking_types: _.values(BOOKING_TYPES) });
     mockResource("district*", { districts });
@@ -116,9 +122,7 @@ module("Acceptance: Order details, logistics info", {
     mockResource("orders_process_checklist*", {
       orders_process_checklists: []
     });
-    mockResource("process_checklist*", {
-      process_checklists: PROCESS_CHECKLIST
-    });
+
     mockResource("gogovan_transport*", { gogovan_transports: ggvTransports });
     mockResource("designation*", {
       designations: designations,
@@ -142,6 +146,72 @@ module("Acceptance: Order details, logistics info", {
 });
 
 // ------ Tests
+
+test("Should display the process checklist items associated to that booking type", function(assert) {
+  assert.expect(3);
+
+  visit(`/orders/${designationOnlineOrder.id}/order_types/`);
+
+  andThen(function() {
+    assert.equal($(".order-booking-tab .checklist-section .row").length, 2);
+    assert.equal(
+      $(".order-booking-tab .checklist-section .row:first-child .text")
+        .text()
+        .trim(),
+      "task1"
+    );
+    assert.equal(
+      $(".order-booking-tab .checklist-section .row:nth-child(2) .text")
+        .text()
+        .trim(),
+      "task2"
+    );
+  });
+
+  andThen(function() {
+    test("Clicking on a checkbox should update the order", function(assert) {
+      assert.expect(5);
+      let putRequestSent = false;
+      mocks.push(
+        $.mockjax({
+          url: "/api/v1/order*",
+          type: "PUT",
+          status: 200,
+          onAfterComplete: () => {
+            putRequestSent = true;
+          },
+          response: function(req) {
+            let payload = req.data["order"];
+            assert.ok(payload);
+            assert.ok(payload["orders_process_checklists_attributes"]);
+            assert.equal(
+              payload["orders_process_checklists_attributes"].length,
+              1
+            );
+            assert.equal(
+              payload["orders_process_checklists_attributes"][0]["order_id"],
+              designationOnlineOrder.id
+            );
+            this.responseText = JSON.stringify({
+              designation: designationOnlineOrder
+            });
+          }
+        })
+      );
+
+      visit(`/orders/${designationOnlineOrder.id}/order_types/`);
+
+      andThen(function() {
+        click(
+          $(".order-booking-tab .checklist-section .row:first-child .checkbox")
+        );
+      });
+      andThen(function() {
+        assert.equal(putRequestSent, true);
+      });
+    });
+  });
+});
 
 test("Should display the vehicle type", function(assert) {
   assert.expect(1);
@@ -252,66 +322,5 @@ test("An order's schedule can be updated by clicking on the schedule line", func
 
   andThen(() => {
     assert.ok(putRequestSent);
-  });
-});
-
-test("Should display the process checklist items associated to that booking type", function(assert) {
-  assert.expect(3);
-
-  visit(`/orders/${designationOnlineOrder.id}/order_types/`);
-
-  andThen(function() {
-    assert.equal($(".order-booking-tab .checklist-section .row").length, 2);
-    assert.equal(
-      $(".order-booking-tab .checklist-section .row:first-child .text")
-        .text()
-        .trim(),
-      "task1"
-    );
-    assert.equal(
-      $(".order-booking-tab .checklist-section .row:nth-child(2) .text")
-        .text()
-        .trim(),
-      "task2"
-    );
-  });
-});
-
-test("Clicking on a checkbox should update the order", function(assert) {
-  assert.expect(5);
-  let putRequestSent = false;
-  mocks.push(
-    $.mockjax({
-      url: "/api/v1/order*",
-      type: "PUT",
-      status: 200,
-      onAfterComplete: () => {
-        putRequestSent = true;
-      },
-      response: function(req) {
-        let payload = req.data["order"];
-        assert.ok(payload);
-        assert.ok(payload["orders_process_checklists_attributes"]);
-        assert.equal(payload["orders_process_checklists_attributes"].length, 1);
-        assert.equal(
-          payload["orders_process_checklists_attributes"][0]["order_id"],
-          designationOnlineOrder.id
-        );
-        this.responseText = JSON.stringify({
-          designation: designationOnlineOrder
-        });
-      }
-    })
-  );
-
-  visit(`/orders/${designationOnlineOrder.id}/order_types/`);
-
-  andThen(function() {
-    click(
-      $(".order-booking-tab .checklist-section .row:first-child .checkbox")
-    );
-  });
-  andThen(function() {
-    assert.equal(putRequestSent, true);
   });
 });
