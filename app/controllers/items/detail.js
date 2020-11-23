@@ -607,6 +607,10 @@ export default GoodcityController.extend(
           })
           .then(data => {
             this.get("store").pushPayload(data);
+            let boxOrPalletTotalContents = _.sumBy(data, arr => {
+              return arr.addedQuantity;
+            });
+            this.set("boxOrPalletTotalContents", boxOrPalletTotalContents);
             return data;
           });
       },

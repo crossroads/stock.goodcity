@@ -1,7 +1,7 @@
 <div class="row">
   <div class="row box-pallet-tabs">
     <div {{action 'openTab' 'storage_content'}} class="tab list small-6 columns {{if listTabSelected  'selected'}}">
-      <span>{{item.storageTypeName}} {{t 'box_pallet.content'}}</span>
+      <span>{{item.storageTypeName}} {{t 'box_pallet.content'}} ({{boxOrPalletTotalContents}})</span>
     </div>
     <div {{action 'openTab' 'storage_detail'}}
       class="tab storage_content small-6 columns {{if (is-equal tabName 'storage_detail') 'selected'}}">
