@@ -1,6 +1,6 @@
 import Ember from "ember";
 import _ from "lodash";
-import FactoryGuy from "ember-data-factory-guy";
+import FactoryGuy, { mockFindAll } from "ember-data-factory-guy";
 import { module, test } from "qunit";
 import startApp from "../helpers/start-app";
 import "../factories/appointment_slot";
@@ -26,11 +26,7 @@ const userProfile = {
   user_roles: [{ id: 1, user_id: 2, role_id: 4 }]
 };
 
-let App,
-  mocks,
-  designationAppointment,
-  designationOnlineOrder,
-  cancellationReasons;
+let App, mocks, designationAppointment, designationOnlineOrder;
 
 const BOOKING_TYPES = {
   appointment: { id: 1, identifier: "appointment" },
@@ -49,9 +45,6 @@ module("Acceptance: Order details, logistics info", {
     App = startApp({}, 2);
 
     mocks = [];
-    cancellationReasons = _(3).times(() =>
-      FactoryGuy.make("cancellation_reason")
-    );
 
     const designations = [];
     const orderTransports = [];
@@ -105,16 +98,27 @@ module("Acceptance: Order details, logistics info", {
         priority_awaiting_dispatch: 1
       }
     });
+    const cancellation_reason = _(3).times(() =>
+      FactoryGuy.make("cancellation_reason").toJSON({ includeId: true })
+    );
 
+    mockFindAll("cancellation_reason").returns({
+      json: {
+        cancellation_reason: cancellation_reason
+      }
+    });
     mockResource("auth/current_user_profil*", userProfile);
     mockResource("booking_type*", { booking_types: _.values(BOOKING_TYPES) });
     mockResource("district*", { districts });
     mockResource("purpose*", { purposes: [] });
-    mockResource("process_checklist*", {
-      process_checklists: PROCESS_CHECKLIST
-    });
+
     mockResource("orders_process_checklist*", {
       orders_process_checklists: []
+    });
+    mockFindAll("process_checklist").returns({
+      json: {
+        process_checklists: PROCESS_CHECKLIST
+      }
     });
     mockResource("gogovan_transport*", { gogovan_transports: ggvTransports });
     mockResource("designation*", {
@@ -124,7 +128,6 @@ module("Acceptance: Order details, logistics info", {
       gogovan_transports: ggvTransports,
       districts: districts
     });
-    mockResource("cancellation_rea*", cancellationReasons);
     mockResource("orders_package*", { orders_packages: [] });
     mockResource("location*", { locations: [] });
     visit("/");
@@ -277,7 +280,6 @@ test("Should display the process checklist items associated to that booking type
 
 test("Clicking on a checkbox should update the order", function(assert) {
   assert.expect(5);
-
   let putRequestSent = false;
   mocks.push(
     $.mockjax({

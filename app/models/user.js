@@ -60,7 +60,9 @@ export default Addressable.extend({
   }),
 
   fullName: Ember.computed("firstName", "lastName", function() {
-    return this.get("firstName") + " " + this.get("lastName");
+    // To avoid the undefined undefined in case record is not loaded yet
+    const [firstName, lastName] = [this.get("firstName"), this.get("lastName")];
+    return `${firstName ? firstName : ""} ${lastName ? lastName : ""}`;
   }),
 
   organisations: Ember.computed("organisations_users_ids", function() {

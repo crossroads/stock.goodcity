@@ -71,6 +71,9 @@ module("Acceptance: Item inline edit", {
         cancellation_reason: []
       }
     });
+    mockFindAll("restriction").returns({
+      json: { restrictions: [] }
+    });
     $.mockjax({
       url: "/api/v1/packages/package_valuation*",
       type: "GET",

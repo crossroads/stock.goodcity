@@ -1,6 +1,7 @@
 import Ember from "ember";
 import _ from "lodash";
 import SearchMixin from "stock/mixins/search_resource";
+import AsyncMixin, { ERROR_STRATEGIES } from "stock/mixins/async";
 
 /**
  * An overlay that pops up from the bottom of the screen, allowing the user
@@ -11,7 +12,7 @@ import SearchMixin from "stock/mixins/search_resource";
  * @property {boolean} open whether the popup is visible or not
  * @property {function} onSelect callback triggered when an order is selected
  */
-export default Ember.Component.extend(SearchMixin, {
+export default Ember.Component.extend(SearchMixin, AsyncMixin, {
   store: Ember.inject.service(),
   filter: "",
   searchText: "",
@@ -20,6 +21,18 @@ export default Ember.Component.extend(SearchMixin, {
 
   init() {
     this._super("code-search-overlay");
+  },
+
+  async didRender() {
+    const hasData = this.get("store")
+      .peekAll("code")
+      .get("length");
+
+    if (this.get("open") && !hasData) {
+      await this.runTask(async () => {
+        await this.get("store").query("code", { stock: true });
+      }, ERROR_STRATEGIES.MODAL);
+    }
   },
 
   allPackageTypes: Ember.computed("open", "subsetPackageTypes", function() {
