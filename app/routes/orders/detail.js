@@ -9,7 +9,7 @@ export default AuthorizeRoute.extend({
     return this.loadIfAbsent("designation", order_id);
   },
 
-  afterModel() {
-    this.store.query("cancellation_reason", { for: "order" });
+  async afterModel() {
+    await this.store.query("cancellation_reason", { for: "order" });
   }
 });

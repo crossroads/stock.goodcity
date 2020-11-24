@@ -38,8 +38,8 @@ export default AuthorizeRoute.extend({
         }
       );
     }
-    this.store.findAll("restriction", { reload: true });
-    this.store.findAll("donor_condition", { reload: true });
+    await this.store.findAll("restriction", { reload: true });
+    await this.store.findAll("donor_condition", { reload: true });
   },
 
   beforeModel(transition) {
