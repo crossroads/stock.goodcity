@@ -39,3 +39,20 @@
 
 {{/message-box}}
 {{!-- END --}}
+
+{{!-- UPDATE USER DETAILS POPUP --}}
+{{#message-box
+  btn1Text=(t "ok")
+  btn1Callback=(action "cancelEnableUser")
+  isVisible=updateUserMessagePopupVisible
+  classNames="popupOverlay ui disable-user-popup"
+}}
+
+<div class="heading">{{t "users.details.warning"}}</div>
+
+<div class="info">
+  {{t "users.details.missing_user_details_warning"}}
+</div>
+
+{{/message-box}}
+{{!-- END --}}

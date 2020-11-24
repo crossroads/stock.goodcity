@@ -1062,7 +1062,10 @@ export default {
         "Note: If you do not wish this user to have same rights to access apps or act on behalf of charities as they had before, please modify their access.",
       enable_user: "Re-enable User",
       re_enable: "Re-enable",
-      account_disabled: "Account Disabled"
+      account_disabled: "Account Disabled",
+      warning: "Warning!",
+      missing_user_details_warning:
+        "This user does not have valid email and mobile number. Please update user details from contact details page before re-enabling."
     },
 
     contact_details: {
