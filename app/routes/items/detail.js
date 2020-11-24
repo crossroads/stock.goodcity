@@ -69,6 +69,7 @@ export default AuthorizeRoute.extend({
     controller.set("active", true);
     controller.set("showExtendedFooterMenu", false);
     controller.set("displayResults", true);
+    controller.set("boxOrPalletTotalContents", null);
 
     const defaultValue = await this.get("packageService").getItemValuation({
       donorConditionId: model.get("donorCondition.id"),
