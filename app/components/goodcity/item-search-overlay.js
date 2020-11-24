@@ -20,7 +20,6 @@ export default Ember.Component.extend(SearchMixin, AsyncMixin, {
   requireFocus: false,
 
   inputmode: Ember.computed("searchMode", function() {
-    console.log("searchMode: " + this.get("searchMode"));
     if (this.get("searchMode") === "numeric") {
       return "numeric";
     }
