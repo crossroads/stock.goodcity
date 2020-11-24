@@ -11,6 +11,11 @@ export default Ember.Component.extend({
   displayCloseLink: false,
   isVisible: false,
 
+  init() {
+    this._super(...arguments);
+    this.get("router").addObserver("currentRouteName", () => this.close());
+  },
+
   close() {
     if (this.get("isVisible")) {
       this.set("isVisible", false);
