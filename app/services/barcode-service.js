@@ -158,6 +158,7 @@ export default Ember.Service.extend({
       overlay.destroy();
       capture.removeListener(listener);
       Ember.run.debounce(this, this.__disableScan, SCAN_DELAY + 100);
+      this.turnFlashlightOff();
       onStop();
     });
 
@@ -171,6 +172,41 @@ export default Ember.Service.extend({
   // ----------------------
   // Service API
   // ----------------------
+
+  /**
+   * Turns the flashlight on (if available)
+   *
+   * @returns {Promise<undefined>}
+   */
+  turnFlashlightOn() {
+    if (this.enabled()) {
+      this.__getCamera().desiredTorchState = "on";
+      this.set("flashlightActive", true);
+    }
+  },
+
+  /**
+   * Turns the flashlight off (if available)
+   *
+   * @returns {Promise<undefined>}
+   */
+  turnFlashlightOff() {
+    if (this.enabled()) {
+      this.__getCamera().desiredTorchState = "off";
+      this.set("flashlightActive", false);
+    }
+  },
+
+  /**
+   * Toggles the flashlight status
+   *
+   * @returns {Promise<undefined>}
+   */
+  toggleFlashlight() {
+    return this.get("flashlightActive")
+      ? this.turnFlashlightOff()
+      : this.turnFlashlightOn();
+  },
 
   /**
    * Returns true if scanning is possible

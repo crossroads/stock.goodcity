@@ -8,6 +8,8 @@
         <div class="input-holder small-8 columns">
           {{focus-textfield
             name="search-text"
+            autofocus=requireFocus
+            inputmode=inputmode
             placeholder=(t "search_min")
             value=searchText }}
           {{#if hasSearchText}}

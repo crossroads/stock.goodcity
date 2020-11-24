@@ -16,6 +16,11 @@ export default Ember.Service.extend({
     );
   },
 
+  isIOSBrowser() {
+    const userAgent = window.navigator.userAgent;
+    return userAgent.match(/iPad/i) || userAgent.match(/iPhone/i);
+  },
+
   isIOS() {
     if (!config.cordova.enabled || !window.device) {
       return;
