@@ -39,7 +39,7 @@ export default Ember.Component.extend(AsyncMixin, ItemActions, {
 
     async performUnpack() {
       await this.runTask(() => {
-        this.unpack(
+        return this.unpack(
           this.get("container"),
           this.get("item"),
           this.get("location.id"),
