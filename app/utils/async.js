@@ -26,6 +26,7 @@ export function stagerred(result, delay = 300) {
  * @returns {Promise<null>}
  */
 export function wait(delay = 300) {
+  delay = delay > 0 ? delay : 0;
   return stagerred(null, delay);
 }
 
@@ -114,3 +115,29 @@ export function singleRunner(func) {
       });
   };
 }
+
+/**
+ * runs the operations in succession
+ *
+ * @export
+ * @param {Function[]} [actions=[]]
+ */
+export async function chain(actions = []) {
+  for (let act of actions) await act();
+}
+
+/**
+ * Runs the operations with a delay between each action
+ *
+ * @param {Function[]} [actions=[]]
+ * @param {number} [delay=300]
+ * @returns
+ */
+chain.stagerred = function(actions = [], delay = 200) {
+  return chain(
+    actions.map(act => async () => {
+      await act();
+      await wait(delay);
+    })
+  );
+};

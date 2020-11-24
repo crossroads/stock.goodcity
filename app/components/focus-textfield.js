@@ -1,4 +1,5 @@
 import Ember from "ember";
+import { callbackObserver } from "../utils/ember";
 
 export default Ember.TextField.extend({
   tagName: "input",
@@ -7,18 +8,32 @@ export default Ember.TextField.extend({
   cordova: Ember.inject.service(),
   store: Ember.inject.service(),
   hasRecentDesignations: true,
+  autofocus: true,
+  autofocusOnEmptyValue: true,
 
-  triggerAutofocus: Ember.observer("value", function() {
-    if (this.get("value").length === 0) {
-      this.$().focus();
+  valueAutofocusListener: Ember.observer("value", function() {
+    if (
+      this.get("autofocus") &&
+      this.get("autofocusOnEmptyValue") &&
+      this.get("value").length === 0
+    ) {
+      this.applyFocus();
     }
   }),
+
+  autofocusSettingListener: callbackObserver("autofocus", [
+    [true, "applyFocus"]
+  ]),
 
   hasFixedInputHeader: Ember.computed(function() {
     return (
       this.get("cordova").isIOS() && Ember.$(".fixed_search_header").length > 0
     );
   }),
+
+  applyFocus() {
+    this.$().trigger("focus");
+  },
 
   scrollToStart() {
     Ember.$(".fixed_search_header").addClass("absolute");
@@ -38,7 +53,9 @@ export default Ember.TextField.extend({
 
   didInsertElement() {
     document.body.scrollTop = document.documentElement.scrollTop = 0;
-    this.$().focus();
+    if (this.get("autofocus")) {
+      this.applyFocus();
+    }
     if (this.get("hasFixedInputHeader")) {
       this.element.addEventListener("touchstart", this.scrollToStart);
     }

@@ -94,7 +94,9 @@
     margin-bottom: 1rem;
 
     button {
-      @include ellipsis();
+      &.ellipsis {
+        @include ellipsis();
+      }
       height: 2.5rem;
     }
 

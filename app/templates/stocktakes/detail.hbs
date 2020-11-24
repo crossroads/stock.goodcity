@@ -63,7 +63,7 @@
       <div class="row buttons-container flex">
         {{#if (is-equal mode modes.count)}}
           {{#if canScan }}
-            <button class="button {{if isScanning 'light'}}" {{action 'toggleScanning'}}>
+            <button class="button ellipsis {{if isScanning 'light'}}" {{action 'toggleScanning'}}>
               {{fa-icon 'qrcode'}} 
               {{#if isScanning}}
                 {{t 'stocktakes.stop_scanning'}}
@@ -71,8 +71,12 @@
                 {{t 'stocktakes.scanner_mode'}}
               {{/if}}
             </button>
+
+            <button class="button {{if barcodeService.flashlightActive 'light'}}" {{action 'toggleFlashlight' target=barcodeService}}>
+              {{fa-icon 'lightbulb' size='lg'}}
+            </button>
           {{/if}}
-          <button class="button" {{action 'addItem'}}>
+          <button class="button ellipsis" {{action 'addItem'}}>
             {{fa-icon 'plus'}} {{t 'stocktakes.add_item'}}
           </button>
         {{/if}}
@@ -131,7 +135,10 @@
             
             <div class="flex no-wrap">
               {{!-- Inventory number + Package type --}}
-              <div class="inventory-number">{{fa-icon (storage-icon revision.item.storageTypeName)}} {{ revision.item.inventoryNumber }}</div>
+              <div class="inventory-number">
+                {{fa-icon (storage-icon revision.item.storageTypeName)}}
+                {{if revision.item.inventoryNumber revision.item.inventoryNumber "[N/A]"}}
+              </div>
               <div class="code-type">{{display-package-code  item=revision.item.code}}</div>
             </div>
 

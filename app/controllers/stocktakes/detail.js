@@ -19,7 +19,7 @@ const SORTING = {
   },
   BY_INVENTORY_NUM: (rev1, rev2) => {
     const [n1, n2] = [rev1, rev2]
-      .map(r => r.getWithDefault("item.inventoryNumber", "0"))
+      .map(r => r.get("item.inventoryNumber") || "0")
       .map(inv => inv.replace(/[^0-9]/g, ""))
       .map(Number);
 
@@ -254,7 +254,13 @@ export default Ember.Controller.extend(AsyncMixin, {
      * @param {Package} pkg
      */
     async addItem(pkg) {
-      pkg = pkg || (await this.get("packageService").userPickPackage());
+      this.stopScanning();
+
+      pkg =
+        pkg ||
+        (await this.get("packageService").userPickPackage({
+          searchMode: "numeric"
+        }));
 
       if (!pkg) return;
 
