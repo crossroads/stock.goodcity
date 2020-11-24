@@ -135,7 +135,12 @@ export default {
       "Added quantity cannot be greater than the available quantity for each location.",
     type_to_search: "Type in to search items to add.",
     cannot_change_type:
-      "Cannot change type of a box with items. Please remove the items and try again"
+      "Cannot change type of a box with items. Please remove the items and try again",
+    remove_from: "Remove from",
+    item: "Item",
+    from: "From",
+    to_location: "To Location",
+    max: "Max"
   },
   messages: {
     you: "You",
