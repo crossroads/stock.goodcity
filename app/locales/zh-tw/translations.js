@@ -1015,7 +1015,10 @@ export default {
         "注意：如你不希望此用戶保留舊有權限或慈善機構員工身份，請變更他的存取權限。",
       enable_user: "重新啟用用戶",
       re_enable: "重新啟用",
-      account_disabled: "帳號已停用"
+      account_disabled: "帳號已停用",
+      warning: "Warning!",
+      missing_user_details_warning:
+        "This user does not have valid email and mobile number. Please update user details from contact details page before re-enabling."
     },
 
     contact_details: {
