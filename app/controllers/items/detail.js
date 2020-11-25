@@ -607,12 +607,8 @@ export default GoodcityController.extend(
           })
           .then(data => {
             this.get("store").pushPayload(data);
-            this.set(
-              "boxOrPalletTotalContents",
-              data[0]["totalBoxAndPalletContents"]
-            );
-            data.shift();
-            return data;
+            this.set("boxOrPalletTotalContents", data.containerQuantity);
+            return data.containedPackages;
           });
       },
 
