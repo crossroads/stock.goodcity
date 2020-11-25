@@ -1,7 +1,6 @@
 import Ember from "ember";
-import ItemActionMixin from "stock/mixins/item_actions";
 
-export default Ember.Component.extend(ItemActionMixin, {
+export default Ember.Component.extend({
   packageService: Ember.inject.service(),
   store: Ember.inject.service(),
 

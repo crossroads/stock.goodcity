@@ -131,7 +131,12 @@ export default {
     invalid_quantity: "已增加的份量不可多於每個位置的可用的份量",
     type_to_search: "输入搜索要添加的项目。",
     cannot_change_type:
-      "Cannot change type of a box with items. Please remove the items and try again"
+      "Cannot change type of a box with items. Please remove the items and try again",
+    remove_from: "Remove from",
+    item: "Item",
+    from: "From",
+    to_location: "To Location",
+    max: "Max"
   },
   messages: {
     you: "您",
