@@ -13,11 +13,11 @@ export default Ember.Controller.extend(
     userService: Ember.inject.service(),
 
     isValidEmail(email) {
-      return email.match(new RegExp(regex.EMAIL_REGEX));
+      return regex.EMAIL_REGEX.test(email);
     },
 
     isValidMobile(mobile) {
-      return mobile.match(new RegExp(regex.HK_MOBILE_NUMBER_REGEX));
+      return regex.HK_MOBILE_NUMBER_REGEX.test(mobile);
     },
 
     checkUserEmailValidity(email) {
@@ -26,7 +26,7 @@ export default Ember.Controller.extend(
       } else {
         return (
           this.get("user.disabled") ||
-          Boolean(this.isValidMobile(this.get("mobileNumber")))
+          this.isValidMobile(this.get("mobileNumber"))
         );
       }
     },
@@ -36,8 +36,7 @@ export default Ember.Controller.extend(
         return this.isValidMobile(mobile);
       } else {
         return (
-          this.get("user.disabled") ||
-          Boolean(this.isValidEmail(this.get("user.email")))
+          this.get("user.disabled") || this.isValidEmail(this.get("user.email"))
         );
       }
     },
