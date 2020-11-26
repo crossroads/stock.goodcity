@@ -38,7 +38,7 @@ export default Ember.Component.extend(SearchMixin, {
             companies: true,
             slug: "search",
             is_desc: true,
-            sort_column: "reviewed_at"
+            sort_column: "received_at"
           },
           this.get("offer_state"),
           this.getSearchQuery(),
