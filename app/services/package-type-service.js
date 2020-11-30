@@ -41,8 +41,8 @@ export default Ember.Service.extend({
     return deferred.promise;
   },
 
-  preload: cached(function() {
-    return this.get("store").query("code", { stock: true });
+  preload: cached(async function() {
+    return await this.get("store").query("code", { stock: true });
   }),
 
   parentsOf(packageType) {
