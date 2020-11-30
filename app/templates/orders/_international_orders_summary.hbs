@@ -61,9 +61,9 @@
             name='order_selection_date'
             class="inline-edit-bg"
             id='shipmentDate'
+            noMinimumYear = true
             formatSubmit="dd mmmm yyyy"
             onSelect=(action "updateShipmentDate")
-            enablePastDate=true
             selection=model.shipmentDate
           }}
         </div>
