@@ -26,8 +26,21 @@ export default Ember.Component.extend(SearchMixin, AsyncMixin, {
 
   async didRender() {
     await this.runTask(() => {
-      return this.get("packageTypeService").preload();
+      return this.get("packageTypeService")
+        .preload()
+        .then(() => this.fetchRecentPackageTypes());
     }, ASYNC_BEHAVIOURS.SILENT_DEPENDENCY);
+  },
+
+  fetchRecentPackageTypes() {
+    const userFavourites = this.get("store").peekAll("user_favourite");
+    const packageTypeIds = userFavourites
+      .filterBy("favourite_type", "PackageType")
+      .getEach("favourite_id");
+    const packageTypes = packageTypeIds.map(it =>
+      this.get("store").peekRecord("code", it)
+    );
+    this.set("recentPackageTypes", packageTypes);
   },
 
   allPackageTypes: Ember.computed("open", "subsetPackageTypes", function() {
