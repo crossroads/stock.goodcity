@@ -94,11 +94,6 @@ export default Ember.TextField.extend({
       config.min = MIN_DATE;
     }
 
-    const noMinimumYear = this.get("noMinimumYear");
-    if (noMinimumYear) {
-      config.min = "";
-    }
-
     const formatSubmit = this.get("formatSubmit");
     if (formatSubmit) {
       config.format = formatSubmit;

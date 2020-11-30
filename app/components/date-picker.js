@@ -43,8 +43,8 @@ export default Ember.TextField.extend({
 
     Ember.run.scheduleOnce("afterRender", this, function() {
       Ember.$(this.element).pickadate({
-        selectMonths: !!enablePastDate,
-        selectYears: !!enablePastDate,
+        selectMonths: true,
+        selectYears: true,
         formatSubmit: "ddd mmm d",
         monthsFull: moment.months(),
         monthsShort: moment.monthsShort(),

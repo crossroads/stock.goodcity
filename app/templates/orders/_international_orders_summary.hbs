@@ -57,14 +57,12 @@
           {{t "order.international.shipment_date"}}
         </div>
         <div class="small-8 columns">
-          {{calendar-input
+          {{date-picker
             name='order_selection_date'
             class="inline-edit-bg"
             id='shipmentDate'
-            noMinimumYear = true
-            formatSubmit="dd mmmm yyyy"
-            onSelect=(action "updateShipmentDate")
-            selection=model.shipmentDate
+            model=model.shipmentDate
+            onSelect=(action 'updateShipmentDate')
           }}
         </div>
       </div>
