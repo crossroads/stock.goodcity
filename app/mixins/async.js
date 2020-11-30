@@ -49,6 +49,10 @@ export const ASYNC_BEHAVIOURS = {
   LOUD: {
     showSpinner: true,
     errorStrategy: ERROR_STRATEGIES.MODAL
+  },
+  SILENT_DEPENDENCY: {
+    showSpinner: false,
+    errorStrategy: ERROR_STRATEGIES.MODAL
   }
 };
 

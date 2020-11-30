@@ -1,7 +1,7 @@
 import Ember from "ember";
 import _ from "lodash";
 import SearchMixin from "stock/mixins/search_resource";
-import AsyncMixin, { ERROR_STRATEGIES } from "stock/mixins/async";
+import AsyncMixin, { ASYNC_BEHAVIOURS } from "stock/mixins/async";
 
 /**
  * An overlay that pops up from the bottom of the screen, allowing the user
@@ -14,6 +14,7 @@ import AsyncMixin, { ERROR_STRATEGIES } from "stock/mixins/async";
  */
 export default Ember.Component.extend(SearchMixin, AsyncMixin, {
   store: Ember.inject.service(),
+  packageTypeService: Ember.inject.service(),
   filter: "",
   searchText: "",
   fetchMoreResult: true,
@@ -24,15 +25,9 @@ export default Ember.Component.extend(SearchMixin, AsyncMixin, {
   },
 
   async didRender() {
-    const hasData = this.get("store")
-      .peekAll("code")
-      .get("length");
-
-    if (this.get("open") && !hasData) {
-      await this.runTask(async () => {
-        await this.get("store").query("code", { stock: true });
-      }, ERROR_STRATEGIES.MODAL);
-    }
+    await this.runTask(() => {
+      return this.get("packageTypeService").preload();
+    }, ASYNC_BEHAVIOURS.SILENT_DEPENDENCY);
   },
 
   allPackageTypes: Ember.computed("open", "subsetPackageTypes", function() {
