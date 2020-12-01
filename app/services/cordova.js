@@ -5,7 +5,6 @@ import AjaxPromise from "../utils/ajax-promise";
 export default Ember.Service.extend({
   session: Ember.inject.service(),
   store: Ember.inject.service(),
-  routing: Ember.inject.service("-routing"),
 
   isAndroid() {
     if (!config.cordova.enabled || !window.device) {
@@ -97,7 +96,7 @@ export default Ember.Service.extend({
       // jshint ignore:line
       const model = order_id ? "designation" : "item";
       const id = order_id ? order_id : package_id;
-      const router = _this.get("routing");
+      const router = _this.get("router");
       _this
         .get("store")
         .findRecord(model, id, {
