@@ -135,7 +135,12 @@ export default {
       "Added quantity cannot be greater than the available quantity for each location.",
     type_to_search: "Type in to search items to add.",
     cannot_change_type:
-      "Cannot change type of a box with items. Please remove the items and try again"
+      "Cannot change type of a box with items. Please remove the items and try again",
+    remove_from: "Remove from",
+    item: "Item",
+    from: "From",
+    to_location: "To Location",
+    max: "Max"
   },
   messages: {
     you: "You",
@@ -1062,7 +1067,10 @@ export default {
         "Note: If you do not wish this user to have same rights to access apps or act on behalf of charities as they had before, please modify their access.",
       enable_user: "Re-enable User",
       re_enable: "Re-enable",
-      account_disabled: "Account Disabled"
+      account_disabled: "Account Disabled",
+      warning: "Warning!",
+      missing_user_details_warning:
+        "This user does not have valid email and mobile number. Please update user details from contact details page before re-enabling."
     },
 
     contact_details: {

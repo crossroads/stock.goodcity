@@ -6,14 +6,11 @@ export default SessionRoute.extend({
   model() {
     let canViewDashboard = this.get("session.currentUser.canManageOrders");
     var recentlyUsedDesignations = this.get("store").query("designation", {
-      recently_used: true
-    });
-    var recentlyUsedLocations = this.get("store").query("location", {
-      recently_used: true
+      recently_used: true,
+      shallow: true
     });
 
     this.get("store").pushPayload(recentlyUsedDesignations);
-    this.get("store").pushPayload(recentlyUsedLocations);
 
     if (canViewDashboard) {
       return Ember.RSVP.hash({

@@ -7,13 +7,7 @@ import Ember from "ember";
 export default detail.extend({
   processingChecklist: Ember.inject.service(),
 
-  loadLookups: Cache.cached(function() {
-    const load = modelName => {
-      return this.store
-        .findAll(modelName)
-        .then(data => this.store.pushPayload(data));
-    };
-
+  loadLookups() {
     // Load dependent lookup tables
     return Ember.RSVP.all(
       [
@@ -21,9 +15,13 @@ export default detail.extend({
         "gogovan_transport",
         "booking_type",
         "process_checklist"
-      ].map(load)
+      ].map(model =>
+        !this.store.peekAll(model).get("length")
+          ? this.store.findAll(model)
+          : this.store.peekAll(model)
+      )
     );
-  }),
+  },
 
   loadDependencies(order) {
     return Ember.RSVP.all([
@@ -35,7 +33,7 @@ export default detail.extend({
 
   async afterModel(model) {
     await this._super(...arguments);
-    await Ember.RSVP.all([this.loadLookups(), this.loadDependencies(model)]);
+    await Promise.all([this.loadLookups(), this.loadDependencies(model)]);
   },
 
   setupController(controller, model) {

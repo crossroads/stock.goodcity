@@ -1,5 +1,6 @@
 import Ember from "ember";
 import _ from "lodash";
+import { cached } from "../utils/cache";
 
 // @todo: unify code and pacakge_type under 'package_type'
 const MODEL_NAME = "code";
@@ -39,6 +40,10 @@ export default Ember.Service.extend({
 
     return deferred.promise;
   },
+
+  preload: cached(async function() {
+    return await this.get("store").query("code", { stock: true });
+  }),
 
   parentsOf(packageType) {
     const hierarchy = this.get("hierarchy");

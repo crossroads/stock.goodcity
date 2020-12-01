@@ -19,7 +19,7 @@
     <platform name="android">
         <hook src="scripts/setup_gradle_properties.py" type="after_prepare" />
         <resource-file src="google-services.json" target="app/google-services.json" />
-        <preference name="AndroidLaunchMode" value="singleInstance" />
+        <preference name="AndroidLaunchMode" value="singleTop" />
         <preference name="LoadUrlTimeoutValue" value="120000" />
         <preference name="SplashScreen" value="screen" />
         <preference name="SplashScreenDelay" value="5000" />

@@ -101,9 +101,14 @@
                 <div>{{addedQuantityCount}}</div>
               </div>
               <div class='remove'>
-                <div {{action 'unpack' model item addedQuantityCount onUnpack}}>
+                {{#goodcity/remove-item-from-container
+                  item=item
+                  container=model
+                  addedQuantity=addedQuantityCount
+                  onUnpackCallback=onUnpack
+                }}
                   {{fa-icon 'times-circle' size="lg"}} <span>{{t 'box_pallet.remove'}}</span>
-                </div>
+                {{/goodcity/remove-item-from-container}}
               </div>
             </div>
           </div>

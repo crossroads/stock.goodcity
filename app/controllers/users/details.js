@@ -10,6 +10,7 @@ export default Ember.Controller.extend(OrganisationMixin, AsyncMixin, {
   user: Ember.computed.alias("model"),
   disableUserPopupVisible: false,
   enableUserPopupVisible: false,
+  updateUserMessagePopupVisible: false,
   isDisabledUser: Ember.computed.alias("user.disabled"),
 
   canDisableUsers: Ember.computed("user.id", function() {
@@ -86,6 +87,15 @@ export default Ember.Controller.extend(OrganisationMixin, AsyncMixin, {
 
     cancelEnableUser() {
       this.set("enableUserPopupVisible", false);
+    },
+
+    checkUserValidity() {
+      let user = this.get("user");
+      if (user.get("email").length === 0 && user.get("mobile").length === 0) {
+        this.set("updateUserMessagePopupVisible", true);
+      } else {
+        this.send("displayEnableUserPopup");
+      }
     },
 
     displayDisableUserPopup() {

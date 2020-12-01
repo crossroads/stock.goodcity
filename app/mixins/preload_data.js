@@ -21,10 +21,6 @@ export default Ember.Mixin.create({
           this.notifyPropertyChange("session.currentUser");
         })
       );
-      promises = promises.concat(this.store.query("code", { stock: true }));
-      promises = promises.concat(
-        this.store.query("cancellation_reason", { for: "order" })
-      );
       promises = promises.concat(retrieve(config.APP.PRELOAD_TYPES));
       promises.push(this.get("messages").fetchUnreadMessageCount());
     }

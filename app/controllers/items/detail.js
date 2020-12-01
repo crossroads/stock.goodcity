@@ -606,8 +606,8 @@ export default GoodcityController.extend(
             per_page: 10
           })
           .then(data => {
-            this.get("store").pushPayload(data);
-            return data;
+            this.set("containerQuantity", data.containerQuantity);
+            return data.containedPackages;
           });
       },
 

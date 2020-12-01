@@ -3,6 +3,8 @@ import _ from "lodash";
 import config from "stock/config/environment";
 import SearchMixin from "stock/mixins/search_resource";
 import AsyncMixin from "stock/mixins/async";
+import { chain } from "../../utils/async";
+import { callbackObserver } from "../../utils/ember";
 
 export default Ember.Component.extend(SearchMixin, AsyncMixin, {
   searchText: "",
@@ -12,12 +14,26 @@ export default Ember.Component.extend(SearchMixin, AsyncMixin, {
   perPage: 10,
   isMobileApp: config.cordova.enabled,
   packageService: Ember.inject.service(),
+  cordova: Ember.inject.service(),
   messageBox: Ember.inject.service(),
   i18n: Ember.inject.service(),
+  requireFocus: false,
+
+  inputmode: Ember.computed("searchMode", function() {
+    if (this.get("searchMode") === "numeric") {
+      return "numeric";
+    }
+    return "text";
+  }),
 
   hasSearchText: Ember.computed("searchText", function() {
     return !!this.get("searchText");
   }),
+
+  openStateListener: callbackObserver("open", [
+    [true, "onOpen"],
+    [false, "onClose"]
+  ]),
 
   closeOverlay() {
     this.setProperties({
@@ -36,6 +52,20 @@ export default Ember.Component.extend(SearchMixin, AsyncMixin, {
     }
 
     return _.flatten([states]).join(",");
+  },
+
+  async onOpen() {
+    const platform = this.get("cordova");
+    const scrollFix = platform.isIOS() || platform.isIOSBrowser();
+
+    await chain.stagerred([
+      () => this.set("requireFocus", true),
+      () => scrollFix && window.scrollTo(0, 0)
+    ]);
+  },
+
+  onClose() {
+    this.set("requireFocus", false);
   },
 
   actions: {

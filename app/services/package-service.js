@@ -114,7 +114,8 @@ export default ApiBaseService.extend(NavigationAwareness, {
       pagination
     );
     this.get("store").pushPayload(data);
-    return Promise.all(
+    let containerQuantity = data.meta.total_count;
+    let containedPackages = await Promise.all(
       data.items.map(async item => {
         const quantity = await this.fetchAddedQuantity(boxPalletId, item.id);
         return {
@@ -124,6 +125,7 @@ export default ApiBaseService.extend(NavigationAwareness, {
         };
       })
     );
+    return { containedPackages, containerQuantity };
   },
 
   async fetchParentContainers(pkg, opts = {}) {

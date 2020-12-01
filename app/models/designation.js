@@ -111,13 +111,6 @@ export default Model.extend({
     return this.get("items").rejectBy("sentOn", null);
   }),
 
-  canReopen: Ember.computed("state", function() {
-    return (
-      this.get("isClosed") &&
-      (this.get("isGoodCityOrder") || this.get("isShipmentOrder"))
-    );
-  }),
-
   capitalizedState: Ember.computed("state", function() {
     return this.get("state").capitalize();
   }),

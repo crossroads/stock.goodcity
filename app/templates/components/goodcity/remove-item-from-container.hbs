@@ -1,0 +1,63 @@
+<div class="close-button">
+  <div {{action 'beginUnpack' container item addedQuantity}}>
+    {{yield}}
+  </div>
+</div>
+
+{{#popup-overlay open=openRemoveItemOverlay}}
+  <div class="dispatch-form package-actions-form">
+
+    <div class="row">
+      {{package-summary-block
+        isRedirectable=false
+        model=item
+        disableLink=true
+        classNames="package-summary-block-view"}}
+    </div>
+
+    {{#form-control}}
+      <div class="form-container">
+        <div class="title">{{fa-icon 'box-open'}} {{t "box_pallet.remove_from"}} {{container.storageTypeName}}</div>
+        <div class="infos">
+          <div class="info-row">
+            <div class="key">{{t "box_pallet.item"}}</div>
+            <div class="value">{{fa-icon 'tag'}} {{item.inventoryNumber}}</div>
+          </div>
+
+          <div class="info-row">
+            <div class="key">{{t "box_pallet.from"}} {{container.storageTypeName}}</div>
+            <div class="value">{{fa-icon 'box-open'}} {{container.inventoryNumber}}</div>
+          </div>
+
+          <div class="info-row">
+            <div class="key">{{t "box_pallet.to_location"}}</div>
+            <div class="value clickable" {{action 'beginUnpack' container item removableQuantity}}>
+              {{fa-icon 'map-marker-alt'}}
+              {{location.displayName}}
+            </div>
+          </div>
+
+          <div class="info-row">
+            <div class="key">{{t "box_pallet.quantity"}}</div>
+            <div class="value">
+              {{numeric-input name="removableQuantity" value=removableQuantity maxlength="5" pattern="^[1-9][0-9]*$"}}
+            </div>
+            <div class="sub-text {{if (is-not (is-in-range removableQuantity 1 maxQuantity)) 'warn-text'}}">
+              {{t "box_pallet.max"}}: {{maxRemovableQuantity}}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="button-container">
+        <div class="button light" {{action "cancelAction"}}>{{t "cancel"}}</div>
+        {{#if isValidQuantity }}
+        <div class="button" {{action "performUnpack"}}> {{t "box_pallet.remove"}} ({{ removableQuantity }})</div>
+        {{else}}
+        <div class="button" disabled>{{t "box_pallet.remove"}} ({{ removableQuantity }})</div>
+        {{/if}}
+      </div>
+    {{/form-control}}
+
+  </div>
+{{/popup-overlay}}

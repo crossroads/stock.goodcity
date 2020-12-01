@@ -112,6 +112,10 @@ module("Acceptance: Item details tabs", {
       }
     });
 
+    mockFindAll("restriction").returns({
+      json: { restrictions: [] }
+    });
+
     mockFindAll("item").returns({
       json: { items: [pkg.toJSON({ includeId: true })] }
     });
