@@ -97,17 +97,18 @@ export default Ember.Service.extend({
       // jshint ignore:line
       const model = order_id ? "designation" : "item";
       const id = order_id ? order_id : package_id;
-      const router = this.get("routing");
-      this.get("store")
+      const router = _this.get("routing");
+      _this
+        .get("store")
         .findRecord(model, id, {
           reload: true
         })
         .then(data => {
-          this.get("store").pushPayload(data);
+          _this.get("store").pushPayload(data);
           if (order_id) {
             is_private
-              ? router.transitionTo("orders.staff_conversation", orderId)
-              : router.transitionTo("orders.conversation", orderId);
+              ? router.transitionTo("orders.staff_conversation", order_id)
+              : router.transitionTo("orders.conversation", order_id);
           } else {
             router.transitionTo("items.staff_conversation", package_id);
           }
