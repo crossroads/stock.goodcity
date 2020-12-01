@@ -423,9 +423,9 @@ workflows:
       - package_dependencies:
           requires:
             - checkout_code
-      # - test_cases:
-      #     requires:
-      #       - package_dependencies
+      - test_cases:
+          requires:
+            - package_dependencies
       # - upload-coverage:
       #     requires:
       #       - package_dependencies
@@ -448,8 +448,6 @@ workflows:
       - ember_cordova_build:
           # requires:
           #   - test_cases
-          requires:
-            - package_dependencies
           filters:
             branches:
               only: /^(master|live|GCW-3423-redirect-to-chat-tabs)$/
