@@ -557,9 +557,7 @@ export default GoodcityController.extend(
 
         const packageSet = this.get("model.packageSet");
         const pkg = await this.get("packageService").userPickPackage({
-          packageTypes: this.get("packageService").allChildPackageTypes(
-            packageSet
-          ),
+          parentCode: packageSet.get("code.code"),
           storageTypeName: "Package" // we don't add boxes to sets
         });
 
@@ -654,6 +652,7 @@ export default GoodcityController.extend(
 
       openItemsSearch() {
         this.set("openPackageSearch", true);
+        this.set("parentCode", this.get("item.code.code"));
       },
 
       async updateContainer(pkg, quantity) {
