@@ -43,14 +43,13 @@ export default AuthorizeRoute.extend(GradeMixin, {
     );
   },
 
-  afterModel() {
-    this.store.findAll("location", {
-      reload: true
-    });
-    this.store.findAll("restriction", {
-      reload: true
-    });
-    this.store.findAll("donor_condition", { reload: true });
+  async afterModel() {
+    const reload = true;
+    await Ember.RSVP.all([
+      this.store.findAll("location", { reload }),
+      this.store.findAll("restriction", { reload }),
+      this.store.findAll("donor_condition", { reload })
+    ]);
   },
 
   setupPrinterId(controller) {
@@ -150,6 +149,7 @@ export default AuthorizeRoute.extend(GradeMixin, {
       id: "B"
     });
     controller.set("imageKeys", "");
+
     controller.set(
       "restrictionId",
       this.get("restrictionOptions").get("firstObject")
