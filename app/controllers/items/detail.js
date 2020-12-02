@@ -375,6 +375,7 @@ export default GoodcityController.extend(
 
     async assignNew(type, { deleteDetailId = false } = {}) {
       const item = this.get("item");
+      const store = this.get("store");
 
       const packageParams = {
         package_type_id: type.get("id")
@@ -394,6 +395,12 @@ export default GoodcityController.extend(
           { package: packageParams },
           { reloadDeps: true }
         );
+        const userFavourite = store.createRecord("user_favourite", {
+          id: store.peekAll("user_favourite").get("lastObject.id") + 1,
+          favourite_type: "PackageType",
+          favourite_id: type.get("id")
+        });
+        store.push(store.normalize("user_favourite", userFavourite));
       }, ERROR_STRATEGIES.MODAL);
     },
 

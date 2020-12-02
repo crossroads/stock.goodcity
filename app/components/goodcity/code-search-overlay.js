@@ -35,7 +35,9 @@ export default Ember.Component.extend(SearchMixin, AsyncMixin, {
     const userFavourites = this.get("store").peekAll("user_favourite");
     const packageTypeIds = userFavourites
       .filterBy("favourite_type", "PackageType")
-      .getEach("favourite_id");
+      .getEach("favourite_id")
+      .reverse()
+      .uniq();
     const packageTypes = packageTypeIds.map(it =>
       this.get("store").peekRecord("code", it)
     );

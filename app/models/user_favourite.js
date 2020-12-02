@@ -6,5 +6,5 @@ export default Model.extend({
   favourite_type: attr("string"),
   favourite_id: attr("number"),
   user_id: attr("number"),
-  persistent: attr("boolean")
+  persistent: attr("boolean", { defaultValue: false })
 });
