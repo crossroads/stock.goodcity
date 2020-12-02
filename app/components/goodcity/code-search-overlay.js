@@ -25,10 +25,9 @@ export default Ember.Component.extend(SearchMixin, AsyncMixin, {
   },
 
   async didRender() {
-    await this.runTask(() => {
-      return this.get("packageTypeService")
-        .preload()
-        .then(() => this.fetchRecentPackageTypes());
+    await this.runTask(async () => {
+      await this.get("packageTypeService").preload();
+      this.fetchRecentPackageTypes();
     }, ASYNC_BEHAVIOURS.SILENT_DEPENDENCY);
   },
 
