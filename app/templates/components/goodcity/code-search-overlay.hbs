@@ -40,6 +40,7 @@
                   </li>
                 {{/each}}
               {{else}}  
+                <p class="recently_used">Recently Used</p>
                 {{#each recentPackageTypes as |type|}}
                   <li {{action "selectCode" type}}>
                     <div class="row">

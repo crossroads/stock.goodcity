@@ -166,6 +166,12 @@
     position: fixed !important;
   }
 
+  p.recently_used {
+    text-align: center;
+    margin-top: -12%;
+    text-decoration: underline;
+  }  
+
   .orders_search_result {
     .list.list-activity {
       margin-top: 4.5rem;
