@@ -1,6 +1,6 @@
 import Ember from "ember";
 import _ from "lodash";
-import { module, test } from "qunit";
+import { module, test, skip } from "qunit";
 import startApp from "../helpers/start-app";
 import "../factories/orders_package";
 import "../factories/designation";
@@ -96,7 +96,7 @@ module("Acceptance: Goodcity Request test", {
   }
 });
 
-test("Add a request to order", function(assert) {
+skip("Add a request to order", function(assert) {
   assert.expect(2);
   MockUtils.mock({
     url: "/api/v1/designations/*",
@@ -126,7 +126,7 @@ test("Add a request to order", function(assert) {
   });
 });
 
-test("Deleting request from order", function(assert) {
+skip("Deleting request from order", function(assert) {
   assert.expect(2);
 
   visit("/orders/" + designation1.id + "/requested_items");
