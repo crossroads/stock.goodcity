@@ -92,24 +92,27 @@ export default Ember.Service.extend({
       return platform;
     }
 
-    function processTappedNotification({ order_id, is_private, package_id }) {
+    function processTappedNotification({
+      messageable_type,
+      is_private,
+      message_id
+    }) {
       // jshint ignore:line
-      const model = order_id ? "designation" : "item";
-      const id = order_id ? order_id : package_id;
+      const model = messageable_type == "Order" ? "designation" : "item";
       const router = _this.get("router");
       _this
         .get("store")
-        .findRecord(model, id, {
+        .findRecord(model, message_id, {
           reload: true
         })
         .then(data => {
           _this.get("store").pushPayload(data);
-          if (order_id) {
+          if (messageable_type == "Order") {
             is_private
-              ? router.transitionTo("orders.staff_conversation", order_id)
-              : router.transitionTo("orders.conversation", order_id);
+              ? router.transitionTo("orders.staff_conversation", message_id)
+              : router.transitionTo("orders.conversation", message_id);
           } else {
-            router.transitionTo("items.staff_conversation", package_id);
+            router.transitionTo("items.staff_conversation", message_id);
           }
         });
     }
