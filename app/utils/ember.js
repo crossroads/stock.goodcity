@@ -20,3 +20,18 @@ export function callbackObserver(prop, valueCallbacks) {
     }
   });
 }
+
+/**
+ * Creates a computed property that returns  a reactive array with all the records of a certain type
+ *
+ * @export
+ * @param {*} model
+ * @returns
+ */
+export function computedAll(model, opts = {}) {
+  const { transform = _.identity } = opts;
+  return Ember.computed(function() {
+    const arr = this.get("store").peekAll(model);
+    return transform(arr);
+  });
+}
