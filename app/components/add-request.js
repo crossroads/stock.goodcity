@@ -16,7 +16,7 @@ export default Ember.Component.extend(AsyncMixin, {
   num: null,
   order: null,
 
-  packageTypeName: Ember.computed("requestType", function() {
+  packageTypeName: Ember.computed("request.code", function() {
     return this.get("requestType")
       ? `${this.get("requestType.code")}-${this.get("requestType.name")}`
       : "";
@@ -42,28 +42,23 @@ export default Ember.Component.extend(AsyncMixin, {
       );
     },
 
-    async removeRequest(reqId) {
-      const req = this.get("store").peekRecord("goodcity_request", reqId);
-      await this.runTask(
-        this.get("goodcityRequestService").deleteRequest(reqId)
-      );
-      this.get("store").unloadRecord(req);
+    async removeRequest(id, index) {
+      if (id) {
+        const req = this.get("store").peekRecord("goodcity_request", id);
+        await this.runTask(
+          this.get("goodcityRequestService").deleteRequest(id)
+        );
+        this.get("store").unloadRecord(req);
+      }
+      this.get("onRemoveRequest")(id, index);
     },
 
-    async assingPackageType(reqId) {
-      const pkgType = await this.get(
+    async assingPackageType() {
+      const packageType = await this.get(
         "packageTypeService"
       ).userPickPackageType();
 
-      if (pkgType) {
-        this.runTask(
-          this.get("goodcityRequestService").updateGcRequest(reqId, {
-            package_type_id: pkgType.get("id"),
-            quantity: 1,
-            order_id: this.get("order.id")
-          })
-        );
-      }
+      this.set("request.code", packageType);
     },
 
     searchPackageType(reqId, orderId) {
