@@ -2,6 +2,7 @@ import Ember from "ember";
 import _ from "lodash";
 import SearchMixin from "stock/mixins/search_resource";
 import AsyncMixin, { ASYNC_BEHAVIOURS } from "stock/mixins/async";
+import { computedAll } from "../../utils/ember";
 
 /**
  * An overlay that pops up from the bottom of the screen, allowing the user
@@ -27,22 +28,24 @@ export default Ember.Component.extend(SearchMixin, AsyncMixin, {
   async didRender() {
     await this.runTask(async () => {
       await this.get("packageTypeService").preload();
-      this.fetchRecentPackageTypes();
     }, ASYNC_BEHAVIOURS.SILENT_DEPENDENCY);
   },
 
-  fetchRecentPackageTypes() {
-    const userFavourites = this.get("store").peekAll("user_favourite");
-    const packageTypeIds = userFavourites
-      .filterBy("favourite_type", "PackageType")
-      .getEach("favourite_id")
-      .reverse()
-      .uniq();
-    const packageTypes = packageTypeIds.map(it =>
-      this.get("store").peekRecord("code", it)
-    );
-    this.set("recentPackageTypes", packageTypes);
-  },
+  codes: computedAll("code"),
+  favourites: computedAll("user_favourite", {
+    transform: favs =>
+      favs
+        .filterBy("favourite_type", "PackageType")
+        .getEach("favourite_id")
+        .reverse()
+        .uniq()
+  }),
+
+  recentPackageTypes: Ember.computed("codes.[]", "favourites.[]", function() {
+    return this.get("favourites")
+      .map(it => this.get("store").peekRecord("code", it))
+      .compact();
+  }),
 
   allPackageTypes: Ember.computed("open", "subsetPackageTypes", function() {
     if (this.get("subsetPackageTypes")) {
