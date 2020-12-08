@@ -45,11 +45,14 @@ export default AuthorizeRoute.extend(GradeMixin, {
 
   async afterModel() {
     const reload = true;
-    await Ember.RSVP.all([
-      this.store.findAll("location", { reload }),
-      this.store.findAll("restriction", { reload }),
-      this.store.findAll("donor_condition", { reload })
-    ]);
+    const storageType = this.paramsFor("items.new").storageType;
+    await this.store.findAll("location", { reload });
+    if (["Box", "Pallet"].indexOf(storageType) < 0) {
+      await Ember.RSVP.all([
+        this.store.findAll("restriction", { reload }),
+        this.store.findAll("donor_condition", { reload })
+      ]);
+    }
   },
 
   setupPrinterId(controller) {
@@ -70,16 +73,19 @@ export default AuthorizeRoute.extend(GradeMixin, {
 
   setupController(controller, model) {
     this._super(controller, model);
-    const store = this.get("store");
+    const storageType = this.paramsFor("items.new").storageType;
     this.initializeController();
     this.initializeAttributes();
-    this.manageSubformDetails();
+    if (["Box", "Pallet"].indexOf(storageType) < 0) {
+      this.manageSubformDetails();
+    }
     this.setUpPackageImage();
     this.setupPrinterId(controller);
   },
 
   async initializeController() {
     const controller = this.controller;
+    controller.set("showAdditionalFields", false);
     if (!controller.get("inventoryNumber")) {
       await controller.send("autoGenerateInventoryNumber");
     }
@@ -104,8 +110,6 @@ export default AuthorizeRoute.extend(GradeMixin, {
         distinct: "brand"
       });
       controller.set("packageDetails", details);
-    } else {
-      controller.set("showAdditionalFields", false);
     }
   },
 
@@ -135,6 +139,7 @@ export default AuthorizeRoute.extend(GradeMixin, {
 
   async initializeAttributes() {
     const controller = this.controller;
+    const storageType = this.paramsFor("items.new").storageType;
     this.set("newItemRequest", false);
     controller.set("quantity", 1);
     controller.set("caseNumber", "");
@@ -143,29 +148,38 @@ export default AuthorizeRoute.extend(GradeMixin, {
     controller.set("height", null);
     controller.set("weight", null);
     controller.set("pieces", null);
-    controller.set("expirty_date", null);
-    controller.set("selectedGrade", {
-      name: "B",
-      id: "B"
-    });
+    controller.set("expiry_date", null);
     controller.set("imageKeys", "");
 
-    controller.set(
-      "restrictionId",
-      this.get("restrictionOptions").get("firstObject")
-    );
-    controller.set(
-      "saleableId",
-      this.get("saleableOptions").get("firstObject")
-    );
-    const defaultValue = await this.get("packageService").getItemValuation({
-      donorConditionId: this.getDefaultCondition().id,
-      grade: controller.get("selectedGrade").id,
-      packageTypeId: controller.get("codeId")
-    });
+    if (["Box", "Pallet"].indexOf(storageType) < 0) {
+      controller.set(
+        "restrictionId",
+        this.get("restrictionOptions").get("firstObject")
+      );
+      controller.set(
+        "saleableId",
+        this.get("saleableOptions").get("firstObject")
+      );
+      controller.set("selectedGrade", {
+        name: "B",
+        id: "B"
+      });
+      const defaultValue = await this.get("packageService").getItemValuation({
+        donorConditionId: this.getDefaultCondition().id,
+        grade: controller.get("selectedGrade").id,
+        packageTypeId: controller.get("codeId")
+      });
 
-    controller.set("defaultCondition", this.getDefaultCondition());
-    controller.set("valueHkDollar", +defaultValue.value_hk_dollar);
-    controller.set("defaultValueHkDollar", +defaultValue.value_hk_dollar);
+      controller.set("defaultCondition", this.getDefaultCondition());
+      controller.set("valueHkDollar", +defaultValue.value_hk_dollar);
+      controller.set("defaultValueHkDollar", +defaultValue.value_hk_dollar);
+    } else {
+      controller.set("defaultCondition", null);
+      controller.set("valueHkDollar", null);
+      controller.set("defaultValueHkDollar", null);
+      controller.set("restrictionId", null);
+      controller.set("saleableId", null);
+      controller.set("selectedGrade", { id: null });
+    }
   }
 });

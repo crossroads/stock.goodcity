@@ -263,11 +263,19 @@ export default GoodcityController.extend(
       return Number(this.get("labels"));
     }),
 
-    isInvalidValuation: Ember.computed("valueHkDollar", function() {
-      const value = this.get("valueHkDollar");
-      // can be 0
-      return value === "" || value === null;
-    }),
+    isInvalidValuation: Ember.computed(
+      "valueHkDollar",
+      "isBoxOrPallet",
+      function() {
+        if (this.get("isBoxOrPallet")) {
+          return false;
+        }
+
+        const value = this.get("valueHkDollar");
+        // can be 0
+        return value === "" || value === null;
+      }
+    ),
 
     location: Ember.computed("codeId", "locationId", {
       get() {
@@ -328,6 +336,12 @@ export default GoodcityController.extend(
       const locationId = this.get("location.id");
       const quantity = this.get("quantity");
       const detailAttributes = this.fetchDetailAttributes();
+      const saleable = this.get("saleableId")
+        ? this.get("saleableId").value
+        : false;
+      const detailType = this.get("showAdditionalFields")
+        ? this.get("code.subform")
+        : null;
 
       return {
         quantity: quantity,
@@ -341,7 +355,7 @@ export default GoodcityController.extend(
         case_number: this.get("caseNumber"),
         notes: this.get("descriptionEn"),
         notes_zh_tw: this.get("descriptionZhTw"),
-        detail_type: this.get("code.subform"),
+        detail_type: detailType,
         grade: this.get("selectedGrade.id"),
         donor_condition_id: this.get("defaultCondition.id"),
         location_id: locationId,
@@ -351,8 +365,8 @@ export default GoodcityController.extend(
         expiry_date: this.get("expiry_date"),
         value_hk_dollar: this.get("valueHkDollar"),
         offer_ids: this.get("offersLists").getEach("id"),
-        restriction_id: this.get("restrictionId").id,
-        saleable: this.get("saleableId").value,
+        restriction_id: this.get("restrictionId.id"),
+        saleable: saleable,
         comment: this.get("comment"),
         detail_attributes: detailAttributes
       };
