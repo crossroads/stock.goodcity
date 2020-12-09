@@ -53,12 +53,17 @@ export default GoodcityController.extend(
     valuationIsFocused: false,
     selectedDescriptionLanguage: "en",
 
-    valueHkDollar: Ember.computed("model.valueHkDollar", function() {
-      const val = this.get("model.valueHkDollar");
-      if (val !== null && val !== "") {
-        return +this.get("model.valueHkDollar");
+    valueHkDollar: Ember.computed("model.valueHkDollar", {
+      get() {
+        const val = this.get("model.valueHkDollar");
+        if (val !== null && val !== "") {
+          return +this.get("model.valueHkDollar");
+        }
+        return val;
+      },
+      set(_, value) {
+        return value;
       }
-      return val;
     }),
     fields: additionalFields,
     fixedDropdownArr: [
