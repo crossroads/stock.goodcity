@@ -24,12 +24,6 @@ export default Ember.Component.extend(SearchMixin, AsyncMixin, {
     this._super("code-search-overlay");
   },
 
-  async didRender() {
-    await this.runTask(() => {
-      return this.get("packageTypeService").preload();
-    }, ASYNC_BEHAVIOURS.SILENT_DEPENDENCY);
-  },
-
   allPackageTypes: Ember.computed("open", "subsetPackageTypes", function() {
     if (this.get("subsetPackageTypes")) {
       return this.get("subsetPackageTypes");

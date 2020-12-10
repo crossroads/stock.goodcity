@@ -41,10 +41,6 @@ export default Ember.Service.extend({
     return deferred.promise;
   },
 
-  preload: cached(async function() {
-    return await this.get("store").query("code", { stock: true });
-  }),
-
   parentsOf(packageType) {
     const hierarchy = this.get("hierarchy");
     const code = packageType.get("code");
