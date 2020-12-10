@@ -52,14 +52,6 @@ export default GoodcityController.extend(
     displayItemOptions: false,
     valuationIsFocused: false,
     selectedDescriptionLanguage: "en",
-
-    valueHkDollar: Ember.computed("model.valueHkDollar", function() {
-      const val = this.get("model.valueHkDollar");
-      if (val !== null && val !== "") {
-        return +this.get("model.valueHkDollar");
-      }
-      return val;
-    }),
     fields: additionalFields,
     fixedDropdownArr: [
       "frequencyId",
