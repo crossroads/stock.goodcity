@@ -39,7 +39,7 @@ export default AuthorizeRoute.extend({
       );
     }
 
-    if (["Box", "Pallet"].indexOf(model.get("storageTypeName")) < 0) {
+    if (!model.get("isBoxPallet")) {
       await this.store.findAll("restriction", { reload: true });
       await this.store.findAll("donor_condition", { reload: true });
     }
