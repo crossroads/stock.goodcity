@@ -43,9 +43,9 @@ export default AuthorizeRoute.extend(GradeMixin, {
     );
   },
 
-  afterModel() {
+  async afterModel() {
     const reload = true;
-    return Ember.RSVP.all([
+    await Ember.RSVP.all([
       this.store.findAll("location", { reload }),
       this.store.findAll("restriction", { reload }),
       this.store.findAll("donor_condition", { reload })
