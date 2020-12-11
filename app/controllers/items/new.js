@@ -339,9 +339,6 @@ export default GoodcityController.extend(
       const saleable = this.get("saleableId")
         ? this.get("saleableId").value
         : false;
-      const detailType = this.get("showAdditionalFields")
-        ? this.get("code.subform")
-        : null;
 
       return {
         quantity: quantity,
@@ -355,7 +352,7 @@ export default GoodcityController.extend(
         case_number: this.get("caseNumber"),
         notes: this.get("descriptionEn"),
         notes_zh_tw: this.get("descriptionZhTw"),
-        detail_type: detailType,
+        detail_type: this.get("code.subform"),
         grade: this.get("selectedGrade.id"),
         donor_condition_id: this.get("defaultCondition.id"),
         location_id: locationId,

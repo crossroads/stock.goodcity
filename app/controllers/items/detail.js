@@ -375,7 +375,7 @@ export default GoodcityController.extend(
 
     async assignNew(type, { deleteDetailId = false } = {}) {
       const item = this.get("item");
-      let reloadDeps = true;
+
       const packageParams = {
         package_type_id: type.get("id")
       };
@@ -390,16 +390,11 @@ export default GoodcityController.extend(
         packageParams.detail_id = null;
       }
 
-      if (this.get("isBoxOrPallet")) {
-        packageParams.detail_type = null;
-        packageParams.detail_id = null;
-        reloadDeps = false;
-      }
       await this.runTask(async () => {
         await this.get("packageService").updatePackage(
           item.id,
           { package: packageParams },
-          { reloadDeps: reloadDeps }
+          { reloadDeps: true }
         );
       }, ERROR_STRATEGIES.MODAL);
     },
