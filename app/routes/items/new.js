@@ -74,9 +74,10 @@ export default AuthorizeRoute.extend(GradeMixin, {
   setupController(controller, model) {
     this._super(controller, model);
     const storageType = this.paramsFor("items.new").storageType;
+    const isBoxPallet = ["Box", "Pallet"].indexOf(storageType) > -1;
     this.initializeController();
-    this.initializeAttributes();
-    if (["Box", "Pallet"].indexOf(storageType) < 0) {
+    this.initializeAttributes(isBoxPallet);
+    if (!isBoxPallet) {
       this.manageSubformDetails();
     }
     this.setUpPackageImage();
@@ -137,9 +138,8 @@ export default AuthorizeRoute.extend(GradeMixin, {
     );
   },
 
-  async initializeAttributes() {
+  async initializeAttributes(isBoxPallet) {
     const controller = this.controller;
-    const storageType = this.paramsFor("items.new").storageType;
     this.set("newItemRequest", false);
     controller.set("quantity", 1);
     controller.set("caseNumber", "");
@@ -150,36 +150,40 @@ export default AuthorizeRoute.extend(GradeMixin, {
     controller.set("pieces", null);
     controller.set("expiry_date", null);
     controller.set("imageKeys", "");
+    controller.set("defaultCondition", null);
+    controller.set("valueHkDollar", null);
+    controller.set("defaultValueHkDollar", null);
+    controller.set("restrictionId", null);
+    controller.set("saleableId", null);
+    controller.set("selectedGrade", { id: null });
 
-    if (["Box", "Pallet"].indexOf(storageType) < 0) {
-      controller.set(
-        "restrictionId",
-        this.get("restrictionOptions").get("firstObject")
-      );
-      controller.set(
-        "saleableId",
-        this.get("saleableOptions").get("firstObject")
-      );
-      controller.set("selectedGrade", {
-        name: "B",
-        id: "B"
-      });
-      const defaultValue = await this.get("packageService").getItemValuation({
-        donorConditionId: this.getDefaultCondition().id,
-        grade: controller.get("selectedGrade").id,
-        packageTypeId: controller.get("codeId")
-      });
-
-      controller.set("defaultCondition", this.getDefaultCondition());
-      controller.set("valueHkDollar", +defaultValue.value_hk_dollar);
-      controller.set("defaultValueHkDollar", +defaultValue.value_hk_dollar);
-    } else {
-      controller.set("defaultCondition", null);
-      controller.set("valueHkDollar", null);
-      controller.set("defaultValueHkDollar", null);
-      controller.set("restrictionId", null);
-      controller.set("saleableId", null);
-      controller.set("selectedGrade", { id: null });
+    if (!isBoxPallet) {
+      this.assignAttributesForValidPackage();
     }
+  },
+
+  async assignAttributesForValidPackage() {
+    const controller = this.controller;
+    controller.set(
+      "restrictionId",
+      this.get("restrictionOptions").get("firstObject")
+    );
+    controller.set(
+      "saleableId",
+      this.get("saleableOptions").get("firstObject")
+    );
+    controller.set("selectedGrade", {
+      name: "B",
+      id: "B"
+    });
+    const defaultValue = await this.get("packageService").getItemValuation({
+      donorConditionId: this.getDefaultCondition().id,
+      grade: controller.get("selectedGrade").id,
+      packageTypeId: controller.get("codeId")
+    });
+
+    controller.set("defaultCondition", this.getDefaultCondition());
+    controller.set("valueHkDollar", +defaultValue.value_hk_dollar);
+    controller.set("defaultValueHkDollar", +defaultValue.value_hk_dollar);
   }
 });
