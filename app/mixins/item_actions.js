@@ -30,6 +30,17 @@ export default Ember.Mixin.create(AsyncMixin, {
   actionComment: "",
   i18n: Ember.inject.service(),
 
+  selectedProcessingDestination: "",
+
+  processingDestinations: Ember.computed(function() {
+    const list = this.get("store")
+      .peekAll("processing_destinations_lookup")
+      .map(item => ({ id: item.get("id"), name: item.get("name") }));
+
+    list.unshift({ id: null, name: "None" });
+    return list;
+  }),
+
   itemActions: Ember.computed(function() {
     return ITEM_ACTIONS.map(action => {
       return {
@@ -186,6 +197,10 @@ export default Ember.Mixin.create(AsyncMixin, {
       }
     },
 
+    onProcessingDestinationChange(destination) {
+      this.set("selectedProcessingDestination", destination);
+    },
+
     completeAction() {
       this.runTask(() => {
         return this.get("packageService").peformActionOnPackage(
@@ -194,7 +209,10 @@ export default Ember.Mixin.create(AsyncMixin, {
             from: this.get("actionFrom"),
             actionName: this.get("actionName").toLowerCase(),
             quantity: this.get("actionQty"),
-            comment: this.get("actionComment")
+            comment: this.get("actionComment"),
+            processing_destination_lookup_id: this.get(
+              "selectedProcessingDestination.id"
+            )
           }
         );
       }, ERROR_STRATEGIES.MODAL).finally(() => {

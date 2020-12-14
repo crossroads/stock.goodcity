@@ -40,6 +40,9 @@ export default AuthorizeRoute.extend({
     }
     await this.store.findAll("restriction", { reload: true });
     await this.store.findAll("donor_condition", { reload: true });
+    await this.store.findAll("processing_destinations_lookup", {
+      reload: true
+    });
   },
 
   beforeModel(transition) {

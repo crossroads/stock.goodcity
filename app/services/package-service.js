@@ -275,12 +275,19 @@ export default ApiBaseService.extend(NavigationAwareness, {
    * @returns {Promise<Model>}
    */
   async peformActionOnPackage(pkg, opts = {}) {
-    const { from, actionName, quantity, comment } = opts;
+    const {
+      from,
+      actionName,
+      quantity,
+      comment,
+      processing_destination_lookup_id
+    } = opts;
 
     const payload = await this.PUT(
       `/packages/${pkg.get("id")}/actions/${opts.actionName}`,
       {
         quantity,
+        processing_destination_lookup_id,
         from: toID(from),
         description: comment
       }
