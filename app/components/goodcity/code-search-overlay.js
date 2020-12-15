@@ -24,25 +24,23 @@ export default Ember.Component.extend(SearchMixin, AsyncMixin, {
     this._super("code-search-overlay");
   },
 
-  async didRender() {
-    await this.runTask(async () => {
-      await this.get("packageTypeService").preload();
-      this.fetchRecentPackageTypes();
-    }, ASYNC_BEHAVIOURS.SILENT_DEPENDENCY);
-  },
+  favourites: Ember.computed(function() {
+    return this.get("store").peekAll("user_favourite");
+  }),
 
-  fetchRecentPackageTypes() {
-    const userFavourites = this.get("store").peekAll("user_favourite");
-    const packageTypeIds = userFavourites
-      .filterBy("favourite_type", "PackageType")
-      .getEach("favourite_id")
-      .reverse()
-      .uniq();
-    const packageTypes = packageTypeIds.map(it =>
-      this.get("store").peekRecord("code", it)
-    );
-    this.set("recentPackageTypes", packageTypes);
-  },
+  recentPackageTypes: Ember.computed(
+    "favourites.[]",
+    "favourites.length",
+    function() {
+      const userFavourites = this.get("favourites");
+      const packageTypeIds = userFavourites
+        .filterBy("favourite_type", "PackageType")
+        .getEach("favourite_id")
+        .reverse()
+        .uniq();
+      return packageTypeIds.map(it => this.get("store").peekRecord("code", it));
+    }
+  ),
 
   allPackageTypes: Ember.computed("open", "subsetPackageTypes", function() {
     if (this.get("subsetPackageTypes")) {

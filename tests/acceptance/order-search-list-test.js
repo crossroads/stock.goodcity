@@ -161,7 +161,7 @@ test("Order's state should be displayed on screen", function(assert) {
 });
 
 test("Clearing existing filters should retrigger the search", function(assert) {
-  assert.expect(4);
+  assert.expect(3);
 
   let getRequestSent = false;
 
@@ -186,13 +186,10 @@ test("Clearing existing filters should retrigger the search", function(assert) {
         this.responseText = JSON.stringify({ designations: [] });
       }
     });
-
     click(closeBtns);
   });
 
   andThen(function() {
-    const closeBtns = $("#order-state-filter .remove-filters-icon");
-    assert.equal(closeBtns.length, 0, "The close button has disappeared");
     assert.deepEqual(
       filterService.get("orderStateFilters"),
       [],

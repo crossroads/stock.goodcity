@@ -89,7 +89,12 @@ export default Ember.Controller.extend(
             let user = this.get("user");
             value = e.target.id == "mobile" && value ? "+852" + value : value;
             user.set(e.target.id, value);
-            await user.save();
+            try {
+              await user.save();
+            } catch (e) {
+              this.get("user").rollbackAttributes();
+              throw e;
+            }
             this.hideValidationErrors(e.target);
           }, ERROR_STRATEGIES.MODAL);
         } else {

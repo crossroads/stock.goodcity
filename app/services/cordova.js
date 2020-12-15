@@ -92,20 +92,29 @@ export default Ember.Service.extend({
       return platform;
     }
 
-    function processTappedNotification(payload) {
+    function processTappedNotification({
+      messageable_type,
+      is_private,
+      messageable_id
+    }) {
       // jshint ignore:line
-      var notifications = Ember.getOwner(_this).lookup(
-        "controller:notifications"
-      );
-
-      new AjaxPromise(
-        `/designations/${payload.order_id}`,
-        "GET",
-        _this.get("session.authToken")
-      ).then(data => {
-        _this.get("store").pushPayload(data);
-        notifications.redirectToOrderDetail(payload.order_id);
-      });
+      const model = messageable_type == "Order" ? "designation" : "item";
+      const router = _this.get("router");
+      _this
+        .get("store")
+        .findRecord(model, messageable_id, {
+          reload: true
+        })
+        .then(data => {
+          _this.get("store").pushPayload(data);
+          if (messageable_type == "Order") {
+            is_private == "True"
+              ? router.transitionTo("orders.staff_conversation", messageable_id)
+              : router.transitionTo("orders.conversation", messageable_id);
+          } else {
+            router.transitionTo("items.staff_conversation", messageable_id);
+          }
+        });
     }
 
     document.addEventListener("deviceready", onDeviceReady, true);

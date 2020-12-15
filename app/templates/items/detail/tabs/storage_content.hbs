@@ -34,9 +34,9 @@
 
 <div class="row item-search-overlay">
   {{goodcity/item-search-overlay
+    parentCode=parentCode
     open=openPackageSearch
     searchText=searchText
-    associatedPackageTypes=associatedPackageTypes
     storageTypeName=item.storageTypeName
     packageStates='in_stock,designated'
     onConfirm=(action 'openAddItemOverlay')

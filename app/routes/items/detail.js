@@ -80,6 +80,7 @@ export default AuthorizeRoute.extend({
     });
 
     controller.set("defaultValueHkDollar", +defaultValue.value_hk_dollar);
+    controller.set("valueHkDollar", +model.get("valueHkDollar"));
 
     let detailType = model.get("detailType");
     if (detailType) {

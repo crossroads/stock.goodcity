@@ -1,6 +1,6 @@
 import Ember from "ember";
 import _ from "lodash";
-import { module, test, skip } from "qunit";
+import { module, test } from "qunit";
 import startApp from "../helpers/start-app";
 import "../factories/orders_package";
 import "../factories/designation";
@@ -79,6 +79,31 @@ module("Acceptance: Goodcity Request test", {
     });
 
     MockUtils.mock({
+      url: "/api/v1/user_favourite*",
+      type: "GET",
+      status: 200,
+      responseText: {
+        user_favourites: [
+          {
+            id: 1,
+            favourite_type: "PackageType",
+            favourite_id: code.get("id"),
+            user_id: MockUtils.getSessionUser().id
+          }
+        ]
+      }
+    });
+
+    MockUtils.mock({
+      url: "/api/v1/message*",
+      type: "GET",
+      status: 200,
+      responseText: {
+        messages: []
+      }
+    });
+
+    MockUtils.mock({
       url: "/api/v1/designations/*",
       type: "GET",
       status: 200,
@@ -96,7 +121,7 @@ module("Acceptance: Goodcity Request test", {
   }
 });
 
-skip("Add a request to order", function(assert) {
+test("Add a request to order", function(assert) {
   assert.expect(2);
   MockUtils.mock({
     url: "/api/v1/designations/*",
@@ -126,7 +151,7 @@ skip("Add a request to order", function(assert) {
   });
 });
 
-skip("Deleting request from order", function(assert) {
+test("Deleting request from order", function(assert) {
   assert.expect(2);
 
   visit("/orders/" + designation1.id + "/requested_items");
