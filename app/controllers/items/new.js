@@ -757,7 +757,8 @@ export default GoodcityController.extend(
               comment: "",
               codeId: "",
               successfullyDuplicated: false,
-              shouldDuplicate: false
+              shouldDuplicate: false,
+              valueHkDollar: null
             });
             Ember.run.later(
               this,

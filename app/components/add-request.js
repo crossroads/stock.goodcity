@@ -30,6 +30,10 @@ export default Ember.Component.extend(AsyncMixin, {
     }
   }),
 
+  hasError: Ember.computed("requestType", "request.quantity", function() {
+    return !this.get("requestType") || !this.get("request.quantity");
+  }),
+
   actions: {
     deleteRequest(reqId) {
       var i18n = this.get("i18n");

@@ -19,7 +19,7 @@
     </div>
   </div>
 
-  {{#if (is-not requestType)}}
+  {{#if hasError}}
     <div class="row">
       <div class="small-12 columns request_empty_error">
         <div class='error'>{{fa-icon "exclamation-triangle"}}
