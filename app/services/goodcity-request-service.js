@@ -3,16 +3,12 @@ import ApiBaseService from "./api-base-service";
 export default ApiBaseService.extend({
   store: Ember.inject.service(),
 
-  createGcRequest(gcRequestParams) {
-    return this.POST(`/goodcity_requests`, {
+  async createGcRequest(gcRequestParams) {
+    const gcRequest = await this.POST(`/goodcity_requests`, {
       goodcity_request: gcRequestParams
-    }).then(payload => {
-      this.get("store").pushPayload(payload);
-      return this.get("store").peekRecord(
-        "goodcity_request",
-        payload.goodcity_request.id
-      );
     });
+    this.get("store").pushPayload(gcRequest);
+    return gcRequest;
   },
 
   async updateGcRequest(reqId, gcRequestParams) {

@@ -1,6 +1,4 @@
 import Ember from "ember";
-const { getOwner } = Ember;
-import AjaxPromise from "stock/utils/ajax-promise";
 import config from "../../config/environment";
 import AsyncMixin, { ERROR_STRATEGIES } from "stock/mixins/async";
 
@@ -13,49 +11,80 @@ export default Ember.Controller.extend(AsyncMixin, {
   fromClientInformation: false,
   qty: null,
   otherDetails: "",
-  sortProperties: ["id"],
-  sortedGcRequests: Ember.computed.sort(
-    "order.goodcityRequests",
-    "sortProperties"
-  ),
   isMobileApp: config.cordova.enabled,
 
-  hasNoGcRequests: Ember.computed("order.goodcityRequests", function() {
-    return !this.get("order.goodcityRequests").length;
-  }),
+  hasNoGcRequests: Ember.computed(
+    "goodcityRequests.[]",
+    "goodcityRequests.@each.code",
+    function() {
+      return (
+        !this.get("goodcityRequests").length ||
+        this.get("goodcityRequests").filter(gr => gr.code).length !==
+          this.get("goodcityRequests").length
+      );
+    }
+  ),
 
-  sortedGcRequestsLength: Ember.computed("order.goodcityRequests", function() {
-    return this.get("order.goodcityRequests").length > 1;
-  }),
+  async createGoodsDetails(params, index) {
+    const data = await this.get("goodcityRequestService").createGcRequest({
+      ...params
+    });
+    const goodcityRequests = this.get("goodcityRequests");
+    goodcityRequests[index].id = data["goodcity_request"]["id"];
+    this.set("goodcityRequests", [...goodcityRequests]);
+  },
+
+  async updateGoodsDetails(id, params) {
+    await this.get("goodcityRequestService").updateGcRequest(id, params);
+  },
 
   actions: {
-    async addRequest() {
-      await this.get("goodcityRequestService").createGcRequest({
-        quantity: 1,
-        order_id: this.get("order.id")
-      });
+    async onRemoveRequest(_id, index) {
+      this.set("goodcityRequests", [
+        ...this.get("goodcityRequests").slice(0, index),
+        ...this.get("goodcityRequests").slice(index + 1)
+      ]);
     },
 
-    saveGoodsDetails() {
+    async addRequest() {
+      const goodcityRequest = {
+        description: "",
+        quantity: 1,
+        packageType: null
+      };
+      this.set("goodcityRequests", [
+        ...this.get("goodcityRequests"),
+        goodcityRequest
+      ]);
+    },
+
+    async saveGoodsDetails() {
       if (this.get("hasNoGcRequests")) {
         return false;
       }
-      var promises = [];
-      this.get("order.goodcityRequests").forEach(goodcityRequest => {
-        promises.push(goodcityRequest.save());
-      });
 
-      var loadingView = getOwner(this)
-        .lookup("component:loading")
-        .append();
+      const orderId = this.get("order.id");
+      const goodcityRequests = this.get("goodcityRequests");
+      await this.runTask(
+        Promise.all(
+          goodcityRequests.map(async (gr, index) => {
+            const params = {
+              package_type_id: gr.code.get("id"),
+              quantity: gr.quantity,
+              order_id: orderId,
+              description: gr.description
+            };
+            if (!gr.id) {
+              return this.createGoodsDetails(params, index);
+            } else {
+              return this.updateGoodsDetails(gr.id, params);
+            }
+          })
+        ),
+        ERROR_STRATEGIES.MODAL
+      );
 
-      Ember.RSVP.all(promises).finally(() => {
-        this.transitionToRoute(
-          "order.appointment_details",
-          this.get("order.id")
-        );
-        loadingView.destroy();
-      });
+      this.transitionToRoute("order.appointment_details", this.get("order.id"));
     }
   }
 });
