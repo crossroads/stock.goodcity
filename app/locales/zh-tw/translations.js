@@ -763,7 +763,7 @@ export default {
     add: "Add Request",
     quantity: "Quantity*",
     description: "Description",
-    error: "Enter valid details.",
+    error: "Goods Type and Quantity cannot be blank",
     validation_errors: {
       quantity: "Quantity cannot be blank."
     }

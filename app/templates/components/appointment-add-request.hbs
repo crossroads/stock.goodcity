@@ -9,7 +9,7 @@
       </div>
       <div class="small-3 columns">
         <label> {{t 'order.goods_details.quantity_label'}} </label>
-        {{numeric-input type="number" name="qty" value=request.quantity maxlength="8" required='true' pattern="\d{1,8}" classNames="add-quantity"}}
+        {{numeric-input type="number" min="1" name="qty" value=request.quantity maxlength="8" required='true' pattern="\d{1,8}" classNames="add-quantity"}}
       </div>
       <div class='small-2 columns icon-center remove-request remove-request-click'>
         <span class="cancel-icon" {{action "removeRequest" request.id num on="click"}}>

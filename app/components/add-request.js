@@ -31,7 +31,7 @@ export default Ember.Component.extend(AsyncMixin, {
   }),
 
   hasError: Ember.computed("requestType", "request.quantity", function() {
-    return !this.get("requestType") || !this.get("request.quantity");
+    return !this.get("requestType") || !+this.get("request.quantity");
   }),
 
   actions: {
