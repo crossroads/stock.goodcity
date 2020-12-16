@@ -76,7 +76,7 @@ export default AuthorizeRoute.extend(GradeMixin, {
     const storageType = this.paramsFor("items.new").storageType;
     const isBoxPallet = ["Box", "Pallet"].indexOf(storageType) > -1;
     this.initializeController();
-    this.initializeAttributes(isBoxPallet);
+    this.initializeAttributes(isBoxPallet, controller);
     if (!isBoxPallet) {
       this.manageSubformDetails();
     }
@@ -138,8 +138,7 @@ export default AuthorizeRoute.extend(GradeMixin, {
     );
   },
 
-  async initializeAttributes(isBoxPallet) {
-    const controller = this.controller;
+  async initializeAttributes(isBoxPallet, controller) {
     this.set("newItemRequest", false);
     controller.set("quantity", 1);
     controller.set("caseNumber", "");
@@ -158,12 +157,11 @@ export default AuthorizeRoute.extend(GradeMixin, {
     controller.set("selectedGrade", { id: null });
 
     if (!isBoxPallet) {
-      this.assignAttributesForValidPackage();
+      this.assignPackageAttribute(controller);
     }
   },
 
-  async assignAttributesForValidPackage() {
-    const controller = this.controller;
+  async assignPackageAttribute(controller) {
     controller.set(
       "restrictionId",
       this.get("restrictionOptions").get("firstObject")
