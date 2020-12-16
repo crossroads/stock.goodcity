@@ -12,7 +12,7 @@
 </nav>
 
 <section class="main-section add-user-form new-user-section ui">
-  {{#unless session.currentUser.canCreateUsers}}
+  {{#unless session.currentUser.canManageUsers}}
     <div class="row">
       <div class="access-error">
         <i>{{fa-icon 'exclamation-triangle'}}</i>
@@ -20,7 +20,7 @@
       </div>
     </div>
   {{/unless}}
-  <div class="{{unless session.currentUser.canCreateUsers 'disabled-form'}}">
+  <div class="{{unless session.currentUser.canManageUsers 'disabled-form'}}">
     <div class="row">
       <div class="small-5 columns item-label">
         {{t 'users.image'}}

@@ -46,6 +46,7 @@ export default GoodcityController.extend(
     settings: Ember.inject.service(),
     locationService: Ember.inject.service(),
     settings: Ember.inject.service(),
+    session: Ember.inject.service(),
     displayScanner: false,
     callOrderObserver: false,
     hideDetailsLink: true,
