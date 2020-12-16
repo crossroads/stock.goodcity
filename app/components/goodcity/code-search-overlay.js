@@ -24,6 +24,16 @@ export default Ember.Component.extend(SearchMixin, AsyncMixin, {
     this._super("code-search-overlay");
   },
 
+  recentPackageTypes: Ember.computed("open", function() {
+    const userFavourites = this.get("store").peekAll("user_favourite");
+    const packageTypeIds = userFavourites
+      .filterBy("favourite_type", "PackageType")
+      .getEach("favourite_id")
+      .reverse()
+      .uniq();
+    return packageTypeIds.map(it => this.get("store").peekRecord("code", it));
+  }),
+
   allPackageTypes: Ember.computed("open", "subsetPackageTypes", function() {
     if (this.get("subsetPackageTypes")) {
       return this.get("subsetPackageTypes");

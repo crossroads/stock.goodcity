@@ -367,6 +367,7 @@ export default GoodcityController.extend(
 
     async assignNew(type, { deleteDetailId = false } = {}) {
       const item = this.get("item");
+      const store = this.get("store");
 
       const packageParams = {
         package_type_id: type.get("id")

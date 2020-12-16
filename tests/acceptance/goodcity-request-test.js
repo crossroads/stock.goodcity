@@ -79,6 +79,31 @@ module("Acceptance: Goodcity Request test", {
     });
 
     MockUtils.mock({
+      url: "/api/v1/user_favourite*",
+      type: "GET",
+      status: 200,
+      responseText: {
+        user_favourites: [
+          {
+            id: 1,
+            favourite_type: "PackageType",
+            favourite_id: code.get("id"),
+            user_id: MockUtils.getSessionUser().id
+          }
+        ]
+      }
+    });
+
+    MockUtils.mock({
+      url: "/api/v1/message*",
+      type: "GET",
+      status: 200,
+      responseText: {
+        messages: []
+      }
+    });
+
+    MockUtils.mock({
       url: "/api/v1/designations/*",
       type: "GET",
       status: 200,
