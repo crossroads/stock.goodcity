@@ -3,14 +3,17 @@ import SessionRoute from "./session";
 import AjaxPromise from "stock/utils/ajax-promise";
 
 export default SessionRoute.extend({
-  model() {
+  async model() {
     let canViewDashboard = this.get("session.currentUser.canManageOrders");
-    const recentlyUsedDesignations = this.get("store").query("designation", {
-      recently_used: true,
-      shallow: true
-    });
+    const recentlyUsedDesignations = await this.get("store").query(
+      "designation",
+      {
+        recently_used: true,
+        shallow: true
+      }
+    );
 
-    const recentlyUsedLocations = this.get("store").query("location", {
+    const recentlyUsedLocations = await this.get("store").query("location", {
       recently_used: true
     });
 
