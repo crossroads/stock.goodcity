@@ -387,12 +387,6 @@ export default GoodcityController.extend(
           { package: packageParams },
           { reloadDeps: true }
         );
-        const userFavourite = store.createRecord("user_favourite", {
-          id: store.peekAll("user_favourite").get("lastObject.id") + 1,
-          favourite_type: "PackageType",
-          favourite_id: type.get("id")
-        });
-        store.push(store.normalize("user_favourite", userFavourite));
       }, ERROR_STRATEGIES.MODAL);
     },
 
