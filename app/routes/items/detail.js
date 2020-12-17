@@ -39,20 +39,19 @@ export default AuthorizeRoute.extend({
         }
       );
     }
-    
+
     if (!model.get("isBoxPallet")) {
-      await this.preload();
+      await this.store.findAll("restriction", { reload: true });
+      await this.store.findAll("donor_condition", { reload: true });
     }
+
+    await this.preloadProcessingDestination(model);
   },
 
-  preload: cached(async function() {
-    return Promise.all([
-      this.store.findAll("processing_destination", {
-        reload: true
-      }),
-      this.store.findAll("restriction", { reload: true }),
-      this.store.findAll("donor_condition", { reload: true })
-    ]);
+  preloadProcessingDestination: cached(async function() {
+    return await this.store.findAll("processing_destination", {
+      reload: true
+    });
   }),
 
   beforeModel(transition) {
