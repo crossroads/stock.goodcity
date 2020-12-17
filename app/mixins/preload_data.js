@@ -23,6 +23,7 @@ export default Ember.Mixin.create({
       );
       promises = promises.concat(retrieve(config.APP.PRELOAD_TYPES));
       promises.push(this.get("messages").fetchUnreadMessageCount());
+      promises.push(this.store.query("code", { stock: true }));
     }
 
     return Ember.RSVP.all(promises);

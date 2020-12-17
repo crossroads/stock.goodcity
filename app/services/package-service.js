@@ -27,7 +27,11 @@ export default ApiBaseService.extend(NavigationAwareness, {
   },
 
   createPackage(pkgParams) {
-    return this.POST(`/packages`, pkgParams);
+    return this.POST(`/packages`, pkgParams).then(data => {
+      this.get("store").pushPayload(data);
+      this.fetchUserFavourites();
+      return data;
+    });
   },
 
   async findPackageByInventoryNumber(inventoryNum) {
@@ -64,7 +68,7 @@ export default ApiBaseService.extend(NavigationAwareness, {
     const pkgId = toID(pkg);
 
     const payload = await this.PUT(`/packages/${pkgId}`, pkgParams);
-
+    await this.fetchUserFavourites();
     if (reloadDeps) {
       const { detail_type, detail_id } = _.get(payload, "item", {});
 
@@ -75,6 +79,12 @@ export default ApiBaseService.extend(NavigationAwareness, {
 
     this.get("store").pushPayload(payload);
     return this.get("store").peekRecord("item", pkgId);
+  },
+
+  async fetchUserFavourites() {
+    const store = this.get("store");
+    const userFavourites = await store.findAll("user_favourite");
+    store.pushPayload(userFavourites);
   },
 
   getCloudinaryImage(imageId) {
