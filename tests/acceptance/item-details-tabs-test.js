@@ -137,11 +137,6 @@ module("Acceptance: Item details tabs", {
         cancellation_reason: []
       }
     });
-    mockFindAll("processing_destinations_lookup").returns({
-      json: {
-        processing_destinations_lookup: []
-      }
-    });
 
     visit("/");
     andThen(function() {

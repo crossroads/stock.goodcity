@@ -19,6 +19,7 @@ module("Acceptance: Item inline edit", {
     MockUtils.mockEmptyPreload();
     MockUtils.mockUserProfile();
     MockUtils.mockOrderSummary();
+    MockUtils.mockProcessingDestinations();
     MockUtils.mockDonorConditions();
     MockUtils.mockEmpty("process_checklist");
     MockUtils.mockEmpty("purpose");
