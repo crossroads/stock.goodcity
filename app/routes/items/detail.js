@@ -1,6 +1,7 @@
 import AuthorizeRoute from "../authorize";
 import Ember from "ember";
 import _ from "lodash";
+import { cached } from "../../utils/cache";
 
 export default AuthorizeRoute.extend({
   itemBackLinkPath: Ember.computed.localStorage(),
@@ -38,12 +39,18 @@ export default AuthorizeRoute.extend({
         }
       );
     }
-    await this.store.findAll("restriction", { reload: true });
-    await this.store.findAll("donor_condition", { reload: true });
-    await this.store.findAll("processing_destinations_lookup", {
-      reload: true
-    });
+    await this.preload();
   },
+
+  preload: cached(async function() {
+    return Promise.all([
+      this.store.findAll("restriction", { reload: true }),
+      this.store.findAll("donor_condition", { reload: true }),
+      this.store.findAll("processing_destination", {
+        reload: true
+      })
+    ]);
+  }),
 
   beforeModel(transition) {
     this._super(...arguments);

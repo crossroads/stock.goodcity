@@ -34,7 +34,7 @@ export default Ember.Mixin.create(AsyncMixin, {
 
   processingDestinations: Ember.computed(function() {
     const list = this.get("store")
-      .peekAll("processing_destinations_lookup")
+      .peekAll("processing_destination")
       .map(item => ({ id: item.get("id"), name: item.get("name") }));
 
     list.unshift({ id: null, name: "None" });
@@ -197,7 +197,7 @@ export default Ember.Mixin.create(AsyncMixin, {
       }
     },
 
-    onProcessingDestinationChange(destination) {
+    setProcessingDestination(destination) {
       this.set("selectedProcessingDestination", destination);
     },
 
@@ -210,7 +210,7 @@ export default Ember.Mixin.create(AsyncMixin, {
             actionName: this.get("actionName").toLowerCase(),
             quantity: this.get("actionQty"),
             comment: this.get("actionComment"),
-            processing_destination_lookup_id: this.get(
+            processing_destination_id: this.get(
               "selectedProcessingDestination.id"
             )
           }

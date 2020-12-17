@@ -280,14 +280,14 @@ export default ApiBaseService.extend(NavigationAwareness, {
       actionName,
       quantity,
       comment,
-      processing_destination_lookup_id
+      processing_destination_id
     } = opts;
 
     const payload = await this.PUT(
       `/packages/${pkg.get("id")}/actions/${opts.actionName}`,
       {
         quantity,
-        processing_destination_lookup_id,
+        processing_destination_id,
         from: toID(from),
         description: comment
       }
