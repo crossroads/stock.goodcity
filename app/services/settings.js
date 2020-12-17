@@ -40,7 +40,7 @@ export default Ember.Service.extend({
     "stock.only_publish_singletons": true,
     "stock.only_designate_singletons": true,
     "stock.enable_box_pallet_creation": false,
-    "stock.allow_item_actions": false,
+    "stock.allow_item_actions": true,
     "stock.allow_box_pallet_item_addition": false,
     "stock.params_not_to_be_copied": "serialNum"
   },

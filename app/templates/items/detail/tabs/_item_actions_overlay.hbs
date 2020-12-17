@@ -1,58 +1,72 @@
-
 {{#popup-overlay open=readyForAction}}
-  <div class="dispatch-form package-actions-form">
+<div class="dispatch-form package-actions-form">
 
-    {{package-summary-block model=item isRedirectable=false
-        classNames="package-summary-block-view"}}
+  {{package-summary-block model=item isRedirectable=false
+  classNames="package-summary-block-view"}}
 
-    {{#form-control}}
-      <div class="form-container">
-        <div class="title">{{fa-icon actionIcon}} {{actionName}}</div>
-        <div class="infos">
-          <div class="info-row">
-            <div class="key">Item</div>
-            <div class="value">{{fa-icon 'tag'}} {{item.inventoryNumber}}</div>
-          </div>
+  {{#form-control}}
+  <div class="form-container">
+    <div class="title">{{fa-icon actionIcon}} {{actionName}}</div>
+    <div class="infos">
+      <div class="info-row">
+        <div class="key">Item</div>
+        <div class="value">{{fa-icon 'tag'}} {{item.inventoryNumber}}</div>
+      </div>
 
-          <div class="info-row">
-            <div class="key">From Location</div>
-            <div class="value clickable" {{action "selectLocationAction"}}>{{fa-icon 'map-marker-alt'}}
-              {{actionFrom.displayName}}
-            </div>
-          </div>
-
-          <div class="info-row">
-            <div class="key">Quantity</div>
-            <div class="value">
-              {{numeric-input name="actionQty" id="actionQty" value=actionQty maxlength="5" pattern="^[1-9][0-9]*$"}}
-            </div>
-            <div class="sub-text {{if (is-not (is-in-range actionQty 1 maxQuantity)) 'warn-text'}}">Max: {{maxQuantity}}
-            </div>
-          </div>
-
-          <div class="info-row item-action-comment">
-            <div class="key">Comment</div>
-            <div class="value">
-              {{auto-resize-textarea
-                  data-autoresize=true
-                  name="actionComment"
-                  value=actionComment
-                  id="item-action-comment"
-                  maxlength="180"}}
-            </div>
-          </div>
-
+      <div class="info-row">
+        <div class="key">From Location</div>
+        <div class="value clickable" {{action "selectLocationAction" }}>{{fa-icon 'map-marker-alt'}}
+          {{actionFrom.displayName}}
         </div>
       </div>
 
-      <div class="button-container">
-        <div class="button light" {{action "cancelAction"}}>{{t "cancel"}}</div>
-        {{#if isValidQuantity }}
-          <div class="button" {{action "completeAction"}}> {{actionName}} ({{ actionQty }})</div>
-        {{else}}
-          <div class="button" disabled>{{actionName}} ({{ actionQty }})</div>
-        {{/if}}
+      <div class="info-row">
+        <div class="key">Quantity</div>
+        <div class="value">
+          {{numeric-input name="actionQty" id="actionQty" value=actionQty maxlength="5" pattern="^[1-9][0-9]*$"}}
+        </div>
+        <div class="sub-text {{if (is-not (is-in-range actionQty 1 maxQuantity)) 'warn-text'}}">Max: {{maxQuantity}}
+        </div>
       </div>
-    {{/form-control}}
+
+      {{#if (is-equal actionName 'Process')}}
+        <div class="info-row">
+          <div class="key">Process To</div>
+          <div class="value">
+            {{select-list
+            content=processingDestinations
+            on-change=(action "setProcessingDestination")
+            selectedValue=selectedProcessingDestination
+            value=selectedProcessingDestination
+            }}
+          </div>
+        </div>
+      {{/if}}
+
+
+      <div class="info-row item-action-comment">
+        <div class="key">Comment</div>
+        <div class="value">
+          {{auto-resize-textarea
+          data-autoresize=true
+          name="actionComment"
+          value=actionComment
+          id="item-action-comment"
+          maxlength="180"}}
+        </div>
+      </div>
+
+    </div>
   </div>
+
+  <div class="button-container">
+    <div class="button light" {{action "cancelAction" }}>{{t "cancel"}}</div>
+    {{#if isValidQuantity }}
+    <div class="button" {{action "completeAction" }}> {{actionName}} ({{ actionQty }})</div>
+    {{else}}
+    <div class="button" disabled>{{actionName}} ({{ actionQty }})</div>
+    {{/if}}
+  </div>
+  {{/form-control}}
+</div>
 {{/popup-overlay}}

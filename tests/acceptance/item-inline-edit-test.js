@@ -20,6 +20,7 @@ module("Acceptance: Item inline edit", {
     MockUtils.mockUserProfile();
     MockUtils.mockOrderSummary();
     MockUtils.mockDonorConditions();
+    MockUtils.mockEmpty("processing_destination");
     MockUtils.mockEmpty("process_checklist");
     MockUtils.mockEmpty("purpose");
 
@@ -316,6 +317,13 @@ test("Selecting different condition fires request for update", function(assert) 
     }
   });
   assert.expect(1);
+  ["New", "Lightly Used", "Heavily Used", "Broken"].map((item, idx) => {
+    FactoryGuy.make("donor_condition", {
+      id: idx + 1,
+      name: item
+    });
+  });
+
   //selecting different condition
   click(find(".grade-margin"));
   andThen(function() {
