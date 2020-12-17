@@ -1,7 +1,7 @@
 import AuthorizeRoute from "../authorize";
 import Ember from "ember";
 import _ from "lodash";
-import { cached } from "../../utils/cache";
+import { cached } from "stock/utils/cache";
 
 export default AuthorizeRoute.extend({
   itemBackLinkPath: Ember.computed.localStorage(),
