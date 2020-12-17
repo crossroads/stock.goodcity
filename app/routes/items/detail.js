@@ -44,11 +44,11 @@ export default AuthorizeRoute.extend({
 
   preload: cached(async function() {
     return Promise.all([
-      this.store.findAll("restriction", { reload: true }),
-      this.store.findAll("donor_condition", { reload: true }),
       this.store.findAll("processing_destination", {
         reload: true
-      })
+      }),
+      this.store.findAll("restriction", { reload: true }),
+      this.store.findAll("donor_condition", { reload: true })
     ]);
   }),
 

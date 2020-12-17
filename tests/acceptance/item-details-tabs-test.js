@@ -29,6 +29,7 @@ module("Acceptance: Item details tabs", {
     MockUtils.mockDonorConditions();
     MockUtils.mockEmpty("process_checklist");
     MockUtils.mockEmpty("purpose");
+    MockUtils.mockEmpty("processing_destination");
 
     let location = FactoryGuy.make("location");
     let location2 = FactoryGuy.make("location");

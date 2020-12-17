@@ -19,8 +19,8 @@ module("Acceptance: Item inline edit", {
     MockUtils.mockEmptyPreload();
     MockUtils.mockUserProfile();
     MockUtils.mockOrderSummary();
-    MockUtils.mockProcessingDestinations();
     MockUtils.mockDonorConditions();
+    MockUtils.mockEmpty("processing_destination");
     MockUtils.mockEmpty("process_checklist");
     MockUtils.mockEmpty("purpose");
 
@@ -99,6 +99,42 @@ module("Acceptance: Item inline edit", {
     MockUtils.closeSession();
     Ember.run(App, "destroy");
   }
+});
+
+test("Selecting different condition fires request for update", function(assert) {
+  var updatedPkg = FactoryGuy.make("item", {
+    id: 50,
+    state: "submitted",
+    quantity: 1,
+    height: 20,
+    width: 30,
+    length: 50,
+    notes: "Item description changed"
+  });
+  //mocking is used as request is fired
+  $.mockjax({
+    url: "/api/v1/stockit_item*",
+    type: "GET",
+    status: 200,
+    responseText: {
+      items: [updatedPkg.toJSON({ includeId: true })]
+    }
+  });
+  assert.expect(1);
+  //selecting different condition
+  click(find(".grade-margin"));
+  andThen(function() {
+    //selecting Used condition
+    $(".select-condition select option:eq(2)").attr("selected", "selected");
+  });
+  andThen(function() {
+    assert.equal(
+      $(".select-condition select option:selected")
+        .text()
+        .trim(),
+      "Heavily Used"
+    );
+  });
 });
 
 test("Filling same description doesn't fire request for update", function(assert) {
@@ -293,42 +329,6 @@ test("Selecting different grade fires request for update", function(assert) {
         .trim()
         .substr(0, 1),
       "C"
-    );
-  });
-});
-
-test("Selecting different condition fires request for update", function(assert) {
-  var updatedPkg = FactoryGuy.make("item", {
-    id: 50,
-    state: "submitted",
-    quantity: 1,
-    height: 20,
-    width: 30,
-    length: 50,
-    notes: "Item description changed"
-  });
-  //mocking is used as request is fired
-  $.mockjax({
-    url: "/api/v1/stockit_item*",
-    type: "GET",
-    status: 200,
-    responseText: {
-      items: [updatedPkg.toJSON({ includeId: true })]
-    }
-  });
-  assert.expect(1);
-  //selecting different condition
-  click(find(".grade-margin"));
-  andThen(function() {
-    //selecting Used condition
-    $(".select-condition select option:eq(2)").attr("selected", "selected");
-  });
-  andThen(function() {
-    assert.equal(
-      $(".select-condition select option:selected")
-        .text()
-        .trim(),
-      "Heavily Used"
     );
   });
 });
