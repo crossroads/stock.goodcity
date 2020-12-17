@@ -45,11 +45,14 @@ export default AuthorizeRoute.extend(GradeMixin, {
 
   async afterModel() {
     const reload = true;
-    await Ember.RSVP.all([
-      this.store.findAll("location", { reload }),
-      this.store.findAll("restriction", { reload }),
-      this.store.findAll("donor_condition", { reload })
-    ]);
+    const storageType = this.paramsFor("items.new").storageType;
+    await this.store.findAll("location", { reload });
+    if (["Box", "Pallet"].indexOf(storageType) < 0) {
+      await Ember.RSVP.all([
+        this.store.findAll("restriction", { reload }),
+        this.store.findAll("donor_condition", { reload })
+      ]);
+    }
   },
 
   setupPrinterId(controller) {
@@ -70,16 +73,20 @@ export default AuthorizeRoute.extend(GradeMixin, {
 
   setupController(controller, model) {
     this._super(controller, model);
-    const store = this.get("store");
+    const storageType = this.paramsFor("items.new").storageType;
+    const isBoxPallet = ["Box", "Pallet"].indexOf(storageType) > -1;
     this.initializeController();
-    this.initializeAttributes();
-    this.manageSubformDetails();
+    this.initializeAttributes(isBoxPallet, controller);
+    if (!isBoxPallet) {
+      this.manageSubformDetails();
+    }
     this.setUpPackageImage();
     this.setupPrinterId(controller);
   },
 
   async initializeController() {
     const controller = this.controller;
+    controller.set("showAdditionalFields", false);
     if (!controller.get("inventoryNumber")) {
       await controller.send("autoGenerateInventoryNumber");
     }
@@ -104,8 +111,6 @@ export default AuthorizeRoute.extend(GradeMixin, {
         distinct: "brand"
       });
       controller.set("packageDetails", details);
-    } else {
-      controller.set("showAdditionalFields", false);
     }
   },
 
@@ -133,8 +138,7 @@ export default AuthorizeRoute.extend(GradeMixin, {
     );
   },
 
-  async initializeAttributes() {
-    const controller = this.controller;
+  async initializeAttributes(isBoxPallet, controller) {
     this.set("newItemRequest", false);
     controller.set("quantity", 1);
     controller.set("caseNumber", "");
@@ -143,13 +147,21 @@ export default AuthorizeRoute.extend(GradeMixin, {
     controller.set("height", null);
     controller.set("weight", null);
     controller.set("pieces", null);
-    controller.set("expirty_date", null);
-    controller.set("selectedGrade", {
-      name: "B",
-      id: "B"
-    });
+    controller.set("expiry_date", null);
     controller.set("imageKeys", "");
+    controller.set("defaultCondition", null);
+    controller.set("valueHkDollar", null);
+    controller.set("defaultValueHkDollar", null);
+    controller.set("restrictionId", null);
+    controller.set("saleableId", null);
+    controller.set("selectedGrade", { id: null });
 
+    if (!isBoxPallet) {
+      this.assignPackageAttribute(controller);
+    }
+  },
+
+  async assignPackageAttribute(controller) {
     controller.set(
       "restrictionId",
       this.get("restrictionOptions").get("firstObject")
@@ -158,6 +170,10 @@ export default AuthorizeRoute.extend(GradeMixin, {
       "saleableId",
       this.get("saleableOptions").get("firstObject")
     );
+    controller.set("selectedGrade", {
+      name: "B",
+      id: "B"
+    });
     const defaultValue = await this.get("packageService").getItemValuation({
       donorConditionId: this.getDefaultCondition().id,
       grade: controller.get("selectedGrade").id,

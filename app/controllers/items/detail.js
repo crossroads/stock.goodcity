@@ -378,9 +378,11 @@ export default GoodcityController.extend(
       ) {
         packageParams.detail_type = _.capitalize(type.get("subform"));
       }
+
       if (deleteDetailId) {
         packageParams.detail_id = null;
       }
+
       await this.runTask(async () => {
         await this.get("packageService").updatePackage(
           item.id,
