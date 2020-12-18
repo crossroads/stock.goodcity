@@ -182,25 +182,27 @@
         {{/if}}
       </div>
     {{/unless}}
-    {{#if item.code.allowExpiryDate}}
-      <div class="row weight-pieces">
-        <div class="columns small-3">
-          <span class='input_text'>{{t "items.new.expiry_date"}}</span>
-        </div>
-        <div class="columns large-4 small-6 value pieces">
-          {{calendar-input
-            name='expiry_date'
-            id='expiry_date'
-            enablePastDate=true
-            selection=item.expiryDate
-            onSelect=(action 'setExpiryDate')
-            placeholder='Select Expiry'
-          }}
-        </div>
-        <i {{action 'clearExpiryDate'}} class="expiry_date_cancel">{{fa-icon 'times-circle' size="1x"}}</i>
-      </div>
-    {{/if}}
+
     {{#unless isBoxOrPallet}}
+      {{#if item.code.allowExpiryDate}}
+        <div class="row weight-pieces">
+          <div class="columns small-3">
+            <span class='input_text'>{{t "items.new.expiry_date"}}</span>
+          </div>
+          <div class="columns large-4 small-6 value pieces">
+            {{calendar-input
+              name='expiry_date'
+              id='expiry_date'
+              enablePastDate=true
+              selection=item.expiryDate
+              onSelect=(action 'setExpiryDate')
+              placeholder='Select Expiry'
+            }}
+          </div>
+          <i {{action 'clearExpiryDate'}} class="expiry_date_cancel">{{fa-icon 'times-circle' size="1x"}}</i>
+        </div>
+      {{/if}}
+
       <div class="row weight-pieces">
         <div class="columns small-3">
           <span class='input_text'>Offers</span>
@@ -256,6 +258,7 @@
         </div>
       </div>
     {{/unless}}
+
     <div class="row detail-section">
       <div class="columns small-12">
         <div class="row">
