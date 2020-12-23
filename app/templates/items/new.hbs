@@ -111,174 +111,185 @@
               always="uploadComplete" done="uploadSuccess" submit="uploadStart"}}
       </div>
     </div>
-    <div class="row quality-row">
-      <div class="small-3 columns item-label">
-        {{t "items.new.quality"}}
-      </div>
-      <div class="small-4 columns">
-        <span class='input_text'>{{t "items.new.grade"}}</span>
-        {{select-list
-        content=grades
-        on-change=(action "onGradeChange")
-        selectedValue=selectedGrade
-        value=selectedGrade
-        selectArrow=true
-        classNames='grade' }}
-      </div>
-      <div class="small-5 columns">
-        <span class='input_text'>{{t "items.new.condition"}}</span>
-        {{select-list
-        content=conditions
-        on-change=(action "onConditionChange")
-        selectedValue=defaultCondition
-        selectArrow=true
-        value=defaultCondition
-        classNames='condition'
-        idNames='condition-select' }}
-      </div>
-    </div>
-    <div class="row grade-value">
-      <div class="small-3 columns">
-        {{t "items.value"}}
-      </div>
-      <div class="columns small-3">
-        {{numeric-input acceptFloat=true required='true' acceptZeroValue=true value=valueHkDollar name="value_hk" maxlength="6"
-        pattern="\d+\.?\d*"}}
-      </div>
-      <div class="columns small-6 apply-default">
-        {{#if canApplyDefaultValuation}}
-          <a href="#" {{action 'setDefaultItemValuation'}} class="default-content">{{t 'items.apply_default'}}
-            {{defaultValueHkDollar}}</a>
-        {{/if}}
-      </div>
-    </div>
-    {{#if isInvalidValuation}}
-      <div class="row error-message">
-        <div class="small-3 columns item-label"></div>
-        <div id="max-val-err" class='small-9 columns input-error show-validation'>
-          {{t 'items.new.validation_errors.blank_valuation'}}
+
+    {{#unless isBoxOrPallet}}
+      <div class="row quality-row">
+        <div class="small-3 columns item-label">
+          {{t "items.new.quality"}}
+        </div>
+        <div class="small-4 columns">
+          <span class='input_text'>{{t "items.new.grade"}}</span>
+          {{select-list
+          content=grades
+          on-change=(action "onGradeChange")
+          selectedValue=selectedGrade
+          value=selectedGrade
+          selectArrow=true
+          classNames='grade' }}
+        </div>
+        <div class="small-5 columns">
+          <span class='input_text'>{{t "items.new.condition"}}</span>
+          {{select-list
+          content=conditions
+          on-change=(action "onConditionChange")
+          selectedValue=defaultCondition
+          selectArrow=true
+          value=defaultCondition
+          classNames='condition'
+          idNames='condition-select' }}
         </div>
       </div>
-    {{/if}}
-    <div class="row">
-      <div class="small-3 columns item-label">
-        {{t "items.new.donation"}}
+      <div class="row grade-value">
+        <div class="small-3 columns">
+          {{t "items.value"}}
+        </div>
+        <div class="columns small-3">
+          {{numeric-input acceptFloat=true required='true' acceptZeroValue=true value=valueHkDollar name="value_hk" maxlength="6"
+          pattern="\d+\.?\d*"}}
+        </div>
+        <div class="columns small-6 apply-default">
+          {{#if canApplyDefaultValuation}}
+            <a href="#" {{action 'setDefaultItemValuation'}} class="default-content">{{t 'items.apply_default'}}
+              {{defaultValueHkDollar}}</a>
+          {{/if}}
+        </div>
       </div>
-      <div class="{{if isMobileApp 'small-7 large-8' 'small-9'}} columns">
-        {{#form-control}}
-          {{input type='text' value=caseNumber pattern="(CAS\-\d{5})|\d{5}"}}
-          <div class='input-error'>{{t "items.new.validation_errors.donation"}}</div>
-        {{/form-control}}
-      </div>
-      {{#if isMobileApp}}
-        <div class="small-2 large-1 columns scan-icon">
-          {{barcode-scanner route="items.new" paramName="caseNumber"}}
+      {{#if isInvalidValuation}}
+        <div class="row error-message">
+          <div class="small-3 columns item-label"></div>
+          <div id="max-val-err" class='small-9 columns input-error show-validation'>
+            {{t 'items.new.validation_errors.blank_valuation'}}
+          </div>
         </div>
       {{/if}}
-    </div>
-    <div class="row dimension-row">
-      <div class="small-3 columns item-label">
-        {{t "items.new.size"}}
+      <div class="row">
+        <div class="small-3 columns item-label">
+          {{t "items.new.donation"}}
+        </div>
+        <div class="{{if isMobileApp 'small-7 large-8' 'small-9'}} columns">
+          {{#form-control}}
+            {{input type='text' value=caseNumber pattern="(CAS\-\d{5})|\d{5}"}}
+            <div class='input-error'>{{t "items.new.validation_errors.donation"}}</div>
+          {{/form-control}}
+        </div>
+        {{#if isMobileApp}}
+          <div class="small-2 large-1 columns scan-icon">
+            {{barcode-scanner route="items.new" paramName="caseNumber"}}
+          </div>
+        {{/if}}
       </div>
-      <div class="columns small-3 value length">
-        <span class='input_text'>L :</span>
-        {{numeric-input name="length" id='length' value=length maxlength="8"}}
-        <span><i aria-hidden="true">{{fa-icon 'times'}}</i></span>
+    {{/unless}}
+
+    {{#unless (is-equal storageType "Pallet")}}
+      <div class="row dimension-row">
+        <div class="small-3 columns item-label">
+          {{t "items.new.size"}}
+        </div>
+        <div class="columns small-3 value length">
+          <span class='input_text'>L :</span>
+          {{numeric-input name="length" id='length' value=length maxlength="8"}}
+          <span><i aria-hidden="true">{{fa-icon 'times'}}</i></span>
+        </div>
+        <div class="columns small-3 value width">
+          <span class='input_text'>W :</span>
+          {{numeric-input name="width" id='width' value=width maxlength="5"}}
+          <span><i aria-hidden="true">{{fa-icon 'times'}}</i></span>
+        </div>
+        <div class="columns small-3 value height">
+          <span class='input_text'>H :</span>
+          {{numeric-input name="height" id='height' value=height maxlength="5"}}
+        </div>
       </div>
-      <div class="columns small-3 value width">
-        <span class='input_text'>W :</span>
-        {{numeric-input name="width" id='width' value=width maxlength="5"}}
-        <span><i aria-hidden="true">{{fa-icon 'times'}}</i></span>
+      {{#unless isValidDimension}}
+        <div class="row error-message">
+          <div class="small-3 columns item-label"></div>
+          <div id="max-val-err" class='small-9 columns input-error show-validation'>
+            {{t "items.new.validation_errors.invalid_dimensions"}}
+          </div>
+        </div>
+      {{/unless}}
+      <div class="row">
+        <div class="small-3 columns item-label">
+          {{t "items.new.weight"}}
+        </div>
+        <div class="small-3 columns weight">
+          {{numeric-input name="weight" id='weight' value=weight maxlength="10" pattern="[0-9]{0,5}"}}
+        </div>
+        {{#if showPiecesInput}}
+          <div class="small-3 columns item-label" align="right">
+            {{t "items.new.pieces"}}
+          </div>
+          <div class="small-3 columns pieces">
+            {{numeric-input name="pieces" id='pieces' value=pieces maxlength="10" pattern="[0-9]{0,5}"}}
+          </div>
+        {{/if}}
       </div>
-      <div class="columns small-3 value height">
-        <span class='input_text'>H :</span>
-        {{numeric-input name="height" id='height' value=height maxlength="5"}}
+    {{/unless}}
+
+    {{#unless isBoxOrPallet}}
+      <div class="row">
+        {{#if code.allowExpiryDate}}
+          <div class="small-3 columns item-label">
+            {{t "items.new.expiry_date"}}
+          </div>
+          <div class="small-3 columns weight">
+            {{calendar-input
+              name='expiry_date'
+              id='expiry_date'
+              value=''
+              enablePastDate = true
+              selection=expiry_date
+              placeholder='Select Expiry'
+              pattern="[a-zA-Z]{3}\s?[a-zA-Z]{3}\s?[0-9]{1,2}"}}
+          </div>
+          <i {{action (mut expiry_date) ""}} class="expiry_date_cancel">{{fa-icon 'times-circle' size="1x"}}</i>
+        {{/if}}
       </div>
-    </div>
-    {{#unless isValidDimension}}
-      <div class="row error-message">
-        <div class="small-3 columns item-label"></div>
-        <div id="max-val-err" class='small-9 columns input-error show-validation'>
-          {{t "items.new.validation_errors.invalid_dimensions"}}
+
+      <div class="row">
+        <div class="small-3 columns item-label">
+          Donation
+        </div>
+        <div class="small-9 columns donations offer-tag-detail">
+          <span {{action 'addOffer'}}>
+            {{fa-icon 'plus-square' size='2x'}}
+          </span>
+          {{#each offersLists as |offer|}}
+            {{offer-tag
+              class="offer-tag"
+              offer=offer
+              removeOffer=(action "removeOffer")
+            }}
+          {{/each}}
+        </div>
+      </div>
+      <div class="row">
+        <div class="small-3 columns item-label">
+          {{t 'item_details.constraints'}}
+        </div>
+        <div class="small-3 columns publish">
+          {{select-list
+            content=saleableOptions
+            on-change=(action (mut saleableId))
+            selectedValue=saleableId
+            value=saleableId
+            selectArrow=true
+            classNames='grade'
+          }}
+        </div>
+        <div class="small-6 columns publish">
+          {{select-list
+            content=restrictionOptions
+            on-change=(action (mut restrictionId))
+            selectedValue=restrictionId
+            value=restrictionId
+            selectArrow=true
+            classNames='grade'
+          }}
         </div>
       </div>
     {{/unless}}
-    <div class="row">
-      <div class="small-3 columns item-label">
-        {{t "items.new.weight"}}
-      </div>
-      <div class="small-3 columns weight">
-        {{numeric-input name="weight" id='weight' value=weight maxlength="10" pattern="[0-9]{0,5}"}}
-      </div>
-      {{#if showPiecesInput}}
-        <div class="small-3 columns item-label" align="right">
-          {{t "items.new.pieces"}}
-        </div>
-        <div class="small-3 columns pieces">
-          {{numeric-input name="pieces" id='pieces' value=pieces maxlength="10" pattern="[0-9]{0,5}"}}
-        </div>
-      {{/if}}
-    </div>
-    <div class="row">
-      {{#if code.allowExpiryDate}}
-        <div class="small-3 columns item-label">
-          {{t "items.new.expiry_date"}}
-        </div>
-        <div class="small-3 columns weight">
-          {{calendar-input
-            name='expiry_date'
-            id='expiry_date'
-            value=''
-            enablePastDate = true
-            selection=expiry_date
-            placeholder='Select Expiry'
-            pattern="[a-zA-Z]{3}\s?[a-zA-Z]{3}\s?[0-9]{1,2}"}}
-        </div>
-        <i {{action (mut expiry_date) ""}} class="expiry_date_cancel">{{fa-icon 'times-circle' size="1x"}}</i>
-      {{/if}}
-    </div>
-    <div class="row">
-      <div class="small-3 columns item-label">
-        Donation
-      </div>
-      <div class="small-9 columns donations offer-tag-detail">
-        <span {{action 'addOffer'}}>
-          {{fa-icon 'plus-square' size='2x'}}
-        </span>
-        {{#each offersLists as |offer|}}
-          {{offer-tag
-            class="offer-tag"
-            offer=offer
-            removeOffer=(action "removeOffer")
-          }}
-        {{/each}}
-      </div>
-    </div>
-    <div class="row">
-      <div class="small-3 columns item-label">
-        {{t 'item_details.constraints'}}
-      </div>
-      <div class="small-3 columns publish">
-        {{select-list
-          content=saleableOptions
-          on-change=(action (mut saleableId))
-          selectedValue=saleableId
-          value=saleableId
-          selectArrow=true
-          classNames='grade'
-        }}
-      </div>
-      <div class="small-6 columns publish">
-        {{select-list
-          content=restrictionOptions
-          on-change=(action (mut restrictionId))
-          selectedValue=restrictionId
-          value=restrictionId
-          selectArrow=true
-          classNames='grade'
-        }}
-      </div>
-    </div>
+
     <div class="row">
       <div class="small-3 columns item-label">
         {{t 'item_details.comment'}}

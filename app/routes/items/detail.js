@@ -1,6 +1,7 @@
 import AuthorizeRoute from "../authorize";
 import Ember from "ember";
 import _ from "lodash";
+import { cached } from "stock/utils/cache";
 
 export default AuthorizeRoute.extend({
   itemBackLinkPath: Ember.computed.localStorage(),
@@ -38,9 +39,20 @@ export default AuthorizeRoute.extend({
         }
       );
     }
-    await this.store.findAll("restriction", { reload: true });
-    await this.store.findAll("donor_condition", { reload: true });
+
+    if (!model.get("isBoxPallet")) {
+      await this.store.findAll("restriction", { reload: true });
+      await this.store.findAll("donor_condition", { reload: true });
+    }
+
+    await this.preloadProcessingDestination(model);
   },
+
+  preloadProcessingDestination: cached(async function() {
+    return await this.store.findAll("processing_destination", {
+      reload: true
+    });
+  }),
 
   beforeModel(transition) {
     this._super(...arguments);
@@ -80,6 +92,7 @@ export default AuthorizeRoute.extend({
     });
 
     controller.set("defaultValueHkDollar", +defaultValue.value_hk_dollar);
+    controller.set("valueHkDollar", +model.get("valueHkDollar"));
 
     let detailType = model.get("detailType");
     if (detailType) {

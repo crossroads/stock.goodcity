@@ -74,6 +74,13 @@ class MockUtils {
     ]);
   }
 
+  mockProcessingDestinations() {
+    this.mockWithRecords("processing_destination", [
+      { id: 1, name: "Clothing" },
+      { id: 2, name: "IT Department" }
+    ]);
+  }
+
   mockOrderSummary(data = {}) {
     this.mocks.push(
       $.mockjax({

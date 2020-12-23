@@ -25,19 +25,36 @@
         <div class="row search">
           <div class="small-12 columns">
             <ul class="list list-activity list-offer-items codes_results">
-              {{#each filteredResults as |type|}}
-                <li {{action "selectCode" type}}>
-                  <div class="row">
-                    <div class="small-3 columns code">
-                      {{{highlight-substr type.code searchText}}}
+              {{#if searchText}}
+                {{#each filteredResults as |type|}}
+                  <li {{action "selectCode" type}}>
+                    <div class="row">
+                      <div class="small-3 columns code">
+                        {{{highlight-substr type.code searchText}}}
+                      </div>
+                      <div class="small-9 columns">
+                        <div class="package_name">{{{highlight-substr type.name searchText}}}</div>
+                        <div>{{type.otherTerms}}</div>
+                      </div>
                     </div>
-                    <div class="small-9 columns">
-                      <div class="package_name">{{{highlight-substr type.name searchText}}}</div>
-                      <div>{{type.otherTerms}}</div>
+                  </li>
+                {{/each}}
+              {{else}}  
+                <p class="recently_used">Recently Used</p>
+                {{#each recentPackageTypes as |type|}}
+                  <li {{action "selectCode" type}}>
+                    <div class="row">
+                      <div class="small-3 columns code">
+                        {{{highlight-substr type.code searchText}}}
+                      </div>
+                      <div class="small-9 columns">
+                        <div class="package_name">{{{highlight-substr type.name searchText}}}</div>
+                        <div>{{type.otherTerms}}</div>
+                      </div>
                     </div>
-                  </div>
-                </li>
-              {{/each}}
+                  </li>
+                {{/each}}
+              {{/if}}
             </ul>
           </div>
         </div>

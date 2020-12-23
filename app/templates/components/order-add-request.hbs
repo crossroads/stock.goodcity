@@ -3,7 +3,7 @@
     <div class="row req-first-row">
       <div class="columns small-4 request-quantity">Quantity </div>
       <div class="columns small-6 request-value">
-        {{request-inline-input name="quantity" class="numeric-input item-width small-3 columns" value=request.quantity maxlength="5"  request=request}}
+        {{numeric-input name="qty" value=request.quantity maxlength="8" required='true' pattern="\d{1,8}" classNames="add-quantity"}}
       </div>
       <div class='small-2 columns icon-center'>
         <i class='icon' {{action "deleteRequest" request.id on="click"}}>{{fa-icon 'times-circle' size="2x"}}</i>

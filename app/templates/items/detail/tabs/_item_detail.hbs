@@ -66,205 +66,218 @@
       </div>
     </div>
   </div>
+
   <div class="columns small-12">
-    <div class="row">
-      <div class="columns small-3">{{t 'item_details.quality'}} </div>
-      <div class="columns small-3  quality">
-        <div class="select-quality">
-          <span class='input_text'>{{t 'item_details.grade'}}</span>
-          {{inline-select-list
-            content=grades
-            on-change=(action "onGradeChange")
-            name="grade"
+    {{#unless isBoxOrPallet}}
+      <div class="row">
+        <div class="columns small-3">{{t 'item_details.quality'}} </div>
+        <div class="columns small-3  quality">
+          <div class="select-quality">
+            <span class='input_text'>{{t 'item_details.grade'}}</span>
+            {{inline-select-list
+              content=grades
+              on-change=(action "onGradeChange")
+              name="grade"
+              autosave=true
+              isPrimitive=true
+              id=(concat 'grd' item.id)
+              class="grade-margin"
+              item=item}}
+          </div>
+        </div>
+        <div class="columns small-6  condition-field">
+          <div class="select-condition">
+            <span class='condition_text'>{{t 'item_details.condition'}}</span>
+            {{inline-select-list
+            content=conditions
+            on-change=(action "onConditionChange")
+            name="donorCondition"
+            item=item
             autosave=true
-            isPrimitive=true
-            id=(concat 'grd' item.id)
-            class="grade-margin"
-            item=item}}
+            id=(concat 'cnd' item.id)
+            class="condition-margin"}}
+          </div>
         </div>
       </div>
-      <div class="columns small-6  condition-field">
-        <div class="select-condition">
-          <span class='condition_text'>{{t 'item_details.condition'}}</span>
-          {{inline-select-list
-          content=conditions
-          on-change=(action "onConditionChange")
-          name="donorCondition"
-          item=item
-          autosave=true
-          id=(concat 'cnd' item.id)
-          class="condition-margin"}}
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="columns large-3 small-3">{{t 'items.value'}} </div>
-      <div class="columns large-3 small-3 ">
-        {{numeric-inline-input
-          name="value_hk_dollar"
-          value=valueHkDollar
-          maxlength="6"
-          acceptFloat=true
-          class='numeric-input valuation-input'
-          onFocusIn=(action 'setValuationIsFocused' true)
-          onFocusOut=(action 'setValuationIsFocused' false)
-          onSettingInput=(action 'updatePackage')
-          }}
-      </div>
-      <div class="columns large-6 small-6">
-        {{#if canApplyDefaultValuation}}
-          <span {{action "applyDefaultItemValuation"}} class="default-content">
-            {{t "items.apply_default"}} {{defaultValueHkDollar}}
-          </span>
-        {{/if}}
-      </div>
-    </div>
-    <div class="row">
-      <div class="columns small-3 dimension">{{t "item_details.size"}}</div>
-      <div class="columns small-3">
-        <div class="item-dimension-withbg">
-          &nbsp;&nbsp;L :
-          {{numeric-inline-input name="length" class="numeric-input item-length item-type-withbg small-3" value=item.length maxlength="5"
-          onSettingInput=(action 'updatePackage')
-          }}
-        </div>
-      </div>
-      <div class="columns small-3">
-        <div class="item-dimension-withbg">
-          &nbsp;W :
-          {{numeric-inline-input name="width" class="numeric-input item-width item-type-withbg small-3" value=item.width maxlength="5"
-          onSettingInput=(action 'updatePackage')
-          }}
-        </div>
-      </div>
-      <div class="columns small-3">
-        <div class="item-dimension-withbg">
-          &nbsp;H :
-          {{numeric-inline-input name="height" class="numeric-input item-height item-type-withbg small-3" value=item.height maxlength="5"
-          onSettingInput=(action 'updatePackage')
-          }}
-        </div>
-      </div>
-    </div>
-    <div class="row weight-pieces">
-      <div class="columns small-3">
-        <span class='input_text'>
-          {{t 'item_details.weight'}}
-        </span>
-      </div>
-      <div class="columns small-3 weight">
-        {{numeric-inline-input
-          name="weight"
-          class='numeric-input valuation-input'
-          value=item.weight
-          maxlength="9"
-          onSettingInput=(action 'updatePackage')
-        }}
-      </div>
-      {{#if showPieces}}
-        <div class="columns small-3">
-          <span class='input_text'>{{t 'item_details.pieces'}}</span>
-        </div>
-        <div class="columns small-3 pieces">
+      <div class="row">
+        <div class="columns large-3 small-3">{{t 'items.value'}} </div>
+        <div class="columns large-3 small-3 ">
           {{numeric-inline-input
-            name="pieces"
+            name="value_hk_dollar"
+            value=valueHkDollar
+            maxlength="6"
+            acceptFloat=true
             class='numeric-input valuation-input'
-            value=item.pieces
+            onFocusIn=(action 'setValuationIsFocused' true)
+            onFocusOut=(action 'setValuationIsFocused' false)
+            onSettingInput=(action 'updatePackage')
+            }}
+        </div>
+        <div class="columns large-6 small-6">
+          {{#if canApplyDefaultValuation}}
+            <span {{action "applyDefaultItemValuation"}} class="default-content">
+              {{t "items.apply_default"}} {{defaultValueHkDollar}}
+            </span>
+          {{/if}}
+        </div>
+      </div>
+    {{/unless}}
+
+    {{#unless (is-equal model.storageTypeName "Pallet")}}
+      <div class="row">
+        <div class="columns small-3 dimension">{{t "item_details.size"}}</div>
+        <div class="columns small-3">
+          <div class="item-dimension-withbg">
+            &nbsp;&nbsp;L :
+            {{numeric-inline-input name="length" class="numeric-input item-length item-type-withbg small-3" value=item.length maxlength="5"
+            onSettingInput=(action 'updatePackage')
+            }}
+          </div>
+        </div>
+        <div class="columns small-3">
+          <div class="item-dimension-withbg">
+            &nbsp;W :
+            {{numeric-inline-input name="width" class="numeric-input item-width item-type-withbg small-3" value=item.width maxlength="5"
+            onSettingInput=(action 'updatePackage')
+            }}
+          </div>
+        </div>
+        <div class="columns small-3">
+          <div class="item-dimension-withbg">
+            &nbsp;H :
+            {{numeric-inline-input name="height" class="numeric-input item-height item-type-withbg small-3" value=item.height maxlength="5"
+            onSettingInput=(action 'updatePackage')
+            }}
+          </div>
+        </div>
+      </div>
+      <div class="row weight-pieces">
+        <div class="columns small-3">
+          <span class='input_text'>
+            {{t 'item_details.weight'}}
+          </span>
+        </div>
+        <div class="columns small-3 weight">
+          {{numeric-inline-input
+            name="weight"
+            class='numeric-input valuation-input'
+            value=item.weight
             maxlength="9"
             onSettingInput=(action 'updatePackage')
           }}
         </div>
+        {{#if showPieces}}
+          <div class="columns small-3">
+            <span class='input_text'>{{t 'item_details.pieces'}}</span>
+          </div>
+          <div class="columns small-3 pieces">
+            {{numeric-inline-input
+              name="pieces"
+              class='numeric-input valuation-input'
+              value=item.pieces
+              maxlength="9"
+              onSettingInput=(action 'updatePackage')
+            }}
+          </div>
+        {{/if}}
+      </div>
+    {{/unless}}
+
+    {{#unless isBoxOrPallet}}
+      {{#if item.code.allowExpiryDate}}
+        <div class="row weight-pieces">
+          <div class="columns small-3">
+            <span class='input_text'>{{t "items.new.expiry_date"}}</span>
+          </div>
+          <div class="columns large-4 small-6 value pieces">
+            {{calendar-input
+              name='expiry_date'
+              id='expiry_date'
+              enablePastDate=true
+              selection=item.expiryDate
+              onSelect=(action 'setExpiryDate')
+              placeholder='Select Expiry'
+            }}
+          </div>
+          <i {{action 'clearExpiryDate'}} class="expiry_date_cancel">{{fa-icon 'times-circle' size="1x"}}</i>
+        </div>
       {{/if}}
-    </div>
-    {{#if item.code.allowExpiryDate}}
+
       <div class="row weight-pieces">
         <div class="columns small-3">
-          <span class='input_text'>{{t "items.new.expiry_date"}}</span>
+          <span class='input_text'>Offers</span>
         </div>
-        <div class="columns large-4 small-6 value pieces">
-          {{calendar-input
-            name='expiry_date'
-            id='expiry_date'
-            enablePastDate=true
-            selection=item.expiryDate
-            onSelect=(action 'setExpiryDate')
-            placeholder='Select Expiry'
-          }}
+        <div class="columns small-9 offer-tags">
+          <div{{action 'addOffer'}}>
+            {{fa-icon 'plus-square' size='2x'}}
+          </div>
+          <span class="offer-tag-detail">
+            {{#if item.offer}}
+              {{offer-tag
+                  class="offer-tag-withbg"
+                  isPackageOffer=false
+                  offer=item.offer
+                  removeOffer=(action "removeOffer")
+                }}
+            {{/if}}
+            {{#each item.offersPackages as |offersPackage|}}
+              {{offer-tag
+                  class="offer-tag-withbg"
+                  offer=offersPackage.offer
+                  removeOffer=(action "removeOffer")
+                }}
+            {{/each}}
+          </span>
         </div>
-        <i {{action 'clearExpiryDate'}} class="expiry_date_cancel">{{fa-icon 'times-circle' size="1x"}}</i>
       </div>
-    {{/if}}
-    <div class="row weight-pieces">
-      <div class="columns small-3">
-        <span class='input_text'>Offers</span>
+      <div class="row  constraints-row">
+        <div class="columns small-3">{{t 'item_details.constraints'}}</div>
+        <div class="columns small-3 quality constraints">
+          <div class="select-quality">
+            {{inline-select-list
+                content=saleableOptions
+                name="saleableValue"
+                autosave=true
+                isPrimitive=true
+                on-change=(action 'onSaleableChange')
+                class="constraints-saleable"
+                item=item}}
+          </div>
+        </div>
+        <div class="columns small-6 quality constraints">
+          <div class="select-quality">
+            {{inline-select-list
+                content=restrictionOptions
+                name="restriction"
+                item=item
+                class="constraints-restrictions"
+                autosave=true
+                on-change=(action (mut restriction))
+              }}
+          </div>
+        </div>
       </div>
-      <div class="columns small-9 offer-tags">
-        <div{{action 'addOffer'}}>
-          {{fa-icon 'plus-square' size='2x'}}
-      </div>
-      <span class="offer-tag-detail">
-        {{#if item.offer}}
-          {{offer-tag
-              class="offer-tag-withbg"
-              isPackageOffer=false
-              offer=item.offer
-              removeOffer=(action "removeOffer")
-            }}
-        {{/if}}
-        {{#each item.offersPackages as |offersPackage|}}
-          {{offer-tag
-              class="offer-tag-withbg"
-              offer=offersPackage.offer
-              removeOffer=(action "removeOffer")
-            }}
-        {{/each}}
-      </span>
-    </div>
-  </div>
-  <div class="row  constraints-row">
-    <div class="columns small-3">{{t 'item_details.constraints'}}</div>
-    <div class="columns small-3 quality constraints">
-      <div class="select-quality">
-        {{inline-select-list
-            content=saleableOptions
-            name="saleableValue"
-            autosave=true
-            isPrimitive=true
-            on-change=(action 'onSaleableChange')
-            class="constraints-saleable"
-            item=item}}
+    {{/unless}}
+
+    <div class="row detail-section">
+      <div class="columns small-12">
+        <div class="row">
+          <div class="columns small-3">{{t 'item_details.comment'}}</div>
+          <div class="columns small-9 value description">
+            {{gc-textarea data-autoresize=true name="comment" value=item.comment pattern=".*\S.*" class="description-textarea-withbg" maxlength=180 onFocusOut=(action 'updateAttribute' 'comment' item.comment)}}
+          </div>
+        </div>
       </div>
     </div>
-    <div class="columns small-6 quality constraints">
-      <div class="select-quality">
-        {{inline-select-list
-            content=restrictionOptions
-            name="restriction"
-            item=item
-            class="constraints-restrictions"
-            autosave=true
-            on-change=(action (mut restriction))
-          }}
-      </div>
-    </div>
-  </div>
-  <div class="row detail-section">
-    <div class="columns small-12">
+    {{#unless isBoxOrPallet}}
       <div class="row">
-        <div class="columns small-3">{{t 'item_details.comment'}}</div>
-        <div class="columns small-9 value description">
-          {{gc-textarea data-autoresize=true name="comment" value=item.comment pattern=".*\S.*" class="description-textarea-withbg" maxlength=180 onFocusOut=(action 'updateAttribute' 'comment' item.comment)}}
-        </div>
+        {{donation-field item=item noCss="true" caseNumber=item.caseNumber}}
       </div>
-    </div>
+    {{/unless}}
   </div>
-  <div class="row">
-    {{donation-field item=item noCss="true" caseNumber=item.caseNumber}}
-  </div>
-</div>
 </div>
 <hr>
-{{#if showAdditionalFields}}
+{{#if (is-and showAdditionalFields (is-not isBoxOrPallet))}}
   <div class="row additional-selected-values">
     {{#each displayFields as |field|}}
       <div class="small-6 columns input-field-container">

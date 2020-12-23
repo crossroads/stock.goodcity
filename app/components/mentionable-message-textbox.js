@@ -5,9 +5,10 @@ import AjaxPromise from "stock/utils/ajax-promise";
 
 let users = null;
 let selectedUsers = [];
-const remoteSearch = (roles, authToken, cb) => {
+const remoteSearch = (roles, order_id, authToken, cb) => {
   new AjaxPromise("/mentionable_users", "GET", authToken, {
-    roles: roles.join()
+    roles: roles.join(),
+    order_id
   }).then(data => {
     const images = data.images;
     users = data.users.map(user => {
@@ -56,11 +57,15 @@ export default Ember.Component.extend({
     Ember.$("body").css({ "overflow-x": "unset" });
     const _this = this;
     const roles = this.roles;
+    const order_id = this.orderId;
     const tribute = new Tribute({
       values: function(text, cb) {
         if (!users) {
-          return remoteSearch(roles, _this.get("session.authToken"), users =>
-            cb(users)
+          return remoteSearch(
+            roles,
+            order_id,
+            _this.get("session.authToken"),
+            users => cb(users)
           );
         }
         return cb(users);

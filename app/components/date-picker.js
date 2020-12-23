@@ -55,6 +55,7 @@ export default Ember.TextField.extend({
         close: false,
         onStart: function() {
           if (this.get("value")) {
+            this.set("select", moment(this.get("value")).toDate());
             cmp.set("_model", this.get("value"));
             cmp.set("value", moment(this.get("value")).format("LL"));
           }

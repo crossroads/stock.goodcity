@@ -52,14 +52,6 @@ export default GoodcityController.extend(
     displayItemOptions: false,
     valuationIsFocused: false,
     selectedDescriptionLanguage: "en",
-
-    valueHkDollar: Ember.computed("model.valueHkDollar", function() {
-      const val = this.get("model.valueHkDollar");
-      if (val !== null && val !== "") {
-        return +this.get("model.valueHkDollar");
-      }
-      return val;
-    }),
     fields: additionalFields,
     fixedDropdownArr: [
       "frequencyId",
@@ -375,6 +367,7 @@ export default GoodcityController.extend(
 
     async assignNew(type, { deleteDetailId = false } = {}) {
       const item = this.get("item");
+      const store = this.get("store");
 
       const packageParams = {
         package_type_id: type.get("id")
@@ -385,9 +378,11 @@ export default GoodcityController.extend(
       ) {
         packageParams.detail_type = _.capitalize(type.get("subform"));
       }
+
       if (deleteDetailId) {
         packageParams.detail_id = null;
       }
+
       await this.runTask(async () => {
         await this.get("packageService").updatePackage(
           item.id,
@@ -557,9 +552,7 @@ export default GoodcityController.extend(
 
         const packageSet = this.get("model.packageSet");
         const pkg = await this.get("packageService").userPickPackage({
-          packageTypes: this.get("packageService").allChildPackageTypes(
-            packageSet
-          ),
+          parentCode: packageSet.get("code.code"),
           storageTypeName: "Package" // we don't add boxes to sets
         });
 
@@ -654,6 +647,7 @@ export default GoodcityController.extend(
 
       openItemsSearch() {
         this.set("openPackageSearch", true);
+        this.set("parentCode", this.get("item.code.code"));
       },
 
       async updateContainer(pkg, quantity) {
