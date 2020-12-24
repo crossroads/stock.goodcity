@@ -15,6 +15,10 @@ export default detail.extend(MessageBase, {
   model: null,
   noMessage: Ember.computed.empty("messages"),
   isMentionsActive: false,
+  messageableType: "Order",
+  messageableId: Ember.computed(function() {
+    return this.get("order.id");
+  }),
 
   displayChatNote: Ember.computed(
     "noMessage",
