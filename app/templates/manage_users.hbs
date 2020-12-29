@@ -48,7 +48,7 @@
           </ul>
         {{/infinite-list}}
       {{else}}
-        {{#if session.currentUser.canCreateUsers}}
+        {{#if session.currentUser.canManageUsers}}
           {{#link-to "users.add_user"}}
             <div
               class="small-6 small-offset-3 medium-offset-1 medium-10 large-8 large-offset-2 columns center-text create-user-button">

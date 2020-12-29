@@ -3,51 +3,53 @@
     <div class="small-12 columns tab_row">
       <dl class="tabs" data-tab>
         {{#if model.isGoodCityOrder}}
-          <dd class="small-3 medium-3 columns text-center {{if highlightSelectedTabSummary 'active'}}">
-            {{#link-to 'orders.contact_summary' model.id replace=true}}
-              <i>{{fa-icon 'id-card'}}</i>
-              <div>{{t "order_tabs.summary"}}</div>
-            {{/link-to}}
-          </dd>
+          <div class="order-options-container">
+            <dd class="text-center {{if highlightSelectedTabSummary 'active'}}">
+              {{#link-to 'orders.contact_summary' model.id replace=true}}
+                <i>{{fa-icon 'id-card'}}</i>
+                <div>{{t "order_tabs.summary"}}</div>
+              {{/link-to}}
+            </dd>
+            <dd class="text-center {{if highlightSelectedTabGoods 'active'}}">
+              {{#link-to 'orders.active_items' model.id replace=true}}
+                <i class="item-menu">{{fa-icon 'shopping-basket'}}</i>
+                <div>{{t "order_tabs.goods"}}</div>
+              {{/link-to}}
+            </dd>
 
-          <dd class="small-2 medium-2 columns text-center
-          {{if highlightSelectedTabGoods 'active'}}">
-          {{#link-to 'orders.active_items' model.id replace=true}}
-            <i class="item-menu">{{fa-icon 'shopping-basket'}}</i>
-            <div>{{t "order_tabs.goods"}}</div>
-          {{/link-to}}
-          </dd>
+            <dd class="text-center {{if (is-equal tabName 'order_types') 'active'}}">
+              {{#link-to 'orders.order_types' model.id replace=true}}
+                <i>{{fa-icon 'truck'}}</i>
+                <div>{{t "order_tabs.logistics"}}</div>
+              {{/link-to}}
+            </dd>
 
-          <dd class="small-3 medium-3 columns text-center {{if (is-equal tabName 'order_types') 'active'}}">
-            {{#link-to 'orders.order_types' model.id replace=true}}
-              <i>{{fa-icon 'truck'}}</i>
-              <div>{{t "order_tabs.logistics"}}</div>
-            {{/link-to}}
-          </dd>
+            {{#if session.currentUser.canManageUsers}}
+              <dd class="text-center {{if (is-equal tabName 'conversation') 'active'}}">
+                {{#link-to 'orders.conversation' model.id replace=true disabled=model.isDraft}}
+                  {{#if model.hasUnreadUserMessages}}
+                    <div class='unread_message'>
+                      {{model.unreadUserMessagesCount}}
+                    </div>
+                  {{/if}}
+                  <i>{{fa-icon 'comments'}}</i>
+                  <div>{{t "order_tabs.user"}}</div>
+                {{/link-to}}
+              </dd>
+            {{/if}}
 
-          <dd class="small-2 medium-2 columns text-center {{if (is-equal tabName 'conversation') 'active'}}">
-            {{#link-to 'orders.conversation' model.id replace=true disabled=model.isDraft}}
-              {{#if model.hasUnreadUserMessages}}
-                <div class='unread_message'>
-                  {{model.unreadUserMessagesCount}}
-                </div>
-              {{/if}}
-              <i>{{fa-icon 'comments'}}</i>
-              <div>{{t "order_tabs.user"}}</div>
-            {{/link-to}}
-          </dd>
-
-          <dd class="small-2 medium-2 columns text-center {{if (is-equal tabName 'staff_conversation') 'active'}}">
-            {{#link-to 'orders.staff_conversation' model.id replace=true}}
-              {{#if model.hasUnreadStaffMessages}}
-                <div class='unread_message'>
-                  {{model.unreadStaffMessagesCount}}
-                </div>
-              {{/if}}
-              <i>{{fa-icon 'comments'}}</i>
-              <div>{{t "order_tabs.staff"}}</div>
-            {{/link-to}}
-          </dd>
+            <dd class="text-center {{if (is-equal tabName 'staff_conversation') 'active'}}">
+              {{#link-to 'orders.staff_conversation' model.id replace=true}}
+                {{#if model.hasUnreadStaffMessages}}
+                  <div class='unread_message'>
+                    {{model.unreadStaffMessagesCount}}
+                  </div>
+                {{/if}}
+                <i>{{fa-icon 'comments'}}</i>
+                <div>{{t "order_tabs.staff"}}</div>
+              {{/link-to}}
+            </dd>
+          </div>
         {{else}}
            <dd class="small-4 medium-4 columns text-center
             {{if highlightSelectedTabSummary 'active'}}">
