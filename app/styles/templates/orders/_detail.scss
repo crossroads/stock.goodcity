@@ -898,3 +898,9 @@
     margin-left: -1.6%;
   }
 }
+
+.order-options-container {
+  display: grid;
+  grid-template-columns: repeat(4, auto) auto;
+  justify-content: space-evenly;
+}
