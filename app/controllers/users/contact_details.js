@@ -81,7 +81,6 @@ export default Ember.Controller.extend(
             break;
           case "mobile":
             isValid = this.checkUserMobileValidity(value);
-
             break;
         }
 
