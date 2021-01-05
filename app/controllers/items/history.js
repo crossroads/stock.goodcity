@@ -36,9 +36,13 @@ export default detail.extend({
       return `${action.get("user.fullName")}/${action.get(
         "action"
       )}/${createdAt}`;
-    } else {
+    } else if (action.get("whodunnitName")) {
       return `${action.get("whodunnitName")}/${this.get(
         "model.state"
+      )}/${createdAt}`;
+    } else {
+      return `${this.get("session.currentUser.fullName")}/${action.get(
+        "state"
       )}/${createdAt}`;
     }
   },
@@ -59,11 +63,17 @@ export default detail.extend({
 
         const newGroup = {
           key: groupKey,
-          type: isItemAction ? action.get("action").capitalize() : "Edited",
+          type: isItemAction
+            ? action.get("action").capitalize()
+            : action.get("state")
+            ? action.get("state")
+            : "Edited",
           date: createdAt,
           user: isItemAction
             ? action.get("user.fullName")
-            : action.get("whodunnitName"),
+            : action.get("whodunnitName")
+            ? action.get("whodunnitName")
+            : this.get("session.currentUser.fullName"),
           actions: [action]
         };
         results.push(newGroup);
@@ -82,7 +92,8 @@ export default detail.extend({
     function() {
       let actionsAndVersions = [
         ...this.get("itemActions").toArray(),
-        ...this.groupedVersions().toArray()
+        ...this.groupedVersions().toArray(),
+        ...this.get("model.ordersPackages").toArray()
       ]
         .sortBy("createdAt")
         .reverse();
