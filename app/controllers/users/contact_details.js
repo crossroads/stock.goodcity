@@ -93,10 +93,13 @@ export default Ember.Controller.extend(
               await user.save();
             } catch (e) {
               this.get("user").rollbackAttributes();
+              let phoneNumber =
+                this.get("user.mobile") && this.get("user.mobile").slice(4);
+              this.set("mobileNumber", phoneNumber);
               throw e;
             }
-            this.hideValidationErrors(e.target);
           }, ERROR_STRATEGIES.MODAL);
+          this.hideValidationErrors(e.target);
         } else {
           this.get("user").rollbackAttributes();
           Ember.$(`#${e.target.id}`).focus();
