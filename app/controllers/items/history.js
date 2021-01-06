@@ -73,7 +73,7 @@ export default detail.extend({
             ? action.get("user.fullName")
             : action.get("whodunnitName")
             ? action.get("whodunnitName")
-            : this.get("session.currentUser.fullName"),
+            : action.get("updatedBy.fullName"),
           actions: [action]
         };
         results.push(newGroup);

@@ -14,7 +14,9 @@ export default Model.extend({
   sentOn: attr("date"),
   state: attr("string"),
   allowedActions: attr(),
+  updatedById: attr("number"),
 
+  updatedBy: belongsTo("user", { async: false }),
   item: belongsTo("item", { async: false }),
   designation: belongsTo("designation", { async: true }),
   isDispatched: Ember.computed.bool("sentOn"),
