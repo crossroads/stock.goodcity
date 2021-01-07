@@ -15,6 +15,7 @@ export default Model.extend({
   state: attr("string"),
   allowedActions: attr(),
   updatedById: attr("number"),
+  createdAt: attr("date"),
 
   updatedBy: belongsTo("user", { async: false }),
   item: belongsTo("item", { async: false }),
