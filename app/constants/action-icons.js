@@ -30,5 +30,9 @@ export const ACTIONS_ICONS = [
   {
     name: "Pack",
     icon: "cube"
+  },
+  {
+    name: "designated",
+    icon: "shopping-basket"
   }
 ];

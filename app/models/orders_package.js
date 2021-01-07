@@ -14,7 +14,10 @@ export default Model.extend({
   sentOn: attr("date"),
   state: attr("string"),
   allowedActions: attr(),
+  updatedById: attr("number"),
+  createdAt: attr("date"),
 
+  updatedBy: belongsTo("user", { async: false }),
   item: belongsTo("item", { async: false }),
   designation: belongsTo("designation", { async: true }),
   isDispatched: Ember.computed.bool("sentOn"),
@@ -25,12 +28,22 @@ export default Model.extend({
 
   isSingleQuantity: Ember.computed.equal("quantity", 1),
 
+  absoluteQuantity: Ember.computed.alias("quantity"),
+
   undispatchedQty: Ember.computed("quantity", "dispatchedQuantity", function() {
     return this.get("quantity") - this.get("dispatchedQuantity");
   }),
 
   orderCode: Ember.computed("designation", function() {
     return this.get("designation.code");
+  }),
+
+  locationSubscript: Ember.computed("quantity", function() {
+    return Number(this.get("quantity")) >= 0 ? "To" : "From";
+  }),
+
+  arrow: Ember.computed("quantity", function() {
+    return Number(this.get("quantity")) >= 0 ? "arrow-up" : "arrow-down";
   }),
 
   partiallyDispatched: Ember.computed(
