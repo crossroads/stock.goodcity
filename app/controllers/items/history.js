@@ -36,15 +36,15 @@ export default detail.extend({
       return `${action.get("user.fullName")}/${action.get(
         "action"
       )}/${createdAt}`;
-    } else if (action.get("whodunnitName")) {
+    }
+    if (action.get("whodunnitName")) {
       return `${action.get("whodunnitName")}/${this.get(
         "model.state"
       )}/${createdAt}`;
-    } else {
-      return `${this.get("session.currentUser.fullName")}/${action.get(
-        "state"
-      )}/${createdAt}`;
     }
+    return `${this.get("session.currentUser.fullName")}/${action.get(
+      "state"
+    )}/${createdAt}`;
   },
 
   groupingActionsAndVersions(actionsAndVersions) {
@@ -65,15 +65,11 @@ export default detail.extend({
           key: groupKey,
           type: isItemAction
             ? action.get("action").capitalize()
-            : action.get("state")
-            ? action.get("state")
-            : "Edited",
+            : action.get("state") || "Edited",
           date: createdAt,
           user: isItemAction
             ? action.get("user.fullName")
-            : action.get("whodunnitName")
-            ? action.get("whodunnitName")
-            : action.get("updatedBy.fullName"),
+            : action.get("whodunnitName") || action.get("updatedBy.fullName"),
           actions: [action]
         };
         results.push(newGroup);
