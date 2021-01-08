@@ -5,6 +5,6 @@
   {{fa-icon 'user' class='offer-icon'}}
   {{offer.id}}
 {{/if}}
-{{#if isPackageOffer}}
+{{#unless (is-equal itemOfferId offer.id)}}
   <div class="delete-offer"{{action "removeOffer" offer}}>{{fa-icon 'times'}}</div>
-{{/if}}
+{{/unless}}

@@ -212,18 +212,12 @@
             {{fa-icon 'plus-square' size='2x'}}
           </div>
           <span class="offer-tag-detail">
-            {{#if item.offer}}
-              {{offer-tag
-                  class="offer-tag-withbg"
-                  isPackageOffer=false
-                  offer=item.offer
-                  removeOffer=(action "removeOffer")
-                }}
-            {{/if}}
             {{#each item.offersPackages as |offersPackage|}}
+            {{log item.offerId}}
               {{offer-tag
                   class="offer-tag-withbg"
                   offer=offersPackage.offer
+                  itemOfferId=item.offerId
                   removeOffer=(action "removeOffer")
                 }}
             {{/each}}
