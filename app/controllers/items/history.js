@@ -19,7 +19,9 @@ export default detail.extend({
         "received_at",
         "offer_id",
         "detail_id",
-        "updated_by_id"
+        "dispatched_quantity",
+        "updated_by_id",
+        "sent_on"
       ]);
     });
     versions.forEach((version, index) =>

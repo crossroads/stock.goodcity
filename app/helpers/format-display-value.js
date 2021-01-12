@@ -64,6 +64,10 @@ export default Ember.Helper.extend({
           return "-";
         }
         return moment(value).format("LLL");
+      case "package_id":
+        return this.getRecordName("item", value, "inventoryNumber");
+      case "order_id":
+        return this.getRecordName("designation", value, "code");
       case "location_id":
         return this.getRecordName("location", value);
       case "restriction_id":
