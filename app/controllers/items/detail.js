@@ -459,8 +459,8 @@ export default GoodcityController.extend(
         const offer = await this.get("offerService").getOffer();
         const offerIds = [
           ...this.get("item.offersPackages").getEach("offerId"),
-          offer.id
-        ];
+          +offer.id
+        ].uniq();
         this.updatePackageOffers(offerIds);
       },
 
