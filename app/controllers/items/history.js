@@ -12,14 +12,15 @@ export default detail.extend({
         "available_quantity",
         "designated_quantity",
         "on_hand_quantity",
-        "dispatched_quanitity",
         "id",
         "detail_type_id",
         "created_at",
         "received_at",
         "offer_id",
         "detail_id",
-        "updated_by_id"
+        "dispatched_quantity",
+        "updated_by_id",
+        "sent_on"
       ]);
     });
     versions.forEach((version, index) =>
@@ -55,6 +56,13 @@ export default detail.extend({
         const isItemAction = !!action.get("user.fullName");
         const groupKey = this.getGroupKey(isItemAction, action);
 
+        if (
+          action.get("itemType") == "OrdersPackage" &&
+          ["dispatched"].includes(action.get("state"))
+        ) {
+          return results;
+        }
+
         const lastGroup = _.last(results);
         if (lastGroup && lastGroup.key === groupKey) {
           lastGroup.actions.push(action);
@@ -65,11 +73,13 @@ export default detail.extend({
           key: groupKey,
           type: isItemAction
             ? action.get("action").capitalize()
-            : action.get("state") || "Edited",
+            : action.get("state") == "designated"
+            ? action.get("state")
+            : "Edited",
           date: createdAt,
           user: isItemAction
             ? action.get("user.fullName")
-            : action.get("whodunnitName") || action.get("updatedBy.fullName"),
+            : action.get("whodunnitName"),
           actions: [action]
         };
         results.push(newGroup);
@@ -88,8 +98,7 @@ export default detail.extend({
     function() {
       let actionsAndVersions = [
         ...this.get("itemActions").toArray(),
-        ...this.groupedVersions().toArray(),
-        ...this.get("model.ordersPackages").toArray()
+        ...this.groupedVersions().toArray()
       ]
         .sortBy("createdAt")
         .reverse();
