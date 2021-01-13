@@ -57,6 +57,13 @@ export default detail.extend({
         const isItemAction = !!action.get("user.fullName");
         const groupKey = this.getGroupKey(isItemAction, action);
 
+        if (
+          action.get("itemType") == "OrdersPackage" &&
+          ["dispatched", "designated"].includes(action.get("state"))
+        ) {
+          return results;
+        }
+
         const lastGroup = _.last(results);
         if (lastGroup && lastGroup.key === groupKey) {
           lastGroup.actions.push(action);
@@ -71,7 +78,7 @@ export default detail.extend({
           date: createdAt,
           user: isItemAction
             ? action.get("user.fullName")
-            : action.get("whodunnitName") || action.get("updatedBy.fullName"),
+            : action.get("whodunnitName"),
           actions: [action]
         };
         results.push(newGroup);
@@ -90,8 +97,7 @@ export default detail.extend({
     function() {
       let actionsAndVersions = [
         ...this.get("itemActions").toArray(),
-        ...this.groupedVersions().toArray(),
-        ...this.get("model.ordersPackages").toArray()
+        ...this.groupedVersions().toArray()
       ]
         .sortBy("createdAt")
         .reverse();
