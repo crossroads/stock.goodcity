@@ -59,7 +59,7 @@ export default detail.extend({
 
         if (
           action.get("itemType") == "OrdersPackage" &&
-          ["dispatched", "designated"].includes(action.get("state"))
+          ["dispatched"].includes(action.get("state"))
         ) {
           return results;
         }
@@ -74,7 +74,9 @@ export default detail.extend({
           key: groupKey,
           type: isItemAction
             ? action.get("action").capitalize()
-            : action.get("state") || "Edited",
+            : action.get("state") == "designated"
+            ? action.get("state")
+            : "Edited",
           date: createdAt,
           user: isItemAction
             ? action.get("user.fullName")
