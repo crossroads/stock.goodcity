@@ -4,7 +4,9 @@ import Ember from "ember";
 export default AuthorizeRoute.extend({
   model({ stocktake_id }) {
     return Ember.RSVP.hash({
-      stocktake: this.store.findRecord("stocktake", stocktake_id)
+      stocktake: this.store.findRecord("stocktake", stocktake_id, {
+        reload: true
+      })
     });
   },
 
