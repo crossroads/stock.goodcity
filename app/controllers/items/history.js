@@ -12,7 +12,6 @@ export default detail.extend({
         "available_quantity",
         "designated_quantity",
         "on_hand_quantity",
-        "dispatched_quanitity",
         "id",
         "detail_type_id",
         "created_at",
