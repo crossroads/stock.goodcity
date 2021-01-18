@@ -37,7 +37,9 @@ export const STATE_FILTERS = {
 export const TYPE_FILTERS = {
   APPOINTMENT: "appointment",
   ONLINE_ORDER: "online_orders",
-  SHIPMENT: "shipment"
+  SHIPMENT: "shipment",
+  CARRY_OUT: "carry_out",
+  OTHER: "other"
 };
 
 // --- Service
