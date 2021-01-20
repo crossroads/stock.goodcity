@@ -140,7 +140,6 @@
       .item-summary {
         display: flex;
         max-height: 120px;
-        pointer-events: none;
 
         .content {
           color: $white;
@@ -150,6 +149,10 @@
           &:last-child {
             border-right: 2px solid $black;
           }
+        }
+
+        a {
+          cursor: pointer;
         }
 
         .item-img {
