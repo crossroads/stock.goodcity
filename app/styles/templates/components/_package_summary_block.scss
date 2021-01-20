@@ -140,6 +140,7 @@
       .item-summary {
         display: flex;
         max-height: 120px;
+        pointer-events: none;
 
         .content {
           color: $white;

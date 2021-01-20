@@ -322,7 +322,7 @@
         </div>
         <div class="small-4 columns inventory-number">
           {{#if inputInventory}}
-            {{input value=inventoryNumber}}
+            {{numeric-input id="inventoryNumber" name="inventoryNumber" value=inventoryNumber maxlength="6" required="true" pattern="\d{1,8}" acceptZeroValue="true"}}
             {{#unless inventoryNumber}}
               <div class="input-error show-validation">
                 {{t "items.new.validation_errors.blank_inventory_number"}}
