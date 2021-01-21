@@ -55,10 +55,10 @@
               <div class="stocktake-details flex space-between wrap">
                 <span class="location">{{ stocktake.location.displayName }}</span>
                 <span class="counts-text">
-                  {{ stocktake.cleanRevisions.length }} {{t 'stocktakes.counts.counted'}} |
-                  {{ stocktake.gainRevisions.length }} {{t 'stocktakes.counts.gains'}} |
-                  {{ stocktake.lossRevisions.length }} {{t 'stocktakes.counts.losses'}} |
-                  {{ stocktake.revisionsWithWarnings.length }} {{t 'stocktakes.counts.warnings'}}
+                  {{ stocktake.counts }} {{t 'stocktakes.counts.counted'}} |
+                  {{ stocktake.gains }} {{t 'stocktakes.counts.gains'}} |
+                  {{ stocktake.losses }} {{t 'stocktakes.counts.losses'}} |
+                  {{ stocktake.warnings }} {{t 'stocktakes.counts.warnings'}}
                 </span>
               </div>
             </div>

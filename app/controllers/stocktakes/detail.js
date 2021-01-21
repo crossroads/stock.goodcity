@@ -70,7 +70,10 @@ export default Ember.Controller.extend(AsyncMixin, {
         [modes.review]: [
           rev =>
             this.get("onlyShowVariances") ? rev.get("hasVariance") : true,
-          rev => (this.get("onlyShowWarnings") ? rev.get("warning") : true)
+          rev =>
+            this.get("onlyShowWarnings")
+              ? rev.get("dirty") || rev.get("warning")
+              : true
         ]
       }[this.get("mode")];
 
