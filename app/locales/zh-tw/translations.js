@@ -776,7 +776,9 @@ export default {
   },
 
   search_users: {
-    new_user: "Which user is this request being made for ?"
+    new_user: "Which user is this request being made for ?",
+    edit_user: "Edit User",
+    assign_charity_to_user: "Please add this user to a valid charity first."
   },
 
   item_details: {
