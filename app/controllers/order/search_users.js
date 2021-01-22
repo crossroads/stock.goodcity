@@ -9,6 +9,8 @@ export default searchModule.extend({
   filteredResults: "",
   queryParams: ["prevPath"],
   prevPath: null,
+  messageBox: Ember.inject.service(),
+  i18n: Ember.inject.service(),
 
   onSearchTextChange: Ember.observer("searchText", function() {
     if (this.get("searchText").length) {
@@ -65,10 +67,22 @@ export default searchModule.extend({
     goToRequestPurpose(user) {
       const orderId = this.get("model.order.id");
       const userId = user.get("id");
-      const organisation_id = user.get(
+      const organisationId = user.get(
         "organisationsUsers.firstObject.organisation.id"
       );
-      const orderParams = { created_by_id: userId, organisation_id };
+
+      if (!organisationId) {
+        this.get("messageBox").custom(
+          this.get("i18n").t("search_users.assign_charity_to_user"),
+          this.get("i18n").t("search_users.edit_user"),
+          () => this.transitionToRoute("users.details", userId),
+          this.get("i18n").t("not_now")
+        );
+
+        return;
+      }
+
+      const orderParams = { created_by_id: userId, organisationId };
       new AjaxPromise(
         "/orders/" + orderId,
         "PUT",
