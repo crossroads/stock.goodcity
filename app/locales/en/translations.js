@@ -317,13 +317,16 @@ export default {
       "Client comes to select goods from our warehouse with help from our staff",
     online_orders: "Online Orders",
     online_orders_info: "Client ordered specific goods online",
+    carry_out: "Carry Outs",
+    carry_out_info:
+      "Overseas organisation that self-arrange logistics for a small order",
     dispatch: "Dispatch",
     dispatch_info: "We will load into van and send to client",
     shipment: "Shipments",
     shipment_info:
       "Overseas organisation will have goods shipped to them from Crossroads' warehouse",
-    other: "Others",
-    other_info: "Special designations such as recycling",
+    other: "Other",
+    other_info: "Includes legacy designations",
     showPriority: "Only show priority orders",
     showPriority_info:
       "Priority orders have been in one state longer than they should and they need quick attention",

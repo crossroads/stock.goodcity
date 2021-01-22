@@ -4,7 +4,9 @@ import Ember from "ember";
 export default AuthorizeRoute.extend({
   model() {
     return Ember.RSVP.hash({
-      stocktakes: this.store.findAll("stocktake", { reload: true })
+      stocktakes: this.store.query("stocktake", {
+        include_revisions: false
+      })
     });
   },
 

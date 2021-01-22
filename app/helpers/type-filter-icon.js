@@ -20,6 +20,8 @@ export default Ember.Helper.helper(function(type) {
       return "box-open";
     case "appointment":
       return "warehouse";
+    case "carry_out":
+      return "luggage-cart";
     case "online_orders":
       return "desktop";
     case "dispatched":

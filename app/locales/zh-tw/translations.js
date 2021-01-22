@@ -61,57 +61,55 @@ export default {
   unavailable_order: "Sorry! This order is not available.",
   yes: "Yes",
   no: "No",
-  stockakes: {
-    title: "Stocktakes",
-    create_new: "Create New Stocktake",
-    confirm_create: "Create Stocktake",
-    select_location: "Select a location to stocktake",
-    name: "Name",
-    location: "Location",
-    comment: "Comment",
-    saving: "Saving changes...",
-    save_error: "An error occured. Some changes were not applied",
-    try_again: "Try again",
-    expected_qty: "Expected Qty",
-    recorded_change: "Recorded Change",
-    requires_recount: "Requires (re)count",
-    confirm_count: "Confirm count is {{count}}",
-    over: "Over",
-    under: "Under",
-    add_item: "Add Item",
-    scanning_failure: "Failed to launch the scanner",
-    scanner_mode: "Scanner Mode",
-    stop_scanning: "STOP Scanning",
-    commit_stocktake: "Commit Stocktake",
-    cancel_stocktake: "Cancel Stocktake",
-    only_show_variances: "Only show variances",
-    only_show_warnings: "Only show warnings",
-    unknown_inventory_number: "Inventory code {{code}} not found",
-    confirm_cancel: "This stocktake will be cancelled. Are you sure ?",
+  stocktakes: {
+    title: "盤點",
+    create_new: "新增新的盤點",
+    confirm_create: "新增盤點",
+    select_location: "選擇盤點位置",
+    name: "名稱",
+    location: "位置",
+    comment: "備註",
+    saving: "儲存變更。。。",
+    save_error: "出現錯誤。部份變更未被儲存",
+    try_again: "重試",
+    expected_qty: "預期數量",
+    recorded_change: "已記錄的變更",
+    requires_recount: "需要(重新)點算",
+    confirm_count: "確定數量為 {{count}}",
+    over: "超出",
+    under: "尚欠",
+    add_item: "新增項目",
+    scanning_failure: "未能啟動掃瞄器",
+    scanner_mode: "掃瞄器模式",
+    stop_scanning: "停止掃瞄",
+    commit_stocktake: "完成盤點",
+    cancel_stocktake: "取消盤點",
+    only_show_variances: "只顯示差別",
+    only_show_warnings: "只顯示警告事項",
+    unknown_inventory_number: "未能找到{{code}}庫存號碼",
+    confirm_cancel: "這次盤點會被取消。確定？",
     tips: {
-      start_counting: "Items you count will appear here",
-      review_tab:
-        "Head over to the 'Review' tab to see the full list of expected items"
+      start_counting: "你已點算的項目會在此出現",
+      review_tab: "點選「檢視」以查看完整項目清單"
     },
     errors: {
-      name_exists: "Another stocktake with the same name already exists",
-      stocktake_exists_for_location:
-        "Warning: A stocktake already exists for this location"
+      name_exists: "已存在相同名稱的盤點",
+      stocktake_exists_for_location: "警告：當前位置已存在其他盤點"
     },
     states: {
-      open: "Open",
-      closed: "Closed",
-      cancelled: "Cancelled"
+      open: "開放",
+      closed: "關閉",
+      cancelled: "已取消"
     },
     detail_tabs: {
-      count: "Count",
-      review: "Review"
+      count: "點算",
+      review: "檢視"
     },
     counts: {
-      counted: "Counted",
-      gains: "Gains",
-      losses: "Losses",
-      warnings: "Warnings"
+      counted: "已點算",
+      gains: "增加",
+      losses: "減少",
+      warnings: "警告"
     }
   },
   box_pallet: {
@@ -303,10 +301,12 @@ export default {
     appointment_info: "受惠者可前往我們的貨倉在職員的協助下挑選物品",
     online_orders: "網上訂單",
     online_orders_info: "受惠者已於網上訂了指定物品",
+    carry_out: "國際手攜訂單",
+    carry_out_info: "由海外機構自行安排運送的小型訂單",
     dispatch: "派送",
     dispatch_info: "我們會將物品裝載到貨車並運送至受惠者",
     shipment: "裝運",
-    shipment_info: "十字路會會將物品裝運至海外機構",
+    shipment_info: "由海外機構自行安排運送的小型訂單",
     other: "其他",
     other_info: "特別的指派點例如回收",
     showPriority: "只顯示優先處理訂單",

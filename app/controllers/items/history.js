@@ -12,14 +12,15 @@ export default detail.extend({
         "available_quantity",
         "designated_quantity",
         "on_hand_quantity",
-        "dispatched_quanitity",
         "id",
         "detail_type_id",
         "created_at",
         "received_at",
         "offer_id",
         "detail_id",
-        "updated_by_id"
+        "dispatched_quantity",
+        "updated_by_id",
+        "sent_on"
       ]);
     });
     versions.forEach((version, index) =>
@@ -36,11 +37,15 @@ export default detail.extend({
       return `${action.get("user.fullName")}/${action.get(
         "action"
       )}/${createdAt}`;
-    } else {
+    }
+    if (action.get("whodunnitName")) {
       return `${action.get("whodunnitName")}/${this.get(
         "model.state"
       )}/${createdAt}`;
     }
+    return `${this.get("session.currentUser.fullName")}/${action.get(
+      "state"
+    )}/${createdAt}`;
   },
 
   groupingActionsAndVersions(actionsAndVersions) {
@@ -51,6 +56,13 @@ export default detail.extend({
         const isItemAction = !!action.get("user.fullName");
         const groupKey = this.getGroupKey(isItemAction, action);
 
+        if (
+          action.get("itemType") == "OrdersPackage" &&
+          ["dispatched"].includes(action.get("state"))
+        ) {
+          return results;
+        }
+
         const lastGroup = _.last(results);
         if (lastGroup && lastGroup.key === groupKey) {
           lastGroup.actions.push(action);
@@ -59,7 +71,11 @@ export default detail.extend({
 
         const newGroup = {
           key: groupKey,
-          type: isItemAction ? action.get("action").capitalize() : "Edited",
+          type: isItemAction
+            ? action.get("action").capitalize()
+            : action.get("state") == "designated"
+            ? action.get("state")
+            : "Edited",
           date: createdAt,
           user: isItemAction
             ? action.get("user.fullName")

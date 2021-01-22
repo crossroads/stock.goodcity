@@ -28,7 +28,7 @@ export default cloudinaryUrl.extend(GradeMixin, {
   weight: attr("number"),
   pieces: attr("number"),
   packageTypeId: attr("number"),
-  offerId: attr("number"),
+  offerId: attr("string"),
   expiryDate: attr("string"),
   comment: attr("string"),
   state: attr("string"),

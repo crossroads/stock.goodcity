@@ -49,7 +49,7 @@ export default DS.Model.extend({
       case "OrdersPackage":
         return this.get("store")
           .peekRecord("orders_package", this.get("sourceId"))
-          .getWithDefault("'order.code'", "N/A");
+          .getWithDefault("orderCode", "N/A");
       default:
         return "";
     }
