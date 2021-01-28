@@ -4,6 +4,7 @@ import AsyncMixin, { ERROR_STRATEGIES } from "stock/mixins/async";
 
 export default detail.extend(AsyncMixin, {
   showBeneficiaryModal: false,
+  noPurposeDescription: Ember.computed.not("model.purposeDescription"),
   designationService: Ember.inject.service(),
   orderService: Ember.inject.service(),
 
@@ -35,6 +36,41 @@ export default detail.extend(AsyncMixin, {
           }
         })
       );
+    },
+
+    updateOrder(field, value) {
+      const order = this.get("model");
+      let changedAttributes = this.get("model").changedAttributes();
+      if (Object.keys(changedAttributes).length === 0) {
+        return;
+      }
+
+      this.runTask(async () => {
+        try {
+          await this.get("orderService").updateOrder(order, {
+            order: {
+              [field]: value
+            }
+          });
+        } catch (e) {
+          this.get("model").rollbackAttributes();
+          throw e;
+        }
+      }, ERROR_STRATEGIES.MODAL);
+    },
+
+    updatePeopleHelped(e) {
+      let value = +e.target.value;
+      this.set("order.peopleHelped", value);
+      this.send("updateOrder", e.target.name, value);
+    },
+
+    updatePurposeDescription(e) {
+      if (this.get("noPurposeDescription")) {
+        this.get("model").rollbackAttributes();
+        return;
+      }
+      this.send("updateOrder", e.target.name, e.target.value);
     },
 
     deleteBeneficiary() {

@@ -174,19 +174,16 @@
           {{t "order_client_summary.number_benefiting"}}
         </div>
         <div class="small-7 columns">
-          {{order-inline-number-input
+          {{numeric-input
             name="people_helped"
-            maxlength=3
+            maxlength=6
+            pattern=".{1,}"
             disabled=(if model.isEditAllowed "" true)
             class="numeric-input beneficiary-inline-input people-helped"
             value=model.peopleHelped
-            order=model}}
-          <div class='client_people_helped_error people_helped_error'>
-            {{fa-icon "exclamation-triangle"}}
-            <span class="error-reason-margin">
-              {{t "order_client_summary.people_helped_error"}}
-            </span>
-          </div>
+            type='tel'
+            focusOut=(action 'updatePeopleHelped')
+          }}
         </div>
       </div>
 
@@ -195,20 +192,23 @@
           {{t "order_client_summary.description_of_need"}}
         </div>
         <div class="small-7 columns">
-          {{order-inline-textarea-input
+          {{auto-resize-textarea
             data-autoresize=true name="purpose_description"
             value=model.purposeDescription
             disabled=(if model.isEditAllowed "" true)
             pattern=".*\S.*"
-            id=(concat 'desc' item.id)
+            id="purpose_description"
             class="description-textarea order-description-textarea"
-            order=model}}
+            focusOut=(action "updatePurposeDescription")
+          }}
+          {{#if noPurposeDescription }}
             <div class='client_summary_description_error description_error'>
               {{fa-icon "exclamation-triangle"}}
               <span class="error-reason-margin">
                 {{t "order_client_summary.description_error"}}
               </span>
             </div>
+          {{/if}}
         </div>
       </div>
     </div>

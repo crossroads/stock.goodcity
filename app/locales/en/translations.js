@@ -187,8 +187,7 @@ export default {
     number_benefiting: "Number benefiting",
     primary_location: "Primary location",
     description_of_need: "Description of need",
-    description_error: "Description is required",
-    people_helped_error: "Number is required"
+    description_error: "Description is required"
   },
   order_contact_summary: {
     change_contact: "Change Contact",
