@@ -1,10 +1,14 @@
 import detail from "./detail";
 import Ember from "ember";
+import _ from "lodash";
 import AsyncMixin, { ERROR_STRATEGIES } from "stock/mixins/async";
 
 export default detail.extend(AsyncMixin, {
   showBeneficiaryModal: false,
   noPurposeDescription: Ember.computed.not("model.purposeDescription"),
+  isInvalidPeopleCount: Ember.computed("model.peopleHelped", function() {
+    return isNaN(this.get("model.peopleHelped"));
+  }),
   designationService: Ember.inject.service(),
   orderService: Ember.inject.service(),
 
@@ -20,6 +24,13 @@ export default detail.extend(AsyncMixin, {
   identityTypes: Ember.computed(function() {
     return this.get("store").peekAll("identity_type");
   }),
+
+  isErrorPresent() {
+    if (this.get("isInvalidPeopleCount") || this.get("noPurposeDescription")) {
+      this.get("model").rollbackAttributes();
+      return true;
+    }
+  },
 
   actions: {
     removeBeneficiaryModal() {
@@ -40,23 +51,10 @@ export default detail.extend(AsyncMixin, {
 
     updateOrder(field, value) {
       const order = this.get("model");
-      let changedAttributes = this.get("model").changedAttributes();
-      if (Object.keys(changedAttributes).length === 0) {
+      if (this.isErrorPresent() || !_.keys(order.changedAttributes()).length) {
         return;
       }
-
-      this.runTask(async () => {
-        try {
-          await this.get("orderService").updateOrder(order, {
-            order: {
-              [field]: value
-            }
-          });
-        } catch (e) {
-          this.get("model").rollbackAttributes();
-          throw e;
-        }
-      }, ERROR_STRATEGIES.MODAL);
+      this.updateRecord(order, { [field]: value });
     },
 
     updatePeopleHelped(e) {
@@ -66,10 +64,6 @@ export default detail.extend(AsyncMixin, {
     },
 
     updatePurposeDescription(e) {
-      if (this.get("noPurposeDescription")) {
-        this.get("model").rollbackAttributes();
-        return;
-      }
       this.send("updateOrder", e.target.name, e.target.value);
     },
 
