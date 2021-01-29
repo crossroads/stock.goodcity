@@ -184,6 +184,14 @@
             type='tel'
             focusOut=(action 'updatePeopleHelped')
           }}
+          {{#if isInvalidPeopleCount }}
+            <div class='client_people_helped_error people_helped_error'>
+              {{fa-icon "exclamation-triangle"}}
+              <span class="error-reason-margin">
+                {{t "order_client_summary.people_helped_error"}}
+              </span>
+            </div>
+          {{/if}}
         </div>
       </div>
 

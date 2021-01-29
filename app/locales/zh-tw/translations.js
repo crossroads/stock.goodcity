@@ -179,7 +179,8 @@ export default {
     number_benefiting: "受惠人數",
     primary_location: "主要地點",
     description_of_need: "有關需要的詳情",
-    description_error: "必須填寫有關詳情"
+    description_error: "必須填寫有關詳情",
+    people_helped_error: "必須填寫受惠人數"
   },
   order_contact_summary: {
     change_contact: "更改聯絡人",
