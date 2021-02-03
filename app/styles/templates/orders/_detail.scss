@@ -60,6 +60,10 @@
   font-size: 0.8rem !important;
 }
 
+.people-helped:focus{
+  border: 1px solid #8091a9 !important;
+}
+
 .beneficiary-title {
   width: 90% !important;
   margin-left: 0rem !important;
@@ -89,6 +93,11 @@
 .order-description-textarea {
   color: #a3aab6 !important;
   font-size: 0.8rem !important;
+}
+
+.order-description-textarea:focus {
+  border: 1px solid #8091a9 !important;
+  background-color: #002352 !important;
 }
 
 .order-description-textarea:disabled {
@@ -871,9 +880,9 @@
   margin-left: 5px;
 }
 
-.client_summary_description_error, .people_helped_error {
-  background-color: red;
-  display: none;
+.client_summary_description_error, .people_helped_error{
+  background-color: $coral-red;
+  color: $white;
   padding: 2px;
   width: 100%;
 }
