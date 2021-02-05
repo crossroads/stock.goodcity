@@ -7870,14 +7870,6 @@ ember-runtime-enumerable-includes-polyfill@^2.0.0:
     ember-cli-babel "^6.9.0"
     ember-cli-version-checker "^2.1.0"
 
-ember-scroll-to-bottom@1.3.0:
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/ember-scroll-to-bottom/-/ember-scroll-to-bottom-1.3.0.tgz#7b0318cc1baa77e7dd97ca872945a127e09d2780"
-  integrity sha512-1dhkLncYHekMO5xIqrsH8jlcqG4Lq6iwnZx7EcX2UtyPRilQi+9UVd3hCzIFiPNpT5v8hCJ2ur3WGFLIHDBgFw==
-  dependencies:
-    ember-cli-babel "^6.3.0"
-    ember-cli-sass "5.5.2"
-
 ember-searchable-select@^0.11.0:
   version "0.11.0"
   resolved "https://registry.yarnpkg.com/ember-searchable-select/-/ember-searchable-select-0.11.0.tgz#785406483a8e1573f63880bebe1efd3aa79b2737"
