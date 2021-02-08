@@ -214,6 +214,10 @@ jobs:
                 ENVIRONMENT=staging
                 SCANDIT_LICENSE_KEY=$SCANDIT_LICENSE_KEY_ANDROID_STAGING
                 ;;
+              ios-push-plugin-upgrade)
+                ENVIRONMENT=staging
+                SCANDIT_LICENSE_KEY=$SCANDIT_LICENSE_KEY_ANDROID_STAGING
+                ;;
               preview)
                 ENVIRONMENT=preview
                 SCANDIT_LICENSE_KEY=$SCANDIT_LICENSE_KEY_ANDROID_STAGING
@@ -446,7 +450,7 @@ workflows:
             - test_cases
           filters:
             branches:
-              only: /^(master|live)$/
+              only: /^(master|live|ios-push-plugin-upgrade)$/
       - android_build_and_deploy:
           requires:
             - ember_cordova_build
@@ -458,4 +462,4 @@ workflows:
             - test_cases
           filters:
             branches:
-              only: /^(master|live)$/
+              only: /^(master|live|ios-push-plugin-upgrade)$/
