@@ -16,6 +16,10 @@ export default ApiBaseService.extend({
     );
   },
 
+  currentUser() {
+    return this.GET("/auth/current_user_profile");
+  },
+
   getRoleId(roleName) {
     return this.get("store")
       .peekAll("role")

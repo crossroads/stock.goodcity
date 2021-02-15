@@ -4,6 +4,8 @@ import AjaxPromise from "../utils/ajax-promise";
 
 export default Ember.Mixin.create({
   messages: Ember.inject.service(),
+  i18n: Ember.inject.service(),
+  userService: Ember.inject.service(),
 
   preloadData: function() {
     var promises = [];
@@ -11,15 +13,13 @@ export default Ember.Mixin.create({
 
     if (this.get("session.authToken")) {
       promises.push(
-        new AjaxPromise(
-          "/auth/current_user_profile",
-          "GET",
-          this.session.get("authToken")
-        ).then(data => {
-          this.store.pushPayload(data);
-          this.store.pushPayload({ user: data.user_profile });
-          this.notifyPropertyChange("session.currentUser");
-        })
+        this.get("userService")
+          .currentUser()
+          .then(data => {
+            this.store.pushPayload(data);
+            this.store.pushPayload({ user: data.user_profile });
+            this.notifyPropertyChange("session.currentUser");
+          })
       );
       promises = promises.concat(retrieve(config.APP.PRELOAD_TYPES));
       promises.push(this.get("messages").fetchUnreadMessageCount());
