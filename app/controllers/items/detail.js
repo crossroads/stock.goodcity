@@ -659,17 +659,6 @@ export default GoodcityController.extend(
         this.send("updateAttribute", name, description);
       },
 
-      /**
-       * Updates the valueHkDollar
-       * Updates the previous saved value
-       */
-      async updateItemValuation() {
-        const item = this.get("item");
-        const value = item.get("valueHkDollar");
-        item.set("valueHkDollar", Number(value));
-        await this.saveItem(item);
-      },
-
       openAddItemOverlay(item) {
         this.set("openAddItemOverlay", true);
         this.set("addableItem", item);
