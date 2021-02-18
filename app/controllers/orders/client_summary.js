@@ -58,7 +58,7 @@ export default detail.extend(AsyncMixin, {
     },
 
     updatePeopleHelped(e) {
-      let value = +e.target.value;
+      const value = parseInt(e.target.value);
       this.set("order.peopleHelped", value);
       this.send("updateOrder", e.target.name, value);
     },
