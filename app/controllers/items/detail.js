@@ -90,6 +90,22 @@ export default GoodcityController.extend(
       }
     ),
 
+    shouldShowApplyDefaultItemValue: Ember.computed(
+      "defaultValueHkDollar",
+      "valueHkDollar",
+      function() {
+        if (!this.get("defaultValueHkDollar")) {
+          return false;
+        }
+        const defaultValueHkDollar = this.get("defaultValueHkDollar").toFixed(
+          2
+        );
+        const valueHkDollar = Number(this.get("valueHkDollar")).toFixed(2);
+
+        return valueHkDollar != defaultValueHkDollar;
+      }
+    ),
+
     showSetList: Ember.computed("_showSetList", "model.isPartOfSet", {
       get() {
         return this.get("_showSetList") && this.get("model.isPartOfSet");
