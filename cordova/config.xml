@@ -99,7 +99,6 @@
     <engine name="android" spec="9.0.0" />
     <engine name="ios" spec="6.1.1" />
     <plugin name="cordova-plugin-android-permissions" spec="https://github.com/NeoLSN/cordova-plugin-android-permissions" />
-    <plugin name="@havesource/cordova-plugin-push" spec="2.0.0" />
     <plugin name="cordova-plugin-statusbar" spec="~2.1.1" />
     <plugin name="cordova-plugin-actionsheet" spec="https://github.com/EddyVerbruggen/cordova-plugin-actionsheet.git" />
     <plugin name="cordova-plugin-camera" spec="^4.0.0" />
