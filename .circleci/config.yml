@@ -126,6 +126,9 @@ jobs:
               master)
                 ENVIRONMENT=staging
                 ;;
+                GCW-3202-ios-push-notifications)
+                ENVIRONMENT=staging
+                ;;
               preview)
                 ENVIRONMENT=preview
                 ;;
@@ -213,6 +216,9 @@ jobs:
               master)
                 ENVIRONMENT=staging
                 SCANDIT_LICENSE_KEY=$SCANDIT_LICENSE_KEY_ANDROID_STAGING
+                ;;
+                GCW-3202-ios-push-notifications)
+                ENVIRONMENT=staging
                 ;;
               preview)
                 ENVIRONMENT=preview
@@ -333,6 +339,12 @@ jobs:
                 echo 'export PROVISIONING_PROFILE=GoodCityStockStaging.mobileprovision' >> $BASH_ENV
                 echo 'export SCANDIT_LICENSE_KEY=$SCANDIT_LICENSE_KEY_IOS_STAGING' >> $BASH_ENV
                 ;;
+                GCW-3202-ios-push-notifications)
+                echo 'export ENVIRONMENT=staging' >> $BASH_ENV
+                echo 'export CERTIFICATE=GoodCity_2020_Development.p12' >> $BASH_ENV
+                echo 'export PROVISIONING_PROFILE=GoodCityStockStaging.mobileprovision' >> $BASH_ENV
+                echo 'export SCANDIT_LICENSE_KEY=$SCANDIT_LICENSE_KEY_IOS_STAGING' >> $BASH_ENV
+                ;;
               preview)
                 echo 'export ENVIRONMENT=preview' >> $BASH_ENV
                 echo 'export CERTIFICATE=GoodCity_2020_Development.p12' >> $BASH_ENV
@@ -446,7 +458,7 @@ workflows:
             - test_cases
           filters:
             branches:
-              only: /^(master|live)$/
+              only: /^(master|live|GCW-3202-ios-push-notifications)$/
       - android_build_and_deploy:
           requires:
             - ember_cordova_build
@@ -458,4 +470,4 @@ workflows:
             - test_cases
           filters:
             branches:
-              only: /^(master|live)$/
+              only: /^(master|live|GCW-3202-ios-push-notifications)$/
