@@ -5,7 +5,6 @@ import AjaxPromise from "../utils/ajax-promise";
 export default Ember.Service.extend({
   session: Ember.inject.service(),
   store: Ember.inject.service(),
-  rollbar: Ember.inject.service(),
 
   isAndroid() {
     if (!config.cordova.enabled || !window.device) {
@@ -56,7 +55,6 @@ export default Ember.Service.extend({
       });
 
       push.on("registration", function(data) {
-        _this.get("rollbar").error(`registration = ${data}`);
         sendToken(data.registrationId, platformCode());
       });
 
