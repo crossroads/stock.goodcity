@@ -105,8 +105,7 @@ namespace :cordova do
       add_plugin('phonegap-plugin-push', '2.1.2')
     elsif platform == 'ios'
       # add_plugin('phonegap-plugin-push', '1.9.2', { SENDER_ID: 'XXXXXXX' })
-      sh %{ cordova plugin add https://github.com/havesource/cordova-plugin-push }
-      sh %{ cd "#{CORDOVA_PATH}/platforms/ios"; pod setup }
+      add_plugin('phonegap-plugin-push', '2.3.0')
     end
 
     log("Preparing app for #{platform}")
