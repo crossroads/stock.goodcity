@@ -919,6 +919,7 @@ export default {
         quantity: "Quantity cannot be blank.",
         blank_notification: "Location cannot be blank.",
         blank_valuation: "Value cannot be blank.",
+        zero_valuation: "Value should be greater than 0.",
         blank_inventory_number: "Inventory number cannot be blank."
       }
     },

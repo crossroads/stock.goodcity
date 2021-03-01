@@ -386,6 +386,28 @@ export default GoodcityController.extend(
       }, ERROR_STRATEGIES.MODAL);
     },
 
+    itemValueHkDollar: Ember.computed(
+      "item",
+      "valueHkDollar",
+      "item.isBoxOrPallet",
+      function() {
+        if (this.get("item.isBoxOrPallet")) {
+          return false;
+        }
+
+        return this.get("valueHkDollar");
+      }
+    ),
+
+    isInvalidValuation: Ember.computed("itemValueHkDollar", function() {
+      const value = this.get("itemValueHkDollar");
+      return value === "" || value === null;
+    }),
+
+    isZeroValuation: Ember.computed("itemValueHkDollar", function() {
+      return parseInt(this.get("itemValueHkDollar")) === 0;
+    }),
+
     actions: {
       updatePackage(field, value) {
         this.runTask(
