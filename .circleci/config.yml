@@ -126,6 +126,9 @@ jobs:
               master)
                 ENVIRONMENT=staging
                 ;;
+              GCW-3501-enable-camera-for-tablet)
+                ENVIRONMENT=staging
+                ;;  
               preview)
                 ENVIRONMENT=preview
                 ;;
@@ -163,6 +166,9 @@ jobs:
               master)
                 STAGE=staging
                 ;;
+              GCW-3501-enable-camera-for-tablet)
+                STAGE=staging
+                ;;  
               preview)
                 STAGE=preview
                 ;;
@@ -184,6 +190,9 @@ jobs:
               master)
                 ASSET_HOST_URL=https://stock-staging.goodcity.hk/assets
                 ;;
+              GCW-3501-enable-camera-for-tablet)
+                ASSET_HOST_URL=https://stock-staging.goodcity.hk/assets
+                ;;  
               preview)
                 ASSET_HOST_URL=https://stock-preview.goodcity.hk/assets
                 ;;
@@ -434,13 +443,13 @@ workflows:
             - test_cases
           filters:
             branches:
-              only: /^(master|live|preview)$/
+              only: /^(master|live|preview|GCW-3501-enable-camera-for-tablet)$/
       - www-deploy:
           requires:
             - www_build
           filters:
             branches:
-              only: /^(master|live|preview)$/
+              only: /^(master|live|preview|GCW-3501-enable-camera-for-tablet)$/
       - ember_cordova_build:
           requires:
             - test_cases
