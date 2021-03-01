@@ -11,6 +11,13 @@
     display: block !important;
   }
 
+  .grayscale_filter {
+    -webkit-filter: saturate(0.03);
+    filter: saturate(0.03);
+    border: 1px solid red;
+  }
+  
+
   .display-code {
     padding: 0.2rem 0.5rem;
     border: 1px solid $tabbar-menu-icon-color !important;
