@@ -1,4 +1,4 @@
-{{#if displayWebcam}}
+{{!-- {{#if displayWebcam}}
 	{{#ember-webcam
 	didSnap=(action 'didSnap')
 	didError=(action 'didError')
@@ -9,4 +9,15 @@
 	</button>
 	<button {{action "closeOverlay"}} class="click-snapshot">Cancel</button>
 	{{/ember-webcam}}
-{{/if}}	
+{{/if}}	 --}}
+
+{{#if displayWebcam}}
+  <video autoplay id="video"></video>
+  <button {{action "changeCamera"}}>Change Camera</button>
+{{/if}}
+<button {{action "snap"}} class="click-snapshot">Click</button>
+<button {{action "closeOverlay"}} class="click-snapshot">Cancel</button>
+
+<canvas class="is-hidden" id="canvas"></canvas>
+
+

@@ -1,6 +1,18 @@
 .cmp.search-overlay {
   .main-container {
 
+    video, canvas {
+      max-width: 100%;
+      height: auto;
+    }
+
+    .click-snapshot {
+      float: right;
+      margin: 10%;
+      width: 30%;
+      margin-top: 40%;
+    }
+    
     .webcam-camera:nth-child(1) video{
       width: 100% !important;
       height: 200% !important;
