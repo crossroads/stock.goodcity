@@ -46,9 +46,7 @@ export default Ember.Component.extend(AsyncMixin, {
     }
   },
 
-  displayWebcam: Ember.computed("packageService.openImageOverlay", function() {
-    return !!this.get("packageService.openImageOverlay");
-  }),
+  displayWebcam: Ember.computed.alias("packageService.openImageOverlay"),
 
   didRender() {
     if (this.get("packageService.openImageOverlay")) {
@@ -93,6 +91,7 @@ export default Ember.Component.extend(AsyncMixin, {
 
     closeOverlay() {
       this.set("packageService.openImageOverlay", false);
+      this.stopVideoStream();
     },
 
     didError(error) {
