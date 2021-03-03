@@ -2,16 +2,31 @@ import _ from "lodash";
 import ApiBaseService from "./api-base-service";
 import { toID } from "stock/utils/helpers";
 import NavigationAwareness from "stock/mixins/navigation_aware";
+import axios from "npm:axios";
+import config from "../config/environment";
 
 export default ApiBaseService.extend(NavigationAwareness, {
   store: Ember.inject.service(),
   i18n: Ember.inject.service(),
   packageTypeService: Ember.inject.service(),
+  CLOUD_URL: config.APP.CLOUD_URL,
 
   init() {
     this._super(...arguments);
     this.set("openPackageSearch", false);
     this.set("packageSearchOptions", {});
+    this.set("openImageOverlay", false);
+  },
+
+  async uploadToCloudinary(params) {
+    const image = await axios.post(this.CLOUD_URL, params);
+    const identifier =
+      image.data.version + "/" + image.data.public_id + "." + image.data.format;
+    const newUploadedImage = this.get("store").createRecord("image", {
+      cloudinaryId: identifier,
+      favourite: true
+    });
+    return newUploadedImage;
   },
 
   generateInventoryNumber() {

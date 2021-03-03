@@ -50,8 +50,6 @@
     </div>
 
     <div class="row">
-      {{camera-detect}}
-    
       <div class="small-3 columns item-label">
         {{t "items.new.type"}}
       </div>
@@ -100,16 +98,31 @@
         {{/if}}
       </div>
       <div class="small-3 medium-2 large-2">
-        <a {{action "triggerUpload"}} class="{{unless isReady 'disabled'}}">
-          <span class="image-box">
-            {{#if newUploadedImage}}
-              <img src={{newUploadedImage.thumbImageUrl}} class="thumb" />
-            {{else}}
-              <i aria-hidden="true">{{fa-icon 'camera'}}</i><br />
-              {{t "items.new.add_images"}}
-            {{/if}}
-          </span>
-        </a>
+        {{#composable-drop-down as |dropDown|}}
+            {{#dropDown.dropDownHeader}}
+              <span class="image-box">
+                {{#if newUploadedImage}}
+                  <img src={{newUploadedImage.thumbImageUrl}} class="thumb" />
+                {{else}}
+                  <i aria-hidden="true">{{fa-icon 'camera'}}</i><br />
+                  {{t "items.new.add_images"}}
+                {{/if}}
+              </span>
+            {{/dropDown.dropDownHeader}}
+            {{#dropDown.dropDownBody}}
+              <div class="options_menu_list option_margin">
+                <div class="option_menu" {{action "triggerUpload"}} class="{{unless isReady 'disabled'}}">
+                  Choose Image
+                </div>
+                <div class="option_menu" {{action "openImageOverlay"}}>
+                  Take Photo
+                </div>
+                <div class="option_menu">
+                  Cancel               
+                </div>
+              </div>
+            {{/dropDown.dropDownBody}}
+          {{/composable-drop-down}}
         {{cloudinary-upload ready="uploadReady" progress="uploadProgress"
               always="uploadComplete" done="uploadSuccess" submit="uploadStart"}}
       </div>
@@ -388,3 +401,11 @@
   {{/validatable-form}}
 </section>
 {{partial "loading_image"}}
+
+{{#let-alias packageService as |s|}}
+  {{goodcity/click-image-overlay
+    open=s.openImageOverlay
+    getImageCallback = (action "saveImageURI")
+  }}
+{{/let-alias}}
+
