@@ -12,6 +12,7 @@ export default Ember.Controller.extend({
   messageBox: Ember.inject.service(),
   i18n: Ember.inject.service(),
   cordova: Ember.inject.service(),
+  isMobileApp: config.cordova.enabled,
 
   itemId: null,
   noImage: Ember.computed.empty("item.images"),

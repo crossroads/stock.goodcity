@@ -29,6 +29,10 @@ export default ApiBaseService.extend(NavigationAwareness, {
     return newUploadedImage;
   },
 
+  generateSignature() {
+    return this.GET("/images/generate_signature");
+  },
+
   generateInventoryNumber() {
     return this.POST(`/inventory_numbers`);
   },

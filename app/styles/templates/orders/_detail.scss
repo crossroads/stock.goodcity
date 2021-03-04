@@ -395,9 +395,19 @@
     margin-top: 3%;
   }
 
+  &.small-options {
+    font-size: 80%;
+  }
+
   &.option-list-padding {
     margin-top: -40%;
     margin-right: -100%;
+    font-size: 80%;
+
+    @media #{$small-only} {
+      margin-top: -20%;
+      margin-right: -150%;
+    }
   }
   
   .menu-option-text {

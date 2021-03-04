@@ -110,13 +110,15 @@
               </span>
             {{/dropDown.dropDownHeader}}
             {{#dropDown.dropDownBody}}
-              <div class="options_menu_list option_margin">
+              <div class="options_menu_list option_margin small-options">
                 <div class="option_menu" {{action "triggerUpload"}} class="{{unless isReady 'disabled'}}">
-                  Choose Image
+                  {{t "camera.choose" click_image=(if isMobileApp "/Click Image")}}
                 </div>
-                <div class="option_menu" {{action "openImageOverlay"}}>
-                  Take Photo
-                </div>
+                {{#unless isMobileApp}}
+                  <div class="option_menu" {{action "openImageOverlay"}}>
+                    {{t "camera.take"}}
+                  </div>
+                {{/unless}}  
               </div>
             {{/dropDown.dropDownBody}}
           {{/composable-drop-down}}

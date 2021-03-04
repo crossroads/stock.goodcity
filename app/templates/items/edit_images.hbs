@@ -50,11 +50,13 @@
         {{#dropDown.dropDownBody}}
           <div class="options_menu_list option_margin option-list-padding">
             <div class="option_menu" {{action "triggerUpload"}} class="{{unless isReady 'disabled'}}">
-              Choose Image
+              Choose Image{{if isMobileApp "/Click Image"}}
             </div>
-            <div class="option_menu" {{action "openImageOverlay"}}>
-              Take Photo
-            </div>
+            {{#unless isMobileApp}}
+              <div class="option_menu" {{action "openImageOverlay"}}>
+                Take Photo
+              </div>
+            {{/unless}}  
           </div>
         {{/dropDown.dropDownBody}}
       {{/composable-drop-down}}

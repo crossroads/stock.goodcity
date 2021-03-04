@@ -3,15 +3,15 @@
 {{/if}}
 <div class="row">
   <div class="small-2 columns">
-    <button {{action "changeCamera"}}>
+    <button {{action "changeCamera"}} class="snapshot">
       <i>{{fa-icon 'sync-alt'}}</i>
     </button>  
   </div>
   <div class="small-5 columns">
-    <button {{action "closeOverlay"}} style="width: 100%;">Cancel</button>
+    <button {{action "closeOverlay"}} class="snapshot">{{t "camera.cancel"}}</button>
   </div>
   <div class="small-5 columns">
-    <button {{action "snap"}} style="width: 100%;">Click</button>
+    <button {{action "snap"}} class="snapshot">{{t "camera.click"}}</button>
   </div>
 </div>
 

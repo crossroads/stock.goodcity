@@ -75,12 +75,7 @@ export default Ember.Component.extend(AsyncMixin, {
     async didSnap(dataUri) {
       this.set("packageService.openImageOverlay", false);
       this.runTask(async () => {
-        const signature = await new AjaxPromise(
-          "/images/generate_signature",
-          "GET",
-          this.get("session.authToken"),
-          {}
-        );
+        const signature = await this.get("packageService").generateSignature();
         signature.file = dataUri;
         const image = await this.get("packageService").uploadToCloudinary(
           signature
