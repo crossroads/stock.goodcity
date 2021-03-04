@@ -627,6 +627,12 @@ export default {
     add_to_set: "Add to set",
     already_in_set: "This item already belongs to a set"
   },
+  camera: {
+    click: "Click",
+    cancel: "Cancel",
+    take: "Take Photo",
+    choose: "Choose Image{{click_image}}"
+  },
   orders_package: {
     actions: {
       edit_quantity: "Edit Qty",

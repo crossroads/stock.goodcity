@@ -1,6 +1,27 @@
 .cmp.search-overlay {
   .main-container {
 
+    video, canvas {
+      max-width: 100%;
+      height: auto;
+    }
+
+    .click-snapshot {
+      float: right;
+      margin: 10%;
+      width: 30%;
+      margin-top: 40%;
+    }
+
+    .snapshot {
+      width: 100%;
+
+      @media #{$small-only} {
+        margin-left: 10%;
+        font-size: 90%;
+      }
+    }
+
     .search-container {
       display: flex;
       align-items: stretch;
