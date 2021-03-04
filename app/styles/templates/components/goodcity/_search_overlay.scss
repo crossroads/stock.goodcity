@@ -13,18 +13,6 @@
       margin-top: 40%;
     }
 
-    .webcam-camera:nth-child(1) video{
-      width: 100% !important;
-      height: 200% !important;
-    }
-    
-    .webcam-camera:nth-child(1) .click-snapshot {
-      float: right;
-      margin: 10%;
-      width: 30%;
-      margin-top: 40%;
-    }
-    
     .search-container {
       display: flex;
       align-items: stretch;
@@ -37,8 +25,6 @@
       .search-overlay {
         flex-grow: 8;
       }
-
-
 
       .scanner {
         height: 10px;

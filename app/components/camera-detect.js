@@ -86,16 +86,13 @@ export default Ember.Component.extend(AsyncMixin, {
           signature
         );
         this.get("getImageCallback")(image);
+        this.stopVideoStream();
       });
     },
 
     closeOverlay() {
-      this.set("packageService.openImageOverlay", false);
       this.stopVideoStream();
-    },
-
-    didError(error) {
-      console.error(error);
+      this.set("packageService.openImageOverlay", false);
     }
   }
 });

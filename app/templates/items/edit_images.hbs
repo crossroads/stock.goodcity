@@ -38,12 +38,26 @@
 
   <ul id="photo-list" class="{{if isExpanded 'hidden'}}">
     <li>
-      <a id="add-photo" {{action "triggerUpload"}} class="center-box {{unless isReady 'disabled'}}" style={{thumbImageCss}}>
-        <span class="center-item">
-          <i>{{fa-icon 'camera'}}</i>
-          {{addPhotoLabel}}
-        </span>
-      </a>
+      {{#composable-drop-down as |dropDown|}}
+        {{#dropDown.dropDownHeader}}
+          <a id="add-photo" class="center-box {{unless isReady 'disabled'}}" style={{thumbImageCss}}>
+            <span class="center-item">
+              <i>{{fa-icon 'camera'}}</i>
+              {{addPhotoLabel}}
+            </span>
+          </a>  
+        {{/dropDown.dropDownHeader}}
+        {{#dropDown.dropDownBody}}
+          <div class="options_menu_list option_margin option-list-padding">
+            <div class="option_menu" {{action "triggerUpload"}} class="{{unless isReady 'disabled'}}">
+              Choose Image
+            </div>
+            <div class="option_menu" {{action "openImageOverlay"}}>
+              Take Photo
+            </div>
+          </div>
+        {{/dropDown.dropDownBody}}
+      {{/composable-drop-down}}
       {{cloudinary-upload ready="uploadReady" progress="uploadProgress"
         always="uploadComplete" done="uploadSuccess" submit="uploadProgress"
         itemId=item.id}}
@@ -68,3 +82,10 @@
     </div>
   </div>
 </div>
+
+{{#let-alias packageService as |s|}}
+  {{goodcity/click-image-overlay
+    open=s.openImageOverlay
+    getImageCallback = (action "saveImageURI")
+  }}
+{{/let-alias}}
