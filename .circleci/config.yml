@@ -108,7 +108,6 @@ jobs:
           name: Upload coverage results to Code Climate
           command: |
             yarn run codeclimate-test-reporter < coverage*/lcov.info
-
   www_build:
     <<: *defaults
     environment:
@@ -195,7 +194,6 @@ jobs:
                 exit 1
             esac
             curl https://api.rollbar.com/api/1/sourcemap/download -F access_token="${ROLLBAR_KEY}" -F version="${APP_VERSION}" -F minified_url=$ASSET_HOST_URL/$SOURCE_MAP
-
   ember_cordova_build:
     <<: *defaults
     environment:
