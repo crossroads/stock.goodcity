@@ -36,6 +36,11 @@ export default ApiBaseService.extend({
     });
   },
 
+  async updateOrder(order, params) {
+    const data = await this.PUT(`/orders/${order.id}`, params);
+    this.get("store").pushPayload(data);
+  },
+
   cancelOrder(order, reason) {
     return this.changeOrderState(order, "cancel", reason);
   },

@@ -13,7 +13,7 @@
   </div>
   <div class="columns small-12">
     <div class="row">
-      <div class="columns large-offset-3 medium-offset-3 small-offset-3">
+      <div class="description_suggestion_container columns large-offset-3 medium-offset-3 small-offset-3">
         {{#if showDescriptionSuggestion}}
           {{#if (is-and (is-equal selectedDescriptionLanguage 'en') item.code.descriptionEn)}}
             <span class="description_suggestion" {{action 'addDefaultDescriptionFor' 'en'}}>
@@ -108,13 +108,11 @@
             maxlength="6"
             acceptFloat=true
             class='numeric-input valuation-input'
-            onFocusIn=(action 'setValuationIsFocused' true)
-            onFocusOut=(action 'setValuationIsFocused' false)
             onSettingInput=(action 'updatePackage')
             }}
         </div>
         <div class="columns large-6 small-6">
-          {{#if canApplyDefaultValuation}}
+          {{#if (is-not-equal valueHkDollar defaultValueHkDollar)}}
             <span {{action "applyDefaultItemValuation"}} class="default-content">
               {{t "items.apply_default"}} {{defaultValueHkDollar}}
             </span>

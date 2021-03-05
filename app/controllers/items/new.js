@@ -565,6 +565,14 @@ export default GoodcityController.extend(
         );
       },
 
+      openImageOverlay() {
+        this.set("packageService.openImageOverlay", true);
+      },
+
+      saveImageURI(imageObject) {
+        this.set("newUploadedImage", imageObject);
+      },
+
       setPkgDescriptionLang(language) {
         this.set("selectedDescriptionLanguage", language);
       },

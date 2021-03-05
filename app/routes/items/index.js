@@ -8,7 +8,7 @@ export default AuthorizeRoute.extend({
     itemSetId: "",
     searchInput: ""
   },
-
+  userService: Ember.inject.service(),
   partial_qnty: Ember.computed.localStorage(),
 
   previousPage(transition) {
@@ -28,11 +28,7 @@ export default AuthorizeRoute.extend({
       return;
     }
     if (!this.session.get("currentUser")) {
-      let data = await new AjaxPromise(
-        "/auth/current_user_profile",
-        "GET",
-        this.session.get("authToken")
-      );
+      let data = await this.get("userService").currentUser();
       this.store.pushPayload(data);
     }
   },

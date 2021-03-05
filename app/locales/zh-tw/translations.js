@@ -598,6 +598,13 @@ export default {
     add_to_set: "Add to set",
     already_in_set: "This item already belongs to a set"
   },
+  camera: {
+    click: "Click picture",
+    cancel: "Cancel",
+    take: "Take Photo",
+    choose: "Choose Image{{click_image}}",
+    switch: "Switch Camera"
+  },
   orders_package: {
     actions: {
       edit_quantity: "Edit Qty",
@@ -776,7 +783,9 @@ export default {
   },
 
   search_users: {
-    new_user: "Which user is this request being made for ?"
+    new_user: "Which user is this request being made for ?",
+    edit_user: "Edit User",
+    assign_charity_to_user: "Please add this user to a valid charity first."
   },
 
   item_details: {

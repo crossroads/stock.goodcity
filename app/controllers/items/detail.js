@@ -178,35 +178,6 @@ export default GoodcityController.extend(
       }
     }),
 
-    canApplyDefaultValuation: Ember.computed(
-      "valueHkDollar",
-      "valuationIsFocused",
-      function() {
-        const valueHkDollar = +this.get("valueHkDollar");
-        const defaultValue = +this.get("defaultValueHkDollar");
-        return this.get("valuationIsFocused") && valueHkDollar !== defaultValue;
-      }
-    ),
-
-    /**
-     * Returns true if valueHkDollar is modified and not empty
-     * and its value is different from previous saved value
-     */
-    canUpdateValuation: Ember.computed(
-      "model.valueHkDollar",
-      "prevValueHkDollar",
-      function() {
-        const valueHkDollar = this.get("valueHkDollar");
-        const prevValueHkDollar = parseFloat(this.get("prevValueHkDollar"));
-        const defaultValue = this.get("defaultValueHkDollar");
-        if (!prevValueHkDollar) {
-          return Math.abs(valueHkDollar - defaultValue);
-        } else {
-          return Math.abs(valueHkDollar - prevValueHkDollar);
-        }
-      }
-    ),
-
     allowPublish: Ember.computed(
       "model.isSingletonItem",
       "model.availableQuantity",
@@ -464,10 +435,6 @@ export default GoodcityController.extend(
         this.updatePackageOffers(offerIds);
       },
 
-      setValuationIsFocused(val) {
-        this.set("valuationIsFocused", val);
-      },
-
       onGradeChange({ id, name }) {
         this.set("selectedGrade", { id, name });
         this.set("defaultValueHkDollar", null);
@@ -670,7 +637,6 @@ export default GoodcityController.extend(
         const item = this.get("item");
         item.set("valueHkDollar", this.get("defaultValueHkDollar"));
         this.set("valueHkDollar", this.get("defaultValueHkDollar"));
-        this.set("prevValueHkDollar", null);
         await this.saveItem(item);
       },
 
@@ -691,18 +657,6 @@ export default GoodcityController.extend(
         }
         item.set(name, description);
         this.send("updateAttribute", name, description);
-      },
-
-      /**
-       * Updates the valueHkDollar
-       * Updates the previous saved value
-       */
-      async updateItemValuation() {
-        const item = this.get("item");
-        const value = item.get("valueHkDollar");
-        item.set("valueHkDollar", Number(value));
-        await this.saveItem(item);
-        this.set("prevValueHkDollar", value);
       },
 
       openAddItemOverlay(item) {

@@ -1,0 +1,20 @@
+{{#if displayWebcam}}
+  <video autoplay id="video"></video>
+{{/if}}
+<div class="row">
+  <div class="small-5 columns">
+    <button {{action "changeCamera"}} class="snapshot">
+      {{t "camera.switch"}}
+    </button>  
+  </div>
+  <div class="small-3 columns">
+    <button {{action "closeOverlay"}} class="snapshot">{{t "camera.cancel"}}</button>
+  </div>
+  <div class="small-4 columns">
+    <button {{action "snap"}} class="snapshot">{{t "camera.click"}}</button>
+  </div>
+</div>
+
+<canvas class="is-hidden" id="canvas"></canvas>
+
+
