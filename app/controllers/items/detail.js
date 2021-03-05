@@ -404,10 +404,6 @@ export default GoodcityController.extend(
       return value === "" || value === null;
     }),
 
-    isZeroValuation: Ember.computed("itemValueHkDollar", function() {
-      return parseInt(this.get("itemValueHkDollar")) === 0;
-    }),
-
     actions: {
       updatePackage(field, value) {
         this.runTask(

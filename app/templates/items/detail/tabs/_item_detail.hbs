@@ -115,13 +115,8 @@
             <div class='item-hk-value-error item-input-error'>
               {{t 'items.new.validation_errors.blank_valuation'}}
             </div>
-            {{else if isZeroValuation}}
-            <div class='item-hk-value-error item-input-error'>
-              {{t 'items.new.validation_errors.zero_valuation'}}
-            </div>
             {{/if}}
         </div>
-
 
         <div class="columns large-4 small-4">
           {{#if (is-not-equal valueHkDollar defaultValueHkDollar)}}
