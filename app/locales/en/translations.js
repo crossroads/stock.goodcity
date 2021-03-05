@@ -628,10 +628,11 @@ export default {
     already_in_set: "This item already belongs to a set"
   },
   camera: {
-    click: "Click",
+    click: "Click picture",
     cancel: "Cancel",
     take: "Take Photo",
-    choose: "Choose Image{{click_image}}"
+    choose: "Choose Image{{click_image}}",
+    switch: "Switch Camera"
   },
   orders_package: {
     actions: {

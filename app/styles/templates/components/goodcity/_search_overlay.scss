@@ -6,6 +6,10 @@
       height: auto;
     }
 
+    .is-hidden {
+      display: none;
+    }
+
     .click-snapshot {
       float: right;
       margin: 10%;
@@ -17,8 +21,7 @@
       width: 100%;
 
       @media #{$small-only} {
-        margin-left: 10%;
-        font-size: 90%;
+        font-size: 85%;
       }
     }
 
