@@ -99,7 +99,6 @@ export default Addressable.extend({
   }),
 
   canManageOrganisationsUsers: Ember.computed("roles", function() {
-    debugger;
     const roles = this.get("roles");
     return roles.find(
       r =>
