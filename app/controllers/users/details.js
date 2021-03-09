@@ -6,7 +6,7 @@ import OrganisationMixin from "stock/mixins/organisation";
 export default Ember.Controller.extend(OrganisationMixin, AsyncMixin, {
   organisationsUserService: Ember.inject.service(),
   userService: Ember.inject.service(),
-
+  session: Ember.inject.service(),
   user: Ember.computed.alias("model"),
   disableUserPopupVisible: false,
   enableUserPopupVisible: false,
@@ -24,6 +24,12 @@ export default Ember.Controller.extend(OrganisationMixin, AsyncMixin, {
     "canDisableUsers",
     "isDisabledUser"
   ),
+
+  canManageCharityPosition: Ember.computed(function() {
+    return this.get("session")
+      .get("currentUser")
+      .get("canManageOrganisationsUsers");
+  }),
 
   userOrganisationDetails: Ember.computed(
     "model",
