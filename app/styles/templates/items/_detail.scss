@@ -745,25 +745,29 @@
 }
 
 .donation-input-error,
-.description-error {
+.item-input-error {
   padding-left: 0.2rem;
   color: white;
   margin-left: -0.2rem;
   margin-top: -1rem;
   background-color: #f46769;
   width: 100%;
-
 }
 
 .description-error {
-  margin: -1.3rem 0 0.4rem 0.1rem!important;
-  width: 100% !important;
+  margin: -1.3rem 0 1rem 0.1rem!important;
+  width: 99% !important;
   display: block !important;
 }
 
+.item-hk-value-error {
+  margin: -1rem 0 1rem 0rem !important;
+  padding: 0 0.2rem;
+  width: 65%;
 
-.form__control.form__control--error .description-error {
-  display: block !important;
+  @media #{$small-only} {
+    width: 90%;
+  }
 }
 
 .numeric-input,
@@ -1054,6 +1058,7 @@
   font-size: 1rem !important;
   padding: 0.5rem !important;
   display: inline-block !important;
+
   @media #{$small-only} {
     width: 90% !important;
     font-size: 0.7rem !important;
