@@ -190,14 +190,6 @@ export default GoodcityController.extend(
       }
     ),
 
-    canApplyDefaultValuation: Ember.computed(
-      "valueHkDollar",
-      "defaultValueHkDollar",
-      function() {
-        return +this.get("defaultValueHkDollar") !== +this.get("valueHkDollar");
-      }
-    ),
-
     showAdditionalFields: Ember.computed("model.code", function() {
       return (
         !!this.get("item.detail.data") &&
@@ -483,7 +475,7 @@ export default GoodcityController.extend(
             packageTypeId: item.get("code.id")
           }
         );
-        this.set("defaultValueHkDollar", itemValuation.value_hk_dollar);
+        this.set("defaultValueHkDollar", Number(itemValuation.value_hk_dollar));
       },
 
       /**

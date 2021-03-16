@@ -181,7 +181,7 @@ export default AuthorizeRoute.extend(GradeMixin, {
     });
 
     controller.set("defaultCondition", this.getDefaultCondition());
-    controller.set("valueHkDollar", defaultValue.value_hk_dollar);
-    controller.set("defaultValueHkDollar", defaultValue.value_hk_dollar);
+    controller.set("valueHkDollar", +defaultValue.value_hk_dollar);
+    controller.set("defaultValueHkDollar", +defaultValue.value_hk_dollar);
   }
 });
