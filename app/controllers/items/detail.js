@@ -194,12 +194,7 @@ export default GoodcityController.extend(
       "valueHkDollar",
       "defaultValueHkDollar",
       function() {
-        // const defaultValue = Number(this.get("defaultValueHkDollar"));
-        // const valueHkDollar = Number(this.get("valueHkDollar"));
-        return (
-          Number(this.get("defaultValueHkDollar")) !==
-          Number(this.get("valueHkDollar"))
-        );
+        return +this.get("defaultValueHkDollar") !== +this.get("valueHkDollar");
       }
     ),
 
