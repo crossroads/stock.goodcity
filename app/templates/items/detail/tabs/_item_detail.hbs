@@ -105,7 +105,7 @@
           {{numeric-inline-input
             name="value_hk_dollar"
             value=valueHkDollar
-            maxlength="6"
+            maxlength="10"
             acceptFloat=true
             class='numeric-input valuation-input'
             onSettingInput=(action 'updatePackage')
@@ -119,7 +119,7 @@
         </div>
 
         <div class="columns large-4 small-4">
-          {{#if (is-not-equal valueHkDollar defaultValueHkDollar)}}
+          {{#if canApplyDefaultValuation}}
             <span {{action "applyDefaultItemValuation"}} class="default-content">
               {{t "items.apply_default"}} {{defaultValueHkDollar}}
             </span>

@@ -630,9 +630,9 @@ export default GoodcityController.extend(
         );
         const defaultValueHkDollar = this.get("defaultValueHkDollar");
         if (!defaultValueHkDollar) {
-          this.set("defaultValueHkDollar", +itemValuation.value_hk_dollar);
+          this.set("defaultValueHkDollar", itemValuation.value_hk_dollar);
         }
-        this.set("valueHkDollar", +itemValuation.value_hk_dollar);
+        this.set("valueHkDollar", itemValuation.value_hk_dollar);
       },
 
       removeOffer(offer) {
