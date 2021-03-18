@@ -118,7 +118,7 @@
                   <div class="option_menu" {{action "openImageOverlay"}}>
                     {{t "camera.take"}}
                   </div>
-                {{/unless}}  
+                {{/unless}}
               </div>
             {{/dropDown.dropDownBody}}
           {{/composable-drop-down}}
@@ -158,11 +158,11 @@
         <div class="small-3 columns">
           {{t "items.value"}}
         </div>
-        <div class="columns small-3">
-          {{numeric-input acceptFloat=true required='true' acceptZeroValue=true value=valueHkDollar name="value_hk" maxlength="6"
+        <div class="columns small-4">
+          {{numeric-input acceptFloat=true required='true' acceptZeroValue=true value=valueHkDollar name="value_hk" maxlength="10"
           pattern="\d+\.?\d*"}}
         </div>
-        <div class="columns small-6 apply-default">
+        <div class="columns small-5 apply-default">
           {{#if canApplyDefaultValuation}}
             <a href="#" {{action 'setDefaultItemValuation'}} class="default-content">{{t 'items.apply_default'}}
               {{defaultValueHkDollar}}</a>
