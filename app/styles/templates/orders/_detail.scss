@@ -288,6 +288,10 @@
           color: rgba(0, 0, 0, 0.75);
         }
       }
+
+      .reschedule-popup .picker__frame {
+        height: 100vh;
+      }
     }
 
     .order_item_list_tabs{
