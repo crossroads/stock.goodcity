@@ -10,12 +10,7 @@ export default detail.extend({
   loadLookups() {
     // Load dependent lookup tables
     return Ember.RSVP.all(
-      [
-        "district",
-        "gogovan_transport",
-        "booking_type",
-        "process_checklist"
-      ].map(model =>
+      ["gogovan_transport", "booking_type", "process_checklist"].map(model =>
         !this.store.peekAll(model).get("length")
           ? this.store.findAll(model)
           : this.store.peekAll(model)

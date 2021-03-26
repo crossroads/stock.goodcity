@@ -74,6 +74,7 @@ module.exports = function(environment) {
         "purpose",
         "identity_type",
         "lookup",
+        "district",
         "goodcity_setting",
         "printer",
         "user_favourite"
