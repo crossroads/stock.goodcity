@@ -6,7 +6,7 @@ export default AuthorizeRoute.extend({
   currentRouteName: null,
 
   model({ order_id }) {
-    return this.loadIfAbsent("designation", order_id);
+    return this.get("store").findRecord("designation", order_id);
   },
 
   async afterModel() {
