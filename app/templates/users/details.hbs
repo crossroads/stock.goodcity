@@ -1,8 +1,8 @@
 <nav class="tab-bar user-details-heading">
   <section class="left-small">
     {{#link-to "manage_users" class="user-back-link"}}
-      <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-left'}}</i>
-      <div>{{t "back"}}</div>
+    <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-left'}}</i>
+    <div>{{t "back"}}</div>
     {{/link-to}}
   </section>
 
@@ -20,33 +20,34 @@
   </div>
 
   {{#if showEnableUserMessage}}
-    <div class="disabled-account">
-      <i>{{fa-icon 'exclamation-triangle'}}</i>
-      <span>{{t "users.details.account_disabled"}}: <span class="link" {{action "checkUserValidity"}}>{{t "users.details.re_enable"}}</span></span>
-    </div>
+  <div class="disabled-account">
+    <i>{{fa-icon 'exclamation-triangle'}}</i>
+    <span>{{t "users.details.account_disabled"}}: <span class="link" {{action "checkUserValidity" }}>{{t
+        "users.details.re_enable"}}</span></span>
+  </div>
   {{/if}}
 
   {{#if model.image}}
-    <div class="image-zoom-container content user-img" id='image-1'>
-      {{image-zoom item=model captureFaceImage="true"}}
-    </div>
+  <div class="image-zoom-container content user-img" id='image-1'>
+    {{image-zoom item=model captureFaceImage="true"}}
+  </div>
   {{/if}}
 
   <div class="row contact-icons">
     {{#if model.email}}
-      <span class="icon-badge"><i>{{fa-icon 'envelope'}}</i></span>
+    <span class="icon-badge"><i>{{fa-icon 'envelope'}}</i></span>
     {{/if}}
 
     {{#if model.mobile}}
-      <span class="icon-badge"><i>{{fa-icon 'headset'}}</i></span>
+    <span class="icon-badge"><i>{{fa-icon 'headset'}}</i></span>
     {{/if}}
   </div>
 
   {{#link-to "users.contact_details" model.id}}
-    <div class="row contact-details-link">
-      {{t "users.details.contact_details"}}
-      <span class='arrow-icon'>{{fa-icon 'angle-right'}}</span>
-    </div>
+  <div class="row contact-details-link">
+    {{t "users.details.contact_details"}}
+    <span class='arrow-icon'>{{fa-icon 'angle-right'}}</span>
+  </div>
   {{/link-to}}
 
   <div class="row staff-role-heading">
@@ -54,23 +55,23 @@
   </div>
 
   {{#link-to "users.stock_roles" model.id}}
-    <div class="row app-roles stock-app-roles">
-      <div class="small-4 columns">{{t "users.details.stock_app"}}</div>
-      <div class="small-6 columns">{{stockRoleAccess}}</div>
-      <div class="small-2 columns arrow-container">
-        <span class='arrow-icon'>{{fa-icon 'angle-right'}}</span>
-      </div>
+  <div class="row app-roles stock-app-roles">
+    <div class="small-4 columns">{{t "users.details.stock_app"}}</div>
+    <div class="small-6 columns">{{stockRoleAccess}}</div>
+    <div class="small-2 columns arrow-container">
+      <span class='arrow-icon'>{{fa-icon 'angle-right'}}</span>
     </div>
+  </div>
   {{/link-to}}
 
   {{#link-to "users.admin_roles" model.id}}
-    <div class="row app-roles">
-      <div class="small-4 columns">{{t "users.details.admin_app"}}</div>
-      <div class="small-6 columns">{{adminRoleAccess}}</div>
-      <div class="small-2 columns arrow-container">
-        <span class='arrow-icon'>{{fa-icon 'angle-right'}}</span>
-      </div>
+  <div class="row app-roles">
+    <div class="small-4 columns">{{t "users.details.admin_app"}}</div>
+    <div class="small-6 columns">{{adminRoleAccess}}</div>
+    <div class="small-2 columns arrow-container">
+      <span class='arrow-icon'>{{fa-icon 'angle-right'}}</span>
     </div>
+  </div>
   {{/link-to}}
 
   <div class="row staff-role-heading">
@@ -79,47 +80,72 @@
     </div>
 
     <div class="small-6 columns add-charity-position">
-      <span {{action "addCharityPosition"}}>
+      {{#if canManageCharityPosition}}
+      <span {{action "addCharityPosition" }}>
         {{t 'users.charity_position.add_charity_position'}}
       </span>
+      {{/if}}
     </div>
   </div>
 
   {{#if model.organisations}}
-    <ul class="organisations-list">
-      {{#each userOrganisationDetails as |detail|}}
-        <li {{action 'viewCharityPosition' detail.id}} class="row app-roles charity-role-content">
-          <span class="company-name">{{detail.name}}</span>
-          <span class="status-icon"></span>
-          <span class="status-text">{{detail.status}}
-            {{#if (is-equal detail.status "Pending")}}
-              {{fa-icon 'pause-circle' size="lg"}}
-            {{/if}}
-            {{#if (is-equal detail.status "Approved")}}
-              {{fa-icon 'check-circle' size="lg"}}
-            {{/if}}
-            {{#if (is-equal detail.status "Expired")}}
-              {{fa-icon 'times-circle' size="lg"}}
-            {{/if}}
-            {{#if (is-equal detail.status "Denied")}}
-              {{fa-icon 'times-circle' size="lg"}}
-            {{/if}}
-            </span>
-          <span class='arrow-icon'>{{fa-icon 'angle-right'}}</span>
-        </li>
-      {{/each}}
-    </ul>
+  <ul class="organisations-list">
+    {{#each userOrganisationDetails as |detail|}}
+    {{#if canManageCharityPosition}}
+    <li {{action 'viewCharityPosition' detail.id}} class="row app-roles charity-role-content">
+      <span class="company-name">{{detail.name}}</span>
+      <span class="status-icon"></span>
+      <span class="status-text">{{detail.status}}
+        {{#if (is-equal detail.status "Pending")}}
+        {{fa-icon 'pause-circle' size="lg"}}
+        {{/if}}
+        {{#if (is-equal detail.status "Approved")}}
+        {{fa-icon 'check-circle' size="lg"}}
+        {{/if}}
+        {{#if (is-equal detail.status "Expired")}}
+        {{fa-icon 'times-circle' size="lg"}}
+        {{/if}}
+        {{#if (is-equal detail.status "Denied")}}
+        {{fa-icon 'times-circle' size="lg"}}
+        {{/if}}
+      </span>
+      <span class='arrow-icon'>{{fa-icon 'angle-right'}}</span>
+    </li>
+    {{else}}
+    <li class="row app-roles charity-role-content">
+      <span class="company-name">{{detail.name}}</span>
+      <span class="status-icon"></span>
+      <span class="status-text">{{detail.status}}
+        {{#if (is-equal detail.status "Pending")}}
+        {{fa-icon 'pause-circle' size="lg"}}
+        {{/if}}
+        {{#if (is-equal detail.status "Approved")}}
+        {{fa-icon 'check-circle' size="lg"}}
+        {{/if}}
+        {{#if (is-equal detail.status "Expired")}}
+        {{fa-icon 'times-circle' size="lg"}}
+        {{/if}}
+        {{#if (is-equal detail.status "Denied")}}
+        {{fa-icon 'times-circle' size="lg"}}
+        {{/if}}
+      </span>
+      <span class='arrow-icon'>{{fa-icon 'angle-right'}}</span>
+    </li>
+    {{/if}}
+
+    {{/each}}
+  </ul>
   {{/if}}
 
   {{#if canDisableUsers}}
-    <div class="disable-user-link">
-      {{#if isDisabledUser}}
-        <div {{action "checkUserValidity"}}>{{t "users.details.re_enable_user_account"}}</div>
-      {{else}}
-        <div {{action "displayDisableUserPopup"}}>{{t "users.details.disable_user_account"}}</div>
-      {{/if}}
-    </div>
-    {{partial 'users/disable_user_popup'}}
+  <div class="disable-user-link">
+    {{#if isDisabledUser}}
+    <div {{action "checkUserValidity" }}>{{t "users.details.re_enable_user_account"}}</div>
+    {{else}}
+    <div {{action "displayDisableUserPopup" }}>{{t "users.details.disable_user_account"}}</div>
+    {{/if}}
+  </div>
+  {{partial 'users/disable_user_popup'}}
   {{/if}}
 
 </section>

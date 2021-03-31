@@ -98,6 +98,14 @@ export default Addressable.extend({
     );
   }),
 
+  canManageOrganisationsUsers: Ember.computed("roles", function() {
+    const roles = this.get("roles");
+    return roles.find(
+      r =>
+        r.get("permissionNames").indexOf("can_manage_organisations_users") >= 0
+    );
+  }),
+
   canDisableUsers: Ember.computed("roles", function() {
     const roles = this.get("roles");
     return roles.find(

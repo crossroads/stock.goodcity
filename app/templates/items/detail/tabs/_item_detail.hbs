@@ -53,7 +53,7 @@
               data-autoresize=true value=item.notesZhTw  class="description-textarea-withbg" pattern=".*\S.*"}}
           {{/if}}
           {{#unless item.notes}}
-            <div class='description-error'>
+            <div class='description-error item-input-error'>
               {{t 'item_details.validation_errors.description'}}
             </div>
           {{/unless}}
@@ -101,17 +101,24 @@
       </div>
       <div class="row">
         <div class="columns large-3 small-3">{{t 'items.value'}} </div>
-        <div class="columns large-3 small-3 ">
+        <div class="columns large-5 small-5 ">
           {{numeric-inline-input
             name="value_hk_dollar"
             value=valueHkDollar
-            maxlength="6"
+            maxlength="10"
             acceptFloat=true
             class='numeric-input valuation-input'
             onSettingInput=(action 'updatePackage')
             }}
+
+            {{#if isInvalidValuation}}
+            <div class='item-hk-value-error item-input-error'>
+              {{t 'items.new.validation_errors.blank_valuation'}}
+            </div>
+            {{/if}}
         </div>
-        <div class="columns large-6 small-6">
+
+        <div class="columns large-4 small-4">
           {{#if (is-not-equal valueHkDollar defaultValueHkDollar)}}
             <span {{action "applyDefaultItemValuation"}} class="default-content">
               {{t "items.apply_default"}} {{defaultValueHkDollar}}
