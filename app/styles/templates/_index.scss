@@ -5,6 +5,11 @@
   }
 }
 
+.already_sent_pin{
+  pointer-events: none;
+  opacity: 0.4;
+}
+
 .order_detail {
   text-align: center;
   padding-bottom: 0.8rem;
