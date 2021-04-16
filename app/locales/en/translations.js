@@ -231,8 +231,8 @@ export default {
     input_code: "Input Code"
   },
   _resend: {
-    no_sms: "Haven't received SMS code?",
-    please_wait: "Please wait 5 minutes...",
+    try_again: "Try again in {{timer}} seconds",
+    please_wait: "Please wait {{timer}} seconds before requesting a pin again",
     resend: "Resend"
   },
   _verification_pin: {
