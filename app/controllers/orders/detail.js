@@ -266,8 +266,8 @@ export default GoodcityController.extend(AsyncMixin, SearchMixin, {
     openSchedulePopup() {
       const scheduledAt = this.get("model.orderTransport.scheduledAt");
       try {
-        const d = moment.tz(scheduledAt, this.get("hkTimeZone"));
-        const timeString = d.format("hh:mmA");
+        const scheduledDate = moment.tz(scheduledAt, this.get("hkTimeZone"));
+        const timeString = scheduledDate.format("hh:mmA");
 
         const currentTimeSlot = _.find(this.get("scheduleTimeSlots"), [
           "id",
@@ -279,8 +279,13 @@ export default GoodcityController.extend(AsyncMixin, SearchMixin, {
           currentTimeSlot || this.get("scheduleTimeSlots")[0]
         );
 
-        this.set("selectedScheduleDate", d.format());
-        this.set("placeHolderDate", moment(d).format("ddd MMM do"));
+        const formattedScheduledDate = moment(scheduledDate).format(
+          "D MMMM, YYYY"
+        );
+
+        this.set("selectedScheduleDate", scheduledDate.format());
+        this.set("scheduledAtStringPlaceholder", formattedScheduledDate);
+        this.set("placeHolderDate", formattedScheduledDate);
       } catch (e) {
         this.set("selectedTimeslot", this.get("scheduleTimeSlots")[0]);
         this.set("selectedScheduleDate", null);
