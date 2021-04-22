@@ -46,7 +46,7 @@ export default detail.extend({
       if (!date) {
         return this.get("i18n").t("order_details.logistics.pick_date");
       }
-      return moment.tz(date, this.get("hkTimeZone")).format("ddd MMM D");
+      return moment.tz(date, this.get("hkTimeZone")).format("D MMMM, YYYY");
     }
   ),
 

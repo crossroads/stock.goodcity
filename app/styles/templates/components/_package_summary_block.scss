@@ -200,7 +200,13 @@
           font-size: 13.5px;
 
           .description{
-            color: #a3aab6
+            display: -webkit-box;
+            color: $light-text-color;
+            line-height: 1.4;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            overflow-wrap: anywhere;
           }
         }
 
