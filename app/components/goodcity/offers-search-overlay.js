@@ -26,6 +26,13 @@ export default Ember.Component.extend(SearchMixin, {
   },
   searchText: "",
 
+  init() {
+    this._super(...arguments);
+    this.get("router").addObserver("currentRouteName", () =>
+      this.send("closeOverlay")
+    );
+  },
+
   actions: {
     clearSearch() {
       this.set("searchText", "");

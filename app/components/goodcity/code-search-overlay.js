@@ -22,6 +22,9 @@ export default Ember.Component.extend(SearchMixin, AsyncMixin, {
 
   init() {
     this._super("code-search-overlay");
+    this.get("router").addObserver("currentRouteName", () =>
+      this.closeOverlay()
+    );
   },
 
   recentPackageTypes: Ember.computed("open", function() {
