@@ -19,6 +19,13 @@ export default Ember.Component.extend(SearchMixin, AsyncMixin, {
   i18n: Ember.inject.service(),
   requireFocus: false,
 
+  init() {
+    this._super(...arguments);
+    this.get("router").addObserver("currentRouteName", () =>
+      this.closeOverlay()
+    );
+  },
+
   inputmode: Ember.computed("searchMode", function() {
     if (this.get("searchMode") === "numeric") {
       return "numeric";
