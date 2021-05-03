@@ -434,8 +434,8 @@ workflows:
       #       branches:
       #         only: /^(master|live)$/
       - www_build:
-          requires:
-            - test_cases
+          # requires:
+          #   - test_cases
           filters:
             branches:
               only: /^(master|live|preview)$/
@@ -446,8 +446,8 @@ workflows:
             branches:
               only: /^(master|live|preview)$/
       - ember_cordova_build:
-          requires:
-            - test_cases
+          # requires:
+          #   - test_cases
           filters:
             branches:
               only: /^(master|live)$/
