@@ -294,7 +294,7 @@ jobs:
 
   ios_build_and_deploy:
     macos:
-      xcode: "12.0.1"
+      xcode: "11.0.0"
     working_directory: ~/code
     shell: /bin/bash --login -eo pipefail
     environment:
