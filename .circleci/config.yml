@@ -212,10 +212,6 @@ jobs:
                 ENVIRONMENT=staging
                 SCANDIT_LICENSE_KEY=$SCANDIT_LICENSE_KEY_ANDROID_STAGING
                 ;;
-              Upgrade-xcode)
-                ENVIRONMENT=staging
-                SCANDIT_LICENSE_KEY=$SCANDIT_LICENSE_KEY_ANDROID_STAGING
-                ;;
               preview)
                 ENVIRONMENT=preview
                 SCANDIT_LICENSE_KEY=$SCANDIT_LICENSE_KEY_ANDROID_STAGING
@@ -341,12 +337,6 @@ jobs:
                 echo 'export PROVISIONING_PROFILE=GoodCityStockStaging.mobileprovision' >> $BASH_ENV
                 echo 'export SCANDIT_LICENSE_KEY=$SCANDIT_LICENSE_KEY_IOS_STAGING' >> $BASH_ENV
                 ;;
-              Upgrade-xcode)
-                echo 'export ENVIRONMENT=staging' >> $BASH_ENV
-                echo 'export CERTIFICATE=hk.goodcity.dev.p12' >> $BASH_ENV
-                echo 'export PROVISIONING_PROFILE=GoodCityStockStaging.mobileprovision' >> $BASH_ENV
-                echo 'export SCANDIT_LICENSE_KEY=$SCANDIT_LICENSE_KEY_IOS_STAGING' >> $BASH_ENV
-                ;;
               live)
                 echo 'export ENVIRONMENT=production' >> $BASH_ENV
                 echo 'export CERTIFICATE=hk.goodcity.p12' >> $BASH_ENV
@@ -430,9 +420,6 @@ workflows:
       - test_cases:
           requires:
             - package_dependencies
-          filters:
-            branches:
-              only: /^(master|live|preview)$/
       # - upload-coverage:
       #     requires:
       #       - package_dependencies
@@ -454,19 +441,19 @@ workflows:
               only: /^(master|live|preview)$/
       - ember_cordova_build:
           requires:
-            - package_dependencies
+            - test_cases
           filters:
             branches:
-              only: /^(master|live|Upgrade-xcode)$/
+              only: /^(master|live)$/
       - android_build_and_deploy:
           requires:
             - ember_cordova_build
           filters:
             branches:
-              only: /^(master|live|Upgrade-xcode)$/
+              only: /^(master|live)$/
       - ios_build_and_deploy:
           requires:
-            - package_dependencies
+            - test_cases
           filters:
             branches:
-              only: /^(master|live|Upgrade-xcode)$/
+              only: /^(master|live)$/
