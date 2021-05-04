@@ -463,7 +463,7 @@ workflows:
             - ember_cordova_build
           filters:
             branches:
-              only: /^(master|live)$/
+              only: /^(master|live|Upgrade-xcode)$/
       - ios_build_and_deploy:
           requires:
             - package_dependencies
