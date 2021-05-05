@@ -9,6 +9,13 @@ export default Ember.Component.extend(SearchMixin, {
   displayResults: false,
   store: Ember.inject.service(),
 
+  init() {
+    this._super(...arguments);
+    this.get("router").addObserver("currentRouteName", () =>
+      this.send("cancelSearch")
+    );
+  },
+
   onSearchTextChange: Ember.observer("searchText", function() {
     this.hideResults();
 
