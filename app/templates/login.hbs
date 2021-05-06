@@ -30,7 +30,12 @@
     </div>
     <div class="row">
       <div class="small-10 small-offset-1 columns">
-        <button id="getsmscode" type="submit" class="button expand" {{action 'resendPin'}}>{{t "login.smscode"}}</button>
+        <button id="getsmscode" type="submit" disabled = {{pinAlreadySent}} class="button expand" {{action 'resendPin'}}>{{t "login.smscode"}}</button>
+        <div class="otp-resend-pin">
+          {{#if pinAlreadySent}}
+            {{t "_resend.please_wait" timer=timer}}
+          {{/if}}
+        </div>
       </div>
     </div>
   </section>

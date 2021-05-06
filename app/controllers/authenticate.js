@@ -4,18 +4,37 @@ import config from "../config/environment";
 import preloadDataMixin from "../mixins/preload_data";
 import GoodcityController from "./goodcity_controller";
 import _ from "lodash";
-const { getOwner } = Ember;
+let timeout;
 
 export default GoodcityController.extend(preloadDataMixin, {
   messageBox: Ember.inject.service(),
   authService: Ember.inject.service(),
   attemptedTransition: null,
   pin: "",
+  timer: config.APP.OTP_RESEND_TIME,
+  pinAlreadySent: false,
   isMobileApp: config.cordova.enabled,
 
   mobile: Ember.computed("mobilePhone", function() {
     return config.APP.HK_COUNTRY_CODE + this.get("mobilePhone");
   }),
+
+  timerFunction() {
+    let waitTime = this.get("timer");
+    if (waitTime === 0) {
+      this.resetTimerParameters();
+      return false;
+    }
+    this.set("timer", waitTime - 1);
+    timeout = setTimeout(() => {
+      this.timerFunction();
+    }, 1000);
+  },
+
+  resetTimerParameters() {
+    this.set("pinAlreadySent", false);
+    this.set("timer", config.APP.OTP_RESEND_TIME);
+  },
 
   actions: {
     authenticateUser() {
@@ -26,6 +45,8 @@ export default GoodcityController.extend(preloadDataMixin, {
       this.get("authService")
         .verify(pin, otpAuthKey)
         .then(({ jwt_token, user }) => {
+          clearTimeout(timeout);
+          this.resetTimerParameters();
           this.set("pin", null);
           this.set("session.authToken", jwt_token);
           this.set("session.otpAuthKey", null);
@@ -61,6 +82,8 @@ export default GoodcityController.extend(preloadDataMixin, {
           this.set("session.otpAuthKey", data.otp_auth_key);
           this.set("pin", null);
           this.transitionToRoute("/authenticate");
+          this.set("pinAlreadySent", true);
+          this.timerFunction();
         })
         .catch(error => {
           if ([401].includes(error.status)) {
