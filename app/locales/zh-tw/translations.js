@@ -223,8 +223,8 @@ export default {
     input_code: "請輸入驗證碼"
   },
   _resend: {
-    no_sms: "收不到短訊(SMS)?",
-    please_wait: "請稍等五分鐘...",
+    try_again: "Try again in {{timer}} seconds",
+    please_wait: "Please wait {{timer}} seconds before requesting a pin again",
     resend: "重新發送"
   },
   _verification_pin: {
