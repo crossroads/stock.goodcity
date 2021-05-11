@@ -146,7 +146,7 @@ jobs:
   www-deploy:
     <<: *defaults
     docker:
-      - image: circleci/ruby:2.7.1
+      - image: cimg/ruby:2.7.3
     steps:
       - restore-cache: *restore-repo-cache
       - restore-cache: *restore-bundle-cache

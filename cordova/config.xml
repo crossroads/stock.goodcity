@@ -115,7 +115,7 @@
     <plugin name="cordova-android-support-gradle-release" spec="^2.0.1">
         <variable name="ANDROID_SUPPORT_VERSION" value="27.+" />
     </plugin>
-    <plugin name="scandit-cordova-datacapture-core" spec="^6.4.0" />
-    <plugin name="scandit-cordova-datacapture-barcode" spec="^6.4.0" />
+    <plugin name="scandit-cordova-datacapture-core" spec="6.7.2" />
+    <plugin name="scandit-cordova-datacapture-barcode" spec="6.7.2" />
     <plugin name="cordova-plugin-androidx-adapter" spec="^1.1.1" />
 </widget>
