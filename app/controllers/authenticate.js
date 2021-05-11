@@ -75,6 +75,7 @@ export default GoodcityController.extend(preloadDataMixin, {
     },
 
     resendPin() {
+      this.set("pinAlreadySent", true);
       this.showLoadingSpinner();
       this.get("authService")
         .sendPin(this.get("mobile"))
@@ -82,10 +83,10 @@ export default GoodcityController.extend(preloadDataMixin, {
           this.set("session.otpAuthKey", data.otp_auth_key);
           this.set("pin", null);
           this.transitionToRoute("/authenticate");
-          this.set("pinAlreadySent", true);
           this.timerFunction();
         })
         .catch(error => {
+          this.set("pinAlreadySent", false);
           if ([401].includes(error.status)) {
             this.get("messageBox").alert("You are not authorized.", () => {
               this.transitionToRoute("/");
