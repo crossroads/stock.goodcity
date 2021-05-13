@@ -1,0 +1,11 @@
+<div class="row">
+  <div class="small-10 columns user_name">
+    {{record.fullName}}
+  </div>
+  <div class="small-2 columns">
+    <span class="user-mobile">{{record.mobile}}</span>
+  </div>
+</div>
+<div class="row org_name">
+  {{record.organisationsUsers.firstObject.organisation.nameEn}}
+</div>

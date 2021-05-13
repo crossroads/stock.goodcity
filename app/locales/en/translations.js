@@ -2,6 +2,8 @@ export default {
   offline_error:
     "Unable to complete action, please check your internet connection.",
   unexpected_error: "Something went wrong",
+  unavailable_record:
+    "Unfortunately, the details that you are looking for are not here.",
   okay: "Okay",
   "language.en": "English",
   "language.zh": "中文",
@@ -1068,6 +1070,7 @@ export default {
       stock_app: "Stock App",
       admin_app: "Admin App",
       disable_user_account: "Disable User Account",
+      merge_user_account: "Merge with another User Account",
       disable_user: "Disable User",
       disabled_user_info:
         "User will be denied access to all apps including donor app.",

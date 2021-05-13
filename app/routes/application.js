@@ -71,6 +71,15 @@ export default Ember.Route.extend(AsyncMixin, preloadDataMixin, {
     });
   },
 
+  showRecordIsNotAvailable() {
+    this.get("messageBox").alert(
+      this.get("i18n").t("unavailable_record"),
+      () => {
+        this.transitionTo("/");
+      }
+    );
+  },
+
   showOrderIsNotAvailable() {
     this.get("messageBox").alert(
       this.get("i18n").t("unavailable_order"),
@@ -164,6 +173,8 @@ export default Ember.Route.extend(AsyncMixin, preloadDataMixin, {
           reason.message.indexOf("404") >= 0
         ) {
           this.showOrderIsNotAvailable();
+        } else if (status === 404) {
+          this.showRecordIsNotAvailable();
         } else {
           this.showErrorPopup(reason);
         }

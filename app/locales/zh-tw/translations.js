@@ -1,6 +1,9 @@
 export default {
   offline_error: "無法加載，請檢查網絡連線",
   unexpected_error: "錯誤",
+  unavailable_record:
+    "Unfortunately, the details that you are looking for are not here.",
+  okay: "Okay",
   okay: "確定",
   add_inventory_item: "Add item to inventory",
   loading: "正在加載...",
@@ -1019,6 +1022,7 @@ export default {
       stock_app: "倉儲程式",
       admin_app: "管理程式",
       disable_user_account: "停用用戶帳號",
+      merge_user_account: "Merge with another User Account",
       disable_user: "停用用戶",
       disabled_user_info: "用戶會被禁止使用所有程式，包括捐贈程式。",
       disabled_user_note:

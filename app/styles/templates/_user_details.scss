@@ -32,7 +32,11 @@
     }
   }
 
-  .last-online-time {
+  .merge-user-info {
+    margin-bottom: 2rem;
+  }
+
+  .last-online-time, .merge-user-info {
     text-align: center;
 
     div {
@@ -150,7 +154,15 @@
   }
 
   .disable-user-link {
-    padding: 4rem 1rem;
+    padding: 2rem 1rem 1rem;
+    text-align: center;
+    text-decoration: underline;
+    color: $white;
+    font-size: 0.8rem;
+  }
+
+  .merge-user-link {
+    padding: 1rem;
     text-align: center;
     text-decoration: underline;
     color: $white;
@@ -262,8 +274,29 @@
   margin-top: 0.5rem;
 }
 
+.user-details-block {
+  border: 1px solid $medium-blue;
+  padding: 1rem;
+  margin: 1rem;
+
+  .row {
+    line-height: 2;
+    font-size: 0.8rem;
+  }
+
+  .user-info {
+    color: $white;
+    font-weight: bold;
+  }
+
+  .user-detail-heading {
+
+  }
+}
+
 // Roles Access Details Page
-.role-access-form {
+.role-access-form,
+.user-details-block {
   margin: 0.5rem;
 
   .access-heading,

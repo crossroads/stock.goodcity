@@ -12,10 +12,18 @@ export default Ember.Controller.extend(OrganisationMixin, AsyncMixin, {
   enableUserPopupVisible: false,
   updateUserMessagePopupVisible: false,
   isDisabledUser: Ember.computed.alias("user.disabled"),
+  minSearchTextLength: 3,
 
   canDisableUsers: Ember.computed("user.id", function() {
     return (
       this.get("session.currentUser.canDisableUsers") &&
+      +this.get("session.currentUser.id") !== +this.get("user.id")
+    );
+  }),
+
+  canMergeUsers: Ember.computed("user.id", function() {
+    return (
+      this.get("session.currentUser.canMergeUsers") &&
       +this.get("session.currentUser.id") !== +this.get("user.id")
     );
   }),
@@ -82,7 +90,42 @@ export default Ember.Controller.extend(OrganisationMixin, AsyncMixin, {
     }
   },
 
+  onSearchTextChange: Ember.observer("searchText", function() {
+    this.hideResults();
+    if (this.get("searchText").trim().length >= 3) {
+      Ember.run.debounce(this, this.showResults, 500);
+    }
+  }),
+
+  hideResults() {
+    this.set("displayResults", false);
+  },
+
+  showResults() {
+    this.set("displayResults", true);
+  },
+
   actions: {
+    searchUsers(page) {
+      const params = {
+        page: page,
+        per_page: 25,
+        searchText: this.get("searchText"),
+        stockRequest: true
+      };
+
+      return this.get("store").query("user", params);
+    },
+
+    cancelMerge() {
+      this.set("searchUser", false);
+      this.set("searchText", "");
+    },
+
+    searchUserToMerge() {
+      this.set("searchUser", true);
+    },
+
     disableUser() {
       this.toggleUserAccount({ disabled: true });
     },
