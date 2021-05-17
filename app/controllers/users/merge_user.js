@@ -18,19 +18,20 @@ export default Ember.Controller.extend(AsyncMixin, {
   actions: {
     mergeUser() {
       const targetUserId = this.get("masterUserId");
-      let sourceUserId;
+      let sourceUserId = this.get("user.id");
 
       if (targetUserId === this.get("user.id")) {
         sourceUserId = this.get("otherUser.id");
-      } else {
-        sourceUserId = this.get("user.id");
       }
 
-      this.get("userService")
-        .mergeUser(sourceUserId, targetUserId)
-        .then(() => {
-          this.transitionToRoute("users.details", targetUserId);
-        });
+      this.runTask(
+        this.get("userService")
+          .mergeUser(sourceUserId, targetUserId)
+          .then(() => {
+            this.transitionToRoute("users.details", targetUserId);
+          }),
+        ERROR_STRATEGIES.MODAL
+      );
     }
   }
 });

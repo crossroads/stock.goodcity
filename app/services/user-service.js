@@ -197,12 +197,6 @@ export default ApiBaseService.extend({
     return this.PUT(`/users/merge_users`, {
       master_user_id: targetUserId,
       merged_user_id: sourceUserId
-    })
-      .then(data => this.get("store").pushPayload(data))
-      .catch(jqXHR => {
-        this.get("messageBox").alert(
-          _.get(jqXHR, "responseJSON.errors[0].message.error")
-        );
-      });
+    }).then(data => this.get("store").pushPayload(data));
   }
 });
