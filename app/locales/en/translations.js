@@ -1134,5 +1134,19 @@ export default {
       "You have successfully Logged in! However, you need permission to start working on stock.",
     manager_msg: "Ask your manager to grant permissions and then try again",
     try_again: "Try again"
+  },
+
+  merge_user: {
+    merge: "Merge",
+    keep_details: "Keep these details",
+    user_id: "User ID",
+    email: "Email",
+    mobile: "Mobile",
+    first_name: "First Name",
+    last_name: "Last Name",
+    choose_user: "Choose which user to keep.",
+    merge_user_info:
+      "The resulting user will have all the rights, ownership, group memberships etc. of both users combined.",
+    merge_user: "Merge User"
   }
 };

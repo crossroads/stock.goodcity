@@ -28,6 +28,5 @@ export default AuthorizeRoute.extend({
 
   setupController(controller, model) {
     this._super(controller, model);
-    // controller.set("searchUser", false);
   }
 });
