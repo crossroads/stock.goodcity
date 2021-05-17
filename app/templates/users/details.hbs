@@ -175,8 +175,8 @@
         placeholder=(t "search_min")
         value=searchText }}
 
-        {{#if hasSearchText}}
-        <i class="pinned-right" {{action "clearSearch" }}>{{fa-icon 'times-circle' size='lg'}}</i>
+        {{#if searchText}}
+        <i class="clear-users-search pinned-right" {{action "clearSearch" }}>{{fa-icon 'times-circle' size='lg'}}</i>
         {{/if}}
       </div>
     </div>

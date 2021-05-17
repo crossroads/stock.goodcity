@@ -274,6 +274,10 @@
   margin-top: 0.5rem;
 }
 
+.clear-users-search.pinned-right {
+  top: 0.8rem !important;
+}
+
 .user-details-block {
   border: 1px solid $medium-blue;
   padding: 1rem;
@@ -287,10 +291,6 @@
   .user-info {
     color: $white;
     font-weight: bold;
-  }
-
-  .user-detail-heading {
-
   }
 }
 

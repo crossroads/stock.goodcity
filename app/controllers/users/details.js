@@ -92,7 +92,9 @@ export default Ember.Controller.extend(OrganisationMixin, AsyncMixin, {
 
   onSearchTextChange: Ember.observer("searchText", function() {
     this.hideResults();
-    if (this.get("searchText").trim().length >= 3) {
+    if (
+      this.get("searchText").trim().length >= this.get("minSearchTextLength")
+    ) {
       Ember.run.debounce(this, this.showResults, 500);
     }
   }),
@@ -115,6 +117,10 @@ export default Ember.Controller.extend(OrganisationMixin, AsyncMixin, {
       };
 
       return this.get("store").query("user", params);
+    },
+
+    clearSearch() {
+      this.set("searchText", "");
     },
 
     cancelMerge() {
