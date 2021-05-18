@@ -1,8 +1,7 @@
 export default {
   offline_error: "無法加載，請檢查網絡連線",
   unexpected_error: "錯誤",
-  unavailable_record:
-    "Unfortunately, the details that you are looking for are not here.",
+  unavailable_record: "很抱歉，我們未有找到相關資料",
   okay: "確定",
   add_inventory_item: "Add item to inventory",
   loading: "正在加載...",
@@ -1021,7 +1020,7 @@ export default {
       stock_app: "倉儲程式",
       admin_app: "管理程式",
       disable_user_account: "停用用戶帳號",
-      merge_user_account: "Merge with another User Account",
+      merge_user_account: "與另一帳戶合併",
       disable_user: "停用用戶",
       disabled_user_info: "用戶會被禁止使用所有程式，包括捐贈程式。",
       disabled_user_note:
@@ -1095,16 +1094,16 @@ export default {
   },
 
   merge_user: {
-    merge: "Merge",
-    keep_details: "Keep these details",
-    user_id: "User ID",
-    email: "Email",
-    mobile: "Mobile",
-    first_name: "First Name",
-    last_name: "Last Name",
-    choose_user: "Choose which user to keep.",
+    merge: "合併",
+    keep_details: "保留這些資料",
+    user_id: "使用者帳號",
+    email: "電郵地址",
+    mobile: "手提電話號碼",
+    first_name: "名字",
+    last_name: "姓氏",
+    choose_user: "選擇需要保留的使用者",
     merge_user_info:
-      "The resulting user will have all the rights, ownership, group memberships etc. of both users combined.",
-    merge_user: "Merge User"
+      "合併後的帳戶會獲得兩個帳戶的所有權利、擁有權及團體職員身份等。",
+    merge_user: "合併使用者"
   }
 };
