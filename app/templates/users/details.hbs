@@ -176,7 +176,7 @@
         value=searchText }}
 
         {{#if searchText}}
-        <i class="clear-users-search pinned-right" {{action "clearSearch" }}>{{fa-icon 'times-circle' size='lg'}}</i>
+          <i class="clear-users-search pinned-right" {{action "clearSearch" }}>{{fa-icon 'times-circle' size='lg'}}</i>
         {{/if}}
       </div>
     </div>
@@ -191,7 +191,7 @@
                   {{#if (is-not-equal record.id user.id)}}
                   <li>
                     {{#link-to 'users.merge_user' user.id (query-params otherUserId=record.id) tagName='div' }}
-                    {{partial 'users/user_row'}}
+                      {{partial 'users/user_row'}}
                     {{/link-to}}
                   </li>
                   {{/if}}
