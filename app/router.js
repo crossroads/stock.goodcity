@@ -96,6 +96,9 @@ Router.map(function() {
     this.route("charity_position", {
       path: "/:user_id/charity_position"
     });
+    this.route("merge_user", {
+      path: "/:user_id/merge_user"
+    });
   });
 
   this.route("not-found", { path: "/*path" });

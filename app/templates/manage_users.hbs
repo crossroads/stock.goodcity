@@ -28,20 +28,10 @@
       {{#if displayResults}}
         {{#infinite-list height="75vh" loadMore=(action "loadMoreUsers") as |items| }}
           <ul class="list list-activity list-offer-items">
-            {{#each items as |user|}}
+            {{#each items as |record|}}
             <li>
-              {{#link-to 'users.details' user.id tagName='div' href=false}}
-                <div class="row">
-                  <div class="small-10 columns user_name">
-                    {{user.fullName}}
-                  </div>
-                  <div class="small-2 columns">
-                    <span class="user-mobile">{{user.mobile}}</span>
-                  </div>
-                </div>
-                <div class="row org_name">
-                  {{user.organisationsUsers.firstObject.organisation.nameEn}}
-                </div>
+              {{#link-to 'users.details' record.id tagName='div' href=false}}
+                {{partial 'users/user_row'}}
               {{/link-to}}
             </li>
             {{/each}}

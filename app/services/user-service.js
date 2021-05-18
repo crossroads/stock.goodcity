@@ -191,5 +191,12 @@ export default ApiBaseService.extend({
         }
       });
     }
+  },
+
+  mergeUser(sourceUserId, targetUserId) {
+    return this.PUT(`/users/merge_users`, {
+      master_user_id: targetUserId,
+      merged_user_id: sourceUserId
+    }).then(data => this.get("store").pushPayload(data));
   }
 });
