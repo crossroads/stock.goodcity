@@ -9,6 +9,7 @@ let timeout;
 export default GoodcityController.extend(preloadDataMixin, {
   messageBox: Ember.inject.service(),
   authService: Ember.inject.service(),
+  application: Ember.inject.controller(),
   attemptedTransition: null,
   pin: "",
   timer: config.APP.OTP_RESEND_TIME,
@@ -51,6 +52,7 @@ export default GoodcityController.extend(preloadDataMixin, {
           this.set("session.authToken", jwt_token);
           this.set("session.otpAuthKey", null);
           this.store.pushPayload(user);
+          Ember.run(() => this.get("application").send("setSubscription"));
           return this.preloadData();
         })
         .then(() => {

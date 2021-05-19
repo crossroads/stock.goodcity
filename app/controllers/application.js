@@ -44,6 +44,10 @@ export default Ember.Controller.extend({
       this.get("session").unloadSessionData();
       this.session.clearCache();
       this.transitionToRoute("login");
+    },
+
+    setSubscription() {
+      this.get("subscription").wire();
     }
   }
 });
