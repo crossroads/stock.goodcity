@@ -52,7 +52,7 @@ export default GoodcityController.extend(preloadDataMixin, {
           this.set("session.authToken", jwt_token);
           this.set("session.otpAuthKey", null);
           this.store.pushPayload(user);
-          Ember.run(() => this.get("subscription").wire());
+          this.get("subscription").wire();
           return this.preloadData();
         })
         .then(() => {
