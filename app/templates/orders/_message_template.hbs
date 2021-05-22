@@ -60,7 +60,7 @@
                   containerClass='message-textbar-container'}}
               </div>
               <div class="small-3 large-2 medium-2 columns">
-                {{#online-button classNames="button" onClick=(action "sendMessage") actionArgs=true}}
+                {{#online-button classNames="button" onClick=(action "sendMessage") disabled=messageInProgress actionArgs=true}}
                   {{t 'messages.send'}}
                 {{/online-button}}
               </div>

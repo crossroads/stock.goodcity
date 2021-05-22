@@ -7,6 +7,7 @@ export default Ember.Mixin.create({
   store: Ember.inject.service(),
   subscription: Ember.inject.service(),
   messagesUtil: Ember.inject.service("messages"),
+  messageInProgress: false,
 
   sortProperties: ["createdAt: asc"],
   sortedMessages: Ember.computed.sort("messages", "sortProperties"),
@@ -38,6 +39,8 @@ export default Ember.Mixin.create({
     if (!values) {
       return;
     }
+    this.set("messageInProgress", true);
+
     var message = this.store.createRecord("message", values);
     message
       .save()
@@ -49,7 +52,8 @@ export default Ember.Mixin.create({
       .catch(error => {
         this.store.unloadRecord(message);
         throw error;
-      });
+      })
+      .finally(() => this.set("messageInProgress", false));
   },
 
   prepareMessageObject: function(messageableType) {
