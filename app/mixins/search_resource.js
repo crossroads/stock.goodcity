@@ -48,7 +48,7 @@ export default Ember.Mixin.create({
 
   // ----- Helpers ------
   isValidTextLength() {
-    const searchTextLength = this.get("searchText").length;
+    const searchTextLength = (this.get("searchText") || "").length;
     return (
       searchTextLength > this.get("minSearchTextLength") ||
       searchTextLength === 0
