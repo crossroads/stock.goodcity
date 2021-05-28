@@ -106,7 +106,7 @@ export default GoodcityController.extend(
       function() {
         return (
           this.get("settings.disableBoxPalletItemAddition") ||
-          !this.get("item.onHandQuantity")
+          !this.get("model.onHandQuantity")
         );
       }
     ),

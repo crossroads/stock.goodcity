@@ -113,6 +113,13 @@ export default Addressable.extend({
     );
   }),
 
+  canMergeUsers: Ember.computed("roles", function() {
+    const roles = this.get("roles");
+    return roles.find(
+      r => r.get("permissionNames").indexOf("can_merge_users") >= 0
+    );
+  }),
+
   mobileWithCountryCode: Ember.computed("mobile", function() {
     return this.get("mobile") ? "+852" + this.get("mobile") : "";
   }),

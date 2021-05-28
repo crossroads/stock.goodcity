@@ -31,12 +31,13 @@
       {{/validatable-form}}
 
       <div class="row">
-        <div class="small-8 columns">
-          <label class="form-label">{{t "_resend.no_sms"}}</label>
-          <label class="form-label">{{t "_resend.please_wait"}}</label>
-        </div>
-        <div class="small-4 columns">
-          <a href="#" {{action "resendPin" }} id="resend-pin" class="button secondary expand">{{t "_resend.resend"}}</a>
+        <div class="small-4 columns" style="float: right;">
+          <button id="resend-pin" style={{if pinAlreadySent "pointer-events:none;"}} type="submit" class="button secondary expand" disabled = {{pinAlreadySent}} {{action "resendPin"}}>
+            {{t "_resend.resend"}}
+            {{#if pinAlreadySent}}
+              <label class="form-label">{{t "_resend.try_again" timer=timer}}</label>
+            {{/if}}
+          </button>
         </div>
       </div>
     </div>

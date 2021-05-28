@@ -148,4 +148,60 @@
   {{partial 'users/disable_user_popup'}}
   {{/if}}
 
+  {{#if canMergeUsers}}
+  <div class="merge-user-link">
+    <div {{action "searchUserToMerge" }}>{{t "users.details.merge_user_account"}}</div>
+  </div>
+  {{/if}}
 </section>
+
+<div class="cmp orders search-overlay">
+  {{#popup-overlay open=searchUser}}
+  <div class="main-container orders-search">
+    <div class="row search-field search-box ui">
+      <div class="small-3 medium-3 columns back-link">
+        <a class="back_icon_link" {{action "cancelMerge" }}>
+          <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-left'}}</i>
+          <div class="back_text">
+            {{t 'cancel'}}
+          </div>
+        </a>
+      </div>
+
+      <div class="input-holder small-9 columns">
+        {{focus-textfield
+        name="searchText"
+        id=uuid
+        placeholder=(t "search_min")
+        value=searchText }}
+
+        {{#if searchText}}
+          <i class="clear-users-search pinned-right" {{action "clearSearch" }}>{{fa-icon 'times-circle' size='lg'}}</i>
+        {{/if}}
+      </div>
+    </div>
+
+    <section class="main-section orders_search_result search_result">
+      <div class="row search">
+        <div class="small-12 columns">
+          {{#if displayResults}}
+            {{#infinite-list height="75vh" loadMore=(action "searchUsers") as |items| }}
+              <ul class="list list-activity list-offer-items">
+                {{#each items as |record|}}
+                  {{#if (is-not-equal record.id user.id)}}
+                  <li>
+                    {{#link-to 'users.merge_user' user.id (query-params otherUserId=record.id) tagName='div' }}
+                      {{partial 'users/user_row'}}
+                    {{/link-to}}
+                  </li>
+                  {{/if}}
+                {{/each}}
+              </ul>
+            {{/infinite-list}}
+          {{/if}}
+        </div>
+      </div>
+    </section>
+  </div>
+  {{/popup-overlay}}
+</div>

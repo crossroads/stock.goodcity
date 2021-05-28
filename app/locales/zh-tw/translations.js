@@ -1,6 +1,7 @@
 export default {
   offline_error: "無法加載，請檢查網絡連線",
   unexpected_error: "錯誤",
+  unavailable_record: "很抱歉，我們未有找到相關資料",
   okay: "確定",
   add_inventory_item: "Add item to inventory",
   loading: "正在加載...",
@@ -223,8 +224,8 @@ export default {
     input_code: "請輸入驗證碼"
   },
   _resend: {
-    no_sms: "收不到短訊(SMS)?",
-    please_wait: "請稍等五分鐘...",
+    try_again: "Try again in {{timer}} seconds",
+    please_wait: "Please wait {{timer}} seconds before requesting a pin again",
     resend: "重新發送"
   },
   _verification_pin: {
@@ -1019,6 +1020,7 @@ export default {
       stock_app: "倉儲程式",
       admin_app: "管理程式",
       disable_user_account: "停用用戶帳號",
+      merge_user_account: "與另一帳戶合併",
       disable_user: "停用用戶",
       disabled_user_info: "用戶會被禁止使用所有程式，包括捐贈程式。",
       disabled_user_note:
@@ -1089,5 +1091,19 @@ export default {
       "You have successfully Logged in! However, you need permission to start working on stock.",
     manager_msg: "Ask your manager to grant permissions and then try again",
     try_again: "Try again"
+  },
+
+  merge_user: {
+    merge: "合併",
+    keep_details: "保留這些資料",
+    user_id: "使用者帳號",
+    email: "電郵地址",
+    mobile: "手提電話號碼",
+    first_name: "名字",
+    last_name: "姓氏",
+    choose_user: "選擇需要保留的使用者",
+    merge_user_info:
+      "合併後的帳戶會獲得兩個帳戶的所有權利、擁有權及團體職員身份等。",
+    merge_user: "合併使用者"
   }
 };

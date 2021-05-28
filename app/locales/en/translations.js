@@ -2,6 +2,8 @@ export default {
   offline_error:
     "Unable to complete action, please check your internet connection.",
   unexpected_error: "Something went wrong",
+  unavailable_record:
+    "Unfortunately, the details that you are looking for are not here.",
   okay: "Okay",
   "language.en": "English",
   "language.zh": "中文",
@@ -231,8 +233,8 @@ export default {
     input_code: "Input Code"
   },
   _resend: {
-    no_sms: "Haven't received SMS code?",
-    please_wait: "Please wait 5 minutes...",
+    try_again: "Try again in {{timer}} seconds",
+    please_wait: "Please wait {{timer}} seconds before requesting a pin again",
     resend: "Resend"
   },
   _verification_pin: {
@@ -1068,6 +1070,7 @@ export default {
       stock_app: "Stock App",
       admin_app: "Admin App",
       disable_user_account: "Disable User Account",
+      merge_user_account: "Merge with another User Account",
       disable_user: "Disable User",
       disabled_user_info:
         "User will be denied access to all apps including donor app.",
@@ -1131,5 +1134,19 @@ export default {
       "You have successfully Logged in! However, you need permission to start working on stock.",
     manager_msg: "Ask your manager to grant permissions and then try again",
     try_again: "Try again"
+  },
+
+  merge_user: {
+    merge: "Merge",
+    keep_details: "Keep these details",
+    user_id: "User ID",
+    email: "Email",
+    mobile: "Mobile",
+    first_name: "First Name",
+    last_name: "Last Name",
+    choose_user: "Choose which user to keep.",
+    merge_user_info:
+      "The resulting user will have all the rights, ownership, group memberships etc. of both users combined.",
+    merge_user: "Merge User"
   }
 };

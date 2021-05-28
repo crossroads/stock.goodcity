@@ -1,0 +1,105 @@
+<nav class="tab-bar user-details-heading">
+  <section class="left-small">
+    {{#link-to 'users.details' user.id}}
+    <div>{{t "cancel"}}</div>
+    {{/link-to}}
+  </section>
+
+  <section class="middle tab-bar-section">
+    <h1 class="title">
+      {{t "merge_user.merge_user"}}
+    </h1>
+  </section>
+</nav>
+
+<section class="row user-details-section">
+  <div class="merge-user-info">
+    <div>{{t "merge_user.choose_user"}}</div>
+    <div>{{t "merge_user.merge_user_info"}}</div>
+  </div>
+
+  <div class="user-details-block">
+
+    <div class="custom_radio_buttons" for="merge_users">
+      {{radio-button
+      name="selectMasterUser"
+      id=user.id
+      value=user.id
+      selection=masterUserId
+      required='true'}}
+      <label class="radio-button-text align-text" for="{{user.id}}">
+        <div class="label-position">
+          {{t "merge_user.keep_details"}}
+        </div>
+      </label>
+    </div>
+
+    <div class="row">
+      <div class="small-4 columns">{{t "merge_user.first_name"}}:</div>
+      <div class="small-8 columns user-info">{{user.firstName}}</div>
+    </div>
+    <div class="row">
+      <div class="small-4 columns">{{t "merge_user.last_name"}}:</div>
+      <div class="small-8 columns user-info">{{user.lastName}}</div>
+    </div>
+    <div class="row">
+      <div class="small-4 columns">{{t "merge_user.mobile"}}:</div>
+      <div class="small-8 columns user-info">{{user.mobile}}</div>
+    </div>
+    <div class="row">
+      <div class="small-4 columns">{{t "merge_user.email"}}:</div>
+      <div class="small-8 columns user-info">{{user.email}}</div>
+    </div>
+    <div class="row">
+      <div class="small-4 columns">{{t "merge_user.user_id"}}:</div>
+      <div class="small-8 columns user-info">{{user.id}}</div>
+    </div>
+  </div>
+
+  <div class="user-details-block">
+
+    <div class="custom_radio_buttons" for="merge_users">
+      {{radio-button
+      name="selectMasterUser"
+      id=otherUser.id
+      value=otherUser.id
+      selection=masterUserId
+      required='true'}}
+      <label class="radio-button-text align-text" for="{{otherUser.id}}">
+        <div class="label-position">
+          {{t "merge_user.keep_details"}}
+        </div>
+      </label>
+    </div>
+
+    <div class="row">
+      <div class="small-4 columns">{{t "merge_user.first_name"}}:</div>
+      <div class="small-8 columns user-info">{{otherUser.firstName}}</div>
+    </div>
+    <div class="row">
+      <div class="small-4 columns">{{t "merge_user.last_name"}}:</div>
+      <div class="small-8 columns user-info">{{otherUser.lastName}}</div>
+    </div>
+    <div class="row">
+      <div class="small-4 columns">{{t "merge_user.mobile"}}:</div>
+      <div class="small-8 columns user-info">{{otherUser.mobile}}</div>
+    </div>
+    <div class="row">
+      <div class="small-4 columns">{{t "merge_user.email"}}:</div>
+      <div class="small-8 columns user-info">{{otherUser.email}}</div>
+    </div>
+    <div class="row">
+      <div class="small-4 columns">{{t "merge_user.user_id"}}:</div>
+      <div class="small-8 columns user-info">{{otherUser.id}}</div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="small-8 small-offset-2 columns">
+      <button id="usermerge" type="submit" class="button expand" {{action 'mergeUser' }}>
+        {{t "merge_user.merge"}}
+      </button>
+    </div>
+  </div>
+
+</section>
