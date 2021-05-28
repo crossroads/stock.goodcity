@@ -239,19 +239,26 @@ export default GoodcityController.extend(
       return this.get("store").peekAll("donor_condition");
     }),
 
-    itemMarkedMissing: Ember.observer("item.inventoryNumber", function() {
-      if (
-        !this.get("item.inventoryNumber") &&
-        this.get("target").currentPath === "items.detail"
-      ) {
-        this.get("messageBox").alert(
-          "This item is not inventoried yet or has been marked as missing.",
-          () => {
-            this.transitionToRoute("items.index");
-          }
-        );
+    itemMarkedMissing: Ember.observer(
+      "item.inventoryNumber",
+      "item.state",
+      function() {
+        if (
+          (!this.get("item.inventoryNumber") ||
+            this.get("item.state") === "missing") &&
+          this.get("target").currentPath.indexOf("items.detail") > -1
+        ) {
+          this.get("messageBox").alert(
+            this.get("i18n").t("item_details.not_inventorized_or_missing"),
+            () => {
+              this.transitionToRoute("items.index", {
+                queryParams: { searchInput: "" }
+              });
+            }
+          );
+        }
       }
-    }),
+    ),
 
     performDispatch: Ember.observer("showDispatchOverlay", function() {
       Ember.run.debounce(this, this.updateAutoDisplayOverlay, 100);

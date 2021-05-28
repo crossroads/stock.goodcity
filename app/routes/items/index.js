@@ -37,6 +37,7 @@ export default AuthorizeRoute.extend({
     this._super(controller, model);
     this.set("partial_qnty", 0);
     controller.set("itemSetId", this.paramsFor("items.index").itemSetId);
+    controller.set("searchText", this.paramsFor("items.index").searchInput);
     controller.on();
   },
   /* jshint ignore:end */
