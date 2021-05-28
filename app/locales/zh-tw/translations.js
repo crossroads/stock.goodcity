@@ -886,7 +886,6 @@ export default {
         invalid_dimensions:
           "Provide all 3 dimensions(or none). Dimension must be greater than 0",
         description: "English Description cannot be blank.",
-        donation: "Must be a number or in the form 'CAS-12345'",
         invalid_location: "Scanned Location is invalid.",
         blank_location: "Location can't be blank.",
         quantity: "Quantity cannot be blank.",
@@ -922,8 +921,7 @@ export default {
     cancel: "Cancel the designation of this item"
   },
   donation: {
-    title: "CAS#",
-    donation_number_error: "Must be in the form 'CAS-12345'"
+    title: "CAS#"
   },
   partial_designate: {
     in_stock: "In Stock",
