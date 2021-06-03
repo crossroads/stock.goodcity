@@ -197,7 +197,7 @@ export default GoodcityController.extend(
       let codeId = this.get("codeId");
       if (codeId) {
         let selected = this.get("store").peekRecord("code", codeId);
-        return selected && selected.get("allow_pieces");
+        return selected && selected.get("allowPieces");
       }
     }),
 

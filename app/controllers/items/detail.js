@@ -65,10 +65,10 @@ export default GoodcityController.extend(
     allowItemActions: Ember.computed.alias("settings.allowItemActions"),
 
     showPieces: Ember.computed(
-      "item.code.allow_pieces",
+      "item.code.allowPieces",
       "isBoxOrPallet",
       function() {
-        return this.get("item.code.allow_pieces") && !this.get("isBoxOrPallet");
+        return this.get("item.code.allowPieces") && !this.get("isBoxOrPallet");
       }
     ),
 
