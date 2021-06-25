@@ -89,6 +89,8 @@ export default {
     only_show_warnings: "只顯示警告事項",
     unknown_inventory_number: "未能找到{{code}}庫存號碼",
     confirm_cancel: "這次盤點會被取消。確定？",
+    processing_text:
+      "This stocktake is being processed, this may take a few minutes. Please check again soon",
     tips: {
       start_counting: "你已點算的項目會在此出現",
       review_tab: "點選「檢視」以查看完整項目清單"
@@ -100,7 +102,9 @@ export default {
     states: {
       open: "開放",
       closed: "關閉",
-      cancelled: "已取消"
+      cancelled: "已取消",
+      processing: "處理中",
+      awaiting_process: "Awaiting Process"
     },
     detail_tabs: {
       count: "點算",
