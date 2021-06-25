@@ -92,6 +92,8 @@ export default {
     only_show_warnings: "Only show warnings",
     unknown_inventory_number: "Inventory code {{code}} not found",
     confirm_cancel: "This stocktake will be cancelled. Are you sure ?",
+    processing_text:
+      "This stocktake is being processed, this may take a few minutes. Please check again soon",
     tips: {
       start_counting: "Items you count will appear here",
       review_tab:
@@ -105,7 +107,9 @@ export default {
     states: {
       open: "Open",
       closed: "Closed",
-      cancelled: "Cancelled"
+      cancelled: "Cancelled",
+      processing: "Processing",
+      awaiting_process: "Awaiting Process"
     },
     detail_tabs: {
       count: "Count",
