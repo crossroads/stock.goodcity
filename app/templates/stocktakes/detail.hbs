@@ -14,6 +14,13 @@
   </nav>
 
   <div class="content">
+    {{#if (is-or stocktake.isAwaitingProcess stocktake.isProcessing)}}
+      <div class="processing-overlay">
+        <div><i>{{fa-icon 'cog' spin=true size='lg'}}</i> </div>
+        <div>{{t 'stocktakes.processing_text'}}</div>
+      </div>
+    {{/if}}
+
     <div class="row">
       <div class="status-bar state-{{stocktake.state}}">
         {{t (concat 'stocktakes.states.' stocktake.state)}} - 

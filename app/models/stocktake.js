@@ -20,6 +20,8 @@ export default Model.extend({
 
   isOpen: Ember.computed.equal("state", "open"),
   isClosed: Ember.computed.equal("state", "closed"),
+  isProcessing: Ember.computed.equal("state", "processing"),
+  isAwaitingProcess: Ember.computed.equal("state", "awaiting_process"),
 
   dirtyRevisions: Ember.computed.filterBy("revisions", "dirty", true),
   cleanRevisions: Ember.computed.filterBy("revisions", "dirty", false),
