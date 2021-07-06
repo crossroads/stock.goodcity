@@ -8,6 +8,9 @@ export default Model.extend({
   code: attr("string"),
   items: hasMany("item", { async: false }),
   packages: hasMany("package", { async: false }),
+  allowBox: attr("boolean"),
+  allowPallet: attr("boolean"),
+  allowPackage: attr("boolean"),
 
   getItemPackageList: Ember.computed(
     "packages.@each.allowWebPublish",

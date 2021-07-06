@@ -379,17 +379,3 @@ test("Filling different condition fires request for update", function(assert) {
     assert.equal($(".inline-text-input-withbg").val(), "CAS-12345");
   });
 });
-
-test("Filling invalid condition gives validation error", function(assert) {
-  assert.expect(1);
-  //filling invalid donation
-  fillIn(find(".inline-text-input-withbg"), "123");
-  //clicking on size to fire focusOut event of donation textfield
-  click(find(".dimension"));
-  andThen(function() {
-    assert.equal(
-      $(".donation-input-error").text(),
-      "Must be in the form 'CAS-12345'"
-    );
-  });
-});

@@ -27,7 +27,7 @@ export default AuthorizeRoute.extend({
   },
 
   async afterModel(model) {
-    if (!model.get("inventoryNumber")) {
+    if (!model.get("inventoryNumber") || model.get("state") === "missing") {
       this.get("transition").abort();
       this.get("messageBox").alert(
         this.get("i18n").t("item_details.not_inventorized_or_missing"),

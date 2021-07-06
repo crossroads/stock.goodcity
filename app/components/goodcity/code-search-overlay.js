@@ -27,14 +27,24 @@ export default Ember.Component.extend(SearchMixin, AsyncMixin, {
     );
   },
 
-  recentPackageTypes: Ember.computed("open", function() {
+  recentPackageTypes: Ember.computed("open", "storageType", function() {
     const userFavourites = this.get("store").peekAll("user_favourite");
+    const storageType = this.get("storageType");
+
     const packageTypeIds = userFavourites
       .filterBy("favourite_type", "PackageType")
       .getEach("favourite_id")
       .reverse()
       .uniq();
-    return packageTypeIds.map(it => this.get("store").peekRecord("code", it));
+    const pkgTypes = packageTypeIds.map(it =>
+      this.get("store").peekRecord("code", it)
+    );
+
+    if (storageType) {
+      return pkgTypes.filterBy(`allow${storageType}`, true);
+    }
+
+    return pkgTypes;
   }),
 
   allPackageTypes: Ember.computed("open", "subsetPackageTypes", function() {
@@ -44,14 +54,18 @@ export default Ember.Component.extend(SearchMixin, AsyncMixin, {
     return this.get("store").peekAll("code");
   }),
 
-  filteredPackageTypes: Ember.computed("allPackageTypes", function() {
-    const pkgTypes = this.get("allPackageTypes");
-    const storageType = this.get("storageType");
-    if (["Box", "Pallet"].indexOf(storageType) > -1) {
-      return pkgTypes.filterBy(`allow_${storageType.toLowerCase()}`, true);
+  filteredPackageTypes: Ember.computed(
+    "allPackageTypes",
+    "storageType",
+    function() {
+      const pkgTypes = this.get("allPackageTypes");
+      const storageType = this.get("storageType");
+      if (storageType) {
+        return pkgTypes.filterBy(`allow${storageType}`, true);
+      }
+      return pkgTypes;
     }
-    return pkgTypes;
-  }),
+  ),
 
   hasSearchText: Ember.computed("searchText", function() {
     return Ember.$.trim(this.get("searchText")).length;
