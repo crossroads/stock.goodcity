@@ -127,7 +127,7 @@ export default AuthorizeRoute.extend({
     return this.get("store").query("message", {
       is_private: true,
       messageable_id: item.id,
-      scope: "package"
+      messageable_type: "Package"
     });
   },
 
