@@ -40,7 +40,7 @@ export default Ember.Service.extend({
   _queryMessages(state, page, perPage) {
     return new AjaxPromise("/messages", "GET", this.get("session.authToken"), {
       state: state,
-      scope: ["order", "package"],
+      messageable_type: ["Order", "Package"],
       page: page,
       per_page: perPage
     });
