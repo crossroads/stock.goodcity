@@ -166,7 +166,9 @@ export default {
     not_connected: "並未連線"
   },
   order_cancellation_reason: {
-    warning: "此動作將移除訂單內的所有物品並取消訂單",
+    warning: "WARNING! YOU ARE ABOUT TO CANCEL THE ENTIRE ORDER.",
+    message:
+      "This will undesignate all items and cancel the order. Are you sure you want to proceed?",
     title: "取消訂單的原因",
     other: "取消訂單的原因",
     reason_count: "{{count}} remaining"
