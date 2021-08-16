@@ -175,7 +175,9 @@ export default {
     not_connected: "Not Connected"
   },
   order_cancellation_reason: {
-    warning: "This will remove any items from the order and cancel the order",
+    warning: "WARNING! YOU ARE ABOUT TO CANCEL THE ENTIRE ORDER.",
+    message:
+      "This will undesignate all items and cancel the order. Are you sure you want to proceed?",
     title: "Cancellation Reasons",
     other: "Other",
     reason_count: "{{count}} remaining"
