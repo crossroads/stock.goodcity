@@ -164,7 +164,15 @@ export default Ember.Service.extend({
 
     document.addEventListener("pause", stop);
 
-    overlay.onCloseButtonPressed(stop);
+    overlay.addButton("Stop", () => {
+      stop();
+      overlay.destroy();
+      this.turnFlashlightOff();
+    });
+
+    overlay.addButton("Light", () => {
+      this.toggleFlashlight();
+    });
 
     return { stop };
   },

@@ -21,12 +21,36 @@ function buildOverlay(parent = document.body, style = {}) {
   return overlay;
 }
 
-function addStopButton(parent, callback) {
+/**
+ *
+ * @param {JQuery<HTMLElement>} parent
+ */
+function resolveButtonContainer(parent) {
+  let container = parent.find(".button-container");
+
+  if (container.length === 0) {
+    const el = Ember.$('<div class="button-container"></div>');
+    el.css({
+      "z-index": "1000",
+      position: "relative",
+      display: "flex",
+      "justify-content": "space-around",
+      margin: "20px auto"
+    });
+
+    parent.append(el);
+    return parent.find(".button-container");
+  }
+
+  return container;
+}
+
+function createButton(parent, content, callback) {
   const button = Ember.$("<div></di>");
 
-  button.text("STOP");
+  button.html(content);
   button.css({
-    width: "70px",
+    "min-width": "70px",
     height: "30px",
     "background-color": "white",
     color: "black",
@@ -34,13 +58,12 @@ function addStopButton(parent, callback) {
     "border-radius": "50px",
     "z-index": "1000",
     position: "relative",
-    margin: "20px auto",
     "line-height": "20px",
     "text-align": "center"
   });
 
-  parent.append(button);
-  button.one("click", callback);
+  button.on("click", callback);
+  resolveButtonContainer(parent).append(button);
 
   return button;
 }
@@ -79,15 +102,11 @@ export function buildCameraView(parent = null, opts = {}) {
       overlay.remove();
     },
 
-    onCloseButtonPressed(onClose) {
+    addButton(content, callback) {
       if (parent) {
         return; // Custom user ui
       }
-
-      addStopButton(overlay, () => {
-        onClose();
-        overlay.remove();
-      });
+      createButton(overlay, content, callback);
     }
   };
 }
