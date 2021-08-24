@@ -83,7 +83,7 @@
               {{fa-icon 'lightbulb' size='lg'}}
             </button>
           {{/if}}
-          <button class="button ellipsis" {{action 'addItem'}}>
+          <button class="button ellipsis" {{action (multi-actions (action "stopScanning") (action "addItem"))}}>
             {{fa-icon 'plus'}} {{t 'stocktakes.add_item'}}
           </button>
         {{/if}}

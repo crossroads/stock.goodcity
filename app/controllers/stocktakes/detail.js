@@ -251,14 +251,16 @@ export default Ember.Controller.extend(AsyncMixin, {
       this.saveChanges();
     },
 
+    stopScanning() {
+      this.stopScanning();
+    },
+
     /**
      * Will increment the revision for this pacakge by 1, or create it
      *
      * @param {Package} pkg
      */
-    async addItem(pkg) {
-      this.stopScanning();
-
+    async addItem(pkg, opts = {}) {
       pkg =
         pkg ||
         (await this.get("packageService").userPickPackage({
