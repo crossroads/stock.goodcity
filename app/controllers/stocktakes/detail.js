@@ -317,6 +317,14 @@ export default Ember.Controller.extend(AsyncMixin, {
       } else {
         this.startScanning();
       }
+    },
+
+    selectRevision(revisionId) {
+      if (this.get("selectedRevisionId") === revisionId) {
+        // toggle off
+        return this.set("selectedRevisionId", null);
+      }
+      return this.set("selectedRevisionId", revisionId);
     }
   }
 });

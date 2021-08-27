@@ -134,98 +134,88 @@
       {{#ember-collection
         items=filteredRevisions
         class="ember-collection--no-sidebars"
-        cell-layout=(ember-collection-layouts/fixed-grid-layout 800 160) as |revision index|
+        cell-layout=(ember-collection-layouts/fixed-grid-layout 800 60) as |revision index|
       }}
         {{!-- REVISION BLOCK --}}
         {{#let-alias (pick-key (array-find revision.item.packagesLocations 'locationId' stocktake.location.id) 'quantity' 0) as |expectedQty|}}
           <div class="revision {{unless revision.editable 'locked'}} {{if revision.hasDirtyAttributes 'unsaved'}}">
-            
-            <div class="flex no-wrap">
-              {{!-- Inventory number + Package type --}}
-              <div class="inventory-number">
-                {{fa-icon (storage-icon revision.item.storageTypeName)}}
-                {{if revision.item.inventoryNumber revision.item.inventoryNumber "[N/A]"}}
-              </div>
-              <div class="code-type">{{display-package-code  item=revision.item.code}}</div>
-            </div>
 
             <div class="flex no-wrap gutter-small">
-              {{!-- LEFT-SIDE : Image --}}
+              {{!-- Image --}}
               <div class="package-image">
                 {{#link-to 'items.detail' revision.item.id}}
                   <img src="{{ revision.item.thumbImageUrl }}" />
                 {{/link-to}}
               </div>
 
-              {{!-- RIGHT-SIDE : Double-row layout --}}
-              <div class="grow">
+              {{!-- Inventory number + Package type --}}
+              <div class="inventory-number">
+                {{fa-icon (storage-icon revision.item.storageTypeName)}}
+                {{if revision.item.inventoryNumber revision.item.inventoryNumber "[N/A]"}}
+              </div>
+              <div class="code-type">{{display-package-code short=true item=revision.item.code}}</div>
 
-                {{!-- QUANTITY ROW --}}
-                <div class="quantity-row flex no-wrap space-between">
-
-                  {{!-- Expected quantity --}}
-                  <div class="">
-                    {{#if stocktake.isOpen}}
-                      {{t 'stocktakes.expected_qty' }}: {{expectedQty}}
-                    {{else if revision.isProcessed}}
-                      {{fa-icon 'check-circle' size="lg"}}
-                      {{t 'stocktakes.recorded_change' }}: 
-                      {{signed-number revision.diff}}
-                    {{/if}}
-                  </div>
-
-                  {{!-- Input --}}
-                  <div class="flex center quantity-input-container">
-                    <span {{action 'decrementCount' revision}}>
-                      {{fa-icon 'minus-circle' size="lg"}}
-                    </span>
-                    <span class="quantity-input">
-                      <input type="number" value={{revision.quantity}} onchange={{action "updateQuantity" revision}} min="0" >
-                    </span>
-                    <span {{action 'incrementCount' revision}}>
-                      {{fa-icon 'plus-circle' size="lg"}}
-                    </span>
-                  </div>
+              {{#if stocktake.isOpen}}
+                <div class="expected-quantity">
+                  <span class="large-only">{{t 'stocktakes.expected_qty' }}: {{expectedQty}}</span>
+                  <span class="small-only">x{{expectedQty}}</span>
                 </div>
+              {{/if}}
 
-                {{!-- WARNING ROW --}}
-                <div>
-                  <div>
-                    {{#if revision.editable}}
-                      {{#if (is-or revision.dirty revision.warning)}}
-                        {{!-- Message --}}
-                        <div class="columns small-12 offset-up warning-box">
-                          <i>{{fa-icon 'exclamation-circle'}}</i>
-                          {{#if revision.dirty}}
-                            {{t 'stocktakes.requires_recount'}}
-                            {{#unless revision.hasDirtyAttributes}}
-                              <a {{action 'confirmCount' revision}}>
-                                {{t 'stocktakes.confirm_count' count=revision.quantity}}
-                              </a>
-                            {{/unless}}
-                          {{else if revision.warning}}
-                            {{revision.warning}}
-                          {{/if}}
-                        </div>
-                      {{else}}
-                        {{!-- DIFF PILL --}}
-                        <div class="flex end">
-                          <div class="offset-up pill {{if revision.hasVariance 'bad' 'good'}}">
-                            {{#if revision.isGain}}
-                              <i>{{fa-icon 'exclamation-circle'}}</i>   {{t 'stocktakes.over'}} {{revision.diffAbs}}
-                            {{else if revision.isLoss}}
-                              <i>{{fa-icon 'exclamation-circle'}}</i> {{t 'stocktakes.under'}} {{revision.diffAbs}}
-                            {{else}}
-                              <i>{{fa-icon 'check-circle'}}</i> {{t 'okay'}}
-                            {{/if}}
-                          </div>
-                        </div>
-                      {{/if}}
-                    {{/if}}
-                  </div>
+              {{!-- DIFF PILL --}}
+              <div class="flex end">
+                <div class="offset-up pill" {{action 'selectRevision' revision.id}}>
+                  {{#if (is-or revision.dirty revision.warning)}}
+                    <i class="warning">{{fa-icon 'exclamation-circle'}}</i>
+                  {{else if revision.isGain}}
+                    <i class="bad">{{fa-icon 'plus-circle'}}</i>
+                  {{else if revision.isLoss}}
+                    <i class="bad">{{fa-icon 'minus-circle'}}</i>
+                  {{else}}
+                    <i class="good">{{fa-icon 'check-circle'}}</i>
+                  {{/if}}
+                </div>
+              </div>
+
+              {{!-- QUANTITY ROW --}}
+              <div class="quantity-row flex no-wrap space-between">
+                {{!-- Input --}}
+                <div class="flex center quantity-input-container">
+                  <span {{action 'decrementCount' revision}}>
+                    {{fa-icon 'minus-circle' size="lg"}}
+                  </span>
+                  <span class="quantity-input">
+                    <input type="number" value={{revision.quantity}} onchange={{action "updateQuantity" revision}} min="0" >
+                  </span>
+                  <span {{action 'incrementCount' revision}}>
+                    {{fa-icon 'plus-circle' size="lg"}}
+                  </span>
                 </div>
               </div>
             </div>
+
+            {{!-- WARNING ROW --}}
+            {{#if (is-and revision.editable (is-or revision.dirty revision.warning))}}
+              <div class="flex gutter-small details-block {{if (is-equal selectedRevisionId revision.id) 'show' 'hide' }}">
+                {{!-- Message --}}
+                <div {{action 'selectRevision' null}}>
+                  <i>{{fa-icon 'times-circle' size="lg"}}</i>
+                </div>
+
+                <div>
+                  {{#if revision.dirty}}
+                    {{t 'stocktakes.requires_recount'}}
+                    {{#unless revision.hasDirtyAttributes}}
+                      <a {{action 'confirmCount' revision}}>
+                        {{t 'stocktakes.confirm_count' count=revision.quantity}}
+                      </a>
+                    {{/unless}}
+                  {{else if revision.warning}}
+                    {{revision.warning}}
+                  {{/if}}
+                </div>
+              </div>
+            {{/if}}
           </div>
         {{/let-alias}}
       {{/ember-collection}}

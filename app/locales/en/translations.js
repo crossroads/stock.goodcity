@@ -76,7 +76,7 @@ export default {
     saving: "Saving changes...",
     save_error: "An error occured. Some changes were not applied",
     try_again: "Try again",
-    expected_qty: "Expected Qty",
+    expected_qty: "Exp Qty",
     recorded_change: "Recorded Change",
     requires_recount: "Requires (re)count.",
     confirm_count: "Confirm count is {{count}}",
