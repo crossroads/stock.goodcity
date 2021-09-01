@@ -99,7 +99,7 @@
           {{#composable-drop-down as |dropDown|}}
             {{#dropDown.dropDownHeader}}
                 <div class="selected_option">
-                  Show: {{activeFilter.name}} ({{ activeFilter.count }})
+                  {{t 'show'}}: {{t (concat 'stocktakes.filters.' activeFilter.name)}} ({{ activeFilter.count }})
                   <i>{{fa-icon 'chevron-down' size='xs'}}</i>
                 </div>
             {{/dropDown.dropDownHeader}}
@@ -109,7 +109,7 @@
                 <div class="option_menu">
                   {{#each filterList as |filter|}}
                     <div {{action 'selectFilter' filter.name}}>
-                      {{ filter.name }} ({{ filter.count }})
+                      {{t (concat 'stocktakes.filters.' filter.name)}} ({{ filter.count }})
                     </div>
                   {{/each}}
                 </div>
