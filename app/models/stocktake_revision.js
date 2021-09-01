@@ -28,7 +28,6 @@ export default Model.extend({
     }
   ),
 
-  isClean: Ember.computed.not("dirty"),
   isProcessed: Ember.computed.equal("state", "processed"),
   isCancelled: Ember.computed.equal("state", "cancelled"),
 
