@@ -46,39 +46,63 @@ export default Ember.Controller.extend(AsyncMixin, {
   // Properties
   // ----------------------
 
-  modes: {
-    count: "count",
-    review: "review"
-  },
-
-  tabs: Ember.computed.alias("modes"),
-  selectedTab: Ember.computed.alias("mode"),
-
   revisions: Ember.computed.alias("stocktake.revisions"),
 
-  filteredRevisions: Ember.computed(
-    "mode",
+  filterList: Ember.computed(
     "stocktake",
-    "onlyShowVariances",
-    "onlyShowWarnings",
     "revisions.length",
-    "revisions.@each.{quantity,createdAt}",
+    "revisions.@each.{quantity,createdAt,hasVariance,warning,dirty}",
     function() {
-      const modes = this.get("modes");
-      const filters = {
-        [modes.count]: [rev => rev.get("quantity") > 0],
-        [modes.review]: [
-          rev =>
-            this.get("onlyShowVariances") ? rev.get("hasVariance") : true,
-          rev =>
-            this.get("onlyShowWarnings")
-              ? rev.get("dirty") || rev.get("warning")
-              : true
-        ]
-      }[this.get("mode")];
+      const revisions = this.get("revisions") || [];
+      return _.map(
+        [
+          {
+            name: "all",
+            predicate: _.identity
+          },
+          {
+            name: "counted",
+            predicate: rev => rev.get("dirty") === false
+          },
+          {
+            name: "variances",
+            predicate: rev => rev.get("hasVariance")
+          },
+          {
+            name: "warnings",
+            predicate: rev => rev.get("dirty") || rev.get("warning")
+          }
+        ],
+        filter => ({
+          // Compute count
+          ...filter,
+          count: revisions.filter(filter.predicate).get("length")
+        })
+      );
+    }
+  ),
 
-      return this.get("revisions")
-        .filter(_.overEvery(filters))
+  activeFilter: Ember.computed(
+    "selectedFilterName",
+    "stocktake",
+    "revisions.length",
+    "revisions.@each.{quantity,createdAt,hasVariance,warning,dirty}",
+    function() {
+      const name = this.get("selectedFilterName");
+      const filters = this.get("filterList");
+      return filters.findBy("name", name) || filters.get("firstObject");
+    }
+  ),
+
+  filteredRevisions: Ember.computed(
+    "selectedFilterName",
+    "activeFilter",
+    "stocktake",
+    "revisions.length",
+    "revisions.@each.{quantity,createdAt,hasVariance,warning,dirty}",
+    function() {
+      return this.getWithDefault("revisions", [])
+        .filter(this.get("activeFilter.predicate"))
         .sort(SORTING.BY_INVENTORY_NUM);
     }
   ),
@@ -91,24 +115,13 @@ export default Ember.Controller.extend(AsyncMixin, {
   // Lifecycle
   // ----------------------
 
-  init() {
-    this.set("mode", this.get("modes.count"));
-  },
-
   on() {
-    if (!this.get("stocktake.isOpen")) {
-      this.set("mode", this.get("modes.review"));
-      this.set("onlyShowWarnings", false);
-      this.set("onlyShowVariances", false);
-    }
-
+    this.set("selectedFilterName", this.get("activeFilter.name"));
     this.set("scannerPreviewId", `stocktake-scanner-preview-${_.uniqueId()}`);
-    this.addObserver("mode", this, this.stopScanning);
   },
 
   off() {
     this.stopScanning();
-    this.removeObserver("mode", this, this.stopScanning);
   },
 
   // ----------------------
@@ -325,6 +338,10 @@ export default Ember.Controller.extend(AsyncMixin, {
         return this.set("selectedRevisionId", null);
       }
       return this.set("selectedRevisionId", revisionId);
+    },
+
+    selectFilter(filterName) {
+      this.set("selectedFilterName", filterName);
     }
   }
 });

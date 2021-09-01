@@ -11,6 +11,29 @@
         {{ stocktake.name }}
       </h1>
     </section>
+
+    <section class="right tab-bar-section">
+      {{#unless (is-or stocktake.isAwaitingProcess stocktake.isProcessing)}}
+        {{#composable-drop-down as |dropDown|}}
+          {{#dropDown.dropDownHeader}}
+              <i>{{fa-icon 'ellipsis-v' size='lg'}}</i>
+          {{/dropDown.dropDownHeader}}
+
+          {{#dropDown.dropDownBody}}
+            <div class="options_menu_list option_margin">
+              <div class="option_menu">
+                  <div disabled="{{if stocktake.cannotCommit true}}" {{action 'commit'}}>
+                    {{t 'stocktakes.commit_stocktake'}}
+                  </div>
+                  <div {{action 'cancelStocktake'}}>
+                    {{t 'stocktakes.cancel_stocktake'}}
+                  </div>
+              </div>
+            </div>
+          {{/dropDown.dropDownBody}}
+        {{/composable-drop-down}}
+      {{/unless}}
+    </section>
   </nav>
 
   <div class="content">
@@ -25,20 +48,6 @@
       <div class="status-bar state-{{stocktake.state}}">
         {{t (concat 'stocktakes.states.' stocktake.state)}} - 
         {{display-datetime stocktake.updatedAt format="DD MMM YY HH:mm"}}
-      </div>
-    </div>
-
-    {{!-- TABS TO SWITCH BETWEEN MODES --}}
-    <div class="row">
-      <div class="row tabs-container">
-        <div class="tab list small-6 columns {{unless (is-equal selectedTab tabs.count) 'dimmed'}}" {{action (mut selectedTab) tabs.count}}>
-          <div>{{fa-icon 'table' size="lg"}}</div>
-          <div>{{t 'stocktakes.detail_tabs.count'}}</div>
-        </div>
-        <div class="tab list small-6 columns {{unless (is-equal selectedTab tabs.review) 'dimmed'}}" {{action (mut selectedTab) tabs.review}}>
-          <div>{{fa-icon 'tasks' size="lg"}}</div>
-          <div>{{t 'stocktakes.detail_tabs.review'}}</div>
-        </div>
       </div>
     </div>
 
@@ -68,56 +77,47 @@
     {{!-- ACTION BUTTONS --}}
     {{#if stocktake.isOpen}}
       <div class="row buttons-container flex">
-        {{#if (is-equal mode modes.count)}}
-          {{#if canScan }}
-            <button class="button ellipsis {{if isScanning 'light'}}" {{action 'toggleScanning'}}>
-              {{fa-icon 'qrcode'}} 
-              {{#if isScanning}}
-                {{t 'stocktakes.stop_scanning'}}
-              {{else}}
-                {{t 'stocktakes.scanner_mode'}}
-              {{/if}}
-            </button>
-
-            <button class="button {{if barcodeService.flashlightActive 'light'}}" {{action 'toggleFlashlight' target=barcodeService}}>
-              {{fa-icon 'lightbulb' size='lg'}}
-            </button>
+        <button class="button ellipsis {{if isScanning 'light'}} {{unless canScan 'disabled'}}" {{action 'toggleScanning'}}>
+          {{fa-icon 'qrcode'}} 
+          {{#if isScanning}}
+            {{t 'stocktakes.stop_scanning'}}
+          {{else}}
+            {{t 'stocktakes.scanner_mode'}}
           {{/if}}
-          <button class="button ellipsis" {{action (multi-actions (action "stopScanning") (action "addItem"))}}>
-            {{fa-icon 'plus'}} {{t 'stocktakes.add_item'}}
-          </button>
-        {{/if}}
+        </button>
 
-        {{#if (is-equal mode modes.review)}}
-          <button class="button" disabled="{{if stocktake.cannotCommit true}}" {{action 'commit'}}>
-            {{t 'stocktakes.commit_stocktake'}}
-          </button>
-          <button class="button light" {{action 'cancelStocktake'}}>
-            {{t 'stocktakes.cancel_stocktake'}}
-          </button>
-        {{/if}}
+        <button class="button {{if barcodeService.flashlightActive 'light'}} {{unless canScan 'disabled'}}" {{action 'toggleFlashlight' target=barcodeService}}>
+          {{fa-icon 'lightbulb' size='lg'}}
+        </button>
+        <button class="button ellipsis" {{action (multi-actions (action "stopScanning") (action "addItem"))}}>
+          {{fa-icon 'plus'}} {{t 'stocktakes.add_item'}}
+        </button>
       </div>
 
-      {{#if (is-equal mode modes.review)}}
-        <div class="row buttons-container flex">
-          <div class="checkbox-container">
-            <div>{{t 'stocktakes.only_show_variances'}}</div>
-            <div class="checkbox" {{action (toggle this "onlyShowVariances")}}>
-              {{#if onlyShowVariances}}
-                <i>{{fa-icon 'check'}}</i>
-              {{/if}}
-            </div>
-          </div>
-          <div class="checkbox-container">
-            <div>{{t 'stocktakes.only_show_warnings'}}</div>
-            <div class="checkbox" {{action (toggle this "onlyShowWarnings")}}>
-              {{#if onlyShowWarnings}}
-                <i>{{fa-icon 'check'}}</i>
-              {{/if}}
-            </div>
-          </div>
+      <div class="row buttons-container flex">
+        <div class="filter-dropdown-container">
+          {{#composable-drop-down as |dropDown|}}
+            {{#dropDown.dropDownHeader}}
+                <div class="selected_option">
+                  Show: {{activeFilter.name}} ({{ activeFilter.count }})
+                  <i>{{fa-icon 'chevron-down' size='xs'}}</i>
+                </div>
+            {{/dropDown.dropDownHeader}}
+
+            {{#dropDown.dropDownBody}}
+              <div class="options_menu_list option_margin">
+                <div class="option_menu">
+                  {{#each filterList as |filter|}}
+                    <div {{action 'selectFilter' filter.name}}>
+                      {{ filter.name }} ({{ filter.count }})
+                    </div>
+                  {{/each}}
+                </div>
+              </div>
+            {{/dropDown.dropDownBody}}
+          {{/composable-drop-down}}
         </div>
-      {{/if}}
+      </div>
     {{/if}}
 
     {{!-- REVISION LIST --}}
@@ -134,7 +134,7 @@
       {{#ember-collection
         items=filteredRevisions
         class="ember-collection--no-sidebars"
-        cell-layout=(ember-collection-layouts/fixed-grid-layout 800 60) as |revision index|
+        cell-layout=(ember-collection-layouts/fixed-grid-layout 800 70) as |revision index|
       }}
         {{!-- REVISION BLOCK --}}
         {{#let-alias (pick-key (array-find revision.item.packagesLocations 'locationId' stocktake.location.id) 'quantity' 0) as |expectedQty|}}
