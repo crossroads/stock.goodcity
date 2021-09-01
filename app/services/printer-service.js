@@ -50,7 +50,7 @@ export default ApiBaseService.extend({
     tag = tag || "stock";
     var printers_user = this.get("store")
       .peekAll("printers_user")
-      .find(row => row.get("tag") === "stock" && row.get("userId") === +userId);
+      .find(row => row.get("tag") === tag && row.get("userId") === +userId);
 
     return (
       (printers_user && printers_user.get("printer")) ||

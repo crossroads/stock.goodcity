@@ -82,6 +82,7 @@ Router.map(function() {
 
   // Users
   this.route("manage_users");
+  this.route("manage_account");
 
   this.route("users", function() {
     this.route("add_user", { path: "/new" });

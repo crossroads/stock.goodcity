@@ -50,6 +50,7 @@ export default {
   create_new_pallet: "+Multi-Item Pallet",
   manage_inventory: "Quotas",
   manage_users: "管理用戶",
+  account: "Account",
   search_user: "Search User",
   new_international_order: "+國際",
   new_hk_order: "+HK Order",
