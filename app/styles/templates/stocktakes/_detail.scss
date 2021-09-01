@@ -105,7 +105,9 @@
   }
 
   .filter-dropdown-container {
+    padding-top: 0.5rem;
     position: relative;
+    font-size: 0.9rem;
 
     .selected_option {
       text-decoration: underline;
@@ -191,7 +193,13 @@
     .revision{
       $row-height: 2rem;
 
+      padding-left: 1rem;
       overflow-y: hidden;
+
+
+      .flex >* {
+        margin-right: 3vw;
+      }
 
       &.unsaved {
         input {
