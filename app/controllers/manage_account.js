@@ -1,6 +1,4 @@
 import Ember from "ember";
-import config from "stock/config/environment";
-import { regex } from "stock/constants/regex";
 import AsyncMixin, { ERROR_STRATEGIES } from "stock/mixins/async";
 import TitleAndLanguageMixin from "stock/mixins/grades_option";
 
@@ -41,33 +39,6 @@ export default Ember.Controller.extend(AsyncMixin, TitleAndLanguageMixin, {
     }
   ),
 
-  isValidEmail(email) {
-    return regex.EMAIL_REGEX.test(email);
-  },
-
-  getUserMobile() {
-    let mobile = this.get("user.mobile");
-    if (mobile) {
-      if (mobile.startsWith("+852")) {
-        return mobile;
-      } else {
-        return config.APP.HK_COUNTRY_CODE + mobile;
-      }
-    }
-  },
-
-  isValidMobile(mobile) {
-    return regex.HK_MOBILE_NUMBER_REGEX.test(mobile);
-  },
-
-  checkUserEmailValidity(email) {
-    if (email) {
-      return this.isValidEmail(email);
-    } else {
-      return this.isValidMobile(this.get("mobileNumber"));
-    }
-  },
-
   hideValidationErrors(target) {
     this.set(`${target.id}InputError`, false);
     this.set(`${target.id}ValidationError`, false);
@@ -91,7 +62,10 @@ export default Ember.Controller.extend(AsyncMixin, TitleAndLanguageMixin, {
           isValid = Boolean(value);
           break;
         case "email":
-          isValid = this.checkUserEmailValidity(value);
+          isValid = this.get("userService").checkUserEmailValidity(
+            value,
+            this.get("mobileNumber")
+          );
           break;
       }
 
@@ -99,7 +73,12 @@ export default Ember.Controller.extend(AsyncMixin, TitleAndLanguageMixin, {
         this.runTask(async () => {
           let user = this.get("user");
           user.set(e.target.id, value);
-          user.set("mobile", this.getUserMobile());
+          user.set(
+            "mobile",
+            this.get("userService").getUserMobileWithCode(
+              this.get("user.mobile")
+            )
+          );
 
           try {
             await user.save();
