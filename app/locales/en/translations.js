@@ -83,9 +83,9 @@ export default {
     confirm_count: "Confirm count is {{count}}",
     over: "Over",
     under: "Under",
-    add_item: "Add Item",
+    add_item: "Add",
     scanning_failure: "Failed to launch the scanner",
-    scanner_mode: "Scanner Mode",
+    scanner_mode: "Scanner",
     stop_scanning: "STOP Scanning",
     commit_stocktake: "Commit Stocktake",
     cancel_stocktake: "Cancel Stocktake",
@@ -95,6 +95,12 @@ export default {
     confirm_cancel: "This stocktake will be cancelled. Are you sure ?",
     processing_text:
       "This stocktake is being processed, this may take a few minutes. Please check again soon",
+    filters: {
+      all: "All",
+      counted: "Counted",
+      variances: "Variances",
+      warnings: "Warnings"
+    },
     tips: {
       start_counting: "Items you count will appear here",
       review_tab:

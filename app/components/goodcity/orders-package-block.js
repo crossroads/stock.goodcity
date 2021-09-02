@@ -210,7 +210,7 @@ export default Ember.Component.extend(AsyncMixin, DispatchActions, {
         .map(({ name, enabled }) => ({
           label: this.labelFor(name),
           icon: this.iconFor(name),
-          enabled: enabled,
+          enabled: name === "redesignate" ? true : enabled,
           trigger: this.runAction.bind(this, name)
         }));
     }

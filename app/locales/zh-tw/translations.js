@@ -92,6 +92,12 @@ export default {
     confirm_cancel: "這次盤點會被取消。確定？",
     processing_text:
       "This stocktake is being processed, this may take a few minutes. Please check again soon",
+    filters: {
+      all: "All",
+      counted: "Counted",
+      variances: "Variances",
+      warnings: "Warnings"
+    },
     tips: {
       start_counting: "你已點算的項目會在此出現",
       review_tab: "點選「檢視」以查看完整項目清單"

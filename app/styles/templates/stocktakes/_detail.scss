@@ -75,10 +75,11 @@
   }
 
   .message-zone {
-    height: 7vh;
+    height: 5vh;
+    text-align: center;
 
     .top-message {
-      margin: 1rem;
+      padding: 0.5rem;
 
       &.error-message {
         color: $problem-red;
@@ -103,16 +104,38 @@
     height: 12vh;
   }
 
+  .filter-dropdown-container {
+    padding-top: 0.5rem;
+    position: relative;
+    font-size: 0.9rem;
+
+    .selected_option {
+      text-decoration: underline;
+      text-underline-position: under;
+    }
+
+    .options_menu_list {
+      left: 0;
+      margin: 0;
+      margin-top: 5px;
+    }
+  }
+
   .buttons-container {
     padding-left: 1rem;
-    height: 7vh;
-    margin-bottom: 1rem;
+    margin-bottom: 0.4rem;
 
     button {
       &.ellipsis {
         @include ellipsis();
       }
       height: 2.5rem;
+      margin-bottom: 0;
+
+      &.disabled {
+        opacity: 0.4;
+        pointer-events: none;
+      }
     }
 
     .columns {
@@ -152,7 +175,8 @@
 
   .revision-list {
     overflow-y: auto;
-    height: 60vh;
+    height: 70vh;
+    margin-top: 1rem;
     position: relative;
 
     .ember-collection--no-sidebars {
@@ -163,13 +187,19 @@
     }
 
     &.small {
-      height: 20vh;
+      height: 30vh;
     }
 
     .revision{
       $row-height: 2rem;
 
+      padding-left: 1rem;
       overflow-y: hidden;
+
+
+      .flex >* {
+        margin-right: 3vw;
+      }
 
       &.unsaved {
         input {
@@ -198,15 +228,12 @@
         i { color: white; }
 
         position: absolute;
-        height: 80%;
+        height: 65%;
         width: 100%;
         background-color: #ff4353;
         top: 0;
-        left: 2.5rem;
+        left: 3.5rem;
         padding: 0.5rem;
-        @media #{$small-only} {
-          left: 2.5rem;
-        }
       }
 
       .row, .flex{

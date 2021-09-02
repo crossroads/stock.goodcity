@@ -248,6 +248,10 @@ export default ApiBaseService.extend(NavigationAwareness, AsyncMixin, {
     const ordPkg = pkg.get("ordersPackages").find(op => {
       return parseInt(op.get("orderId")) === parseInt(order.get("id"));
     });
+
+    if (ordPkg && ordPkg.get("isCancelled")) {
+      this.set("designationQty", ordPkg.get("quantity")); //setting the quantity for redesignation action
+    }
     return ordPkg && ordPkg.get("isDesignated") ? ordPkg.get("quantity") : 0;
   },
 
