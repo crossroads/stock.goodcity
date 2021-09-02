@@ -47,6 +47,16 @@
       </div>
     </div>
     <div class="row menu-margin">
+      {{#if (is-or getCurrentUser.canManageStocktakes getCurrentUser.canManageStocktakeRevisions)}}
+        <div class="small-4 columns menu-option">
+          {{#link-to 'stocktakes' class="menu-list-anchor"}}
+          <div class="menu-svg">{{fa-icon 'list-ol' size="lg"}}</div>
+          <br>
+          <div class="option-subtext">{{t 'stocktakes.title'}}</div>
+          {{/link-to}}
+        </div>
+      {{/if}}
+
       <div class="small-4 columns menu-option">
         {{#link-to 'manage_account' class="menu-list-anchor"}}
         <div class="menu-svg">{{fa-icon 'user-cog' size="lg"}}</div>
@@ -54,18 +64,8 @@
         <div class="option-subtext">{{t 'account'}}</div>
         {{/link-to}}
       </div>
+      <div class="small-4 columns menu-option"></div>
     </div>
-    {{#if (is-or getCurrentUser.canManageStocktakes getCurrentUser.canManageStocktakeRevisions)}}
-      <div class="row menu-margin">
-        <div class="small-4 columns menu-option">
-          {{#link-to 'stocktakes' class="menu-list-anchor"}}
-            <div class="menu-svg">{{fa-icon 'list-ol' size="lg"}}</div>
-            <br>
-            <div class="option-subtext">{{t 'stocktakes.title'}}</div>
-          {{/link-to}}
-        </div>
-      </div>
-    {{/if}}
   </div>
 
   <div class="row">

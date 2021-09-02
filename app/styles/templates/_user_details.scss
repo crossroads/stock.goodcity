@@ -178,7 +178,11 @@
 
 .add-user-form {
   input {
-    height: 1.8rem !important;
+    height: 2rem !important;
+
+    @media #{$large-only} {
+      font-size: 1rem;
+    }
   }
 
   select {
@@ -188,6 +192,10 @@
     background-size: 1.2rem !important;
     background-position: 95% !important;
     height: 1.8rem !important;
+
+    @media #{$large-only} {
+      font-size: 1rem;
+    }
   }
 
   input[type="checkbox"] {
@@ -259,14 +267,17 @@
   background-color:$button-bg-hover;
 }
 
-.image-edit{
+.image-edit {
   text-decoration: underline;
-  margin-top: 2rem;
   margin-left: 8.5rem;
 
   @media #{$small-only} {
     margin-top: 1rem;
     margin-left: 4.5rem;
+  }
+
+  .edit-link {
+    padding-top: 1.5rem;
   }
 }
 
@@ -442,4 +453,9 @@
     border-color: $black;
     color: $black !important;
   }
+}
+
+.accounts-page {
+  border-bottom: 1px solid #a3aab6;
+  margin-bottom: 1.5rem;
 }
