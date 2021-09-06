@@ -1,0 +1,138 @@
+<nav class="tab-bar user-details-heading accounts-page">
+  <section class="left-small">
+    {{#link-to "app_menu_list" class="user-back-link"}}
+    <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-left'}}</i>
+    <div>{{t "back"}}</div>
+    {{/link-to}}
+  </section>
+
+  <section class="middle tab-bar-section">
+    <h1 class="title">Account</h1>
+  </section>
+</nav>
+
+<section class="main-section add-user-form new-user-section ui accounts-form">
+    <div class="row">
+      <div class="small-5 columns item-label">
+        {{t 'users.image'}}
+      </div>
+      <div class="small-7 columns">
+        {{upload-user-image user=user}}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="small-5 columns item-label">
+        {{t 'users.title'}}
+      </div>
+      <div class="small-7 columns field-container title-select">
+        {{inline-select-list
+        content=titles
+        name="title"
+        class="inline-edit-bg"
+        item=user
+        isPrimitive=true
+        autosave=true
+        on-change=(action (mut selectedTitle))
+        }}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="small-5 columns item-label">
+        {{t 'users.first_name'}}
+      </div>
+      <div class="small-7 columns field-container">
+        {{input type='text'
+        id="firstName"
+        class="inline-edit-bg"
+        value=user.firstName
+        focusOut=(action "updateUserDetails")
+        }}
+        {{#if firstNameInputError}}
+        <div class='inline-edit-error'>{{t 'organisation.user.validation_error.first_name'}}</div>
+        {{/if}}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="small-5 columns item-label">
+        {{t 'users.family_name'}}
+      </div>
+      <div class="small-7 columns field-container ">
+        {{input type='text'
+        id="lastName"
+        class="inline-edit-bg"
+        value=user.lastName
+        focusOut=(action "updateUserDetails")
+        }}
+        {{#if lastNameInputError}}
+        <div class='inline-edit-error'>{{t 'organisation.user.validation_error.family_name'}}</div>
+        {{/if}}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="small-5 columns item-label">
+        {{t 'users.email_address'}}
+      </div>
+      <div class="small-7 columns field-container">
+        {{input type="email"
+        value=user.email
+        name="email"
+        id="email"
+        class="inline-edit-bg"
+        formnovalidate="true"
+        focusOut=(action "updateUserDetails")
+        }}
+
+        {{#if emailInputError}}
+        <div class='inline-edit-error'>{{t 'organisation.user.validation_error.blank_email'}}</div>
+        {{/if}}
+
+        {{#if emailValidationError}}
+        <div class='inline-edit-error'>{{t 'organisation.user.validation_error.email'}}</div>
+        {{/if}}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="small-12 columns item-label">
+        {{t "users.admin_printer_label"}}
+      </div>
+    </div>
+    <div class="row">
+      <div class="small-8 columns field-container">
+        {{select-list
+          content=printers
+          class="inline-edit-bg"
+          prompt="--"
+          on-change=(action "changeAdminPrinter")
+          selectedValue=selectedAdminPrinterDisplay
+          selectArrow=false
+          value=selectedAdminPrinterDisplay
+          classNames='printer-list'}}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="small-12 columns item-label">
+        {{t "users.stock_printer_label"}}
+      </div>
+    </div>
+    <div class="row">
+      <div class="small-8 columns field-container">
+        {{select-list
+          content=printers
+          class="inline-edit-bg"
+          prompt="--"
+          on-change=(action "changeStockPrinter")
+          selectedValue=selectedStockPrinterDisplay
+          selectArrow=false
+          value=selectedStockPrinterDisplay
+          classNames='printer-list'}}
+      </div>
+    </div>
+</section>
+
+{{partial "loading_image"}}

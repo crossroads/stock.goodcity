@@ -26,35 +26,7 @@
         {{t 'users.image'}}
       </div>
       <div class="small-7 columns">
-        <span class={{if user.image "image" "image-box"}}>
-          {{#if user.image}}
-            <img src={{user.image.faceCaptureImageUrl}} class="thumb" />
-          {{else}}
-            <a {{action "triggerUpload"}}  class="{{unless isReady 'disabled'}}">
-              <i aria-hidden="true">{{fa-icon 'camera'}}</i><br />
-              {{t 'users.add_image'}}
-            </a>
-            {{cloudinary-upload ready="uploadReady" progress="uploadProgress"
-              always="uploadComplete" done="uploadEditedImageSuccess" submit="uploadStart"}}
-          {{/if}}
-        </span>
-
-        <div class="item-label image-edit">
-          {{#if user.image}}
-            <div>
-              <a {{action "triggerUpload"}}  class="{{unless isReady 'disabled'}}">
-                {{t 'users.edit_image'}}
-              </a>
-              {{cloudinary-upload ready="uploadReady" progress="uploadProgress"
-              always="uploadComplete" done="uploadEditedImageSuccess" submit="uploadStart"}}
-            </div>
-            <div class="delete-image">
-              <a {{action "deleteImage"}} >
-                {{t 'users.delete_image'}}
-              </a>
-            </div>
-          {{/if}}
-        </div>
+        {{upload-user-image user=user}}
       </div>
     </div>
 

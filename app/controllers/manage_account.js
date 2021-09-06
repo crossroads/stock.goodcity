@@ -5,23 +5,43 @@ import TitleAndLanguageMixin from "stock/mixins/grades_option";
 export default Ember.Controller.extend(AsyncMixin, TitleAndLanguageMixin, {
   user: Ember.computed.alias("model.user"),
   userService: Ember.inject.service(),
+  printerService: Ember.inject.service(),
+  selectedAdminPrinterId: "",
+  selectedStockPrinterId: "",
+
+  printers: Ember.computed(function() {
+    return this.get("printerService").allAvailablePrinters();
+  }),
+
+  selectedAdminPrinterDisplay: Ember.computed(
+    "model.user.id",
+    "selectedAdminPrinterId",
+    function() {
+      const printerId = this.get("selectedAdminPrinterId");
+      return this.get("userService").getPrinterForUser(
+        this.get("user"),
+        printerId,
+        "admin"
+      );
+    }
+  ),
+
+  selectedStockPrinterDisplay: Ember.computed(
+    "model.user.id",
+    "selectedStockPrinterId",
+    function() {
+      const printerId = this.get("selectedStockPrinterId");
+      return this.get("userService").getPrinterForUser(
+        this.get("user"),
+        printerId,
+        "stock"
+      );
+    }
+  ),
 
   hideValidationErrors(target) {
     this.set(`${target.id}InputError`, false);
     this.set(`${target.id}ValidationError`, false);
-  },
-
-  districts: Ember.computed(function() {
-    return this.get("store")
-      .peekAll("district")
-      .sortBy("name");
-  }),
-
-  getUpdatedDistrictParams() {
-    let address_attributes = {
-      district_id: this.get("user.associatedDistrict.id") || null
-    };
-    return { address_attributes };
   },
 
   actions: {
@@ -47,26 +67,23 @@ export default Ember.Controller.extend(AsyncMixin, TitleAndLanguageMixin, {
             this.get("mobileNumber")
           );
           break;
-        case "mobile":
-          isValid = this.get("userService").checkUserMobileValidity(
-            value,
-            this.get("user.email")
-          );
-          break;
       }
 
       if (isValid) {
         this.runTask(async () => {
           let user = this.get("user");
-          value = e.target.id == "mobile" && value ? "+852" + value : value;
           user.set(e.target.id, value);
+          user.set(
+            "mobile",
+            this.get("userService").getUserMobileWithCode(
+              this.get("user.mobile")
+            )
+          );
+
           try {
             await user.save();
           } catch (e) {
             this.get("user").rollbackAttributes();
-            let phoneNumber =
-              this.get("user.mobile") && this.get("user.mobile").slice(4);
-            this.set("mobileNumber", phoneNumber);
             throw e;
           }
         }, ERROR_STRATEGIES.MODAL);
@@ -81,21 +98,28 @@ export default Ember.Controller.extend(AsyncMixin, TitleAndLanguageMixin, {
       }
     },
 
-    updateMobile(e) {
-      let value = e.target.value.trim();
-      let mobileCode = value ? "+852" : "";
-      this.set("user.mobile", mobileCode + this.get("mobileNumber"));
-      this.send("updateUserDetails", e);
+    changeAdminPrinter(value) {
+      let printerId = value.id;
+      this.set("selectedAdminPrinterId", printerId);
+
+      printerId = this.get("selectedAdminPrinterId");
+      this.get("printerService").addDefaultPrinter(
+        printerId,
+        this.get("user.id"),
+        "admin"
+      );
     },
 
-    changeDistrict() {
-      return this.runTask(async () => {
-        const id = this.get("user.id");
-        let data = await this.get("userService").editUser(id, {
-          user: this.getUpdatedDistrictParams()
-        });
-        this.get("store").pushPayload(data);
-      }, ERROR_STRATEGIES.MODAL);
+    changeStockPrinter(value) {
+      let printerId = value.id;
+      this.set("selectedStockPrinterId", printerId);
+
+      printerId = this.get("selectedStockPrinterId");
+      this.get("printerService").addDefaultPrinter(
+        printerId,
+        this.get("user.id"),
+        "stock"
+      );
     }
   }
 });
