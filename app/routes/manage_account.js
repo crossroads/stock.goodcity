@@ -17,5 +17,6 @@ export default AuthorizeRoute.extend({
       "selectedStockPrinterId",
       controller.get("selectedStockPrinterDisplay.id")
     );
+    model.user.set("mobile", controller.getUserMobile());
   }
 });

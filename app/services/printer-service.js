@@ -32,7 +32,7 @@ export default ApiBaseService.extend({
   },
 
   addDefaultPrinter(printer, userId, tag) {
-    const id = toID(printer);
+    const id = printer ? toID(printer) : null;
     this.POST(`/printers_users`, {
       printers_users: {
         printer_id: id,
@@ -52,10 +52,7 @@ export default ApiBaseService.extend({
       .peekAll("printers_user")
       .find(row => row.get("tag") === tag && row.get("userId") === +userId);
 
-    return (
-      (printers_user && printers_user.get("printer")) ||
-      this.getDefaultPrinter()
-    );
+    return printers_user && printers_user.get("printer");
   },
 
   __getStockPrintersUsers() {

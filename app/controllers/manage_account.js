@@ -9,6 +9,12 @@ export default Ember.Controller.extend(AsyncMixin, TitleAndLanguageMixin, {
   selectedAdminPrinterId: "",
   selectedStockPrinterId: "",
 
+  getUserMobile() {
+    return this.get("userService").getUserMobileWithCode(
+      this.get("user.mobile")
+    );
+  },
+
   printers: Ember.computed(function() {
     return this.get("printerService").allAvailablePrinters();
   }),
@@ -73,12 +79,6 @@ export default Ember.Controller.extend(AsyncMixin, TitleAndLanguageMixin, {
         this.runTask(async () => {
           let user = this.get("user");
           user.set(e.target.id, value);
-          user.set(
-            "mobile",
-            this.get("userService").getUserMobileWithCode(
-              this.get("user.mobile")
-            )
-          );
 
           try {
             await user.save();
