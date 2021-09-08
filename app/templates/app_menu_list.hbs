@@ -47,6 +47,22 @@
       </div>
     </div>
     <div class="row menu-margin">
+      <div class="small-4 columns menu-option">
+        {{#link-to 'access_pass' class="menu-list-anchor"}}
+        <div class="menu-svg">{{fa-icon 'key' size="lg"}}</div>
+        <br>
+        <div class="option-subtext">{{t 'access_pass.menu'}}</div>
+        {{/link-to}}
+      </div>
+
+      <div class="small-4 columns menu-option">
+        {{#link-to 'manage_account' class="menu-list-anchor"}}
+        <div class="menu-svg">{{fa-icon 'user-cog' size="lg"}}</div>
+        <br>
+        <div class="option-subtext">{{t 'account'}}</div>
+        {{/link-to}}
+      </div>
+
       {{#if (is-or getCurrentUser.canManageStocktakes getCurrentUser.canManageStocktakeRevisions)}}
         <div class="small-4 columns menu-option">
           {{#link-to 'stocktakes' class="menu-list-anchor"}}
@@ -57,14 +73,6 @@
         </div>
       {{/if}}
 
-      <div class="small-4 columns menu-option">
-        {{#link-to 'manage_account' class="menu-list-anchor"}}
-        <div class="menu-svg">{{fa-icon 'user-cog' size="lg"}}</div>
-        <br>
-        <div class="option-subtext">{{t 'account'}}</div>
-        {{/link-to}}
-      </div>
-      <div class="small-4 columns menu-option"></div>
     </div>
   </div>
 

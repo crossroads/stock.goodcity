@@ -1163,5 +1163,13 @@ export default {
     merge_user_info:
       "The resulting user will have all the rights, ownership, group memberships etc. of both users combined.",
     merge_user: "Merge User"
+  },
+
+  access_pass: {
+    menu: "Access Pass",
+    today: "Today",
+    tomorrow: "Tomorrow",
+    week: "This week",
+    date: "Date"
   }
 };

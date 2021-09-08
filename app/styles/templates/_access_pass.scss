@@ -1,0 +1,47 @@
+.access-pass-role-form {
+  label {
+    color: #000 !important;
+  }
+
+  input[type="checkbox"] {
+    display: none;
+  }
+
+  a#btn2 {
+    background-color: transparent;
+    border: 1px solid black;
+    color: black !important;
+    width: 45%;
+    float: left !important;
+  }
+
+  a#btn1 {
+    width: 45%;
+  }
+}
+
+.access-pass-form {
+  .generate-pass-button {
+    margin-top: 2rem;
+  }
+
+  .roles-input {
+    padding-top: 0.5rem;
+  }
+}
+
+.display-access-pass {
+  text-align: center;
+  margin: 1rem 0;
+  color: white;
+
+  .pass-timer {
+  }
+
+  .pass-code {
+    font-size: 3rem;
+    font-weight: bolder;
+    line-height: 2;
+    letter-spacing: 0.8rem;
+  }
+}

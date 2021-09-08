@@ -1,0 +1,65 @@
+{{textarea
+  value=accessPassRoles
+  focusIn=(action "showStockRolesPopup")}}
+
+{{#message-box
+btn1Text=(t "save")
+btn1Callback=(action "setAccessRoles")
+btn2Text=(t "discard")
+btn2Callback=(action "closeStockRolesPopup")
+isVisible=showStockRolesPopup
+classNames="popupOverlay ui access-pass-role-form"
+}}
+  <div class="role-access-form access-pass-role-form">
+
+    <div class="row">
+      <div class="columns small-12 roles-selection">
+
+        <div class="access-heading">
+          {{t "users.roles.role_for_orders"}}
+        </div>
+
+        <div class="time_inputs id-type-radio-input row">
+          <div class='custom_radio_buttons small-12 columns'>
+            {{input type="checkbox" name="labor" checked=hasOrderFulfilmentRole id='order_fulfilment_role'}}
+            <label class="checkbox-left" for='order_fulfilment_role'>
+              {{t "users.roles.order_fulfilment_role"}}
+              <div class="role-info"> {{t "users.roles.order_fulfilment_role_info"}}</div>
+            </label>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="columns small-12 roles-selection">
+
+        <div class="access-heading">
+          {{t "users.roles.role_for_stock"}}
+        </div>
+
+        <div class="time_inputs id-type-radio-input row">
+          <div class='custom_radio_buttons small-12 columns'>
+            {{input type="checkbox" name="labor" checked=hasStockFulfilmentRole id='stock_fulfilment_role'}}
+            <label class="checkbox-left" for='stock_fulfilment_role'>
+              {{t "users.roles.stock_fulfilment_role"}}
+              <div class="role-info"> {{t "users.roles.stock_fulfilment_role_info"}}</div>
+            </label>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    {{#if roleError}}
+    <div class="row">
+      <div class="access-error">
+        <i>{{fa-icon 'exclamation-triangle'}}</i>
+        <span>At least one role must be assigned.</span>
+      </div>
+    </div>
+    {{/if}}
+
+  </div>
+{{/message-box}}
