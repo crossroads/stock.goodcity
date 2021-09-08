@@ -21,13 +21,25 @@ export default Ember.Component.extend({
     );
   }),
 
-  onOrderChange: Ember.observer("order", function() {
-    this.set("quantity", this.get("maxQuantity"));
+  onOrderOrItemChange: Ember.observer("order", "pkg", function() {
+    if (!this.cancelledOrderPackage(this.get("pkg"), this.get("order"))) {
+      this.set("quantity", this.get("maxQuantity"));
+    }
   }),
 
-  onItemChange: Ember.observer("pkg", function() {
-    this.set("quantity", this.get("maxQuantity"));
-  }),
+  cancelledOrderPackage(pkg, order) {
+    let cancel = false;
+    const ordPkg =
+      pkg &&
+      pkg.get("ordersPackages").find(op => {
+        return parseInt(op.get("orderId")) === parseInt(order.get("id"));
+      });
+
+    if (ordPkg && ordPkg.get("isCancelled")) {
+      cancel = true;
+    }
+    return cancel;
+  },
 
   // Lists other orders the package is designated to
   otherDesignations: Ember.computed(

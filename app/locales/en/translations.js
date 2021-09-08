@@ -39,7 +39,7 @@ export default {
   manage_system: "Manage System",
   new_item_menu: "Create New Inventory Item",
   new_order_menu: "Create New Order",
-  search_organisation: "Search Organisation",
+  search_organisation: "Organisations",
   not_now: "Not Now",
   close: "Close",
   incomplete_form: "Please fill in the required fields to continue",
@@ -54,6 +54,7 @@ export default {
   create_new_pallet: "+Multi-Item Pallet",
   manage_inventory: "Quotas",
   manage_users: "Manage Users",
+  account: "Account",
   search_user: "Search User",
   new_international_order: "+International",
   new_hk_order: "+HK Order",
@@ -76,15 +77,15 @@ export default {
     saving: "Saving changes...",
     save_error: "An error occured. Some changes were not applied",
     try_again: "Try again",
-    expected_qty: "Expected Qty",
+    expected_qty: "Exp Qty",
     recorded_change: "Recorded Change",
     requires_recount: "Requires (re)count.",
     confirm_count: "Confirm count is {{count}}",
     over: "Over",
     under: "Under",
-    add_item: "Add Item",
+    add_item: "Add",
     scanning_failure: "Failed to launch the scanner",
-    scanner_mode: "Scanner Mode",
+    scanner_mode: "Scanner",
     stop_scanning: "STOP Scanning",
     commit_stocktake: "Commit Stocktake",
     cancel_stocktake: "Cancel Stocktake",
@@ -94,6 +95,12 @@ export default {
     confirm_cancel: "This stocktake will be cancelled. Are you sure ?",
     processing_text:
       "This stocktake is being processed, this may take a few minutes. Please check again soon",
+    filters: {
+      all: "All",
+      counted: "Counted",
+      variances: "Variances",
+      warnings: "Warnings"
+    },
     tips: {
       start_counting: "Items you count will appear here",
       review_tab:
@@ -175,7 +182,9 @@ export default {
     not_connected: "Not Connected"
   },
   order_cancellation_reason: {
-    warning: "This will remove any items from the order and cancel the order",
+    warning: "WARNING! YOU ARE ABOUT TO CANCEL THE ENTIRE ORDER.",
+    message:
+      "This will undesignate all items and cancel the order. Are you sure you want to proceed?",
     title: "Cancellation Reasons",
     other: "Other",
     reason_count: "{{count}} remaining"
@@ -1041,6 +1050,10 @@ export default {
     create_new_user: "Add new user",
     first_name: "First Name",
     last_name: "Last Name",
+    family_name: "Family Name",
+    email_address: "Email Address",
+    admin_printer_label: "Preferred Label Printer in Admin App",
+    stock_printer_label: "Preferred Label Printer in Stock App",
     mobile: "Mobile",
     email: "Email",
     district: "District",

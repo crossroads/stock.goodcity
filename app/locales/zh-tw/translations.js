@@ -50,6 +50,7 @@ export default {
   create_new_pallet: "+Multi-Item Pallet",
   manage_inventory: "Quotas",
   manage_users: "管理用戶",
+  account: "Account",
   search_user: "Search User",
   new_international_order: "+國際",
   new_hk_order: "+HK Order",
@@ -91,6 +92,12 @@ export default {
     confirm_cancel: "這次盤點會被取消。確定？",
     processing_text:
       "This stocktake is being processed, this may take a few minutes. Please check again soon",
+    filters: {
+      all: "All",
+      counted: "Counted",
+      variances: "Variances",
+      warnings: "Warnings"
+    },
     tips: {
       start_counting: "你已點算的項目會在此出現",
       review_tab: "點選「檢視」以查看完整項目清單"
@@ -166,7 +173,9 @@ export default {
     not_connected: "並未連線"
   },
   order_cancellation_reason: {
-    warning: "此動作將移除訂單內的所有物品並取消訂單",
+    warning: "WARNING! YOU ARE ABOUT TO CANCEL THE ENTIRE ORDER.",
+    message:
+      "This will undesignate all items and cancel the order. Are you sure you want to proceed?",
     title: "取消訂單的原因",
     other: "取消訂單的原因",
     reason_count: "{{count}} remaining"
@@ -1003,6 +1012,10 @@ export default {
     create_new_user: "添加新用戶",
     first_name: "名",
     last_name: "姓",
+    family_name: "Family Name",
+    email_address: "Email Address",
+    admin_printer_label: "Preferred Label Printer in Admin App",
+    stock_printer_label: "Preferred Label Printer in Stock App",
     mobile: "手提電話號碼",
     email: "電郵",
     district: "地區",

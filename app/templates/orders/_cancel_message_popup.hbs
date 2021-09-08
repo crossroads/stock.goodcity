@@ -1,5 +1,6 @@
 {{#message-box btn1Text="Not Now"  btn2Text=cancelText btn2Callback=(action "cancelOrder") isVisible=showCancellationReason classNames="popupOverlay cancellation_reason"}}
   <p>{{t 'order_cancellation_reason.warning'}}</p>
+  <p>{{t 'order_cancellation_reason.message'}}</p>
   <strong class="title">{{t 'order_cancellation_reason.title'}}</strong>
   <div class="row">
     {{#each cancellationReasons as |reason|}}

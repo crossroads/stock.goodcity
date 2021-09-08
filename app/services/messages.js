@@ -50,7 +50,7 @@ export default Ember.Service.extend({
     const params = {
       page: page,
       state: state,
-      messageable_type: ["order", "package"]
+      messageable_type: ["Order", "Package"]
     };
 
     return new AjaxPromise(

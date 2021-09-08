@@ -1,7 +1,9 @@
 import Ember from "ember";
 import ApiBaseService from "./api-base-service";
+import config from "stock/config/environment";
 import _ from "lodash";
 import { ROLES } from "stock/constants/roles";
+import { regex } from "stock/constants/regex";
 
 export default ApiBaseService.extend({
   store: Ember.inject.service(),
@@ -198,5 +200,39 @@ export default ApiBaseService.extend({
       master_user_id: targetUserId,
       merged_user_id: sourceUserId
     }).then(data => this.get("store").pushPayload(data));
+  },
+
+  isValidEmail(email) {
+    return regex.EMAIL_REGEX.test(email);
+  },
+
+  isValidMobile(mobile) {
+    return regex.HK_MOBILE_NUMBER_REGEX.test(mobile);
+  },
+
+  checkUserEmailValidity(email, mobile) {
+    if (email) {
+      return this.isValidEmail(email);
+    } else {
+      return this.get("user.disabled") || this.isValidMobile(mobile);
+    }
+  },
+
+  checkUserMobileValidity(mobile, email) {
+    if (mobile) {
+      return this.isValidMobile(mobile);
+    } else {
+      return this.get("user.disabled") || this.isValidEmail(email);
+    }
+  },
+
+  getUserMobileWithCode(mobile) {
+    if (mobile) {
+      if (mobile.startsWith("+852")) {
+        return mobile;
+      } else {
+        return config.APP.HK_COUNTRY_CODE + mobile;
+      }
+    }
   }
 });

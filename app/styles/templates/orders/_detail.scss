@@ -28,6 +28,11 @@
     border: 2px solid #949698;
   }
 
+  .reveal-modal{
+    overflow-y: scroll;
+    max-height: 83vh;
+  }
+
   .reason-count {
     margin-top: -1%;
     color: gray;
@@ -413,7 +418,7 @@
       margin-right: -150%;
     }
   }
-  
+
   .menu-option-text {
     display: inline-block;
     width: 50%;
