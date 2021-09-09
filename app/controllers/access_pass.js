@@ -1,6 +1,7 @@
 import Ember from "ember";
+import GoodcityController from "./goodcity_controller";
 
-export default Ember.Controller.extend({
+export default GoodcityController.extend({
   i18n: Ember.inject.service(),
   printerService: Ember.inject.service(),
 
@@ -62,18 +63,28 @@ export default Ember.Controller.extend({
       this.set("selectedPrinterId", printerId);
     },
 
-    generateAccessPass() {
-      const roleIds = this.get("accessPassRoleIds");
-      const printerId = this.get("selectedPrinterDisplay.id");
+    async generateAccessPass() {
       const accessExpiresAt = this.getSelectionDate(
         this.get("selectedAccessOption")
       );
 
-      this.set("accessPassRoleIds", "");
-
-      this.transitionToRoute("display_access_pass", {
-        queryParams: { code: 223344 }
+      const newRecord = this.get("store").createRecord("access-pass", {
+        roleIds: this.get("accessPassRoleIds"),
+        printerId: this.get("selectedPrinterDisplay.id"),
+        accessExpiresAt: accessExpiresAt
       });
+
+      this.showLoadingSpinner();
+
+      return newRecord
+        .save()
+        .catch(r => this.onError(r))
+        .then(data => {
+          this.transitionToRoute("display_access_pass", {
+            queryParams: { code: data.data.accessKey }
+          });
+          this.hideLoadingSpinner();
+        });
     }
   }
 });

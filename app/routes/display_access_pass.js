@@ -14,5 +14,10 @@ export default AuthorizeRoute.extend({
       transition.abort();
       this.transitionTo("access_pass");
     }
+  },
+
+  setupController(controller, model) {
+    this._super(controller, model);
+    controller.timerFunction();
   }
 });
