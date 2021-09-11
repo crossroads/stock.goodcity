@@ -95,6 +95,12 @@
       </div>
 
       <div class="row buttons-container flex">
+        <div class="search-text-input">
+          <i class="close-button" {{action (mut searchTerm) ""}}>
+            {{fa-icon 'times-circle'}}
+          </i>
+          {{input type="text" value=searchTerm name="stocktakeSearch" placeholder="Filter list" pattern=".*\S.*"}}
+        </div>
         <div class="filter-dropdown-container">
           {{#composable-drop-down as |dropDown|}}
             {{#dropDown.dropDownHeader}}
