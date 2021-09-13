@@ -250,13 +250,9 @@ export default {
     please_wait: "Please wait {{timer}} seconds before requesting a pin again",
     resend: "Resend"
   },
-  _verification_pin: {
-    input_code: "Input 4-digit SMS code we just sent you:",
-    auth_error: "Sorry! Please enter the correct pin."
-  },
   login: {
-    hk_only: "Mobile phone # (Hong Kong only)",
-    login: "Login",
+    input_mobile: "Please input your mobile phone number",
+    login: "Stock App - Log In",
     smscode: "Get 4-digit SMS code"
   },
   logout: {
@@ -1171,5 +1167,22 @@ export default {
     tomorrow: "Tomorrow",
     week: "This week",
     date: "Date"
+  },
+
+  _resend: {
+    try_again: "Try again in {{timer}} seconds",
+    please_wait: "Please wait {{timer}} seconds before requesting a pin again",
+    no_sms: "Haven't received your pin code?",
+    mobile_correct: "Is {{mobile}} correct?",
+    go_back: "Go back to change it.",
+    check_junk: "Check your junk email folder",
+    not_working:
+      "Still not working? Email <a class='auth_links' href='mailto:contact@goodcity.hk'>contact@goodcity.hk</a> for help.",
+    resend: "Resend Code"
+  },
+
+  _verification_pin: {
+    input_code: "Input your pin code below",
+    auth_error: "Sorry! Please enter the correct pin."
   }
 };

@@ -1,0 +1,90 @@
+.login-tab {
+  margin-bottom: 0;
+}
+
+.login-page-app-info {
+  background-color: black;
+  text-align: center;
+  padding: 1rem;
+
+  .info-main {
+    font-weight: bolder;
+    color: white;
+  }
+
+  .info-text {
+    margin-top: 1rem;
+    color: #a3aab6;
+  }
+}
+
+.login-form {
+  .get-started {
+    color: white;
+
+    div {
+      font-size: 0.8rem;
+      font-weight: bolder;
+      margin-top: 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    label {
+      margin-bottom: 1rem;
+    }
+  }
+
+  .getsmscode {
+    margin-top: 2rem;
+  }
+
+  .privacy-info-text {
+    margin-top: 0.5rem;
+  }
+}
+
+.auth-pin-form {
+  .about-pin {
+    margin: 1rem 0;
+
+    .pin-sent-to {
+      color: white;
+      font-size: 0.8rem;
+    }
+  }
+
+  .pin-details-text {
+    margin-top: 1rem;
+    padding-left: 0.3rem;
+
+    .form-label {
+      margin-bottom: 0.5rem;
+    }
+
+    a {
+      color: #a3aab6 !important;
+      text-decoration: underline;
+    }
+  }
+}
+
+.guest-user-details {
+  .image {
+    width: 7rem;
+
+    @media #{$small-only} {
+      width: 5rem;
+    }
+  }
+
+  .row.detail-row {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+
+    input, select {
+      background: transparent;
+      color: white;
+      border: 1px solid;
+    }
+  }
+}

@@ -3,21 +3,16 @@ import Ember from "ember";
 export default Ember.Controller.extend({
   queryParams: ["destination", "id"],
   application: Ember.inject.controller(),
+  accessKey: "",
 
   actions: {
     logMeOut() {
       this.get("application").send("logMeOut");
     },
 
-    tryAttemptedTransition() {
-      if (this.destination) {
-        if (this.id) {
-          this.replaceRoute(this.destination, +this.id);
-        } else {
-          this.replaceRoute(this.destination);
-        }
-      } else {
-        this.replaceRoute("/");
+    hello() {
+      if (this.get("accessKey") && this.get("accessKey").length === 6) {
+        // submit access key API
       }
     }
   }

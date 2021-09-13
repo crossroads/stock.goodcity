@@ -1,8 +1,18 @@
-<nav class="tab-bar">
+<nav class="tab-bar login-tab">
   <section class="middle tab-bar-section">
     <h1 class="title">{{t "login.login"}}</h1>
   </section>
 </nav>
+
+<section class="main-section login-page-app-info">
+  <div class="row">
+    <div class="small-12 columns">
+      <div class="info-main">Staff & volunteers working with Crossroads Foundation may use this app to process stock.</div>
+      <div class="info-text">To donate goods please use our donor app.</div>
+      <div class="info-text">To request goods please use our charity app.</div>
+    </div>
+  </div>
+</section>
 
 {{#validatable-form class="form-horizontal login-form"}}
   <section class="main-section">
@@ -11,16 +21,17 @@
 
         <div class="mobile">
           <div class="row">
-            <div class="small-12 columns">
-             <label class="form-label">{{t "login.hk_only"}}</label>
+            <div class="small-12 columns get-started">
+              <div>Get started here</div>
+              <label class="form-label">{{t "login.input_mobile"}}</label>
             </div>
           </div>
 
           <div class="row collapse">
-            <div class="small-3 large-1 columns">
+            <div class="small-2 large-1 columns">
               <span class="prefix">{{t "mobile_prefix"}}</span>
             </div>
-            <div class="small-9 large-11 columns">
+            <div class="small-10 large-11 columns">
               {{numeric-input value=mobilePhone name="mobilePhone" id="mobile" maxlength="8" required=true pattern=".{8,}" autoFocus=true}}
             </div>
           </div>
@@ -28,9 +39,10 @@
 
       </div>
     </div>
-    <div class="row">
-      <div class="small-10 small-offset-1 columns">
-        <button id="getsmscode" type="submit" disabled = {{pinAlreadySent}} class="button expand" {{action 'resendPin'}}>{{t "login.smscode"}}</button>
+
+    <div class="row getsmscode">
+      <div class="small-12 columns">
+        <button id="getsmscode" type="submit" disabled = {{pinAlreadySent}} class="button expand" {{action 'resendPin'}}>{{t "continue"}}</button>
         <div class="otp-resend-pin">
           {{#if pinAlreadySent}}
             {{t "_resend.please_wait" timer=timer}}
@@ -38,6 +50,13 @@
         </div>
       </div>
     </div>
+
+    <div class="row privacy-info-text">
+      <div class="small-12 columns">
+        <div>We don't share your data. We only use it to facilitate your use of this system. See our Privacy Policy.</div>
+      </div>
+    </div>
+
   </section>
   <br/>
   <br/>
