@@ -7,10 +7,11 @@ export default AuthorizeRoute.extend({
     this._super(...arguments);
 
     let user = this.get("store").peekRecord(
-      "user",
+      "user_profile",
       this.session.get("currentUser.id")
     );
-    let hasActiveRole = user.get("activeRoles").length > 0;
+    let hasActiveRole =
+      user.get("activeRoles") && user.get("activeRoles").length > 0;
 
     if (hasActiveRole) {
       transition.abort();
@@ -20,7 +21,7 @@ export default AuthorizeRoute.extend({
 
   model() {
     return this.get("store").peekRecord(
-      "user",
+      "user_profile",
       this.session.get("currentUser.id")
     );
   },

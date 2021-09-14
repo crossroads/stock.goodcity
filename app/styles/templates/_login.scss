@@ -69,7 +69,8 @@
 }
 
 .guest-user-details {
-  .image {
+  .image,
+  .image-box {
     width: 7rem;
 
     @media #{$small-only} {
@@ -80,6 +81,14 @@
   .row.detail-row {
     margin-top: 1rem;
     margin-bottom: 1rem;
+
+    &.heading {
+      font-size: 1.2rem;
+
+      @media #{$small-only} {
+        font-size: 0.75rem;
+      }
+    }
 
     input, select {
       background: transparent;

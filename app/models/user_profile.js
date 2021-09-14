@@ -8,6 +8,7 @@ var attr = DS.attr;
 export default Addressable.extend({
   firstName: attr("string"),
   lastName: attr("string"),
+  email: attr("string"),
   mobile: attr("string"),
   disabled: attr("boolean"),
   maxRoleLevel: attr("number"),

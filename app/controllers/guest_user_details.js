@@ -1,6 +1,8 @@
 import Ember from "ember";
 import AsyncMixin, { ERROR_STRATEGIES } from "stock/mixins/async";
 import TitleAndLanguageMixin from "stock/mixins/grades_option";
+import AjaxPromise from "stock/utils/ajax-promise";
+const { getOwner } = Ember;
 
 export default Ember.Controller.extend(AsyncMixin, TitleAndLanguageMixin, {
   user: Ember.computed.alias("model"),
@@ -17,21 +19,29 @@ export default Ember.Controller.extend(AsyncMixin, TitleAndLanguageMixin, {
 
   actions: {
     saveDetails() {
-      this.runTask(async () => {
-        let user = this.get("user");
-        user.set("firstName", this.get("firstName"));
-        user.set("lastName", this.get("lastName"));
-        user.set("email", this.get("email"));
-        user.set("title", this.get("selectedTitle.id") || "Mr");
+      var loadingView = getOwner(this)
+        .lookup("component:loading")
+        .append();
 
-        try {
-          await user.save();
-          this.transitionToRoute("no-permission");
-        } catch (e) {
-          this.get("user").rollbackAttributes();
-          throw e;
+      new AjaxPromise(
+        `/users/${this.get("user.id")}`,
+        "PUT",
+        this.get("session.authToken"),
+        {
+          user: {
+            first_name: this.get("firstName"),
+            last_name: this.get("lastName"),
+            email: this.get("email")
+          }
         }
-      }, ERROR_STRATEGIES.MODAL);
+      )
+        .then(data => {
+          this.get("store").pushPayload(data);
+          this.transitionToRoute("no-permission");
+        })
+        .finally(() => {
+          loadingView.destroy();
+        });
     }
   }
 });

@@ -1,5 +1,13 @@
 .welcome-bar {
   margin-bottom: 0;
+
+  .right-small {
+    width: 4rem;
+
+    @media #{$small-only} {
+      width: 3rem;
+    }
+  }
 }
 
 .no-permission {

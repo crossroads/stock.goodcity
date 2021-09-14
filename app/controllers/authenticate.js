@@ -15,6 +15,7 @@ export default GoodcityController.extend(preloadDataMixin, {
   timer: config.APP.OTP_RESEND_TIME,
   pinAlreadySent: false,
   isMobileApp: config.cordova.enabled,
+  mobilePhone: "",
 
   mobile: Ember.computed("mobilePhone", function() {
     return config.APP.HK_COUNTRY_CODE + this.get("mobilePhone");
@@ -53,9 +54,24 @@ export default GoodcityController.extend(preloadDataMixin, {
           this.set("session.otpAuthKey", null);
           this.store.pushPayload(user);
           this.get("subscription").wire();
-          return this.preloadData();
+
+          if (user.user_roles.length > 0) {
+            return this.preloadData();
+          }
         })
         .then(() => {
+          let currentUser = this.get("store").peekRecord(
+            "user_profile",
+            this.get("session.currentUser.id")
+          );
+
+          if (
+            !currentUser.get("activeRoles") ||
+            currentUser.get("activeRoles").length === 0
+          ) {
+            return this.transitionToRoute("guest_user_details");
+          }
+
           let attemptedTransition = this.get("attemptedTransition");
           if (!attemptedTransition) {
             return this.transitionToRoute("/");
