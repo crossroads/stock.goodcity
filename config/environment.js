@@ -64,6 +64,7 @@ module.exports = function(environment) {
 
       NAMESPACE: "api/v1",
       OTP_RESEND_TIME: 60,
+      ACCESS_PASS_VALIDITY: 30,
       HK_COUNTRY_CODE: "+852",
       HK_TIME_ZONE: "Asia/Hong_Kong",
       DEFAULT_COUNTRY: "China - Hong Kong (Special Administrative Region)",

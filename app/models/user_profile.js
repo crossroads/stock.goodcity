@@ -2,6 +2,7 @@ import Ember from "ember";
 import DS from "ember-data";
 import Addressable from "./addressable";
 import _ from "lodash";
+import { hasMany } from "ember-data/relationships";
 
 var attr = DS.attr;
 
@@ -13,7 +14,30 @@ export default Addressable.extend({
   disabled: attr("boolean"),
   maxRoleLevel: attr("number"),
 
-  userRoles: DS.hasMany("userRoles", { async: false }),
+  userRoles: hasMany("userRoles", {
+    async: false
+  }),
+
+  activeUserRoles: Ember.computed(
+    "userRoles.[]",
+    "userRoles.@each.expiresAt",
+    function() {
+      return this.get("userRoles").filter(
+        userRole =>
+          !userRole.get("expiresAt") ||
+          (userRole.get("expiresAt") &&
+            moment.tz(userRole.get("expiresAt"), "Asia/Hong_Kong").isAfter())
+      );
+    }
+  ),
+
+  activeRoles: Ember.computed("activeUserRoles.[]", function() {
+    return this.get("activeUserRoles").map(userRole => userRole.get("role"));
+  }),
+
+  roles: Ember.computed("userRoles.[]", function() {
+    return this.get("userRoles").map(userRole => userRole.get("role"));
+  }),
 
   roles: Ember.computed("userRoles.[]", function() {
     return this.get("userRoles").map(userRole => userRole.get("role"));

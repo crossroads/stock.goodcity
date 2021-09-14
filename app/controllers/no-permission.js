@@ -1,4 +1,5 @@
 import Ember from "ember";
+import AjaxPromise from "stock/utils/ajax-promise";
 
 export default Ember.Controller.extend({
   queryParams: ["destination", "id"],
@@ -10,9 +11,17 @@ export default Ember.Controller.extend({
       this.get("application").send("logMeOut");
     },
 
-    hello() {
+    requestAccessByPass() {
       if (this.get("accessKey") && this.get("accessKey").length === 6) {
-        // submit access key API
+        new AjaxPromise(
+          `/users/${this.get("session.currentUser.id")}/grant_access`,
+          "PUT",
+          this.get("session.authToken"),
+          { access_key: this.get("accessKey") }
+        ).then(data => {
+          this.get("store").pushPayload(data);
+          this.transitionToRoute("/");
+        });
       }
     }
   }

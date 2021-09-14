@@ -10,7 +10,7 @@ export default Ember.Controller.extend({
   timerFunction() {
     let waitTime = this.get("timer");
     if (waitTime === 0) {
-      if (this.get("counter") >= 20) {
+      if (this.get("counter") >= 60) {
         this.alertPassExipred();
       } else {
         this.resetTimerParameters();

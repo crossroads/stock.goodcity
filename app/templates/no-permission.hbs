@@ -21,13 +21,15 @@
 
     <div class="access-heading">1. Input an access code </div>
     <div>
+      {{#form-control}}
       {{input
         value=accessKey
         name="accessKey"
         maxlength="6"
         pattern=".{6,}"
-        keyUp=(action "hello")
+        keyUp=(action "requestAccessByPass")
         autoFocus=true}}
+      {{/form-control}}
     </div>
 
     <div class="access-heading">2. Ask your manager to grant permission</div>
