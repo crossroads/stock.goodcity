@@ -29,10 +29,15 @@ export default AuthorizeRoute.extend({
   setupController(controller, model) {
     this._super(controller, model);
 
+    const title = model.get("title") || "Mr";
+
     controller.set("firstName", model.get("firstName"));
     controller.set("lastName", model.get("lastName"));
     controller.set("email", model.get("email"));
-    controller.set("selectedTitle", model.get("title") || "Mr");
+    controller.set(
+      "selectedTitle",
+      controller.get("titles").findBy("id", title)
+    );
     model.set("mobile", controller.getUserMobile());
   }
 });

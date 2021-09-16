@@ -13,6 +13,7 @@ export default Addressable.extend({
   mobile: attr("string"),
   disabled: attr("boolean"),
   maxRoleLevel: attr("number"),
+  title: attr("string"),
 
   userRoles: hasMany("userRoles", {
     async: false

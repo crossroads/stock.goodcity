@@ -4,9 +4,9 @@
   </section>
 
   <section class="right-small">
-    {{#link-to "login" class="user-back-link"}}
-      <div>{{t "guest_details.logout"}}</div>
-    {{/link-to}}
+    <div class="user-back-link" {{action 'logMeOut' }}>
+      {{t "guest_details.logout"}}
+    </div>
   </section>
 </nav>
 

@@ -8,6 +8,7 @@ export default Ember.Controller.extend(AsyncMixin, TitleAndLanguageMixin, {
   user: Ember.computed.alias("model"),
   userService: Ember.inject.service(),
   printerService: Ember.inject.service(),
+  application: Ember.inject.controller(),
   selectedAdminPrinterId: "",
   selectedStockPrinterId: "",
 
@@ -18,6 +19,10 @@ export default Ember.Controller.extend(AsyncMixin, TitleAndLanguageMixin, {
   },
 
   actions: {
+    logMeOut() {
+      this.get("application").send("logMeOut");
+    },
+
     saveDetails() {
       var loadingView = getOwner(this)
         .lookup("component:loading")
@@ -31,7 +36,8 @@ export default Ember.Controller.extend(AsyncMixin, TitleAndLanguageMixin, {
           user: {
             first_name: this.get("firstName"),
             last_name: this.get("lastName"),
-            email: this.get("email")
+            email: this.get("email"),
+            title: this.get("selectedTitle.id")
           }
         }
       )
