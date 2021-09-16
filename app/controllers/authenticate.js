@@ -16,6 +16,8 @@ export default GoodcityController.extend(preloadDataMixin, {
   pinAlreadySent: false,
   isMobileApp: config.cordova.enabled,
   mobilePhone: "",
+  donorAppUrl: config.APP.DONOR_APP_URL,
+  charityAppUrl: config.APP.CHARITY_APP_URL,
 
   mobile: Ember.computed("mobilePhone", function() {
     return config.APP.HK_COUNTRY_CODE + this.get("mobilePhone");
@@ -41,6 +43,14 @@ export default GoodcityController.extend(preloadDataMixin, {
   actions: {
     authenticateUser() {
       let pin = this.get("pin");
+
+      if (!pin) {
+        Ember.$("#pin")
+          .closest("div")
+          .addClass("error");
+        return;
+      }
+
       let otpAuthKey = this.get("session.otpAuthKey");
       Ember.$(".auth_error").hide();
       this.showLoadingSpinner();
@@ -93,6 +103,13 @@ export default GoodcityController.extend(preloadDataMixin, {
     },
 
     resendPin() {
+      if (!this.get("mobile") || this.get("mobile").length !== 12) {
+        Ember.$("#mobile")
+          .closest(".mobile")
+          .addClass("error");
+        return;
+      }
+
       this.set("pinAlreadySent", true);
       this.showLoadingSpinner();
       this.get("authService")

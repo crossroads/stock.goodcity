@@ -7,9 +7,9 @@
 <section class="main-section login-page-app-info">
   <div class="row">
     <div class="small-12 columns">
-      <div class="info-main">Staff & volunteers working with Crossroads Foundation may use this app to process stock.</div>
-      <div class="info-text">To donate goods please use our donor app.</div>
-      <div class="info-text">To request goods please use our charity app.</div>
+      <div class="info-main">{{t "login.about_stock_app"}}</div>
+      <div class="info-text">{{t "login.get_donor_app" donorAppUrl=donorAppUrl}}</div>
+      <div class="info-text">{{t "login.get_charity_app" charityAppUrl=charityAppUrl}}</div>
     </div>
   </div>
 </section>
@@ -22,7 +22,7 @@
         <div class="mobile">
           <div class="row">
             <div class="small-12 columns get-started">
-              <div>Get started here</div>
+              <div>{{t "login.get_started"}}</div>
               <label class="form-label">{{t "login.input_mobile"}}</label>
             </div>
           </div>
@@ -53,7 +53,7 @@
 
     <div class="row privacy-info-text">
       <div class="small-12 columns">
-        <div>We don't share your data. We only use it to facilitate your use of this system. See our Privacy Policy.</div>
+        <div>{{t "login.privacy_info"}}</div>
       </div>
     </div>
 

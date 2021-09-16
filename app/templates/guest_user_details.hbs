@@ -1,11 +1,11 @@
 <nav class="tab-bar">
   <section class="middle tab-bar-section">
-    <h1 class="title">New User</h1>
+    <h1 class="title">{{t "guest_details.new_user"}}</h1>
   </section>
 
   <section class="right-small">
     {{#link-to "login" class="user-back-link"}}
-      <div>Logout</div>
+      <div>{{t "guest_details.logout"}}</div>
     {{/link-to}}
   </section>
 </nav>
@@ -15,13 +15,13 @@
     {{#async-validatable-form onSubmit=(action 'saveDetails') as |form|}}
     <div class="row detail-row">
       <div class="small-12 columns">
-        Please complete your profile
+        {{t "guest_details.complete_profile"}}
       </div>
     </div>
 
     <div class="row detail-row">
       <div class="small-12 columns">
-        Image (Optional)
+        {{t "guest_details.image"}}
       </div>
       <div class="small-12 columns add-user-form new-user-section">
         {{upload-user-image user=model}}
@@ -30,13 +30,13 @@
 
     <div class="row detail-row">
       <div class="small-3 columns">
-        Title
+        {{t "guest_details.title"}}
       </div>
       <div class="small-5 columns">
-        Your First Name
+        {{t "guest_details.first_name"}}
       </div>
       <div class="small-4 columns">
-        Your Family Name
+        {{t "guest_details.family_name"}}
       </div>
       <div class="small-3 columns ui">
         {{select-list
@@ -63,7 +63,7 @@
 
     <div class="row detail-row">
       <div class="small-12 columns">
-        Email Address (Optional)
+        {{t "guest_details.email"}}
       </div>
       <div class="small-12 columns ui">
         {{input type="text" value=email classNames=""}}

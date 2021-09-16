@@ -51,7 +51,7 @@
         </label>
 
         <label class="form-label">
-          Wait 2 minutes then
+          {{t '_resend.wait'}}
           <a href="#" disabled={{pinAlreadySent}} class="auth_links"
             {{action "resendPin" }} id="resend-pin"
             style={{if pinAlreadySent "pointer-events:none;opacity:0.4" }}>
