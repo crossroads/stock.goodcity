@@ -253,7 +253,16 @@ export default {
   login: {
     input_mobile: "Please input your mobile phone number",
     login: "Stock App - Log In",
-    smscode: "Get 4-digit SMS code"
+    smscode: "Get 4-digit SMS code",
+    about_stock_app:
+      "Staff & volunteers working with Crossroads Foundation may use this app to process stock.",
+    get_donor_app:
+      "To donate goods please use our <a href='{{donorAppUrl}}' target='_blank'>donor app</a>.",
+    get_charity_app:
+      "To request goods please use our <a href='{{charityAppUrl}}' target='_blank'>charity app",
+    get_started: "Get started here",
+    privacy_info:
+      "We don't share your data. We only use it to facilitate your use of this system."
   },
   logout: {
     logout: "Logout"
@@ -1143,8 +1152,9 @@ export default {
     logout: "Logout",
     login_msg:
       "You have successfully Logged in! However, you need permission to start working on stock.",
-    manager_msg: "Ask your manager to grant permissions and then try again",
-    try_again: "Try again"
+    manager_msg: "Ask your manager to grant permission",
+    access_options: "Two options to get access",
+    input_code: "Input an access code"
   },
 
   merge_user: {
@@ -1178,11 +1188,23 @@ export default {
     check_junk: "Check your junk email folder",
     not_working:
       "Still not working? Email <a class='auth_links' href='mailto:contact@goodcity.hk'>contact@goodcity.hk</a> for help.",
-    resend: "Resend Code"
+    resend: "Resend Code",
+    wait: "Wait 2 minutes then"
   },
 
   _verification_pin: {
     input_code: "Input your pin code below",
     auth_error: "Sorry! Please enter the correct pin."
+  },
+
+  guest_details: {
+    new_user: "New User",
+    logout: "Logout",
+    complete_profile: "Please complete your profile",
+    image: "Image (Optional)",
+    title: "Title",
+    first_name: "Your First Name",
+    family_name: "Your Family Name",
+    email: "Email Address (Optional)"
   }
 };

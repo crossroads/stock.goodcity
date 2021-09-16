@@ -236,11 +236,6 @@ export default {
   authenticate: {
     input_code: "請輸入驗證碼"
   },
-  _resend: {
-    try_again: "Try again in {{timer}} seconds",
-    please_wait: "Please wait {{timer}} seconds before requesting a pin again",
-    resend: "重新發送"
-  },
   _verification_pin: {
     input_code: "請輸入短訊(SMS)收到的4位數字認證碼:",
     auth_error: "認證碼不正確!請重新輸入。"
@@ -248,7 +243,16 @@ export default {
   login: {
     hk_only: "手提電話號碼(只限香港)",
     login: "登入",
-    smscode: "發送短訊(SMS)認證碼"
+    smscode: "Get 4-digit SMS code",
+    about_stock_app:
+      "Staff & volunteers working with Crossroads Foundation may use this app to process stock.",
+    get_donor_app:
+      "To donate goods please use our <a href='{{donorAppUrl}}' target='_blank'>donor app</a>.",
+    get_charity_app:
+      "To request goods please use our <a href='{{charityAppUrl}}' target='_blank'>charity app",
+    get_started: "Get started here",
+    privacy_info:
+      "We don't share your data. We only use it to facilitate your use of this system."
   },
   logout: {
     logout: "登出"
@@ -1104,8 +1108,9 @@ export default {
     logout: "Logout",
     login_msg:
       "You have successfully Logged in! However, you need permission to start working on stock.",
-    manager_msg: "Ask your manager to grant permissions and then try again",
-    try_again: "Try again"
+    manager_msg: "Ask your manager to grant permission",
+    access_options: "Two options to get access",
+    input_code: "Input an access code"
   },
 
   merge_user: {
@@ -1120,5 +1125,42 @@ export default {
     merge_user_info:
       "合併後的帳戶會獲得兩個帳戶的所有權利、擁有權及團體職員身份等。",
     merge_user: "合併使用者"
+  },
+
+  access_pass: {
+    menu: "Access Pass",
+    today: "Today",
+    tomorrow: "Tomorrow",
+    week: "This week",
+    date: "Date"
+  },
+
+  _resend: {
+    try_again: "Try again in {{timer}} seconds",
+    please_wait: "Please wait {{timer}} seconds before requesting a pin again",
+    no_sms: "Haven't received your pin code?",
+    mobile_correct: "Is {{mobile}} correct?",
+    go_back: "Go back to change it.",
+    check_junk: "Check your junk email folder",
+    not_working:
+      "Still not working? Email <a class='auth_links' href='mailto:contact@goodcity.hk'>contact@goodcity.hk</a> for help.",
+    resend: "Resend Code",
+    wait: "Wait 2 minutes then"
+  },
+
+  _verification_pin: {
+    input_code: "Input your pin code below",
+    auth_error: "Sorry! Please enter the correct pin."
+  },
+
+  guest_details: {
+    new_user: "New User",
+    logout: "Logout",
+    complete_profile: "Please complete your profile",
+    image: "Image (Optional)",
+    title: "Title",
+    first_name: "Your First Name",
+    family_name: "Your Family Name",
+    email: "Email Address (Optional)"
   }
 };
