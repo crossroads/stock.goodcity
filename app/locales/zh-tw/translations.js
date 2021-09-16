@@ -238,7 +238,8 @@ export default {
   },
   _verification_pin: {
     input_code: "請輸入短訊(SMS)收到的4位數字認證碼:",
-    auth_error: "認證碼不正確!請重新輸入。"
+    auth_error: "認證碼不正確!請重新輸入。",
+    pin_sent_to: "We sent a pincode to {{mobile}}"
   },
   login: {
     hk_only: "手提電話號碼(只限香港)",
@@ -1162,5 +1163,18 @@ export default {
     first_name: "Your First Name",
     family_name: "Your Family Name",
     email: "Email Address (Optional)"
+  },
+
+  access_form: {
+    pass_expired: "This Access Pass is expired. Please create new Access Pass.",
+    not_now: "Not Now",
+    create_pass: "Create Pass",
+    stock_app_pass: "Stock App Access Pass",
+    access_until: "Access Until",
+    role_assigned: "Role(s) Assigned",
+    label_printer: "Label Printer",
+    generate: "Generate",
+    select_role: "At least one role must be assigned.",
+    expires_in: "Expires in {{timer}} seconds"
   }
 };

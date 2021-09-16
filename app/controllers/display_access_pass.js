@@ -5,6 +5,7 @@ import AjaxPromise from "stock/utils/ajax-promise";
 export default Ember.Controller.extend({
   timer: config.APP.ACCESS_PASS_VALIDITY,
   messageBox: Ember.inject.service(),
+  i18n: Ember.inject.service(),
   counter: 1,
 
   timerFunction() {
@@ -50,10 +51,10 @@ export default Ember.Controller.extend({
 
   alertPassExipred() {
     this.get("messageBox").custom(
-      "This Access Pass is expired. Please create new Access Pass.",
-      "Not Now",
+      this.get("i18n").t("access_form.pass_expired"),
+      this.get("i18n").t("access_form.not_now"),
       () => this.send("redirectToMenuPage"),
-      "Create Pass",
+      this.get("i18n").t("access_form.create_pass"),
       () => this.send("redirectToAccessPassForm")
     );
   },

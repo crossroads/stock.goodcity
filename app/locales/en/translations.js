@@ -1194,7 +1194,8 @@ export default {
 
   _verification_pin: {
     input_code: "Input your pin code below",
-    auth_error: "Sorry! Please enter the correct pin."
+    auth_error: "Sorry! Please enter the correct pin.",
+    pin_sent_to: "We sent a pincode to {{mobile}}"
   },
 
   guest_details: {
@@ -1206,5 +1207,18 @@ export default {
     first_name: "Your First Name",
     family_name: "Your Family Name",
     email: "Email Address (Optional)"
+  },
+
+  access_form: {
+    pass_expired: "This Access Pass is expired. Please create new Access Pass.",
+    not_now: "Not Now",
+    create_pass: "Create Pass",
+    stock_app_pass: "Stock App Access Pass",
+    access_until: "Access Until",
+    role_assigned: "Role(s) Assigned",
+    label_printer: "Label Printer",
+    generate: "Generate",
+    select_role: "At least one role must be assigned.",
+    expires_in: "Expires in {{timer}} seconds"
   }
 };

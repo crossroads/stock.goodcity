@@ -7,14 +7,14 @@
   </section>
 
   <section class="middle tab-bar-section">
-    <h1 class="title">Stock App Access Pass</h1>
+    <h1 class="title">{{t "access_form.stock_app_pass"}}</h1>
   </section>
 </nav>
 
 <section class="main-section add-user-form new-user-section ui access-pass-form">
   <div class="row">
     <div class="small-4 columns item-label">
-      Access Until
+      {{t "access_form.access_until"}}
     </div>
 
     <div class="small-4 columns">
@@ -32,7 +32,7 @@
 
   <div class="row roles-input">
     <div class="small-4 columns item-label">
-      Role(s) Assigned
+      {{t "access_form.role_assigned"}}
     </div>
     <div class="small-8 columns item-label">
       {{stock-roles-input accessPassRoleIds=accessPassRoleIds}}
@@ -42,7 +42,7 @@
 
   <div class="row">
     <div class="small-4 columns item-label">
-      Label Printer
+      {{t "access_form.label_printer"}}
     </div>
     <div class="small-8 columns item-label">
       {{select-list
@@ -60,7 +60,7 @@
   <div class="row">
     <div class="small-10 small-offset-1 columns ">
       <button type="submit" disabled={{invalidPassDetails}} class="button expand generate-pass-button" {{action 'generateAccessPass' }}>
-        Generate
+        {{t "access_form.generate"}}
       </button>
     </div>
   </div>
