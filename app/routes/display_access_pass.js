@@ -1,4 +1,5 @@
 import AuthorizeRoute from "./authorize";
+import config from "stock/config/environment";
 
 export default AuthorizeRoute.extend({
   queryParams: {
@@ -18,6 +19,8 @@ export default AuthorizeRoute.extend({
 
   setupController(controller, model) {
     this._super(controller, model);
+    controller.set("counter", 1);
+    controller.set("timer", config.APP.ACCESS_PASS_VALIDITY);
     controller.timerFunction();
   }
 });

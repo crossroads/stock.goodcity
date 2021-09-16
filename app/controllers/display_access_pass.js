@@ -9,20 +9,26 @@ export default Ember.Controller.extend({
   counter: 1,
 
   timerFunction() {
-    let waitTime = this.get("timer");
-    if (waitTime === 0) {
-      if (this.get("counter") >= 60) {
-        this.alertPassExipred();
-      } else {
-        this.resetTimerParameters();
-        return false;
+    if (
+      (this.session.router.currentPath == "access_pass" &&
+        this.get("counter") === 1) ||
+      this.session.router.currentPath == "display_access_pass"
+    ) {
+      let waitTime = this.get("timer");
+      if (waitTime === 0) {
+        if (this.get("counter") >= 60) {
+          this.alertPassExipred();
+        } else {
+          this.resetTimerParameters();
+          return false;
+        }
       }
-    }
-    this.set("timer", waitTime - 1);
+      this.set("timer", waitTime - 1);
 
-    setTimeout(() => {
-      this.timerFunction();
-    }, 1000);
+      setTimeout(() => {
+        this.timerFunction();
+      }, 1000);
+    }
   },
 
   resetTimerParameters() {
