@@ -169,6 +169,7 @@
       display: flex;
       flex-wrap: nowrap;
       justify-content: center;
+      line-height: 1em;
       .checkbox {
         width: 1rem;
         height: 1rem;
@@ -177,6 +178,13 @@
         i { color: white }
       }
     }
+
+    .mine-selection.checkbox-container {
+      padding-top: 0.7rem;
+      position: relative;
+      font-size: 0.9rem;
+    }
+
     >* {
       margin-right: 1rem;
     }
