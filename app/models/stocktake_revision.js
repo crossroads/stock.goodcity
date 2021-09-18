@@ -13,6 +13,7 @@ export default Model.extend({
   quantity: attr("number"),
   processedDelta: attr("number"),
   warning: attr("string"),
+  countedByIds: attr(),
 
   expectedQuantity: Ember.computed(
     "stocktake.location",

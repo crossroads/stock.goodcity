@@ -78,7 +78,7 @@
     {{#if stocktake.isOpen}}
       <div class="row buttons-container flex">
         <button class="button ellipsis {{if isScanning 'light'}} {{unless canScan 'disabled'}}" {{action 'toggleScanning'}}>
-          {{fa-icon 'qrcode'}} 
+          {{fa-icon 'qrcode'}}
           {{#if isScanning}}
             {{t 'stocktakes.stop_scanning'}}
           {{else}}
@@ -122,6 +122,14 @@
               </div>
             {{/dropDown.dropDownBody}}
           {{/composable-drop-down}}
+        </div>
+        <div class="mine-selection checkbox-container">
+          <div>{{t 'stocktakes.only_show_mine'}}</div>
+          <div class="checkbox" {{action (toggle this "mineOnly")}}>
+            {{#if mineOnly }}
+              <i>{{fa-icon 'check'}}</i>
+            {{/if}}
+          </div>
         </div>
       </div>
     {{/if}}
