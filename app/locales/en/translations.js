@@ -91,6 +91,7 @@ export default {
     cancel_stocktake: "Cancel Stocktake",
     only_show_variances: "Only show variances",
     only_show_warnings: "Only show warnings",
+    only_show_mine: "Mine only",
     unknown_inventory_number: "Inventory code {{code}} not found",
     confirm_cancel: "This stocktake will be cancelled. Are you sure ?",
     processing_text:

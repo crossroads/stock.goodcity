@@ -124,7 +124,7 @@
           {{/composable-drop-down}}
         </div>
         <div class="mine-selection checkbox-container">
-          <div>Mine Only</div>
+          <div>{{t 'stocktakes.only_show_mine'}}</div>
           <div class="checkbox" {{action (toggle this "mineOnly")}}>
             {{#if mineOnly }}
               <i>{{fa-icon 'check'}}</i>

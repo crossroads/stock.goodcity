@@ -88,6 +88,7 @@ export default {
     cancel_stocktake: "取消盤點",
     only_show_variances: "只顯示差別",
     only_show_warnings: "只顯示警告事項",
+    only_show_mine: "Mine only",
     unknown_inventory_number: "未能找到{{code}}庫存號碼",
     confirm_cancel: "這次盤點會被取消。確定？",
     processing_text:
