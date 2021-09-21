@@ -40,7 +40,6 @@ export default Ember.Controller.extend({
   incrementCounter() {
     const counter = this.get("counter");
     this.set("counter", counter + 1);
-    console.log(this.get("counter"));
   },
 
   getRefreshedAccessPass(code) {
@@ -74,7 +73,6 @@ export default Ember.Controller.extend({
     ).then(data => {
       this.get("store").pushPayload(data);
       this.set("code", data.access_pass.access_key);
-      console.log(data.access_pass.access_key);
       this.timerFunction();
     });
   },
