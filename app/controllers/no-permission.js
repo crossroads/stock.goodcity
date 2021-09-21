@@ -1,7 +1,8 @@
 import Ember from "ember";
 import AjaxPromise from "stock/utils/ajax-promise";
+import preloadDataMixin from "stock/mixins/preload_data";
 
-export default Ember.Controller.extend({
+export default Ember.Controller.extend(preloadDataMixin, {
   queryParams: ["destination", "id"],
   application: Ember.inject.controller(),
   accessKey: "",
@@ -20,6 +21,7 @@ export default Ember.Controller.extend({
           { access_key: this.get("accessKey") }
         ).then(data => {
           this.get("store").pushPayload(data);
+          this.preloadData();
           this.transitionToRoute("/");
         });
       }
