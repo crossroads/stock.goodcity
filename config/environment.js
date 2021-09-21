@@ -91,6 +91,7 @@ module.exports = function(environment) {
         "user",
         "user_profile",
         "role",
+        "user_role",
         "role_permission",
         "image",
         "packages_location",
