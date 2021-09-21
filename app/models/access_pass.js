@@ -5,6 +5,6 @@ export default Model.extend({
   generatedAt: attr("string"),
   accessKey: attr("string"),
   roleIds: attr("string"),
-  printerId: attr("number"),
+  printerId: attr("string"),
   accessExpiresAt: attr("string")
 });

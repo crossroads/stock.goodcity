@@ -70,7 +70,7 @@ export default GoodcityController.extend({
 
       const newRecord = this.get("store").createRecord("access-pass", {
         roleIds: this.get("accessPassRoleIds"),
-        printerId: this.get("selectedPrinterDisplay.id"),
+        printerId: `${this.get("selectedPrinterDisplay.id")}`,
         accessExpiresAt: accessExpiresAt
       });
 

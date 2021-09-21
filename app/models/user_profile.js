@@ -116,6 +116,13 @@ export default Addressable.extend({
     );
   }),
 
+  canManageAccessPasses: Ember.computed("roles", function() {
+    const roles = this.get("roles");
+    return roles.find(
+      r => r.get("permissionNames").indexOf("can_manage_access_passes") >= 0
+    );
+  }),
+
   canManageStocktakeRevisions: Ember.computed("roles", function() {
     const roles = this.get("roles");
     return roles.find(

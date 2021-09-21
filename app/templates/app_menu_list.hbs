@@ -47,6 +47,7 @@
       </div>
     </div>
     <div class="row menu-margin">
+      {{#if getCurrentUser.canManageAccessPasses}}
       <div class="small-4 columns menu-option">
         {{#link-to 'access_pass' class="menu-list-anchor"}}
         <div class="menu-svg">{{fa-icon 'key' size="lg"}}</div>
@@ -54,6 +55,7 @@
         <div class="option-subtext">{{t 'access_pass.menu'}}</div>
         {{/link-to}}
       </div>
+      {{/if}}
 
       <div class="small-4 columns menu-option">
         {{#link-to 'manage_account' class="menu-list-anchor"}}
