@@ -37,7 +37,8 @@ export default Ember.Controller.extend(AsyncMixin, TitleAndLanguageMixin, {
             first_name: this.get("firstName"),
             last_name: this.get("lastName"),
             email: this.get("email"),
-            title: this.get("selectedTitle.id")
+            title: this.get("selectedTitle.id"),
+            image_id: this.get("user.image.id")
           }
         }
       )
