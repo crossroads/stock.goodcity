@@ -15,6 +15,7 @@ Router.map(function() {
   this.route("order_filters");
   this.route("item_filters");
   this.route("my_notifications");
+  this.route("pics");
 
   this.route("stocktakes", function() {
     this.route("detail", { path: "/:stocktake_id" });

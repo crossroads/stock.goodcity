@@ -261,8 +261,7 @@ export default {
     get_charity_app:
       "To request goods please use our <a href='{{charityAppUrl}}' target='_blank'>charity app",
     get_started: "Get started here",
-    privacy_info:
-      "We don't share your data. We only use it to facilitate your use of this system."
+    privacy_info: "How we use your personal information"
   },
   logout: {
     logout: "Logout"
@@ -1220,5 +1219,65 @@ export default {
     generate: "Generate",
     select_role: "At least one role must be assigned.",
     expires_in: "Expires in {{timer}} seconds"
+  },
+
+  pics: {
+    title: "Personal Information",
+    confidentiality:
+      'Crossroads Foundation is committed to protecting the confidentiality and security of the personal data that we collect in the course of our activities, including through the GoodCity.HK website at www.goodcity.hk ("we", "us", "our", "Crossroads" and "GoodCity.HK")',
+    ask_to_access:
+      "This Personal Information Collection Statement (PICS) outlines our policies and practices with respect to the personal data you may be asked to provide when you register to receive items through GoodCity.HK. Our full privacy policy is available to view",
+    here: "here",
+    change_privacy_policy:
+      "We pledge to comply with the requirements of the Personal Data (Privacy) Ordinance in Hong Kong. We may change this PICS or our privacy policy from time to time by updating and re-posting them here. Your continued use of GoodCity.HK will mean that you accept these changes.",
+    child:
+      "If you are under 18 years old, please ask your parents or guardian before using GoodCity.HK.",
+    commitement_to_you: "Our Commitment to You",
+    use_purposely:
+      "We only use the personal data that you provide to us for the purpose for which it is collected or a directly related purpose;",
+    will_not_sell_dara:
+      "We will not sell or pass your personal data to any other organisation without your knowledge (or consent, as required);",
+    unsubscribe:
+      "We will always give you the opportunity to unsubscribe from our communications;",
+    questions:
+      "We take our obligations under the law seriously and want to hear from you if you have any questions or concerns;",
+    personal_data_collected: "Personal Data Collected",
+    provide_data_to_use_services:
+      "When you register with GoodCity.HK we may ask you to provide the following personal data. Please note that it is mandatory for you to provide certain categories of personal data as specified at the time of collection. Without this data we may not be able to provide you with our products and services:",
+    contact_details: "your name, address, email, phone and fax numbers;",
+    gender_and_dob: "your gender and date of birth;",
+    financial_information:
+      "financial information such as credit card information (if you make a payment to us) and bank account details (if we are making payment to you by direct debit);",
+    personal_identifier:
+      "a personal identifier such as passport or other official document or case number. Save in exceptional circumstances, we will not collect or retain HKID card numbers;",
+    responses_to_feedback: "your responses to surveys or feedback.",
+    purpose_and_use: "Purpose and Use",
+    will_use_data_for_following:
+      "We may use the personal data that you provide to us for the following purposes and purposes directly related to them:",
+    new_or_any_invitation:
+      "at your request, or subject to your consent having been given, to deliver news, updates and invitations on our activities, programs, products, research and upcoming events;",
+    respond_to_your_questions: "to respond to your enquiries or suggestions;",
+    to_process_feedback:
+      "to process feedback and to follow up with you on your enquiries;",
+    requested_by_govt_or_legal_claim:
+      "as permitted or required by law or regulation, or as requested by government authorities or to establish or exercise our legal rights or defend against legal claims;",
+    deliver_items_to_you:
+      "to deliver items to you and facilitate your requests;",
+    improve_services:
+      "to improve our services, activities, products and content and for statistical and other analysis to help us improve our effectiveness;",
+    prevent_crime:
+      "to prevent or detect a crime or possible criminal activity.",
+    third_parties: "Third Parties",
+    third_party_organisations:
+      "We may retain other organisations and individuals to perform functions on our behalf, such as our logistics partner GoGoVan. Such third parties may be provided with access to such of your personal data as needed to perform their functions, but we do not authorise them to use that data for any other purpose. Those third parties may be located outside Hong Kong. Our policy is to select reputable service providers who have the technical competence and organisational measures to meet our needs and who have a good track record on data protection.",
+    social_welfare_dept:
+      "If you have been referred by an organisation (such as the Social Welfare Department or another organisation), we may need to discuss your case with them and accordingly there will be a disclosure or transfer of your personal data as part of this process.",
+    crossroads_network: "Crossroads Network",
+    use_data_in_crossroads_network:
+      'Crossroads operates on a global basis. We have offices in Hong Kong and the United Kingdom. We refer to this as the "Crossroads Network". We may disclose, share and transfer your personal data within the Crossroads Network for the purposes set forth in this PICS. We require those in the Crossroads Network to adhere to the procedures of data security and confidentiality as set out in this PICS and our privacy policy.',
+    correction_of_data: "Access and Correction of Personal Data",
+    right_to_review_and_correct:
+      "You have the right to review and correct personal data given to us. If the process of reviewing or correcting your personal data incurs any costs, we may charge you a reasonable fee to do this. Should you wish to review or correct personal data or if you have any questions regarding this PICS or our privacy policy please contact us at privacy@crossroads.org.hk",
+    last_updated: "The statement was last updated in August 2014."
   }
 };
