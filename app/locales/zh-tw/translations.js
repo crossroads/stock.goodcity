@@ -252,8 +252,7 @@ export default {
     get_charity_app:
       "To request goods please use our <a href='{{charityAppUrl}}' target='_blank'>charity app",
     get_started: "Get started here",
-    privacy_info:
-      "We don't share your data. We only use it to facilitate your use of this system."
+    privacy_info: "How we use your personal information"
   },
   logout: {
     logout: "登出"
@@ -1176,5 +1175,60 @@ export default {
     generate: "Generate",
     select_role: "At least one role must be assigned.",
     expires_in: "Expires in {{timer}} seconds"
+  },
+
+  pics: {
+    title: "個人資料",
+    confidentiality:
+      "十字路會全力保護在活動中，包括從好人好市的網站www.goodcity.hk（「我們」、「我們的」、「十字路會」」及「好人好市.HK」）上收集的個人資料，確保不會外洩。",
+    ask_to_access:
+      "本個人資料收集聲明（PICS）列出我們對處理個人資料的政策及使用情況，包括在您註冊以通過「好人好市.HK」接收物資時，我們要求您提供的個人資料。您可以閱讀我們完整的私隱政策。",
+    here: "這裏",
+    change_privacy_policy:
+      "我們保證依照香港個人資料(私隱)條例列明的要求，我們可能因時更改此PICS或我們的私隱政策，並會於此處更新及張貼詳情。繼續使用「好人好市.HK」即表示您同意這些變更。",
+    child:
+      "假如您為18歲以下青少年，請徵求父母或監護人的同意，方可使用「好人好市.HK」。",
+    commitement_to_you: "我們的承諾",
+    use_purposely: "我們只會將您提供的個人資料用作收集或其他直接相關的用途；",
+    will_not_sell_dara:
+      "我們不會在您不知情（或根據要求，不同意）的情況下，販賣或將您的個人資料轉讓給任何其他機構；",
+    unsubscribe: "您隨時都可以取消訂閱我們的通訊；",
+    questions:
+      "我們非常重視我們的法律責任，假如您有任何疑問或憂慮，請隨時聯絡我們。",
+    personal_data_collected: "個人資料收集",
+    provide_data_to_use_services:
+      "當你於「好人好市.HK」註冊時，我們或會要求您提供以下各項個人資料。請注意，部分資料或為必須提供的，我們會於收集時清楚註明。缺少這些資料，我們可能無法向您提供我們的物資或服務：",
+    contact_details: "您的姓名、地址、電郵及傳真號碼；",
+    gender_and_dob: "您的性別及出生日期；",
+    financial_information:
+      "財政資料，例如信用卡資料（假如您向我們付款）及銀行賬戶資料（假如我們向您轉賬金額）；",
+    personal_identifier:
+      "身份證明文件資料，如護照及其他官方文件號碼。除非有特殊情況，否則我們不會收集或保存您的香港身份證號碼；",
+    responses_to_feedback: "您於問卷上的回答或建議。",
+    purpose_and_use: "目的及使用情況",
+    will_use_data_for_following:
+      "我們或會使用您提供的個人資料作以下用途，或其他直接相關的用途：",
+    new_or_any_invitation:
+      "在您要求或清楚表明的同意下，用作報道我們的活動、計劃、產品、研究及未來項目的新聞，更新或邀請；",
+    respond_to_your_questions: "回應您的查詢或提議；",
+    to_process_feedback: "處理建議或跟進您的查詢；",
+    requested_by_govt_or_legal_claim:
+      "根據法律及條例授權或受政府要求提供，或用以確保或行使我們的合法權利或追究法律責任；",
+    deliver_items_to_you: "向您運送物資或處理您的要求；",
+    improve_services:
+      "改善我們的服務、活動、產品及內容，以及用作數據及其他分析，以改善我們的效率；",
+    prevent_crime: "預防或檢察出罪案或可能的犯罪活動。",
+    third_parties: "第三方",
+    third_party_organisations:
+      "我們或會保留讓其他組織及個別人士代表我們履行職責，例如協助我們物流安排的合作夥伴GoGoVan。這些第三方或會得到准許取得您的個人資料，以履行其職責，但我們並不會授權他們將這些資料用作其他用途。這些第三方或是位於香港的機構。我們的政策在於選取合乎我們需要，並擁有良好的技術及組織能力，信譽可靠的服務提供者。他們必須擁有保障私隱的良好記錄。",
+    social_welfare_dept:
+      "假如你得到其他機構轉介（例如社會福利署或其他機構），我們或須於他們討論，並根據情況於過程中披露或轉移您的個人資料。",
+    crossroads_network: "十字路會網絡",
+    use_data_in_crossroads_network:
+      "十字路會於全球運作。我們於香港及英國皆設有辦公室，我們將之稱為「十字路會網絡」。我們或會根據前述PICS的目的，於十字路會網絡內披露、分享及轉移您的個人資料。我們要求十字路會網絡的人員皆遵守於此PICS及我們的私隱政策中列明的數據保安及保密的程序。",
+    correction_of_data: "存取及更正個人資料",
+    right_to_review_and_correct:
+      "您有權利閱覽及更改您所提供的個人資料。假如閱覽或更新的過程中產生任何費用，我們或會向您收取合理的費用。假如您希望閱覽或更新個人資料，或有任何關於此PICS或我們的私隱政策的疑問，歡迎隨時聯絡我們，電郵為：privacy@crossroads.org.hk",
+    last_updated: "本聲明最後更新日期為2014年8月。"
   }
 };

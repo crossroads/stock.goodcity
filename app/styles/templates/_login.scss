@@ -40,6 +40,17 @@
 
   .privacy-info-text {
     margin-top: 0.5rem;
+    text-align: center;
+
+    a {
+      text-decoration: underline;
+      font-size: 0.8rem;
+      color: $light-text-color !important;
+
+      @media #{$small-only} {
+        font-size: 0.75rem;
+      }
+    }
   }
 }
 
@@ -94,6 +105,36 @@
       background: transparent;
       color: white;
       border: 1px solid;
+    }
+  }
+}
+
+.faq_list {
+  padding: 0.3rem;
+
+  p,
+  li {
+    @media #{$small-only} {
+      font-size: 0.8rem;
+      line-height: 1.4rem;
+      margin-bottom: 0.7rem;
+      margin-top: 0.7rem;
+    }
+  }
+
+  p b {
+    color: $white;
+  }
+
+  .question_list {
+    margin-left: 0.5rem;
+
+    li {
+      list-style: none;
+
+      a {
+        text-decoration: underline;
+      }
     }
   }
 }
