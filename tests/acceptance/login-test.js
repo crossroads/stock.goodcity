@@ -49,7 +49,7 @@ module("Acceptance: Login", {
 test("User able to enter mobile number and get the sms code", function(assert) {
   assert.expect(1);
   $.mockjax({
-    url: "/api/v1/auth/send_pi*",
+    url: "/api/v1/auth/signup_and_send_pi*",
     responseText: {
       otp_auth_key: "/JqONEgEjrZefDV3ZIQsNA=="
     }
@@ -68,7 +68,7 @@ test("User is able to resend the sms code", function(assert) {
   assert.expect(1);
 
   $.mockjax({
-    url: "/api/v1/auth/send_pi*",
+    url: "/api/v1/auth/signup_and_send_pi*",
     responseText: {
       otp_auth_key: "/JqONEgEjrZefDV3ZIQsNA=="
     }
