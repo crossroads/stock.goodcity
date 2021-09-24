@@ -44,4 +44,15 @@
     line-height: 2;
     letter-spacing: 0.8rem;
   }
+
+  canvas {
+    width: 50%;
+    padding-top: 0.8rem;
+    background: white;
+    padding-left: 0.8rem;
+
+    @media #{$small-only} {
+      width: 95%;
+    }
+  }
 }
