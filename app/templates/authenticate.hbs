@@ -1,44 +1,68 @@
 {{#message-box-click-button btn1Click=true}}
   <nav class="tab-bar">
     <section class="left-small">
-        {{link-to (t "login.login") 'login' classNames='back'}}
-      </section>
+      {{#link-to "login" class="user-back-link"}}
+        <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-left'}}</i>
+        <div>{{t "back"}}</div>
+      {{/link-to}}
+    </section>
 
     <section class="middle tab-bar-section">
       <h1 class="title">{{t "authenticate.input_code"}}</h1>
     </section>
   </nav>
 
-  <section class="main-section">
-    <div class="small-12 columns">
-      {{#validatable-form class="form-horizontal" }}
-        <div class="row">
-          <div class="small-12 columns">
-            <label class="form-label">{{t "_verification_pin.input_code"}}</label>
+  <section class="main-section auth-pin-form">
+    <div class="row">
+      <div class="small-12 columns">
+        {{#validatable-form class="form-horizontal" }}
+          <div class="row about-pin">
+            <div class="small-12 columns">
+              <label class="form-label pin-sent-to">
+                {{t "_verification_pin.pin_sent_to" mobile=mobile}}
+              </label>
+              <label class="form-label">{{t "_verification_pin.input_code"}}</label>
+            </div>
           </div>
-        </div>
 
-        <div class="row">
-          <div class="small-8 columns">
-            {{#form-control}}
-              {{numeric-input classNames="number_input center_align_placeholder" value=pin name="pin" id="pin" maxlength="4" placeholder="XXXX" required='true' pattern=".{4,}" autoFocus=true}}
-            {{/form-control}}
+          <div class="row">
+            <div class="small-8 columns">
+              {{#form-control}}
+                {{numeric-input classNames="number_input center_align_placeholder" value=pin name="pin" id="pin" maxlength="4" placeholder="XXXX" required='true' pattern=".{4,}" autoFocus=true}}
+              {{/form-control}}
+            </div>
+            <div class="small-4 columns">
+              <button id="submit_pin" type="submit" class="button expand" {{action 'authenticateUser'}}>{{t "ok"}}</button>
+            </div>
           </div>
-          <div class="small-4 columns">
-            <button id="submit_pin" type="submit" class="button expand" {{action 'authenticateUser'}}>{{t "ok"}}</button>
-          </div>
-        </div>
-      {{/validatable-form}}
+        {{/validatable-form}}
+      </div>
+    </div>
 
-      <div class="row">
-        <div class="small-4 columns" style="float: right;">
-          <button id="resend-pin" style={{if pinAlreadySent "pointer-events:none;"}} type="submit" class="button secondary expand" disabled = {{pinAlreadySent}} {{action "resendPin"}}>
+    <div class="row pin-details-text">
+      <div class="small-12 columns">
+        <label class="form-label">
+          {{t "_resend.no_sms"}}
+        </label>
+
+        <label class="form-label">
+          {{t '_resend.mobile_correct' mobile=mobile}}
+          {{#link-to 'login' classNames="auth_links"}}{{t "_resend.go_back"}}{{/link-to}}
+        </label>
+
+        <label class="form-label">
+          {{t '_resend.wait'}}
+          <a href="#" disabled={{pinAlreadySent}} class="auth_links"
+            {{action "resendPin" }} id="resend-pin"
+            style={{if pinAlreadySent "pointer-events:none;opacity:0.4" }}>
             {{t "_resend.resend"}}
-            {{#if pinAlreadySent}}
-              <label class="form-label">{{t "_resend.try_again" timer=timer}}</label>
-            {{/if}}
-          </button>
-        </div>
+          </a>
+          {{#if pinAlreadySent}}
+            ({{t "_resend.try_again" timer=timer}})
+          {{/if}}
+        </label>
+
+        <label class="form-label">{{t '_resend.not_working'}}</label>
       </div>
     </div>
   </section>

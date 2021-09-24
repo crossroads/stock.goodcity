@@ -1,43 +1,44 @@
+.welcome-bar {
+  margin-bottom: 0;
+
+  .right-small {
+    width: 4rem;
+
+    @media #{$small-only} {
+      width: 3rem;
+    }
+  }
+}
+
 .no-permission {
-  .mt-5 {
-    margin-top: 5%;
-  }
-
-  .welcome-text {
-    text-align: right;
-    color: white;
-    font-size: 150%;
-  }
-
-  .logout-btn {
-    font-size: 120%;
-    cursor: pointer;
-    text-align: right;
-    padding-right: 3%;
-  }
-
   .login-msg {
-    margin-top: 5%;
-    padding-top: 2%;
-    padding-bottom: 2%;
     background: red;
     color: white;
-    font-size: 15px;
-    padding-left: 5%;
-    padding-right: 2%;
     line-height: 180%;
-  }
-
-  .manager-msg {
-    margin-top: 5%;
     text-align: center;
-    color: white;
-    font-size: 120%;
-    padding: 8%;
+    padding: 0.5rem 1rem;
   }
 
-  .try-again {
-    width: 50%;
-    margin-left: 25%;
+  .access_options {
+    text-align: center;
+
+    .info-text {
+      font-style: italic;
+      margin-top: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .access-heading {
+      margin-top: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    input {
+      width: 12rem;
+      text-align: center;
+      margin: 0 auto;
+      letter-spacing: 1rem;
+      padding: 1rem;
+    }
   }
 }

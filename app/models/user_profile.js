@@ -2,17 +2,43 @@ import Ember from "ember";
 import DS from "ember-data";
 import Addressable from "./addressable";
 import _ from "lodash";
+import { hasMany } from "ember-data/relationships";
 
 var attr = DS.attr;
 
 export default Addressable.extend({
   firstName: attr("string"),
   lastName: attr("string"),
+  email: attr("string"),
   mobile: attr("string"),
   disabled: attr("boolean"),
   maxRoleLevel: attr("number"),
+  title: attr("string"),
 
-  userRoles: DS.hasMany("userRoles", { async: false }),
+  userRoles: hasMany("userRoles", {
+    async: false
+  }),
+
+  activeUserRoles: Ember.computed(
+    "userRoles.[]",
+    "userRoles.@each.expiresAt",
+    function() {
+      return this.get("userRoles").filter(
+        userRole =>
+          !userRole.get("expiresAt") ||
+          (userRole.get("expiresAt") &&
+            moment.tz(userRole.get("expiresAt"), "Asia/Hong_Kong").isAfter())
+      );
+    }
+  ),
+
+  activeRoles: Ember.computed("activeUserRoles.[]", function() {
+    return this.get("activeUserRoles").map(userRole => userRole.get("role"));
+  }),
+
+  roles: Ember.computed("userRoles.[]", function() {
+    return this.get("userRoles").map(userRole => userRole.get("role"));
+  }),
 
   roles: Ember.computed("userRoles.[]", function() {
     return this.get("userRoles").map(userRole => userRole.get("role"));
@@ -87,6 +113,13 @@ export default Addressable.extend({
     const roles = this.get("roles");
     return roles.find(
       r => r.get("permissionNames").indexOf("can_manage_stocktakes") >= 0
+    );
+  }),
+
+  canManageAccessPasses: Ember.computed("roles", function() {
+    const roles = this.get("roles");
+    return roles.find(
+      r => r.get("permissionNames").indexOf("can_manage_access_passes") >= 0
     );
   }),
 

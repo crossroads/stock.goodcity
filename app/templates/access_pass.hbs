@@ -1,0 +1,68 @@
+<nav class="tab-bar user-details-heading accounts-page">
+  <section class="left-small">
+    {{#link-to "app_menu_list" class="user-back-link"}}
+    <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-left'}}</i>
+    <div>{{t "back"}}</div>
+    {{/link-to}}
+  </section>
+
+  <section class="middle tab-bar-section">
+    <h1 class="title">{{t "access_form.stock_app_pass"}}</h1>
+  </section>
+</nav>
+
+<section class="main-section add-user-form new-user-section ui access-pass-form">
+  <div class="row">
+    <div class="small-4 columns item-label">
+      {{t "access_form.access_until"}}
+    </div>
+
+    <div class="small-4 columns">
+      {{select-list
+      content=accessOptions
+      on-change=(action (mut selectedAccessOption))
+      selectedValue=selectedAccessOption
+      value= selectedAccessOption
+      }}
+    </div>
+
+    <div class="small-4 columns">
+    </div>
+  </div>
+
+  <div class="row roles-input">
+    <div class="small-4 columns item-label">
+      {{t "access_form.role_assigned"}}
+    </div>
+    <div class="small-8 columns item-label">
+      {{stock-roles-input accessPassRoleIds=accessPassRoleIds}}
+    </div>
+  </div>
+
+
+  <div class="row">
+    <div class="small-4 columns item-label">
+      {{t "access_form.label_printer"}}
+    </div>
+    <div class="small-8 columns item-label">
+      {{select-list
+        content=printers
+        on-change=(action "setPrinterValue")
+        selectedValue=selectedPrinterDisplay
+        selectArrow=false
+        prompt="--"
+        value=selectedPrinterDisplay
+        classNames='printer-list'
+        idNames='condition-select' }}
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="small-10 small-offset-1 columns ">
+      <button type="submit" disabled={{invalidPassDetails}} class="button expand generate-pass-button" {{action 'generateAccessPass' }}>
+        {{t "access_form.generate"}}
+      </button>
+    </div>
+  </div>
+
+</section>

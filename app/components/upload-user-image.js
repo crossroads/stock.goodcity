@@ -6,6 +6,7 @@ import ImageUploadMixin from "stock/mixins/image_upload";
 export default Ember.Component.extend(AsyncMixin, ImageUploadMixin, {
   userService: Ember.inject.service(),
   store: Ember.inject.service(),
+  saveUser: true,
 
   getUserMobile() {
     let mobile = this.get("user.mobile");
@@ -46,7 +47,9 @@ export default Ember.Component.extend(AsyncMixin, ImageUploadMixin, {
         );
         user.set("image", image);
         user.set("mobile", this.getUserMobile());
-        user.save();
+        if (this.get("saveUser")) {
+          user.save();
+        }
       }, ERROR_STRATEGIES.MODAL);
     },
 

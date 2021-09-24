@@ -64,6 +64,7 @@ module.exports = function(environment) {
 
       NAMESPACE: "api/v1",
       OTP_RESEND_TIME: 60,
+      ACCESS_PASS_VALIDITY: 30,
       HK_COUNTRY_CODE: "+852",
       HK_TIME_ZONE: "Asia/Hong_Kong",
       DEFAULT_COUNTRY: "China - Hong Kong (Special Administrative Region)",
@@ -90,6 +91,7 @@ module.exports = function(environment) {
         "user",
         "user_profile",
         "role",
+        "user_role",
         "role_permission",
         "image",
         "packages_location",
@@ -116,6 +118,8 @@ module.exports = function(environment) {
     ENV.APP.ORIGIN = "localhost";
     ENV.APP.API_HOST_URL = "http://localhost:3000";
     ENV.APP.SOCKETIO_WEBSERVICE_URL = "http://localhost:1337/goodcity";
+    ENV.APP.DONOR_APP_URL = "http://localhost:4200";
+    ENV.APP.CHARITY_APP_URL = "http://localhost:4202";
     ENV.cordova.FcmSenderId = "535052654081";
     ENV.contentSecurityPolicy["connect-src"] = [
       "http://localhost:3000",
@@ -155,6 +159,8 @@ module.exports = function(environment) {
       throw "Please pass an appropriate ENVIRONMENT=(staging|preview|production) param.";
     ENV.APP.API_HOST_URL = "https://api.goodcity.hk";
     ENV.APP.SOCKETIO_WEBSERVICE_URL = "https://socket.goodcity.hk:81/goodcity";
+    ENV.APP.DONOR_APP_URL = "https://app.goodcity.hk/";
+    ENV.APP.CHARITY_APP_URL = "https://charities.goodcity.hk/";
     ENV.cordova.FcmSenderId = "551756918176";
 
     ENV.contentSecurityPolicy["connect-src"] = [
@@ -174,6 +180,8 @@ module.exports = function(environment) {
     ENV.APP.API_HOST_URL = "https://api-staging.goodcity.hk";
     ENV.APP.SOCKETIO_WEBSERVICE_URL =
       "https://socket-staging.goodcity.hk:81/goodcity";
+    ENV.APP.DONOR_APP_URL = "https://app-staging.goodcity.hk/";
+    ENV.APP.CHARITY_APP_URL = "https://charities-staging.goodcity.hk/";
     ENV.contentSecurityPolicy["connect-src"] = [
       "https://api-staging.goodcity.hk",
       "https://errbit.crossroads.org.hk",

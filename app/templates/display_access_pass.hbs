@@ -1,0 +1,24 @@
+<nav class="tab-bar user-details-heading accounts-page">
+  <section class="left-small">
+    {{#link-to "access_pass" class="user-back-link"}}
+    <i class="back_icon" aria-hidden="true">{{fa-icon 'angle-left'}}</i>
+    <div>{{t "back"}}</div>
+    {{/link-to}}
+  </section>
+
+  <section class="middle tab-bar-section">
+    <h1 class="title">{{t "access_form.stock_app_pass"}}</h1>
+  </section>
+</nav>
+
+<section class="main-section display-access-pass">
+  <div class="row">
+    <div class="small-12 columns pass-timer">
+      {{t "access_form.expires_in" timer=timer}}
+    </div>
+
+    <div class="small-12 columns pass-code">
+      {{code}}
+    </div>
+  </div>
+</section>
