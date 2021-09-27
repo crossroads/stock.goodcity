@@ -1111,7 +1111,8 @@ export default {
       "You have successfully Logged in! However, you need permission to start working on stock.",
     manager_msg: "Ask your manager to grant permission",
     access_options: "Two options to get access",
-    input_code: "Input an access code"
+    input_code: "Input an access code",
+    launch_scanner: "Launch Scanner"
   },
 
   merge_user: {

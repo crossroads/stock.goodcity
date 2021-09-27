@@ -12,7 +12,7 @@
 
 .no-permission {
   .login-msg {
-    background: red;
+    background: $coral-red;
     color: white;
     line-height: 180%;
     text-align: center;
@@ -28,8 +28,18 @@
       margin-bottom: 2rem;
     }
 
-    .access-heading {
-      margin-top: 3rem;
+    .access-option {
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+
+      button {
+        width: 12rem;
+        margin-bottom: 0;
+      }
+    }
+
+    .or-text {
+      margin-top: 2rem;
       margin-bottom: 1rem;
     }
 
