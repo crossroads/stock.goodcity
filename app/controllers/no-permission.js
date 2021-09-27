@@ -19,11 +19,15 @@ export default Ember.Controller.extend(preloadDataMixin, {
           "PUT",
           this.get("session.authToken"),
           { access_key: this.get("accessKey") }
-        ).then(data => {
-          this.get("store").pushPayload(data);
-          this.preloadData();
-          this.transitionToRoute("/");
-        });
+        )
+          .then(data => {
+            this.get("store").pushPayload(data);
+            this.preloadData();
+            this.transitionToRoute("/");
+          })
+          .finally(() => {
+            this.set("accessKey", "");
+          });
       }
     }
   }

@@ -21,15 +21,14 @@
 
     <div class="access-heading">1. {{t 'no_permission.input_code'}}</div>
     <div>
-      {{#form-control}}
-      {{input
+      {{numeric-input
         value=accessKey
+        formnovalidate="true"
         name="accessKey"
         maxlength="6"
-        pattern=".{6,}"
         keyUp=(action "requestAccessByPass")
+        pattern=".{8,}"
         autoFocus=true}}
-      {{/form-control}}
     </div>
 
     <div class="access-heading">2. {{t 'no_permission.manager_msg'}}</div>

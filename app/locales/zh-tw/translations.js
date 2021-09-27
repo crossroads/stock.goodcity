@@ -243,7 +243,7 @@ export default {
     pin_sent_to: "We sent a pincode to {{mobile}}"
   },
   login: {
-    hk_only: "手提電話號碼(只限香港)",
+    input_mobile: "Please input your mobile phone number",
     login: "登入",
     smscode: "Get 4-digit SMS code",
     about_stock_app:
@@ -1151,7 +1151,8 @@ export default {
 
   _verification_pin: {
     input_code: "Input your pin code below",
-    auth_error: "Sorry! Please enter the correct pin."
+    auth_error: "Sorry! Please enter the correct pin.",
+    pin_sent_to: "We sent a pincode to {{mobile}}"
   },
 
   guest_details: {
