@@ -19,7 +19,18 @@
   <div class="access_options">
     <div class="info-text">{{t 'no_permission.access_options'}}</div>
 
-    <div class="access-heading">1. {{t 'no_permission.input_code'}}</div>
+    {{#if isMobileApp}}
+      <div class="access-option">
+        {{scan-barcode-button
+          onScanComplete=(action "setScannedSearchText")
+          buttonText=(t "no_permission.launch_scanner")
+        }}
+      </div>
+
+      <div class="or-text">OR</div>
+    {{/if}}
+
+    <div class="access-option">{{t 'no_permission.input_code'}}</div>
     <div>
       {{numeric-input
         value=accessKey
@@ -31,7 +42,9 @@
         autoFocus=true}}
     </div>
 
-    <div class="access-heading">2. {{t 'no_permission.manager_msg'}}</div>
+    <div class="or-text">OR</div>
+
+    <div class="access-option">{{t 'no_permission.manager_msg'}}</div>
   </div>
 
 </div>

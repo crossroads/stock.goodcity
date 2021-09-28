@@ -1,10 +1,12 @@
 import Ember from "ember";
 import AjaxPromise from "stock/utils/ajax-promise";
+import config from "stock/config/environment";
 import preloadDataMixin from "stock/mixins/preload_data";
 
 export default Ember.Controller.extend(preloadDataMixin, {
   queryParams: ["destination", "id"],
   application: Ember.inject.controller(),
+  isMobileApp: config.cordova.enabled,
   accessKey: "",
 
   actions: {
@@ -29,6 +31,12 @@ export default Ember.Controller.extend(preloadDataMixin, {
             this.set("accessKey", "");
           });
       }
+    },
+
+    setScannedSearchText(scannedText) {
+      console.log(scannedText);
+      this.set("accessKey", scannedText);
+      this.send("requestAccessByPass");
     }
   }
 });
