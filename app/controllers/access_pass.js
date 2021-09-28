@@ -33,7 +33,7 @@ export default GoodcityController.extend({
   getSelectionDate(option) {
     let date;
 
-    switch (option) {
+    switch (option.id) {
       case "today":
         date = moment().format("MM/DD/YYYY");
         break;
