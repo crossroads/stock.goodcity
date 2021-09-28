@@ -1,4 +1,8 @@
 .app-menu-list {
+  .menu-option.columns:last-child {
+    float: left;
+  }
+
   .center {
     text-align: center;
   }
