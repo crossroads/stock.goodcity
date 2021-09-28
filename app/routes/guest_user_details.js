@@ -14,8 +14,8 @@ export default AuthorizeRoute.extend({
     let hasActiveRole =
       user.get("activeRoles") && user.get("activeRoles").length > 0;
     let hasValidUserProfile =
-      user.get("firstName").trim().length > 0 &&
-      user.get("lastName").trim().length > 0;
+      (user.get("firstName") || "").trim().length > 0 &&
+      (user.get("lastName") || "").trim().length > 0;
 
     if (hasActiveRole || hasValidUserProfile) {
       transition.abort();
