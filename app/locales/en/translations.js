@@ -1155,7 +1155,8 @@ export default {
     manager_msg: "Ask your manager to grant permission",
     access_options: "Use any of the following options to get access",
     input_code: "Input an access code",
-    launch_scanner: "Launch Scanner"
+    launch_scanner: "Launch Scanner",
+    try_again: "Try again"
   },
 
   merge_user: {

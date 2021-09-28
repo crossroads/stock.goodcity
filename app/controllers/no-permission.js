@@ -14,6 +14,18 @@ export default Ember.Controller.extend(preloadDataMixin, {
       this.get("application").send("logMeOut");
     },
 
+    tryAttemptedTransition() {
+      if (this.destination) {
+        if (this.id) {
+          this.replaceRoute(this.destination, +this.id);
+        } else {
+          this.replaceRoute(this.destination);
+        }
+      } else {
+        this.replaceRoute("/");
+      }
+    },
+
     requestAccessByPass() {
       if (this.get("accessKey") && this.get("accessKey").length === 6) {
         new AjaxPromise(

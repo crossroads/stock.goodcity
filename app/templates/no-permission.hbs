@@ -38,13 +38,19 @@
         name="accessKey"
         maxlength="6"
         keyUp=(action "requestAccessByPass")
-        pattern=".{8,}"
-        autoFocus=true}}
+        pattern=".{8,}"}}
     </div>
 
     <div class="or-text">OR</div>
 
-    <div class="access-option">{{t 'no_permission.manager_msg'}}</div>
+    <div class="access-option">
+      {{t 'no_permission.manager_msg'}}
+    </div>
+
+    <button class="button expand try-again" {{action "tryAttemptedTransition" }}>
+      {{t 'no_permission.try_again'}}
+    </button>
+
   </div>
 
 </div>
