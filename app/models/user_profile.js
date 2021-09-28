@@ -2,7 +2,7 @@ import Ember from "ember";
 import DS from "ember-data";
 import Addressable from "./addressable";
 import _ from "lodash";
-import { hasMany } from "ember-data/relationships";
+import { hasMany, belongsTo } from "ember-data/relationships";
 
 var attr = DS.attr;
 
@@ -16,6 +16,10 @@ export default Addressable.extend({
   title: attr("string"),
 
   userRoles: hasMany("userRoles", {
+    async: false
+  }),
+
+  image: belongsTo("image", {
     async: false
   }),
 
