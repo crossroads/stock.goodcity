@@ -7,7 +7,6 @@ export default Ember.Component.extend(AsyncMixin, {
   barcodeService: Ember.inject.service(),
   i18n: Ember.inject.service(),
   record: null,
-  isBlockProvided: false,
 
   async checkPermissionAndScan(route) {
     const scanner = this.get("barcodeService");

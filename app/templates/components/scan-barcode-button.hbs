@@ -1,7 +1,7 @@
-{{#if isBlockProvided}}
-  {{yield}}
-{{else}}
-  <button class="button expand" {{action "scanBarcode" route}}>
+<button class="button expand" {{action "scanBarcode" route}}>
+  {{#if buttonText}}
+    {{buttonText}}
+  {{else}}
     <i>{{fa-icon 'qrcode'}}</i>
-  </button>
-{{/if}}
+  {{/if}}
+</button>

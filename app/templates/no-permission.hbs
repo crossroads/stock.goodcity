@@ -21,11 +21,10 @@
 
     {{#if isMobileApp}}
       <div class="access-option">
-        {{#scan-barcode-button isBlockProvided=true onScanComplete=(action "setScannedSearchText")}}
-        <button class="button expand">
-          {{t "no_permission.launch_scanner"}}
-        </button>
-        {{/scan-barcode-button}}
+        {{scan-barcode-button
+          onScanComplete=(action "setScannedSearchText")
+          buttonText=(t "no_permission.launch_scanner")
+        }}
       </div>
 
       <div class="or-text">OR</div>
