@@ -65,7 +65,11 @@ export default GoodcityController.extend(preloadDataMixin, {
           this.store.pushPayload(user);
           this.get("subscription").wire();
 
-          if (user.user_roles.length > 0) {
+          let userProfile = this.get("store").peekRecord(
+            "user_profile",
+            user.user_profile.id
+          );
+          if (userProfile && userProfile.get("activeRoles").length > 0) {
             return this.preloadData();
           }
         })
