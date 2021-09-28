@@ -1110,7 +1110,7 @@ export default {
     login_msg:
       "You have successfully Logged in! However, you need permission to start working on stock.",
     manager_msg: "Ask your manager to grant permission",
-    access_options: "Two options to get access",
+    access_options: "Use any of the following options to get access",
     input_code: "Input an access code",
     launch_scanner: "Launch Scanner"
   },

@@ -212,10 +212,6 @@ jobs:
                 ENVIRONMENT=staging
                 SCANDIT_LICENSE_KEY=$SCANDIT_LICENSE_KEY_ANDROID_STAGING
                 ;;
-              GCW-3719)
-                ENVIRONMENT=staging
-                SCANDIT_LICENSE_KEY=$SCANDIT_LICENSE_KEY_ANDROID_STAGING
-                ;;
               preview)
                 ENVIRONMENT=preview
                 SCANDIT_LICENSE_KEY=$SCANDIT_LICENSE_KEY_ANDROID_STAGING
@@ -448,13 +444,13 @@ workflows:
             - test_cases
           filters:
             branches:
-              only: /^(master|live|GCW-3719)$/
+              only: /^(master|live)$/
       - android_build_and_deploy:
           requires:
             - ember_cordova_build
           filters:
             branches:
-              only: /^(master|live|GCW-3719)$/
+              only: /^(master|live)$/
       - ios_build_and_deploy:
           requires:
             - test_cases
