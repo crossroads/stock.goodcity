@@ -10,10 +10,14 @@ export default AuthorizeRoute.extend({
       "user_profile",
       this.session.get("currentUser.id")
     );
+
     let hasActiveRole =
       user.get("activeRoles") && user.get("activeRoles").length > 0;
+    let hasValidUserProfile =
+      user.get("firstName").trim().length > 0 &&
+      user.get("lastName").trim().length > 0;
 
-    if (hasActiveRole) {
+    if (hasActiveRole || hasValidUserProfile) {
       transition.abort();
       this.transitionTo("index");
     }
