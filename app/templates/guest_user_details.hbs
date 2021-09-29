@@ -1,0 +1,81 @@
+<nav class="tab-bar">
+  <section class="middle tab-bar-section">
+    <h1 class="title">{{t "guest_details.new_user"}}</h1>
+  </section>
+
+  <section class="right-small">
+    <div class="user-back-link" {{action 'logMeOut' }}>
+      {{t "guest_details.logout"}}
+    </div>
+  </section>
+</nav>
+
+<section class="main-section add-user-form new-user-section ui">
+  <div class="guest-user-details">
+    {{#async-validatable-form onSubmit=(action 'saveDetails') as |form|}}
+    <div class="row detail-row">
+      <div class="small-12 columns">
+        {{t "guest_details.complete_profile"}}
+      </div>
+    </div>
+
+    <div class="row detail-row">
+      <div class="small-12 columns">
+        {{t "guest_details.image"}}
+      </div>
+      <div class="small-12 columns add-user-form new-user-section">
+        {{upload-user-image user=model saveUser=false}}
+      </div>
+    </div>
+
+    <div class="row detail-row">
+      <div class="small-3 columns">
+        {{t "guest_details.title"}}
+      </div>
+      <div class="small-5 columns">
+        {{t "guest_details.first_name"}}
+      </div>
+      <div class="small-4 columns">
+        {{t "guest_details.family_name"}}
+      </div>
+      <div class="small-3 columns ui">
+        {{select-list
+          content=titles
+          on-change=(action (mut selectedTitle))
+          selectedValue=selectedTitle
+          value= selectedTitle
+          classNames='condition'
+          idNames='title' }}
+      </div>
+      <div class="small-5 columns ui field-container">
+        {{#form-control}}
+        {{input type='text' value=firstName required='true'}}
+        <div class='input-error'>{{t 'organisation.user.validation_error.first_name'}}</div>
+        {{/form-control}}
+      </div>
+      <div class="small-4 columns ui">
+        {{#form-control}}
+        {{input type='text' value=lastName required='true'}}
+        <div class='input-error'>{{t 'organisation.user.validation_error.family_name'}}</div>
+        {{/form-control}}
+      </div>
+    </div>
+
+    <div class="row detail-row">
+      <div class="small-12 columns">
+        {{t "guest_details.email"}}
+      </div>
+      <div class="small-12 columns ui">
+        {{input type="text" value=email classNames=""}}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="small-10 small-offset-1 columns">
+        <a {{action 'submit' target=form}} class="button expand">{{t 'continue'}}</a>
+      </div>
+    </div>
+    {{/async-validatable-form}}
+  </div>
+</section>
+

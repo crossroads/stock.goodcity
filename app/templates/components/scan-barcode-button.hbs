@@ -1,1 +1,7 @@
-<button class="button expand" {{action "scanBarcode" route}}><i>{{fa-icon 'qrcode'}}</i></button>
+<button class="button expand" {{action "scanBarcode" route}}>
+  {{#if buttonText}}
+    {{buttonText}}
+  {{else}}
+    <i>{{fa-icon 'qrcode'}}</i>
+  {{/if}}
+</button>

@@ -43,6 +43,7 @@ export default Ember.Controller.extend({
       this.get("notifications").send("unloadNotifications");
       this.get("session").unloadSessionData();
       this.session.clearCache();
+      config.APP.USER_DATA_TYPES.map(key => this.get("store").unloadAll(key));
       this.transitionToRoute("login");
     }
   }

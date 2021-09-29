@@ -109,6 +109,7 @@ module.exports = function(defaults) {
   app.import(
     "bower_components/blueimp-file-upload/js/jquery.fileupload-validate.js"
   );
+  app.import("bower_components/qrcode/lib/qrcode.min.js");
   app.import("bower_components/cloudinary/js/jquery.cloudinary.js");
   app.import("bower_components/socket.io-client/socket.io.js");
   return app.toTree();

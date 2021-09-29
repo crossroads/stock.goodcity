@@ -136,7 +136,7 @@ export default ApiBaseService.extend({
 
   assignRole(userId, roleId, date) {
     if (date) {
-      date = moment(date)
+      date = moment(date, "DD/MMM/YYYY")
         .set("hour", 20)
         .set("minutes", 0)
         .format("LLLL");

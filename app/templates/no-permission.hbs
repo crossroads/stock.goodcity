@@ -1,18 +1,56 @@
-<div class="no-permission">
-  <div class="row mt-5">
-    <div class="columns small-7 welcome-text">{{t 'no_permission.welcome'}}</div>
-    <div class="columns small-4 logout-btn"{{action 'logMeOut'}}>{{t 'no_permission.logout'}}</div>
-  </div>
+<nav class="tab-bar welcome-bar">
+  <section class="middle tab-bar-section">
+    <h1 class="title">{{t 'no_permission.welcome'}}</h1>
+  </section>
 
+  <section class="right-small">
+    <div class="user-back-link" {{action 'logMeOut' }}>
+      {{t 'no_permission.logout'}}
+    </div>
+  </section>
+</nav>
+
+
+<div class="no-permission">
   <div class="login-msg">
     {{t 'no_permission.login_msg'}}
   </div>
 
-  <div class="manager-msg">
-    {{t 'no_permission.manager_msg'}}
+  <div class="access_options">
+    <div class="info-text">{{t 'no_permission.access_options'}}</div>
+
+    {{#if isMobileApp}}
+      <div class="access-option">
+        {{scan-barcode-button
+          onScanComplete=(action "setScannedSearchText")
+          buttonText=(t "no_permission.launch_scanner")
+        }}
+      </div>
+
+      <div class="or-text">OR</div>
+    {{/if}}
+
+    <div class="access-option">{{t 'no_permission.input_code'}}</div>
+    <div>
+      {{numeric-input
+        value=accessKey
+        formnovalidate="true"
+        name="accessKey"
+        maxlength="6"
+        keyUp=(action "requestAccessByPass")
+        pattern=".{8,}"}}
+    </div>
+
+    <div class="or-text">OR</div>
+
+    <div class="access-option">
+      {{t 'no_permission.manager_msg'}}
+    </div>
+
+    <button class="button expand try-again" {{action "tryAttemptedTransition" }}>
+      {{t 'no_permission.try_again'}}
+    </button>
+
   </div>
 
-  <button class="button expand try-again" {{action "tryAttemptedTransition"}} >
-    {{t 'no_permission.try_again'}}
-  </button>
 </div>

@@ -17,6 +17,6 @@ export default ApiBaseService.extend({
   },
 
   sendPin(mobile) {
-    return this.POST("/auth/send_pin", { mobile }, this.get("opts"));
+    return this.POST("/auth/signup_and_send_pin", { mobile }, this.get("opts"));
   }
 });

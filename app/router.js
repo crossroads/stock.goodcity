@@ -15,6 +15,7 @@ Router.map(function() {
   this.route("order_filters");
   this.route("item_filters");
   this.route("my_notifications");
+  this.route("pics");
 
   this.route("stocktakes", function() {
     this.route("detail", { path: "/:stocktake_id" });
@@ -83,6 +84,9 @@ Router.map(function() {
   // Users
   this.route("manage_users");
   this.route("manage_account");
+  this.route("access_pass");
+  this.route("display_access_pass");
+  this.route("guest_user_details");
 
   this.route("users", function() {
     this.route("add_user", { path: "/new" });

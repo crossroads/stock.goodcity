@@ -27,12 +27,13 @@
     </div>
     <div class="row menu-margin">
       <div class="small-4 columns menu-option">
-        {{#link-to 'appointments' class='appointments-link menu-list-anchor'}}
-          <div class="menu-svg">{{fa-icon 'calendar-alt' size="lg"}}</div>
-          <br>
-          <div class="option-subtext">{{t 'manage_inventory'}}</div>
+        {{#link-to 'manage_account' class="menu-list-anchor"}}
+        <div class="menu-svg">{{fa-icon 'user-cog' size="lg"}}</div>
+        <br>
+        <div class="option-subtext">{{t 'account'}}</div>
         {{/link-to}}
       </div>
+
       <div class="small-4 columns menu-option">
         {{#link-to 'manage_users' class="menu-list-anchor"}}
           <div class="menu-svg">{{fa-icon 'users' size="lg"}}</div>
@@ -40,13 +41,35 @@
           <div class="option-subtext">{{t 'manage_users'}}</div>
         {{/link-to}}
       </div>
+
       <div {{action 'withOrganisationNavigation'}} class="organisation-overlay small-4 columns menu-option">
         <div class="menu-svg">{{fa-icon 'building' size="lg"}}</div>
         <br>
         <div class="option-subtext">{{t 'search_organisation'}}</div>
       </div>
     </div>
+
     <div class="row menu-margin">
+      {{#if getCurrentUser.canManageAppointments}}
+      <div class="small-4 columns menu-option">
+        {{#link-to 'appointments' class='appointments-link menu-list-anchor'}}
+        <div class="menu-svg">{{fa-icon 'calendar-alt' size="lg"}}</div>
+        <br>
+        <div class="option-subtext">{{t 'manage_inventory'}}</div>
+        {{/link-to}}
+      </div>
+      {{/if}}
+
+      {{#if getCurrentUser.canManageAccessPasses}}
+      <div class="small-4 columns menu-option">
+        {{#link-to 'access_pass' class="menu-list-anchor"}}
+        <div class="menu-svg">{{fa-icon 'key' size="lg"}}</div>
+        <br>
+        <div class="option-subtext">{{t 'access_pass.menu'}}</div>
+        {{/link-to}}
+      </div>
+      {{/if}}
+
       {{#if (is-or getCurrentUser.canManageStocktakes getCurrentUser.canManageStocktakeRevisions)}}
         <div class="small-4 columns menu-option">
           {{#link-to 'stocktakes' class="menu-list-anchor"}}
@@ -57,14 +80,6 @@
         </div>
       {{/if}}
 
-      <div class="small-4 columns menu-option">
-        {{#link-to 'manage_account' class="menu-list-anchor"}}
-        <div class="menu-svg">{{fa-icon 'user-cog' size="lg"}}</div>
-        <br>
-        <div class="option-subtext">{{t 'account'}}</div>
-        {{/link-to}}
-      </div>
-      <div class="small-4 columns menu-option"></div>
     </div>
   </div>
 
@@ -89,7 +104,6 @@
       </div>
     </div>
   </div>
-
 
   <div class="row">
     <div class="menu-section">

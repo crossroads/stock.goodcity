@@ -38,6 +38,7 @@ export default Ember.Controller.extend(AsyncMixin, {
 
   store: Ember.inject.service(),
   i18n: Ember.inject.service(),
+  session: Ember.inject.service(),
   barcodeService: Ember.inject.service(),
   packageService: Ember.inject.service(),
   stocktakeService: Ember.inject.service(),
@@ -98,11 +99,30 @@ export default Ember.Controller.extend(AsyncMixin, {
     "selectedFilterName",
     "activeFilter",
     "stocktake",
+    "searchTerm",
+    "mineOnly",
     "revisions.length",
     "revisions.@each.{quantity,createdAt,hasVariance,warning,dirty}",
     function() {
+      const searchTerm = this.get("searchTerm");
+      const userId = Number(this.get("session.currentUser.id"));
+
       return this.getWithDefault("revisions", [])
         .filter(this.get("activeFilter.predicate"))
+        .filter(rev => {
+          if (userId && this.get("mineOnly")) {
+            const countedByIds = rev.getWithDefault("countedByIds", []);
+            if (!countedByIds.includes(userId)) {
+              return false;
+            }
+          }
+
+          if (searchTerm && _.isString(searchTerm)) {
+            const rexp = new RegExp(searchTerm, "ig");
+            return _.find(this.getRevisionKeywords(rev), kw => rexp.test(kw));
+          }
+          return true;
+        })
         .sort(SORTING.BY_INVENTORY_NUM);
     }
   ),
@@ -116,6 +136,7 @@ export default Ember.Controller.extend(AsyncMixin, {
   // ----------------------
 
   on() {
+    this.set("searchTerm", "");
     this.set("selectedFilterName", this.get("activeFilter.name"));
     this.set("scannerPreviewId", `stocktake-scanner-preview-${_.uniqueId()}`);
   },
@@ -139,6 +160,15 @@ export default Ember.Controller.extend(AsyncMixin, {
   // ----------------------
   // Methods
   // ----------------------
+
+  getRevisionKeywords(rev) {
+    return [
+      // Add any search terms for the filter field here
+      rev.get("item.inventoryNumber"),
+      rev.get("item.code.name"),
+      rev.get("item.code.code")
+    ];
+  },
 
   async trySave(revision) {
     try {
