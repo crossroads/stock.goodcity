@@ -79,7 +79,8 @@ module.exports = function(environment) {
         "district",
         "goodcity_setting",
         "printer",
-        "user_favourite"
+        "user_favourite",
+        "role"
       ],
       USER_DATA_TYPES: [
         "designation",
