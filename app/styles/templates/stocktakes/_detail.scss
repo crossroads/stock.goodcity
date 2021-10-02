@@ -132,8 +132,7 @@
     font-size: 0.9rem;
 
     .selected_option {
-      text-decoration: underline;
-      text-underline-position: under;
+      border-bottom: 1px solid gray;
     }
 
     .options_menu_list {

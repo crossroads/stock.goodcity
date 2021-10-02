@@ -96,6 +96,12 @@ export default {
     confirm_cancel: "This stocktake will be cancelled. Are you sure ?",
     processing_text:
       "This stocktake is being processed, this may take a few minutes. Please check again soon",
+    sort: "Sort",
+    sort_types: {
+      inventory_id: "Inventory ID",
+      added_date: "Added date",
+      item_type: "Item Type"
+    },
     filters: {
       all: "All",
       counted: "Counted",

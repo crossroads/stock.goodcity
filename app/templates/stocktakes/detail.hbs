@@ -92,6 +92,36 @@
         <button class="button ellipsis" {{action (multi-actions (action "stopScanning") (action "addItem"))}}>
           {{fa-icon 'plus'}} {{t 'stocktakes.add_item'}}
         </button>
+
+        <div class="filter-dropdown-container">
+          {{#composable-drop-down as |dropDown|}}
+            {{#dropDown.dropDownHeader}}
+                <div class="selected_option">
+                  {{t 'stocktakes.sort'}}: {{t (concat 'stocktakes.sort_types.' selectedSortMode.type)}}
+                  {{#if (is-equal selectedSortMode.asc true)}}
+                    <i>{{fa-icon 'arrow-up' size='xs'}}</i>
+                  {{else}}
+                    <i>{{fa-icon 'arrow-down' size='xs'}}</i>
+                  {{/if}}
+                </div>
+            {{/dropDown.dropDownHeader}}
+
+            {{#dropDown.dropDownBody}}
+              <div class="options_menu_list option_margin">
+                <div class="option_menu">
+                  {{#each sortMethods as |sortType|}}
+                    <div {{action 'setSortMode' sortType true}}>
+                      {{t (concat 'stocktakes.sort_types.' sortType)}} <i>{{fa-icon 'arrow-up' size='xs'}}</i>
+                    </div>
+                    <div {{action 'setSortMode' sortType false}}>
+                      {{t (concat 'stocktakes.sort_types.' sortType)}} <i>{{fa-icon 'arrow-down' size='xs'}}</i>
+                    </div>
+                  {{/each}}
+                </div>
+              </div>
+            {{/dropDown.dropDownBody}}
+          {{/composable-drop-down}}
+        </div>
       </div>
 
       <div class="row buttons-container flex">
