@@ -70,11 +70,11 @@ jobs:
   package_dependencies:
     <<: *defaults
     steps:
-      - restore-cache: *restore-repo-cache
-      - restore-cache: *restore-yarn-cache
+      - restore_cache: *restore-repo-cache
+      - restore_cache: *restore-yarn-cache
       - run: *yarn
       - save-cache: *save-yarn-cache
-      - restore-cache: *restore-bower-cache
+      - restore_cache: *restore-bower-cache
       - run: yarn run bower install
       - save-cache: *save-bower-cache
 
@@ -85,9 +85,9 @@ jobs:
     environment:
       JOBS: 1
     steps:
-      - restore-cache: *restore-repo-cache
-      - restore-cache: *restore-yarn-cache
-      - restore-cache: *restore-bower-cache
+      - restore_cache: *restore-repo-cache
+      - restore_cache: *restore-yarn-cache
+      - restore_cache: *restore-bower-cache
       - run:
           name: Start Ember test server
           command: yarn run ember server --port 4203
@@ -106,9 +106,9 @@ jobs:
   upload-coverage:
     <<: *defaults
     steps:
-      - restore-cache: *restore-repo-cache
-      - restore-cache: *restore-yarn-cache
-      - restore-cache: *restore-bower-cache
+      - restore_cache: *restore-repo-cache
+      - restore_cache: *restore-yarn-cache
+      - restore_cache: *restore-bower-cache
       - attach_workspace:
           at: ~/code
       - run:
@@ -120,9 +120,9 @@ jobs:
     environment:
       JOBS: 1
     steps:
-      - restore-cache: *restore-repo-cache
-      - restore-cache: *restore-yarn-cache
-      - restore-cache: *restore-bower-cache
+      - restore_cache: *restore-repo-cache
+      - restore_cache: *restore-yarn-cache
+      - restore_cache: *restore-bower-cache
       - run:
           command: npm rebuild node-sass
       - run:
@@ -158,8 +158,8 @@ jobs:
     docker:
       - image: cimg/ruby:2.7.3
     steps:
-      - restore-cache: *restore-repo-cache
-      - restore-cache: *restore-bundle-cache
+      - restore_cache: *restore-repo-cache
+      - restore_cache: *restore-bundle-cache
       - run: bundle check --path=vendor/bundle || bundle install --deployment --jobs=4 --retry=3
       - save-cache: *save-bundle-cache
       - attach_workspace:
@@ -214,9 +214,9 @@ jobs:
     environment:
       JOBS: 1
     steps:
-      - restore-cache: *restore-repo-cache
-      - restore-cache: *restore-yarn-cache
-      - restore-cache: *restore-bower-cache
+      - restore_cache: *restore-repo-cache
+      - restore_cache: *restore-yarn-cache
+      - restore_cache: *restore-bower-cache
       - run:
           command: npm rebuild node-sass
       - run:
@@ -257,9 +257,9 @@ jobs:
       CIRCLE_ARTIFACTS: /home/circleci/code/cordova/platforms/android/build/outputs/apk
 
     steps:
-      - restore-cache: *restore-repo-cache
-      - restore-cache: *restore-yarn-cache
-      - restore-cache: *restore-bundle-cache
+      - restore_cache: *restore-repo-cache
+      - restore_cache: *restore-yarn-cache
+      - restore_cache: *restore-bundle-cache
       - run: bundle install --deployment --jobs=4 --retry=3
       - save-cache: *save-bundle-cache
       - attach_workspace:
@@ -330,10 +330,10 @@ jobs:
       - run:
           name: verify node version
           command: node --version
-      - restore-cache: *restore-ios-yarn-cache
+      - restore_cache: *restore-ios-yarn-cache
       - run: *yarn
       - save-cache: *save-ios-yarn-cache
-      - restore-cache: *restore-ios-bower-cache
+      - restore_cache: *restore-ios-bower-cache
       - run: yarn run bower install
       - save-cache: *save-ios-bower-cache
       - run:
@@ -374,7 +374,7 @@ jobs:
           root: .
           paths:
             - cordova/www
-      - restore-cache: *restore-ios-bundler-cache
+      - restore_cache: *restore-ios-bundler-cache
       - run: bundle install --deployment --jobs=4 --retry=3
       - save-cache: *save-ios-bundler-cache
       - attach_workspace:
