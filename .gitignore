@@ -14,6 +14,7 @@
 
 # fastlane
 fastlane/*.json
+fastlane/.byebug_history
 
 # misc
 /.sass-cache
