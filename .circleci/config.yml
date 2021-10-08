@@ -187,7 +187,7 @@ jobs:
                 echo 'Unexpected branch deployment. Choose master|preview|live'
                 exit 1
             esac
-            STAGE=$STAGE bundle exec fastlane web beta
+            STAGE=$STAGE bundle exec fastlane web deploy
       - run:
           name: Upload Source Map to Rollbar
           command: |
