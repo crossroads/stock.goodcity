@@ -132,7 +132,7 @@ jobs:
               master)
                 ENVIRONMENT=staging
                 ;;
-              master)
+              azure-storage-deployment)
                 ENVIRONMENT=staging
                 ;;
               preview)
