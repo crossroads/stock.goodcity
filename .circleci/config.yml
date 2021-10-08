@@ -429,13 +429,13 @@ workflows:
       - test_cases:
           requires:
             - package_dependencies
-      - upload-coverage:
-          requires:
-            - package_dependencies
-            - test_cases
-          filters:
-            branches:
-              only: /^(master|live)$/
+      # - upload-coverage:
+      #     requires:
+      #       - package_dependencies
+      #       - test_cases
+      #     filters:
+      #       branches:
+      #         only: /^(master|live)$/
       - www_build:
           requires:
             - test_cases
