@@ -50,6 +50,13 @@ aliases:
     paths:
       - vendor/bundle
 
+# -----------------------------
+# Orbs
+# -----------------------------
+
+orbs:
+  azure-cli: circleci/azure-cli@1.1.0
+
 jobs:
   checkout_code:
     <<: *defaults
@@ -125,6 +132,9 @@ jobs:
               master)
                 ENVIRONMENT=staging
                 ;;
+              master)
+                ENVIRONMENT=staging
+                ;;
               preview)
                 ENVIRONMENT=preview
                 ;;
@@ -155,11 +165,16 @@ jobs:
       - attach_workspace:
           at: ~/code
       - run: mv dist-www/ dist
+      - azure-cli/install
+      - azure-cli/login-with-service-principal
       - run:
           name: Upload to www server
           command: |
             case "$CIRCLE_BRANCH" in
               master)
+                STAGE=staging
+                ;;
+              azure-storage-deployment)
                 STAGE=staging
                 ;;
               preview)
@@ -172,7 +187,7 @@ jobs:
                 echo 'Unexpected branch deployment. Choose master|preview|live'
                 exit 1
             esac
-            bundle exec cap $STAGE deploy:upload
+            $STAGE bundle exec fastlane web beta
       - run:
           name: Upload Source Map to Rollbar
           command: |
@@ -417,9 +432,9 @@ workflows:
       - package_dependencies:
           requires:
             - checkout_code
-      - test_cases:
-          requires:
-            - package_dependencies
+      # - test_cases:
+      #     requires:
+      #       - package_dependencies
       # - upload-coverage:
       #     requires:
       #       - package_dependencies
@@ -429,31 +444,31 @@ workflows:
       #         only: /^(master|live)$/
       - www_build:
           requires:
-            - test_cases
+            - package_dependencies
           filters:
             branches:
-              only: /^(master|live|preview)$/
+              only: /^(master|live|preview|azure-storage-deployment)$/
       - www-deploy:
           requires:
             - www_build
           filters:
             branches:
-              only: /^(master|live|preview)$/
-      - ember_cordova_build:
-          requires:
-            - test_cases
-          filters:
-            branches:
-              only: /^(master|live)$/
-      - android_build_and_deploy:
-          requires:
-            - ember_cordova_build
-          filters:
-            branches:
-              only: /^(master|live)$/
-      - ios_build_and_deploy:
-          requires:
-            - test_cases
-          filters:
-            branches:
-              only: /^(master|live)$/
+              only: /^(master|live|preview|azure-storage-deployment)$/
+      # - ember_cordova_build:
+      #     requires:
+      #       - test_cases
+      #     filters:
+      #       branches:
+      #         only: /^(master|live)$/
+      # - android_build_and_deploy:
+      #     requires:
+      #       - ember_cordova_build
+      #     filters:
+      #       branches:
+      #         only: /^(master|live)$/
+      # - ios_build_and_deploy:
+      #     requires:
+      #       - test_cases
+      #     filters:
+      #       branches:
+      #         only: /^(master|live)$/
