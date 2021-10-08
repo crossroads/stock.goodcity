@@ -73,10 +73,10 @@ jobs:
       - restore_cache: *restore-repo-cache
       - restore_cache: *restore-yarn-cache
       - run: *yarn
-      - save-cache: *save-yarn-cache
+      - save_cache: *save-yarn-cache
       - restore_cache: *restore-bower-cache
       - run: yarn run bower install
-      - save-cache: *save-bower-cache
+      - save_cache: *save-bower-cache
 
   test_cases:
     <<: *defaults
@@ -161,7 +161,7 @@ jobs:
       - restore_cache: *restore-repo-cache
       - restore_cache: *restore-bundle-cache
       - run: bundle check --path=vendor/bundle || bundle install --deployment --jobs=4 --retry=3
-      - save-cache: *save-bundle-cache
+      - save_cache: *save-bundle-cache
       - attach_workspace:
           at: ~/code
       - run: mv dist-www/ dist
@@ -261,7 +261,7 @@ jobs:
       - restore_cache: *restore-yarn-cache
       - restore_cache: *restore-bundle-cache
       - run: bundle install --deployment --jobs=4 --retry=3
-      - save-cache: *save-bundle-cache
+      - save_cache: *save-bundle-cache
       - attach_workspace:
           at: ~/code
       - run:
@@ -332,10 +332,10 @@ jobs:
           command: node --version
       - restore_cache: *restore-ios-yarn-cache
       - run: *yarn
-      - save-cache: *save-ios-yarn-cache
+      - save_cache: *save-ios-yarn-cache
       - restore_cache: *restore-ios-bower-cache
       - run: yarn run bower install
-      - save-cache: *save-ios-bower-cache
+      - save_cache: *save-ios-bower-cache
       - run:
           name: Setup Environment variables
           command: |
@@ -376,7 +376,7 @@ jobs:
             - cordova/www
       - restore_cache: *restore-ios-bundler-cache
       - run: bundle install --deployment --jobs=4 --retry=3
-      - save-cache: *save-ios-bundler-cache
+      - save_cache: *save-ios-bundler-cache
       - attach_workspace:
           at: ~/code
       - run:
