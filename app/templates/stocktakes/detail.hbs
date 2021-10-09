@@ -13,7 +13,7 @@
     </section>
 
     <section class="right tab-bar-section">
-      {{#unless (is-or stocktake.isAwaitingProcess stocktake.isProcessing)}}
+      {{#if (is-or stocktake.isOpen)}}
         {{#composable-drop-down as |dropDown|}}
           {{#dropDown.dropDownHeader}}
               <i>{{fa-icon 'ellipsis-v' size='lg'}}</i>
@@ -32,7 +32,7 @@
             </div>
           {{/dropDown.dropDownBody}}
         {{/composable-drop-down}}
-      {{/unless}}
+      {{/if}}
     </section>
   </nav>
 
