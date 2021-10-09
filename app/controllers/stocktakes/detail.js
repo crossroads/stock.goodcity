@@ -10,20 +10,29 @@ import { ERROR_STRATEGIES, ASYNC_BEHAVIOURS } from "../../mixins/async";
  * @memberof Controllers/stocktakes/StocktakeDetailController
  * @static
  */
-const SORTING = {
-  BY_CREATION: (rev1, rev2) => {
+const SORT_METHODS = {
+  added_date: (rev1, rev2, asc = true) => {
+    const alt = asc ? -1 : 1;
     if (!rev1.get("createdAt")) {
-      return -1; // Unsaved records at the top
+      return -1 * alt; // Unsaved records at the top
     }
-    return rev1.get("createdAt") > rev2.get("createdAt") ? -1 : 1;
+    return alt * (rev1.get("createdAt") > rev2.get("createdAt") ? -1 : 1);
   },
-  BY_INVENTORY_NUM: (rev1, rev2) => {
+  inventory_id: (rev1, rev2, asc = true) => {
+    const alt = asc ? 1 : -1;
     const [n1, n2] = [rev1, rev2]
       .map(r => r.get("item.inventoryNumber") || "0")
       .map(inv => inv.replace(/[^0-9]/g, ""))
       .map(Number);
 
-    return n1 < n2 ? -1 : 1;
+    return alt * (n1 < n2 ? -1 : 1);
+  },
+  item_type: (rev1, rev2, asc = true) => {
+    const alt = asc ? 1 : -1;
+    const code1 = rev1.get("item.code.code");
+    const code2 = rev2.get("item.code.code");
+
+    return alt * (code1 < code2 ? -1 : 1);
   }
 };
 
@@ -46,6 +55,13 @@ export default Ember.Controller.extend(AsyncMixin, {
   // ----------------------
   // Properties
   // ----------------------
+
+  sortMethods: Object.keys(SORT_METHODS),
+
+  selectedSortMode: {
+    type: Object.keys(SORT_METHODS)[0],
+    asc: true
+  },
 
   revisions: Ember.computed.alias("stocktake.revisions"),
 
@@ -100,12 +116,15 @@ export default Ember.Controller.extend(AsyncMixin, {
     "activeFilter",
     "stocktake",
     "searchTerm",
+    "selectedSortMode",
     "mineOnly",
     "revisions.length",
     "revisions.@each.{quantity,createdAt,hasVariance,warning,dirty}",
     function() {
       const searchTerm = this.get("searchTerm");
       const userId = Number(this.get("session.currentUser.id"));
+      const sortType = this.get("selectedSortMode.type");
+      const sortAsc = this.get("selectedSortMode.asc");
 
       return this.getWithDefault("revisions", [])
         .filter(this.get("activeFilter.predicate"))
@@ -123,7 +142,9 @@ export default Ember.Controller.extend(AsyncMixin, {
           }
           return true;
         })
-        .sort(SORTING.BY_INVENTORY_NUM);
+        .sort((rev1, rev2) => {
+          return SORT_METHODS[sortType](rev1, rev2, sortAsc);
+        });
     }
   ),
 
@@ -270,6 +291,15 @@ export default Ember.Controller.extend(AsyncMixin, {
   // ----------------------
 
   actions: {
+    setSortMode(type, asc = true) {
+      if (!SORT_METHODS[type]) {
+        console.error("Invalid sort mode");
+        return; // Should never happen
+      }
+
+      this.set("selectedSortMode", { type, asc });
+    },
+
     incrementCount(revision) {
       this.send("updateQuantity", revision, revision.get("quantity") + 1);
     },
