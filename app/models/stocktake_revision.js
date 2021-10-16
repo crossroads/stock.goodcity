@@ -7,7 +7,7 @@ export default Model.extend({
   dirty: attr("boolean"),
   state: attr("string"),
   itemId: attr("number"),
-  item: belongsTo("item", { async: false }),
+  item: belongsTo("item", { async: true }),
   stocktake: belongsTo("stocktake", { async: false }),
   createdAt: attr("date"),
   quantity: attr("number"),
