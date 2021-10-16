@@ -46,6 +46,7 @@ export default Ember.Controller.extend(AsyncMixin, {
   // ----------------------
 
   store: Ember.inject.service(),
+  subscription: Ember.inject.service(),
   i18n: Ember.inject.service(),
   session: Ember.inject.service(),
   barcodeService: Ember.inject.service(),
