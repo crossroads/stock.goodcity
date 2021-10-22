@@ -2,6 +2,7 @@
   [type="checkbox"]:not(:checked),
   [type="checkbox"]:checked {
     position: initial !important;
+    display: block;
     width: 17px;
     height: 17px;
   }

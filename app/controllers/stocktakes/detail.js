@@ -46,6 +46,7 @@ export default Ember.Controller.extend(AsyncMixin, {
   // ----------------------
 
   store: Ember.inject.service(),
+  subscription: Ember.inject.service(),
   i18n: Ember.inject.service(),
   session: Ember.inject.service(),
   barcodeService: Ember.inject.service(),
@@ -343,7 +344,9 @@ export default Ember.Controller.extend(AsyncMixin, {
       if (!pkg) return;
 
       const revision =
-        this.get("revisions").findBy("item", pkg) ||
+        this.get("revisions").find(
+          rev => Number(rev.get("itemId")) === Number(pkg.get("id"))
+        ) ||
         this.get("store").createRecord("stocktake_revision", {
           item: pkg,
           dirty: false,
