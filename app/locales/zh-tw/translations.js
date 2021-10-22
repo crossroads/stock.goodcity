@@ -96,7 +96,7 @@ export default {
     sort: "Sort",
     sort_types: {
       inventory_id: "Inventory ID",
-      added_date: "Added date",
+      updated_date: "Last update",
       item_type: "Item Type"
     },
     filters: {

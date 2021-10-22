@@ -9,6 +9,7 @@ export default Model.extend({
   itemId: attr("number"),
   item: belongsTo("item", { async: true }),
   stocktake: belongsTo("stocktake", { async: false }),
+  updatedAt: attr("date"),
   createdAt: attr("date"),
   quantity: attr("number"),
   processedDelta: attr("number"),

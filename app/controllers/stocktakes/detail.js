@@ -11,12 +11,12 @@ import { ERROR_STRATEGIES, ASYNC_BEHAVIOURS } from "../../mixins/async";
  * @static
  */
 const SORT_METHODS = {
-  added_date: (rev1, rev2, asc = true) => {
+  updated_date: (rev1, rev2, asc = true) => {
     const alt = asc ? -1 : 1;
-    if (!rev1.get("createdAt")) {
+    if (!rev1.get("updatedAt")) {
       return -1 * alt; // Unsaved records at the top
     }
-    return alt * (rev1.get("createdAt") > rev2.get("createdAt") ? -1 : 1);
+    return alt * (rev1.get("updatedAt") > rev2.get("updatedAt") ? -1 : 1);
   },
   inventory_id: (rev1, rev2, asc = true) => {
     const alt = asc ? 1 : -1;
@@ -29,8 +29,8 @@ const SORT_METHODS = {
   },
   item_type: (rev1, rev2, asc = true) => {
     const alt = asc ? 1 : -1;
-    const code1 = rev1.get("item.code.code");
-    const code2 = rev2.get("item.code.code");
+    const code1 = rev1.getWithDefault("item.code.code", "");
+    const code2 = rev2.getWithDefault("item.code.code", "");
 
     return alt * (code1 < code2 ? -1 : 1);
   }
@@ -120,7 +120,7 @@ export default Ember.Controller.extend(AsyncMixin, {
     "selectedSortMode",
     "mineOnly",
     "revisions.length",
-    "revisions.@each.{quantity,createdAt,hasVariance,warning,dirty}",
+    "revisions.@each.{quantity,createdAt,updatedAt,hasVariance,warning,dirty}",
     function() {
       const searchTerm = this.get("searchTerm");
       const userId = Number(this.get("session.currentUser.id"));
@@ -187,9 +187,9 @@ export default Ember.Controller.extend(AsyncMixin, {
     return [
       // Add any search terms for the filter field here
       rev.get("item.inventoryNumber"),
-      rev.get("item.code.name"),
-      rev.get("item.code.code")
-    ];
+      rev.getWithDefault("item.code.name", null),
+      rev.getWithDefault("item.code.code", null)
+    ].filter(_.identity);
   },
 
   async trySave(revision) {
