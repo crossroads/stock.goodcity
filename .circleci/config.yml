@@ -182,7 +182,6 @@ jobs:
                 exit 1
             esac
             STAGE=$STAGE bundle exec fastlane web deploy
-            bundle exec cap $STAGE deploy:upload
       - run:
           name: Upload Source Map to Rollbar
           command: |
