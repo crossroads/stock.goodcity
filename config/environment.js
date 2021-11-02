@@ -166,12 +166,10 @@ module.exports = function(environment) {
 
     ENV.contentSecurityPolicy["connect-src"] = [
       "https://api.goodcity.hk",
-      "https://errbit.crossroads.org.hk",
       "https://api.rollbar.com",
       "https://socket.goodcity.hk:81",
       "ws://socket.goodcity.hk:81",
-      "wss://socket.goodcity.hk:81",
-      "https://sentry.io"
+      "wss://socket.goodcity.hk:81"
     ].join(" ");
   }
 
@@ -185,9 +183,7 @@ module.exports = function(environment) {
     ENV.APP.CHARITY_APP_URL = "https://charities-staging.goodcity.hk/";
     ENV.contentSecurityPolicy["connect-src"] = [
       "https://api-staging.goodcity.hk",
-      "https://errbit.crossroads.org.hk",
       "https://api.rollbar.com",
-      "https://sentry.io",
       "https://socket-staging.goodcity.hk:81",
       "ws://socket-staging.goodcity.hk:81",
       "wss://socket-staging.goodcity.hk:81"
@@ -202,9 +198,7 @@ module.exports = function(environment) {
       "https://socket-preview.goodcity.hk:81/goodcity";
     ENV.contentSecurityPolicy["connect-src"] = [
       "https://api-preview.goodcity.hk",
-      "https://errbit.crossroads.org.hk",
       "https://api.rollbar.com",
-      "https://sentry.io",
       "https://socket-preview.goodcity.hk:81",
       "ws://socket-preview.goodcity.hk:81",
       "wss://socket-preview.goodcity.hk:81"
