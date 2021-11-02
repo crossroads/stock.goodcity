@@ -178,15 +178,15 @@ module.exports = function(environment) {
     ENV.cordova.FcmSenderId = "535052654081";
     ENV.APP.API_HOST_URL = "https://api-staging.goodcity.hk";
     ENV.APP.SOCKETIO_WEBSERVICE_URL =
-      "https://socket-staging.goodcity.hk:81/goodcity";
+      "https://socket-staging.goodcity.hk/goodcity";
     ENV.APP.DONOR_APP_URL = "https://app-staging.goodcity.hk/";
     ENV.APP.CHARITY_APP_URL = "https://charities-staging.goodcity.hk/";
     ENV.contentSecurityPolicy["connect-src"] = [
       "https://api-staging.goodcity.hk",
       "https://api.rollbar.com",
-      "https://socket-staging.goodcity.hk:81",
-      "ws://socket-staging.goodcity.hk:81",
-      "wss://socket-staging.goodcity.hk:81"
+      "https://socket-staging.goodcity.hk",
+      "ws://socket-staging.goodcity.hk",
+      "wss://socket-staging.goodcity.hk"
     ].join(" ");
   }
 
