@@ -412,8 +412,8 @@ workflows:
       #       branches:
       #         only: /^(master|live)$/
       - ember_cordova_build:
-          # requires:
-            # - test_cases
+          requires:
+            - package_dependencies
           filters:
             branches:
               only: /^(master|live|GCW-3746-cordova-android-10.1.1)$/
