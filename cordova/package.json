@@ -3,10 +3,9 @@
   "version": "0.24.3.24723",
   "displayName": "S. Stock",
   "devDependencies": {
+    "@havesource/cordova-plugin-push": "^3.0.0",
     "com-sarriaroman-PhotoViewer": "https://github.com/sarriaroman/photoviewer.git#1.1.10",
-    "cordova-android": "^10.1.1",
     "cordova-android-support-gradle-release": "^3.0.1",
-    "cordova-ios": "6.1.1",
     "cordova-plugin-actionsheet": "https://github.com/EddyVerbruggen/cordova-plugin-actionsheet.git",
     "cordova-plugin-android-permissions": "https://github.com/NeoLSN/cordova-plugin-android-permissions",
     "cordova-plugin-androidx-adapter": "^1.1.1",
@@ -20,17 +19,12 @@
     "cordova-plugin-network-information": "~1.2.0",
     "cordova-plugin-splashscreen": "^4.1.0",
     "cordova-plugin-statusbar": "~2.1.1",
-    "cordova-plugin-whitelist": "~1.2.1",
     "cordova-plugin-wkwebview-engine": "^1.2.2",
-    "phonegap-plugin-push": "2.1.2",
     "scandit-cordova-datacapture-barcode": "^6.10.1",
     "scandit-cordova-datacapture-core": "^6.10.1"
   },
   "cordova": {
-    "platforms": [
-      "ios",
-      "android"
-    ],
+    "platforms": [],
     "plugins": {
       "cordova-plugin-android-permissions": {},
       "cordova-plugin-statusbar": {},
@@ -38,7 +32,6 @@
       "cordova-plugin-camera": {},
       "cordova-plugin-network-information": {},
       "cordova-plugin-device": {},
-      "cordova-plugin-whitelist": {},
       "cordova-plugin-splashscreen": {},
       "com-sarriaroman-PhotoViewer": {},
       "cordova-plugin-apprate": {},
@@ -47,13 +40,16 @@
       "cordova-plugin-dialogs": {},
       "cordova-plugin-deeplinks": {},
       "cordova-plugin-androidx-adapter": {},
-      "phonegap-plugin-push": {},
       "cordova-android-support-gradle-release": {
         "ANDROID_SUPPORT_VERSION": "30"
       },
       "cordova-plugin-wkwebview-engine": {},
       "scandit-cordova-datacapture-core": {},
-      "scandit-cordova-datacapture-barcode": {}
+      "scandit-cordova-datacapture-barcode": {},
+      "@havesource/cordova-plugin-push": {
+        "ANDROIDX_CORE_VERSION": "1.6.+",
+        "FCM_VERSION": "18.+"
+      }
     }
   },
   "dependencies": {

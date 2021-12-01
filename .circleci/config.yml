@@ -219,12 +219,11 @@ jobs:
   android_build_and_deploy:
     <<: *defaults
     docker:
-      - image: circleci/android:api-30-node
+      - image: cimg/android:2021.10.2-node
     environment:
       JVM_OPTS: -Xmx3200m
-      KEYSTORE: goodcity.keystore
-      CIRCLE_ARTIFACTS: /home/circleci/code/cordova/platforms/android/build/outputs/apk
-      JAVA_HOME: /usr/lib/jvm/adoptopenjdk-8-hotspot-amd64
+      CIRCLE_ARTIFACTS: /home/circleci/code/cordova/platforms/android/app/build/outputs/apk/release/
+      JAVA_HOME: /usr/lib/jvm/java-8-openjdk-amd64
     steps:
       - restore_cache: *restore-repo-cache
       - restore_cache: *restore-yarn-cache
@@ -237,31 +236,30 @@ jobs:
           name: Setup Environment variables
           command: |
             echo 'export ENVIRONMENT=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo production; else echo staging; fi)' >> $BASH_ENV
-            echo 'export PATH=$PATH:`yarn bin`:$ANDROID_SDK_ROOT/tools/gradle/bin' >> $BASH_ENV
+            echo 'export PATH=$PATH:`yarn bin`' >> $BASH_ENV
       - run:
-          name: Install Java 8 for Cordova
+          name: Install dependencies
           command: |
-              sudo rm -rf /usr/local/openjdk-11/
-              sudo apt-get update && sudo apt-get install -y apt-transport-https ca-certificates wget dirmngr gnupg software-properties-common
-              wget -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | sudo apt-key add -
-              sudo add-apt-repository --yes https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/
-              sudo apt-get update && sudo apt-get install -y adoptopenjdk-8-hotspot
-      - run:
-          name: Install Gradle 4.10.3
-          command: |
-            wget -O /tmp/gradle.zip  https://services.gradle.org/distributions/gradle-4.10.3-all.zip
-            unzip -d $ANDROID_SDK_ROOT/tools /tmp/gradle.zip
-            mv $ANDROID_SDK_ROOT/tools/gradle-4.10.3 $ANDROID_SDK_ROOT/tools/gradle
+              sudo apt-get update
+              sudo apt remove openjdk-11-*
+              sudo apt-get install -y apt-transport-https ca-certificates wget dirmngr gnupg software-properties-common openjdk-8-jdk python
+              npm install cordova@10
       - azure-cli/install
       - azure-cli/login-with-service-principal
       - run: az storage blob download --account-name $GOODCITY_STORAGE -c ci-app-secrets -n stock-$ENVIRONMENT-google-services.json -f ~/code/cordova/google-services.json
       - run: az storage blob download --account-name $GOODCITY_STORAGE -c ci-app-secrets -n goodcity.keystore -f ~/code/cordova/goodcity.keystore
       - run: az storage blob download --account-name $GOODCITY_STORAGE -c ci-app-secrets -n google-play-key.json -f ~/code/fastlane/google-play-key.json
-      - run: yes | sdkmanager --licenses || exit 0
-      - run: yes | sdkmanager --update || exit 0
       - run:
-          name: android build
-          command: bundle exec rake ${ENVIRONMENT} android app:build
+          name: Build android app
+          command: |
+            cordova platform add android@10.1.1
+            if [ "$CIRCLE_BRANCH" == "live" ]; then
+              cordova build android --release -- \
+                --packageType=apk --keystore=goodcity.keystore --storePassword=${GOODCITY_KEYSTORE_PASSWORD} \
+                --alias=${GOODCITY_KEYSTORE_ALIAS} --password=${GOODCITY_KEYSTORE_PASSWORD}
+            else
+              cordova build android --debug --device
+            fi
           working_directory: cordova
       - store_artifacts:
           path: cordova/platforms/android/app/build/outputs/apk/
