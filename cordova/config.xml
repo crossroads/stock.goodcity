@@ -96,7 +96,7 @@
         <host event="redirectToItem" name="stock.goodcity.hk" scheme="https" />
     </universal-links>
     <engine name="windows" spec="~4.3.1" />
-    <engine name="android" spec="9.0.0" />
+    <engine name="android" spec="10.1.1" />
     <engine name="ios" spec="6.1.1" />
     <plugin name="cordova-plugin-android-permissions" spec="https://github.com/NeoLSN/cordova-plugin-android-permissions" />
     <plugin name="cordova-plugin-statusbar" spec="~2.1.1" />

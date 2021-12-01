@@ -129,18 +129,11 @@ jobs:
           name: Ember build
           command: |
             case "$CIRCLE_BRANCH" in
-              master)
-                ENVIRONMENT=staging
-                ;;
-              preview)
-                ENVIRONMENT=preview
-                ;;
               live)
                 ENVIRONMENT=production
                 ;;
               *)
-                echo 'Unexpected branch deployment. Choose master|preview|live'
-                exit 1
+                ENVIRONMENT=staging
             esac
             echo "Building for ENVIRONMENT: ${ENVIRONMENT}"
             EMBER_CLI_CORDOVA=0 ENVIRONMENT=${ENVIRONMENT} yarn run ember build --environment=production
@@ -168,18 +161,11 @@ jobs:
           name: Upload to www server + azure
           command: |
             case "$CIRCLE_BRANCH" in
-              master)
-                STAGE=staging
-                ;;
-              preview)
-                STAGE=preview
-                ;;
               live)
                 STAGE=production
                 ;;
               *)
-                echo 'Unexpected branch deployment. Choose master|preview|live'
-                exit 1
+                STAGE=staging
             esac
             STAGE=$STAGE bundle exec fastlane web deploy
       - run:
@@ -192,14 +178,11 @@ jobs:
               master)
                 ASSET_HOST_URL=https://stock-staging.goodcity.hk/assets
                 ;;
-              preview)
-                ASSET_HOST_URL=https://stock-preview.goodcity.hk/assets
-                ;;
               live)
                 ASSET_HOST_URL=https://stock.goodcity.hk/assets
                 ;;
               *)
-                echo 'Unexpected branch deployment. Choose master|preview|live'
+                echo 'Unexpected branch deployment. Choose master|live'
                 exit 1
             esac
             curl https://api.rollbar.com/api/1/sourcemap/download -F access_token="${ROLLBAR_KEY}" -F version="${APP_VERSION}" -F minified_url=$ASSET_HOST_URL/$SOURCE_MAP
@@ -217,21 +200,13 @@ jobs:
           name: Ember build
           command: |
             case "$CIRCLE_BRANCH" in
-              master)
-                ENVIRONMENT=staging
-                SCANDIT_LICENSE_KEY=$SCANDIT_LICENSE_KEY_ANDROID_STAGING
-                ;;
-              preview)
-                ENVIRONMENT=preview
-                SCANDIT_LICENSE_KEY=$SCANDIT_LICENSE_KEY_ANDROID_STAGING
-                ;;
               live)
                 ENVIRONMENT=production
                 SCANDIT_LICENSE_KEY=$SCANDIT_LICENSE_KEY_ANDROID
                 ;;
               *)
-                echo 'Unexpected branch deployment. Choose master|preview|live'
-                exit 1
+                ENVIRONMENT=staging
+                SCANDIT_LICENSE_KEY=$SCANDIT_LICENSE_KEY_ANDROID_STAGING
             esac
             echo "Building for ENVIRONMENT: ${ENVIRONMENT}"
             EMBER_CLI_CORDOVA=1 SCANDIT_LICENSE_KEY=${SCANDIT_LICENSE_KEY} ENVIRONMENT=${ENVIRONMENT} yarn run ember build --environment=production
@@ -249,47 +224,41 @@ jobs:
       JVM_OPTS: -Xmx3200m
       KEYSTORE: goodcity.keystore
       CIRCLE_ARTIFACTS: /home/circleci/code/cordova/platforms/android/build/outputs/apk
-
+      JAVA_HOME: /usr/lib/jvm/adoptopenjdk-8-hotspot-amd64
     steps:
       - restore_cache: *restore-repo-cache
       - restore_cache: *restore-yarn-cache
       - restore_cache: *restore-bundle-cache
-      - run: bundle install --deployment --jobs=4 --retry=3
+      - run: bundle config set --local deployment 'true' && bundle install --jobs=2 --retry=3
       - save_cache: *save-bundle-cache
       - attach_workspace:
           at: ~/code
-      - run:
+      - run: 
           name: Setup Environment variables
           command: |
             echo 'export ENVIRONMENT=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo production; else echo staging; fi)' >> $BASH_ENV
-            echo 'export PATH=$PATH:`yarn bin`' >> $BASH_ENV
-            echo 'export PATH=$PATH:$ANDROID_HOME/tools/gradle/bin' >> $BASH_ENV
+            echo 'export PATH=$PATH:`yarn bin`:$ANDROID_SDK_ROOT/tools/gradle/bin' >> $BASH_ENV
+      - run:
+          name: Install Java 8 for Cordova
+          command: |
+              sudo rm -rf /usr/local/openjdk-11/
+              sudo apt-get update && sudo apt-get install -y apt-transport-https ca-certificates wget dirmngr gnupg software-properties-common
+              wget -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | sudo apt-key add -
+              sudo add-apt-repository --yes https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/
+              sudo apt-get update && sudo apt-get install -y adoptopenjdk-8-hotspot
       - run:
           name: Install Gradle 4.10.3
           command: |
             wget -O /tmp/gradle.zip  https://services.gradle.org/distributions/gradle-4.10.3-all.zip
-            unzip -d $ANDROID_HOME/tools /tmp/gradle.zip
-            mv $ANDROID_HOME/tools/gradle-4.10.3 $ANDROID_HOME/tools/gradle
-      - run:
-          name: Download Google-services file
-          command: |
-            yarn run azure-filestore download -d stock/$ENVIRONMENT -f google-services.json
-             mv ~/code/google-services.json ~/code/cordova
-          working_directory: ~/code
-      - run:
-          name: Download Keystore File
-          command: |
-            yarn run azure-filestore download -f $KEYSTORE
-            mv $KEYSTORE ~/code/cordova
-          working_directory: ~/code
+            unzip -d $ANDROID_SDK_ROOT/tools /tmp/gradle.zip
+            mv $ANDROID_SDK_ROOT/tools/gradle-4.10.3 $ANDROID_SDK_ROOT/tools/gradle
+      - azure-cli/install
+      - azure-cli/login-with-service-principal
+      - run: az storage blob download --account-name $GOODCITY_STORAGE -c ci-app-secrets -n stock-$ENVIRONMENT-google-services.json -f ~/code/cordova/google-services.json
+      - run: az storage blob download --account-name $GOODCITY_STORAGE -c ci-app-secrets -n goodcity.keystore -f ~/code/cordova/goodcity.keystore
+      - run: az storage blob download --account-name $GOODCITY_STORAGE -c ci-app-secrets -n google-play-key.json -f ~/code/fastlane/google-play-key.json
       - run: yes | sdkmanager --licenses || exit 0
       - run: yes | sdkmanager --update || exit 0
-      - run:
-          name: Download Google Play Store Key file
-          command: |
-            yarn run azure-filestore download -d google-play -f $GOOGLE_PLAY_KEY_FILE
-            mv $GOOGLE_PLAY_KEY_FILE ~/code/fastlane
-          working_directory: ~/code
       - run:
           name: android build
           command: bundle exec rake ${ENVIRONMENT} android app:build
@@ -340,12 +309,6 @@ jobs:
                 echo 'export PROVISIONING_PROFILE=GoodCityStockStaging.mobileprovision' >> $BASH_ENV
                 echo 'export SCANDIT_LICENSE_KEY=$SCANDIT_LICENSE_KEY_IOS_STAGING' >> $BASH_ENV
                 ;;
-              preview)
-                echo 'export ENVIRONMENT=preview' >> $BASH_ENV
-                echo 'export CERTIFICATE=hk.goodcity.dev.p12' >> $BASH_ENV
-                echo 'export PROVISIONING_PROFILE=GoodCityStockStaging.mobileprovision' >> $BASH_ENV
-                echo 'export SCANDIT_LICENSE_KEY=$SCANDIT_LICENSE_KEY_IOS_STAGING' >> $BASH_ENV
-                ;;
               live)
                 echo 'export ENVIRONMENT=production' >> $BASH_ENV
                 echo 'export CERTIFICATE=hk.goodcity.p12' >> $BASH_ENV
@@ -353,7 +316,7 @@ jobs:
                 echo 'export SCANDIT_LICENSE_KEY=$SCANDIT_LICENSE_KEY_IOS' >> $BASH_ENV
                 ;;
               *)
-                echo 'Unexpected branch deployment. Choose master|preview|live'
+                echo 'Unexpected branch deployment. Choose master|live'
                 exit 1
             esac
       - run:
@@ -426,9 +389,9 @@ workflows:
       - package_dependencies:
           requires:
             - checkout_code
-      - test_cases:
-          requires:
-            - package_dependencies
+      # - test_cases:
+      #     requires:
+      #       - package_dependencies
       # - upload-coverage:
       #     requires:
       #       - package_dependencies
@@ -441,28 +404,28 @@ workflows:
             - test_cases
           filters:
             branches:
-              only: /^(master|live|preview)$/
+              only: /^(master|live)$/
       - www-deploy:
           requires:
             - www_build
           filters:
             branches:
-              only: /^(master|live|preview)$/
+              only: /^(master|live)$/
       - ember_cordova_build:
-          requires:
-            - test_cases
+          # requires:
+            # - test_cases
           filters:
             branches:
-              only: /^(master|live)$/
+              only: /^(master|live|GCW-3746-cordova-android-10.1.1)$/
       - android_build_and_deploy:
           requires:
             - ember_cordova_build
           filters:
             branches:
-              only: /^(master|live)$/
-      - ios_build_and_deploy:
-          requires:
-            - test_cases
-          filters:
-            branches:
-              only: /^(master|live)$/
+              only: /^(master|live|GCW-3746-cordova-android-10.1.1)$/
+      # - ios_build_and_deploy:
+      #     requires:
+      #       - test_cases
+      #     filters:
+      #       branches:
+      #         only: /^(master|live)$/
