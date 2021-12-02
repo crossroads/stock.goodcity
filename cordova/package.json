@@ -4,8 +4,8 @@
   "displayName": "S. Stock",
   "devDependencies": {
     "@havesource/cordova-plugin-push": "^3.0.0",
-    "com-sarriaroman-photoviewer": "github:sarriaroman/photoviewer#1.1.10",
     "com-sarriaroman-PhotoViewer": "https://github.com/sarriaroman/photoviewer.git#1.1.10",
+    "com-sarriaroman-photoviewer": "git+https://github.com/sarriaroman/photoviewer.git#1.1.10",
     "cordova-android-support-gradle-release": "^3.0.1",
     "cordova-plugin-actionsheet": "https://github.com/EddyVerbruggen/cordova-plugin-actionsheet.git",
     "cordova-plugin-android-permissions": "https://github.com/NeoLSN/cordova-plugin-android-permissions",
