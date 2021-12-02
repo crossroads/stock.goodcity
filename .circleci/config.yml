@@ -242,7 +242,7 @@ jobs:
           command: |
               sudo apt-get update
               sudo apt remove openjdk-11-*
-              sudo apt-get install -y apt-transport-https ca-certificates wget dirmngr gnupg software-properties-common openjdk-8-jdk python
+              sudo apt-get install -y apt-transport-https ca-certificates wget dirmngr gnupg software-properties-common openjdk-8-jdk
               sudo npm install -g cordova@10
       - azure-cli/install
       - azure-cli/login-with-service-principal

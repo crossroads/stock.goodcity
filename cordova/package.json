@@ -1,9 +1,10 @@
 {
   "name": "hk.goodcity.stockstaging",
-  "version": "0.24.3.24723",
+  "version": "0.24.4",
   "displayName": "S. Stock",
   "devDependencies": {
     "@havesource/cordova-plugin-push": "^3.0.0",
+    "com-sarriaroman-photoviewer": "github:sarriaroman/photoviewer#1.1.10",
     "com-sarriaroman-PhotoViewer": "https://github.com/sarriaroman/photoviewer.git#1.1.10",
     "cordova-android-support-gradle-release": "^3.0.1",
     "cordova-plugin-actionsheet": "https://github.com/EddyVerbruggen/cordova-plugin-actionsheet.git",
@@ -49,7 +50,8 @@
       "@havesource/cordova-plugin-push": {
         "ANDROIDX_CORE_VERSION": "1.6.+",
         "FCM_VERSION": "18.+"
-      }
+      },
+      "com-sarriaroman-photoviewer": {}
     }
   },
   "dependencies": {

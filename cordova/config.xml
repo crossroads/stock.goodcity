@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget android-versionCode="80001" id="hk.goodcity.stockstaging" ios-CFBundleVersion="1" version="0.0.1" xmlns="http://www.w3.org/ns/widgets">
+<widget android-versionCode="" id="hk.goodcity.stockstaging" ios-CFBundleVersion="" version="0.24.4" xmlns="http://www.w3.org/ns/widgets">
     <name>S. Stock</name>
     <description>
         GoodCity Stock Application
     </description>
     <author href="https://www.crossroads.org.hk">Crossroads</author>
     <content src="index.html" />
-    <hook src="scripts/update_build_number.py" type="before_prepare" />
+    <hook src="hooks/set_app_details.js" type="before_prepare" />
     <access origin="*" />
     <httpProtocol>
         <customHeaders>
@@ -17,7 +17,6 @@
     <allow-intent href="http://*/*" launch-external="yes" />
     <allow-intent href="https://*/*" launch-external="yes" />
     <platform name="android">
-        <hook src="scripts/setup_gradle_properties.py" type="after_prepare" />
         <resource-file src="google-services.json" target="app/google-services.json" />
         <preference name="AndroidLaunchMode" value="singleTop" />
         <preference name="LoadUrlTimeoutValue" value="120000" />
