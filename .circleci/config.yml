@@ -17,7 +17,7 @@ aliases:
       - ~/.cache/yarn
   - &restore-ios-yarn-cache
     keys:
-      - v1-stock--goodcity-ios-yarn-packages-{{ checksum "yarn.lock" }}
+      - v1-stock-goodcity-ios-yarn-packages-{{ checksum "yarn.lock" }}
   - &save-ios-yarn-cache
     key: v1-stock-goodcity-ios-yarn-packages-{{ checksum "yarn.lock" }}
     paths:
@@ -44,9 +44,9 @@ aliases:
     paths:
       - vendor/bundle
   - &restore-ios-bundler-cache
-    key: v1-stock-goodcity-ios-bundle-{{ checksum "Gemfile.lock" }}
+    key: v1-stock-goodcity-bundle-ios-{{ checksum "Gemfile.lock" }}
   - &save-ios-bundler-cache
-    key: v1-stock-goodcity-ios-bundle-{{ checksum "Gemfile.lock" }}
+    key: v1-stock-goodcity-bundle-ios-{{ checksum "Gemfile.lock" }}
     paths:
       - vendor/bundle
 
@@ -309,45 +309,19 @@ jobs:
             echo "Building for ENVIRONMENT: ${ENVIRONMENT}"
             EMBER_CLI_CORDOVA=1 SCANDIT_LICENSE_KEY=${SCANDIT_LICENSE_KEY} ENVIRONMENT=${ENVIRONMENT} yarn run ember build --environment=production
       - run: mv dist/ cordova/www
-      - persist_to_workspace:
-          root: .
-          paths:
-            - cordova/www
       - restore_cache: *restore-ios-bundler-cache
-      - run: bundle install --deployment --jobs=4 --retry=3
+      - run: bundle check || bundle install --path vendor/bundle --jobs=2 --retry=3
       - save_cache: *save-ios-bundler-cache
-      - attach_workspace:
-          at: ~/code
-      - run:
-          name: Download Provisioning Profile
-          command: |
-            mkdir -pv ~/Library/MobileDevice/Provisioning\ Profiles/
-            yarn run azure-filestore download -d stock/$ENVIRONMENT -f $PROVISIONING_PROFILE
-            mv $PROVISIONING_PROFILE ~/Library/MobileDevice/Provisioning\ Profiles
-          working_directory: ~/code
-      - run:
-          name: Download AppStore API KEY file
-          command: |
-            APPSTORE_CONNECT_API_KEY_FILENAME="AuthKey_${APPSTORE_CONNECT_API_KEY_ID}.p8"
-            yarn run azure-filestore download -d ios -f $APPSTORE_CONNECT_API_KEY_FILENAME
-            mv $APPSTORE_CONNECT_API_KEY_FILENAME ~/code/fastlane
-      - run:
-          name: Download P12 certificate
-          command: |
-            yarn run azure-filestore download -f $CERTIFICATE
-            mv $CERTIFICATE ~/code/fastlane
-          working_directory: ~/code
-      - run:
-          name: Install CocoaPods
-          command: |
-            curl https://cocoapods-specs.circleci.com/fetch-cocoapods-repo-from-s3.sh | bash -s cf
-            pod setup
-      - run:
-          name: Install cordova-update-config globally
-          command: npm i -g cordova-update-config
+      - azure-cli/install
+      - azure-cli/login-with-service-principal
+      - run: mkdir -pv ~/Library/MobileDevice/Provisioning\ Profiles/
+      - run: az storage blob download --account-name $GOODCITY_STORAGE -c ci-app-secrets -n stock-${ENVIRONMENT}.mobileprovision -f ~/Library/MobileDevice/Provisioning\ Profiles/stock-${ENVIRONMENT}.mobileprovision
+      - run: az storage blob download --account-name $GOODCITY_STORAGE -c ci-app-secrets -n AuthKey_${APPSTORE_CONNECT_API_KEY_ID}.p8 -f ~/code/fastlane/AuthKey_${APPSTORE_CONNECT_API_KEY_ID}.p8
+      - run: az storage blob download --account-name $GOODCITY_STORAGE -c ci-app-secrets -n hk.goodcity.${ENVIRONMENT}.p12 -f ~/code/fastlane/hk.goodcity.${ENVIRONMENT}.p12
+      - run: gem install cocoapods
       - run:
           name: Install cordova globally
-          command: npm i -g cordova@9.0.0
+          command: npm i -g cordova@10.0.0
       - run:
           name: Create keychain and import p12 certificate
           command: bundle exec fastlane ios prepare_certificates cert:$CERTIFICATE
