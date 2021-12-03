@@ -312,7 +312,7 @@ jobs:
       - restore_cache: *restore-ios-bundler-cache
       - run: bundle config set --local deployment 'true' && (bundle check || bundle install --jobs=2 --retry=3)
       - save_cache: *save-ios-bundler-cache
-      - run: brew update && brew install azure-cli
+      - run: brew install azure-cli
       - run: az login --service-principal --tenant ${AZURE_SP_TENANT} -u ${AZURE_SP} -p ${AZURE_SP_PASSWORD}
       - run: mkdir -pv ~/Library/MobileDevice/Provisioning\ Profiles/
       - run: az storage blob download --account-name $GOODCITY_STORAGE -c ci-app-secrets -n stock-${ENVIRONMENT}.mobileprovision -f ~/Library/MobileDevice/Provisioning\ Profiles/stock-${ENVIRONMENT}.mobileprovision
