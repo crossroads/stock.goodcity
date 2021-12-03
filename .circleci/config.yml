@@ -55,7 +55,7 @@ aliases:
 # -----------------------------
 
 orbs:
-  azure-cli: circleci/azure-cli@1.1.0
+  azure-cli: circleci/azure-cli@1.2.0
 
 jobs:
   checkout_code:
@@ -312,8 +312,8 @@ jobs:
       - restore_cache: *restore-ios-bundler-cache
       - run: bundle check || bundle install --path vendor/bundle --jobs=2 --retry=3
       - save_cache: *save-ios-bundler-cache
-      - azure-cli/install
-      - azure-cli/login-with-service-principal
+      - brew update && brew install azure-cli
+      - az login --service-principal --tenant ${AZURE_SP_TENANT} -u ${AZURE_SP} -p ${AZURE_SP_PASSWORD}
       - run: mkdir -pv ~/Library/MobileDevice/Provisioning\ Profiles/
       - run: az storage blob download --account-name $GOODCITY_STORAGE -c ci-app-secrets -n stock-${ENVIRONMENT}.mobileprovision -f ~/Library/MobileDevice/Provisioning\ Profiles/stock-${ENVIRONMENT}.mobileprovision
       - run: az storage blob download --account-name $GOODCITY_STORAGE -c ci-app-secrets -n AuthKey_${APPSTORE_CONNECT_API_KEY_ID}.p8 -f ~/code/fastlane/AuthKey_${APPSTORE_CONNECT_API_KEY_ID}.p8
