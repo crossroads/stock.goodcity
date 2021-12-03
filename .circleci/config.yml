@@ -138,7 +138,7 @@ jobs:
     steps:
       - restore_cache: *restore-repo-cache
       - restore_cache: *restore-bundle-cache
-      - run: bundle check --path=vendor/bundle || bundle install --deployment --jobs=4 --retry=3
+      - run: bundle config set --local deployment 'true' && (bundle check || bundle install --jobs=2 --retry=3)
       - save_cache: *save-bundle-cache
       - attach_workspace:
           at: ~/code
@@ -216,7 +216,7 @@ jobs:
       - restore_cache: *restore-repo-cache
       - restore_cache: *restore-yarn-cache
       - restore_cache: *restore-bundle-cache
-      - run: bundle config set --local deployment 'true' && bundle install --jobs=2 --retry=3
+      - run: bundle config set --local deployment 'true' && (bundle check || bundle install --jobs=2 --retry=3)
       - save_cache: *save-bundle-cache
       - attach_workspace:
           at: ~/code
@@ -310,10 +310,10 @@ jobs:
             EMBER_CLI_CORDOVA=1 SCANDIT_LICENSE_KEY=${SCANDIT_LICENSE_KEY} ENVIRONMENT=${ENVIRONMENT} yarn run ember build --environment=production
       - run: mv dist/ cordova/www
       - restore_cache: *restore-ios-bundler-cache
-      - run: bundle check || bundle install --path vendor/bundle --jobs=2 --retry=3
+      - run: bundle config set --local deployment 'true' && (bundle check || bundle install --jobs=2 --retry=3)
       - save_cache: *save-ios-bundler-cache
-      - brew update && brew install azure-cli
-      - az login --service-principal --tenant ${AZURE_SP_TENANT} -u ${AZURE_SP} -p ${AZURE_SP_PASSWORD}
+      - run: brew update && brew install azure-cli
+      - run: az login --service-principal --tenant ${AZURE_SP_TENANT} -u ${AZURE_SP} -p ${AZURE_SP_PASSWORD}
       - run: mkdir -pv ~/Library/MobileDevice/Provisioning\ Profiles/
       - run: az storage blob download --account-name $GOODCITY_STORAGE -c ci-app-secrets -n stock-${ENVIRONMENT}.mobileprovision -f ~/Library/MobileDevice/Provisioning\ Profiles/stock-${ENVIRONMENT}.mobileprovision
       - run: az storage blob download --account-name $GOODCITY_STORAGE -c ci-app-secrets -n AuthKey_${APPSTORE_CONNECT_API_KEY_ID}.p8 -f ~/code/fastlane/AuthKey_${APPSTORE_CONNECT_API_KEY_ID}.p8
