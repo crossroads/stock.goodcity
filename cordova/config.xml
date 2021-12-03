@@ -37,6 +37,9 @@
         <splash density="port-xxxhdpi" src="res/android/drawable-xxxhdpi/screen.png" />
     </platform>
     <platform name="ios">
+        <preference name="deployment-target" value="11.0" />
+        <preference name="Orientation" value="portrait" />
+        <preference name="Fullscreen" value="true" />
         <icon height="16" src="res/ios/Icon-App-16x16@1x.png" width="16" />
         <icon height="32" src="res/ios/Icon-App-16x16@2x.png" width="32" />
         <icon height="48" src="res/ios/Icon-App-16x16@3x.png" width="48" />
@@ -70,25 +73,18 @@
         <icon height="196" src="res/ios/Icon-App-98x98@2x.png" width="196" />
         <icon height="1024" src="res/ios/Icon-App-1024.png" width="1024" />
         <splash src="res/screen/ios/Default@2x~universal~anyany.png" />
-        <feature name="StatusBar">
-            <param name="ios-package" onload="true" value="CDVStatusBar" />
-        </feature>
-        <preference name="WKWebViewOnly" value="true" />
-        <preference name="Orientation" value="portrait" />
-        <preference name="Fullscreen" value="true" />
-        <preference default=" " name="CAMERA_USAGE_DESCRIPTION" />
-        <preference name="deployment-target" value="11.0" />
-        <config-file parent="NSCameraUsageDescription" target="*-Info.plist">
+        <edit-config file="*-Info.plist" mode="merge" target="NSCameraUsageDescription">
             <string>To enable you to read inventory barcodes and photograph inventory items.</string>
-        </config-file>
-        <preference default=" " name="PHOTOLIBRARY_USAGE_DESCRIPTION" />
-        <config-file parent="NSPhotoLibraryUsageDescription" target="*-Info.plist">
-            <string>Needs photo library access to get photos from there</string>
-        </config-file>
-        <preference default=" " name="PHOTOLIBRARY_ADD_USAGE_DESCRIPTION" />
-        <config-file parent="NSPhotoLibraryAddUsageDescription" target="*-Info.plist">
+        </edit-config>
+        <edit-config file="*-Info.plist" mode="merge" target="NSPhotoLibraryUsageDescription">
+            <string>To enable you to select photographs of inventory items.</string>
+        </edit-config>
+        <edit-config file="*-Info.plist" mode="merge" target="NSLocationWhenInUseUsageDescription">
+            <string>Need location access to mark inventory images.</string>
+        </edit-config>
+        <edit-config file="*-Info.plist" mode="merge" target="NSPhotoLibraryAddUsageDescription">
             <string>Needs photo library access to save photos</string>
-        </config-file>
+        </edit-config>
     </platform>
     <universal-links>
         <host event="redirectToItem" name="stock-staging.goodcity.hk" scheme="https" />
