@@ -289,12 +289,6 @@ jobs:
           name: Setup Environment variables
           command: |
             case "$CIRCLE_BRANCH" in
-              master)
-                echo 'export ENVIRONMENT=staging' >> $BASH_ENV
-                echo 'export CERTIFICATE=hk.goodcity.dev.p12' >> $BASH_ENV
-                echo 'export PROVISIONING_PROFILE=GoodCityStockStaging.mobileprovision' >> $BASH_ENV
-                echo 'export SCANDIT_LICENSE_KEY=$SCANDIT_LICENSE_KEY_IOS_STAGING' >> $BASH_ENV
-                ;;
               live)
                 echo 'export ENVIRONMENT=production' >> $BASH_ENV
                 echo 'export CERTIFICATE=hk.goodcity.p12' >> $BASH_ENV
@@ -302,8 +296,10 @@ jobs:
                 echo 'export SCANDIT_LICENSE_KEY=$SCANDIT_LICENSE_KEY_IOS' >> $BASH_ENV
                 ;;
               *)
-                echo 'Unexpected branch deployment. Choose master|live'
-                exit 1
+                echo 'export ENVIRONMENT=staging' >> $BASH_ENV
+                echo 'export CERTIFICATE=hk.goodcity.dev.p12' >> $BASH_ENV
+                echo 'export PROVISIONING_PROFILE=GoodCityStockStaging.mobileprovision' >> $BASH_ENV
+                echo 'export SCANDIT_LICENSE_KEY=$SCANDIT_LICENSE_KEY_IOS_STAGING' >> $BASH_ENV
             esac
       - run:
           command: npm rebuild node-sass
