@@ -3,6 +3,7 @@
   "version": "0.24.4",
   "displayName": "S. Stock",
   "devDependencies": {
+    "@havesource/cordova-plugin-push": "^3.0.0",
     "com-sarriaroman-photoviewer": "^1.2.5",
     "cordova-android-support-gradle-release": "^3.0.1",
     "cordova-plugin-actionsheet": "^2.3.3",
@@ -47,7 +48,10 @@
       "cordova-plugin-inappbrowser": {},
       "cordova-plugin-network-information": {},
       "cordova-plugin-splashscreen": {},
-      "cordova-plugin-statusbar": {}
+      "cordova-plugin-statusbar": {},
+      "@havesource/cordova-plugin-push": {
+        "SENDER_ID": "XXXXXXX"
+      }
     }
   },
   "dependencies": {
