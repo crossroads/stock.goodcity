@@ -240,6 +240,7 @@ jobs:
       - run:
           name: Build android app
           command: |
+            node hooks/rename_package.js
             cordova platform add android@10.1.1
             if [ "$ENVIRONMENT" == "production" ]; then
               cordova build android --release -- \
