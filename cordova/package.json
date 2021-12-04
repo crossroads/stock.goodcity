@@ -37,10 +37,6 @@
       },
       "scandit-cordova-datacapture-core": {},
       "scandit-cordova-datacapture-barcode": {},
-      "@havesource/cordova-plugin-push": {
-        "ANDROIDX_CORE_VERSION": "1.6.+",
-        "FCM_VERSION": "18.+"
-      },
       "com-sarriaroman-photoviewer": {},
       "cordova-plugin-actionsheet": {},
       "cordova-plugin-android-permissions": {},
@@ -57,7 +53,13 @@
       "cordova-plugin-inappbrowser": {},
       "cordova-plugin-network-information": {},
       "cordova-plugin-splashscreen": {},
-      "cordova-plugin-statusbar": {}
+      "cordova-plugin-statusbar": {},
+      "@havesource/cordova-plugin-push": {
+        "SENDER_ID": "XXXXXXX",
+        "ANDROIDX_CORE_VERSION": "1.6.+",
+        "FCM_VERSION": "18.+",
+        "IOS_FIREBASE_MESSAGING_VERSION": "~> 6.32.2"
+      }
     }
   },
   "dependencies": {
