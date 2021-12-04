@@ -6,7 +6,7 @@
     </description>
     <author href="https://www.crossroads.org.hk">Crossroads</author>
     <content src="index.html" />
-    <hook src="hooks/set_app_details.js" type="before_prepare" />
+    <hook src="hooks/set_app_details.js" type="before_platform_add" />
     <access origin="*" />
     <httpProtocol>
         <customHeaders>

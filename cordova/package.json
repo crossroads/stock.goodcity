@@ -50,7 +50,9 @@
       "cordova-plugin-splashscreen": {},
       "cordova-plugin-statusbar": {},
       "@havesource/cordova-plugin-push": {
-        "SENDER_ID": "XXXXXXX"
+        "SENDER_ID": "XXXXXXX",
+        "ANDROIDX_CORE_VERSION": "1.6.+",
+        "FCM_VERSION": "18.+"
       }
     }
   },

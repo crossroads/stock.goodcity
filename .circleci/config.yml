@@ -241,7 +241,6 @@ jobs:
           name: Build android app
           command: |
             cordova platform add android@10.1.1
-            cordova plugin add @havesource/cordova-plugin-push --variable SENDER_ID="XXXXXXX"
             if [ "$ENVIRONMENT" == "production" ]; then
               cordova build android --release -- \
                 --packageType=apk --keystore=goodcity.keystore --storePassword=${GOODCITY_KEYSTORE_PASSWORD} \
