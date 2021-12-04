@@ -331,18 +331,18 @@ jobs:
           name: iOS build
           command: bundle exec rake ${ENVIRONMENT} ios app:build
           working_directory: cordova
-      - run:
-          name: Build iOS app
-          command: |
-            cordova platform add ios
-            cordova build
-            if [ "$CIRCLE_BRANCH" == "live" ]; then
-              cordova build ios --release -- \
+      # - run:
+      #     name: Build iOS app
+      #     command: |
+      #       cordova platform add ios
+      #       cordova build
+      #       if [ "$CIRCLE_BRANCH" == "live" ]; then
+      #         cordova build ios --release -- \
                 
-            else
-              cordova build ios
-            fi
-          working_directory: cordova
+      #       else
+      #         cordova build ios
+      #       fi
+      #     working_directory: cordova
       - store_artifacts:
           path: cordova/platforms/ios/build/device
       - run:
