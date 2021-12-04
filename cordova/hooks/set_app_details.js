@@ -15,13 +15,19 @@ module.exports = context => {
   let androidversionCode = "";
   let iosCFBundleVersion = "";
 
+  const fs = require("fs");
+  let path = require("path");
+  const filename = path.join(__dirname, "../package.json");
+  const file = require(filename);
+  let app_name = file.name;
+  let displayName = file.displayName;
+
   const cordovaCommon = context.requireCordovaModule("cordova-common");
 
   // staging or production?
   let staging = process.env.ENVIRONMENT !== "production";
 
   // append CIRCLE_BUILD_NUM to app version
-  let path = require("path");
   let pkg = require("../../package.json");
   app_version = pkg.version;
   build_num = parseInt(process.env.CIRCLE_BUILD_NUM);
