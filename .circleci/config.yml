@@ -329,20 +329,28 @@ jobs:
           command: bundle exec fastlane ios prepare_certificates cert:$CERTIFICATE
           working_directory: ~/code
       - run:
-          name: Build iOS app
+          name: iOS build
           command: |
             node rename_package.js
             cordova platform add ios@6.2.0
             cordova plugins add @havesource/cordova-plugin-push@3.0.0 --variable SENDER_ID="XXXXXXX"
-            if [ "$ENVIRONMENT" == "staging" ]; then
-              cordova plugin add https://github.com/testfairy/testfairy-cordova-plugin
-              cordova build ios --release --device \
-                --codeSignIdentity="iPhone Developer" --developmentTeam="6B8FS8W94M" --packageType="developer" --icloud_container_environment="Development"
-            else
-              cordova build ios --release --device \
-                --codeSignIdentity="iPhone Developer" --developmentTeam="6B8FS8W94M" --packageType="app-store" --icloud_container_environment="Production"
-            fi
+            bundle exec rake ${ENVIRONMENT} ios app:build
           working_directory: cordova
+      # - run:
+      #     name: Build iOS app
+      #     command: |
+      #       node rename_package.js
+      #       cordova platform add ios@6.2.0
+      #       cordova plugins add @havesource/cordova-plugin-push@3.0.0 --variable SENDER_ID="XXXXXXX"
+      #       if [ "$ENVIRONMENT" == "staging" ]; then
+      #         cordova plugin add https://github.com/testfairy/testfairy-cordova-plugin
+      #         cordova build ios --release --device \
+      #           --codeSignIdentity="iPhone Developer" --developmentTeam="6B8FS8W94M" --packageType="developer" --icloud_container_environment="Development"
+      #       else
+      #         cordova build ios --release --device \
+      #           --codeSignIdentity="iPhone Developer" --developmentTeam="6B8FS8W94M" --packageType="app-store" --icloud_container_environment="Production"
+      #       fi
+      #     working_directory: cordova
       - store_artifacts:
           path: cordova/platforms/ios/build/device
       - run:

@@ -99,13 +99,6 @@ namespace :cordova do
     sh %{ ln -s "#{ROOT_PATH}/dist" "#{CORDOVA_PATH}/www" } unless File.exists?("#{CORDOVA_PATH}/www")
     build_details.map{|key, value| log("#{key.upcase}: #{value}")}
 
-    #Temporary fix for phonegap-plugin-push
-    if platform == 'android'
-      add_plugin('phonegap-plugin-push', '2.1.2')
-    elsif platform == 'ios'
-      add_plugin('phonegap-plugin-push', '2.3.0', { SENDER_ID: 'XXXXXXX' })
-    end
-
     log("Preparing app for #{platform}")
     Dir.chdir(CORDOVA_PATH) do
       system({"ENVIRONMENT" => environment}, "cordova prepare #{platform}")
