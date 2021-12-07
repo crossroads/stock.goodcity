@@ -42,16 +42,12 @@ export default Ember.Service.extend({
       // jshint ignore:line
       var push = PushNotification.init({
         // jshint ignore:line
-        android: {
-          senderID: config.cordova.FcmSenderId,
-          badge: false,
-          icon: "ic_notify"
-        },
+        android: {},
         ios: {
           alert: true,
-          sound: true
-        },
-        windows: {}
+          sound: true,
+          badge: true
+        }
       });
 
       push.on("registration", function(data) {
@@ -64,8 +60,8 @@ export default Ember.Service.extend({
         }
       });
 
-      push.on("error", function(err) {
-        console.log(err);
+      push.on("error", e => {
+        console.log(e);
       });
     }
 
@@ -86,8 +82,6 @@ export default Ember.Service.extend({
         platform = "fcm";
       } else if (window.device.platform === "iOS") {
         platform = "aps";
-      } else if (window.device.platform === "windows") {
-        platform = "wns";
       }
       return platform;
     }
