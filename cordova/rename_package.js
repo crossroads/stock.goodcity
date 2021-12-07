@@ -19,7 +19,9 @@ let staging = process.env.ENVIRONMENT !== "production";
 
 // append CIRCLE_BUILD_NUM to app version
 let path = require("path");
-let pkg = require("../../package.json");
+let pkg = require("../package.json");
+let cordovaCommon = require("cordova-common");
+
 app_version = pkg.version;
 build_num = parseInt(process.env.CIRCLE_BUILD_NUM);
 if (!isNaN(build_num)) {
@@ -33,9 +35,9 @@ if (!isNaN(circle_build_num)) {
   iosCFBundleVersion = circle_build_num;
 }
 
-// Update package.json
+// Update Cordova package.json
 const fs = require("fs");
-const filename = path.join(__dirname, "../package.json");
+const filename = path.join(__dirname, "package.json");
 const file = require(filename);
 let app_name = file.name;
 let displayName = file.displayName;
@@ -54,6 +56,16 @@ file.name = app_name;
 file.version = app_version;
 file.displayName = displayName;
 fs.writeFileSync(filename, JSON.stringify(file, null, 2));
+
+//config.xml
+let configPath = path.join(__dirname, "config.xml");
+let config = new cordovaCommon.ConfigParser(configPath);
+config.setPackageName(app_name);
+config.setName(displayName);
+config.setVersion(app_version);
+config.doc.getroot().set("android-versionCode", androidversionCode);
+config.doc.getroot().set("ios-CFBundleVersion", iosCFBundleVersion);
+config.write();
 
 // output changes
 console.log("Set app id: " + app_name);

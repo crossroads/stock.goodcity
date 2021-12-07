@@ -193,7 +193,7 @@ jobs:
                 SCANDIT_LICENSE_KEY=$SCANDIT_LICENSE_KEY_ANDROID
                 ;;
               *)
-                ENVIRONMENT=production
+                ENVIRONMENT=staging
                 SCANDIT_LICENSE_KEY=$SCANDIT_LICENSE_KEY_ANDROID_STAGING
             esac
             echo "Building for ENVIRONMENT: ${ENVIRONMENT}"
@@ -223,7 +223,7 @@ jobs:
       - run: 
           name: Setup Environment variables
           command: |
-            echo 'export ENVIRONMENT=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo production; else echo production; fi)' >> $BASH_ENV
+            echo 'export ENVIRONMENT=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo production; else echo staging; fi)' >> $BASH_ENV
             echo 'export PATH=$PATH:`yarn bin`' >> $BASH_ENV
       - run:
           name: Install dependencies
@@ -242,10 +242,11 @@ jobs:
           command: |
             node hooks/rename_package.js
             cordova platform add android@10.1.1
+            cordova plugins add @havesource/cordova-plugin-push@3.0.0
             if [ "$ENVIRONMENT" == "production" ]; then
               cordova build android --release -- \
-                --packageType=apk --keystore=goodcity.keystore --storePassword=${GOODCITY_KEYSTORE_PASSWORD} \
-                --alias=${GOODCITY_KEYSTORE_ALIAS} --password=${GOODCITY_KEYSTORE_PASSWORD}
+                --packageType=apk --keystore=goodcity.keystore --storePassword="${GOODCITY_KEYSTORE_PASSWORD}" \
+                --alias="${GOODCITY_KEYSTORE_ALIAS}" --password="${GOODCITY_KEYSTORE_PASSWORD}"
             else
               cordova build android --debug --device
             fi
