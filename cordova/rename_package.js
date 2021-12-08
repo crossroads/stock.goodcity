@@ -2,8 +2,9 @@
 //
 // app id = hk.goodcity.(<AppName>|<AppName>staging)
 // app name = (<AppName>|S. <AppName>)
-// app version = <main project package.json>.<CIRCLE_BUILD_NUM>
+// app version = <main project package.json>
 // app android-versionCode = <CIRCLE_BUILD_NUM> + <seed>
+// app ios-CFBundleVersion = <CIRCLE_BUILD_NUM>
 //
 // ENVIRONMENT VARIABLES
 //   process.env.ENVIRONMENT = (staging|production)
@@ -11,25 +12,23 @@
 
 let android_build_version_seed = 80000;
 let androidversionCode = "";
+let iosCFBundleVersion = "";
 
 // staging or production?
 let staging = process.env.ENVIRONMENT !== "production";
 
-// append CIRCLE_BUILD_NUM to app version
 let path = require("path");
 let pkg = require("../package.json");
 let cordovaCommon = require("cordova-common");
 
+// Must be X.Y.Z
 app_version = pkg.version;
-build_num = parseInt(process.env.CIRCLE_BUILD_NUM);
-if (!isNaN(build_num)) {
-  app_version = app_version + "." + build_num;
-}
 
-// App specific build numbers
+// Specific build number for iOS and Android store uploads
 circle_build_num = parseInt(process.env.CIRCLE_BUILD_NUM);
 if (!isNaN(circle_build_num)) {
   androidversionCode = android_build_version_seed + circle_build_num;
+  iosCFBundleVersion = circle_build_num;
 }
 
 // Update Cordova package.json
@@ -60,6 +59,9 @@ let config = new cordovaCommon.ConfigParser(configPath);
 config.setPackageName(app_name);
 config.setName(displayName);
 config.setVersion(app_version);
+if (iosCFBundleVersion != "") {
+  config.doc.getroot().set("ios-CFBundleVersion", iosCFBundleVersion);
+}
 if (androidversionCode != "") {
   config.doc.getroot().set("android-versionCode", androidversionCode);
 }
@@ -70,3 +72,4 @@ console.log("Set app id: " + app_name);
 console.log("Set app name: " + displayName);
 console.log("Set app version: " + app_version);
 console.log("Set Android version code: " + androidversionCode);
+console.log("Set iOS bundle version: " + iosCFBundleVersion);
