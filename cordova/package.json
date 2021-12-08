@@ -1,6 +1,6 @@
 {
   "name": "hk.goodcity.stockstaging",
-  "version": "0.24.4",
+  "version": "0.25.0",
   "displayName": "S. Stock",
   "devDependencies": {
     "com-sarriaroman-photoviewer": "^1.2.5",
