@@ -36,6 +36,7 @@
         <splash density="port-xxxhdpi" src="res/android/drawable-xxxhdpi/screen.png" />
     </platform>
     <platform name="ios">
+        <preference name="SwiftVersion" value="5" />
         <preference name="deployment-target" value="11.0" />
         <preference name="Orientation" value="portrait" />
         <preference name="Fullscreen" value="true" />
