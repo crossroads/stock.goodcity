@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget android-versionCode="" id="hk.goodcity.stockstaging" ios-CFBundleVersion="" version="0.24.4" xmlns="http://www.w3.org/ns/widgets">
+<widget id="hk.goodcity.stockstaging" version="0.25.0" xmlns="http://www.w3.org/ns/widgets">
     <name>S. Stock</name>
     <description>
         GoodCity Stock Application
