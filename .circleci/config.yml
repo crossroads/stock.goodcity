@@ -264,20 +264,21 @@ jobs:
     working_directory: ~/code
     shell: /bin/bash --login -eo pipefail
     environment:
-      EMBER_CLI_CORDOVA: "1"
       CIRCLE_ARTIFACTS: /Users/distiller/code/cordova/platforms/ios/build/device
+      HOMEBREW_NO_AUTO_UPDATE: 1
     steps:
       - checkout
-      - run:
-          name: install node@10.22.0
-          command: |
-              set +e
-              touch $BASH_ENV
-              curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.5/install.sh | bash
-              echo 'export NVM_DIR="$HOME/.nvm"' >> $BASH_ENV
-              echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> $BASH_ENV
-              echo nvm install 10.22.0 >> $BASH_ENV
-              echo nvm alias default 10.22.0 >> $BASH_ENV
+      - run: nvm install 12.22.3 && nvm alias default 12.22.3
+      # - run:
+      #     name: install node@10.22.0
+      #     command: |
+      #         set +e
+      #         touch $BASH_ENV
+      #         curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.5/install.sh | bash
+      #         echo 'export NVM_DIR="$HOME/.nvm"' >> $BASH_ENV
+      #         echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> $BASH_ENV
+      #         echo nvm install 10.22.0 >> $BASH_ENV
+      #         echo nvm alias default 10.22.0 >> $BASH_ENV
       - run:
           name: verify node version
           command: node --version
@@ -293,23 +294,13 @@ jobs:
             case "$CIRCLE_BRANCH" in
               live)
                 echo 'export ENVIRONMENT=production' >> $BASH_ENV
-                echo 'export CERTIFICATE=hk.goodcity.p12' >> $BASH_ENV
-                echo 'export PROVISIONING_PROFILE=GoodCityStock.mobileprovision' >> $BASH_ENV
                 echo 'export SCANDIT_LICENSE_KEY=$SCANDIT_LICENSE_KEY_IOS' >> $BASH_ENV
                 ;;
               *)
                 echo 'export ENVIRONMENT=staging' >> $BASH_ENV
-                echo 'export CERTIFICATE=hk.goodcity.dev.p12' >> $BASH_ENV
-                echo 'export PROVISIONING_PROFILE=GoodCityStockStaging.mobileprovision' >> $BASH_ENV
                 echo 'export SCANDIT_LICENSE_KEY=$SCANDIT_LICENSE_KEY_IOS_STAGING' >> $BASH_ENV
             esac
-      - run:
-          command: npm rebuild node-sass
-      - run:
-          name: Ember build
-          command: |
-            echo "Building for ENVIRONMENT: ${ENVIRONMENT}"
-            EMBER_CLI_CORDOVA=1 SCANDIT_LICENSE_KEY=${SCANDIT_LICENSE_KEY} ENVIRONMENT=${ENVIRONMENT} yarn run ember build --environment=production
+      - run: EMBER_CLI_CORDOVA=1 SCANDIT_LICENSE_KEY=${SCANDIT_LICENSE_KEY} ENVIRONMENT=${ENVIRONMENT} yarn run ember build --environment=production
       - run: mv dist/ cordova/www
       - restore_cache: *restore-ios-bundler-cache
       - run: bundle config set --local deployment 'true' && (bundle check || bundle install --jobs=2 --retry=3)
@@ -321,13 +312,8 @@ jobs:
       - run: az storage blob download --account-name $GOODCITY_STORAGE -c ci-app-secrets -n AuthKey_${APPSTORE_CONNECT_API_KEY_ID}.p8 -f ~/code/fastlane/AuthKey_${APPSTORE_CONNECT_API_KEY_ID}.p8
       - run: az storage blob download --account-name $GOODCITY_STORAGE -c ci-app-secrets -n hk.goodcity.${ENVIRONMENT}.p12 -f ~/code/fastlane/hk.goodcity.${ENVIRONMENT}.p12
       - run: gem install cocoapods
-      - run:
-          name: Install cordova globally
-          command: npm i -g cordova@10.0.0
-      - run:
-          name: Create keychain and import p12 certificate
-          command: bundle exec fastlane ios prepare_certificates cert:$CERTIFICATE
-          working_directory: ~/code
+      - run: npm install cordova@10.0.0
+      - run: bundle exec fastlane ios prepare_certificates cert:hk.goodcity.${ENVIRONMENT}.p12
       - run:
           name: iOS build
           command: |
@@ -356,7 +342,6 @@ jobs:
       - run:
           name: Release ios build
           command: bundle exec fastlane ios ${ENVIRONMENT}
-          working_directory: ~/code
 
 workflows:
   version: 2
@@ -366,38 +351,38 @@ workflows:
       - package_dependencies:
           requires:
             - checkout_code
-      - test_cases:
-          requires:
-            - package_dependencies
-      - www_build:
-          requires:
-            - test_cases
-          filters:
-            branches:
-              only: /^(master|live)$/
-      - www-deploy:
-          requires:
-            - www_build
-          filters:
-            branches:
-              only: /^(master|live)$/
-      - ember_cordova_build:
-          requires:
-            - package_dependencies
-          filters:
-            branches:
-              only: /^(master|live)$/
-      - android_build_and_deploy:
-          requires:
-            - test_cases
-            - ember_cordova_build
-          filters:
-            branches:
-              only: /^(master|live)$/
+      # - test_cases:
+      #     requires:
+      #       - package_dependencies
+      # - www_build:
+      #     requires:
+      #       - test_cases
+      #     filters:
+      #       branches:
+      #         only: /^(master|live)$/
+      # - www-deploy:
+      #     requires:
+      #       - www_build
+      #     filters:
+      #       branches:
+      #         only: /^(master|live)$/
+      # - ember_cordova_build:
+      #     requires:
+      #       - package_dependencies
+      #     filters:
+      #       branches:
+      #         only: /^(master|live)$/
+      # - android_build_and_deploy:
+      #     requires:
+      #       - test_cases
+      #       - ember_cordova_build
+      #     filters:
+      #       branches:
+      #         only: /^(master|live)$/
       - ios_build_and_deploy:
           requires:
-            - test_cases
+            # - test_cases
             - package_dependencies
           filters:
             branches:
-              only: /^(master|live)$/
+              only: /^(master|live|GCW-3746-cordova-android-10.1.1)$/
