@@ -10,7 +10,7 @@
 //   process.env.ENVIRONMENT = (staging|production)
 //   process.env.CIRCLE_BUILD_NUM = <numeric>
 
-let android_build_version_seed = 8000;
+let android_build_version_seed = 80000;
 let androidversionCode = "";
 let iosCFBundleVersion = "";
 
