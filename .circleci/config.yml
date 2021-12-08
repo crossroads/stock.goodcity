@@ -148,13 +148,8 @@ jobs:
       - run:
           name: Upload to www server + azure
           command: |
-            case "$CIRCLE_BRANCH" in
-              live)
-                STAGE=production
-                ;;
-              *)
-                STAGE=staging
-            esac
+            sudo ln -s /usr/local/bin/ruby /usr/local/bin/ruby2.7
+            STAGE=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo production; else echo staging; fi)
             STAGE=$STAGE bundle exec fastlane web deploy
       - run:
           name: Upload Source Map to Rollbar
@@ -162,18 +157,9 @@ jobs:
             APP_VERSION=$(jq -r ".version" package.json)
             SOURCE_MAP_WITH_VARIABLE_NAME=$(grep sourceMappingURL dist/assets/stock-*.js)
             SOURCE_MAP=$(eval echo $SOURCE_MAP_WITH_VARIABLE_NAME | cut -c22-100)
-            case "$CIRCLE_BRANCH" in
-              master)
-                ASSET_HOST_URL=https://stock-staging.goodcity.hk/assets
-                ;;
-              live)
-                ASSET_HOST_URL=https://stock.goodcity.hk/assets
-                ;;
-              *)
-                echo 'Unexpected branch deployment. Choose master|live'
-                exit 1
-            esac
+            ASSET_HOST_URL=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo "https://stock.goodcity.hk/assets"; else echo "https://stock-staging.goodcity.hk/assets"; fi)
             curl https://api.rollbar.com/api/1/sourcemap/download -F access_token="${ROLLBAR_KEY}" -F version="${APP_VERSION}" -F minified_url=$ASSET_HOST_URL/$SOURCE_MAP
+
   ember_cordova_build:
     <<: *defaults
     environment:
