@@ -254,7 +254,7 @@ jobs:
       HOMEBREW_NO_AUTO_UPDATE: 1
     steps:
       - checkout
-      - run: brew install node@10 && echo 'export PATH="/usr/local/opt/node@10/bin:$PATH"' >> $BASH_ENV
+      - run: brew install azure-cli node@10 && echo 'export PATH="/usr/local/opt/node@10/bin:$PATH"' >> $BASH_ENV
       - run: node --version
       - restore_cache: *restore-ios-yarn-cache
       - run: *yarn
@@ -279,7 +279,6 @@ jobs:
       - restore_cache: *restore-ios-bundler-cache
       - run: bundle config set --local deployment 'true' && (bundle check || bundle install --jobs=2 --retry=3)
       - save_cache: *save-ios-bundler-cache
-      - run: brew install azure-cli
       - run: az login --service-principal --tenant ${AZURE_SP_TENANT} -u ${AZURE_SP} -p ${AZURE_SP_PASSWORD}
       - run: mkdir -pv ~/Library/MobileDevice/Provisioning\ Profiles/
       - run: az storage blob download --account-name $GOODCITY_STORAGE -c ci-app-secrets -n stock-${ENVIRONMENT}.mobileprovision -f ~/Library/MobileDevice/Provisioning\ Profiles/stock-${ENVIRONMENT}.mobileprovision
@@ -325,38 +324,38 @@ workflows:
       - package_dependencies:
           requires:
             - checkout_code
-      # - test_cases:
-      #     requires:
-      #       - package_dependencies
-      # - www_build:
-      #     requires:
-      #       - test_cases
-      #     filters:
-      #       branches:
-      #         only: /^(master|live)$/
-      # - www-deploy:
-      #     requires:
-      #       - www_build
-      #     filters:
-      #       branches:
-      #         only: /^(master|live)$/
-      # - ember_cordova_build:
-      #     requires:
-      #       - package_dependencies
-      #     filters:
-      #       branches:
-      #         only: /^(master|live)$/
-      # - android_build_and_deploy:
-      #     requires:
-      #       - test_cases
-      #       - ember_cordova_build
-      #     filters:
-      #       branches:
-      #         only: /^(master|live)$/
-      - ios_build_and_deploy:
+      - test_cases:
           requires:
-            # - test_cases
+            - package_dependencies
+      - www_build:
+          requires:
+            - test_cases
+          filters:
+            branches:
+              only: /^(master|live)$/
+      - www-deploy:
+          requires:
+            - www_build
+          filters:
+            branches:
+              only: /^(master|live)$/
+      - ember_cordova_build:
+          requires:
             - package_dependencies
           filters:
             branches:
-              only: /^(master|live|GCW-3746-cordova-android-10.1.1)$/
+              only: /^(master|live)$/
+      - android_build_and_deploy:
+          requires:
+            - test_cases
+            - ember_cordova_build
+          filters:
+            branches:
+              only: /^(master|live)$/
+      - ios_build_and_deploy:
+          requires:
+            - test_cases
+            - package_dependencies
+          filters:
+            branches:
+              only: /^(master|live)$/
