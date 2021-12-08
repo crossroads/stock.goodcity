@@ -98,21 +98,13 @@ namespace :cordova do
     create_build_json_file
     sh %{ ln -s "#{ROOT_PATH}/dist" "#{CORDOVA_PATH}/www" } unless File.exists?("#{CORDOVA_PATH}/www")
     build_details.map{|key, value| log("#{key.upcase}: #{value}")}
-    sh %{ cd #{CORDOVA_PATH}; cordova-update-config --appname "#{app_name}" --appid #{app_id} --appversion #{app_version} }
-
-    #Temporary fix for phonegap-plugin-push
-    if platform == 'android'
-      add_plugin('phonegap-plugin-push', '2.1.2')
-    elsif platform == 'ios'
-      add_plugin('phonegap-plugin-push', '2.3.0', { SENDER_ID: 'XXXXXXX' })
-    end
 
     log("Preparing app for #{platform}")
     Dir.chdir(CORDOVA_PATH) do
       system({"ENVIRONMENT" => environment}, "cordova prepare #{platform}")
     end
 
-    if platform == "ios"
+    if (platform == "ios") and false
       Dir.chdir(CORDOVA_PATH) do
         sh %{ cordova plugin add #{TESTFAIRY_PLUGIN_URL} } if environment == "staging"
         sh %{ cordova plugin remove #{TESTFAIRY_PLUGIN_NAME}; true } if environment == "production"
@@ -224,9 +216,9 @@ end
 def mobile_provisioning_file
   prefix = ['~', 'Library', 'MobileDevice', 'Provisioning\ Profiles']
   file = if production_env?
-      "GoodCityStock.mobileprovision"
+      "stock-production.mobileprovision"
     else
-      "GoodCityStockStaging.mobileprovision"
+      "stock-staging.mobileprovision"
     end
   File.join(prefix, file)
 end

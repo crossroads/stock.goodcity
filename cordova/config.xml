@@ -1,12 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget android-versionCode="80001" id="hk.goodcity.stockstaging" ios-CFBundleVersion="1" version="0.0.1" xmlns="http://www.w3.org/ns/widgets">
+<widget android-versionCode="" id="hk.goodcity.stockstaging" ios-CFBundleVersion="" version="0.24.4" xmlns="http://www.w3.org/ns/widgets">
     <name>S. Stock</name>
     <description>
         GoodCity Stock Application
     </description>
     <author href="https://www.crossroads.org.hk">Crossroads</author>
     <content src="index.html" />
-    <hook src="scripts/update_build_number.py" type="before_prepare" />
     <access origin="*" />
     <httpProtocol>
         <customHeaders>
@@ -17,8 +16,7 @@
     <allow-intent href="http://*/*" launch-external="yes" />
     <allow-intent href="https://*/*" launch-external="yes" />
     <platform name="android">
-        <hook src="scripts/setup_gradle_properties.py" type="after_prepare" />
-        <resource-file src="google-services.json" target="app/google-services.json" />
+        <resource-file src="google-services.json" target="/app/google-services.json" />
         <preference name="AndroidLaunchMode" value="singleTop" />
         <preference name="LoadUrlTimeoutValue" value="120000" />
         <preference name="SplashScreen" value="screen" />
@@ -38,6 +36,10 @@
         <splash density="port-xxxhdpi" src="res/android/drawable-xxxhdpi/screen.png" />
     </platform>
     <platform name="ios">
+        <preference name="SwiftVersion" value="5" />
+        <preference name="deployment-target" value="11.0" />
+        <preference name="Orientation" value="portrait" />
+        <preference name="Fullscreen" value="true" />
         <icon height="16" src="res/ios/Icon-App-16x16@1x.png" width="16" />
         <icon height="32" src="res/ios/Icon-App-16x16@2x.png" width="32" />
         <icon height="48" src="res/ios/Icon-App-16x16@3x.png" width="48" />
@@ -71,51 +73,21 @@
         <icon height="196" src="res/ios/Icon-App-98x98@2x.png" width="196" />
         <icon height="1024" src="res/ios/Icon-App-1024.png" width="1024" />
         <splash src="res/screen/ios/Default@2x~universal~anyany.png" />
-        <feature name="StatusBar">
-            <param name="ios-package" onload="true" value="CDVStatusBar" />
-        </feature>
-        <preference name="WKWebViewOnly" value="true" />
-        <preference name="Orientation" value="portrait" />
-        <preference name="Fullscreen" value="true" />
-        <preference default=" " name="CAMERA_USAGE_DESCRIPTION" />
-        <preference name="deployment-target" value="11.0" />
-        <config-file parent="NSCameraUsageDescription" target="*-Info.plist">
+        <edit-config file="*-Info.plist" mode="merge" target="NSCameraUsageDescription">
             <string>To enable you to read inventory barcodes and photograph inventory items.</string>
-        </config-file>
-        <preference default=" " name="PHOTOLIBRARY_USAGE_DESCRIPTION" />
-        <config-file parent="NSPhotoLibraryUsageDescription" target="*-Info.plist">
-            <string>Needs photo library access to get photos from there</string>
-        </config-file>
-        <preference default=" " name="PHOTOLIBRARY_ADD_USAGE_DESCRIPTION" />
-        <config-file parent="NSPhotoLibraryAddUsageDescription" target="*-Info.plist">
+        </edit-config>
+        <edit-config file="*-Info.plist" mode="merge" target="NSPhotoLibraryUsageDescription">
+            <string>To enable you to select photographs of inventory items.</string>
+        </edit-config>
+        <edit-config file="*-Info.plist" mode="merge" target="NSLocationWhenInUseUsageDescription">
+            <string>Need location access to mark inventory images.</string>
+        </edit-config>
+        <edit-config file="*-Info.plist" mode="merge" target="NSPhotoLibraryAddUsageDescription">
             <string>Needs photo library access to save photos</string>
-        </config-file>
+        </edit-config>
     </platform>
     <universal-links>
         <host event="redirectToItem" name="stock-staging.goodcity.hk" scheme="https" />
         <host event="redirectToItem" name="stock.goodcity.hk" scheme="https" />
     </universal-links>
-    <engine name="windows" spec="~4.3.1" />
-    <engine name="android" spec="9.0.0" />
-    <engine name="ios" spec="6.1.1" />
-    <plugin name="cordova-plugin-android-permissions" spec="https://github.com/NeoLSN/cordova-plugin-android-permissions" />
-    <plugin name="cordova-plugin-statusbar" spec="~2.1.1" />
-    <plugin name="cordova-plugin-actionsheet" spec="https://github.com/EddyVerbruggen/cordova-plugin-actionsheet.git" />
-    <plugin name="cordova-plugin-camera" spec="^4.0.0" />
-    <plugin name="cordova-plugin-network-information" spec="~1.2.0" />
-    <plugin name="cordova-plugin-device" spec="~1.1.1" />
-    <plugin name="cordova-plugin-whitelist" spec="~1.2.1" />
-    <plugin name="cordova-plugin-splashscreen" spec="^4.1.0" />
-    <plugin name="com-sarriaroman-PhotoViewer" spec="https://github.com/sarriaroman/photoviewer.git#1.1.10" />
-    <plugin name="cordova-plugin-apprate" spec="https://github.com/pushandplay/cordova-plugin-apprate.git" />
-    <plugin name="cordova-plugin-globalization" spec="https://github.com/apache/cordova-plugin-globalization.git" />
-    <plugin name="cordova-plugin-inappbrowser" spec="https://github.com/apache/cordova-plugin-inappbrowser.git" />
-    <plugin name="cordova-plugin-dialogs" spec="https://github.com/apache/cordova-plugin-dialogs.git" />
-    <plugin name="cordova-plugin-deeplinks" spec="https://github.com/e-imaxina/cordova-plugin-deeplinks.git" />
-    <plugin name="cordova-android-support-gradle-release" spec="^2.0.1">
-        <variable name="ANDROID_SUPPORT_VERSION" value="27.+" />
-    </plugin>
-    <plugin name="scandit-cordova-datacapture-core" spec="6.7.2" />
-    <plugin name="scandit-cordova-datacapture-barcode" spec="6.7.2" />
-    <plugin name="cordova-plugin-androidx-adapter" spec="^1.1.1" />
 </widget>

@@ -1,6 +1,6 @@
 {
   "name": "stock",
-  "version": "0.24.4",
+  "version": "0.25.0",
   "private": true,
   "directories": {
     "doc": "doc",
@@ -99,7 +99,6 @@
     "codeclimate-test-reporter": "^0.5.0",
     "cordova": "^10.0.0",
     "cordova-lib": "https://github.com/crossroads/goodcity-lib.git#master",
-    "cordova-update-config": "^1.0.2",
     "ember-cli-babel": "^5.1.10",
     "ember-cli-test-loader": "^1.1.0",
     "ember-infinite-list": "1.0.4",
