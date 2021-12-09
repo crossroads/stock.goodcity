@@ -162,28 +162,25 @@ jobs:
 
   ember_cordova_build:
     <<: *defaults
-    environment:
-      JOBS: 1
     steps:
       - restore_cache: *restore-repo-cache
       - restore_cache: *restore-yarn-cache
       - restore_cache: *restore-bower-cache
-      - run:
-          command: npm rebuild node-sass
       - run:
           name: Ember build
           command: |
             case "$CIRCLE_BRANCH" in
               live)
                 ENVIRONMENT=production
-                SCANDIT_LICENSE_KEY=$SCANDIT_LICENSE_KEY_ANDROID
+                SCANDIT_LICENSE_KEY_IOS=$SCANDIT_LICENSE_KEY_IOS
+                SCANDIT_LICENSE_KEY_ANDROID=$SCANDIT_LICENSE_KEY_ANDROID
                 ;;
               *)
                 ENVIRONMENT=staging
-                SCANDIT_LICENSE_KEY=$SCANDIT_LICENSE_KEY_ANDROID_STAGING
+                SCANDIT_LICENSE_KEY_IOS=$SCANDIT_LICENSE_KEY_IOS_STAGING
+                SCANDIT_LICENSE_KEY_ANDROID=$SCANDIT_LICENSE_KEY_ANDROID_STAGING
             esac
-            echo "Building for ENVIRONMENT: ${ENVIRONMENT}"
-            EMBER_CLI_CORDOVA=1 SCANDIT_LICENSE_KEY=${SCANDIT_LICENSE_KEY} ENVIRONMENT=${ENVIRONMENT} yarn run ember build --environment=production
+            EMBER_CLI_CORDOVA=1 ENVIRONMENT=${ENVIRONMENT} SCANDIT_LICENSE_KEY_IOS=${SCANDIT_LICENSE_KEY_IOS} SCANDIT_LICENSE_KEY_ANDROID=${SCANDIT_LICENSE_KEY_ANDROID} yarn run ember build --environment=production
       - run: mv dist/ cordova/www
       - persist_to_workspace:
           root: .
@@ -255,7 +252,6 @@ jobs:
     steps:
       - checkout
       - run: brew install azure-cli node@10 && echo 'export PATH="/usr/local/opt/node@10/bin:$PATH"' >> $BASH_ENV
-      - run: node --version
       - restore_cache: *restore-ios-yarn-cache
       - run: *yarn
       - save_cache: *save-ios-yarn-cache
@@ -316,6 +312,46 @@ jobs:
           name: Release ios build
           command: bundle exec fastlane ios ${ENVIRONMENT}
 
+  # WIP
+  ios_build_and_deploy_new:
+    macos:
+      xcode: "12.0.1"
+    working_directory: ~/code
+    shell: /bin/bash --login -eo pipefail
+    environment:
+      CIRCLE_ARTIFACTS: /Users/distiller/code/cordova/platforms/ios/build/device
+      HOMEBREW_NO_AUTO_UPDATE: 1
+    steps:
+      - checkout
+      - run: brew install azure-cli
+      - attach_workspace:
+          at: ~/code
+      - run: echo 'export ENVIRONMENT=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo production; else echo staging; fi)' >> $BASH_ENV
+      - restore_cache: *restore-ios-bundler-cache
+      - run: bundle config set --local deployment 'true' && (bundle check || bundle install --jobs=2 --retry=3)
+      - save_cache: *save-ios-bundler-cache
+      - run: az login --service-principal --tenant ${AZURE_SP_TENANT} -u ${AZURE_SP} -p ${AZURE_SP_PASSWORD}
+      - run: mkdir -pv ~/Library/MobileDevice/Provisioning\ Profiles/
+      - run: az storage blob download --account-name $GOODCITY_STORAGE -c ci-app-secrets -n stock-${ENVIRONMENT}.mobileprovision -f ~/Library/MobileDevice/Provisioning\ Profiles/stock-${ENVIRONMENT}.mobileprovision
+      - run: az storage blob download --account-name $GOODCITY_STORAGE -c ci-app-secrets -n AuthKey_${APPSTORE_CONNECT_API_KEY_ID}.p8 -f ~/code/fastlane/AuthKey_${APPSTORE_CONNECT_API_KEY_ID}.p8
+      - run: az storage blob download --account-name $GOODCITY_STORAGE -c ci-app-secrets -n hk.goodcity.${ENVIRONMENT}.p12 -f ~/code/fastlane/hk.goodcity.${ENVIRONMENT}.p12
+      - run: gem install cocoapods
+      - run: npm install -g cordova@10.0.0
+      - run: bundle exec fastlane ios prepare_certificates cert:hk.goodcity.${ENVIRONMENT}.p12
+      - run:
+          name: iOS build
+          command: |
+            node rename_package.js
+            cordova platform add ios@6.2.0
+            cordova plugins add @havesource/cordova-plugin-push@3.0.0 --variable SENDER_ID="XXXXXXX"
+            bundle exec rake ${ENVIRONMENT} ios app:build
+          working_directory: cordova
+      - store_artifacts:
+          path: cordova/platforms/ios/build/device
+      - run:
+          name: Release ios build
+          command: bundle exec fastlane ios ${ENVIRONMENT}
+
 workflows:
   version: 2
   build_and_bundle:
@@ -324,38 +360,38 @@ workflows:
       - package_dependencies:
           requires:
             - checkout_code
-      - test_cases:
-          requires:
-            - package_dependencies
-      - www_build:
-          requires:
-            - test_cases
-          filters:
-            branches:
-              only: /^(master|live)$/
-      - www-deploy:
-          requires:
-            - www_build
-          filters:
-            branches:
-              only: /^(master|live)$/
+      # - test_cases:
+      #     requires:
+      #       - package_dependencies
+      # - www_build:
+      #     requires:
+      #       - test_cases
+      #     filters:
+      #       branches:
+      #         only: /^(master|live)$/
+      # - www-deploy:
+      #     requires:
+      #       - www_build
+      #     filters:
+      #       branches:
+      #         only: /^(master|live)$/
       - ember_cordova_build:
           requires:
             - package_dependencies
-          filters:
-            branches:
-              only: /^(master|live)$/
+          # filters:
+          #   branches:
+          #     only: /^(master|live)$/
       - android_build_and_deploy:
           requires:
-            - test_cases
+            # - test_cases
             - ember_cordova_build
-          filters:
-            branches:
-              only: /^(master|live)$/
-      - ios_build_and_deploy:
+          # filters:
+          #   branches:
+          #     only: /^(master|live)$/
+      - ios_build_and_deploy_new:
           requires:
-            - test_cases
-            - package_dependencies
-          filters:
-            branches:
-              only: /^(master|live)$/
+            # - test_cases
+            - ember_cordova_build
+          # filters:
+          #   branches:
+          #     only: /^(master|live)$/

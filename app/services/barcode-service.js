@@ -33,7 +33,6 @@ export const BARCODE_PARSERS = {
  */
 
 const SCAN_DELAY = 1500;
-const LICENSE_KEY = config.APP.SCANDIT_LICENSE_KEY;
 
 /**
  * Barcode Service
@@ -70,7 +69,11 @@ export default Ember.Service.extend({
   },
 
   __getContext: cached(function() {
-    this.context = Scandit.DataCaptureContext.forLicenseKey(LICENSE_KEY);
+    var licenseKey =
+      window.device.platform == "Android"
+        ? config.APP.SCANDIT_LICENSE_KEY_ANDROID
+        : config.APP.SCANDIT_LICENSE_KEY_IOS;
+    this.context = Scandit.DataCaptureContext.forLicenseKey(licenseKey);
     this.context.setFrameSource(this.__getCamera());
     return this.context;
   }),
