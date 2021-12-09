@@ -227,7 +227,6 @@ jobs:
           command: |
             node rename_package.js
             cordova platform add android@10.1.1
-            cordova plugins add @havesource/cordova-plugin-push@3.0.0
             if [ "$ENVIRONMENT" == "production" ]; then
               cordova build android --release -- \
                 --packageType=apk --keystore=goodcity.keystore --storePassword="${GOODCITY_KEYSTORE_PASSWORD}" \
@@ -290,7 +289,6 @@ jobs:
           command: |
             node rename_package.js
             cordova platform add ios@6.2.0
-            cordova plugins add @havesource/cordova-plugin-push@3.0.0 --variable SENDER_ID="XXXXXXX"
             bundle exec rake ${ENVIRONMENT} ios app:build
           working_directory: cordova
       # - run:
@@ -298,7 +296,6 @@ jobs:
       #     command: |
       #       node rename_package.js
       #       cordova platform add ios@6.2.0
-      #       cordova plugins add @havesource/cordova-plugin-push@3.0.0 --variable SENDER_ID="XXXXXXX"
       #       if [ "$ENVIRONMENT" == "staging" ]; then
       #         cordova plugin add https://github.com/testfairy/testfairy-cordova-plugin
       #         cordova build ios --release --device \
@@ -346,7 +343,6 @@ jobs:
             npm install cordova-common
             node rename_package.js
             cordova platform add ios@6.2.0
-            cordova plugins add @havesource/cordova-plugin-push@3.0.0 --variable SENDER_ID="XXXXXXX"
             bundle exec rake ${ENVIRONMENT} ios app:build
           working_directory: cordova
       - store_artifacts:
