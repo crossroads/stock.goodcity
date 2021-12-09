@@ -106,7 +106,7 @@ jobs:
   www_build:
     <<: *defaults
     environment:
-      JOBS: 1
+      JOBS: 1 # stops ember running out of memory when building
     steps:
       - restore_cache: *restore-repo-cache
       - restore_cache: *restore-yarn-cache
@@ -162,6 +162,8 @@ jobs:
 
   ember_cordova_build:
     <<: *defaults
+    environment:
+      JOBS: 1 # stops ember running out of memory when building
     steps:
       - restore_cache: *restore-repo-cache
       - restore_cache: *restore-yarn-cache
