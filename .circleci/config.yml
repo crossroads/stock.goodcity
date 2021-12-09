@@ -252,76 +252,6 @@ jobs:
       HOMEBREW_NO_AUTO_UPDATE: 1
     steps:
       - checkout
-      - run: brew install azure-cli node@10 && echo 'export PATH="/usr/local/opt/node@10/bin:$PATH"' >> $BASH_ENV
-      - restore_cache: *restore-ios-yarn-cache
-      - run: *yarn
-      - save_cache: *save-ios-yarn-cache
-      - restore_cache: *restore-ios-bower-cache
-      - run: yarn run bower install
-      - save_cache: *save-ios-bower-cache
-      - run:
-          name: Setup Environment variables
-          command: |
-            case "$CIRCLE_BRANCH" in
-              live)
-                echo 'export ENVIRONMENT=production' >> $BASH_ENV
-                echo 'export SCANDIT_LICENSE_KEY=$SCANDIT_LICENSE_KEY_IOS' >> $BASH_ENV
-                ;;
-              *)
-                echo 'export ENVIRONMENT=staging' >> $BASH_ENV
-                echo 'export SCANDIT_LICENSE_KEY=$SCANDIT_LICENSE_KEY_IOS_STAGING' >> $BASH_ENV
-            esac
-      - run: EMBER_CLI_CORDOVA=1 SCANDIT_LICENSE_KEY=${SCANDIT_LICENSE_KEY} ENVIRONMENT=${ENVIRONMENT} yarn run ember build --environment=production
-      - run: mv dist/ cordova/www
-      - restore_cache: *restore-ios-bundler-cache
-      - run: bundle config set --local deployment 'true' && (bundle check || bundle install --jobs=2 --retry=3)
-      - save_cache: *save-ios-bundler-cache
-      - run: az login --service-principal --tenant ${AZURE_SP_TENANT} -u ${AZURE_SP} -p ${AZURE_SP_PASSWORD}
-      - run: mkdir -pv ~/Library/MobileDevice/Provisioning\ Profiles/
-      - run: az storage blob download --account-name $GOODCITY_STORAGE -c ci-app-secrets -n stock-${ENVIRONMENT}.mobileprovision -f ~/Library/MobileDevice/Provisioning\ Profiles/stock-${ENVIRONMENT}.mobileprovision
-      - run: az storage blob download --account-name $GOODCITY_STORAGE -c ci-app-secrets -n AuthKey_${APPSTORE_CONNECT_API_KEY_ID}.p8 -f ~/code/fastlane/AuthKey_${APPSTORE_CONNECT_API_KEY_ID}.p8
-      - run: az storage blob download --account-name $GOODCITY_STORAGE -c ci-app-secrets -n hk.goodcity.${ENVIRONMENT}.p12 -f ~/code/fastlane/hk.goodcity.${ENVIRONMENT}.p12
-      - run: gem install cocoapods
-      - run: npm install -g cordova@10.0.0
-      - run: bundle exec fastlane ios prepare_certificates cert:hk.goodcity.${ENVIRONMENT}.p12
-      - run:
-          name: iOS build
-          command: |
-            node rename_package.js
-            cordova platform add ios@6.2.0
-            bundle exec rake ${ENVIRONMENT} ios app:build
-          working_directory: cordova
-      # - run:
-      #     name: Build iOS app
-      #     command: |
-      #       node rename_package.js
-      #       cordova platform add ios@6.2.0
-      #       if [ "$ENVIRONMENT" == "staging" ]; then
-      #         cordova plugin add https://github.com/testfairy/testfairy-cordova-plugin
-      #         cordova build ios --release --device \
-      #           --codeSignIdentity="iPhone Developer" --developmentTeam="6B8FS8W94M" --packageType="developer" --icloud_container_environment="Development"
-      #       else
-      #         cordova build ios --release --device \
-      #           --codeSignIdentity="iPhone Developer" --developmentTeam="6B8FS8W94M" --packageType="app-store" --icloud_container_environment="Production"
-      #       fi
-      #     working_directory: cordova
-      - store_artifacts:
-          path: cordova/platforms/ios/build/device
-      - run:
-          name: Release ios build
-          command: bundle exec fastlane ios ${ENVIRONMENT}
-
-  # WIP
-  ios_build_and_deploy_new:
-    macos:
-      xcode: "12.0.1"
-    working_directory: ~/code
-    shell: /bin/bash --login -eo pipefail
-    environment:
-      CIRCLE_ARTIFACTS: /Users/distiller/code/cordova/platforms/ios/build/device
-      HOMEBREW_NO_AUTO_UPDATE: 1
-    steps:
-      - checkout
       - run: brew install azure-cli
       - attach_workspace:
           at: ~/code
@@ -345,6 +275,20 @@ jobs:
             cordova platform add ios@6.2.0
             bundle exec rake ${ENVIRONMENT} ios app:build
           working_directory: cordova
+      # - run:
+      #     name: Build iOS app
+      #     command: |
+      #       node rename_package.js
+      #       cordova platform add ios@6.2.0
+      #       if [ "$ENVIRONMENT" == "staging" ]; then
+      #         cordova plugin add https://github.com/testfairy/testfairy-cordova-plugin
+      #         cordova build ios --release --device \
+      #           --codeSignIdentity="iPhone Developer" --developmentTeam="6B8FS8W94M" --packageType="developer" --icloud_container_environment="Development"
+      #       else
+      #         cordova build ios --release --device \
+      #           --codeSignIdentity="iPhone Developer" --developmentTeam="6B8FS8W94M" --packageType="app-store" --icloud_container_environment="Production"
+      #       fi
+      #     working_directory: cordova
       - store_artifacts:
           path: cordova/platforms/ios/build/device
       - run:
@@ -387,7 +331,7 @@ workflows:
           # filters:
           #   branches:
           #     only: /^(master|live)$/
-      - ios_build_and_deploy_new:
+      - ios_build_and_deploy:
           requires:
             # - test_cases
             - ember_cordova_build
