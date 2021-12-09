@@ -338,12 +338,12 @@ jobs:
       - run: az storage blob download --account-name $GOODCITY_STORAGE -c ci-app-secrets -n AuthKey_${APPSTORE_CONNECT_API_KEY_ID}.p8 -f ~/code/fastlane/AuthKey_${APPSTORE_CONNECT_API_KEY_ID}.p8
       - run: az storage blob download --account-name $GOODCITY_STORAGE -c ci-app-secrets -n hk.goodcity.${ENVIRONMENT}.p12 -f ~/code/fastlane/hk.goodcity.${ENVIRONMENT}.p12
       - run: gem install cocoapods
-      - run: sudo chown -R $USER:staff ~/.config # Reset node permissions
       - run: npm install -g cordova@10.0.0
       - run: bundle exec fastlane ios prepare_certificates cert:hk.goodcity.${ENVIRONMENT}.p12
       - run:
           name: iOS build
           command: |
+            npm install cordova-common
             node rename_package.js
             cordova platform add ios@6.2.0
             cordova plugins add @havesource/cordova-plugin-push@3.0.0 --variable SENDER_ID="XXXXXXX"
