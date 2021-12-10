@@ -69,7 +69,8 @@ module.exports = function(environment) {
       HK_TIME_ZONE: "Asia/Hong_Kong",
       DEFAULT_COUNTRY: "China - Hong Kong (Special Administrative Region)",
 
-      SCANDIT_LICENSE_KEY: process.env.SCANDIT_LICENSE_KEY,
+      SCANDIT_LICENSE_KEY_ANDROID: process.env.SCANDIT_LICENSE_KEY_ANDROID,
+      SCANDIT_LICENSE_KEY_IOS: process.env.SCANDIT_LICENSE_KEY_IOS,
 
       PRELOAD_TYPES: [
         "booking_type",
