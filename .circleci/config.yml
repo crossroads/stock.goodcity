@@ -268,27 +268,17 @@ jobs:
       - run: npm install -g cordova@10.0.0
       - run: bundle exec fastlane ios prepare_certificates cert:hk.goodcity.${ENVIRONMENT}.p12
       - run:
-          name: iOS build
+          name: Build iOS app
           command: |
             npm install cordova-common
             node rename_package.js
             cordova platform add ios@6.2.0
-            bundle exec rake ${ENVIRONMENT} ios app:build
+            UUID=`openssl smime -inform der -verify -noverify -in "/Users/distiller/Library/MobileDevice/Provisioning Profiles/stock-${ENVIRONMENT}.mobileprovision" | grep -A 1 UUID | sed "s@.*<string>\(.*\)</string>.*@\1@" | tail -n 1`
+            PACKAGE_TYPE=$(if [ "$ENVIRONMENT" == "production" ]; then echo app-store; else echo development; fi)
+            cordova build ios --release --device --codeSignIdentity="iPhone Developer" --developmentTeam="6B8FS8W94M" \
+               --packageType=${PACKAGE_TYPE} --automaticProvisioning=true  --buildFlag="IPHONEOS_DEPLOYMENT_TARGET=11.0" \
+               --provisioningProfile=${UUID}
           working_directory: cordova
-      # - run:
-      #     name: Build iOS app
-      #     command: |
-      #       node rename_package.js
-      #       cordova platform add ios@6.2.0
-      #       if [ "$ENVIRONMENT" == "staging" ]; then
-      #         cordova plugin add https://github.com/testfairy/testfairy-cordova-plugin
-      #         cordova build ios --release --device \
-      #           --codeSignIdentity="iPhone Developer" --developmentTeam="6B8FS8W94M" --packageType="developer" --icloud_container_environment="Development"
-      #       else
-      #         cordova build ios --release --device \
-      #           --codeSignIdentity="iPhone Developer" --developmentTeam="6B8FS8W94M" --packageType="app-store" --icloud_container_environment="Production"
-      #       fi
-      #     working_directory: cordova
       - store_artifacts:
           path: cordova/platforms/ios/build/device
       - run:
@@ -303,9 +293,9 @@ workflows:
       - package_dependencies:
           requires:
             - checkout_code
-      - test_cases:
-          requires:
-            - package_dependencies
+      # - test_cases:
+      #     requires:
+      #       - package_dependencies
       - www_build:
           requires:
             - test_cases
@@ -321,20 +311,20 @@ workflows:
       - ember_cordova_build:
           requires:
             - package_dependencies
-          filters:
-            branches:
-              only: /^(master|live)$/
+          # filters:
+          #   branches:
+          #     only: /^(master|live)$/
       - android_build_and_deploy:
           requires:
-            - test_cases
+            # - test_cases
             - ember_cordova_build
-          filters:
-            branches:
-              only: /^(master|live)$/
+          # filters:
+          #   branches:
+          #     only: /^(master|live)$/
       - ios_build_and_deploy:
           requires:
-            - test_cases
+            # - test_cases
             - ember_cordova_build
-          filters:
-            branches:
-              only: /^(master|live)$/
+          # filters:
+          #   branches:
+          #     only: /^(master|live)$/
