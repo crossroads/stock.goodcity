@@ -275,9 +275,10 @@ jobs:
             cordova platform add ios@6.2.0
             UUID=`openssl smime -inform der -verify -noverify -in "/Users/distiller/Library/MobileDevice/Provisioning Profiles/stock-${ENVIRONMENT}.mobileprovision" | grep -A 1 UUID | sed "s@.*<string>\(.*\)</string>.*@\1@" | tail -n 1`
             PACKAGE_TYPE=$(if [ "$ENVIRONMENT" == "production" ]; then echo app-store; else echo development; fi)
-            cordova build ios --release --device --codeSignIdentity="iPhone Developer" --developmentTeam="6B8FS8W94M" \
-               --packageType=${PACKAGE_TYPE} --automaticProvisioning=true  --buildFlag="IPHONEOS_DEPLOYMENT_TARGET=11.0" \
-               --provisioningProfile=${UUID}
+            CODE_SIGN_IDENTITY=$(if [ "$ENVIRONMENT" == "production" ]; then echo 'iPhone Distribution'; else echo 'iPhone Developer'; fi)
+            cordova build ios --release --device --codeSignIdentity="${CODE_SIGN_IDENTITY}" --developmentTeam="6B8FS8W94M" \
+               --packageType="${PACKAGE_TYPE}" --automaticProvisioning=true  --buildFlag="IPHONEOS_DEPLOYMENT_TARGET=11.0" \
+               --provisioningProfile="${UUID}"
           working_directory: cordova
       - store_artifacts:
           path: cordova/platforms/ios/build/device
