@@ -1,9 +1,5 @@
 source "https://rubygems.org"
-gem "rake"
 gem "fastlane"
 gem "cocoapods"
-gem 'plist'
-gem 'nokogiri'
 gem "colorize"
-gem "activesupport"
 gem "byebug"

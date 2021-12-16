@@ -19,6 +19,7 @@
     "cordova-plugin-network-information": "^3.0.0",
     "cordova-plugin-splashscreen": "^6.0.0",
     "cordova-plugin-statusbar": "^3.0.0",
+    "cordova-universal-links-plugin": "github:chancezeus/cordova-universal-links-plugin",
     "scandit-cordova-datacapture-barcode": "^6.10.1",
     "scandit-cordova-datacapture-core": "^6.10.1"
   },
@@ -47,7 +48,8 @@
       "cordova-plugin-network-information": {},
       "cordova-plugin-splashscreen": {},
       "cordova-plugin-statusbar": {},
-      "@havesource/cordova-plugin-push": {}
+      "@havesource/cordova-plugin-push": {},
+      "cordova-universal-links-plugin": {}
     }
   },
   "dependencies": {

@@ -56,7 +56,11 @@ export default Ember.Service.extend({
 
       push.on("notification", function(data) {
         if (!data.additionalData.foreground) {
-          processTappedNotification(data.additionalData);
+          if (window.device.platform === "iOS") {
+            processTappedNotification(data.additionalData.payload);
+          } else {
+            processTappedNotification(data.additionalData);
+          }
         }
       });
 
