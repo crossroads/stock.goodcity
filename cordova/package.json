@@ -5,6 +5,7 @@
   "devDependencies": {
     "@havesource/cordova-plugin-push": "^3.0.0",
     "com-sarriaroman-photoviewer": "^1.2.5",
+    "cordova-android": "^10.1.1",
     "cordova-android-support-gradle-release": "^3.0.1",
     "cordova-plugin-actionsheet": "^2.3.3",
     "cordova-plugin-android-permissions": "^1.1.2",
@@ -24,7 +25,9 @@
     "scandit-cordova-datacapture-core": "^6.10.1"
   },
   "cordova": {
-    "platforms": [],
+    "platforms": [
+      "android"
+    ],
     "plugins": {
       "cordova-plugin-dialogs": {},
       "cordova-android-support-gradle-release": {
@@ -48,7 +51,10 @@
       "cordova-plugin-network-information": {},
       "cordova-plugin-splashscreen": {},
       "cordova-plugin-statusbar": {},
-      "@havesource/cordova-plugin-push": {},
+      "@havesource/cordova-plugin-push": {
+        "ANDROIDX_CORE_VERSION": "1.6.+",
+        "FCM_VERSION": "18.+"
+      },
       "cordova-universal-links-plugin": {}
     }
   },

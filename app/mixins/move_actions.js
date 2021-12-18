@@ -1,7 +1,7 @@
-import Ember from "ember";
-import config from "stock/config/environment";
-import AsyncMixin, { ERROR_STRATEGIES } from "./async";
-import _ from "lodash";
+import Ember from 'ember';
+import config from 'stock/config/environment';
+import AsyncMixin, { ERROR_STRATEGIES } from './async';
+import _ from 'lodash';
 
 /**
  * Adds the following properties:
@@ -23,103 +23,105 @@ export default Ember.Mixin.create(AsyncMixin, {
   locationService: Ember.inject.service(),
   settings: Ember.inject.service(),
 
-  editableQty: Ember.computed.alias("settings.allowPartialOperations"),
+  editableQty: Ember.computed.alias('settings.allowPartialOperations'),
 
-  moveQty: Ember.computed("_moveQty", {
+  moveQty: Ember.computed('_moveQty', {
     get(k) {
-      return this.get("_moveQty");
+      return this.get('_moveQty');
     },
     set(k, value) {
-      const allowPartial = this.get("settings.allowPartialOperations");
+      const allowPartial = this.get('settings.allowPartialOperations');
       const total = this.quantityAtSource();
       const qty = Number(value);
 
       if (!allowPartial && qty > 0 && qty !== total) {
-        throw new Error("Partial quantity is not permitted");
+        throw new Error('Partial quantity is not permitted');
       }
 
-      this.set("_moveQty", qty);
+      this.set('_moveQty', qty);
       return qty;
-    }
+    },
   }),
 
   async resolveLocation(loc, opts = {}) {
-    const i18n = this.get("i18n");
+    const i18n = this.get('i18n');
 
     if (loc) {
       return loc;
     }
-    const { queryText = "", presetLocations } = opts;
+    const { queryText = '', presetLocations } = opts;
     const text = i18n.exists(queryText) ? i18n.t(queryText) : queryText;
 
-    return this.get("locationService").userPickLocation({
+    return this.get('locationService').userPickLocation({
       headerText: text,
-      presetLocations: presetLocations
+      presetLocations: presetLocations,
     });
   },
 
   quantityAtSource() {
-    const pkg = this.get("moveTarget");
-    const source = this.get("moveFrom");
+    const pkg = this.get('moveTarget');
+    const source = this.get('moveFrom');
 
     if (!pkg) {
       return 0;
     }
 
-    const pkgLoc = pkg.get("packagesLocations").findBy("location", source);
+    const pkgLoc = pkg.get('packagesLocations').findBy('location', source);
 
-    return pkgLoc ? pkgLoc.get("quantity") : 0;
+    return pkgLoc ? pkgLoc.get('quantity') : 0;
   },
 
   validMoveParams() {
-    const target = this.get("moveTarget");
-    const from = this.get("moveFrom");
-    const to = this.get("moveTo");
-    const qty = this.get("moveQty");
+    const target = this.get('moveTarget');
+    const from = this.get('moveFrom');
+    const to = this.get('moveTo');
+    const qty = this.get('moveQty');
 
     return target && from && to && from !== to && qty > 0;
   },
 
   clearMoveParams() {
-    this.set("readyToMove", false);
-    this.set("moveQty", 0);
-    this.set("moveTarget", null);
-    this.set("moveFrom", null);
-    this.set("moveTo", null);
+    this.set('readyToMove', false);
+    this.set('moveQty', 0);
+    this.set('moveTarget', null);
+    this.set('moveFrom', null);
+    this.set('moveTo', null);
   },
 
   actions: {
     async beginMove(pkg, from, to) {
+      await (this.onBeginMove || _.noop).apply(this);
+
       from = await this.resolveLocation(from, {
-        queryText: "select_location.pick_from_location",
-        presetLocations: pkg.get("locations")
+        queryText: 'select_location.pick_from_location',
+        presetLocations: pkg.get('locations'),
       });
       to = await this.resolveLocation(to, {
-        queryText: "select_location.pick_to_location"
+        queryText: 'select_location.pick_to_location',
       });
 
       if (!pkg || !to || !from) {
-        return this.send("cancelMove");
+        return this.send('cancelMove');
       }
 
-      this.set("moveTarget", pkg);
-      this.set("moveFrom", from);
-      this.set("moveTo", to);
-      this.set("moveQty", this.quantityAtSource());
+      this.set('moveTarget', pkg);
+      this.set('moveFrom', from);
+      this.set('moveTo', to);
+      this.set('moveQty', this.quantityAtSource());
 
       if (this.validMoveParams()) {
-        this.set("readyToMove", true);
+        this.set('readyToMove', true);
       } else {
-        this.send("cancelMove");
+        this.send('cancelMove');
       }
     },
 
     completeMove() {
       this.runTask(() => {
-        return this.get("locationService").movePackage(this.get("moveTarget"), {
-          from: this.get("moveFrom"),
-          to: this.get("moveTo"),
-          quantity: this.get("moveQty")
+        return this.get('locationService').movePackage(this.get('moveTarget'), {
+          from: this.get('moveFrom'),
+          to: this.get('moveTo'),
+          quantity: this.get('moveQty'),
         });
       }, ERROR_STRATEGIES.MODAL).finally(() => {
         this.clearMoveParams();
@@ -128,6 +130,6 @@ export default Ember.Mixin.create(AsyncMixin, {
 
     async cancelMove() {
       this.clearMoveParams();
-    }
-  }
+    },
+  },
 });
