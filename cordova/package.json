@@ -7,6 +7,7 @@
     "com-sarriaroman-photoviewer": "^1.2.5",
     "cordova-android": "^10.1.1",
     "cordova-android-support-gradle-release": "^3.0.1",
+    "cordova-ios": "^6.2.0",
     "cordova-plugin-actionsheet": "^2.3.3",
     "cordova-plugin-android-permissions": "^1.1.2",
     "cordova-plugin-androidx-adapter": "^1.1.3",
