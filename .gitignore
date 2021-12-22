@@ -32,6 +32,7 @@ cordova/platforms
 cordova/plugins/*
 cordova/.secret_keys
 cordova/node_modules
+cordova/google-services.json
 
 
 # iOS
