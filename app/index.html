@@ -7,24 +7,21 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, minimum-scale=1, maximum-scale=1">
 
+    <link rel="shortcut icon" type="image/png" href="icon-192x192.png">
+    <link rel="shortcut icon" sizes="192x192" href="icon-192x192.png">
+    <link rel="apple-touch-icon" href="icon-192x192.png">
+
     {{content-for "head"}}
 
     <link rel="stylesheet" href="assets/vendor.css">
     <link rel="stylesheet" href="assets/stock.css">
 
     {{content-for "head-footer"}}
-    <script type="text/javascript">
-      document.addEventListener("deviceready", onDeviceReady, false);
 
-      function onDeviceReady(){
-        StatusBar.overlaysWebView(false);
-        StatusBar.backgroundColorByName("black");
-        StatusBar.styleLightContent();
-      }
-    </script>
   </head>
   <body>
     {{content-for "body"}}
+    <script src="cordova.js"></script>
     <script src="assets/vendor.js" integrity=""></script>
     <script src="assets/stock.js" integrity=""></script>
     {{content-for "body-footer"}}
