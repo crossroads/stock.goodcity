@@ -111,34 +111,32 @@ module.exports = function(environment) {
     cordova: {
       enabled: process.env.EMBER_CLI_CORDOVA !== '0',
       rebuildOnChange: false,
-      emulate: false,
-      FcmSenderId: '535052654081',
-    },
+      emulate: false
+    }
   };
 
-  if (environment === 'development') {
-    ENV.APP.ORIGIN = 'localhost';
-    ENV.APP.API_HOST_URL = 'http://localhost:3000';
-    ENV.APP.SOCKETIO_WEBSERVICE_URL = 'http://localhost:1337/goodcity';
-    ENV.APP.DONOR_APP_URL = 'http://localhost:4200';
-    ENV.APP.CHARITY_APP_URL = 'http://localhost:4202';
-    ENV.cordova.FcmSenderId = '535052654081';
-    ENV.contentSecurityPolicy['connect-src'] = [
-      'http://localhost:3000',
-      'https://api.cloudinary.com',
-      'http://localhost:4203',
-      'http://localhost:1337',
-      'ws://localhost:1337',
-      'wss://localhost:1337',
-      'https://api.rollbar.com',
-    ].join(' ');
+  if (environment === "development") {
+    ENV.APP.ORIGIN = "localhost";
+    ENV.APP.API_HOST_URL = "http://localhost:3000";
+    ENV.APP.SOCKETIO_WEBSERVICE_URL = "http://localhost:1337/goodcity";
+    ENV.APP.DONOR_APP_URL = "http://localhost:4200";
+    ENV.APP.CHARITY_APP_URL = "http://localhost:4202";
+    ENV.contentSecurityPolicy["connect-src"] = [
+      "http://localhost:3000",
+      "https://api.cloudinary.com",
+      "http://localhost:4203",
+      "http://localhost:1337",
+      "ws://localhost:1337",
+      "wss://localhost:1337",
+      "https://api.rollbar.com"
+    ].join(" ");
 
-    ENV.contentSecurityPolicy['img-src'] = [
-      'http://localhost:4200',
-      'data: https://res.cloudinary.com',
-      'blob: filesystem/g',
-      'filesystem: *',
-    ].join(' ');
+    ENV.contentSecurityPolicy["img-src"] = [
+      "http://localhost:4200",
+      "data: https://res.cloudinary.com",
+      "blob: filesystem/g",
+      "filesystem: *"
+    ].join(" ");
   }
 
   if (environment === 'test') {
@@ -156,53 +154,39 @@ module.exports = function(environment) {
     ENV.APP.API_HOST_URL = 'http://localhost:4203';
   }
 
-  if (environment === 'production') {
-    if (!process.env.ENVIRONMENT) throw 'Please pass an appropriate ENVIRONMENT=(staging|preview|production) param.';
-    ENV.APP.API_HOST_URL = 'https://api.goodcity.hk';
-    ENV.APP.SOCKETIO_WEBSERVICE_URL = 'https://socket.goodcity.hk:81/goodcity';
-    ENV.APP.DONOR_APP_URL = 'https://app.goodcity.hk/';
-    ENV.APP.CHARITY_APP_URL = 'https://charities.goodcity.hk/';
-    ENV.cordova.FcmSenderId = '551756918176';
+  if (environment === "production") {
+    if (!process.env.ENVIRONMENT)
+      throw "Please pass an appropriate ENVIRONMENT=(staging|production) param.";
+    ENV.APP.API_HOST_URL = "https://api.goodcity.hk";
+    ENV.APP.SOCKETIO_WEBSERVICE_URL = "https://socket.goodcity.hk:81/goodcity";
+    ENV.APP.DONOR_APP_URL = "https://app.goodcity.hk/";
+    ENV.APP.CHARITY_APP_URL = "https://charities.goodcity.hk/";
 
-    ENV.contentSecurityPolicy['connect-src'] = [
-      'https://api.goodcity.hk',
-      'https://api.rollbar.com',
-      'https://socket.goodcity.hk:81',
-      'ws://socket.goodcity.hk:81',
-      'wss://socket.goodcity.hk:81',
-    ].join(' ');
+    ENV.contentSecurityPolicy["connect-src"] = [
+      "https://api.goodcity.hk",
+      "https://api.rollbar.com",
+      "https://socket.goodcity.hk:81",
+      "ws://socket.goodcity.hk:81",
+      "wss://socket.goodcity.hk:81"
+    ].join(" ");
   }
 
-  if (environment === 'staging') {
-    ENV.APP.ORIGIN = 'stock-staging.goodcity.hk';
-    ENV.cordova.FcmSenderId = '535052654081';
-    ENV.APP.API_HOST_URL = 'https://api-staging.goodcity.hk';
-    ENV.APP.SOCKETIO_WEBSERVICE_URL = 'https://socket-staging.goodcity.hk/goodcity';
-    ENV.APP.DONOR_APP_URL = 'https://app-staging.goodcity.hk/';
-    ENV.APP.CHARITY_APP_URL = 'https://charities-staging.goodcity.hk/';
-    ENV.contentSecurityPolicy['connect-src'] = [
-      'https://api-staging.goodcity.hk',
-      'https://api.rollbar.com',
-      'https://socket-staging.goodcity.hk',
-      'ws://socket-staging.goodcity.hk',
-      'wss://socket-staging.goodcity.hk',
-    ].join(' ');
+  if (environment === "staging") {
+    ENV.APP.ORIGIN = "stock-staging.goodcity.hk";
+    ENV.APP.API_HOST_URL = "https://api-staging.goodcity.hk";
+    ENV.APP.SOCKETIO_WEBSERVICE_URL =
+      "https://socket-staging.goodcity.hk/goodcity";
+    ENV.APP.DONOR_APP_URL = "https://app-staging.goodcity.hk/";
+    ENV.APP.CHARITY_APP_URL = "https://charities-staging.goodcity.hk/";
+    ENV.contentSecurityPolicy["connect-src"] = [
+      "https://api-staging.goodcity.hk",
+      "https://api.rollbar.com",
+      "https://socket-staging.goodcity.hk",
+      "ws://socket-staging.goodcity.hk",
+      "wss://socket-staging.goodcity.hk"
+    ].join(" ");
   }
 
-  if (environment === 'preview') {
-    ENV.APP.ORIGIN = 'stock-preview.goodcity.hk';
-    ENV.cordova.FcmSenderId = '535052654081';
-    ENV.APP.API_HOST_URL = 'https://api-preview.goodcity.hk';
-    ENV.APP.SOCKETIO_WEBSERVICE_URL = 'https://socket-preview.goodcity.hk:81/goodcity';
-    ENV.contentSecurityPolicy['connect-src'] = [
-      'https://api-preview.goodcity.hk',
-      'https://api.rollbar.com',
-      'https://socket-preview.goodcity.hk:81',
-      'ws://socket-preview.goodcity.hk:81',
-      'wss://socket-preview.goodcity.hk:81',
-    ].join(' ');
-  }
-
-  ENV.APP.SERVER_PATH = ENV.APP.API_HOST_URL + '/' + ENV.APP.NAMESPACE;
+  ENV.APP.SERVER_PATH = ENV.APP.API_HOST_URL + "/" + ENV.APP.NAMESPACE;
   return ENV;
 };
