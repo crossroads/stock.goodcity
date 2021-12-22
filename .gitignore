@@ -33,6 +33,7 @@ cordova/plugins/*
 cordova/.secret_keys
 cordova/node_modules
 cordova/google-services.json
+cordova/ul_web_hooks
 
 
 # iOS
