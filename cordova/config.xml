@@ -14,7 +14,9 @@
     </httpProtocol>
     <preference name="DisallowOverscroll" value="true" />
     <preference name="StatusBarOverlaysWebView" value="false" />
+    <preference name="StatusBarBackgroundColor" value="#002352" />
     <preference name="StatusBarStyle" value="lightcontent" />
+
     <allow-intent href="http://*/*" launch-external="yes" />
     <allow-intent href="https://*/*" launch-external="yes" />
     <platform name="android">
