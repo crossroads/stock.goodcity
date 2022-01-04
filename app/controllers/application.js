@@ -1,5 +1,5 @@
-import Ember from "ember";
-import config from "../config/environment";
+import Ember from 'ember';
+import config from '../config/environment';
 
 export default Ember.Controller.extend({
   subscription: Ember.inject.service(),
@@ -11,7 +11,7 @@ export default Ember.Controller.extend({
   packageTypeService: Ember.inject.service(),
   organisationService: Ember.inject.service(),
   offerService: Ember.inject.service(),
-  messagesUtil: Ember.inject.service("messages"),
+  messagesUtil: Ember.inject.service('messages'),
   app_id: config.APP.ANDROID_APP_ID,
   ios_app_id: config.APP.APPLE_APP_ID,
   appTitle: config.APP.TITLE,
@@ -20,9 +20,11 @@ export default Ember.Controller.extend({
   isMobileApp: config.cordova.enabled,
   notifications: Ember.inject.controller(),
 
-  initSubscription: Ember.on("init", function() {
-    this.get("subscription").wire();
-    if (this.get("isMobileApp") && cordova.platformId === "android") {
+  initSubscription: Ember.on('init', function() {
+    if (config.disableNotifications) return;
+
+    this.get('subscription').wire();
+    if (this.get('isMobileApp') && cordova.platformId === 'android') {
       // jshint ignore:line
       this.redirectToItem();
     }
@@ -30,7 +32,7 @@ export default Ember.Controller.extend({
 
   redirectToItem() {
     universalLinks &&
-      universalLinks.subscribe("redirectToItem", eventData => {
+      universalLinks.subscribe('redirectToItem', eventData => {
         // jshint ignore:line
         this.transitionToRoute(eventData.path);
       });
@@ -39,12 +41,12 @@ export default Ember.Controller.extend({
   actions: {
     logMeOut() {
       this.session.clear(); // this should be first since it updates isLoggedIn status
-      this.get("subscription").unwire();
-      this.get("notifications").send("unloadNotifications");
-      this.get("session").unloadSessionData();
+      this.get('subscription').unwire();
+      this.get('notifications').send('unloadNotifications');
+      this.get('session').unloadSessionData();
       this.session.clearCache();
-      config.APP.USER_DATA_TYPES.map(key => this.get("store").unloadAll(key));
-      this.transitionToRoute("login");
-    }
-  }
+      config.APP.USER_DATA_TYPES.map(key => this.get('store').unloadAll(key));
+      this.transitionToRoute('login');
+    },
+  },
 });

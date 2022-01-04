@@ -121,5 +121,20 @@
       {{/each}}
     </div>
   </div>
+
+  <div class="row">
+    <div class="menu-section">
+      {{t 'quick_actions'}}
+    </div>
+    <div class="row menu-margin">
+        <div class="small-4 columns menu-option">
+          <a href="#" class="menu-list-anchor" {{action 'quickMove'}}>
+            <div class="menu-svg">{{fa-icon 'people-carry' size="lg"}}</div>
+            <br>
+            <div class="option-subtext">{{t 'quick_action_move'}}</div>
+          </a>
+        </div>
+    </div>
+  </div>
 </div>
 {{sticky-footer}}

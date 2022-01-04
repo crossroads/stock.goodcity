@@ -112,19 +112,11 @@ jobs:
       - restore_cache: *restore-yarn-cache
       - restore_cache: *restore-bower-cache
       - run:
-          command: npm rebuild node-sass
-      - run:
           name: Ember build
           command: |
-            case "$CIRCLE_BRANCH" in
-              live)
-                ENVIRONMENT=production
-                ;;
-              *)
-                ENVIRONMENT=staging
-            esac
-            echo "Building for ENVIRONMENT: ${ENVIRONMENT}"
-            EMBER_CLI_CORDOVA=0 ENVIRONMENT=${ENVIRONMENT} yarn run ember build --environment=production
+            ENVIRONMENT=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo "production"; else echo "staging"; fi)
+            APP_SHA=$(echo $CIRCLE_SHA1 | cut -c1-7)
+            EMBER_CLI_CORDOVA=0 ENVIRONMENT=${ENVIRONMENT} APP_SHA=${APP_SHA} yarn run ember build --environment=production
       - run: mv dist/ dist-www
       - persist_to_workspace:
           root: .
@@ -182,7 +174,8 @@ jobs:
                 SCANDIT_LICENSE_KEY_IOS=$SCANDIT_LICENSE_KEY_IOS_STAGING
                 SCANDIT_LICENSE_KEY_ANDROID=$SCANDIT_LICENSE_KEY_ANDROID_STAGING
             esac
-            EMBER_CLI_CORDOVA=1 ENVIRONMENT=${ENVIRONMENT} SCANDIT_LICENSE_KEY_IOS=${SCANDIT_LICENSE_KEY_IOS} SCANDIT_LICENSE_KEY_ANDROID=${SCANDIT_LICENSE_KEY_ANDROID} yarn run ember build --environment=production
+            APP_SHA=$(echo $CIRCLE_SHA1 | cut -c1-7)
+            EMBER_CLI_CORDOVA=1 ENVIRONMENT=${ENVIRONMENT} SCANDIT_LICENSE_KEY_IOS=${SCANDIT_LICENSE_KEY_IOS} SCANDIT_LICENSE_KEY_ANDROID=${SCANDIT_LICENSE_KEY_ANDROID} APP_SHA=${APP_SHA} yarn run ember build --environment=production
       - run: mv dist/ cordova/www
       - persist_to_workspace:
           root: .
@@ -226,7 +219,7 @@ jobs:
           name: Build android app
           command: |
             node rename_package.js
-            cordova platform add android@10.1.1
+            cordova platform add android
             if [ "$ENVIRONMENT" == "production" ]; then
               cordova build android --release -- \
                 --packageType=apk --keystore=goodcity.keystore --storePassword="${GOODCITY_KEYSTORE_PASSWORD}" \
@@ -271,7 +264,7 @@ jobs:
           command: |
             npm install cordova-common
             node rename_package.js
-            cordova platform add ios@6.2.0
+            cordova platform add ios
             UUID=`openssl smime -inform der -verify -noverify -in "/Users/distiller/Library/MobileDevice/Provisioning Profiles/stock-${ENVIRONMENT}.mobileprovision" | grep -A 1 UUID | sed "s@.*<string>\(.*\)</string>.*@\1@" | tail -n 1`
             PACKAGE_TYPE=$(if [ "$ENVIRONMENT" == "production" ]; then echo app-store; else echo development; fi)
             CODE_SIGN_IDENTITY=$(if [ "$ENVIRONMENT" == "production" ]; then echo 'iPhone Distribution'; else echo 'iPhone Developer'; fi)

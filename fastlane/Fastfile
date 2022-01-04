@@ -99,7 +99,6 @@ platform :android do
 
   before_all do
     ENV["SUPPLY_APK"] = ENV["TESTFAIRY_IPA_PATH"] = Dir["#{ENV["APK_FILE_PATH"]}"].first
-    raise_if_no_env_var("GOOGLE_PLAY_KEY_FILE")
     ENV["SUPPLY_JSON_KEY"] = File.join(Dir.pwd, "google-play-key.json")
     raise "Google Play private key file not found! (#{ENV["SUPPLY_JSON_KEY"]})" unless File.exist?(ENV["SUPPLY_JSON_KEY"])
   end

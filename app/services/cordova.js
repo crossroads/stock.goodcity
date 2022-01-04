@@ -29,7 +29,7 @@ export default Ember.Service.extend({
   },
 
   appLoad() {
-    if (!config.cordova.enabled) {
+    if (!config.cordova.enabled || config.disableNotifications) {
       return;
     }
     this.initiatePushNotifications();
@@ -39,10 +39,11 @@ export default Ember.Service.extend({
     var _this = this;
 
     function onDeviceReady() {
-      // jshint ignore:line
       var push = PushNotification.init({
-        // jshint ignore:line
-        android: {},
+        android: {
+          icon: "notification",
+          iconColor: "#000000"
+        },
         ios: {
           alert: true,
           sound: true,
@@ -75,7 +76,10 @@ export default Ember.Service.extend({
         "/auth/register_device",
         "POST",
         _this.get("session.authToken"),
-        { handle: handle, platform: platform }
+        {
+          handle: handle,
+          platform: platform
+        }
       );
     }
 

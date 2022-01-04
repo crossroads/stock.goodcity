@@ -13,10 +13,14 @@
         </customHeaders>
     </httpProtocol>
     <preference name="DisallowOverscroll" value="true" />
+    <preference name="StatusBarOverlaysWebView" value="false" />
+    <preference name="StatusBarBackgroundColor" value="#002352" />
+    <preference name="StatusBarStyle" value="lightcontent" />
     <allow-intent href="http://*/*" launch-external="yes" />
     <allow-intent href="https://*/*" launch-external="yes" />
     <platform name="android">
         <resource-file src="google-services.json" target="/app/google-services.json" />
+        <resource-file src="res/android/notification.png" target="app/src/main/res/drawable/notification.png" />
         <preference name="AndroidLaunchMode" value="singleTop" />
         <preference name="LoadUrlTimeoutValue" value="120000" />
         <preference name="SplashScreen" value="screen" />

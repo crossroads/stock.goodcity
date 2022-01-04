@@ -11,11 +11,19 @@
   pointer-events: none;
 
   &:not(.open) {
-    input { display: none; }
+    input {
+      display: none;
+    }
   }
 
   &.open {
     transform: translateY(0%);
+    &.open-75-percent {
+      transform: translateY(75%);
+    }
+    &.open-50-percent {
+      transform: translateY(75%);
+    }
     pointer-events: initial;
     overflow: scroll;
   }
