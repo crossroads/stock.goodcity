@@ -1,6 +1,6 @@
-import Ember from 'ember';
-import config from '../config/environment';
-import AjaxPromise from '../utils/ajax-promise';
+import Ember from "ember";
+import config from "../config/environment";
+import AjaxPromise from "../utils/ajax-promise";
 
 export default Ember.Service.extend({
   session: Ember.inject.service(),
@@ -10,7 +10,10 @@ export default Ember.Service.extend({
     if (!config.cordova.enabled || !window.device) {
       return;
     }
-    return ['android', 'Android', 'amazon-fireos'].indexOf(window.device.platform) >= 0;
+    return (
+      ["android", "Android", "amazon-fireos"].indexOf(window.device.platform) >=
+      0
+    );
   },
 
   isIOSBrowser() {
@@ -22,7 +25,7 @@ export default Ember.Service.extend({
     if (!config.cordova.enabled || !window.device) {
       return;
     }
-    return window.device.platform === 'iOS';
+    return window.device.platform === "iOS";
   },
 
   appLoad() {
@@ -36,24 +39,25 @@ export default Ember.Service.extend({
     var _this = this;
 
     function onDeviceReady() {
-      // jshint ignore:line
       var push = PushNotification.init({
-        // jshint ignore:line
-        android: {},
+        android: {
+          icon: "notification",
+          iconColor: "#000000"
+        },
         ios: {
           alert: true,
           sound: true,
-          badge: true,
-        },
+          badge: true
+        }
       });
 
-      push.on('registration', function(data) {
+      push.on("registration", function(data) {
         sendToken(data.registrationId, platformCode());
       });
 
-      push.on('notification', function(data) {
+      push.on("notification", function(data) {
         if (!data.additionalData.foreground) {
-          if (window.device.platform === 'iOS') {
+          if (window.device.platform === "iOS") {
             processTappedNotification(data.additionalData.payload);
           } else {
             processTappedNotification(data.additionalData);
@@ -61,51 +65,60 @@ export default Ember.Service.extend({
         }
       });
 
-      push.on('error', e => {
+      push.on("error", e => {
         console.log(e);
       });
     }
 
     function sendToken(handle, platform) {
       // jshint ignore:line
-      return new AjaxPromise('/auth/register_device', 'POST', _this.get('session.authToken'), {
-        handle: handle,
-        platform: platform,
-      });
+      return new AjaxPromise(
+        "/auth/register_device",
+        "POST",
+        _this.get("session.authToken"),
+        {
+          handle: handle,
+          platform: platform
+        }
+      );
     }
 
     function platformCode() {
       // jshint ignore:line
       var platform;
       if (_this.isAndroid()) {
-        platform = 'fcm';
-      } else if (window.device.platform === 'iOS') {
-        platform = 'aps';
+        platform = "fcm";
+      } else if (window.device.platform === "iOS") {
+        platform = "aps";
       }
       return platform;
     }
 
-    function processTappedNotification({ messageable_type, is_private, messageable_id }) {
+    function processTappedNotification({
+      messageable_type,
+      is_private,
+      messageable_id
+    }) {
       // jshint ignore:line
-      const model = messageable_type == 'Order' ? 'designation' : 'item';
-      const router = _this.get('router');
+      const model = messageable_type == "Order" ? "designation" : "item";
+      const router = _this.get("router");
       _this
-        .get('store')
+        .get("store")
         .findRecord(model, messageable_id, {
-          reload: true,
+          reload: true
         })
         .then(data => {
-          _this.get('store').pushPayload(data);
-          if (messageable_type == 'Order') {
-            is_private == 'True'
-              ? router.transitionTo('orders.staff_conversation', messageable_id)
-              : router.transitionTo('orders.conversation', messageable_id);
+          _this.get("store").pushPayload(data);
+          if (messageable_type == "Order") {
+            is_private == "True"
+              ? router.transitionTo("orders.staff_conversation", messageable_id)
+              : router.transitionTo("orders.conversation", messageable_id);
           } else {
-            router.transitionTo('items.staff_conversation', messageable_id);
+            router.transitionTo("items.staff_conversation", messageable_id);
           }
         });
     }
 
-    document.addEventListener('deviceready', onDeviceReady, true);
-  },
+    document.addEventListener("deviceready", onDeviceReady, true);
+  }
 });
