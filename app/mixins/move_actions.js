@@ -89,7 +89,7 @@ export default Ember.Mixin.create(AsyncMixin, {
   },
 
   actions: {
-    async beginMove(pkg, from, to) {
+    async beginMove(pkg, from, to, callback = _.noop) {
       await (this.onBeginMove || _.noop).apply(this);
 
       from = await this.resolveLocation(from, {
@@ -114,6 +114,8 @@ export default Ember.Mixin.create(AsyncMixin, {
       } else {
         this.send('cancelMove');
       }
+
+      callback();
     },
 
     completeMove() {
