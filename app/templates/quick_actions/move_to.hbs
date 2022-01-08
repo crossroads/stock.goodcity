@@ -9,26 +9,28 @@
     <section class="middle tab-bar-section">
       <h1 class="title">
         {{fa-icon 'bolt' size="xs"}}
-        {{t 'quick_action_move'}}
+        {{t 'quick_action_move_to'}}
+        {{ destination.displayName }}
         {{fa-icon 'bolt' size="xs"}}
       </h1>
     </section>
   </nav>
 
   <div class="content">
-      <div class="row scanner-overlay">
+      <div class="row scanner-overlay {{unless isScanning 'hide'}}">
         {{#if isScanning}}
           <div class="scanner-preview {{if isScanning 'show'}}" id="{{scannerPreviewId}}"></div>
-          <div class="scanner-error {{if scannerError 'active'}}">{{scannerError}}</div>
         {{/if}}
         {{#unless canScan}}
           <div class="scanner-error active">{{t 'scanner_unavailable'}}</div>
         {{/unless}}
       </div>
 
+      <div class="scanner-error {{if scannerError 'active'}}">{{scannerError}}</div>
+
       <div class="scanner-hud flex center gutter-small">
         <button class="button light ellipsis" {{action "toggleScanning"}}>
-          {{fa-icon 'bolt'}}
+          {{fa-icon 'qrcode'}}
           {{#if isScanning}}
             {{t 'scanner.turn_off'}}
           {{else}}
@@ -38,9 +40,12 @@
         <button class="button light {{if barcodeService.flashlightActive 'light'}}" {{action 'toggleFlashlight' target=barcodeService}}>
           {{fa-icon 'lightbulb' size='lg'}}
         </button>
+        <button class="button light" {{action 'pickPackage'}}>
+          {{fa-icon 'search' size='lg'}} {{t 'search'}}
+        </button>
       </div>
 
-      <div class="move_content padded">
+      <div class="move_content padded enforce-mobile">
         {{#if readyToMove}}
           <div>
             <p>{{fa-icon 'people-carry'}} {{t 'select_location.moving_item_to' }} {{moveTo.name}}</p>

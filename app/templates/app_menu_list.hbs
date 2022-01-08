@@ -21,119 +21,121 @@
     </div>
   </div>
 
-  <div class="row">
-    <div class="menu-section margin-top-none">
-      {{t 'manage_system'}}
-    </div>
-    <div class="row menu-margin">
-      <div class="small-4 columns menu-option">
-        {{#link-to 'manage_account' class="menu-list-anchor"}}
-        <div class="menu-svg">{{fa-icon 'user-cog' size="lg"}}</div>
-        <br>
-        <div class="option-subtext">{{t 'account'}}</div>
-        {{/link-to}}
+  <div class="menu-sections">
+    <div class="row">
+      <div class="menu-section margin-top-none">
+        {{t 'manage_system'}}
       </div>
-
-      <div class="small-4 columns menu-option">
-        {{#link-to 'manage_users' class="menu-list-anchor"}}
-          <div class="menu-svg">{{fa-icon 'users' size="lg"}}</div>
-          <br>
-          <div class="option-subtext">{{t 'manage_users'}}</div>
-        {{/link-to}}
-      </div>
-
-      <div {{action 'withOrganisationNavigation'}} class="organisation-overlay small-4 columns menu-option">
-        <div class="menu-svg">{{fa-icon 'building' size="lg"}}</div>
-        <br>
-        <div class="option-subtext">{{t 'search_organisation'}}</div>
-      </div>
-    </div>
-
-    <div class="row menu-margin">
-      {{#if getCurrentUser.canManageAppointments}}
-      <div class="small-4 columns menu-option">
-        {{#link-to 'appointments' class='appointments-link menu-list-anchor'}}
-        <div class="menu-svg">{{fa-icon 'calendar-alt' size="lg"}}</div>
-        <br>
-        <div class="option-subtext">{{t 'manage_inventory'}}</div>
-        {{/link-to}}
-      </div>
-      {{/if}}
-
-      {{#if getCurrentUser.canManageAccessPasses}}
-      <div class="small-4 columns menu-option">
-        {{#link-to 'access_pass' class="menu-list-anchor"}}
-        <div class="menu-svg">{{fa-icon 'key' size="lg"}}</div>
-        <br>
-        <div class="option-subtext">{{t 'access_pass.menu'}}</div>
-        {{/link-to}}
-      </div>
-      {{/if}}
-
-      {{#if (is-or getCurrentUser.canManageStocktakes getCurrentUser.canManageStocktakeRevisions)}}
+      <div class="row menu-margin">
         <div class="small-4 columns menu-option">
-          {{#link-to 'stocktakes' class="menu-list-anchor"}}
-          <div class="menu-svg">{{fa-icon 'list-ol' size="lg"}}</div>
+          {{#link-to 'manage_account' class="menu-list-anchor"}}
+          <div class="menu-svg">{{fa-icon 'user-cog' size="lg"}}</div>
           <br>
-          <div class="option-subtext">{{t 'stocktakes.title'}}</div>
+          <div class="option-subtext">{{t 'account'}}</div>
           {{/link-to}}
         </div>
-      {{/if}}
 
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="menu-section">
-      {{t 'new_order_menu'}}
-    </div>
-    <div class="row menu-margin">
-      <div class="small-4 columns menu-option">
-         {{#link-to 'order.international_order' class="menu-list-anchor"}}
-            <div class="menu-svg">{{fa-icon 'globe' size="lg"}}</div>
+        <div class="small-4 columns menu-option">
+          {{#link-to 'manage_users' class="menu-list-anchor"}}
+            <div class="menu-svg">{{fa-icon 'users' size="lg"}}</div>
             <br>
-            <div class="option-subtext">{{t 'new_international_order'}}</div>
+            <div class="option-subtext">{{t 'manage_users'}}</div>
           {{/link-to}}
-      </div>
-      <div class="small-4 columns menu-option">
-        <a href="#" class="menu-list-anchor" {{action 'createHkOrder'}}>
-            <div class="menu-svg">{{fa-icon 'shopping-basket' size="lg"}}</div>
-            <br>
-            <div class="option-subtext">{{t 'new_hk_order'}}</div>
-          </a>
-      </div>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="menu-section">
-      {{t 'new_item_menu'}}
-    </div>
-    <div class="row menu-margin">
-      {{#each storageTypes as |storageType|}}
-        <div class="small-4 columns menu-option">
-          <a href="#" class="menu-list-anchor {{if storageType.disable 'disable'}}" {{action 'createInventory' storageType.name}} disabled={{storageType.disable}}>
-            <div class="menu-svg">{{fa-icon storageType.icon size="lg"}}</div>
-            <br>
-            <div class="option-subtext">{{t storageType.translation}} </div>
-          </a>
         </div>
-      {{/each}}
-    </div>
-  </div>
 
-  <div class="row">
-    <div class="menu-section">
-      {{t 'quick_actions'}}
-    </div>
-    <div class="row menu-margin">
-        <div class="small-4 columns menu-option">
-          <a href="#" class="menu-list-anchor" {{action 'quickMove'}}>
-            <div class="menu-svg">{{fa-icon 'people-carry' size="lg"}}</div>
-            <br>
-            <div class="option-subtext">{{t 'quick_action_move'}}</div>
-          </a>
+        <div {{action 'withOrganisationNavigation'}} class="organisation-overlay small-4 columns menu-option">
+          <div class="menu-svg">{{fa-icon 'building' size="lg"}}</div>
+          <br>
+          <div class="option-subtext">{{t 'search_organisation'}}</div>
         </div>
+      </div>
+
+      <div class="row menu-margin">
+        {{#if getCurrentUser.canManageAppointments}}
+        <div class="small-4 columns menu-option">
+          {{#link-to 'appointments' class='appointments-link menu-list-anchor'}}
+          <div class="menu-svg">{{fa-icon 'calendar-alt' size="lg"}}</div>
+          <br>
+          <div class="option-subtext">{{t 'manage_inventory'}}</div>
+          {{/link-to}}
+        </div>
+        {{/if}}
+
+        {{#if getCurrentUser.canManageAccessPasses}}
+        <div class="small-4 columns menu-option">
+          {{#link-to 'access_pass' class="menu-list-anchor"}}
+          <div class="menu-svg">{{fa-icon 'key' size="lg"}}</div>
+          <br>
+          <div class="option-subtext">{{t 'access_pass.menu'}}</div>
+          {{/link-to}}
+        </div>
+        {{/if}}
+
+        {{#if (is-or getCurrentUser.canManageStocktakes getCurrentUser.canManageStocktakeRevisions)}}
+          <div class="small-4 columns menu-option">
+            {{#link-to 'stocktakes' class="menu-list-anchor"}}
+            <div class="menu-svg">{{fa-icon 'list-ol' size="lg"}}</div>
+            <br>
+            <div class="option-subtext">{{t 'stocktakes.title'}}</div>
+            {{/link-to}}
+          </div>
+        {{/if}}
+
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="menu-section">
+        {{t 'new_order_menu'}}
+      </div>
+      <div class="row menu-margin">
+        <div class="small-4 columns menu-option">
+          {{#link-to 'order.international_order' class="menu-list-anchor"}}
+              <div class="menu-svg">{{fa-icon 'globe' size="lg"}}</div>
+              <br>
+              <div class="option-subtext">{{t 'new_international_order'}}</div>
+            {{/link-to}}
+        </div>
+        <div class="small-4 columns menu-option">
+          <a href="#" class="menu-list-anchor" {{action 'createHkOrder'}}>
+              <div class="menu-svg">{{fa-icon 'shopping-basket' size="lg"}}</div>
+              <br>
+              <div class="option-subtext">{{t 'new_hk_order'}}</div>
+            </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="menu-section">
+        {{t 'new_item_menu'}}
+      </div>
+      <div class="row menu-margin">
+        {{#each storageTypes as |storageType|}}
+          <div class="small-4 columns menu-option">
+            <a href="#" class="menu-list-anchor {{if storageType.disable 'disable'}}" {{action 'createInventory' storageType.name}} disabled={{storageType.disable}}>
+              <div class="menu-svg">{{fa-icon storageType.icon size="lg"}}</div>
+              <br>
+              <div class="option-subtext">{{t storageType.translation}} </div>
+            </a>
+          </div>
+        {{/each}}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="menu-section">
+        {{t 'quick_actions'}}
+      </div>
+      <div class="row menu-margin">
+          <div class="small-4 columns menu-option">
+            <a href="#" class="menu-list-anchor" {{action 'quickMove'}}>
+              <div class="menu-svg">{{fa-icon 'people-carry' size="lg"}}</div>
+              <br>
+              <div class="option-subtext">{{t 'quick_action_move'}}</div>
+            </a>
+          </div>
+      </div>
     </div>
   </div>
 </div>

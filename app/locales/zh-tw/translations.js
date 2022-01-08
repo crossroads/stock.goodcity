@@ -37,7 +37,12 @@ export default {
   new_item_menu: 'Create New Inventory Item',
   new_order_menu: 'Create New Order',
   quick_actions: 'Quick actions',
+  quick_action_move_to: 'Move to',
   quick_action_move: 'Move',
+  quick_action_errors: {
+    no_package_for_move: 'No item is available for move',
+    all_packages_at_destination: 'All items already at destination',
+  },
   scanner_unavailable: 'Scanner unavailable',
   search_organisation: '搜尋機構',
   not_now: '稍後',

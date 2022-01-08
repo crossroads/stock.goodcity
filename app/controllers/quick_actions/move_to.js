@@ -30,6 +30,10 @@ export default Ember.Controller.extend(AsyncMixin, EmbedScannerMixin, MoveAction
 
   showScannerError(text) {
     this.set('scannerError', text);
+    if (text) {
+      // We clear it after a few seconds
+      Ember.run.debounce(this, this.showScannerError, '', 3000);
+    }
   },
 
   async triggerMove(pkg) {
@@ -37,7 +41,38 @@ export default Ember.Controller.extend(AsyncMixin, EmbedScannerMixin, MoveAction
       return;
     }
 
-    this.send('beginMove', pkg, null, this.get('destination'));
+    let sourceLocation = null;
+
+    const locations = pkg.get('locations');
+
+    if (locations.get('length') === 1 && locations.get('firstObject.id') === this.get('destination.id')) {
+      // There is only one location, and it is the destination
+      return this.showScannerError(this.get('i18n').t('quick_action_errors.all_packages_at_destination'));
+    }
+
+    const validSources = locations.filter(loc => loc.get('id') !== this.get('destination.id'));
+
+    if (validSources.get('length') === 0) {
+      // There's none of this package anywhere
+      return this.showScannerError(this.get('i18n').t('quick_action_errors.no_package_for_move'));
+    }
+
+    if (validSources.get('length') === 1) {
+      // There is only one location, we pick it without prompting the user
+      sourceLocation = validSources.get('firstObject');
+    }
+
+    const restoreScanner = sourceLocation === null && this.get('isScanning');
+
+    if (restoreScanner) {
+      this.stopScanning();
+    }
+
+    this.send('beginMove', pkg, sourceLocation, this.get('destination'), () => {
+      if (restoreScanner) {
+        this.startScanning();
+      }
+    });
   },
 
   // ----------------------
@@ -53,24 +88,16 @@ export default Ember.Controller.extend(AsyncMixin, EmbedScannerMixin, MoveAction
     this.stopScanning();
   },
 
-  async onBeginMove() {
-    if (this.get('isScanning')) {
-      this.stopScanning();
-      await new Promise(d => setTimeout(d, 1000));
-    }
-  },
-
   onBadInventoryNumber(num) {
     this.showScannerError(
       this.get('i18n').t('stocktakes.unknown_inventory_number', {
         code: num,
       })
     );
-    Ember.run.debounce(this, this.showScannerError, '', 3000);
   },
 
   async onBarcodeScanned(inventoryNumber) {
-    if (!inventoryNumber) return;
+    if (!inventoryNumber || this.get('moveInProgress')) return;
 
     const pkg = await this.get('packageService').findPackageByInventoryNumber(inventoryNumber);
 
@@ -86,14 +113,12 @@ export default Ember.Controller.extend(AsyncMixin, EmbedScannerMixin, MoveAction
   // ----------------------
 
   actions: {
-    async addItem(pkg, opts = {}) {
+    async pickPackage() {
       if (this.get('moveInProgress')) return;
 
-      pkg =
-        pkg ||
-        (await this.get('packageService').userPickPackage({
-          searchMode: 'numeric',
-        }));
+      this.stopScanning();
+
+      const pkg = await this.get('packageService').userPickPackage();
 
       if (!pkg) return;
 
