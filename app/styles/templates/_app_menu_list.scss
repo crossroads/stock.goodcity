@@ -3,6 +3,16 @@
     float: left;
   }
 
+  .menu-sections {
+    height: calc(100vh - 150px);
+    overflow-y: overlay;
+    overflow-x: hidden;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
   .center {
     text-align: center;
   }

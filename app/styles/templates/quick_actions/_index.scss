@@ -5,6 +5,11 @@
 
   @include flex-controls();
 
+  .enforce-mobile {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
   .tab-bar {
     margin-bottom: 0;
   }
