@@ -118,13 +118,17 @@ export default Ember.Mixin.create(AsyncMixin, {
       callback();
     },
 
-    completeMove() {
-      this.runTask(() => {
-        return this.get('locationService').movePackage(this.get('moveTarget'), {
+    async completeMove() {
+      this.runTask(async () => {
+        const results = await this.get('locationService').movePackage(this.get('moveTarget'), {
           from: this.get('moveFrom'),
           to: this.get('moveTo'),
           quantity: this.get('moveQty'),
         });
+
+        await (this.afterMove || _.noop).call(this, this.get('moveTarget'));
+
+        return results;
       }, ERROR_STRATEGIES.MODAL).finally(() => {
         this.clearMoveParams();
       });
