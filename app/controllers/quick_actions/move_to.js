@@ -108,6 +108,13 @@ export default Ember.Controller.extend(AsyncMixin, EmbedScannerMixin, MoveAction
     return this.triggerMove(pkg);
   },
 
+  async afterMove(pkg) {
+    if (this.get('autoPublish') && !pkg.get('allowWebPublish')) {
+      pkg.set('allowWebPublish', true);
+      await pkg.save();
+    }
+  },
+
   // ----------------------
   // Actions
   // ----------------------

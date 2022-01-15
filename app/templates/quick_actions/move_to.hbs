@@ -52,10 +52,15 @@
 
             {{package-summary-block model=moveTarget}}
 
-            <div>
-              <p>
-                {{t 'select_location.quantity_input'}}
-
+            <div class="input-container row">
+              <div class="column small-12">
+                <div class="flex space-between">
+                  <div>{{t 'select_location.quantity_input'}}</div>
+                  <div>
+                    {{t 'publish_item.publish'}}
+                    {{input type="checkbox" name="autoPublish" checked=autoPublish}}
+                  </div>
+                </div>
                 {{numeric-input
                   name="moveQty"
                   value=moveQty
@@ -63,7 +68,7 @@
                   pattern="^[1-9][0-9]*$"
                   disabled=(unless editableQty true)
                   class="qty-input"}}
-              </p>
+              </div>
             </div>
           </div>
 

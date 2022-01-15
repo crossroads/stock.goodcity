@@ -3,7 +3,7 @@ version: 2.1
 aliases:
   - defaults: &defaults
       docker:
-        - image: circleci/node:10.22
+        - image: cimg/node:10.24-browsers
       working_directory: ~/code
   - &restore-repo-cache
     key: v1-stock-goodcity-{{ .Environment.CIRCLE_SHA1 }}
@@ -56,6 +56,7 @@ aliases:
 
 orbs:
   azure-cli: circleci/azure-cli@1.2.0
+  browser-tools: circleci/browser-tools@1.2.3
 
 jobs:
   checkout_code:
@@ -80,11 +81,11 @@ jobs:
 
   test_cases:
     <<: *defaults
-    docker:
-      - image: circleci/node:10.22-browsers
     environment:
       JOBS: 1
     steps:
+      - browser-tools/install-chrome
+      - browser-tools/install-chromedriver
       - restore_cache: *restore-repo-cache
       - restore_cache: *restore-yarn-cache
       - restore_cache: *restore-bower-cache
