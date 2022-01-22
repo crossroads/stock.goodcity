@@ -34,11 +34,13 @@
           </div>
         </div>
       </div>
-      <div class="row flex space-around">
-        <button class="button" {{action 'initNewStocktake'}}>
-          {{fa-icon 'plus'}} {{t 'stocktakes.create_new'}}
-        </button>
-      </div>
+      {{#if session.currentUser.canManageStocktakes}}
+        <div class="row flex space-around">
+          <button class="button" {{action 'initNewStocktake'}}>
+            {{fa-icon 'plus'}} {{t 'stocktakes.create_new'}}
+          </button>
+        </div>
+      {{/if}}
       <div class="row stocktake-list">
         {{#each filteredStocktakes as |stocktake|}}
           {{#link-to 'stocktakes.detail' stocktake.id}}
