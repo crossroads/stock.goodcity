@@ -9,6 +9,14 @@ export default {
       addAble: false
     },
     {
+      label: "Test Status",
+      name: "testStatus",
+      type: "text",
+      autoComplete: true,
+      category: ["electrical"],
+      addAble: false
+    },
+    {
       label: "Brand",
       name: "brand",
       type: "text",
@@ -162,14 +170,6 @@ export default {
       label: "Voltage",
       name: "voltage",
       type: "number",
-      autoComplete: true,
-      category: ["electrical"],
-      addAble: false
-    },
-    {
-      label: "Test Status",
-      name: "testStatus",
-      type: "text",
       autoComplete: true,
       category: ["electrical"],
       addAble: false

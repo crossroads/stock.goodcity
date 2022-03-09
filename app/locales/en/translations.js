@@ -837,6 +837,7 @@ export default {
     pieces: 'Pieces',
     condition: 'Condition :',
     quantity_inside: 'Quantity inside :',
+    max_order_quantity: 'Max Order Qty',
     validation_errors: {
       description: 'English description cannot be blank.',
     },

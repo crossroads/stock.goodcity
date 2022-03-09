@@ -228,7 +228,7 @@
           </span>
         </div>
       </div>
-      <div class="row  constraints-row">
+      <div class="row constraints-row">
         <div class="columns small-3">{{t 'item_details.constraints'}}</div>
         <div class="columns small-3 quality constraints">
           <div class="select-quality">
@@ -253,6 +253,20 @@
                 on-change=(action (mut restriction))
               }}
           </div>
+        </div>
+      </div>
+      <div class="row constraints-row">
+        <div class="columns small-3">
+          {{t 'item_details.max_order_quantity'}}
+        </div>
+        <div class="columns small-3">
+            {{
+              numeric-inline-input name="max_order_quantity" class="numeric-input item-length item-type-withbg small-3" value=item.maxOrderQuantity minlength="0"
+              onSettingInput=(action 'updatePackage')
+            }}
+          </div>
+        <div class="columns small-6">
+          {{!-- placeholder for padding --}}
         </div>
       </div>
     {{/unless}}
