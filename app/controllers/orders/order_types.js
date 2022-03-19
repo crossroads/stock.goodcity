@@ -136,7 +136,12 @@ export default detail.extend({
 
     return {
       label: this.get('i18n').t('order_details.logistics.destination'),
-      action: this.propertyMutator(address, 'district'),
+      action: ({ id }) => {
+        this.updateAddressField({
+          name: 'district_id',
+          value: id,
+        });
+      },
       icon: '',
       name: 'district',
       selectable: true,
