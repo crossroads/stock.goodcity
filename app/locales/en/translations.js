@@ -212,6 +212,7 @@ export default {
     description_of_need: 'Description of need',
     description_error: 'Description is required',
     people_helped_error: 'Number is required',
+    target_district: 'Target district',
   },
   order_contact_summary: {
     change_contact: 'Change Contact',
@@ -422,6 +423,13 @@ export default {
       vehicle: {
         self: 'Private vehicle',
         ggv: 'Needs hired vehicle',
+      },
+      delivery_address: 'Delivery address',
+      address_fields: {
+        street: 'Street',
+        flat: 'Flat',
+        building: 'Building',
+        notes: 'Notes',
       },
     },
     orders_packages: {

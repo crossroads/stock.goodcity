@@ -175,6 +175,12 @@
 
   .data-section {
 
+    .data-section-title {
+      margin-top: 1rem;
+      margin-bottom: 0.5rem;
+      padding-left: 0.3rem;
+    }
+
     border-bottom: 1px solid white;
     max-width: 720px;
     margin: 0 auto;
@@ -257,6 +263,13 @@
       .row {
         color: white;
         margin-bottom: 0.5rem;
+
+        input[type=text] {
+          background: transparent;
+          border: 1px solid gray;
+          color: #a3aab6;
+          margin: 0;
+        }
 
         .text {
           line-height: 2rem;
@@ -655,6 +668,23 @@
     margin: -1rem 0.3rem;
     font-size: 0.8rem;
     border-bottom: 1px solid;
+
+    &.client_summary {
+      .inline-edit-bg {
+        color: inherit;
+        background-color: transparent;
+        border: none;
+        select{
+          background-color: transparent;
+          border: none;
+          color: inherit;
+          font-size: 0.8rem;
+          height: 0.8rem;
+          margin: 0;
+          padding: 0;
+        }
+      }
+    }
 
     .row {
       margin: 0.8rem 0;

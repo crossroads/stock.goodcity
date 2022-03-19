@@ -115,6 +115,49 @@
     {{/if}}
   </div>
 
+  {{#unless model.isDraft}}
+    {{#if (is-and model.isOnlineOrder model.isDelivery model.address)}}
+      <div class="data-section">
+        {{!-- ADDRESS SECTION --}}
+
+        <div class="data-section-title">
+          {{t 'order_details.logistics.delivery_address' }}
+        </div>
+
+        <div class="data-rows">
+          {{#each addressDataRows as |dataRow|}}
+            <div class="row">
+              <div class="columns small-4 text-prefix">
+                {{ dataRow.label }}
+              </div>
+              {{#if dataRow.isText}}
+                {{input type="text" value=dataRow.value input=(action dataRow.action)}}
+              {{else}}
+                {{#unless dataRow.selectable}}
+                  <div class="columns small-8 text {{dataRow.name}}" {{ action dataRow.action }}>
+                    {{ dataRow.text }}
+                    <i aria-hidden="true">{{fa-icon dataRow.icon }}</i>
+                  </div>
+                {{else}}
+                  <div class="columns small-8 text input {{dataRow.name}}">
+                    {{select-list
+                      content=dataRow.options
+                      on-change=(action dataRow.action)
+                      selectedValue=dataRow.value
+                      value=dataRow.value
+                      selectArrow=false
+                    }}
+                    <i aria-hidden="true">{{fa-icon dataRow.icon }}</i>
+                  </div>
+                {{/unless}}
+              {{/if}}
+            </div>
+          {{/each}}
+        </div>
+      </div>
+    {{/if}}
+  {{/unless}}
+
   {{#if model.isGoodCityOrder}}
     <div class="checklist-section">
       <div class="title">{{t 'order_details.logistics.processing_checklist'}}</div>

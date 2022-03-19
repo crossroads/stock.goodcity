@@ -210,6 +210,7 @@ export default {
     description_of_need: '有關需要的詳情',
     description_error: '必須填寫有關詳情',
     people_helped_error: '必須填寫受惠人數',
+    target_district: 'Target district',
   },
   order_contact_summary: {
     change_contact: '更改聯絡人',
@@ -406,6 +407,13 @@ export default {
       vehicle: {
         self: '私人車輛',
         ggv: '需要聘用車輛',
+      },
+      delivery_address: 'Delivery address',
+      address_fields: {
+        street: 'Street',
+        flat: 'Flat',
+        building: 'Building',
+        notes: 'Notes',
       },
     },
     orders_packages: {
