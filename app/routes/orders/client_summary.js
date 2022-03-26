@@ -15,7 +15,7 @@ export default detail.extend({
   setupController(controller, model) {
     if (controller) {
       controller.set('model', model.order);
-      controller.set('selectedDistrict', model.order.district);
+      controller.set('selectedDistrict', model.order.get('district'));
     }
   },
 });

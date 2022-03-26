@@ -266,9 +266,19 @@
 
         input[type=text] {
           background: transparent;
-          border: 1px solid gray;
-          color: #a3aab6;
+          border: none;
+          color: white;
           margin: 0;
+          width: auto;
+          outline: none;
+          font-size: inherit;
+          box-shadow: none;
+          padding-top: 0;
+          padding-bottom: 0;
+
+          &:focus {
+            border: 1px solid white;
+          }
         }
 
         .text {

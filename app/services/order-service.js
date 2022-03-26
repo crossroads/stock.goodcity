@@ -37,11 +37,14 @@ export default ApiBaseService.extend({
   },
 
   async updateAddress(order, addressAttributes) {
+    const addressId = order.getWithDefault('addressId');
+    const identity = addressId ? { id: addressId } : {};
+
     return this.PUT(`/orders/${order.id}`, {
       order: {
         address_attributes: {
           ...addressAttributes,
-          id: order.get('address.id'),
+          ...identity,
         },
       },
     }).then(data => {

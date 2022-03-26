@@ -154,8 +154,6 @@ export default detail.extend({
    * ADDRESS Rows
    */
   makeAddressTextRow(name) {
-    const address = this.get('model.address');
-
     return {
       label: this.get('i18n').t('order_details.logistics.address_fields.' + name),
       action: evt => {
@@ -165,7 +163,7 @@ export default detail.extend({
       name: name,
       isText: true,
       selectable: false,
-      value: address.get(name),
+      value: this.getWithDefault(`model.address.${name}`, ''),
     };
   },
 
