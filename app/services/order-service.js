@@ -48,7 +48,7 @@ export default ApiBaseService.extend({
         },
       },
     }).then(data => {
-      data['designation'] = data['order'];
+      data['designation'] = data['designation'] || data['order'];
       this.get('store').pushPayload(data);
     });
   },

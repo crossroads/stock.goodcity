@@ -10,6 +10,7 @@ export default Model.extend({
   addressType: attr('string'),
   notes: attr('string'),
 
+  districtId: attr('number'),
   district: belongsTo('district', { async: false }),
 
   addressableType: attr('string'),

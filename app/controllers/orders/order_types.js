@@ -145,7 +145,7 @@ export default detail.extend({
       icon: '',
       name: 'district',
       selectable: true,
-      value: options.find(opt => opt.id === address.get('district.id')),
+      value: options.find(opt => address && opt.id === address.get('districtId')),
       options: options,
     };
   },
