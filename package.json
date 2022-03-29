@@ -90,7 +90,7 @@
     "prettier": "1.15.3"
   },
   "dependencies": {
-    "axios": "^0.21.1",
+    "axios": "^0.21.2",
     "blueimp-file-upload": "^9.17.0",
     "bower": "^1.8.4",
     "clean-css": "^4.1.11",
