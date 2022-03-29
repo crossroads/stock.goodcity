@@ -11,7 +11,7 @@
   {{partial "orders/summary_tabs"}}
   {{partial "orders/cancel_message_popup"}}
   <div class="row">
-    <div class="small-12 columns main_details">
+    <div class="small-12 columns main_details client_summary">
       {{#if model.beneficiary}}
         {{#if model.isEditAllowed}}
           <div class="row">
@@ -192,6 +192,24 @@
               </span>
             </div>
           {{/if}}
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="small-5 columns">
+          {{t "order_client_summary.target_district"}}
+        </div>
+        <div class="small-7 columns">
+          {{!-- {{ model.district.name }} --}}
+          {{inline-select-list
+            content=districts
+            prompt="--"
+            class="inline-edit-bg"
+            on-change=(action "updateDistrict")
+            selectedValue=model.district
+            item=model
+            name="district"
+          }}
         </div>
       </div>
 
