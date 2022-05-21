@@ -1,7 +1,7 @@
 import Ember from "ember";
 import _ from "lodash";
 import SearchMixin from "stock/mixins/search_resource";
-import AsyncMixin, { ASYNC_BEHAVIOURS } from "stock/mixins/async";
+import AsyncMixin from "stock/mixins/async";
 
 /**
  * An overlay that pops up from the bottom of the screen, allowing the user
@@ -38,7 +38,7 @@ export default Ember.Component.extend(SearchMixin, AsyncMixin, {
       .uniq();
     const pkgTypes = packageTypeIds.map(it =>
       this.get("store").peekRecord("code", it)
-    );
+    ).filter(_.identity)
 
     if (storageType) {
       return pkgTypes.filterBy(`allow${storageType}`, true);

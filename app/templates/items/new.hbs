@@ -228,7 +228,7 @@
           {{t "items.new.weight"}}
         </div>
         <div class="small-3 columns weight">
-          {{numeric-input name="weight" id='weight' value=weight maxlength="10" pattern="[0-9]{0,5}"}}
+          {{numeric-input acceptFloat=true acceptZeroValue=true name="weight" id='weight' value=weight step="0.1" maxlength="10" pattern="\d+\.?\d*"}}
         </div>
         {{#if showPiecesInput}}
           <div class="small-3 columns item-label" align="right">

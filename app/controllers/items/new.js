@@ -122,20 +122,22 @@ export default GoodcityController.extend(
     }),
 
     setLocation: Ember.observer("scanLocationName", function() {
-      var scanInput = this.get("scanLocationName");
-      if (scanInput) {
-        var results = this.get("store")
-          .peekAll("location")
-          .filterBy("displayName", scanInput);
-        if (results.length > 0) {
-          this.set("invalidScanResult", false);
-          this.set("location", results.get("firstObject"));
+      Ember.run.next(() => {
+        var scanInput = this.get("scanLocationName");
+        if (scanInput) {
+          var results = this.get("store")
+            .peekAll("location")
+            .filterBy("displayName", scanInput);
+          if (results.length > 0) {
+            this.set("invalidScanResult", false);
+            this.set("location", results.get("firstObject"));
+          } else {
+            this.set("invalidScanResult", true);
+          }
         } else {
-          this.set("invalidScanResult", true);
+          this.set("invalidScanResult", false);
         }
-      } else {
-        this.set("invalidScanResult", false);
-      }
+      });
     }),
 
     validateLocation: Ember.observer("location", function() {
