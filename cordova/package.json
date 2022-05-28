@@ -21,13 +21,14 @@
     "cordova-plugin-network-information": "^3.0.0",
     "cordova-plugin-splashscreen": "^6.0.0",
     "cordova-plugin-statusbar": "^3.0.0",
-    "cordova-universal-links-plugin": "github:chancezeus/cordova-universal-links-plugin",
+    "cordova-universal-links-plugin": "git+https://github.com/chancezeus/cordova-universal-links-plugin.git",
     "scandit-cordova-datacapture-barcode": "^6.10.1",
     "scandit-cordova-datacapture-core": "^6.10.1"
   },
   "cordova": {
     "platforms": [
-      "android"
+      "android",
+      "ios"
     ],
     "plugins": {
       "cordova-plugin-dialogs": {},
@@ -55,8 +56,8 @@
         "ANDROIDX_CORE_VERSION": "1.6.+",
         "FCM_VERSION": "18.+"
       },
-      "cordova-universal-links-plugin": {},
-      "com-sarriaroman-photoviewer": {}
+      "com-sarriaroman-photoviewer": {},
+      "cordova-universal-links-plugin": {}
     }
   },
   "dependencies": {
