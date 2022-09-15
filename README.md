@@ -16,6 +16,8 @@ You can clone the GoodCity app repo direct:
 ```shell
 yarn add bower ember-cli phantomjs-prebuilt
 git clone https://github.com/crossroads/stock.goodcity.git
+yarn
+bower install
 ```
 
 Or use the more complicated setup where you link the `shared.goodcity` library also (useful for development):
@@ -28,7 +30,8 @@ cd ..
 git clone https://github.com/crossroads/stock.goodcity.git
 cd stock.goodcity
 yarn link cordova-lib
-ember install
+yarn
+bower install
 ```
 
 ## Running in development/staging mode
@@ -90,7 +93,9 @@ CircleCI will automatically build apps for `master` and `live` branches. However
 
 ```shell
 # For cordova builds, it's often useful to point at api-staging.goodcity.hk for test data
-EMBER_CLI_CORDOVA=1 ENVIRONMENT=staging yarn run ember build --environment=production
+# Note: for barcode scanning you must include keys for SCANDIT_LICENSE_KEY_ANDROID and SCANDIT_LICENSE_KEY_IOS (they differ between staging|production environments)
+EMBER_CLI_CORDOVA=1 ENVIRONMENT=staging SCANDIT_LICENSE_KEY_ANDROID=$SCANDIT_LICENSE_KEY_ANDROID SCANDIT_LICENSE_KEY_IOS=$SCANDIT_LICENSE_KEY_IOS yarn run ember build --environment=production
+docker build . -t stock.goodcity.hk:latest
 ln -s `pwd`/dist `pwd`/cordova/www
 cd cordova
 # can help to start with a clean env, if android build issues
@@ -116,7 +121,7 @@ To prepare the build environment the first time:
 
 ```shell
 docker build -f Dockerfile-cordova -t stock.goodcity.hk:latest .
-EMBER_CLI_CORDOVA=1 ENVIRONMENT=staging yarn run ember build --environment=production
+EMBER_CLI_CORDOVA=1 ENVIRONMENT=staging SCANDIT_LICENSE_KEY_ANDROID=$SCANDIT_LICENSE_KEY_ANDROID SCANDIT_LICENSE_KEY_IOS=$SCANDIT_LICENSE_KEY_IOS yarn run ember build --environment=production
 cd cordova/
 ENVIRONMENT=staging node rename_package.js
 ```
@@ -135,7 +140,7 @@ To rebuild the app, it's sufficient to delete the app-debug.apk file, rebuild th
 
 ```shell
 docker container exec 812cb3 rm /home/circleci/project/cordova/platforms/android/app/build/outputs/apk/debug/app-debug.apk
-EMBER_CLI_CORDOVA=1 ENVIRONMENT=staging yarn run ember build --environment=production
+EMBER_CLI_CORDOVA=1 ENVIRONMENT=staging SCANDIT_LICENSE_KEY_ANDROID=$SCANDIT_LICENSE_KEY_ANDROID SCANDIT_LICENSE_KEY_IOS=$SCANDIT_LICENSE_KEY_IOS yarn run ember build --environment=production
 docker container exec 812cb3 cordova build android --debug --device
 ```
 
