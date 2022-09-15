@@ -1,6 +1,6 @@
 {
   "name": "hk.goodcity.stockstaging",
-  "version": "0.25.0",
+  "version": "0.27.7",
   "displayName": "S. Stock",
   "devDependencies": {
     "@havesource/cordova-plugin-push": "^3.0.0",
