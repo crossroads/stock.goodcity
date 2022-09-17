@@ -1,11 +1,11 @@
 {
   "name": "hk.goodcity.stockstaging",
-  "version": "0.25.0",
+  "version": "0.27.7",
   "displayName": "S. Stock",
   "devDependencies": {
     "@havesource/cordova-plugin-push": "^3.0.0",
     "com-sarriaroman-photoviewer": "^1.1.10",
-    "cordova-android": "^10.1.1",
+    "cordova-android": "^10.1.2",
     "cordova-android-support-gradle-release": "^3.0.1",
     "cordova-ios": "^6.2.0",
     "cordova-plugin-actionsheet": "^2.3.3",

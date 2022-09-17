@@ -1,6 +1,6 @@
 {
   "name": "stock",
-  "version": "0.27.6",
+  "version": "0.27.7",
   "private": true,
   "directories": {
     "doc": "doc",
@@ -8,6 +8,7 @@
   },
   "scripts": {
     "start": "EMBER_CLI_CORDOVA=0 ember serve --port 4203 --live-reload-port 35732",
+    "start:staging": "EMBER_CLI_CORDOVA=0 ENVIRONMENT=staging ember serve --port 4203",
     "build": "EMBER_CLI_CORDOVA=0 ember build",
     "test": "EMBER_CLI_CORDOVA=0 ember test --server --test-port 7359",
     "test:ci": "EMBER_CLI_CORDOVA=0 ember-pretty-test",
