@@ -63,8 +63,8 @@ export default Ember.Component.extend(AsyncMixin, {
       canvas.width = video.videoWidth;
       canvas.height = video.videoHeight;
       canvas.getContext("2d").drawImage(video, 0, 0);
-      canvas.toDataURL("image/png");
-      this.send("didSnap", canvas.toDataURL("image/png"));
+      canvas.toDataURL("image/jpeg");
+      this.send("didSnap", canvas.toDataURL("image/jpeg"));
     },
 
     changeCamera() {
