@@ -1,4 +1,9 @@
 body{
+  /* viewport fix for iOS devices with button overlays
+   https://cordova.apache.org/docs/en/latest/core/features/splashscreen/index.html?#ios-specific-information
+  */
+  padding: env(safe-area-inset-top, 0px);
+
   @media #{$small-only} {
     font-size: 0.7rem;
   }
