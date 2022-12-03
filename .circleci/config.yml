@@ -213,7 +213,7 @@ jobs:
       - run:
           name: Build android app
           command: |
-            sudo npm install -g cordova@11
+            sudo npm install cordova@11
             node rename_package.js
             cordova platform add android
             if [ "$ENVIRONMENT" == "production" ]; then
@@ -257,7 +257,7 @@ jobs:
       - run:
           name: Build iOS app
           command: |
-            sudo npm install -g cordova@11.0.0 cordova-common
+            sudo npm install cordova@11.0.0
             node rename_package.js
             cordova platform add ios
             UUID=`openssl smime -inform der -verify -noverify -in "/Users/distiller/Library/MobileDevice/Provisioning Profiles/stock-${ENVIRONMENT}.mobileprovision" | grep -A 1 UUID | sed "s@.*<string>\(.*\)</string>.*@\1@" | tail -n 1`
