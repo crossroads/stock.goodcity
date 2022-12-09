@@ -22,6 +22,7 @@ RUN node --version \
 # cd cordova
 # ln -s ../dist www
 # cordova platform add android@11
+# cd ..
 # docker run -i --rm -v `pwd`/dist/:/home/circleci/project/dist/ -v `pwd`/cordova:/home/circleci/project/cordova/ -w /home/circleci/project/cordova/ -u root -t goodcity:latest /bin/bash
 #   cordova build android --debug --device
 # App located in `pwd`/cordova/platforms/android/app/build/outputs/apk/debug/app-debug.apk
