@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="hk.goodcity.stockstaging" version="0.27.7" xmlns="http://www.w3.org/ns/widgets">
+<widget id="hk.goodcity.stockstaging" version="0.27.7" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android">
     <name>S. Stock</name>
     <description>
         GoodCity Stock Application
@@ -35,6 +35,12 @@
         <icon density="xhdpi" src="res/android/drawable-xhdpi/icon.png" />
         <icon density="xxhdpi" src="res/android/drawable-xxhdpi/icon.png" />
         <icon density="xxxhdpi" src="res/android/drawable-xxxhdpi/icon.png" />
+        <edit-config file="app/src/main/AndroidManifest.xml" target="/manifest/application/service[@android:name='com.adobe.phonegap.push.FCMService']" mode="merge">
+            <service android:exported="true"/>
+        </edit-config>
+        <edit-config file="app/src/main/AndroidManifest.xml" target="/manifest/application/service[@android:name='com.adobe.phonegap.push.PushInstanceIDListenerService']" mode="merge">
+            <service android:exported="true"/>
+        </edit-config>
     </platform>
     <platform name="ios">
         <preference name="SwiftVersion" value="5" />

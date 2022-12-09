@@ -48,8 +48,8 @@
         "ANDROIDX_CORE_VERSION": "1.6.+",
         "FCM_VERSION": "18.+"
       },
-      "com-sarriaroman-photoviewer": {},
-      "cordova-universal-links-plugin": {}
+      "cordova-universal-links-plugin": {},
+      "com-sarriaroman-photoviewer": {}
     }
   },
   "dependencies": {
