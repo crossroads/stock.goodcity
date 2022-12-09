@@ -215,6 +215,7 @@ jobs:
           command: |
             npm install cordova@11.0.0
             node rename_package.js
+            cordova prepare android
             cordova platform add android
             if [ "$ENVIRONMENT" == "production" ]; then
               cordova build android --release -- \
