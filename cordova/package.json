@@ -3,7 +3,7 @@
   "version": "0.27.7",
   "displayName": "S. Stock",
   "devDependencies": {
-    "@havesource/cordova-plugin-push": "^3.0.0",
+    "@havesource/cordova-plugin-push": "^3.0.1",
     "com-sarriaroman-photoviewer": "^1.1.10",
     "cordova-android": "^11.0.0",
     "cordova-ios": "^6.2.0",

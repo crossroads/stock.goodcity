@@ -35,12 +35,6 @@
         <icon density="xhdpi" src="res/android/drawable-xhdpi/icon.png" />
         <icon density="xxhdpi" src="res/android/drawable-xxhdpi/icon.png" />
         <icon density="xxxhdpi" src="res/android/drawable-xxxhdpi/icon.png" />
-        <edit-config file="app/src/main/AndroidManifest.xml" target="/manifest/application/service[@android:name='com.adobe.phonegap.push.FCMService']" mode="merge">
-            <service android:exported="true"/>
-        </edit-config>
-        <edit-config file="app/src/main/AndroidManifest.xml" target="/manifest/application/service[@android:name='com.adobe.phonegap.push.PushInstanceIDListenerService']" mode="merge">
-            <service android:exported="true"/>
-        </edit-config>
     </platform>
     <platform name="ios">
         <preference name="SwiftVersion" value="5" />
