@@ -74,7 +74,7 @@ export default Addressable.extend({
   }),
 
   shortMobile: Ember.computed("mobile", function() {
-    // Show either email or mobile. Doesn't handle case if both are blank
+    // Remove HK country code for easier readability on display
     const mobile = this.get("mobile");
     return `${mobile ? mobile.replace("+852", "") : ""}`;
   }),
