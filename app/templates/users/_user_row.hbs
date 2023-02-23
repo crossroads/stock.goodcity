@@ -1,9 +1,12 @@
 <div class="row">
-  <div class="small-10 columns user_name">
-    {{record.fullName}}
+  <div class="small-7 columns user_name">
+    {{record.fullNameWithUnknown}}
   </div>
-  <div class="small-2 columns">
-    <span class="user-mobile">{{record.mobile}}</span>
+  <div class="small-3 columns ellipsis one-line-ellipsis">
+    <span class="user-email">{{record.email}}</span>
+  </div>
+  <div class="small-2 columns text-align-right">
+    <span class="user-mobile">{{record.shortMobile}}</span>
   </div>
 </div>
 <div class="row org_name">

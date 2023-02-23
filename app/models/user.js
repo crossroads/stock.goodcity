@@ -65,6 +65,20 @@ export default Addressable.extend({
     return `${firstName ? firstName : ""} ${lastName ? lastName : ""}`;
   }),
 
+  fullNameWithUnknown: Ember.computed("firstName", "lastName", function() {
+    // Replace undefined with <unknown>
+    const [firstName, lastName] = [this.get("firstName"), this.get("lastName")];
+    return `${
+      firstName ? firstName : "<unknown>"
+    } ${lastName ? lastName : "<unknown>"}`;
+  }),
+
+  shortMobile: Ember.computed("mobile", function() {
+    // Show either email or mobile. Doesn't handle case if both are blank
+    const mobile = this.get("mobile");
+    return `${mobile ? mobile.replace("+852", "") : ""}`;
+  }),
+
   organisations: Ember.computed("organisations_users_ids", function() {
     const ids = this.get("organisationsUsers").map(record =>
       record.get("organisationId")
