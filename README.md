@@ -14,6 +14,7 @@ Install and configure NodeJS 10 using NVM: https://github.com/creationix/nvm#ins
 You can clone the GoodCity app repo direct:
 
 ```shell
+sudo apt install build-essential
 yarn add bower ember-cli phantomjs-prebuilt
 git clone https://github.com/crossroads/stock.goodcity.git
 yarn
