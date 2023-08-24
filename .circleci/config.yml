@@ -309,10 +309,10 @@ workflows:
           # filters:
           #   branches:
           #     only: /^(master|live)$/
-      # - android_build_and_deploy:
-      #     requires:
-      #       - test_cases
-      #       - ember_cordova_build
+      - android_build_and_deploy:
+          requires:
+            # - test_cases
+            - ember_cordova_build
       #     filters:
       #       branches:
       #         only: /^(master|live)$/
