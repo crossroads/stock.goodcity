@@ -101,7 +101,7 @@ ln -s `pwd`/dist `pwd`/cordova/www
 cd cordova
 # can help to start with a clean env, if android build issues
 rm -rf platforms/ plugins/ node_modules/
-cordova platform add android@11
+cordova platform add android@12
 # now open Android Studio and build or run gradle in the docker env
 ```
 

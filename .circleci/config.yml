@@ -188,7 +188,7 @@ jobs:
   android_build_and_deploy:
     <<: *defaults
     docker:
-      - image: cimg/android:2022.04-browsers
+      - image: cimg/android:2023.08-browsers
     environment:
       # JVM_OPTS: -Xmx3200m
       CIRCLE_ARTIFACTS: /home/circleci/code/cordova/platforms/android/app/build/outputs/apk/release/
@@ -214,7 +214,7 @@ jobs:
       - run:
           name: Build android app
           command: |
-            npm install cordova@11.0.0
+            npm install cordova@12
             node rename_package.js
             cordova platform add android
             if [ "$ENVIRONMENT" == "production" ]; then
@@ -263,7 +263,7 @@ jobs:
       - run:
           name: Build iOS app
           command: |
-            npm install cordova@11.0.0
+            npm install cordova@12
             node rename_package.js
             cordova platform add ios
             UUID=`openssl smime -inform der -verify -noverify -in "/Users/distiller/Library/MobileDevice/Provisioning Profiles/stock-${ENVIRONMENT}.mobileprovision" | grep -A 1 UUID | sed "s@.*<string>\(.*\)</string>.*@\1@" | tail -n 1`
