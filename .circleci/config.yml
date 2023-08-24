@@ -275,7 +275,7 @@ jobs:
                --provisioningProfile="${UUID}"
           working_directory: cordova
       - store_artifacts:
-          path: cordova/platforms/ios/build/device
+          path: cordova/platforms/ios/build/Release-iphoneos
       - run:
           name: Release ios build
           command: bundle exec fastlane ios ${ENVIRONMENT}
