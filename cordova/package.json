@@ -19,8 +19,8 @@
     "cordova-plugin-network-information": "^3.0.0",
     "cordova-plugin-statusbar": "^3.0.0",
     "cordova-universal-links-plugin": "github:chancezeus/cordova-universal-links-plugin",
-    "scandit-cordova-datacapture-barcode": "^6.19.0-beta.0",
-    "scandit-cordova-datacapture-core": "^6.19.0-beta.0"
+    "scandit-cordova-datacapture-barcode": "^6.18.2",
+    "scandit-cordova-datacapture-core": "^6.18.2"
   },
   "cordova": {
     "platforms": [
