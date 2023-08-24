@@ -86,7 +86,7 @@ platform :ios do
 
   after_all do
     # remove credentials from keychain
-    xsh %{ source ~/.circlerc; bundle exec fastlane fastlane-credentials remove --username $PILOT_USERNAME }
+    xsh %{ bundle exec fastlane fastlane-credentials remove --username $PILOT_USERNAME }
   end
 
   error do |lane, exception|
