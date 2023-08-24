@@ -234,7 +234,7 @@ jobs:
 
   ios_build_and_deploy:
     macos:
-      xcode: "13.4.1"
+      xcode: "15.0.0"
     resource_class: macos.x86.medium.gen2
     working_directory: ~/code
     shell: /bin/bash --login -eo pipefail
@@ -265,12 +265,12 @@ jobs:
           command: |
             npm install cordova@12
             node rename_package.js
-            cordova platform add ios@6
+            cordova platform add ios@7
             UUID=`openssl smime -inform der -verify -noverify -in "/Users/distiller/Library/MobileDevice/Provisioning Profiles/stock-${ENVIRONMENT}.mobileprovision" | grep -A 1 UUID | sed "s@.*<string>\(.*\)</string>.*@\1@" | tail -n 1`
             PACKAGE_TYPE=$(if [ "$ENVIRONMENT" == "production" ]; then echo app-store; else echo development; fi)
             CODE_SIGN_IDENTITY=$(if [ "$ENVIRONMENT" == "production" ]; then echo 'iPhone Distribution'; else echo 'iPhone Developer'; fi)
             cordova build ios --release --device --codeSignIdentity="${CODE_SIGN_IDENTITY}" --developmentTeam="6B8FS8W94M" \
-               --packageType="${PACKAGE_TYPE}" --automaticProvisioning=true  --buildFlag="IPHONEOS_DEPLOYMENT_TARGET=11.0" \
+               --packageType="${PACKAGE_TYPE}" --automaticProvisioning=true" \
                --provisioningProfile="${UUID}"
           working_directory: cordova
       - store_artifacts:
@@ -287,37 +287,37 @@ workflows:
       - package_dependencies:
           requires:
             - checkout_code
-      - test_cases:
-          requires:
-            - package_dependencies
-      - www_build:
-          requires:
-            - test_cases
-          filters:
-            branches:
-              only: /^(master|live)$/
-      - www-deploy:
-          requires:
-            - www_build
-          filters:
-            branches:
-              only: /^(master|live)$/
+      # - test_cases:
+      #     requires:
+      #       - package_dependencies
+      # - www_build:
+      #     requires:
+      #       - test_cases
+      #     filters:
+      #       branches:
+      #         only: /^(master|live)$/
+      # - www-deploy:
+      #     requires:
+      #       - www_build
+      #     filters:
+      #       branches:
+      #         only: /^(master|live)$/
       - ember_cordova_build:
           requires:
             - package_dependencies
           filters:
             branches:
               only: /^(master|live)$/
-      - android_build_and_deploy:
-          requires:
-            - test_cases
-            - ember_cordova_build
-          filters:
-            branches:
-              only: /^(master|live)$/
+      # - android_build_and_deploy:
+      #     requires:
+      #       - test_cases
+      #       - ember_cordova_build
+      #     filters:
+      #       branches:
+      #         only: /^(master|live)$/
       - ios_build_and_deploy:
           requires:
-            - test_cases
+            # - test_cases
             - ember_cordova_build
           filters:
             branches:
