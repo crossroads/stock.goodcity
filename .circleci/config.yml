@@ -288,21 +288,21 @@ workflows:
       - package_dependencies:
           requires:
             - checkout_code
-      # - test_cases:
-      #     requires:
-      #       - package_dependencies
-      # - www_build:
-      #     requires:
-      #       - test_cases
-      #     filters:
-      #       branches:
-      #         only: /^(master|live)$/
-      # - www-deploy:
-      #     requires:
-      #       - www_build
-      #     filters:
-      #       branches:
-      #         only: /^(master|live)$/
+      - test_cases:
+          requires:
+            - package_dependencies
+      - www_build:
+          requires:
+            - test_cases
+          # filters:
+          #   branches:
+          #     only: /^(master|live)$/
+      - www-deploy:
+          requires:
+            - www_build
+          # filters:
+          #   branches:
+          #     only: /^(master|live)$/
       - ember_cordova_build:
           requires:
             - package_dependencies
@@ -316,10 +316,10 @@ workflows:
       #     filters:
       #       branches:
       #         only: /^(master|live)$/
-      - ios_build_and_deploy:
-          requires:
+      # - ios_build_and_deploy:
+      #     requires:
             # - test_cases
-            - ember_cordova_build
+            # - ember_cordova_build
           # filters:
           #   branches:
           #     only: /^(master|live)$/
