@@ -1,5 +1,6 @@
 import Ember from "ember";
 import Model from "ember-data/model";
+import config from "../config/environment";
 
 export default Model.extend({
   getOptions(version, height, width, crop, id) {
@@ -22,16 +23,27 @@ export default Model.extend({
       return null;
     }
 
-    var version = id.split("/")[0];
-    var filename = id.substring(id.indexOf("/") + 1);
-    var options = this.getOptions(version, height, width, crop, id);
-    if (faceCapture) {
-      options["gravity"] = "face";
+    // TODO: This needs testing and fixing
+
+    if (id.indexOf("gc-") === -1) {
+      // generate Cloudinary storage url
+      var version = id.split("/")[0];
+      var filename = id.substring(id.indexOf("/") + 1);
+      var options = this.getOptions(version, height, width, crop, id);
+      if (faceCapture) {
+        options["gravity"] = "face";
+      }
+      var angle = this.get("angle");
+      if (angle) {
+        options["angle"] = angle;
+      }
+      return Ember.$.cloudinary.url(filename, options);
+    } else if (id.indexOf("gc-") === 0) {
+      // id begins with 'gc-'
+      // generate GoodCity Azure storage url (for long term dispatched packages no longer on Cloudinary)
+      // this ignores crop, version, angle and facecapture options
+      var filename = id.substring(id.indexOf("gc-") + 3);
+      return config.APP.LONG_TERM_IMAGE_STORAGE_PREFIX + filename;
     }
-    var angle = this.get("angle");
-    if (angle) {
-      options["angle"] = angle;
-    }
-    return Ember.$.cloudinary.url(filename, options);
   }
 });
