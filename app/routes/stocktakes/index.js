@@ -5,7 +5,8 @@ export default AuthorizeRoute.extend({
   model() {
     return Ember.RSVP.hash({
       stocktakes: this.store.query("stocktake", {
-        include_revisions: false
+        include_revisions: false,
+        state: "open"
       })
     });
   },

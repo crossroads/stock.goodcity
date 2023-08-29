@@ -17,9 +17,9 @@ export default Ember.Controller.extend(AsyncMixin, {
   // ----------------------
 
   tabs: {
-    open: "openTab",
-    closed: "closedTab",
-    cancelled: "cancelledTab"
+    open: "open",
+    closed: "closed",
+    cancelled: "cancelled"
   },
 
   stocktakes: Ember.computed(function() {
@@ -141,6 +141,19 @@ export default Ember.Controller.extend(AsyncMixin, {
   // ----------------------
 
   actions: {
+    selectTab(tab) {
+      this.runTask(async () => {
+        this.set(
+          "stocktakes",
+          await this.store.query("stocktake", {
+            include_revisions: false,
+            state: tab
+          })
+        );
+        this.set("selectedTab", tab);
+      });
+    },
+
     pickLocation() {
       return this.pickLocation();
     },

@@ -23,14 +23,26 @@
       --}}
       <div class="row">
         <div class="row tabs-container">
-          <div class="tab list small-4 columns {{if (is-equal selectedTab tabs.open) 'selected'}}" {{action (mut selectedTab) tabs.open}}>
-            <span>{{t 'stocktakes.states.open'}} ({{ openStocktakes.length }})</span>
+          <div class="tab list small-4 columns {{if (is-equal selectedTab tabs.open) 'selected'}}" {{action "selectTab" tabs.open}}>
+            <span>{{t 'stocktakes.states.open'}}
+            {{#if (is-equal selectedTab tabs.open) 'selected'}}
+              ({{ openStocktakes.length }})
+            {{/if}}
+            </span>
           </div>
-          <div class="tab list small-4 columns {{if (is-equal selectedTab tabs.closed) 'selected'}}" {{action (mut selectedTab) tabs.closed}}>
-            <span>{{t 'stocktakes.states.closed'}} ({{ closedStocktakes.length }})</span>
+          <div class="tab list small-4 columns {{if (is-equal selectedTab tabs.closed) 'selected'}}" {{action "selectTab" tabs.closed}}>
+            <span>{{t 'stocktakes.states.closed'}}
+            {{#if (is-equal selectedTab tabs.closed) 'selected'}}
+              ({{ closedStocktakes.length }})
+            {{/if}}
+            </span>
           </div>
-          <div class="tab list small-4 columns {{if (is-equal selectedTab tabs.cancelled) 'selected'}}" {{action (mut selectedTab) tabs.cancelled}}>
-            <span>{{t 'stocktakes.states.cancelled'}} ({{ cancelledStocktakes.length }})</span>
+          <div class="tab list small-4 columns {{if (is-equal selectedTab tabs.cancelled) 'selected'}}" {{action "selectTab" tabs.cancelled}}>
+            <span>{{t 'stocktakes.states.cancelled'}}
+            {{#if (is-equal selectedTab tabs.cancelled) 'selected'}}
+              ({{ cancelledStocktakes.length }})
+            {{/if}}
+            </span>
           </div>
         </div>
       </div>

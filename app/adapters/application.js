@@ -27,11 +27,24 @@ export default ActiveModelAdapter.extend({
     return this._super(...arguments);
   },
 
-  urlForFindRecord(id, modelName) {
+  urlForFindRecord(id, modelName, opts) {
     if (modelName === "item") {
       Ember.set(arguments, "1", "stockit_item");
     }
-    return this._super(...arguments);
+
+    let url = this._super(...arguments);
+
+    if (opts && opts.adapterOptions) {
+      const queryString = new URLSearchParams(opts.adapterOptions).toString();
+
+      if (/\?/.test(url)) {
+        url += "&" + queryString;
+      } else {
+        url += "?" + queryString;
+      }
+    }
+
+    return url;
   },
 
   urlForQuery(query, modelName) {
