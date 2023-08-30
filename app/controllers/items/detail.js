@@ -9,6 +9,10 @@ import GradeMixin from "stock/mixins/grades_option";
 import MoveActions from "stock/mixins/move_actions";
 import StorageTypes from "stock/mixins/storage-type";
 import AsyncMixin, { ERROR_STRATEGIES } from "stock/mixins/async";
+import {
+  ORDERS_PACKAGES_SORTING_OPTIONS,
+  ORDERS_PACKAGES_STATES
+} from "stock/constants/orders-packages-sorting-options";
 import ItemActions from "stock/mixins/item_actions";
 import _ from "lodash";
 import SearchMixin from "stock/mixins/search_resource";
@@ -47,6 +51,7 @@ export default GoodcityController.extend(
     locationService: Ember.inject.service(),
     settings: Ember.inject.service(),
     session: Ember.inject.service(),
+    utilityMethods: Ember.inject.service(),
     displayScanner: false,
     callOrderObserver: false,
     hideDetailsLink: true,
@@ -63,6 +68,21 @@ export default GoodcityController.extend(
     currentRoute: Ember.computed.alias("application.currentPath"),
     pkg: Ember.computed.alias("model"),
     allowItemActions: Ember.computed.alias("settings.allowItemActions"),
+
+    // Filter fields
+    sortingColumn: _.cloneDeep(ORDERS_PACKAGES_SORTING_OPTIONS)[0],
+    dropDownItems: _.cloneDeep(ORDERS_PACKAGES_SORTING_OPTIONS),
+    states: _.cloneDeep(ORDERS_PACKAGES_STATES),
+
+    onStatesChange: Ember.observer("states.@each.enabled", function() {
+      this.reloadResults();
+    }),
+
+    filteredStates: Ember.computed("states.@each.enabled", function() {
+      return _.filter(this.get("states"), ["enabled", true]).map(
+        ({ state }) => state
+      );
+    }),
 
     showPieces: Ember.computed(
       "item.code.allowPieces",
@@ -280,19 +300,6 @@ export default GoodcityController.extend(
       );
     },
 
-    sortedOrdersPackages: Ember.computed(
-      "model.ordersPackages.[]",
-      "model.ordersPackages.@each.state",
-      function() {
-        // Cancelled orders packages are moved to the bottom
-        const records = this.get("model.ordersPackages");
-        return [
-          ...records.rejectBy("state", "cancelled"),
-          ...records.filterBy("state", "cancelled")
-        ];
-      }
-    ),
-
     associatedPackageTypes: Ember.computed("item", function() {
       return this.get("packageService").allChildPackageTypes(this.get("item"));
     }),
@@ -411,7 +418,55 @@ export default GoodcityController.extend(
       return value === "" || value === null;
     }),
 
+    getOrdersPackagesStates() {
+      const utilities = this.get("utilityMethods");
+      const state = utilities.stringifyArray(this.get("filteredStates"));
+      return {
+        state
+      };
+    },
+
+    getSortQuery() {
+      const sortOptions = this.get("sortingColumn");
+      return {
+        sort_column: sortOptions["column_alias"],
+        is_desc: /desc/.test(sortOptions["sort"])
+      };
+    },
+
+    applySortOn(options) {
+      this.set("sortingColumn", options);
+      this.reloadResults();
+    },
+
     actions: {
+      applySortOn(options) {
+        this.set("sortingColumn", options);
+        this.reloadResults();
+      },
+
+      clearSearch() {
+        this.set("searchText", "");
+      },
+
+      async loadOrdersPackages(pageNo) {
+        const params = this.trimQuery(
+          _.merge(
+            { search_by_package_id: this.get("item.id") },
+            this.getSearchQuery(),
+            this.getPaginationQuery(pageNo),
+            this.getOrdersPackagesStates(),
+            this.getSortQuery()
+          )
+        );
+        return this.get("store")
+          .query("orders_package", params)
+          .then(ordersPkgs => {
+            this.set("ordersPkgLength", ordersPkgs.meta.orders_packages_count);
+            return ordersPkgs;
+          });
+      },
+
       updatePackage(field, value) {
         this.runTask(
           this.get("packageService").updatePackage(this.get("item.id"), {

@@ -170,7 +170,10 @@ export default AuthorizeRoute.extend({
    */
   async loadItem(id, opts = {}) {
     const { loadImages = false } = opts;
-    const item = await this.store.findRecord("item", id, { reload: true });
+    const item = await this.store.findRecord("item", id, {
+      reload: true,
+      adapterOptions: { include_orders_packages: false }
+    });
     if (loadImages) {
       await this.preloadImages(item);
     }
