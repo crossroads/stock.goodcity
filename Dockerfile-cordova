@@ -9,14 +9,14 @@ ENV PATH=$PATH:/home/circleci/project/node_modules/cordova/bin/
 ENV ENVIRONMENT=staging
 RUN cordova telemetry off
 COPY --chown=circleci . /home/circleci/project/
-RUN node --version \
-  && cordova --version \
-  && gradle -version \
-  && java -version
 
 # docker build -f Dockerfile-cordova -t goodcity:latest .
 # docker run -it goodcity:latest /bin/bash
 # cordova build android --debug --device
+#
+# With Gradle stacktrace (useful for build errors)
+# cd platforms/android
+# ./gradlew --info cdvBuildDebug -b build.gradle
 
 # ADVANCED USAGE KEEPS IMAGE RUNNING TO MAINTAIN GRADLE CACHE
 # ENVIRONMENT=staging EMBER_CLI_CORDOVA=1 yarn run ember build
