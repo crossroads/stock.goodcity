@@ -86,7 +86,9 @@ jobs:
     environment:
       JOBS: 1
     steps:
-      - browser-tools/install-chrome
+      - browser-tools/install-chrome:
+          replace-existing: true
+          channel: stable
       - browser-tools/install-chromedriver
       - restore_cache: *restore-repo-cache
       - restore_cache: *restore-yarn-cache
@@ -311,17 +313,17 @@ workflows:
           # filters:
           #   branches:
           #     only: /^(master|live)$/
-      - android_build_and_deploy:
-          requires:
+      # - android_build_and_deploy:
+      #     requires:
             # - test_cases
-            - ember_cordova_build
+            # - ember_cordova_build
       #     filters:
       #       branches:
       #         only: /^(master|live)$/
-      - ios_build_and_deploy:
-          requires:
+      # - ios_build_and_deploy:
+      #     requires:
             # - test_cases
-            - ember_cordova_build
+            # - ember_cordova_build
           # filters:
           #   branches:
           #     only: /^(master|live)$/
