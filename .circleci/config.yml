@@ -88,7 +88,7 @@ jobs:
     steps:
       - browser-tools/install-chrome:
           replace-existing: true
-          channel: stable
+          chrome-version: 114.0.5735.90
       - browser-tools/install-chromedriver
       - restore_cache: *restore-repo-cache
       - restore_cache: *restore-yarn-cache
