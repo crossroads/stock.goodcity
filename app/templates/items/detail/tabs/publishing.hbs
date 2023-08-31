@@ -49,19 +49,95 @@
     </div>
   </div>
 
-  {{#if sortedOrdersPackages}}
-    <div class="row">
-      <div class="tab-title">
-        {{fa-icon 'shopping-basket'}}
-        {{t 'item.related_orders' }}
-      </div>
-
-      {{#each sortedOrdersPackages as |orderPkg|}}
-        <div class="row">
-          {{goodcity/orders-package-block orderPkg=orderPkg }}
-        </div>
-      {{/each}}
+  <div class="row drop-down">
+    <div class="small-5 columns">
+      {{t "order_details.orders_packages.search"}}: <br>
+      {{focus-textfield
+      name="searchText"
+      id="searchText"
+      class="search-orders"
+      value=searchText }}
+      {{#if searchText.length}}
+        <i {{action "clearSearch"}} class="cancel-search">{{fa-icon 'times-circle'}}</i>
+      {{/if}}
     </div>
+    <div class="small-4 columns">{{t "order_details.orders_packages.sort_by"}}:
+      {{#composable-drop-down setSelectedValue=(action "applySortOn") as |dropDown|}}
+        {{#dropDown.dropDownHeader}}
+          <div class="options-menu-title">
+            {{sortingColumn.column_name}}
+            &nbsp;
+            {{#if (is-equal sortingColumn.sort "asc")}}
+              {{fa-icon 'sort-alpha-up'}}
+            {{else}}
+              {{fa-icon 'sort-alpha-down'}}
+            {{/if}}
+          </div>
+        {{/dropDown.dropDownHeader}}
+
+        {{#dropDown.dropDownBody}}
+          <div class="options_menu_list option_margin">
+            {{#each dropDownItems as |item|}}
+              <div class="option_menu" {{action dropDown.clickItem item}}>
+                {{item.column_name}}
+                &nbsp;
+                {{#if (is-equal item.sort "asc")}}
+                  {{fa-icon 'sort-alpha-up'}}
+                {{else}}
+                  {{fa-icon 'sort-alpha-down'}}
+                {{/if}}
+              </div>
+            {{/each}}
+          </div>
+        {{/dropDown.dropDownBody}}
+      {{/composable-drop-down}}
+    </div>
+
+    <div class="small-3 columns">
+      {{t "order_details.orders_packages.state_filters"}}:
+      {{#composable-drop-down as |dropDown|}}
+        {{#dropDown.dropDownHeader}}
+          <div class="options-menu-title">
+            {{#if (is-equal filteredStates.length 0) }}
+              States
+            {{else if (is-equal filteredStates.length 1) }}
+              {{capitalize-string filteredStates.firstObject}}
+            {{else}}
+              States.{{filteredStates.length}}
+            {{/if}}
+            &nbsp;
+            {{fa-icon 'filter'}}
+          </div>
+        {{/dropDown.dropDownHeader}}
+
+        {{#dropDown.dropDownBody}}
+          <div class="options_menu_list option_margin">
+            {{#each states as |state|}}
+              <div class="option_menu">
+                <div class="row">
+                  <div class="column-4 columns">
+                    <span class="menu-option-text">
+                      {{capitalize-string state.state}}
+                    </span>
+                    <span class="checkbox-container">
+                      {{input type="checkbox" name=state.state checked=state.enabled class="checkbox"}}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            {{/each}}
+          </div>
+        {{/dropDown.dropDownBody}}
+      {{/composable-drop-down}}
+    </div>
+  </div>
+
+  {{#if displayResults}}
+    {{#infinite-list height="60vh" loadMore=(action "loadOrdersPackages") as |op| }}
+      {{#each op as |ordersPackage|}}
+        {{goodcity/orders-package-block orderPkg=ordersPackage}}
+      {{/each}}
+    {{/infinite-list}}
   {{/if}}
 </div>
 

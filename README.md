@@ -14,6 +14,7 @@ Install and configure NodeJS 10 using NVM: https://github.com/creationix/nvm#ins
 You can clone the GoodCity app repo direct:
 
 ```shell
+sudo apt install build-essential
 yarn add bower ember-cli phantomjs-prebuilt
 git clone https://github.com/crossroads/stock.goodcity.git
 yarn
@@ -100,8 +101,24 @@ ln -s `pwd`/dist `pwd`/cordova/www
 cd cordova
 # can help to start with a clean env, if android build issues
 rm -rf platforms/ plugins/ node_modules/
-cordova platform add android@11
+cordova platform add android@12
 # now open Android Studio and build or run gradle in the docker env
+```
+
+## Upgrading Cordova
+
+First you will need to review the Cordova blog for changes in new versions of cordova-<platform> and plugins. Then
+
+```shell
+cd cordova
+nvm use 18
+rm -rf node_modules/ platforms/ plugins/
+yarn
+npm install cordova@12
+cordova platform remove android
+cordova platform add android@12
+cordova platform remove ios
+cordova platform add ios@6
 ```
 
 ## Android Studio

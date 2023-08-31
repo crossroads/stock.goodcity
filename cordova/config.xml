@@ -19,6 +19,8 @@
     <allow-intent href="http://*/*" launch-external="yes" />
     <allow-intent href="https://*/*" launch-external="yes" />
     <platform name="android">
+        <preference name="AndroidGradlePluginVersion" value="7.4.2" />
+        <preference name="android-minSdkVersion" value="24" />
         <resource-file src="google-services.json" target="/app/google-services.json" />
         <resource-file src="res/android/notification.png" target="app/src/main/res/drawable/notification.png" />
         <preference name="AndroidLaunchMode" value="singleTop" />
@@ -38,7 +40,7 @@
     </platform>
     <platform name="ios">
         <preference name="SwiftVersion" value="5" />
-        <preference name="deployment-target" value="11.0" />
+        <preference name="deployment-target" value="13" />
         <preference name="Orientation" value="portrait" />
         <preference name="Fullscreen" value="true" />
         <icon height="16" src="res/ios/Icon-App-16x16@1x.png" width="16" />

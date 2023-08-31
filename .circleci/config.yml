@@ -44,9 +44,9 @@ aliases:
     paths:
       - vendor/bundle
   - &restore-ios-bundler-cache
-    key: v1-stock-goodcity-bundle-ios-{{ checksum "Gemfile.lock" }}
+    key: v2-stock-goodcity-bundle-ios-{{ checksum "Gemfile.lock" }}
   - &save-ios-bundler-cache
-    key: v1-stock-goodcity-bundle-ios-{{ checksum "Gemfile.lock" }}
+    key: v2-stock-goodcity-bundle-ios-{{ checksum "Gemfile.lock" }}
     paths:
       - vendor/bundle
 
@@ -55,8 +55,8 @@ aliases:
 # -----------------------------
 
 orbs:
-  azure-cli: circleci/azure-cli@1.2.0
-  browser-tools: circleci/browser-tools@1.2.3
+  azure-cli: circleci/azure-cli@1.2.2
+  browser-tools: circleci/browser-tools@1.4.4
 
 jobs:
   checkout_code:
@@ -86,7 +86,10 @@ jobs:
     environment:
       JOBS: 1
     steps:
-      - browser-tools/install-chrome
+      - run: sudo apt update && sudo apt -y upgrade libu2f-udev
+      - browser-tools/install-chrome:
+          replace-existing: true
+          chrome-version: 116.0.5845.96
       - browser-tools/install-chromedriver
       - restore_cache: *restore-repo-cache
       - restore_cache: *restore-yarn-cache
@@ -188,7 +191,7 @@ jobs:
   android_build_and_deploy:
     <<: *defaults
     docker:
-      - image: cimg/android:2022.04-browsers
+      - image: cimg/android:2023.08-browsers
     environment:
       # JVM_OPTS: -Xmx3200m
       CIRCLE_ARTIFACTS: /home/circleci/code/cordova/platforms/android/app/build/outputs/apk/release/
@@ -214,7 +217,7 @@ jobs:
       - run:
           name: Build android app
           command: |
-            npm install cordova@11.0.0
+            npm install cordova@12
             node rename_package.js
             cordova platform add android
             if [ "$ENVIRONMENT" == "production" ]; then
@@ -234,11 +237,12 @@ jobs:
 
   ios_build_and_deploy:
     macos:
-      xcode: "13.2.1"
+      xcode: "14.3.1"
+    resource_class: macos.x86.medium.gen2
     working_directory: ~/code
     shell: /bin/bash --login -eo pipefail
     environment:
-      CIRCLE_ARTIFACTS: /Users/distiller/code/cordova/platforms/ios/build/device
+      CIRCLE_ARTIFACTS: /Users/distiller/code/cordova/platforms/ios/build/Release-iphoneos
       HOMEBREW_NO_AUTO_UPDATE: 1
     steps:
       - checkout
@@ -251,6 +255,7 @@ jobs:
               echo 'export ENVIRONMENT=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo production; else echo staging; fi)' >> $BASH_ENV
               echo 'export PATH=$PATH:`npm bin`' >> $BASH_ENV
       - restore_cache: *restore-ios-bundler-cache
+      - run: rbenv local 3.0.6
       - run: bundle config set --local deployment 'true' && (bundle check || bundle install --jobs=2 --retry=3)
       - save_cache: *save-ios-bundler-cache
       - run: az login --service-principal --tenant ${AZURE_SP_TENANT} -u ${AZURE_SP} -p ${AZURE_SP_PASSWORD}
@@ -262,18 +267,20 @@ jobs:
       - run:
           name: Build iOS app
           command: |
-            npm install cordova@11.0.0
+            npm install cordova@12
             node rename_package.js
-            cordova platform add ios
+            yarn run cordova plugin add scandit-cordova-datacapture-barcode@6.18.2
+            yarn run cordova plugin add scandit-cordova-datacapture-core@6.18.2
+            yarn run cordova platform add ios@7
             UUID=`openssl smime -inform der -verify -noverify -in "/Users/distiller/Library/MobileDevice/Provisioning Profiles/stock-${ENVIRONMENT}.mobileprovision" | grep -A 1 UUID | sed "s@.*<string>\(.*\)</string>.*@\1@" | tail -n 1`
             PACKAGE_TYPE=$(if [ "$ENVIRONMENT" == "production" ]; then echo app-store; else echo development; fi)
             CODE_SIGN_IDENTITY=$(if [ "$ENVIRONMENT" == "production" ]; then echo 'iPhone Distribution'; else echo 'iPhone Developer'; fi)
-            cordova build ios --release --device --codeSignIdentity="${CODE_SIGN_IDENTITY}" --developmentTeam="6B8FS8W94M" \
-               --packageType="${PACKAGE_TYPE}" --automaticProvisioning=true  --buildFlag="IPHONEOS_DEPLOYMENT_TARGET=11.0" \
+            yarn run cordova build ios --release --device --codeSignIdentity="${CODE_SIGN_IDENTITY}" --developmentTeam="6B8FS8W94M" \
+               --packageType="${PACKAGE_TYPE}" --automaticProvisioning="true" --buildFlag="IPHONEOS_DEPLOYMENT_TARGET=13" \
                --provisioningProfile="${UUID}"
           working_directory: cordova
       - store_artifacts:
-          path: cordova/platforms/ios/build/device
+          path: cordova/platforms/ios/build/Release-iphoneos
       - run:
           name: Release ios build
           command: bundle exec fastlane ios ${ENVIRONMENT}

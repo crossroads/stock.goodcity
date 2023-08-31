@@ -1,13 +1,8 @@
 export const ORDERS_PACKAGES_SORTING_OPTIONS = Object.freeze(
   [
     {
-      column_name: "Inventory ID",
-      column_alias: "packages.inventory_number",
-      sort: "asc"
-    },
-    {
-      column_name: "Inventory ID",
-      column_alias: "packages.inventory_number",
+      column_name: "Added Date",
+      column_alias: "orders_packages.created_at",
       sort: "desc"
     },
     {
@@ -16,8 +11,23 @@ export const ORDERS_PACKAGES_SORTING_OPTIONS = Object.freeze(
       sort: "asc"
     },
     {
-      column_name: "Added Date",
-      column_alias: "orders_packages.created_at",
+      column_name: "Order ID",
+      column_alias: "orders_packages.order_id",
+      sort: "asc"
+    },
+    {
+      column_name: "Order ID",
+      column_alias: "orders_packages.order_id",
+      sort: "desc"
+    },
+    {
+      column_name: "Inventory ID",
+      column_alias: "packages.inventory_number",
+      sort: "asc"
+    },
+    {
+      column_name: "Inventory ID",
+      column_alias: "packages.inventory_number",
       sort: "desc"
     },
     {

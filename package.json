@@ -1,6 +1,6 @@
 {
   "name": "stock",
-  "version": "0.28.1",
+  "version": "0.29.0",
   "private": true,
   "directories": {
     "doc": "doc",
@@ -88,7 +88,8 @@
     "lint-staged": "^8.1.0",
     "loader.js": "^4.0.11",
     "morgan": "^1.7.0",
-    "prettier": "1.15.3"
+    "prettier": "1.15.3",
+    "@babel/traverse": "> 7.16.5"
   },
   "dependencies": {
     "axios": "^0.21.1",
