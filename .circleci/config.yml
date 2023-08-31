@@ -86,7 +86,7 @@ jobs:
     environment:
       JOBS: 1
     steps:
-      - sudo apt -y upgrade libu2f-udev
+      - run: sudo apt -y upgrade libu2f-udev
       - browser-tools/install-chrome:
           replace-existing: true
           chrome-version: 116.0.5845.96
