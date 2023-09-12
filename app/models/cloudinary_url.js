@@ -39,8 +39,15 @@ export default Model.extend({
     } else if (id.indexOf("azure-") === 0) {
       // id begins with 'azure-'
       // generate GoodCity Azure storage url (for long term dispatched packages no longer on Cloudinary)
-      // this ignores crop, version, angle and facecapture options
+      // this ignores most options except for specific known thumbnails
       var filename = id.substring(id.indexOf("azure-") + 6);
+      if (width == "120") {
+        // 1438323573/default/test_image.jpg -> 1438323573/default/test_image-120x120.jpg
+        filename = filename.replace(/\.([^\.]+)$/, "-120x120.$1");
+      }
+      if (width == "300") {
+        filename = filename.replace(/\.([^\.]+)$/, "-300x300.$1");
+      }
       return config.APP.LONG_TERM_IMAGE_STORAGE_PREFIX + filename;
     } else {
       return null;
