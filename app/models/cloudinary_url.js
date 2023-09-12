@@ -40,7 +40,7 @@ export default Model.extend({
       // id begins with 'azure-'
       // generate GoodCity Azure storage url (for long term dispatched packages no longer on Cloudinary)
       // this ignores crop, version, angle and facecapture options
-      var filename = id.substring(id.indexOf("azure-") + 3);
+      var filename = id.substring(id.indexOf("azure-") + 6);
       return config.APP.LONG_TERM_IMAGE_STORAGE_PREFIX + filename;
     } else {
       return null;
