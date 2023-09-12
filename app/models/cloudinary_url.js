@@ -23,9 +23,7 @@ export default Model.extend({
       return null;
     }
 
-    // TODO: This needs testing and fixing
-
-    if (id.indexOf("gc-") === -1) {
+    if (id.indexOf("azure-") === -1) {
       // generate Cloudinary storage url
       var version = id.split("/")[0];
       var filename = id.substring(id.indexOf("/") + 1);
@@ -44,6 +42,8 @@ export default Model.extend({
       // this ignores crop, version, angle and facecapture options
       var filename = id.substring(id.indexOf("azure-") + 3);
       return config.APP.LONG_TERM_IMAGE_STORAGE_PREFIX + filename;
+    } else {
+      return null;
     }
   }
 });
