@@ -62,9 +62,7 @@ module.exports = function(environment) {
       CLOUD_URL: "https://api.cloudinary.com/v1_1/ddoadcjjl/auto/upload",
       IMAGE_PATH: "http://res.cloudinary.com/ddoadcjjl/image/upload/",
       LONG_TERM_IMAGE_STORAGE_PREFIX:
-        "https://goodcityimages.blob.core.windows.net/images/" +
-        environment +
-        "/",
+        "https://goodcityimages.blob.core.windows.net/images/",
 
       NAMESPACE: "api/v1",
       OTP_RESEND_TIME: 60,

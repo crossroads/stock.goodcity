@@ -38,11 +38,11 @@ export default Model.extend({
         options["angle"] = angle;
       }
       return Ember.$.cloudinary.url(filename, options);
-    } else if (id.indexOf("gc-") === 0) {
-      // id begins with 'gc-'
+    } else if (id.indexOf("azure-") === 0) {
+      // id begins with 'azure-'
       // generate GoodCity Azure storage url (for long term dispatched packages no longer on Cloudinary)
       // this ignores crop, version, angle and facecapture options
-      var filename = id.substring(id.indexOf("gc-") + 3);
+      var filename = id.substring(id.indexOf("azure-") + 3);
       return config.APP.LONG_TERM_IMAGE_STORAGE_PREFIX + filename;
     }
   }
