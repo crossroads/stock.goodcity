@@ -61,9 +61,6 @@ module.exports = function(environment) {
       CLOUD_API_KEY: 926849638736153,
       CLOUD_URL: "https://api.cloudinary.com/v1_1/ddoadcjjl/auto/upload",
       IMAGE_PATH: "http://res.cloudinary.com/ddoadcjjl/image/upload/",
-      LONG_TERM_IMAGE_STORAGE_BASE_URL:
-        "https://goodcityimages.blob.core.windows.net/images/",
-      LONG_TERM_IMAGE_STORAGE_ID_PREFIX: "azure-",
 
       NAMESPACE: "api/v1",
       OTP_RESEND_TIME: 60,
@@ -191,5 +188,10 @@ module.exports = function(environment) {
   }
 
   ENV.APP.SERVER_PATH = ENV.APP.API_HOST_URL + "/" + ENV.APP.NAMESPACE;
+  (ENV.APP.LONG_TERM_IMAGE_STORAGE_ID_PREFIX = "azure-"),
+    (ENV.APP.LONG_TERM_IMAGE_STORAGE_BASE_URL =
+      "https://goodcityimages.blob.core.windows.net/images-" +
+      environment +
+      "/");
   return ENV;
 };
