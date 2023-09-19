@@ -17,6 +17,7 @@ COPY --chown=circleci . /home/circleci/project/
 # With Gradle stacktrace (useful for build errors)
 # cd platforms/android
 # ./gradlew --info cdvBuildDebug -b build.gradle
+# Gradle logs are in ~/.gradle/daemon
 
 # ADVANCED USAGE KEEPS IMAGE RUNNING TO MAINTAIN GRADLE CACHE
 # ENVIRONMENT=staging EMBER_CLI_CORDOVA=1 yarn run ember build

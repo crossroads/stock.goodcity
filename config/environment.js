@@ -1,115 +1,115 @@
 /* jshint node: true */
-const pkgJson = require('../package.json');
+const pkgJson = require("../package.json");
 
 module.exports = function(environment) {
-  environment = process.env.ENVIRONMENT || environment || 'development';
+  environment = process.env.ENVIRONMENT || environment || "development";
   var ENV = {
-    modulePrefix: 'stock',
+    modulePrefix: "stock",
     environment: environment,
-    baseURL: '/',
-    defaultLocationType: 'auto',
-    disableNotifications: process.env.DISABLE_NOTIFICATIONS === 'true',
+    baseURL: "/",
+    defaultLocationType: "auto",
+    disableNotifications: process.env.DISABLE_NOTIFICATIONS === "true",
     emberRollbarClient: {
-      enabled: environment !== 'test' && environment !== 'development',
-      accessToken: 'cc46e2e6402f4106a8ba71fe9752d69a',
+      enabled: environment !== "test" && environment !== "development",
+      accessToken: "cc46e2e6402f4106a8ba71fe9752d69a",
       verbose: true,
-      ignoredMessages: ['TransitionAborted'],
+      ignoredMessages: ["TransitionAborted"],
       payload: {
         environment: environment,
         client: {
           javascript: {
             // Optionally have Rollbar guess which frames the error was thrown from
             // when the browser does not provide line and column numbers.
-            guess_uncaught_frames: false,
-          },
-        },
-      },
+            guess_uncaught_frames: false
+          }
+        }
+      }
     },
 
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
         // e.g. 'with-controller': true
-      },
+      }
     },
 
     contentSecurityPolicy: {
-      'default-src': "'self' gap://ready file://* *",
-      'img-src': "'self' data: https://res.cloudinary.com filesystem: *",
-      'style-src': "'self' 'unsafe-inline' https://maxcdn.bootstrapcdn.com",
-      'font-src': "'self' data: https://maxcdn.bootstrapcdn.com",
-      'object-src': "'self'",
-      'script-src': "'self' 'unsafe-eval' 'unsafe-inline'",
+      "default-src": "'self' gap://ready file://* *",
+      "img-src": "'self' data: https://res.cloudinary.com filesystem: *",
+      "style-src": "'self' 'unsafe-inline' https://maxcdn.bootstrapcdn.com",
+      "font-src": "'self' data: https://maxcdn.bootstrapcdn.com",
+      "object-src": "'self'",
+      "script-src": "'self' 'unsafe-eval' 'unsafe-inline'"
     },
 
     APP: {
-      NAME: 'stock.goodcity',
-      ORIGIN: 'stock.goodcity.hk',
-      SHA: process.env.APP_SHA || '00000000',
-      VERSION: pkgJson.version || '1.0.0',
+      NAME: "stock.goodcity",
+      ORIGIN: "stock.goodcity.hk",
+      SHA: process.env.APP_SHA || "00000000",
+      VERSION: pkgJson.version || "1.0.0",
       environment: environment,
-      TITLE: 'STOCK',
-      BANNER_IMAGE: '/assets/images/stock.png',
-      ANDROID_APP_ID: 'hk.goodcity.stock',
-      APPLE_APP_ID: '1144806764',
+      TITLE: "STOCK",
+      BANNER_IMAGE: "/assets/images/stock.png",
+      ANDROID_APP_ID: "hk.goodcity.stock",
+      APPLE_APP_ID: "1144806764",
       BANNER_REOPEN_DAYS: 3,
 
-      REVIEW_APP_NAME: 'Stock App',
-      ANDROID_APP_URL: 'market://details?id=hk.goodcity.stock',
+      REVIEW_APP_NAME: "Stock App",
+      ANDROID_APP_URL: "market://details?id=hk.goodcity.stock",
 
-      CLOUD_NAME: 'ddoadcjjl',
+      CLOUD_NAME: "ddoadcjjl",
       CLOUD_API_KEY: 926849638736153,
-      CLOUD_URL: 'https://api.cloudinary.com/v1_1/ddoadcjjl/auto/upload',
-      IMAGE_PATH: 'http://res.cloudinary.com/ddoadcjjl/image/upload/',
+      CLOUD_URL: "https://api.cloudinary.com/v1_1/ddoadcjjl/auto/upload",
+      IMAGE_PATH: "http://res.cloudinary.com/ddoadcjjl/image/upload/",
 
-      NAMESPACE: 'api/v1',
+      NAMESPACE: "api/v1",
       OTP_RESEND_TIME: 60,
       ACCESS_PASS_VALIDITY: 30,
-      HK_COUNTRY_CODE: '+852',
-      HK_TIME_ZONE: 'Asia/Hong_Kong',
-      DEFAULT_COUNTRY: 'China - Hong Kong (Special Administrative Region)',
+      HK_COUNTRY_CODE: "+852",
+      HK_TIME_ZONE: "Asia/Hong_Kong",
+      DEFAULT_COUNTRY: "China - Hong Kong (Special Administrative Region)",
 
       SCANDIT_LICENSE_KEY_ANDROID: process.env.SCANDIT_LICENSE_KEY_ANDROID,
       SCANDIT_LICENSE_KEY_IOS: process.env.SCANDIT_LICENSE_KEY_IOS,
 
       PRELOAD_TYPES: [
-        'booking_type',
-        'purpose',
-        'identity_type',
-        'lookup',
-        'district',
-        'goodcity_setting',
-        'printer',
-        'user_favourite',
-        'role',
+        "booking_type",
+        "purpose",
+        "identity_type",
+        "lookup",
+        "district",
+        "goodcity_setting",
+        "printer",
+        "user_favourite",
+        "role"
       ],
       USER_DATA_TYPES: [
-        'designation',
-        'item',
-        'order_transport',
-        'beneficiary',
-        'contact',
-        'gogovan_transport',
-        'user',
-        'user_profile',
-        'role',
-        'user_role',
-        'role_permission',
-        'image',
-        'packages_location',
-        'stockit_contact',
-        'goodcity_request',
-        'purpose',
-        'orders_process_checklist',
-      ],
+        "designation",
+        "item",
+        "order_transport",
+        "beneficiary",
+        "contact",
+        "gogovan_transport",
+        "user",
+        "user_profile",
+        "role",
+        "user_role",
+        "role_permission",
+        "image",
+        "packages_location",
+        "stockit_contact",
+        "goodcity_request",
+        "purpose",
+        "orders_process_checklist"
+      ]
     },
 
     i18n: {
-      defaultLocale: 'en',
+      defaultLocale: "en"
     },
 
     cordova: {
-      enabled: process.env.EMBER_CLI_CORDOVA !== '0',
+      enabled: process.env.EMBER_CLI_CORDOVA !== "0",
       rebuildOnChange: false,
       emulate: false
     }
@@ -139,19 +139,19 @@ module.exports = function(environment) {
     ].join(" ");
   }
 
-  if (environment === 'test') {
+  if (environment === "test") {
     ENV.cordova.enabled = false;
 
     // Testem prefers this...
-    ENV.baseURL = '/';
-    ENV.locationType = 'none';
+    ENV.baseURL = "/";
+    ENV.locationType = "none";
 
     // keep test console output quieter
     ENV.APP.LOG_ACTIVE_GENERATION = false;
     ENV.APP.LOG_VIEW_LOOKUPS = false;
 
-    ENV.APP.rootElement = '#ember-testing';
-    ENV.APP.API_HOST_URL = 'http://localhost:4203';
+    ENV.APP.rootElement = "#ember-testing";
+    ENV.APP.API_HOST_URL = "http://localhost:4203";
   }
 
   if (environment === "production") {
@@ -188,5 +188,10 @@ module.exports = function(environment) {
   }
 
   ENV.APP.SERVER_PATH = ENV.APP.API_HOST_URL + "/" + ENV.APP.NAMESPACE;
+  (ENV.APP.LONG_TERM_IMAGE_STORAGE_ID_PREFIX = "azure-"),
+    (ENV.APP.LONG_TERM_IMAGE_STORAGE_BASE_URL =
+      "https://goodcityimages.blob.core.windows.net/images-" +
+      environment +
+      "/");
   return ENV;
 };
