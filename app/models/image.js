@@ -2,6 +2,7 @@ import Ember from "ember";
 import cloudinaryUrl from "./cloudinary_url";
 import attr from "ember-data/attr";
 import { belongsTo } from "ember-data/relationships";
+import config from "../config/environment";
 
 export default cloudinaryUrl.extend({
   favourite: attr("boolean"),
@@ -22,5 +23,13 @@ export default cloudinaryUrl.extend({
 
   thumbImageUrl: Ember.computed("cloudinaryId", "angle", function() {
     return this.generateUrl(120, 120, true);
+  }),
+
+  isImageOnLongTermStorage: Ember.computed("cloudinaryId", function() {
+    return (
+      (this.get("cloudinaryId") || "").indexOf(
+        config.APP.LONG_TERM_IMAGE_STORAGE_ID_PREFIX
+      ) === 0
+    );
   })
 });

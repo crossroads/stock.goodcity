@@ -16,12 +16,15 @@
             <i class = "favourite">{{fa-icon 'star' prefix="far"}}</i>
           {{/if}}
         </a>
+        {{#unless isImageOnLongTermStorage}}
+        <!-- disabled if image source is not Cloudinary -->
         <a {{action "rotateImageRight"}} >
           <i class="redo">{{fa-icon 'redo'}}</i>
         </a>
         <a {{action "rotateImageLeft"}} >
           <i class="undo">{{fa-icon 'undo'}}</i>
         </a>
+        {{/unless}}
         <a {{action "expandImage"}} title={{t "edit_images.fullscreen_tooltip"}}>
           <i class = "expand">{{fa-icon (if isExpanded 'compress' 'expand')}}</i>
         </a>

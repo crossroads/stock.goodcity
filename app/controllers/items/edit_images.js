@@ -104,6 +104,10 @@ export default Ember.Controller.extend({
     })
   ),
 
+  isImageOnLongTermStorage: Ember.computed("previewImage", function() {
+    return this.get("previewImage.isImageOnLongTermStorage");
+  }),
+
   //css related
   previewImageBgCss: Ember.computed(
     "previewImage",
