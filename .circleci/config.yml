@@ -220,7 +220,6 @@ jobs:
             npm install cordova@12
             node rename_package.js
             cordova platform add android
-            sed -e 's/.*uses-permission android:maxSdkVersion=\"32\" android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\".*//g' platforms/android/app/src/main/AndroidManifest.xml
             if [ "$ENVIRONMENT" == "production" ]; then
               cordova build android --release -- \
                 --packageType=apk --keystore=goodcity.keystore --storePassword="${GOODCITY_KEYSTORE_PASSWORD}" \
