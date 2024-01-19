@@ -1,5 +1,11 @@
 # Stock App
 
+## v0.30.0
+
+2024-01-19
+
+- Ability for users to request deletion of their accounts
+
 ## v0.29.0
 
 2023-08-31
