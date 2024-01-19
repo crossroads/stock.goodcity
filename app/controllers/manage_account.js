@@ -1,5 +1,6 @@
 import Ember from "ember";
 import AsyncMixin, { ERROR_STRATEGIES } from "stock/mixins/async";
+import AjaxPromise from "stock/utils/ajax-promise";
 import TitleAndLanguageMixin from "stock/mixins/grades_option";
 
 export default Ember.Controller.extend(AsyncMixin, TitleAndLanguageMixin, {
@@ -8,6 +9,8 @@ export default Ember.Controller.extend(AsyncMixin, TitleAndLanguageMixin, {
   printerService: Ember.inject.service(),
   selectedAdminPrinterId: "",
   selectedStockPrinterId: "",
+  showDeleteAccountConfirmationPopup: false,
+  application: Ember.inject.controller(),
 
   getUserMobile() {
     return this.get("userService").getUserMobileWithCode(
@@ -51,6 +54,27 @@ export default Ember.Controller.extend(AsyncMixin, TitleAndLanguageMixin, {
   },
 
   actions: {
+    onDeleteAccount() {
+      this.set("showDeleteAccountConfirmationPopup", true);
+    },
+
+    cancelAccountDeletion() {
+      this.set("showDeleteAccountConfirmationPopup", false);
+    },
+
+    confirmDeleteAccount() {
+      this.runTask(async () => {
+        const userId = this.get("user.id");
+        const data = await new AjaxPromise(
+          `/users/${userId}`,
+          "DELETE",
+          this.get("session.authToken")
+        );
+        this.get("application").send("logMeOut");
+        this.set("showDeleteAccountConfirmationPopup", false);
+      }, ERROR_STRATEGIES.MODAL);
+    },
+
     updateUserDetails(e) {
       let value = e.target.value.trim();
       let isValid;

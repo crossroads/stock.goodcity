@@ -12,127 +12,147 @@
 </nav>
 
 <section class="main-section add-user-form new-user-section ui accounts-form">
-    <div class="row">
-      <div class="small-5 columns item-label">
-        {{t 'users.image'}}
-      </div>
-      <div class="small-7 columns">
-        {{upload-user-image user=user}}
-      </div>
+  <div class="row">
+    <div class="small-5 columns item-label">
+      {{t 'users.image'}}
     </div>
+    <div class="small-7 columns">
+      {{upload-user-image user=user}}
+    </div>
+  </div>
 
-    <div class="row">
-      <div class="small-5 columns item-label">
-        {{t 'users.title'}}
-      </div>
-      <div class="small-7 columns field-container title-select">
-        {{inline-select-list
-        content=titles
-        name="title"
-        class="inline-edit-bg"
-        item=user
-        isPrimitive=true
-        autosave=true
-        on-change=(action (mut selectedTitle))
-        }}
-      </div>
+  <div class="row">
+    <div class="small-5 columns item-label">
+      {{t 'users.title'}}
     </div>
+    <div class="small-7 columns field-container title-select">
+      {{inline-select-list
+      content=titles
+      name="title"
+      class="inline-edit-bg"
+      item=user
+      isPrimitive=true
+      autosave=true
+      on-change=(action (mut selectedTitle))
+      }}
+    </div>
+  </div>
 
-    <div class="row">
-      <div class="small-5 columns item-label">
-        {{t 'users.first_name'}}
-      </div>
-      <div class="small-7 columns field-container">
-        {{input type='text'
-        id="firstName"
-        class="inline-edit-bg"
-        value=user.firstName
-        focusOut=(action "updateUserDetails")
-        }}
-        {{#if firstNameInputError}}
-        <div class='inline-edit-error'>{{t 'organisation.user.validation_error.first_name'}}</div>
-        {{/if}}
-      </div>
+  <div class="row">
+    <div class="small-5 columns item-label">
+      {{t 'users.first_name'}}
     </div>
+    <div class="small-7 columns field-container">
+      {{input type='text'
+      id="firstName"
+      class="inline-edit-bg"
+      value=user.firstName
+      focusOut=(action "updateUserDetails")
+      }}
+      {{#if firstNameInputError}}
+      <div class='inline-edit-error'>{{t 'organisation.user.validation_error.first_name'}}</div>
+      {{/if}}
+    </div>
+  </div>
 
-    <div class="row">
-      <div class="small-5 columns item-label">
-        {{t 'users.family_name'}}
-      </div>
-      <div class="small-7 columns field-container ">
-        {{input type='text'
-        id="lastName"
-        class="inline-edit-bg"
-        value=user.lastName
-        focusOut=(action "updateUserDetails")
-        }}
-        {{#if lastNameInputError}}
-        <div class='inline-edit-error'>{{t 'organisation.user.validation_error.family_name'}}</div>
-        {{/if}}
-      </div>
+  <div class="row">
+    <div class="small-5 columns item-label">
+      {{t 'users.family_name'}}
     </div>
+    <div class="small-7 columns field-container ">
+      {{input type='text'
+      id="lastName"
+      class="inline-edit-bg"
+      value=user.lastName
+      focusOut=(action "updateUserDetails")
+      }}
+      {{#if lastNameInputError}}
+      <div class='inline-edit-error'>{{t 'organisation.user.validation_error.family_name'}}</div>
+      {{/if}}
+    </div>
+  </div>
 
-    <div class="row">
-      <div class="small-5 columns item-label">
-        {{t 'users.email_address'}}
-      </div>
-      <div class="small-7 columns field-container">
-        {{input type="email"
-        value=user.email
-        name="email"
-        id="email"
-        class="inline-edit-bg"
-        formnovalidate="true"
-        focusOut=(action "updateUserDetails")
-        }}
+  <div class="row">
+    <div class="small-5 columns item-label">
+      {{t 'users.email_address'}}
+    </div>
+    <div class="small-7 columns field-container">
+      {{input type="email"
+      value=user.email
+      name="email"
+      id="email"
+      class="inline-edit-bg"
+      formnovalidate="true"
+      focusOut=(action "updateUserDetails")
+      }}
 
-        {{#if emailInputError}}
-        <div class='inline-edit-error'>{{t 'organisation.user.validation_error.blank_email'}}</div>
-        {{/if}}
+      {{#if emailInputError}}
+      <div class='inline-edit-error'>{{t 'organisation.user.validation_error.blank_email'}}</div>
+      {{/if}}
 
-        {{#if emailValidationError}}
-        <div class='inline-edit-error'>{{t 'organisation.user.validation_error.email'}}</div>
-        {{/if}}
-      </div>
+      {{#if emailValidationError}}
+      <div class='inline-edit-error'>{{t 'organisation.user.validation_error.email'}}</div>
+      {{/if}}
     </div>
+  </div>
 
-    <div class="row">
-      <div class="small-12 columns item-label">
-        {{t "users.admin_printer_label"}}
-      </div>
+  <div class="row">
+    <div class="small-12 columns item-label">
+      {{t "users.admin_printer_label"}}
     </div>
-    <div class="row">
-      <div class="small-8 columns field-container">
-        {{select-list
-          content=printers
-          class="inline-edit-bg"
-          prompt="--"
-          on-change=(action "changeAdminPrinter")
-          selectedValue=selectedAdminPrinterDisplay
-          selectArrow=false
-          value=selectedAdminPrinterDisplay
-          classNames='printer-list'}}
-      </div>
+  </div>
+  <div class="row">
+    <div class="small-8 columns field-container">
+      {{select-list
+      content=printers
+      class="inline-edit-bg"
+      prompt="--"
+      on-change=(action "changeAdminPrinter")
+      selectedValue=selectedAdminPrinterDisplay
+      selectArrow=false
+      value=selectedAdminPrinterDisplay
+      classNames='printer-list'}}
     </div>
+  </div>
 
-    <div class="row">
-      <div class="small-12 columns item-label">
-        {{t "users.stock_printer_label"}}
-      </div>
+  <div class="row">
+    <div class="small-12 columns item-label">
+      {{t "users.stock_printer_label"}}
     </div>
-    <div class="row">
-      <div class="small-8 columns field-container">
-        {{select-list
-          content=printers
-          class="inline-edit-bg"
-          prompt="--"
-          on-change=(action "changeStockPrinter")
-          selectedValue=selectedStockPrinterDisplay
-          selectArrow=false
-          value=selectedStockPrinterDisplay
-          classNames='printer-list'}}
-      </div>
+  </div>
+  <div class="row">
+    <div class="small-8 columns field-container">
+      {{select-list
+      content=printers
+      class="inline-edit-bg"
+      prompt="--"
+      on-change=(action "changeStockPrinter")
+      selectedValue=selectedStockPrinterDisplay
+      selectArrow=false
+      value=selectedStockPrinterDisplay
+      classNames='printer-list'}}
     </div>
+  </div>
+  <div class="row">
+    <button {{action "onDeleteAccount" }}> Delete my account </button>
+  </div>
 </section>
 
+{{#popup-overlay open=showDeleteAccountConfirmationPopup}}
+<div class="account-deletion-overlay">
+  <h1>Delete My Account</h1>
+  <p>If you delete your account you will no longer be able to log in to GoodCity.HK.</p>
+  <p>If you wish to use this service again in the future, you will need to create a new account.</p>
+  <p>Please note that some of your details may be retained to adhere with our compliance and auditing requirements.</p>
+  <p>All information will be treated in accordance with our <a href="https://app.goodcity.hk/pics" target="_self">Personal Information Collection Statement</a>,
+     <a href="https://app.goodcity.hk/terms_and_conditions" target="_self">Terms and Conditions</a>
+     and the <a href="https://www.crossroads.org.hk/home/contact/privacy/" target="_self">Crossroads Foundation Privacy Policy</a>.</p>
+  <p>Please see <a href="https://www.goodcity.hk/faq.html#account-deletion" target="_self">our FAQs</a> for more details.</p>
+  <p>If you press the button below, you will be immediately logged out from the GoodCity.HK service.</p>
+  <div class="flex">
+      <button {{action "confirmDeleteAccount" }}> Yes, delete my account </button>
+      <a {{action "cancelAccountDeletion" }}> Cancel </a>
+  </div>
+</div>
+{{/popup-overlay}}
 {{partial "loading_image"}}
