@@ -139,6 +139,8 @@ export default Ember.Route.extend(AsyncMixin, preloadDataMixin, {
     try {
       var status;
 
+      console.log(reason);
+
       try {
         status = parseInt(reason.errors[0].status, 10);
       } catch (err) {
