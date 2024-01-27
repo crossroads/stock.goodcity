@@ -1272,8 +1272,7 @@ export default {
     section2: "如若將來你想再使用服務，歡迎你重新建立新賬戶。 ",
     section3: "請注意你的部分資料可能會被保留，以符合的合規和審計要求。",
     section4: "所有資料將按照我們的政策處理。",
-    section5:
-      "If you press the button below, you will be immediately logged out from the GoodCity.HK service.",
+    section5: "如若按下面的按鈕，你將會立即登出GoodCity.HK的服務。",
     yes_delete: "是的，請刪除我的賬戶！",
     cancel: "取消"
   }
