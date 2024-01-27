@@ -1,5 +1,9 @@
 # Stock App
 
+## v0.30.1
+
+- Added translation strings for user deletion
+
 ## v0.30.0
 
 2024-01-19
