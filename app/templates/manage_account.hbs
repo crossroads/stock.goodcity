@@ -140,18 +140,18 @@
 
 {{#popup-overlay open=showDeleteAccountConfirmationPopup}}
 <div class="account-deletion-overlay">
-  <h1>Delete My Account</h1>
-  <p>If you delete your account you will no longer be able to log in to GoodCity.HK.</p>
-  <p>If you wish to use this service again in the future, you will need to create a new account.</p>
-  <p>Please note that some of your details may be retained to adhere with our compliance and auditing requirements.</p>
-  <p>All information will be treated in accordance with our <a href="https://app.goodcity.hk/pics" target="_self">Personal Information Collection Statement</a>,
-     <a href="https://app.goodcity.hk/terms_and_conditions" target="_self">Terms and Conditions</a>
-     and the <a href="https://www.crossroads.org.hk/home/contact/privacy/" target="_self">Crossroads Foundation Privacy Policy</a>.</p>
-  <p>Please see <a href="https://www.goodcity.hk/faq.html#account-deletion" target="_self">our FAQs</a> for more details.</p>
-  <p>If you press the button below, you will be immediately logged out from the GoodCity.HK service.</p>
+  <h1>{{t "manage_account.title"}}</h1>
+  <p>{{t "manage_account.section1"}}</p>
+  <p>{{t "manage_account.section2"}}</p>
+  <p>{{t "manage_account.section3"}}</p>
+  <p>{{t "manage_account.section4"}}
+     <a href="https://app.goodcity.hk/pics" target="_self">{{t "manage_account.pics"}}</a>,
+     <a href="https://app.goodcity.hk/terms_and_conditions" target="_self">{{t "manage_account.terms"}}</a>,
+     <a href="https://www.crossroads.org.hk/home/contact/privacy/" target="_self">{{t "manage_account.crf_privacy_policy"}}</a>.</p>
+  <p>{{t "manage_account.section5"}}</p>
   <div class="flex">
-      <button {{action "confirmDeleteAccount" }}> Yes, delete my account </button>
-      <a {{action "cancelAccountDeletion" }}> Cancel </a>
+      <button {{action "confirmDeleteAccount" }}>{{t "manage_account.yes_delete"}}</button>
+      <a {{action "cancelAccountDeletion" }}>{{t "manage_account.cancel"}}</a>
   </div>
 </div>
 {{/popup-overlay}}
