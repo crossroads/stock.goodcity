@@ -146,7 +146,10 @@ export default Ember.Controller.extend(OrganisationMixin, AsyncMixin, {
 
     checkUserValidity() {
       let user = this.get("user");
-      if (user.get("email").length === 0 && user.get("mobile").length === 0) {
+      if (
+        (user.get("mobile") || "").length &&
+        (user.get("email") || "").length
+      ) {
         this.set("updateUserMessagePopupVisible", true);
       } else {
         this.send("displayEnableUserPopup");

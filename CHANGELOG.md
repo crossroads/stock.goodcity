@@ -1,5 +1,9 @@
 # Stock App
 
+## v0.30.2
+
+- Fixed bug in user re-enable screen (handling null cases)
+
 ## v0.30.1
 
 - Added translation strings for user deletion
