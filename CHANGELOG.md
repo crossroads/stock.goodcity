@@ -1,5 +1,9 @@
 # Stock App
 
+## v0.30.3
+
+- Added ability to load images from Azure Storage rather than Cloudinary
+
 ## v0.30.2
 
 - Fixed bug in user re-enable screen (handling null cases)

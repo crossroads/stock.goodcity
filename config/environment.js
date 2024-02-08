@@ -35,7 +35,8 @@ module.exports = function(environment) {
 
     contentSecurityPolicy: {
       "default-src": "'self' gap://ready file://* *",
-      "img-src": "'self' data: https://res.cloudinary.com filesystem: *",
+      "img-src":
+        "'self' data: https://res.cloudinary.com filesystem: * https://goodcityimages.blob.core.windows.net",
       "style-src": "'self' 'unsafe-inline' https://maxcdn.bootstrapcdn.com",
       "font-src": "'self' data: https://maxcdn.bootstrapcdn.com",
       "object-src": "'self'",
