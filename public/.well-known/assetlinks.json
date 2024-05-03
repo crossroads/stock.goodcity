@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "hk.goodcity.stock",
+      "sha256_cert_fingerprints": [
+        "11:D2:4C:AC:09:84:1D:41:49:17:CB:FC:D7:B5:AE:C1:C1:47:DE:74:00:2E:4F:43:19:16:77:EF:E8:F9:68:3D"
+      ]
+    }
+  }
+]
