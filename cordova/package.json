@@ -4,7 +4,7 @@
   "displayName": "S. Stock",
   "devDependencies": {
     "@havesource/cordova-plugin-push": "github:havesource/cordova-plugin-push",
-    "com-sarriaroman-photoviewer": "github:YaroslavG/photoviewer",
+    "com-sarriaroman-photoviewer": "github:CorvexConnectedSafety/photoviewer",
     "cordova-android": "^13.0.0",
     "cordova-ios": "^7.1.1",
     "cordova-plugin-actionsheet": "^2.3.3",
