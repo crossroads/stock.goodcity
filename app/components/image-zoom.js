@@ -21,7 +21,7 @@ export default Ember.Component.extend({
 
   actions: {
     imageZoom(imageUrl) {
-      window.PhotoViewer.show(imageUrl, "", { share: false });
+      window.PhotoViewer.show(imageUrl, "", { share: false, headers: "" });
     }
   },
 
