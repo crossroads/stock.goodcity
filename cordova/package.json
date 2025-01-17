@@ -4,7 +4,6 @@
   "displayName": "S. Stock",
   "devDependencies": {
     "@havesource/cordova-plugin-push": "github:havesource/cordova-plugin-push",
-    "com-sarriaroman-photoviewer": "github:telepat-llc/photoviewer",
     "cordova-android": "^13.0.0",
     "cordova-ios": "^7.1.1",
     "cordova-plugin-actionsheet": "^2.3.3",
@@ -50,8 +49,7 @@
       "cordova-plugin-nativestorage": {},
       "cordova-plugin-network-information": {},
       "cordova-plugin-statusbar": {},
-      "scandit-cordova-datacapture-core": {},
-      "com-sarriaroman-photoviewer": {}
+      "scandit-cordova-datacapture-core": {}
     }
   },
   "dependencies": {
