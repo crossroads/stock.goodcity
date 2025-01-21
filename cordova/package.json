@@ -18,7 +18,8 @@
     "cordova-plugin-network-information": "^3.0.0",
     "cordova-plugin-photoviewer": "github:remoorejr/cordova-plugin-photoviewer",
     "cordova-plugin-statusbar": "^4.0.0",
-    "cordova-universal-links-plugin": "github:stanleylhs/cordova-universal-links-plugin"
+    "cordova-universal-links-plugin": "github:stanleylhs/cordova-universal-links-plugin",
+    "scandit-cordova-datacapture-barcode": "^7.0.2"
   },
   "cordova": {
     "platforms": [
@@ -47,7 +48,8 @@
       "cordova-plugin-nativestorage": {},
       "cordova-plugin-network-information": {},
       "cordova-plugin-statusbar": {},
-      "cordova-plugin-photoviewer": {}
+      "cordova-plugin-photoviewer": {},
+      "scandit-cordova-datacapture-barcode": {}
     }
   },
   "dependencies": {
