@@ -2976,16 +2976,6 @@ sax@>=0.6.0, sax@1.1.4:
   resolved "https://registry.npmjs.org/sax/-/sax-1.1.4.tgz"
   integrity sha1-dLbTPJrh4AFRDxeakRaFiPGu2qk=
 
-scandit-cordova-datacapture-barcode@^6.19.0-beta.0:
-  version "6.19.0-beta.0"
-  resolved "https://registry.npmjs.org/scandit-cordova-datacapture-barcode/-/scandit-cordova-datacapture-barcode-6.19.0-beta.0.tgz"
-  integrity sha512-DRxJcBktjO2fLbTg3O92wNpc/JP7YAb1QlMWthCyLR9mFJQ/3J5SOmJB6eym2OOigJkhQiEZKkkfMkPr4mxhTA==
-
-scandit-cordova-datacapture-core@^6.19.0-beta.0:
-  version "6.19.0-beta.0"
-  resolved "https://registry.npmjs.org/scandit-cordova-datacapture-core/-/scandit-cordova-datacapture-core-6.19.0-beta.0.tgz"
-  integrity sha512-Rv+2pvxD+7ON4aVaF0e5rHSJhKiNEH9pz1i7AR+WwxhwOAiQrCQ6sFljH5b0EkKbZO53aFBygxXykN8mNm7+9A==
-
 semver@^6.0.0:
   version "6.3.1"
   resolved "https://registry.npmjs.org/semver/-/semver-6.3.1.tgz"
