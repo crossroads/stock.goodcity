@@ -111,7 +111,7 @@ First you will need to review the Cordova blog for changes in new versions of co
 
 ```shell
 cd cordova
-nvm use 18
+nvm use 22
 rm -rf node_modules/ platforms/ plugins/
 yarn
 npm install cordova@12
