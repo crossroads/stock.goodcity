@@ -19,11 +19,9 @@
     <allow-intent href="http://*/*" launch-external="yes" />
     <allow-intent href="https://*/*" launch-external="yes" />
     <platform name="android">
-        <preference name="AndroidGradlePluginVersion" value="7.4.2" />
-        <preference name="android-minSdkVersion" value="24" />
+        <preference name="GradlePluginKotlinVersion" value="1.7.21" />
         <resource-file src="google-services.json" target="/app/google-services.json" />
         <resource-file src="res/android/notification.png" target="app/src/main/res/drawable/notification.png" />
-        <hook type="after_prepare" src="hooks/fixAndroidManifestXML.sh" />
         <preference name="AndroidLaunchMode" value="singleTop" />
         <preference name="LoadUrlTimeoutValue" value="120000" />
         <preference name="SplashScreenDelay" value="-1" />

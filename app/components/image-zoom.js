@@ -21,7 +21,10 @@ export default Ember.Component.extend({
 
   actions: {
     imageZoom(imageUrl) {
-      window.PhotoViewer.show(imageUrl, "", { share: false });
+      // Removed PhotoViewer temporarily due to crashing on iOS
+      // To debug, add the following plugin again
+      // yarn run cordova plugin add github:sarriaroman/photoviewer#1.3.0
+      // window.PhotoViewer.show(imageUrl, "", { share: false, headers: "" });
     }
   },
 
