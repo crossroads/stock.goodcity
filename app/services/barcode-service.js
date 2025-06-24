@@ -285,9 +285,9 @@ export default Ember.Service.extend({
       previewElement,
       onStop,
       onCapture(barcodeCapture, session) {
-        const { newlyRecognizedBarcodes } = session;
+        const { newlyRecognizedBarcode } = session;
 
-        _.flatten([newlyRecognizedBarcodes])
+        _.map(newlyRecognizedBarcode)
           .map(bc => bc.data)
           .map(parser)
           .forEach(onBarcode);
