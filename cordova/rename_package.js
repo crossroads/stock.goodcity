@@ -65,6 +65,10 @@ if (iosCFBundleVersion != "") {
 if (androidversionCode != "") {
   config.doc.getroot().set("android-versionCode", androidversionCode);
 }
+if (staging) {
+  // enable Safari Web Inspector for iOS
+  config.setPreference("InspectableWebview", "ios", "true");
+}
 config.write();
 
 // output changes
