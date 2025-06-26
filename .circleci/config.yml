@@ -315,7 +315,7 @@ workflows:
             - ember_cordova_build
           filters:
             branches:
-              only: /^(master|live|fix-scandit-deprecation)$/
+              only: /^(master|live)$/
       - ios_build_and_deploy:
           requires:
             # - test_cases
