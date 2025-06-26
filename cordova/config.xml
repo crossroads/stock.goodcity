@@ -42,7 +42,6 @@
         <preference name="deployment-target" value="13" />
         <preference name="Orientation" value="portrait" />
         <preference name="Fullscreen" value="true" />
-        <preference name="InspectableWebview" value="true" />
         <icon height="16" src="res/ios/Icon-App-16x16@1x.png" width="16" />
         <icon height="32" src="res/ios/Icon-App-16x16@2x.png" width="32" />
         <icon height="48" src="res/ios/Icon-App-16x16@3x.png" width="48" />
