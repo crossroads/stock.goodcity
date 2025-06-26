@@ -267,8 +267,6 @@ jobs:
           command: |
             npm install cordova@12
             node rename_package.js
-            # bundle exec yarn run cordova plugin add scandit-cordova-datacapture-barcode@6.18.2
-            # bundle exec yarn run cordova plugin add scandit-cordova-datacapture-core@6.18.2
             bundle exec yarn run cordova platform add ios
             UUID=`openssl smime -inform der -verify -noverify -in "/Users/distiller/Library/MobileDevice/Provisioning Profiles/stock-${ENVIRONMENT}.mobileprovision" | grep -A 1 UUID | sed "s@.*<string>\(.*\)</string>.*@\1@" | tail -n 1`
             PACKAGE_TYPE=$(if [ "$ENVIRONMENT" == "production" ]; then echo app-store; else echo development; fi)
@@ -291,12 +289,12 @@ workflows:
       - package_dependencies:
           requires:
             - checkout_code
-      # - test_cases:
-      #     requires:
-      #       - package_dependencies
+      - test_cases:
+          requires:
+            - package_dependencies
       - www_build:
-          # requires:
-            # - test_cases
+          requires:
+            - test_cases
           filters:
             branches:
               only: /^(master|live)$/
@@ -311,18 +309,18 @@ workflows:
             - package_dependencies
           filters:
             branches:
-              only: /^(master|live|test-scandit-6.26)$/
+              only: /^(master|live)$/
       - android_build_and_deploy:
           requires:
-            # - test_cases
+            - test_cases
             - ember_cordova_build
           filters:
             branches:
-              only: /^(master|live|test-scandit-6.26)$/
+              only: /^(master|live)$/
       - ios_build_and_deploy:
           requires:
-            # - test_cases
+            - test_cases
             - ember_cordova_build
           filters:
             branches:
-              only: /^(master|live|test-scandit-6.26)$/
+              only: /^(master|live)$/
