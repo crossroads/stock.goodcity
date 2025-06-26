@@ -44,9 +44,9 @@ aliases:
     paths:
       - vendor/bundle
   - &restore-ios-bundler-cache
-    key: v2-stock-goodcity-bundle-ios-{{ checksum "Gemfile.lock" }}
+    key: v3-stock-goodcity-bundle-ios-{{ checksum "Gemfile.lock" }}
   - &save-ios-bundler-cache
-    key: v2-stock-goodcity-bundle-ios-{{ checksum "Gemfile.lock" }}
+    key: v3-stock-goodcity-bundle-ios-{{ checksum "Gemfile.lock" }}
     paths:
       - vendor/bundle
 
@@ -264,9 +264,6 @@ jobs:
       - run:
           name: Build iOS app
           command: |
-            bundle exec ruby -v
-            rbenv local 3.1.4
-            bundle exec ruby -v
             npm install cordova@12
             node rename_package.js
             bundle exec yarn run cordova platform add ios
