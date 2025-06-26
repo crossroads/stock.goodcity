@@ -235,7 +235,7 @@ jobs:
 
   ios_build_and_deploy:
     macos:
-      xcode: "15.0.0"
+      xcode: "15.4.0"
     resource_class: macos.m1.medium.gen1
     working_directory: ~/code
     shell: /bin/bash --login -eo pipefail
