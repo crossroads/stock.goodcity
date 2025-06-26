@@ -271,7 +271,7 @@ jobs:
             PACKAGE_TYPE=$(if [ "$ENVIRONMENT" == "production" ]; then echo app-store; else echo development; fi)
             CODE_SIGN_IDENTITY=$(if [ "$ENVIRONMENT" == "production" ]; then echo 'iPhone Distribution'; else echo 'iPhone Developer'; fi)
             bundle exec yarn run cordova build ios --release --device --codeSignIdentity="${CODE_SIGN_IDENTITY}" --developmentTeam="6B8FS8W94M" \
-               --packageType="${PACKAGE_TYPE}" --automaticProvisioning="true" --buildFlag="IPHONEOS_DEPLOYMENT_TARGET=13" \
+               --packageType="${PACKAGE_TYPE}" --automaticProvisioning="true" --buildFlag="IPHONEOS_DEPLOYMENT_TARGET=14" \
                --provisioningProfile="${UUID}"
           working_directory: cordova
       - store_artifacts:
