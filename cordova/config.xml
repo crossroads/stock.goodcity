@@ -39,7 +39,7 @@
     </platform>
     <platform name="ios">
         <preference name="SwiftVersion" value="5" />
-        <preference name="deployment-target" value="14" />
+        <preference name="deployment-target" value="13" />
         <preference name="Orientation" value="portrait" />
         <preference name="Fullscreen" value="true" />
         <preference name="InspectableWebview" value="true" />

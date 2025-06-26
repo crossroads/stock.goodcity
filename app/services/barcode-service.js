@@ -285,13 +285,19 @@ export default Ember.Service.extend({
       previewElement,
       onStop,
       onCapture(barcodeCapture, session) {
-        const { newlyRecognizedBarcode } = session;
+        var newlyRecognizedBarcode;
+        if (session.newlyRecognizedBarcode) {
+          // scandit v6.26+
+          newlyRecognizedBarcode = session.newlyRecognizedBarcode;
+        } else {
+          // scandit < v6.26
+          newlyRecognizedBarcode = session.newlyRecognizedBarcodes[0];
+        }
 
         if (newlyRecognizedBarcode) {
           const code = parser(newlyRecognizedBarcode.data);
           onBarcode(code);
         }
-
       }
     });
 
