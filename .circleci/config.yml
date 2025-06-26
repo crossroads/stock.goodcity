@@ -264,6 +264,9 @@ jobs:
       - run:
           name: Build iOS app
           command: |
+            bundle exec ruby -v
+            rbenv local 3.1.4
+            bundle exec ruby -v
             npm install cordova@12
             node rename_package.js
             bundle exec yarn run cordova platform add ios
