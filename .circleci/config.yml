@@ -38,15 +38,15 @@ aliases:
     paths:
       - bower_components
   - &restore-bundle-cache
-    key: v1-stock-goodcity-bundle-{{ checksum "Gemfile.lock" }}
+    key: v2-stock-goodcity-bundle-{{ checksum "Gemfile.lock" }}
   - &save-bundle-cache
-    key: v1-stock-goodcity-bundle-{{ checksum "Gemfile.lock" }}
+    key: v2-stock-goodcity-bundle-{{ checksum "Gemfile.lock" }}
     paths:
       - vendor/bundle
   - &restore-ios-bundler-cache
-    key: v2-stock-goodcity-bundle-ios-{{ checksum "Gemfile.lock" }}
+    key: v3-stock-goodcity-bundle-ios-{{ checksum "Gemfile.lock" }}
   - &save-ios-bundler-cache
-    key: v2-stock-goodcity-bundle-ios-{{ checksum "Gemfile.lock" }}
+    key: v3-stock-goodcity-bundle-ios-{{ checksum "Gemfile.lock" }}
     paths:
       - vendor/bundle
 
@@ -57,6 +57,7 @@ aliases:
 orbs:
   azure-cli: circleci/azure-cli@1.2.2
   browser-tools: circleci/browser-tools@1.5.2
+  ruby: circleci/ruby@2.5.3
 
 jobs:
   checkout_code:
@@ -189,11 +190,13 @@ jobs:
   android_build_and_deploy:
     <<: *defaults
     docker:
-      - image: cimg/android:2025.01-browsers
+      - image: cimg/android:2025.08-browsers
     environment:
       # JVM_OPTS: -Xmx3200m
       CIRCLE_ARTIFACTS: /home/circleci/code/cordova/platforms/android/app/build/outputs/apk/release/
     steps:
+      - ruby/install:
+          version: '3.4.3'
       - restore_cache: *restore-repo-cache
       - restore_cache: *restore-yarn-cache
       - restore_cache: *restore-bundle-cache
@@ -235,7 +238,7 @@ jobs:
 
   ios_build_and_deploy:
     macos:
-      xcode: "15.0.0"
+      xcode: "16.4.0"
     resource_class: macos.m1.medium.gen1
     working_directory: ~/code
     shell: /bin/bash --login -eo pipefail
@@ -253,7 +256,7 @@ jobs:
               echo 'export ENVIRONMENT=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo production; else echo staging; fi)' >> $BASH_ENV
               echo 'export PATH=$PATH:`npm bin`' >> $BASH_ENV
       - restore_cache: *restore-ios-bundler-cache
-      - run: rbenv local 3.0.6
+      - run: rbenv local 3.4.3
       - run: bundle config set --local deployment 'true' && (bundle check || bundle install --jobs=2 --retry=3)
       - save_cache: *save-ios-bundler-cache
       - run: az login --service-principal --tenant ${AZURE_SP_TENANT} -u ${AZURE_SP} -p ${AZURE_SP_PASSWORD}
