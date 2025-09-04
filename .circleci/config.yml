@@ -313,18 +313,18 @@ workflows:
             - package_dependencies
           filters:
             branches:
-              only: /^(master|live|update-xcode-16)$/
+              only: /^(master|live)$/
       - android_build_and_deploy:
           requires:
             - test_cases
             - ember_cordova_build
           filters:
             branches:
-              only: /^(master|live|update-xcode-16)$/
+              only: /^(master|live)$/
       - ios_build_and_deploy:
           requires:
             - test_cases
             - ember_cordova_build
           filters:
             branches:
-              only: /^(master|live|update-xcode-16)$/
+              only: /^(master|live)$/
