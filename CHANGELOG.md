@@ -1,5 +1,26 @@
 # Stock App
 
+## v0.32.2
+
+- Update Xcode 16
+- Update Cordova Android 14, Android SDK 35
+
+
+## v0.32.1
+
+- Downgrade Scandit to 6.26
+- newlyRecognizedBarcodes deprecated, now using singular
+
+## v0.32.0
+
+- Update Cordova to Node 22
+
+## v0.31.1
+
+- Update Cordova Android to 13
+- Plugin update
+- Remove crashing Photoviewer
+
 ## v0.31.0
 
 - Updated to iOS 17 SDK
