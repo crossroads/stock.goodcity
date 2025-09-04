@@ -145,7 +145,7 @@ jobs:
       - run:
           name: Upload to www server + azure
           command: |
-            sudo ln -s /usr/local/bin/ruby /usr/local/bin/ruby2.7
+            # sudo ln -s /usr/local/bin/ruby /usr/local/bin/ruby2.7
             STAGE=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo production; else echo staging; fi)
             STAGE=$STAGE bundle exec fastlane web deploy
       - run:
