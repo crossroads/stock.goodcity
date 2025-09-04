@@ -10,6 +10,7 @@
 
 - Downgrade Scandit to 6.26
 - newlyRecognizedBarcodes deprecated, now using singular
+- Add InspectableWebview for iOS
 
 ## v0.32.0
 
