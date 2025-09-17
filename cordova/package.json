@@ -4,7 +4,7 @@
   "displayName": "S. Stock",
   "devDependencies": {
     "@havesource/cordova-plugin-push": "github:havesource/cordova-plugin-push",
-    "cordova-android": "^13.0.0",
+    "cordova-android": "^14.0.1",
     "cordova-ios": "^7.1.1",
     "cordova-plugin-actionsheet": "^2.3.3",
     "cordova-plugin-android-permissions": "^1.1.5",
