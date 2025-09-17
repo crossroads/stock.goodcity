@@ -147,6 +147,8 @@ jobs:
           command: |
             sudo ln -s /usr/local/bin/ruby /usr/local/bin/ruby2.7
             STAGE=$(if [ "$CIRCLE_BRANCH" == "live" ]; then echo production; else echo staging; fi)
+            # Pegging to 2.76 until upstream is fixed https://github.com/Azure/azure-cli/issues/32088
+            apt-cache policy azure-cli | sudo apt-get install --allow-downgrades azure-cli=2.76.0-1~jammy
             STAGE=$STAGE bundle exec fastlane web deploy
       - run:
           name: Upload Source Map to Rollbar
