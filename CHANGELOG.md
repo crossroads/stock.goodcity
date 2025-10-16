@@ -2,6 +2,10 @@
 
 ## v0.32.2
 
+- Update Scandit to 6.28.6
+
+## v0.32.2
+
 - Update Xcode 16
 - Update Cordova Android 14, Android SDK 35
 
