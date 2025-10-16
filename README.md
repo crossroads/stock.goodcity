@@ -116,9 +116,9 @@ rm -rf node_modules/ platforms/ plugins/
 yarn
 npm install cordova@12
 cordova platform remove android
-cordova platform add android@13
+cordova platform add android@14
 cordova platform remove ios
-cordova platform add ios@6
+cordova platform add ios@7
 ```
 
 ## Android Studio
