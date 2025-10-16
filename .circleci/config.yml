@@ -295,18 +295,18 @@ workflows:
       # - test_cases:
       #     requires:
       #       - package_dependencies
-      - www_build:
-          requires:
-            # - test_cases
-          filters:
-            branches:
-              only: /^(master|live)$/
-      - www-deploy:
-          requires:
-            - www_build
-          filters:
-            branches:
-              only: /^(master|live)$/
+      # - www_build:
+      #     requires:
+      #       - test_cases
+      #     filters:
+      #       branches:
+      #         only: /^(master|live)$/
+      # - www-deploy:
+      #     requires:
+      #       - www_build
+      #     filters:
+      #       branches:
+      #         only: /^(master|live)$/
       - ember_cordova_build:
           requires:
             # - test_cases
