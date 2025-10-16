@@ -3,8 +3,8 @@
 
 
 "@havesource/cordova-plugin-push@github:havesource/cordova-plugin-push":
-  version "7.0.0-dev.0"
-  resolved "git+ssh://git@github.com/havesource/cordova-plugin-push.git#2714ba4b74f1a78c466342c8514839a5d48c27b6"
+  version "7.0.1-dev.0"
+  resolved "git+ssh://git@github.com/havesource/cordova-plugin-push.git#c166ffffb4494bd3c1c3b40c6b89959d9d27ca0a"
 
 "@isaacs/cliui@^8.0.2":
   version "8.0.2"
@@ -2963,33 +2963,33 @@ sax@>=0.6.0, sax@1.1.4:
   resolved "https://registry.npmjs.org/sax/-/sax-1.1.4.tgz"
   integrity sha1-dLbTPJrh4AFRDxeakRaFiPGu2qk=
 
-scandit-cordova-datacapture-barcode@^6.26.0:
-  version "6.26.0"
-  resolved "https://registry.npmjs.org/scandit-cordova-datacapture-barcode/-/scandit-cordova-datacapture-barcode-6.26.0.tgz"
-  integrity sha512-pKd+RqxYBm+N0YiERMtI2b0QDPEHZ6u8Cj3yDpWyVXIA4NzECgU+9gYn72K1ilxm5EUy1R4hem/hCybGaEthcA==
+scandit-cordova-datacapture-barcode@^6.28.6:
+  version "6.28.6"
+  resolved "https://registry.npmjs.org/scandit-cordova-datacapture-barcode/-/scandit-cordova-datacapture-barcode-6.28.6.tgz"
+  integrity sha512-q/Q43WkA1hP4viZE7qq0BUBnkHoRcvzjc8PqoOvU5aiV7NsbNs0h9NMZe8w9kh/77pa0YOfiWseKyyMZcH3zcg==
   dependencies:
-    scandit-cordova-datacapture-core "6.26.0"
-    scandit-datacapture-frameworks-barcode "6.26.0"
-    scandit-datacapture-frameworks-core "6.26.0"
+    scandit-cordova-datacapture-core "6.28.6"
+    scandit-datacapture-frameworks-barcode "6.28.6"
+    scandit-datacapture-frameworks-core "6.28.6"
 
-scandit-cordova-datacapture-core@6.26.0:
-  version "6.26.0"
-  resolved "https://registry.npmjs.org/scandit-cordova-datacapture-core/-/scandit-cordova-datacapture-core-6.26.0.tgz"
-  integrity sha512-BkST4fDnrA3jajudpYJZYPyd0DZemRK3hjIjJ1kk7+kIlW0XPitmXdRMUvJgWDY0z5hQhhULu4IsHs3hbdiDow==
+scandit-cordova-datacapture-core@6.28.6:
+  version "6.28.6"
+  resolved "https://registry.npmjs.org/scandit-cordova-datacapture-core/-/scandit-cordova-datacapture-core-6.28.6.tgz"
+  integrity sha512-6PU+RpF10PARJ95J+ObyBMISifoYuX6LwXt19IgQ+Kn9NJYYrbENNfjFCeTuR/k9EQdGjQS8TCJWEssFZv+/kA==
   dependencies:
-    scandit-datacapture-frameworks-core "6.26.0"
+    scandit-datacapture-frameworks-core "6.28.6"
 
-scandit-datacapture-frameworks-barcode@6.26.0:
-  version "6.26.0"
-  resolved "https://registry.npmjs.org/scandit-datacapture-frameworks-barcode/-/scandit-datacapture-frameworks-barcode-6.26.0.tgz"
-  integrity sha512-hnSYGm/uqmhGcBCserUqHt34W3yE83jNrFt2j6c/s2XlHCq9eIhpyxGfJXZNaHyxThFFI9oDteM4+8Lx13fszg==
+scandit-datacapture-frameworks-barcode@6.28.6:
+  version "6.28.6"
+  resolved "https://registry.npmjs.org/scandit-datacapture-frameworks-barcode/-/scandit-datacapture-frameworks-barcode-6.28.6.tgz"
+  integrity sha512-nst4L8B1OOJcw3ZBQsXpFXydntE0FuuumLmAJndLUqxw4KVIVwLq5pGBMYfFBA0dzFmG00LpRVS9JaerEzW8Cg==
   dependencies:
-    scandit-datacapture-frameworks-core "6.26.0"
+    scandit-datacapture-frameworks-core "6.28.6"
 
-scandit-datacapture-frameworks-core@6.26.0:
-  version "6.26.0"
-  resolved "https://registry.npmjs.org/scandit-datacapture-frameworks-core/-/scandit-datacapture-frameworks-core-6.26.0.tgz"
-  integrity sha512-Sj1EDG3okJm3BNl4uRV0iX6kotAVThR/gQU0PdJ//lGX6H3QxH39z2UWs11bPZQ6Rt/6f6TnkV4CIM6z8nK1kw==
+scandit-datacapture-frameworks-core@6.28.6:
+  version "6.28.6"
+  resolved "https://registry.npmjs.org/scandit-datacapture-frameworks-core/-/scandit-datacapture-frameworks-core-6.28.6.tgz"
+  integrity sha512-hybzo2JB9XDT5zitmYo7TVs1qvYLjem3r0qPWhM5cwA8yXMdo1iq4/ICahduZJfXPo7IlOg3ZG3ytVps5JnqcQ==
   dependencies:
     eventemitter3 "5.0.1"
 
