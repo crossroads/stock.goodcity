@@ -3,8 +3,8 @@
 
 
 "@havesource/cordova-plugin-push@github:havesource/cordova-plugin-push":
-  version "7.0.0-dev.0"
-  resolved "git+ssh://git@github.com/havesource/cordova-plugin-push.git#2714ba4b74f1a78c466342c8514839a5d48c27b6"
+  version "7.0.1-dev.0"
+  resolved "git+ssh://git@github.com/havesource/cordova-plugin-push.git#c166ffffb4494bd3c1c3b40c6b89959d9d27ca0a"
 
 "@isaacs/cliui@^8.0.2":
   version "8.0.2"
@@ -2963,7 +2963,7 @@ sax@>=0.6.0, sax@1.1.4:
   resolved "https://registry.npmjs.org/sax/-/sax-1.1.4.tgz"
   integrity sha1-dLbTPJrh4AFRDxeakRaFiPGu2qk=
 
-scandit-cordova-datacapture-barcode@6.28:
+scandit-cordova-datacapture-barcode@^6.28.6:
   version "6.28.6"
   resolved "https://registry.npmjs.org/scandit-cordova-datacapture-barcode/-/scandit-cordova-datacapture-barcode-6.28.6.tgz"
   integrity sha512-q/Q43WkA1hP4viZE7qq0BUBnkHoRcvzjc8PqoOvU5aiV7NsbNs0h9NMZe8w9kh/77pa0YOfiWseKyyMZcH3zcg==
