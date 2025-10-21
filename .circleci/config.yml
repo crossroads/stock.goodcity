@@ -44,9 +44,9 @@ aliases:
     paths:
       - vendor/bundle
   - &restore-ios-bundler-cache
-    key: v3-stock-goodcity-bundle-ios-{{ checksum "Gemfile.lock" }}
+    key: v4-stock-goodcity-bundle-ios-{{ checksum "Gemfile.lock" }}
   - &save-ios-bundler-cache
-    key: v3-stock-goodcity-bundle-ios-{{ checksum "Gemfile.lock" }}
+    key: v4-stock-goodcity-bundle-ios-{{ checksum "Gemfile.lock" }}
     paths:
       - vendor/bundle
 
