@@ -310,6 +310,12 @@ export default Ember.Service.extend({
     const { previewElement = null, parser = BARCODE_PARSERS.INVENTORY } = opts;
     const deferred = Ember.RSVP.defer();
 
+    // Clean up any previous overlays/listeners if present
+    if (this._scanOneCleanup) {
+      this._scanOneCleanup();
+      this._scanOneCleanup = null;
+    }
+
     if (!allowed) {
       deferred.resolve(null);
       return deferred.promise;
@@ -317,6 +323,22 @@ export default Ember.Service.extend({
 
     const capture = this.__getCapture();
     let stopped = false;
+    let overlay, view;
+
+    const stop = () => {
+      document.removeEventListener("pause", stop);
+      this.__cameraOff();
+      if (overlay) overlay.destroy();
+      capture.removeListener(listener);
+      Ember.run.debounce(this, this.__disableScan, SCAN_DELAY + 100);
+      this.turnFlashlightOff();
+      if (!stopped) {
+        deferred.resolve("");
+        stopped = true;
+      }
+    };
+
+    this._scanOneCleanup = stop;
 
     const listener = {
       didScan: (barcodeCapture, session) => {
@@ -336,8 +358,8 @@ export default Ember.Service.extend({
 
     capture.addListener(listener);
 
-    const view = Scandit.DataCaptureView.forContext(this.__getContext());
-    const overlay = buildCameraView(previewElement);
+    view = Scandit.DataCaptureView.forContext(this.__getContext());
+    overlay = buildCameraView(previewElement);
 
     await this.__activate();
     view.connectToElement(overlay.element);
@@ -345,24 +367,11 @@ export default Ember.Service.extend({
     this.__cameraOn();
     this.__enableScan();
 
-    const stop = cached(() => {
-      document.removeEventListener("pause", stop);
-      this.__cameraOff();
-      overlay.destroy();
-      capture.removeListener(listener);
-      Ember.run.debounce(this, this.__disableScan, SCAN_DELAY + 100);
-      this.turnFlashlightOff();
-      if (!stopped) {
-        deferred.resolve("");
-        stopped = true;
-      }
-    });
-
     document.addEventListener("pause", stop);
 
     overlay.addButton("Stop", () => {
       stop();
-      overlay.destroy();
+      if (overlay) overlay.destroy();
       this.turnFlashlightOff();
     });
 
