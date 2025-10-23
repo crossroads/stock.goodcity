@@ -288,6 +288,7 @@ export default Ember.Service.extend({
         const { newlyRecognizedBarcode } = session;
 
         if (newlyRecognizedBarcode) {
+          console.log("Detected QR code data:", newlyRecognizedBarcode.data);
           const code = parser(newlyRecognizedBarcode.data);
           onBarcode(code);
         }
@@ -305,19 +306,69 @@ export default Ember.Service.extend({
    * @returns {Promise<string|null>}
    */
   async scanOne(opts = {}) {
+    const allowed = this.enabled() && (await this.requestPermission());
+    const { previewElement = null, parser = BARCODE_PARSERS.INVENTORY } = opts;
     const deferred = Ember.RSVP.defer();
-    const scanner = await this.scanMultiple({
-      ...opts,
-      onBarcode(code) {
-        deferred.resolve(code);
-        scanner.stop();
-      },
-      onStop() {
+
+    if (!allowed) {
+      deferred.resolve(null);
+      return deferred.promise;
+    }
+
+    const capture = this.__getCapture();
+    let stopped = false;
+
+    const listener = {
+      didScan: (barcodeCapture, session) => {
+        if (stopped) return;
+        this.__disableScan();
+        const { newlyRecognizedBarcode } = session;
+        if (newlyRecognizedBarcode) {
+          console.log("Detected QR code data:", newlyRecognizedBarcode.data);
+          const code = parser(newlyRecognizedBarcode.data);
+          deferred.resolve(code);
+          stopped = true;
+          stop();
+        }
+        Ember.run.debounce(this, this.__enableScan, SCAN_DELAY);
+      }
+    };
+
+    capture.addListener(listener);
+
+    const view = Scandit.DataCaptureView.forContext(this.__getContext());
+    const overlay = buildCameraView(previewElement);
+
+    await this.__activate();
+    view.connectToElement(overlay.element);
+    Scandit.BarcodeCaptureOverlay.withBarcodeCaptureForView(capture, view);
+    this.__cameraOn();
+    this.__enableScan();
+
+    const stop = cached(() => {
+      document.removeEventListener("pause", stop);
+      this.__cameraOff();
+      overlay.destroy();
+      capture.removeListener(listener);
+      Ember.run.debounce(this, this.__disableScan, SCAN_DELAY + 100);
+      this.turnFlashlightOff();
+      if (!stopped) {
         deferred.resolve("");
+        stopped = true;
       }
     });
 
-    if (!scanner) deferred.resolve(null);
+    document.addEventListener("pause", stop);
+
+    overlay.addButton("Stop", () => {
+      stop();
+      overlay.destroy();
+      this.turnFlashlightOff();
+    });
+
+    overlay.addButton("Light", () => {
+      this.toggleFlashlight();
+    });
 
     return deferred.promise;
   },
