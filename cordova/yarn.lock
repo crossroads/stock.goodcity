@@ -2963,33 +2963,33 @@ sax@>=0.6.0, sax@1.1.4:
   resolved "https://registry.npmjs.org/sax/-/sax-1.1.4.tgz"
   integrity sha1-dLbTPJrh4AFRDxeakRaFiPGu2qk=
 
-scandit-cordova-datacapture-barcode@^7.6.2:
-  version "7.6.2"
-  resolved "https://registry.npmjs.org/scandit-cordova-datacapture-barcode/-/scandit-cordova-datacapture-barcode-7.6.2.tgz"
-  integrity sha512-k3dpuWQqb2qljR1Ybbydt2caUNcQGlLakHyncH5mzhTnSb9yDwa2iH/mjDl1qSOCbRzaXsG0D7+I5hNrQHVCkQ==
+scandit-cordova-datacapture-barcode@^7.6.1:
+  version "7.6.1"
+  resolved "https://registry.npmjs.org/scandit-cordova-datacapture-barcode/-/scandit-cordova-datacapture-barcode-7.6.1.tgz"
+  integrity sha512-kDsq66fO0h1SnwZNgK/5KXXWDeFgPsChCisuXOdIxmFAunGFda8vJMLQ+GMJy9XUCc7OCild4dX420GuZmZp1Q==
   dependencies:
-    scandit-cordova-datacapture-core "7.6.2"
-    scandit-datacapture-frameworks-barcode "7.6.2"
-    scandit-datacapture-frameworks-core "7.6.2"
+    scandit-cordova-datacapture-core "7.6.1"
+    scandit-datacapture-frameworks-barcode "7.6.1"
+    scandit-datacapture-frameworks-core "7.6.1"
 
-scandit-cordova-datacapture-core@7.6.2:
-  version "7.6.2"
-  resolved "https://registry.npmjs.org/scandit-cordova-datacapture-core/-/scandit-cordova-datacapture-core-7.6.2.tgz"
-  integrity sha512-62zTSSwqzQwrJu8Ht3l2nRgAUeYIcd4ELxwowG3/OQhxdIjMNSmCf0AFoq8Ukzhluy4pnnUIUUj5FdVlrJ3gng==
+scandit-cordova-datacapture-core@7.6.1:
+  version "7.6.1"
+  resolved "https://registry.npmjs.org/scandit-cordova-datacapture-core/-/scandit-cordova-datacapture-core-7.6.1.tgz"
+  integrity sha512-08BKt0cECn7kaEBUx1Zfci9bSoO3N1SeD2ZwjxJg+c2OnHi44GXSPnhxfCUTxm3UOc3ZJ/WgnsXxWSkZOqQCSw==
   dependencies:
-    scandit-datacapture-frameworks-core "7.6.2"
+    scandit-datacapture-frameworks-core "7.6.1"
 
-scandit-datacapture-frameworks-barcode@7.6.2:
-  version "7.6.2"
-  resolved "https://registry.npmjs.org/scandit-datacapture-frameworks-barcode/-/scandit-datacapture-frameworks-barcode-7.6.2.tgz"
-  integrity sha512-jySm/hAo7HQlDYgyx611HpczNeaoP6Iyf/OpZsFIWvnL2txx/BITvXxjuT2xSnE7OOps1N/GYD5/Gd5Jvwtjfg==
+scandit-datacapture-frameworks-barcode@7.6.1:
+  version "7.6.1"
+  resolved "https://registry.npmjs.org/scandit-datacapture-frameworks-barcode/-/scandit-datacapture-frameworks-barcode-7.6.1.tgz"
+  integrity sha512-aRzrKZVkd/2YZWO4AY5WAkRxorsV9wSxtUp5ldg5pM7+nDoO3TKl2qXGU9EAS89MB0F+ymTmxbHaMhvTLrTseA==
   dependencies:
-    scandit-datacapture-frameworks-core "7.6.2"
+    scandit-datacapture-frameworks-core "7.6.1"
 
-scandit-datacapture-frameworks-core@7.6.2:
-  version "7.6.2"
-  resolved "https://registry.npmjs.org/scandit-datacapture-frameworks-core/-/scandit-datacapture-frameworks-core-7.6.2.tgz"
-  integrity sha512-Mvi46U/lbWRvnHQyvBYJf9PL29CihB76DEXOQ4x81tJoInXY1p035uJlxqoxbUCM1evmSUKWzmFfYxr9uKwsRQ==
+scandit-datacapture-frameworks-core@7.6.1:
+  version "7.6.1"
+  resolved "https://registry.npmjs.org/scandit-datacapture-frameworks-core/-/scandit-datacapture-frameworks-core-7.6.1.tgz"
+  integrity sha512-rQ1BfqhCyDljyHlKR6BFBXxS0RYtSyVNblHYyNhKLQXeOMTrFFhobgESMj27v+LzmGuMWkM/+rMJa9BmTC3NeQ==
   dependencies:
     eventemitter3 "5.0.1"
 
