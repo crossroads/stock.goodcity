@@ -41,7 +41,7 @@ export default Ember.Controller.extend(AsyncMixin, {
     function() {
       const tabs = this.get("tabs");
 
-      const sorted = list => list.sortBy("id").reverse();
+      const sorted = list => list.sortBy("createdAt").reverse();
 
       const key = {
         [tabs.open]: "openStocktakes",
