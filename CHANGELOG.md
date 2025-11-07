@@ -1,6 +1,10 @@
 # Stock App
 
-## v0.32.2
+## v0.32.4
+
+- Fixing sorting bug in Stocktake list
+
+## v0.32.3
 
 - Update Scandit to 6.28.6
 
@@ -8,7 +12,6 @@
 
 - Update Xcode 16
 - Update Cordova Android 14, Android SDK 35
-
 
 ## v0.32.1
 

@@ -1,6 +1,6 @@
 {
   "name": "stock",
-  "version": "0.32.3",
+  "version": "0.32.4",
   "private": true,
   "directories": {
     "doc": "doc",
