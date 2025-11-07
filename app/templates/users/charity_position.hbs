@@ -63,7 +63,7 @@
           <label for="preferred_number">{{t 'users.charity_position.preferred_number'}}</label>
         </div>
         <div class="small-8 columns">
-          {{numeric-input value=model.preferredContactNumber id="preferred_number" maxlength="8" pattern=".{8,}" required='true'}}
+          {{input value=model.preferredContactNumber id="preferred_number" required='true'}}
 
           <div class="error-message {{unless isInvalidPreferredNumber 'hide-error'}}">
             {{t 'users.charity_position.validation_errors.preferred_number'}}
