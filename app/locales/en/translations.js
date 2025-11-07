@@ -470,6 +470,7 @@ export default {
     online_order: "Online Order",
     appointment: "Appointment",
     shipment: "Shipment",
+    remote_shipment: "Remote Shipment",
     carry_out: "Carry Out",
     stockit_local_order: "Local Order",
     unknown_transport: "Other"

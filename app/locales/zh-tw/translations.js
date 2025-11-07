@@ -444,6 +444,7 @@ export default {
     online_order: "網上訂單",
     appointment: "預約",
     shipment: "貨運",
+    remote_shipment: "Remote Shipment",
     carry_out: "國際手攜訂單",
     stockit_local_order: "Local Order",
     unknown_transport: "其他"

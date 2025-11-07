@@ -11,7 +11,7 @@
   {{partial "orders/summary_tabs"}}
   {{partial "orders/cancel_message_popup"}}
 
-  {{#if (is-or model.isShipmentOrder model.isCarryOutOrder)}}
+  {{#if model.isInternationalShipmentOrder}}
     {{partial "orders/international_orders_summary"}}
   {{else}}
     <div class="row">
