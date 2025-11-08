@@ -22,7 +22,7 @@ moduleForModel("organisation", "organisation model", {
 });
 
 test("check attributes", function(assert) {
-  assert.expect(6);
+  assert.expect(7);
 
   var model = this.subject();
 
