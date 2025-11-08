@@ -110,6 +110,15 @@
       {{/if}}
     </div>
 
+    <div class="form-container">
+      <ul class="wrapper">
+        <li class="form-row">
+          <label for="crm_account_id">{{t 'organisation.crm_account_id'}}</label>
+          {{input type="text" autocomplete='off' value=crm_account_id autoComplete=false}}
+        </li>
+      </ul>
+    </div>
+
     <div class="button-container">
       <div class="button-wrapper">
         <a {{action 'cancel'}}  class="button secondary expand">{{t "cancel"}}</a>

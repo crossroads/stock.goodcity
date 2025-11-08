@@ -33,6 +33,7 @@ test("check attributes", function(assert) {
     Object.keys(model.toJSON()).indexOf("descriptionZhTw") > -1;
   var website = Object.keys(model.toJSON()).indexOf("website") > -1;
   var registration = Object.keys(model.toJSON()).indexOf("registration") > -1;
+  var crmAccountId = Object.keys(model.toJSON()).indexOf("crmAccountId") > -1;
 
   assert.ok(nameEn);
   assert.ok(nameZhTw);
@@ -40,6 +41,7 @@ test("check attributes", function(assert) {
   assert.ok(descriptionZhTw);
   assert.ok(website);
   assert.ok(registration);
+  assert.ok(crmAccountId);
 });
 
 test("Relationships with other models", function(assert) {
