@@ -29,6 +29,7 @@ export default detail.extend(SearchOptionMixin, AsyncMixin, {
     };
   }),
 
+  // Shipment and RemoteShipment orders have 'S' prefix, CarryOut has 'C' prefix
   formatOrderCode(type, code) {
     return type == INTERNATIONAL_ORDERS.CARRYOUT ? `C${code}` : `S${code}`;
   },

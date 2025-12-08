@@ -5,5 +5,6 @@ export const STATE_EVENTS = {
 
 export const INTERNATIONAL_ORDERS = {
   SHIPMENT: "Shipment",
-  CARRYOUT: "CarryOut"
+  CARRYOUT: "CarryOut",
+  REMOTESHIPMENT: "RemoteShipment"
 };

@@ -109,5 +109,14 @@
         </div>
       {{/if}}
     </div>
+
+    <div class="form-container">
+      <ul class="wrapper">
+        <li class="form-row">
+          <label for="crm_account_id">{{t 'organisation.crm_account_id'}}</label>
+          {{input name="crm_account_id" type="text" focusOut=(action 'updateOrganisation') autocomplete='off' value=model.crmAccountId autoComplete=false}}
+        </li>
+      </ul>
+    </div>
   </div>
 </section>

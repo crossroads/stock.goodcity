@@ -31,11 +31,13 @@ export default Ember.Mixin.create({
   shipmentTypes: Ember.computed(function() {
     let translation = this.get("i18n");
     let shipment = translation.t("order_transports.shipment");
+    let remote_shipment = translation.t("order_transports.remote_shipment");
     let carryout = translation.t("order_transports.carry_out");
 
     return [
       { name: shipment, id: "Shipment" },
-      { name: carryout, id: "CarryOut" }
+      { name: carryout, id: "CarryOut" },
+      { name: remote_shipment, id: "RemoteShipment" }
     ];
   }),
 

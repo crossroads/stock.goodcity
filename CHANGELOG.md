@@ -1,5 +1,11 @@
 # Stock App
 
+## v0.33.0
+
+- Added CRM Account Id field
+- Removed strict validation on preferred contact number
+- Added RemoteShipment feature
+
 ## v0.32.4
 
 - Fixing sorting bug in Stocktake list

@@ -40,6 +40,7 @@ export default GoodcityController.extend(SearchOptionMixin, AsyncMixin, {
           description_en: this.get("description_en"),
           description_zh_tw: this.get("description_zh_tw"),
           registration: this.get("registration"),
+          crm_account_id: this.get("crm_account_id"),
           website: this.get("website"),
           country_id: this.get("country.id"),
           organisation_type_id: this.get("selectedOrganisationType").id
@@ -64,6 +65,7 @@ export default GoodcityController.extend(SearchOptionMixin, AsyncMixin, {
         description_en: "",
         description_zh_tw: "",
         registration: "",
+        crm_account_id: "",
         website: "",
         country_id: "",
         organisation_type_id: ""

@@ -470,6 +470,7 @@ export default {
     online_order: "Online Order",
     appointment: "Appointment",
     shipment: "Shipment",
+    remote_shipment: "Remote Shipment",
     carry_out: "Carry Out",
     stockit_local_order: "Local Order",
     unknown_transport: "Other"
@@ -750,13 +751,12 @@ export default {
     name: "Name",
     description: "Description",
     registration: "Registration",
-
+    crm_account_id: "CRM Account ID",
     name_en: "Name EN",
     name_zh_tw: "Name ZH",
     description_en: "Description EN",
     description_zh_tw: "Description ZH",
     new: "New Organisation",
-    registration: "Registration",
     website: "Website",
     country: "Country",
     type: "Type",

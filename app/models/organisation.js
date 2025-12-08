@@ -10,6 +10,7 @@ export default Model.extend({
   descriptionZhTw: attr("string"),
   website: attr("string"),
   registration: attr("string"),
+  crmAccountId: attr("string"),
   ordersCount: attr("string"),
   countryId: attr("string"),
   usersCount: Ember.computed.alias("organisationsUsers.length"),
