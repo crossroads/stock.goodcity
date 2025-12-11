@@ -1,5 +1,9 @@
 # Stock App
 
+## v0.33.1
+
+- Allow search users with single chinese characters
+
 ## v0.33.0
 
 - Added CRM Account Id field
