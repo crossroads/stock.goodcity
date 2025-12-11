@@ -1,12 +1,14 @@
 import Ember from "ember";
 
 export default Ember.Controller.extend({
-  minSearchTextLength: 3,
+  minSearchTextLength: 1,
   displayResults: false,
 
   onSearchTextChange: Ember.observer("searchText", function() {
     this.hideResults();
-    if (this.get("searchText").trim().length >= 3) {
+    if (
+      this.get("searchText").trim().length >= this.get("minSearchTextLength")
+    ) {
       Ember.run.debounce(this, this.showResults, 500);
     }
   }),
