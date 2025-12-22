@@ -1,5 +1,9 @@
 # Stock App
 
+## v0.33.2
+
+- Enable orders to be filtered by whether the last message was sent by order creator
+
 ## v0.33.1
 
 - Allow search users with single chinese characters
