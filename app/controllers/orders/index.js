@@ -43,6 +43,11 @@ export default Ember.Controller.extend(SearchMixin, {
     return Ember.$.trim(this.get("searchText")).length;
   }),
 
+  orderNeedsResponse: Ember.computed.alias("filterService.orderNeedsResponse"),
+  needsResponseTrue: Ember.computed("orderNeedsResponse", function() {
+    return this.get("orderNeedsResponse") === true;
+  }),
+
   getFilterQuery() {
     const filterService = this.get("filterService");
     const utils = this.get("utilityMethods");
@@ -54,13 +59,15 @@ export default Ember.Controller.extend(SearchMixin, {
       filterService.get("orderStateFilters"),
       STATE_FILTERS.PRIORITY
     );
+    let orderNeedsResponse = filterService.get("orderNeedsResponse");
 
     return {
       state: utils.stringifyArray(stateFilters),
       type: utils.stringifyArray(typesFilters),
       priority: isPriority,
       after: after && after.getTime(),
-      before: before && before.getTime()
+      before: before && before.getTime(),
+      needs_response: orderNeedsResponse === true ? true : false
     };
   },
 
@@ -106,6 +113,10 @@ export default Ember.Controller.extend(SearchMixin, {
 
     clearSearch() {
       this.set("searchText", "");
+    },
+
+    toggleOrderNeedsResponse() {
+      this.get("filterService").toggleOrderNeedsResponse();
     }
   }
 });

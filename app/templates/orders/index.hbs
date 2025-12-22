@@ -1,5 +1,5 @@
 <div class="row fixed_search_header items-search search-box ui">
-  <div class="small-12 columns">
+  <div class="small-10 columns">
     {{focus-textfield
       name="searchText"
       id="searchText"
@@ -10,6 +10,13 @@
       <i {{action "clearSearch"}}>{{fa-icon 'times-circle'}}</i>
     {{/if}}
   </div>
+
+  <div class="small-2 columns filter-buttons">
+    <div id="needs-response-filter" class="button expand filter-button-css {{if needsResponseTrue 'filter-button-border'}}" {{action "toggleOrderNeedsResponse"}} >
+      <div class="button-text" title="Show orders that need replies">{{fa-icon 'comments' size="lg"}}</div>
+    </div>
+  </div>
+
   {{order-filter-buttons}}
 </div>
 
