@@ -62,6 +62,8 @@ export default Ember.Service.extend(Ember.Evented, {
 
   itemLocationFilters: PERSISTENT_VAR("itemLocationFilters", ""),
 
+  orderNeedsResponse: PERSISTENT_VAR("orderNeedsResponse", false),
+
   isPriority() {
     const filters = this.get("orderStateFilters");
     return filters && filters.indexOf(STATE_FILTERS.PRIORITY) >= 0;
@@ -173,5 +175,13 @@ export default Ember.Service.extend(Ember.Evented, {
       return _.extend({ preset }, this.get(`orderTimeRangePresets.${preset}`));
     }
     return { preset, after, before };
-  }).volatile()
+  }).volatile(),
+
+  toggleOrderNeedsResponse() {
+    if (this.get("orderNeedsResponse") === true) {
+      this.set("orderNeedsResponse", false);
+    } else {
+      this.set("orderNeedsResponse", true);
+    }
+  }
 });

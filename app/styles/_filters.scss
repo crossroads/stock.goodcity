@@ -28,7 +28,7 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      padding-left: 0.5rem;
+      // padding-left: 0.5rem;
     }
 
     &.filter-button-border, .filter-button-border:hover {
@@ -47,7 +47,15 @@
 
       .button-text {
         text-align: center;
-        width: 65%;
+      }
+    }
+    &#needs-response-filter, &#needs-response-filter.filter-button-border {
+      margin-top: 0.5rem;
+      margin-bottom: 0!important;
+      line-height: 2.4rem;
+      @media #{$small-only} {
+        height: 1.8rem!important;
+        line-height: 1.9rem;
       }
     }
   }
